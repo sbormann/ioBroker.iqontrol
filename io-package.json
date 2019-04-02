@@ -1,0 +1,96 @@
+{
+	"common": {
+		"name": "iqontrol",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "iQontrol",
+		"titleLang": {
+			"en": "iQontrol",
+			"de": "iQontrol",
+			"ru": "iQontrol",
+			"pt": "iQontrol",
+			"nl": "iQontrol",
+			"fr": "iQontrol",
+			"it": "iQontrol",
+			"es": "iQontrol",
+			"pl": "iQontrol",
+			"zh-cn": "iQontrol"
+		},
+		"desc": {
+			"en": "Fast Web-App for Visualization",
+			"de": "Schnelle Web-App zur Visualisierung",
+			"ru": "Быстрое веб-приложение для визуализации",
+			"pt": "Fast Web-App para visualização",
+			"nl": "Snelle web-app voor visualisatie",
+			"fr": "Web-App rapide pour la visualisation",
+			"it": "App Web veloce per visualizzazione",
+			"es": "Rápida aplicación web para visualización",
+			"pl": "Szybka aplikacja internetowa do wizualizacji",
+			"zh-cn": "用于可视化的快速Web应用程序"
+		},
+		"authors": [
+			"Sebastian Bormann <sebastian@bormann.net>"
+		],
+		"keywords": [
+			"Visualization"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "iqontrol.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
+		"readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "visualization",
+		"compact": true,
+		"materialize": true,
+		"materializeTab": true,
+		"adminTab": {
+			"singleton": true,
+			"name": {
+				"en": "iQontrol",
+				"de": "iQontrol",
+				"ru": "iQontrol",
+				"pt": "iQontrol",
+				"nl": "iQontrol",
+				"fr": "iQontrol",
+				"it": "iQontrol",
+				"es": "iQontrol",
+				"pl": "iQontrol",
+				"zh-cn": "iQontrol"
+			},
+			"link": "",
+			"fa-icon": "info"
+		},
+		"supportCustoms": true,
+		"dependencies": [
+			{
+				"admin": ">=3.0.0"
+			},
+			{
+				"js-controller": ">=1.4.2"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
