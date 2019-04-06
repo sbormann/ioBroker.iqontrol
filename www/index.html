@@ -1,0 +1,244 @@
+<!doctype html>
+<html manifest="cache.manifest">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="viewport" content="width=device-width,  initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/> 
+	<meta name="description" content="Smarthome Control"/>
+	<meta name="keywords" content="Smarthome Control"/>
+	<meta http-equiv="CACHE-CONTROL" content="NO-CACHE"/>
+	<meta http-equiv="EXPIRES" content="0"/>
+	<meta name="HandheldFriendly" content="True"/>
+	<meta name="mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>	
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+	<title>iQontrol</title>
+
+	<link rel="shortcut icon" 				href="./favicon.png" sizes="196x196"/>
+	<link rel="shortcut icon"				href="./favicon.png" type="image/x-icon"/>
+	<link rel="icon"						href="./favicon.png" type="image/x-icon"/>
+	
+	<link rel="apple-touch-icon"			href="./favicon_big.png"/>
+	<link rel="apple-touch-icon"			href="./favicon_big.png" sizes="76x76"/>
+	<link rel="apple-touch-icon"			href="./favicon_big.png" sizes="120x120"/>
+	<link rel="apple-touch-icon"			href="./favicon_big.png" sizes="152x152"/>
+	<link rel="apple-touch-startup-image"	href="./favicon_big.png"/>
+	<link rel="apple-touch-startup-image"	href="./favicon_big.png" media="(device-width: 320px) and (device-height: 568px)  and (-webkit-device-pixel-ratio: 2)"/>
+	<link rel="apple-touch-startup-image"	href="./favicon_big.png" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait)"/>
+	<link rel="apple-touch-startup-image"	href="./favicon_big.png" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape)"/>
+	
+	<link rel="stylesheet" href="index.css"/>
+	<link rel="stylesheet" href="jquery/jquery.mobile-1.4.5.min.css"/>
+	
+	<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="jquery/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="jquery/plugins/jquery.backstretch.min.js"></script>
+	<script type="text/javascript" src="http://192.168.10.69:8084/socket.io/socket.io.js"></script>  <!-- Replace with correct URL -->
+	<script type="text/javascript" src="http://192.168.10.69:8082/lib/js/translate.js"></script>  <!-- Replace with correct URL -->
+    <script type="text/javascript" src="systemDictionary.js"></script>
+    <script type="text/javascript" src="conn.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+</head>
+<body>
+	<div data-role="page" id="View" class="swipePage">
+		<!-- <div data-role="header"> -->
+			<!-- <h1 id="ViewHeaderTitle">iQontrol</h1> -->
+		<!-- </div> -->
+		<div role="main" class="ui-content" id="ViewMain">
+			<h1 id="ViewHeaderTitle">iQontrol</h1>
+			<div id="ViewContent"></div>
+			<!-- <p><a href="#Settings">Settings</a></p> -->
+			<p><br></p>
+		</div>
+		<div data-role="popup" data-overlay-theme="b" id="Dialog">
+			<!-- <div data-role="header"> -->
+				<!-- <h1 id="DialogHeaderTitle">iQontrol</h1> -->
+			<!-- </div> -->
+			<div role="main" class="ui-content">
+				<h4 id="DialogHeaderTitle">iQontrol</h4>
+				<div id="DialogContent"></div>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="Settings">
+		<div data-role="header">
+			<h1>iQontrol Settings</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<p><button type="button" id="SettingsButtonGetEverything" onclick="getEverything();">Get Everything</button> </p>
+			<p><button type="button" id="SettingsButtonRenderSettings" disabled="true" onclick="renderSettings();">(Re-)Load Settings</button> </p>
+			<div data-role='collapsible' data-iconpos='left' data-inset='true' class='settingsToBeRendered'>
+				<h3>Add View:</h3>
+				<div>
+					<form>
+						<label for='SettingsAddViewCommonName'>Name:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddViewCommonName" id="SettingsAddViewCommonName" value="">
+						<label for='SettingsAddViewNativeSortPrefix'>Sort Prefix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeSortPrefix" id="SettingsAddViewNativeSortPrefix" value="">
+						<label for='SettingsAddViewNativeSortPostfix'>Sort Postfix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeSortPostfix" id="SettingsAddViewNativeSortPostfix" value="">
+						<label for='SettingsAddViewNativeBackground_image'>Backgroundimage:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeBackground_image" id="SettingsAddViewNativeBackground_image" value="./images/wallpaper/homekit_red.jpg">
+						<!--type: channel-->
+						<br><br>
+						<button type="button" id="SettingsAddViewButton" onclick="settingsAddView();">Add this to Views</button> </p>
+					</form>
+				</div>
+			</div>
+			<div data-role='collapsible' data-iconpos='left' data-inset='true' class='settingsToBeRendered'>
+				<h3>Add Device:</h3>
+				<div>
+					<form>
+							<div data-role="collapsible">
+								<h2>Object-Browser</h2>
+								<div style="max-height: 500px; overflow: auto; -webkit-overflow-scrolling: touch; padding:20px; margin: -8px, -15px, -8px, -20px;">
+							    	<ul data-role="listview" data-filter="true" data-autodividers="true" data-mini='true' id="SettingsAddDeviceObjectBrowser"></ul>
+								</div>
+								<p><button type="button" id="SettingsAddDeviceObjectBrowserButtonMatchSelected" onclick="settingsAddDeviceObjectBrowserButtonMatchSelected();">Try to match slected</button> </p>
+							</div>
+							<div data-role="collapsible">
+								<h2>Existing Devices</h2>
+								<div style="max-height: 500px; overflow: auto; -webkit-overflow-scrolling: touch; padding:20px; margin: -8px, -15px, -8px, -20px;">
+									<label for='SettingsAddDeviceExistingDevicesBrowserViewSelector'>Choose View:</label>
+									<select name='SettingsAddDeviceExistingDevicesBrowserViewSelector' id='SettingsAddDeviceExistingDevicesBrowserViewSelector' onchange='settingsAddDeviceExistingDevicesBrowserViewChanged()'></select>
+							    	<ul data-role="listview" data-filter="true" data-autodividers="true" data-mini='true' id="SettingsAddDeviceExistingDevicesBrowser"></ul>
+								</div>
+								<p><button type="button" id="SettingsAddDeviceExistingDevicesBrowserButtonCopySelected" onclick="settingsAddDeviceExistingDevicesBrowserButtonCopySelected();">Copy slected Device</button> </p>
+							</div>
+						<label for='SettingsAddDeviceCommonName'>Name:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddDeviceCommonName" id="SettingsAddDeviceCommonName" value="">
+						<label for='SettingsAddDeviceNativeSortPrefix'>Sort Prefix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddDeviceNativeSortPrefix" id="SettingsAddDeviceNativeSortPrefix" value="">
+						<label for='SettingsAddDeviceNativeSortPostfix'>Sort Postfix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddDeviceNativeSortPostfix" id="SettingsAddDeviceNativeSortPostfix" value="">
+						<label for='SettingsAddDeviceCommonRole' >Role:</label>
+						<select name='SettingsAddDeviceCommonRole' id='SettingsAddDeviceCommonRole'>
+							<option>Choose:</option>
+							<option value='iQontrolView'>iQontrolView</option>
+							<option value='iQontrolSwitch'>iQontrolSwitch</option>
+							<option value='iQontrolLight'>iQontrolLight</option>
+							<option value='iQontrolFan'>iQontrolFan</option>
+							<option value='iQontrolThermostat'>iQontrolThermostat</option>
+							<option value='iQontrolHomematicThermostat'>iQontrolHomematicThermostat</option>
+							<option value='iQontrolTemperature'>iQontrolTemperature</option>
+							<option value='iQontrolHumidity'>iQontrolHumidity</option>
+							<option value='iQontrolDoor'>iQontrolDoor</option>
+							<option value='iQontrolDoorWithLock'>iQontrolDoorWithLock</option>
+							<option value='iQontrolWindow'>iQontrolWindow</option>
+							<option value='iQontrolValue'>iQontrolValue</option>
+							<option value='iQontrolFire'>iQontrolFire</option>
+							<option value='iQontrolAlarm'>iQontrolAlarm</option>
+							<option value='iQontrolProgram'>iQontrolProgram</option>
+							<option value='iQontrolScene'>iQontrolScene</option>
+						</select>
+						<div style="width:100%; border:1px solid lightgrey; padding:5px;">
+							<div class="SettingsAddDeviceState iQontrolView">
+								<label for='SettingsAddDeviceStateVIEW_ID'>VIEW_ID (stored in object.native.VIEW_ID):</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateVIEW_ID" id="SettingsAddDeviceStateVIEW_ID" value=""> 
+							</div>
+							
+							
+							<div class="SettingsAddDeviceState iQontrolSwitch iQontrolLight iQontrolFan iQontrolDoor iQontrolWindow iQontrolValue iQontrolProgram iQontrolScene iQontrolFire iQontrolAlarm iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateSTATE'>STATE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateSTATE" id="SettingsAddDeviceStateSTATE" value="">
+							</div>
+							<div class="SettingsAddDeviceState iQontrolLight iQontrolValue">
+								<label for='SettingsAddDeviceStateLEVEL'>LEVEL:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateLEVEL" id="SettingsAddDeviceStateLEVEL" value=""> 
+							</div>
+							
+							<div class="SettingsAddDeviceState iQontrolLight">
+								<label for='SettingsAddDeviceStateHUE'>HUE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateHUE" id="SettingsAddDeviceStateHUE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolThermostat iQontrolHomematicThermostat">
+								<label for='SettingsAddDeviceStateSET_TEMPERATURE'>SET_TEMPERATURE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateSET_TEMPERATURE" id="SettingsAddDeviceStateSET_TEMPERATURE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolThermostat iQontrolHomematicThermostat iQontrolTemperature iQontrolHumidity">
+								<label for='SettingsAddDeviceStateHUMIDITY'>HUMIDITY:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateHUMIDITY" id="SettingsAddDeviceStateHUMIDITY" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolThermostat iQontrolHomematicThermostat iQontrolTemperature iQontrolHumidity">
+								<label for='SettingsAddDeviceStateTEMPERATURE'>TEMPERATURE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateTEMPERATURE" id="SettingsAddDeviceStateTEMPERATURE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolThermostat iQontrolHomematicThermostat iQontrolAlarm">
+								<label for='SettingsAddDeviceStateCONTROL_MODE'>CONTROL_MODE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateCONTROL_MODE" id="SettingsAddDeviceStateCONTROL_MODE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolHomematicThermostat">
+								<label for='SettingsAddDeviceStatePARTY_TEMPERATURE'>PARTY_TEMPERATURE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStatePARTY_TEMPERATURE" id="SettingsAddDeviceStatePARTY_TEMPERATURE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolThermostat iQontrolHomematicThermostat">
+								<label for='SettingsAddDeviceStateVALVE_STATES'>VALVE_STATES (object: {"name":"ID", "name2":"ID2"}):</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateVALVE_STATES" id="SettingsAddDeviceStateVALVE_STATES" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateLOCK_STATE'>LOCK_STATE:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateLOCK_STATE" id="SettingsAddDeviceStateLOCK_STATE" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateLOCK_STATE_UNCERTAIN'>LOCK_STATE_UNCERTAIN:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateLOCK_STATE_UNCERTAIN" id="SettingsAddDeviceStateLOCK_STATE_UNCERTAIN" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateLOCK_OPEN'>LOCK_OPEN:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateLOCK_OPEN" id="SettingsAddDeviceStateLOCK_OPEN" value=""> 
+							</div>
+
+							<div class="SettingsAddDeviceState iQontrolView iQontrolSwitch iQontrolLight iQontrolFan iQontrolThermostat iQontrolHomematicThermostat iQontrolDoor iQontrolWindow iQontrolValue iQontrolProgram iQontrolScene iQontrolTemperature iQontrolHumidity iQontrolFire iQontrolAlarm iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateBATTERY'>BATTERY:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateBATTERY" id="SettingsAddDeviceStateBATTERY" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolView iQontrolSwitch iQontrolLight iQontrolFan iQontrolThermostat iQontrolHomematicThermostat iQontrolDoor iQontrolWindow iQontrolValue iQontrolProgram iQontrolScene iQontrolTemperature iQontrolHumidity iQontrolFire iQontrolAlarm iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateUNREACH'>UNREACH:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateUNREACH" id="SettingsAddDeviceStateUNREACH" value=""> 
+							</div>
+							<div class="SettingsAddDeviceState iQontrolView iQontrolSwitch iQontrolLight iQontrolFan iQontrolThermostat iQontrolHomematicThermostat iQontrolDoor iQontrolWindow iQontrolValue iQontrolProgram iQontrolScene iQontrolTemperature iQontrolHumidity iQontrolFire iQontrolAlarm iQontrolDoorWithLock">
+								<label for='SettingsAddDeviceStateERROR'>ERROR:</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateERROR" id="SettingsAddDeviceStateERROR" value=""> 
+							</div>
+						</div>
+						<label for='SettingsAddDeviceToVIEW_ID'>Add to View:</label>
+						<select name='SettingsAddDeviceToVIEW_ID' id='SettingsAddDeviceToVIEW_ID'></select>
+						<!--type: device-->
+						<br><br>
+						<button type="button" id="SettingsAddDeviceButtonAdd" onclick="settingsAddDevice();">Add this Device to selected View</button> </p>
+					</form>
+				</div>
+			</div>
+			<div data-role='collapsible' data-iconpos='left' data-inset='true' class='settingsToBeRendered'>
+				<h3>Add Toolbar Entry - NOT YET IMPLEMENTED - :</h3>
+				<div>
+					<form>
+						<label for='SettingsAddToolbarCommonName'>Name:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddToolbarCommonName" id="SettingsAddToolbarCommonName" value="">
+						<label for='SettingsAddToolbarNativeSortPrefix'>Sort Prefix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddToolbarNativeSortPrefix" id="SettingsAddToolbarNativeSortPrefix" value="">
+						<label for='SettingsAddToolbarNativeSortPostfix'>Sort Postfix:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddToolbarNativeSortPostfix" id="SettingsAddToolbarNativeSortPostfix" value="">
+						<label for='SettingsAddToolbarNativeVIEW_ID'>Linked View:</label>
+						<select name='SettingsAddToolbarNativeVIEW_ID' id='SettingsAddToolbarNativeVIEW_ID'></select>
+						<label for='SettingsAddToolbarCommonIcon'>Icon:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddToolbarCommonIcon" id="SettingsAddToolbarCommonIcon" value="">
+						<!--type: channel-->
+						<br><br>
+						<button type="button" id="SettingsAddToolbarButton" onclick="settingsAddToolbar();">Add this to Toolbar</button> </p>
+					</form>
+				</div>
+			</div>
+			<br><br><hr>
+			<p><a href="#View">Back to View</a></p>
+			<br><br>
+		</div>
+	</div>
+
+	<div data-role="footer" data-fullscreen="true" data-position="fixed" data-tap-toggle="false" data-theme="a" id="Toolbar">
+		<div id="ToolbarContent">...</div>
+	</div>
+	
+</body>

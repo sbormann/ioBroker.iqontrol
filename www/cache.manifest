@@ -1,0 +1,20 @@
+CACHE MANIFEST
+
+# iQontrol
+# Version 23
+
+
+CACHE:
+./jquery
+./jquery/jquery.mobile-1.4.5.min.css
+./jquery/jquery.mobile-1.4.5.min.js
+./jquery/jquery-1.11.3.min.js
+./images
+
+NETWORK:
+*
+
+FALLBACK:
+
+SETTINGS:
+

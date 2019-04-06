@@ -1,0 +1,318 @@
+/* Link-Listview nicht fett und ohne Umbruch */
+.ui-listview a {  
+	font-weight: normal;
+	white-space: normal !important;
+}
+
+/* Listview ohne Umbruch */
+.ui-listview > .ui-li-static, .ui-listview > .ui-li-divider, .ui-listview > li > a.ui-btn {
+	white-space: normal !important;
+}
+
+.ui-state-disabled {
+	opacity: 0.75 !important;
+}
+
+body {
+	background-image: url(./images/grey.jpg);
+	background-size: cover;
+	-webkit-touch-callout: none !important;
+}
+
+a {
+	-webkit-user-select: none !important;
+	-webkit-touch-callout: none !important;
+}
+
+#View{
+	background-color: transparent;
+}
+
+#ViewMain {
+	padding: 3px;
+	margin: 0px;
+	min-height:100vh;
+	color: #FFF;
+	font-size: 11pt;
+	font-weight: bold;
+	font-family: verdana,tahoma,arial,helvetica,sans-serif;
+	/* text-shadow: 0px 1px 2px rgba(0,0,0,0.8);	 */
+}
+
+#ViewHeaderTitle {
+	background-color: rgba(0,0,0,0.1);
+	margin-left: -5px;
+	margin-right: -5px;
+	padding-left: 7px;
+}
+
+#ViewContent {
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+	vertical-align: top;
+}
+
+#ViewContent h4 {
+	background-color: rgba(0,0,0,0.1);
+	margin-left: -5px;
+	margin-right: -5px;
+	padding-left: 7px;
+	font-weight: normal;
+	margin-top: 30px;
+	margin-bottom: 0px;
+}
+
+.iQontrolDevice{
+	display: inline-table;
+	top: 0;
+	width: 104px; max-width: 104px;
+	height: 104px; max-height: 104px;
+	margin: 5px;
+	padding: 3px 3px 3px 3px;
+	background: transparent;
+	border: 0px solid rgba(255, 255, 255, 0.5);
+	-webkit-border-radius: 15px;
+	   -moz-border-radius: 15px;
+			border-radius: 15px;
+	-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+	   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+			box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+	-webkit-transform: translate3d(0px,0px,0);
+	   -moz-transform: translate3d(0px,0px,0);
+			transform: translate3d(0px,0px,0);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	text-align: left;
+	overflow: hidden;
+}
+.iQontrolDevice:hover{
+	border: 0px solid rgba(255, 255, 255, 0.8);
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+}
+
+.iQontrolDeviceBackgroundImage {
+	background-color: rgba(255, 255, 255, 0.6);
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	display: block;
+	background-size:cover; background-position:center;	
+	opacity: 0.99;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	overflow: hidden;
+}
+
+.iQontrolDeviceBackgroundImage:hover {
+	opacity: 0.99;
+	-webkit-transform: scale3d(1.05,1.05,1);
+	   -moz-transform: scale3d(1.05,1.05,1);
+			transform: scale3d(1.05,1.05,1);
+}
+
+.iQontrolDeviceBackground {
+	background-color: rgb(180, 180, 180);
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	display: block;
+	opacity: 0.5;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	overflow: hidden;
+}
+
+.iQontrolDeviceBackground.active {
+	background-color: rgb(255, 255, 255);
+	opacity: 0.82;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
+
+.iQontrolDeviceBackground:hover {
+	opacity: 0.95;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
+
+
+.iQontrolDeviceIcon {
+	position:absolute; left: 5px; top: 5px; width: 38px; height: 38px;
+	margin: 3px;
+	overflow: hidden;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 0.5s;
+	   -moz-transition: all 0.5s;
+			transition: all 0.5s;
+	opacity: 0;
+	pointer-events:none;
+}
+
+.iQontrolDeviceIcon.active {
+	opacity: 1;
+	pointer-events:auto;
+}
+
+.iQontrolDeviceIcon:hover {
+	-webkit-transform: scale3d(1.2,1.2,1);
+	   -moz-transform: scale3d(1.2,1.2,1);
+			transform: scale3d(1.2,1.2,1);
+}
+
+.iQontrolDeviceLoading {
+	pointer-events:none;
+	position:absolute; left: 15px; top: 15px; width: 24px; height: 24px;
+	overflow: hidden;
+	z-index: 1000;
+	opacity: 0;
+	-webkit-transition: all 0.2s ease 0.25s;
+	   -moz-transition: all 0.2s ease 0.25s;
+			transition: all 0.2s ease 0.25s;
+}
+
+.iQontrolDeviceLoading.active {
+	opacity: 0.9;
+}
+
+.iQontrolDeviceError {
+	pointer-events:none;
+	position:absolute; left: 52px; top: 2px; width: 16px; height: 16px;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.iQontrolDeviceError.active {
+	opacity: 1;
+}
+
+.iQontrolDeviceUnreach {
+	pointer-events:none;
+	position:absolute; left: 71px; top: 2px; width: 16px; height: 16px;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.iQontrolDeviceUnreach.active {
+	opacity: 1;
+}
+
+.iQontrolDeviceBattery {
+	pointer-events:none;
+	position:absolute; left: 90px; top: 2px; width: 16px; height: 16px;
+	overflow: hidden;
+	opacity: 0;
+}
+
+.iQontrolDeviceBattery.active {
+	opacity: 1;
+}
+
+.iQontrolDeviceInfoAIcon {
+	pointer-events:none;
+	position:absolute; left: 52px; top: 20px; width: 12px; height: 12px;
+	overflow: hidden;
+}
+
+.iQontrolDeviceInfoAText {
+	pointer-events:none;
+	position:absolute; left: 66px; top: 18px; width: 42px; height: 16px;
+	overflow: hidden;
+	background: transparent;
+	color: black;
+	font-size: 8pt;
+	font-weight: normal;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	text-align: left;
+}
+
+.iQontrolDeviceInfoBIcon {
+	pointer-events:none;
+	position:absolute; left: 52px; top: 39px; width: 12px; height: 12px;
+	overflow: hidden;
+}
+
+.iQontrolDeviceInfoBText {
+	pointer-events:none;
+	position:absolute; left: 66px; top: 37px; width: 42px; height: 16px;
+	overflow: hidden;
+	background: transparent;
+	color: black;
+	font-size: 8pt;
+	font-weight: normal;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
+	text-align: left;
+}
+
+.iQontrolDeviceName  {
+	pointer-events:none;
+	position:absolute; left: 5px; top: 58px; width: 103px; height: 30px;
+	overflow: hidden;
+	background: transparent;
+	color: black;
+	font-size: 9pt;
+	font-weight: bold;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);	
+}
+
+.iQontrolDeviceState  {
+	pointer-events:none;
+	position:absolute; left: 5px; top: 90px; width: 103px; height: 17px;
+	overflow: hidden;
+	background: transparent;
+	color: black;
+	font-size: 9pt;
+	font-weight: normal;
+	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);	
+}
+
+
+#Dialog{
+	min-width: 300px;
+}
+
+.small {
+	font-size: 70%;
+}
+
+.colorPicker + .ui-slider-track {
+	background-image:url(./images/hue.png) !important;
+	background-repeat:repeat-x !important;
+	background-size:100% !important;
+}
+
+.fullWidthSlider .ui-slider-input{
+	display: none;
+}
+
+.fullWidthSlider .ui-slider-track{
+	margin-left: 15px;
+}
+
+.ui-slider-track .ui-btn.ui-slider-handle {
+    font-size: .7em !important;
+}
+
+.ui-slider-popup {
+    font-size: 30px !important;
+}
+
+.SettingsAddDeviceState .matched{
+	background-color: yellow;
+}
+
+#SettingsAddDeviceCommonName .matched{
+	background-color: yellow;
+}
+

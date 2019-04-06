@@ -60,6 +60,14 @@
 		"compact": true,
 		"materialize": true,
 		"materializeTab": true,
+		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html",
+        "welcomeScreen": {
+            "link": "mobile/index.html",
+            "name": "mobile",
+            "img": "mobile.admin/mobile.png",
+            "color": "black",
+            "order": 2
+        },
 		"adminTab": {
 			"singleton": true,
 			"name": {
@@ -77,19 +85,18 @@
 			"link": "",
 			"fa-icon": "info"
 		},
-		"supportCustoms": true,
+		"supportCustoms": false,
 		"dependencies": [
 			{
 				"admin": ">=3.0.0"
 			},
 			{
 				"js-controller": ">=1.4.2"
-			}
+			},
+			"web"
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
 	},
 	"objects": [],
 	"instanceObjects": []
