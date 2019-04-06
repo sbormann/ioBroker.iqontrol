@@ -282,11 +282,11 @@ function getPlainText(linkedStateId){ //Gets plain text from a state that is a v
 
 function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
 	var result;
-	if(typeof states[linkedStateId] !== udef) {
+	if(linkedStateId !== "" && typeof states[linkedStateId] !== udef) {
 		result = {};
 		result = Object.assign(result, states[linkedStateId]);
 	}
-	if(typeof usedObjects[linkedStateId] !== udef && typeof states[linkedStateId] !== udef && typeof states[linkedStateId].val !== udef) {
+	if(linkedStateId !== "" && typeof usedObjects[linkedStateId] !== udef && typeof states[linkedStateId] !== udef && typeof states[linkedStateId].val !== udef) {
 		result.unit = getUnit(linkedStateId);
 		result.readonly = false;
 		if(typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
@@ -338,6 +338,12 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 						result.type = "string";
 						result.readonly = true;
 						break;
+
+						case "DANGER.STATE":
+						if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
+						result.type = "string";
+						result.readonly = true;
+						break;
 					}
 				}
 			}
@@ -348,7 +354,13 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				var number = result.val * 1;
 				if (number.toString() == result.val) result.val = number;
 			}
-			if(typeof result.val == 'number') result.type = "level"; else result.type = "string";
+			if(typeof result.val == 'number'){
+				result.type = "level";
+				var n = 2;
+				result.val =  Math.round(result.val * Math.pow(10, n)) / Math.pow(10, n);
+			} else { 
+				result.type = "string";
+			}
 		}
 	}
 	return result;
@@ -1408,6 +1420,7 @@ function renderView(id, updateOnly){
 											}
 										}
 										if(resultText == "0%") resultText = _("off");
+										resultText = unescape(resultText);
 										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
 										if (result == 0) {
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
@@ -2353,5 +2366,6 @@ $(window).on("orientationchange resize", function(){
 		console.log("orientationchange");
 	}, 250);
 });	
+
 
 

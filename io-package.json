@@ -62,9 +62,9 @@
 		"materializeTab": true,
 		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html",
         "welcomeScreen": {
-            "link": "mobile/index.html",
-            "name": "mobile",
-            "img": "mobile.admin/mobile.png",
+            "link": "iqontrol/index.html",
+            "name": "iQontrol",
+            "img": "iqontrol.admin/iqontrol.png",
             "color": "black",
             "order": 2
         },

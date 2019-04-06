@@ -20,6 +20,7 @@ systemDictionary = {
     "opened":           {"en": "opened",            "de": "geöffnet",       "ru": "откр"},
     "locked":           {"en": "locked",            "de": "abgeschlossen"},
     "unlocked":         {"en": "unlocked",          "de": "aufgeschlossen"},
+    "triggered":        {"en": "triggered",         "de": "ausgelöst"},
     "Exact position uncertain": {
         "en": "Exact position uncertain",
         "de": "Exakte Position unbekannt"
