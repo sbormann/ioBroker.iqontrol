@@ -18,10 +18,29 @@
 	<script type="text/javascript" src="words.js"></script>
 
 	<script type="text/javascript">
+		function onViewsEdit(){
+			// Edit-Button-Function
+			var $div = $('#views');
+			var $table = $div.find('.table-values');
+			var $lines = $table.find('.table-lines');
+			$lines.find('a[data-command]').each(function () {
+				var command = $(this).data('command');
+	            if (command === 'edit') {
+					$(this).on('click', function () {
+						var id = $(this).data('index');
+						console.log("EDIT " + id);
+					});
+				}
+			});	
+		}
+
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
-			// example: select elements with id=key and class=value and insert value
+			// select elements with id=key and class=value and insert value
 			if (!settings) return;
+			toolbar = settings.toolbar || [];
+			views = settings.views || [];
+
 			$('.value').each(function () {
 				var $key = $(this);
 				var id = $key.attr('id');
@@ -38,6 +57,11 @@
 						;
 				}
 			});
+			// Fill tables
+			values2table('toolbar', toolbar, onChange);
+			values2table('views', views, onChange, onViewsEdit);
+			
+            // Signal to admin, that no changes yet
 			onChange(false);
 			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
@@ -55,6 +79,9 @@
 					obj[$this.attr('id')] = $this.val();
 				}
 			});
+			// Get edited tables
+			obj.toolbar = table2values('toolbar');
+			obj.views = table2values('views');
 			callback(obj);
 		}
 	</script>
@@ -114,7 +141,7 @@
 						<h6 class="translate sub-title">Toolbar</h6>
 					</div>
 				</div>
-				<div class="col s12" id="values">
+				<div class="col s12" id="toolbar">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small">
@@ -126,7 +153,7 @@
 						<table class="table-values" style="width: 90%;">
 							<thead>
 								<tr>
-									<th data-name="Toolbar_Index"    	style="width: 40px"  class="translate"></th>
+									<th data-name="_Index"    	style="width: 40px"  class="translate"></th>
 									<th data-name="ToolbarCommonName"   style="width: 200px" class="translate">Name</th>
 									<th data-name="ToolbarNativeViewId" style="width: 200px" class="translate">Linked View</th>
 									<th data-name="ToolbarCommonIcon" 	style="width: 200px" class="translate">Icon</th>
@@ -145,7 +172,7 @@
 						<h6 class="translate sub-title">Views</h6>
 					</div>
 				</div>
-				<div class="col s12" id="values">
+				<div class="col s12" id="views">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small">
@@ -157,7 +184,7 @@
 						<table class="table-values" style="width: 90%;">
 							<thead>
 								<tr>
-									<th data-name="View_Index"    		style="width: 40px"  class="translate"></th>
+									<th data-name="_Index"    		style="width: 40px"  class="translate"></th>
 									<th data-name="View_CommonName" 	style="width: 200px" class="translate">Name</th>
 									<th data-name="View_Background"     style="width: 200px" class="translate">Background	</th>
 									<th data-buttons="delete up down edit"   style="width: 40px"></th>
