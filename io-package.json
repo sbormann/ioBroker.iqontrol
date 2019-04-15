@@ -45,7 +45,11 @@
 			"Sebastian Bormann <sebastian@bormann.net>"
 		],
 		"keywords": [
-			"Visualization"
+			"visualization",
+			"user",
+            "interface",
+            "webapp",
+            "ui"
 		],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
@@ -82,8 +86,8 @@
 				"pl": "iQontrol",
 				"zh-cn": "iQontrol"
 			},
-			"link": "",
-			"fa-icon": "info"
+			"link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html",
+			"fa-icon": "blur_on"
 		},
 		"supportCustoms": false,
 		"dependencies": [

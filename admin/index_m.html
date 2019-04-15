@@ -18,7 +18,7 @@
 	<script type="text/javascript" src="words.js"></script>
 
 	<script type="text/javascript">
-		function onViewsEdit(){
+		function onViewsReady(){
 			// Edit-Button-Function
 			var $div = $('#views');
 			var $table = $div.find('.table-values');
@@ -32,6 +32,12 @@
 					});
 				}
 			});	
+			
+			// Add Views to Selectbox for LinkedView inside Toolbar
+			var ViewIds = [];
+			views.forEach(function(element){ ViewIds.push(element._Index); });
+			$('*[data-name="ToolbarNativeViewId"]').data("options", ViewIds.join(";"));
+			//values2table('toolbar', toolbar);
 		}
 
 		// This will be called by the admin adapter when the settings page loads
@@ -58,8 +64,8 @@
 				}
 			});
 			// Fill tables
+			values2table('views', views, onChange, onViewsReady);
 			values2table('toolbar', toolbar, onChange);
-			values2table('views', views, onChange, onViewsEdit);
 			
             // Signal to admin, that no changes yet
 			onChange(false);
@@ -155,7 +161,8 @@
 								<tr>
 									<th data-name="_Index"    	style="width: 40px"  class="translate"></th>
 									<th data-name="ToolbarCommonName"   style="width: 200px" class="translate">Name</th>
-									<th data-name="ToolbarNativeViewId" style="width: 200px" class="translate">Linked View</th>
+									<th data-name="ToolbarNativeViewIdx" style="width: 200px" class="translate">Linked Viewx</th>
+									<th data-name="ToolbarNativeViewId" data-type="select" style="width: 200px" class="translate">Linked View</th>
 									<th data-name="ToolbarCommonIcon" 	style="width: 200px" class="translate">Icon</th>
 									<th data-buttons="delete up down"   style="width: 40px"></th>
 								</tr>
