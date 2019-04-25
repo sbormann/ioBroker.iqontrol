@@ -15,9 +15,29 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sborman
 
 ## iqontrol adapter for ioBroker
 
-Fast Web-App for Visualization
+Fast Web-App for Visualization.
+
+![Example](img/screenshot1.jpg)
+![Example](img/screenshot2.jpg)
+
+Runs in any Browser.
+You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
+It´s fully customizable.
+
+## Knowns issues
+This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
+However there are a few limitations:
+- Uploading images (as background-images or for skinning device-buttons) works, but renaming and deleting does not work
+- Creating and deleting sub-directories is also not working
+You can do these operations manually via ftp under iobroker/iobroker-data/files/iqontrol/userimages
+
+Please feel free to comment and let me know, how to fix these issues!
+
 
 ## Changelog
+
+### 0.0.2
+* (Sebastian Bormann) first partly running version
 
 ### 0.0.1
 * (Sebastian Bormann) initial release

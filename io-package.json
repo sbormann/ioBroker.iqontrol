@@ -1,9 +1,9 @@
 {
 	"common": {
 		"name": "iqontrol",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
-			"0.0.1": {
+			"0.0.2": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
 				"ru": "Начальная версия",
@@ -61,16 +61,18 @@
 		"loglevel": "info",
 		"mode": "daemon",
 		"type": "visualization",
+        "highlight": true,
 		"compact": true,
+        "singleton": true,
 		"materialize": true,
 		"materializeTab": true,
-		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html",
+		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": {
             "link": "iqontrol/index.html",
             "name": "iQontrol",
             "img": "iqontrol.admin/iqontrol.png",
-            "color": "black",
-            "order": 2
+            "color": "gray",
+            "order": 1
         },
 		"adminTab": {
 			"singleton": true,
@@ -86,18 +88,14 @@
 				"pl": "iQontrol",
 				"zh-cn": "iQontrol"
 			},
-			"link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html",
+			"link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
 			"fa-icon": "blur_on"
 		},
 		"supportCustoms": false,
 		"dependencies": [
-			{
-				"admin": ">=3.0.0"
-			},
-			{
-				"js-controller": ">=1.4.2"
-			},
-			"web"
+			{ "admin": ">=3.0.0" },
+			{ "js-controller": ">=1.4.2" },
+			{ "web": ">=1.7.1" }
 		]
 	},
 	"native": {

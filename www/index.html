@@ -41,8 +41,8 @@
 	<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="jquery/jquery.mobile-1.4.5.min.js"></script>
 	<script type="text/javascript" src="jquery/plugins/jquery.backstretch.min.js"></script>
-	<script type="text/javascript" src="http://192.168.10.69:8084/socket.io/socket.io.js"></script>  <!-- Replace with correct URL -->
-	<script type="text/javascript" src="http://192.168.10.69:8082/lib/js/translate.js"></script>  <!-- Replace with correct URL -->
+	<script type="text/javascript" src="../../lib/js/socket.io.js"></script>  <!-- Replace with correct URL -->
+	<script type="text/javascript" src="../../lib/js/translate.js"></script>  <!-- Replace with correct URL -->
     <script type="text/javascript" src="systemDictionary.js"></script>
     <script type="text/javascript" src="conn.js"></script>
     <script type="text/javascript" src="index.js"></script>
@@ -86,8 +86,8 @@
 						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeSortPrefix" id="SettingsAddViewNativeSortPrefix" value="">
 						<label for='SettingsAddViewNativeSortPostfix'>Sort Postfix:</label>
 						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeSortPostfix" id="SettingsAddViewNativeSortPostfix" value="">
-						<label for='SettingsAddViewNativeBackground_image'>Backgroundimage:</label>
-						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeBackground_image" id="SettingsAddViewNativeBackground_image" value="./images/wallpaper/homekit_red.jpg">
+						<label for='SettingsAddViewNativeBackgroundImage'>Backgroundimage:</label>
+						<input type="text" data-clear-btn="true" name="SettingsAddViewNativeBackgroundImage" id="SettingsAddViewNativeBackgroundImage" value="./images/wallpaper/homekit_red.jpg">
 						<!--type: channel-->
 						<br><br>
 						<button type="button" id="SettingsAddViewButton" onclick="settingsAddView();">Add this to Views</button> </p>
@@ -142,8 +142,8 @@
 						</select>
 						<div style="width:100%; border:1px solid lightgrey; padding:5px;">
 							<div class="SettingsAddDeviceState iQontrolView">
-								<label for='SettingsAddDeviceStateVIEW_ID'>VIEW_ID (stored in object.native.VIEW_ID):</label>
-								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateVIEW_ID" id="SettingsAddDeviceStateVIEW_ID" value=""> 
+								<label for='SettingsAddDeviceStatelinkedView'>linkedView (stored in object.native.linkedView):</label>
+								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStatelinkedView" id="SettingsAddDeviceStatelinkedView" value=""> 
 							</div>
 							
 							
@@ -210,8 +210,8 @@
 								<input type="text" data-clear-btn="true" name="SettingsAddDeviceStateERROR" id="SettingsAddDeviceStateERROR" value=""> 
 							</div>
 						</div>
-						<label for='SettingsAddDeviceToVIEW_ID'>Add to View:</label>
-						<select name='SettingsAddDeviceToVIEW_ID' id='SettingsAddDeviceToVIEW_ID'></select>
+						<label for='SettingsAddDeviceTolinkedView'>Add to View:</label>
+						<select name='SettingsAddDeviceTolinkedView' id='SettingsAddDeviceTolinkedView'></select>
 						<!--type: device-->
 						<br><br>
 						<button type="button" id="SettingsAddDeviceButtonAdd" onclick="settingsAddDevice();">Add this Device to selected View</button> </p>
@@ -228,8 +228,8 @@
 						<input type="text" data-clear-btn="true" name="SettingsAddToolbarNativeSortPrefix" id="SettingsAddToolbarNativeSortPrefix" value="">
 						<label for='SettingsAddToolbarNativeSortPostfix'>Sort Postfix:</label>
 						<input type="text" data-clear-btn="true" name="SettingsAddToolbarNativeSortPostfix" id="SettingsAddToolbarNativeSortPostfix" value="">
-						<label for='SettingsAddToolbarNativeVIEW_ID'>Linked View:</label>
-						<select name='SettingsAddToolbarNativeVIEW_ID' id='SettingsAddToolbarNativeVIEW_ID'></select>
+						<label for='SettingsAddToolbarNativelinkedView'>Linked View:</label>
+						<select name='SettingsAddToolbarNativelinkedView' id='SettingsAddToolbarNativelinkedView'></select>
 						<label for='SettingsAddToolbarCommonIcon'>Icon:</label>
 						<input type="text" data-clear-btn="true" name="SettingsAddToolbarCommonIcon" id="SettingsAddToolbarCommonIcon" value="">
 						<!--type: channel-->

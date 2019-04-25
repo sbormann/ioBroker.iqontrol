@@ -1,5 +1,8 @@
 //Settings
-var namespace = 'javascript.0.iQontrol.0';
+var namespace = getUrlParameter('namespace') || 'iqontrol.0';
+var connectionLink = location.origin;
+
+
 var useCache = true;
 systemLang = "de";					//Used for translate.js -> _(string) translates string to this language
 
@@ -30,9 +33,9 @@ const udef = 'undefined'
 
 //++++++++++ WEBSOCKET ++++++++++
 connOptions = {
-	name:          namespace,  // optional - default 'vis.0'
-	connLink:      'http://192.168.10.69:8084',  // optional URL of the socket.io adapter
-	socketSession: ''           // optional - used by authentication
+	name:          namespace,  		// optional - default 'vis.0'
+	connLink:      connectionLink,  // optional URL of the socket.io adapter
+	socketSession: ''           	// optional - used by authentication
 };
 connCallbacks = {
 	onConnChange: function(isConnected) {
@@ -63,6 +66,13 @@ connCallbacks = {
 };
 
 //Websocket Help-Functions
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
 function getStarted(){
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Get Toolbar (and according objects)
@@ -449,21 +459,21 @@ function getTimeFromHMTimeCode(HMTimeCode){
 //++++++++++ SETTINGS ++++++++++
 function renderSettings(){
 	//Fill Selects with Views
-	$("#SettingsAddToolbarNativeVIEW_ID").html("<option>Choose:</option>");
-	$("#SettingsAddDeviceToVIEW_ID").html("<option>Choose:</option>");
+	$("#SettingsAddToolbarNativelinkedView").html("<option>Choose:</option>");
+	$("#SettingsAddDeviceTolinkedView").html("<option>Choose:</option>");
 	$("#SettingsAddDeviceExistingDevicesBrowserViewSelector").html("<option>Choose:</option>");
 	var viewsNamespace = namespace + ".Views";
 	var settingsViews = [];
 	for (id in usedObjects){ //Get existing Views
 		if(id.indexOf(viewsNamespace) == 0 && id.lastIndexOf(".") == viewsNamespace.length){ //begins with viewsNamespace and the last dot is exactly after viewsNamespace (so its no Child of a view)
-			$("#SettingsAddToolbarNativeVIEW_ID").append("<option value='" + id + "'>" + id + "</option>");
-			$("#SettingsAddDeviceToVIEW_ID").append("<option value='" + id + "'>" + id + "</option>");
+			$("#SettingsAddToolbarNativelinkedView").append("<option value='" + id + "'>" + id + "</option>");
+			$("#SettingsAddDeviceTolinkedView").append("<option value='" + id + "'>" + id + "</option>");
 			$("#SettingsAddDeviceExistingDevicesBrowserViewSelector").append("<option value='" + id + "'>" + id + "</option>");
 			settingsViews.push(id);
 		}
 	}
-	$("#SettingsAddToolbarNativeVIEW_ID").selectmenu('refresh');
-	$("#SettingsAddDeviceToVIEW_ID").selectmenu("refresh");
+	$("#SettingsAddToolbarNativelinkedView").selectmenu('refresh');
+	$("#SettingsAddDeviceTolinkedView").selectmenu("refresh");
 	$("#SettingsAddDeviceExistingDevicesBrowserViewSelector").selectmenu('refresh');
 	$("#SettingsAddDeviceExistingDevicesBrowser").html("");
 	//Fill List with objects
@@ -527,7 +537,7 @@ function settingsAddView(){
 		"native": {
 			"sortPrefix": $("#SettingsAddViewNativeSortPrefix").val(),
 			"sortPostfix": $("#SettingsAddViewNativeSortPostfix").val(),
-			"background_image": $("#SettingsAddViewNativeBackground_image").val()
+			"backgroundImage": $("#SettingsAddViewNativeBackgroundImage").val()
 		}
 	};
 	console.log("++++++Create object: " + JSON.stringify(obj));
@@ -703,7 +713,7 @@ function settingsAddDeviceObjectBrowserButtonMatchSelected(){
 	if(typeof usedObjects[selectedId] !== udef && typeof usedObjects[selectedId].common.role !== udef && usedObjects[selectedId].common.role == "iQontrolView"){
 		$("#SettingsAddDeviceCommonRole").val("iQontrolView").selectmenu("refresh");
 		settingsAddDeviceCommonRoleChanged();
-		$("#SettingsAddDeviceStateVIEW_ID").val(selectedId);
+		$("#SettingsAddDeviceStatelinkedView").val(selectedId);
 	}
 	//--all the others
 	var role = null;
@@ -808,11 +818,11 @@ function settingsAddDeviceCommonRoleChanged(){
 }
 
 function settingsAddDevice(){
-	if ($("#SettingsAddDeviceToVIEW_ID").val() == "Choose:" || $("#SettingsAddDeviceCommonName").val() == ""){
+	if ($("#SettingsAddDeviceTolinkedView").val() == "Choose:" || $("#SettingsAddDeviceCommonName").val() == ""){
 		alert("ERROR: You need at least to choose the View to add to and give the Device a name...");
 		return;
 	}
-	var objId = $("#SettingsAddDeviceToVIEW_ID").val() + "." + $("#SettingsAddDeviceCommonName").val()
+	var objId = $("#SettingsAddDeviceTolinkedView").val() + "." + $("#SettingsAddDeviceCommonName").val()
 	if(usedObjects[objId]) if(!confirm("Device exits - overwrite?")) return;
 	var obj = {
 		"_id": objId,
@@ -826,8 +836,8 @@ function settingsAddDevice(){
 		"native": {
 			"sortPrefix": $("#SettingsAddDeviceNativeSortPrefix").val(),
 			"sortPostfix": $("#SettingsAddDeviceNativeSortPostfix").val(),
-			"VIEW_ID": $("#SettingsAddDeviceStateVIEW_ID").val(),
-			"background_image": "",
+			"linkedView": $("#SettingsAddDeviceStatelinkedView").val(),
+			"backgroundImage": "",
 			"readonly": false,
 			"iQontrolNextLine": false
 		}
@@ -890,8 +900,8 @@ function settingsAddDevice(){
 	})();
 }
 
-//++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
+//++++++++++ TOOLBAR ++++++++++
 	toolbarSorted = [];
 	for (var i = 0; i < toolbar.length; i++){
 		var id = toolbar[i];
@@ -902,14 +912,14 @@ function renderToolbar(){
 		toolbarSorted.push([sortPrefix + usedObjects[id].common.name + sortPostfix, id]);
 	}
 	toolbarSorted.sort();
-	homeId = usedObjects[toolbarSorted[0][1]].native.VIEW_ID;
+	homeId = usedObjects[toolbarSorted[0][1]].native.linkedView;
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];
 	toolbarContent += "<div data-role='navbar' data-iconpos='top' id='iQontrolToolbar'><ul>";
 		for (var i = 0; i < toolbarSorted.length; i++){
 			var id = toolbarSorted[i][1];
-			toolbarLinksToOtherViews.push(usedObjects[id].native.VIEW_ID);
-			toolbarContent += "<li><a href='#View' onclick='renderView(\"" + usedObjects[id].native.VIEW_ID + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
+			toolbarLinksToOtherViews.push(usedObjects[id].native.linkedView);
+			toolbarContent += "<li><a href='#View' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
 		}
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
@@ -923,7 +933,7 @@ function renderView(id, updateOnly){
 	actualViewId = id;
 	var toolbarIndex = -1;
 	for (var i = 0; i < toolbarSorted.length; i++){
-		if(usedObjects[ toolbarSorted[i][1] ].native.VIEW_ID == id) {
+		if(usedObjects[ toolbarSorted[i][1] ].native.linkedView == id) {
 			toolbarIndex = i;
 			break;
 		}
@@ -948,8 +958,8 @@ function renderView(id, updateOnly){
 		}
 		viewSorted.sort();
 		//Render View
-		if(!updateOnly)	if (usedObjects[id].native.background_image) {
-			changeViewBackground(usedObjects[id].native.background_image);
+		if(!updateOnly)	if (usedObjects[id].native.backgroundImage) {
+			changeViewBackground(usedObjects[id].native.backgroundImage);
 		} else {
 			changeViewBackground("");
 		}
@@ -958,15 +968,15 @@ function renderView(id, updateOnly){
 		for (var i = 0; i < viewSorted.length; i++){
 			var deviceId = viewSorted[i][1];
 			var deviceContent = "";
-			if(usedObjects[deviceId].native.iQontrolCaptionAbove && usedObjects[deviceId].native.iQontrolCaptionAbove !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.iQontrolCaptionAbove + "</h4>";
+			if(usedObjects[deviceId].native.heading && usedObjects[deviceId].native.heading !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.heading + "</h4>";
 			//Render Device
 			//--Box
 			viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceId + "'>";
 				//--Link to Dialog
 				switch(usedObjects[deviceId].common.role){
 					case "iQontrolView":	//Link to other view
-					deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' href='#View' onclick='renderView(\"" + usedObjects[deviceId].native.VIEW_ID + "\"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + viewLinksToOtherViews.length + ";'>";
-					viewLinksToOtherViews.push(usedObjects[deviceId].native.VIEW_ID);
+					deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' href='#View' onclick='renderView(\"" + usedObjects[deviceId].native.linkedView + "\"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + viewLinksToOtherViews.length + ";'>";
+					viewLinksToOtherViews.push(usedObjects[deviceId].native.linkedView);
 					break;
 
 					case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity":	 //No link
@@ -980,7 +990,7 @@ function renderView(id, updateOnly){
 					switch(usedObjects[deviceId].common.role){
 						default:
 						var url = "";
-						if(usedObjects[deviceId].native.background_image) url = usedObjects[deviceId].native.background_image;
+						if(usedObjects[deviceId].native.backgroundImage) url = usedObjects[deviceId].native.backgroundImage;
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
 					}
 						//--Background

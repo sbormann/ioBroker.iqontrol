@@ -1,52 +1,123 @@
 <html>
-
 <head>
+
+<!-- To Do: - Copy Device   - Autocreate Device    - Picture-Uplaod 
 
 	<!-- Load ioBroker scripts and styles-->
 	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/fancytree/ui.fancytree.min.css"/>
 	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
 	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+	
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
 
-	<script type="text/javascript" src="../../js/translate.js"></script>
-	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
-	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/selectID.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
 
-	<!-- Load our own files -->
+	<!-- Load own files -->
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script type="text/javascript" src="words.js"></script>
 
 	<script type="text/javascript">
-		function onViewsReady(){
-			// Edit-Button-Function
-			var $div = $('#views');
-			var $table = $div.find('.table-values');
-			var $lines = $table.find('.table-lines');
-			$lines.find('a[data-command]').each(function () {
-				var command = $(this).data('command');
-	            if (command === 'edit') {
-					$(this).on('click', function () {
-						var id = $(this).data('index');
-						console.log("EDIT " + id);
-					});
-				}
-			});	
-			
-			// Add Views to Selectbox for LinkedView inside Toolbar
-			var ViewIds = [];
-			views.forEach(function(element){ ViewIds.push(element._Index); });
-			$('*[data-name="ToolbarNativeViewId"]').data("options", ViewIds.join(";"));
-			//values2table('toolbar', toolbar);
+		var imagePath = "/userimages";
+		var imagePathBS = imagePath.replace(/\//g, "\\");
+		var link = "";
+		var iQontrolRoles = {
+			"iQontrolView": 				{name: "Link to view", 			states: ["BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]}
 		}
 
+		function initDialog(id, callback) {
+			var $dialog = $('#' + id);
+			if (!$dialog.data('inited')) {
+				$dialog.data('inited', true);
+				$dialog.modal({
+					dismissible: false
+				});
+
+				$dialog.find('.btn-set').on('click', function () {
+					var $dialog = $('#' + $(this).data('dialogid'));
+					var callback = $dialog.data('callback');
+					if (typeof callback === 'function') callback();
+					$dialog.data('callback', null);
+				});
+			}
+			$dialog.find('.btn-set').data('dialogid', id);
+			$dialog.data('callback', callback);
+		}
+
+		var selectId;
+		function initSelectId(options, callback) {
+			if (typeof options == 'function'){
+				callback = options;
+				options = {};
+			}
+			if (selectId) {
+				return callback(selectId);
+			}
+			var _options = { //Standard-Options
+				noMultiselect: true,
+				imgPath:       '../../lib/css/fancytree/',
+				filter:        {type: 'state'},
+				name:          'scenes-select-state',
+				texts: {
+					select:          _('Select'),
+					cancel:          _('Cancel'),
+					all:             _('All'),
+					id:              _('ID'),
+					name:            _('Name'),
+					role:            _('Role'),
+					room:            _('Room'),
+					value:           _('Value'),
+					selectid:        _('Select ID'),
+					from:            _('From'),
+					lc:              _('Last changed'),
+					ts:              _('Time stamp'),
+					wait:            _('Processing...'),
+					ack:             _('Acknowledged'),
+					selectAll:       _('Select all'),
+					unselectAll:     _('Deselect all'),
+					invertSelection: _('Invert selection')
+				},
+				columns: ['image', 'name', 'role', 'room']
+			};
+			for (var option in options) { _options[option] = options[option]; } //Merge Options to Standard-Options
+			socket.emit('getObjects', function (err, objs) {
+				_options.objects = objs;
+				selectId = $('#dialogSelectId').selectId('init', _options);
+				callback(selectId);
+			});
+		}
+
+		// ++++++++++ LOAD ++++++++++
 		// This will be called by the admin adapter when the settings page loads
 		function load(settings, onChange) {
+			//Hide Settings
+			console.log("Loading Settings");
+			$('.hideOnLoad').hide();
+			$('.showOnLoad').show();
+
 			// select elements with id=key and class=value and insert value
 			if (!settings) return;
-			toolbar = settings.toolbar || [];
-			views = settings.views || [];
-
 			$('.value').each(function () {
 				var $key = $(this);
 				var id = $key.attr('id');
@@ -63,16 +134,488 @@
 						;
 				}
 			});
-			// Fill tables
-			values2table('views', views, onChange, onViewsReady);
-			values2table('toolbar', toolbar, onChange);
-			
-            // Signal to admin, that no changes yet
-			onChange(false);
-			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-			if (M) M.updateTextFields();
-		}
 
+			// Get Subsettings
+			toolbar = settings.toolbar || [];
+			views = settings.views || [];
+
+			// Set initial values of further variables
+			images = [];
+			imagesDirs = [];
+			devicesSelectedView = -1;
+			
+			// Init imageUpload
+			initImageUpload();
+
+			// get Link of first Web-Adapter
+			console.log("getLink of first Web-Adapter");
+			getExtendableInstances(function (result) {
+				if (result) {
+					link = location.protocol + "//" + location.hostname + ":" + result[0].native.port + "/iqontrol";
+					console.log("Got Link: " + link);
+
+					// Get images
+					console.log("getImages");
+					getImages(function(){
+						// Signal to admin, that no changes yet
+						onChange(false);
+						
+						// Show Settings
+						console.log("All settings loaded. Adapter ready.");
+						$('.hideOnLoad').show();
+						$('.showOnLoad').hide();
+
+						// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+						if (M) M.updateTextFields();
+					});
+				}
+			});
+
+
+			
+
+			// ++++++++++ FUNCTIONS ++++++++++			
+			// Init Image-Upload
+			function initImageUpload(){
+				document.getElementById('imagesUploadFile').addEventListener('change', imagesUploadHandleFileSelect, false);
+				$('#imagesUploadFileSubmit').on('click', imagesUploadHandleSubmit);
+			}
+			function imagesUploadHandleFileSelect() {
+				$('#imagesUploadFileSubmit').addClass('disabled');
+				var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
+				if (!files.length) return;
+				var file = files[0];
+				if (file.size > 10 * 1024 * 1024) {
+					alert(_('File %s is too big. Maximum 10MB', escape(file.name)));
+					$('#imagesUploadFile').val('');
+					return;
+				}
+				$('#imagesUploadFileSubmit').removeClass('disabled');
+			}
+			function imagesUploadHandleSubmit() {
+				var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
+				if (!files.length) return;
+				var file = files[0];
+				uploadFile(file, imagePath + $('#imagesSelectedDir').val(), function (name) {
+					$('#imagesUploadFileForm')[0].reset();
+					$('#imagesUploadFileSubmit').addClass('disabled');
+					getImages(function(){  
+						values2table('tableImages', images, onChange, onTableImagesReady); 
+						var dummy = $('#imagesSelectedDir').val();
+						imagesSelectedDirFillSelectbox(); 
+						$('#imagesSelectedDir').val(dummy).trigger('change');
+						$('select').select();
+					});
+				});
+			}
+			
+			// File-Operations
+			function uploadFile(file, path, callback) {
+				if(typeof path == 'function') {
+					callback = path;
+					path = null;
+				}
+				var reader = new FileReader();
+				reader.onload = function(e) { // Closure to capture the file information.
+					socket.emit('writeFile', adapter, (path ? path + "/" : "") + file.name, e.target.result, function () {
+						if (callback) callback(file.name);
+					});
+				};
+				reader.readAsArrayBuffer(file);
+			}			
+			function deleteFile(path, callback) {
+				alert("Hmm. In this alpha-Version deleting files does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
+				socket.emit('unlink', adapter, path, function (err) {
+					if (callback) callback(err);
+				});
+			}			
+			function renameFile(oldPath, newPath, callback) {
+				alert("Hmm. In this alpha-Version renaming does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
+				socket.emit('rename', adapter, oldPath, newPath, function (err) {
+					if (callback) callback(err);
+				});
+			}
+			function createDir(path, callback) {
+				alert("Hmm. In this alpha-Version creating dirs does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
+				socket.emit('mkdir', adapter, path, function (err) {
+					if (callback) callback(err);
+				});
+			}
+
+			// getImages
+			var getImagesRunningTasks = 0;
+			function getImages(path, callback){
+				if(typeof path == 'function') callback = path;
+				if(typeof path != "string") {
+					path = imagePath;
+					images = [];
+					imagesDirs = [{
+								dirname: 		"/", 
+					}];
+				};
+				socket.emit('readDir', adapter, path, function(err, obj){
+					obj.forEach(function(element){ 
+						if(element.isDir) {
+							imagesDirs.push({
+								dirname:		path.substring(imagePath.length) + "/" + element.file
+							});
+							getImagesRunningTasks += 1;	
+							getImages(path + "/" + element.file, callback);
+						} else {
+							images.push({
+								filename: 		path.substring(imagePath.length) + "/" + element.file, 
+								filenameBS: 	path.substring(imagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
+								filenameVS:		path.substring(imagePath.length).replace(/\//g, "|") + "|" + element.file.replace(/\//g, "|")
+							});
+							console.log("Got Image: " + path + "/" + element.file);
+						}
+					});
+					if(getImagesRunningTasks > 0) {
+						getImagesRunningTasks -= 1;
+					} else {
+						console.log("Got all images.");
+						if(typeof callback == 'function') callback();
+					}
+				});
+			}
+			
+			// Enhance Tabs with onShow-Function
+			$('ul.tabs li a').on('click', function(){ onTabShow($(this).attr('href'));});
+			function onTabShow(tabId){
+				switch(tabId){
+					case "#tabToolbar":
+					// Add Views to Selectbox for LinkedView
+					var viewIds = [];
+					views.forEach(function(element){ viewIds.push(element.commonName); });
+					$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
+					// Fill Table
+					values2table('tableToolbar', toolbar, onChange);
+					break;
+					
+					case "#tabViews":
+					// Add Images to Selectbox for BackgroundImage
+					var imagenames = [];
+					images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+					$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
+					$('select').select();
+					// Fill Table
+					values2table('tableViews', views, onChange, onTableViewsReady);
+					break;
+
+					case "#tabDevices":
+					// Add Views to Selectbox for LinkedView
+					var viewIds = [""];
+					views.forEach(function(element){ viewIds.push(element.commonName); });
+					$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
+					$('#devicesSelectedView').empty().append("<option disabled selected value>Select view</option>");
+					views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+					// Add Images to Selectbox for BackgroundImage
+					var imagenames = [];
+					images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+					$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
+					$('select').select();
+					// Reset devicesSelecteView
+					devicesSelectedView = -1;
+					$('.divDevices').hide();
+					break;
+
+					case "#tabImages":
+					// Fill Table
+					values2table('tableImages', images, onChange, onTableImagesReady);
+					// Add Dirs to Selectbox for SelectedDir
+					imagesSelectedDirFillSelectbox();
+					break;					
+				}
+			}
+			
+			// Enhance TableViews with functions
+			function onTableViewsReady(){
+				var $div = $('#tableViews');
+				var $table = $div.find('.table-values');
+				var $lines = $table.find('.table-lines');
+				// CommonName changed
+				$lines.find('input[data-name]').each(function () {
+					var name = $(this).data('name');
+					if (name === 'commonName') {
+						$(this).on('focusin', function(){
+							$(this).data('oldval', $(this).val());
+						});
+						$(this).on('change', function (){
+							var index = $(this).data('index');
+							var oldVal = $(this).data('oldval');
+							var newVal = $(this).val();
+							changeViewsCommonName(index, oldVal, newVal);
+						});
+					}
+				});	
+				function changeViewsCommonName(index, oldVal, newVal){
+					toolbar.forEach(function(element){
+						if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
+					});
+				}
+			}
+
+			// Enhance devicesSelectedView-Selectbox with functions
+			$('#devicesSelectedView').on('change', function(){
+				devicesSelectedView = $('#devicesSelectedView').val();
+				if(devicesSelectedView > -1){
+					if(!views[devicesSelectedView].devices) views[devicesSelectedView].devices = [];
+					// Fill Table
+					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+					$('.divDevices').show();
+				} else {
+					$('.divDevices').hide();
+				}
+			}); 
+			
+			// Enhance TableDevices with functions
+			function onTableDevicesReady(){
+				var $div = $('#tableDevices');
+				var $table = $div.find('.table-values');
+				var $lines = $table.find('.table-lines');
+				// Button-Functions
+				$lines.find('a[data-command]').each(function () {
+					var command = $(this).data('command');
+					if (command === 'edit') {
+						$(this).on('click', function () {
+							var viewIndex = devicesSelectedView;
+							var deviceIndex = $(this).data('index');
+							initDialog('dialogEditDevice', function(){ // save dialog
+								var viewIndex =   $('#dialogEditDeviceViewIndex').val();
+								var deviceIndex = $('#dialogEditDeviceDeviceIndex').val();
+								views[viewIndex].devices[deviceIndex].commonRole = $('#dialogEditDeviceCommonRole').val();								
+								views[viewIndex].devices[deviceIndex].states = dialogEditDeviceStatesTable;
+							}); 
+							$('#dialogEditDeviceViewIndex').val(viewIndex);
+							$('#dialogEditDeviceDeviceIndex').val(deviceIndex);
+							dialogEditDeviceStates = views[viewIndex].devices[deviceIndex].states || [];
+							dialogEditDeviceStatesTable = [];
+							if(views[viewIndex].devices[deviceIndex].commonRole) {
+								$('#dialogEditDeviceCommonRole').val(views[viewIndex].devices[deviceIndex].commonRole).trigger('change');
+							} else {
+								$('#dialogEditDeviceCommonRole').val(-1).trigger('change');
+							}
+							$('select').select()
+							$('#dialogEditDevice').modal('open');
+						});
+					}
+				});	
+			}
+
+			// Add Roles to DialogEditDeviceCommonRole-Selectbox
+			$('#dialogEditDeviceCommonRole').empty().append("<option disabled selected value>Select Role</option>");
+			for (var element in iQontrolRoles){ $('#dialogEditDeviceCommonRole').append("<option value='" + element + "'>" + iQontrolRoles[element].name + "</option>"); }
+			$('select').select();
+			
+			// Enhance DialogEditDeviceCommonRole-Selectbox with functions
+			$('#dialogEditDeviceCommonRole').on('change', function(){
+				var viewIndex =   $('#dialogEditDeviceViewIndex').val();
+				var deviceIndex = $('#dialogEditDeviceDeviceIndex').val();
+				dialogEditDeviceCommonRole = $('#dialogEditDeviceCommonRole').val();
+				if(typeof dialogEditDeviceStatesTable == 'object') dialogEditDeviceStatesTable.forEach(function(entry){ //save the table entrys before bulding the new table
+					var index = dialogEditDeviceStates.findIndex(function(element){ return element.state == entry.state;});
+					if (index == -1) {
+						dialogEditDeviceStates.push(entry);
+					} else {
+						dialogEditDeviceStates[index] = entry;
+					}
+				});
+				dialogEditDeviceStatesTable = [];
+				if(dialogEditDeviceCommonRole){
+					iQontrolRoles[dialogEditDeviceCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
+						value = (dialogEditDeviceStates.find(function(element){ return element.state == entry;}) || {'state': entry}).value || "";
+						dialogEditDeviceStatesTable.push({'state':entry, 'value':value});
+					});
+				}
+				// Fill Table
+				values2table('tableDialogEditDeviceStates', dialogEditDeviceStatesTable, onChange, onTableDialogEditDeviceStatesReady);
+			});
+			
+			// Enhance tableDialogEditDeviceStates with functions
+			function onTableDialogEditDeviceStatesReady(){
+				var $div = $('#tableDialogEditDeviceStates');
+				var $table = $div.find('.table-values');
+				var $lines = $table.find('.table-lines');
+				// Make State Readonly and add id for selectId-Dialog
+				$lines.find('input[data-name]').each(function () {
+					var name = $(this).data('name');
+					if (name === 'state') {
+						$(this).prop('readonly', true);
+					}
+					if (name === 'value') {
+						var stateIndex = $(this).data('index');
+						$(this).prop('id', 'tableDialogEditDeviceStatesValue_' + stateIndex);
+					}
+					if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">object: {"name":"ID", "name2":"ID2"}</span>');
+				});	
+				// Button-Functions
+				$lines.find('a[data-command]').each(function () {
+					var command = $(this).data('command');
+					if (command === 'edit') {
+						$(this).on('click', function () {
+							var stateIndex = $(this).data('index');
+							$('#dialogSelectId').data('selectidfor', 'tableDialogEditDeviceStatesValue_' + stateIndex);
+							initSelectId(function (sid) {
+								sid.selectId('show', $('#tableDialogEditDeviceStatesValue_' + stateIndex).val(), function (newId) {
+									if (newId) {
+										$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+									}
+								});
+							});
+						});
+					}
+				});	
+			}
+			
+			// Add Images to Selectbox for SelectedDir
+			function imagesSelectedDirFillSelectbox(){
+				var dirnames = [];
+				$('#imagesSelectedDir').empty();
+				imagesDirs.forEach(function(element){ $('#imagesSelectedDir').append("<option value='" + element.dirname + "'>" + element.dirname + "</option>"); });
+				$('select').select();
+				imagesSelectedDirFilterList();				
+			} 
+			
+			// Enhance Selectbox for SelectedDir
+			$('#imagesSelectedDir').on('change', imagesSelectedDirFilterList);
+			function imagesSelectedDirFilterList(){
+				var val = $('#imagesSelectedDir').val();
+				if(val != "/"){
+					$('#imagesUploadRenameDir').addClass('disabled');
+					$('#imagesUploadDeleteDir').addClass('disabled');
+				} else {
+					$('#imagesUploadRenameDir').removeClass('disabled');
+					$('#imagesUploadDeleteDir').removeClass('disabled');				
+				}
+				var $div = $('#tableImages');
+				var $table = $div.find('.table-values');
+				var $lines = $table.find('.table-lines');
+				if (!val) {
+					$lines.show();
+				} else {
+					$lines.find('input[data-name]').each(function () {
+						var name = $(this).data('name');
+						if (name === 'filename') {
+							$line = $(this).closest('tr');
+							if($(this).val().indexOf(val) == 0 && $(this).val().lastIndexOf("/") <= val.length) {
+								$line.show(); 
+							} else {
+								$line.hide();
+							}
+						}
+					});	
+				}
+			}
+
+			// Enhance tableImages with functions
+			function onTableImagesReady(){
+				var $div = $('#tableImages');
+				var $table = $div.find('.table-values');
+				var $lines = $table.find('.table-lines');
+				// Make Filename Readonly
+				$lines.find('input[data-name]').each(function () {
+					var name = $(this).data('name');
+					if (name === 'filename') {
+						$(this).prop('readonly', true);
+					}
+				});	
+				// Button-Functions
+				$lines.find('a[data-command]').each(function () {
+					var command = $(this).data('command');
+					// Replace photo-button with thumbnail
+					if (command === 'photo') {
+						var imageIndex = $(this).data('index');
+						$(this).replaceWith("<img src='" + link + "/" + imagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;'></img>");
+					}
+					// Rename file
+					if (command === 'edit') {
+						$(this).on('click', function () {
+							var index = $(this).data('index');
+							var newName = prompt(_("Change filename"), images[index].filename);
+							if(newName && newName != images[index].filename){
+								renameFile(imagePath + images[index].filename, imagePath + newName, function(){
+									getImages(function(){  
+										values2table('tableImages', images, onChange, onTableImagesReady); 
+										var dummy = $('#imagesSelectedDir').val();
+										imagesSelectedDirFillSelectbox(); 
+										$('#imagesSelectedDir').val(dummy).trigger('change');
+										$('select').select();
+									});
+								});
+							}
+						});
+					}
+					// Delete
+					if (command === 'delete_forever') {
+						$(this).find('i').addClass('red').html('delete_forever');
+						$(this).on('click', function (e) {
+							var index = $(this).data('index');
+							if(confirm(_("Delete file on server?"))){
+								deleteFile(imagePath + images[index].filename, function(){
+									getImages(function(){  
+										values2table('tableImages', images, onChange, onTableImagesReady); 
+										var dummy = $('#imagesSelectedDir').val();
+										imagesSelectedDirFillSelectbox(); 
+										$('#imagesSelectedDir').val(dummy).trigger('change');
+										$('select').select();
+									});
+								});
+							}
+						});
+					}
+				});
+				imagesSelectedDirFilterList();				
+			}
+			// Create Dir
+			$('#imagesUploadCreateDir').on('click', function(){
+				var newName = prompt(_("Create Directory"), "New Folder");
+				if(newName != ""){
+					createDir(imagePath + $('#imagesSelectedDir').val() + "/" + newName, function(){
+						getImages(function(){  
+							values2table('tableImages', images, onChange, onTableImagesReady); 
+							var dummy = $('#imagesSelectedDir').val();
+							imagesSelectedDirFillSelectbox(); 
+							$('#imagesSelectedDir').val(dummy).trigger('change');
+							$('select').select();
+						});
+					});
+				}				
+			});
+			// Rename Dir
+			$('#imagesUploadRenameDir').on('click', function () {
+				var newName = prompt(_("Change Directory Name"), $('#imagesSelectedDir').val());
+				if (newName.indexOf('/') != 0) newName = "/" + newName;
+				if(newName && newName != $('#imagesSelectedDir').val()){
+					renameFile(imagePath + $('#imagesSelectedDir').val(), imagePath + newName, function(){
+						getImages(function(){  
+							values2table('tableImages', images, onChange, onTableImagesReady); 
+							var dummy = $('#imagesSelectedDir').val();
+							imagesSelectedDirFillSelectbox(); 
+							$('#imagesSelectedDir').val(dummy).trigger('change');
+							$('select').select();
+						});
+					});
+				}
+			});
+			// Delete Dir
+			$('#imagesUploadDeleteDir').on('click', function () {
+				if(confirm(_("Delete directory an all its content on server?"))){
+					deleteFile(imagePath + $('#imagesSelectedDir').val(), function(){
+						getImages(function(){  
+							values2table('tableImages', images, onChange, onTableImagesReady); 
+							var dummy = $('#imagesSelectedDir').val();
+							imagesSelectedDirFillSelectbox(); 
+							$('#imagesSelectedDir').val(dummy).trigger('change');
+							$('select').select();
+						});
+					});
+				}
+			});
+
+			
+		} <!-- End load -->
+
+		// ++++++++++ SAVE ++++++++++
 		// This will be called by the admin adapter when the user presses the save button
 		function save(callback) {
 			// example: select elements with class=value and build settings object
@@ -86,16 +629,18 @@
 				}
 			});
 			// Get edited tables
-			obj.toolbar = table2values('toolbar');
-			obj.views = table2values('views');
+			obj.toolbar = toolbar;
+			obj.views = views;
 			callback(obj);
 		}
 	</script>
-
+	<style>
+		.modal { max-height:90% !important; max-width:95% !important; width:80% !important; overflow: visible !important;}
+	</style>
 </head>
 
 <body>
-
+	<!-- ++++++++++ TABS ++++++++++ -->
 	<div class="m adapter-container">
 		<div class="row">
 			<div class="col s12 m4 l2">
@@ -105,52 +650,45 @@
 
 		<div class="row">
 			<div class="col s12">
-				<ul class="tabs">
-					<li class="tab col s4"><a href="#tab-main" class="translate active">Main settings</a></li>
-					<li class="tab col s4"><a href="#tab-toolbar" class="translate">Toolbar</a></li>
-					<li class="tab col s4"><a href="#tab-views" class="translate">Views</a></li>
+				<ul class="tabs hideOnLoad" id='iQontrolTabs'>
+					<li class="tab col s2"><a href="#tabMain" class="translate active">Start</a></li>
+					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
+					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
+					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
+					<li class="tab col s2"><a href="#tabImages" class="translate">Images</a></li>
 				</ul>
 			</div>
 
-			<div id="tab-main"    class="col s12 page">
+			<!-- ++++++++++ TAB: Main ++++++++++ -->
+			<div id="tabMain"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Main settings</h6>
+						<h6 class="translate sub-title">Start</h6>
 					</div>
 				</div>
-				<div class="row">
-					<div class="input-field col s4">
-						<input type="text" id="port" class="value"/>
-						<label for="port">Port</label>
-						<span class="translate">http://ip:port</span>
+				<div class="row showOnLoad">
+					<div class="col s12">
+						<p>Loading settings...</p>
 					</div>
 				</div>
-				<!--div class="row">
+				<div class="row hideOnLoad">
 					<div class="col s12">
-						<h6 class="translate sub-title">import/export</h6>
+						<p>Start setting up your interface.</p>
 					</div>
-					<div class="row">
-					<div class="col s12">
-					<div class="col s6">
-						<button style="display: inline-block; margin-left: 10px;">Import</button>
-					</div>
-					<div class="col s6">
-						<button style="display: inline-block; margin-left: 10px;">Export</button>
-					</div>
-				</div-->
+				</div>
 			</div>
 			
-			
-			<div id="tab-toolbar"    class="col s12 page">
+			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->			
+			<div id="tabToolbar"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Toolbar</h6>
 					</div>
 				</div>
-				<div class="col s12" id="toolbar">
+				<div class="col s12" id="tableToolbar">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
-							<button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small">
+							<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
 								<i class=" material-icons">add</i>
 							</button>
 						</div>
@@ -159,12 +697,10 @@
 						<table class="table-values" style="width: 90%;">
 							<thead>
 								<tr>
-									<th data-name="_Index"    	style="width: 40px"  class="translate"></th>
-									<th data-name="ToolbarCommonName"   style="width: 200px" class="translate">Name</th>
-									<th data-name="ToolbarNativeViewIdx" style="width: 200px" class="translate">Linked Viewx</th>
-									<th data-name="ToolbarNativeViewId" data-type="select" style="width: 200px" class="translate">Linked View</th>
-									<th data-name="ToolbarCommonIcon" 	style="width: 200px" class="translate">Icon</th>
-									<th data-buttons="delete up down"   style="width: 40px"></th>
+									<th data-name="commonName" class="translate">Name</th>
+									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
+									<!--th data-name="commonIcon" class="translate">Icon</th-->
+									<th data-buttons="up down delete"></th>
 								</tr>
 							</thead>
 						</table>
@@ -172,17 +708,17 @@
 				</div>
 			</div>
 			
-			
-			<div id="tab-views"    class="col s12 page">
+			<!-- ++++++++++ TAB: Views ++++++++++ -->			
+			<div id="tabViews"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Views</h6>
 					</div>
 				</div>
-				<div class="col s12" id="views">
+				<div class="col s12" id="tableViews">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
-							<button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small">
+							<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
 								<i class=" material-icons">add</i>
 							</button>
 						</div>
@@ -191,18 +727,220 @@
 						<table class="table-values" style="width: 90%;">
 							<thead>
 								<tr>
-									<th data-name="_Index"    		style="width: 40px"  class="translate"></th>
-									<th data-name="View_CommonName" 	style="width: 200px" class="translate">Name</th>
-									<th data-name="View_Background"     style="width: 200px" class="translate">Background	</th>
-									<th data-buttons="delete up down edit"   style="width: 40px"></th>
+									<th data-name="commonName" class="translate">Name</th>
+									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
+									<th data-buttons="up down delete"></th>
 								</tr>
 							</thead>
 						</table>
 					</div>
 				</div>
 			</div>			
+
+			<!-- ++++++++++ TAB: Devices ++++++++++ -->			
+			<div id="tabDevices"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select View to edit</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s10 m6 l4">
+						<select class="value" id="devicesSelectedView">
+						</select>
+						<label for="devicesSelectedView" class="translate"></label>
+						<span class="translate">View to edit</span>
+					</div>
+				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s12">
+						<h6 class="translate sub-title">Devices of selected View</h6>
+					</div>
+				</div>
+				<div class="col s12 divDevices" id="tableDevices">
+					<div class="row">
+						<div class="col s2 m1 l1 center">
+							<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class=" material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead> 
+								<tr>
+									<th data-name="commonName" class="translate">Name</th>
+									<th data-name="nativeHeading" class="translate">Heading</th>
+									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
+									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
+									<th data-buttons="edit up down delete"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Images ++++++++++ -->			
+			<div id="tabImages"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Images</h6>
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col s8 m6">
+						<form id="imagesUploadFileForm">
+							<label>Select file to upload</label>
+							<div class = "file-field input-field">
+								<div class = "btn-small waves-effect waves-light">
+									<span>Browse</span>
+									<input type = "file" accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
+								</div>
+								<div class = "file-path-wrapper">
+									<input class = "file-path validate" type = "text" placeholder = "Drop file here" />
+								</div>
+							</div>  
+						</form>
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col s12">
+						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i>Upload file here</a>
+						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i>Create Directory</a>
+						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i>Rename Directory</a>
+						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i>Delete Directory</a>
+						<br><br>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" id="imagesSelectedDir">
+						</select>
+						<label for="imagesSelectedDir" class="translate"></label>
+						<span class="translate">Actual Directory</span>
+					</div>
+				</div>
+				<div class="col s12" id="tableImages">
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead> 
+								<tr>
+									<th data-buttons="photo" class="translate">Thumbnail</th>
+									<th data-name="filename" class="translate">Filename</th>
+									<th data-buttons="edit delete_forever"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<p>The free builtin demo-wallpapers are from www.pexels.com</p>
+				</div>
+			</div>			
 		</div>
 	</div>
+
+	<!-- ++++++++++ DIALOGS ++++++++++ -->
+    <div class="m material-dialogs">
+		<!-- Dialog: CopyDevice  -->
+        <div id="dialogCopyDevice" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Copy Device:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select Existing Device</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" name='dialogCopyDeviceSelectedView' id='dialogCopyDeviceSelectedView'></select>
+						<label for='dialogCopyDeviceSelectedView' class="translate"></label>
+						<span class="translate">View</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" name='dialogCopyDeviceSelectedDevice' id='dialogCopyDeviceSelectedDevice'></select>
+						<label for='dialogCopyDeviceSelectedDevice' class="translate"></label>
+						<span class="translate">Device</span>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- Dialog: Edit Device States  -->
+        <div id="dialogEditDevice" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogEditDeviceViewIndex" />
+                <input type="hidden" id="dialogEditDeviceDeviceIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Device:</span> <span id="dialogEditDeviceCommonName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select Role</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" name='dialogEditDeviceCommonRole' id='dialogEditDeviceCommonRole'></select>
+						<label for='dialogEditDeviceCommonRole' class="translate"></label>
+						<span class="translate">Role</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Set Corresponding States</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogEditDeviceStates">
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead> 
+								<tr>
+									<th data-name="state" class="translate">State</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- Dialog: SelectID -->
+        <div id="dialogSelectId" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 title"></div>
+                </div>
+                <div class="row">
+                    <div class="col s12 dialog-content">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Select</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
