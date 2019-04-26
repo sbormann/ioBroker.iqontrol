@@ -11,6 +11,7 @@ const utils = require("@iobroker/adapter-core");
 // Load your modules here, e.g.:
 // const fs = require("fs");
 var createdObjects = [];
+var udef = 'undefined';
 
 		
 class Iqontrol extends utils.Adapter {
@@ -64,6 +65,7 @@ class Iqontrol extends utils.Adapter {
 		this.log.debug("createViews(" + index + ")");
 		if(typeof this.config.views != 'undefined' && index < this.config.views.length){
 			var objName = this.config.views[index].commonName;
+			var nativeBackgroundImage = this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/") || "";
 			var obj = {
 				"type": "device",
 				"common": {
@@ -74,7 +76,7 @@ class Iqontrol extends utils.Adapter {
 				},
 				"native": {
 					"sortPrefix": index.toString(),
-					"backgroundImage": this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/")
+					"backgroundImage": (typeof this.config.views[index].nativeBackgroundImage != udef && this.config.views[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 				}
 			};
 			await this.createDevices(index);
@@ -96,14 +98,14 @@ class Iqontrol extends utils.Adapter {
 				"common": {
 					"name": objName,
 					"desc": "created by iQontrol",
-					"role": this.config.views[viewIndex].devices[index].commonRole,
+					"role": (typeof this.config.views[viewIndex].devices[index].commonRole != udef && this.config.views[viewIndex].devices[index].commonRole || ""),
 					"icon": ""
 				},
 				"native": {
 					"sortPrefix": index.toString(),
-					"heading": this.config.views[viewIndex].devices[index].nativeHeading,
-					"linkedView": this.namespace + ".Views." + this.config.views[viewIndex].devices[index].nativeLinkedView,
-					"backgroundImage": this.config.views[viewIndex].devices[index].nativeBackgroundImage.replace(/\\/g, "/")
+					"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
+					"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && (this.namespace + ".Views." + this.config.views[viewIndex].devices[index].nativeLinkedView) || ""),
+					"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 				}
 			};
 			await this.createStates(viewIndex, index);
