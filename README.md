@@ -17,8 +17,8 @@ Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sborman
 
 Fast Web-App for Visualization.
 
-![Example](img/screenshot1.png)
-![Example](img/screenshot2.png)
+![Example](img/screenshot1.jpg)
+![Example](img/screenshot2.jpg)
 
 Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
