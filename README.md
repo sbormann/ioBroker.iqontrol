@@ -28,7 +28,7 @@ It´s fully customizable.
 This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
 However there are a few limitations:
 - Uploading images (as background-images or for skinning device-buttons) works, but renaming and deleting does not work
-- Creating and deleting sub-directories is also not working
+- Creating and deleting sub-directories is also not working.
 You can do these operations manually via ftp under iobroker/iobroker-data/files/iqontrol/userimages
 
 Please feel free to comment and let me know, how to fix these issues!
