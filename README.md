@@ -36,6 +36,9 @@ Please feel free to comment and let me know, how to fix these issues!
 
 ## Changelog
 
+### 0.0.3
+* (Sebastian Bormann) various bugfixes
+
 ### 0.0.2
 * (Sebastian Bormann) first partly running version
 
