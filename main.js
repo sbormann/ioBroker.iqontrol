@@ -48,7 +48,7 @@ class Iqontrol extends utils.Adapter {
 					"icon": ""
 				},
 				"native": {
-					"sortPrefix": index.toString(),
+					"sortPrefix": ('000' + index).slice(-4),
 					"linkedView": this.namespace + ".Views." + this.config.toolbar[index].nativeLinkedView
 				}
 			};
@@ -75,7 +75,7 @@ class Iqontrol extends utils.Adapter {
 					"icon": ""
 				},
 				"native": {
-					"sortPrefix": index.toString(),
+					"sortPrefix": ('000' + index).slice(-4),
 					"backgroundImage": (typeof this.config.views[index].nativeBackgroundImage != udef && this.config.views[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 				}
 			};
@@ -102,7 +102,7 @@ class Iqontrol extends utils.Adapter {
 					"icon": ""
 				},
 				"native": {
-					"sortPrefix": index.toString(),
+					"sortPrefix": ('000' + index).slice(-4),
 					"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
 					"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && (this.namespace + ".Views." + this.config.views[viewIndex].devices[index].nativeLinkedView) || ""),
 					"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
