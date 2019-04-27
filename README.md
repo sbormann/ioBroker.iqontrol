@@ -36,6 +36,10 @@ Please feel free to comment and let me know, how to fix these issues!
 
 ## Changelog
 
+### 0.0.4
+* (Sebastian Bormann) Bugfix: copy device created just a reference to old object
+* (Sebastian Bormann) Addes Toolbar-Icons
+
 ### 0.0.3
 * (Sebastian Bormann) various bugfixes
 

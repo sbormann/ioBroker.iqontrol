@@ -151,7 +151,7 @@
 				if (result) {
 					link = location.protocol + "//" + location.hostname + ":" + result[0].native.port + "/iqontrol";
 					console.log("Got Link: " + link);
-					$('#mainLink').attr('href', link + "/index.html");
+					$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
 
 					//Get images
 					console.log("getImages");
@@ -273,6 +273,7 @@
 				//Button-Functions
 				$lines.find('a[data-command]').each(function () {
 					var command = $(this).data('command');
+					//Edit Device
 					if (command === 'edit') {
 						$(this).on('click', function () {
 							var viewIndex = devicesSelectedView;
@@ -283,6 +284,7 @@
 								views[viewIndex].devices[deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
 								views[viewIndex].devices[deviceIndex].states = dialogDeviceEditStatesTable;
 							});
+							$('#dialogDeviceEditCommonName').html(views[viewIndex].devices[deviceIndex].commonName || "");
 							$('#dialogDeviceEditViewIndex').val(viewIndex);
 							$('#dialogDeviceEditDeviceIndex').val(deviceIndex);
 							dialogDeviceEditStates = views[viewIndex].devices[deviceIndex].states || [];
@@ -622,7 +624,7 @@
 				initDialog('dialogDeviceCopyFrom', function(){ //save dialog
 					var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 					var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
-					views[$('#devicesSelectedView').val()].devices.push(views[sourceView].devices[sourceDevice]);
+					var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference 
 					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
 				});
 				$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>Select view</option>");
@@ -925,6 +927,7 @@
 	<style>
 		.modal { max-height:85% !important; max-width:95% !important; width:80% !important; height:80% !important; overflow: visible !important;}
 		.dialog-select-container {max-height: 90% !important;}
+		.m .page {height: auto !important;}
 	</style>
 </head>
 
@@ -1011,7 +1014,7 @@
 								<tr>
 									<th data-name="commonName" class="translate">Name</th>
 									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
-									<!--th data-name="commonIcon" class="translate">Icon</th-->
+									<th data-name="nativeIcon" data-type="select" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
 									<th data-buttons="up down delete"></th>
 								</tr>
 							</thead>
@@ -1240,6 +1243,7 @@
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Preview:</h6>
+						<p>This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.</p>
 					</div>
 				</div>
 				<div class="row">

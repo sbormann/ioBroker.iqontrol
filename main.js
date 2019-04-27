@@ -49,7 +49,8 @@ class Iqontrol extends utils.Adapter {
 				},
 				"native": {
 					"sortPrefix": ('000' + index).slice(-4),
-					"linkedView": this.namespace + ".Views." + this.config.toolbar[index].nativeLinkedView
+					"linkedView": this.namespace + ".Views." + this.config.toolbar[index].nativeLinkedView,
+					"icon": (typeof this.config.toolbar[index].nativeIcon != udef && this.config.toolbar[index].nativeIcon || "")
 				}
 			};
 			this.log.debug(">>>createToolbar " + index + ": " + objName);

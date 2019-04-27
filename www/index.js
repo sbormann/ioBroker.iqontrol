@@ -475,7 +475,7 @@ function renderToolbar(){
 		for (var i = 0; i < toolbarSorted.length; i++){
 			var id = toolbarSorted[i][1];
 			toolbarLinksToOtherViews.push(usedObjects[id].native.linkedView);
-			toolbarContent += "<li><a href='#View' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
+			toolbarContent += "<li><a href='#View' data-icon='" + (usedObjects[id].native.icon || "") + "' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
 		}
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
