@@ -143,8 +143,8 @@
 			});
 
 			//Get Subsettings
-			toolbar = settings.toolbar || [];
-			views = settings.views || [];
+			toolbar = settings.toolbar || settings.demotoolbar || [];
+			views = settings.views || settings.demoviews || [];
 
 			//Set initial values of further variables
 			images = [];
@@ -273,7 +273,9 @@
 						var index = $(this).data('index');
 						$(this).addClass('icons');
 						$(this).find('option').each(function() {
-							$(this).data('icon', imagePath + images[index].filename);
+							var icon = $(this).val().replace(/\\/g, "/").substring(1) || "";
+							if (icon != "") $(this).attr('data-icon', link + icon);
+							$(this).addClass('left');
 						});
 					}
 				});
@@ -328,6 +330,20 @@
 						});
 					}
 				});
+				//Add Thumbs to SelectBox
+				$lines.find('select[data-name]').each(function() {
+					var name = $(this).data('name');
+					if (name === 'nativeBackgroundImage') {
+						var index = $(this).data('index');
+						$(this).addClass('icons');
+						$(this).find('option').each(function() {
+							var icon = $(this).val().replace(/\\/g, "/").substring(1) || "";
+							if (icon != "") $(this).attr('data-icon', link + icon);
+							$(this).addClass('left');
+						});
+					}
+				});
+				$('select').select();
 			}
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
@@ -984,6 +1000,8 @@
 		.modal { max-height:85% !important; max-width:95% !important; width:80% !important; height:80% !important; overflow: visible !important;}
 		.dialog-select-container {max-height: 90% !important;}
 		.m .page {height: auto !important; min-height:75% !important;}
+		#tableViews .dropdown-content {width: auto !important;}
+		#tableDevices .dropdown-content {width: auto !important;}
 	</style>
 </head>
 
@@ -1070,7 +1088,7 @@
 								<tr>
 									<th data-name="commonName" class="translate">Name</th>
 									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
-									<th data-buttons="up down delete"></th>
+									<th data-buttons="up down delete" style="width:150px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -1125,7 +1143,7 @@
 									<th data-name="nativeHeading" class="translate">Heading</th>
 									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
-									<th data-buttons="edit up down delete"></th>
+									<th data-buttons="edit up down delete" style="width:150px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -1156,7 +1174,7 @@
 										<th data-name="commonName" class="translate">Name</th>
 										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 										<th data-name="nativeIcon" data-type="select" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
-										<th data-buttons="up down delete"></th>
+										<th data-buttons="up down delete" style="width:150px;"></th>
 									</tr>
 								</thead>
 							</table>
@@ -1224,7 +1242,7 @@
 								<tr>
 									<th data-buttons="photo" class="translate">Thumbnail</th>
 									<th data-name="filename" class="translate">Filename</th>
-									<th data-buttons="edit delete_forever"></th>
+									<th data-buttons="edit delete_forever" style="width:150px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -1270,7 +1288,7 @@
 								<tr>
 									<th data-name="state" class="translate">State</th>
 									<th data-name="value" class="translate">Value</th>
-									<th data-buttons="edit"></th>
+									<th data-buttons="edit" style="width:150px;"></th>
 								</tr>
 							</thead>
 						</table>

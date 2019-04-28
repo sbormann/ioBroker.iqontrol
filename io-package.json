@@ -1,19 +1,22 @@
 {
 	"common": {
 		"name": "iqontrol",
-		"version": "0.0.7",
+		"version": "0.0.8",
 		"news": {
+			"0.0.8": {
+				"en": "Added icons to image selectboxes."
+			},
 			"0.0.7": {
 				"en": "Changed order of tabs. Shelly added to autocreate."
 			},
 			"0.0.6": {
-				"en": "Improved speed of select id and autocreate, set filter to channel on autocreate"
+				"en": "Improved speed of select id and autocreate, set filter to channel on autocreate."
 			},
 			"0.0.5": {
-				"en": "Bugfix: creation of many devices schould work now"
+				"en": "Bugfix: creation of many devices schould work now."
 			},
 			"0.0.4": {
-				"en": "Bugfix: copy device created just a reference to old object, added Toolbar icons"
+				"en": "Bugfix: copy device created just a reference to old object, added Toolbar icons."
 			},
 			"0.0.3": {
 				"en": "initial release",
@@ -75,7 +78,7 @@
 		"type": "visualization",
         "highlight": true,
 		"compact": true,
-        "singleton": true,
+        "singleton": false,
 		"materialize": true,
 		"materializeTab": true,
 		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
@@ -111,6 +114,444 @@
 		]
 	},
 	"native": {
+		"demotoolbar": [
+		  {
+			"commonName": "Home",
+			"nativeLinkedView": "Home",
+			"nativeIcon": "home"
+		  },
+		  {
+			"commonName": "Rooms",
+			"nativeLinkedView": "Rooms",
+			"nativeIcon": "grid"
+		  },
+		  {
+			"commonName": "Functions",
+			"nativeLinkedView": "Functions",
+			"nativeIcon": "gear"
+		  }
+		],
+		"demoviews": [
+		  {
+			"commonName": "Home",
+			"nativeBackgroundImage": ".\\userimages\\demo\\4k-wallpaper-architektur-backstein-1308624.jpg",
+			"devices": [
+			  {
+				"commonName": "ioBroker uptime",
+				"nativeHeading": "ioBroker",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+				"commonRole": "iQontrolValue",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": "system.adapter.admin.0.uptime"
+				  },
+				  {
+					"state": "LEVEL",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Rooms",
+			"nativeBackgroundImage": ".\\userimages\\demo\\farbe-flora-gras-1275415.jpg",
+			"devices": [
+			  {
+				"commonName": "Living Room",
+				"nativeHeading": "1st floor",
+				"nativeLinkedView": "Living-Room",
+				"nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+				"commonRole": "iQontrolView",
+				"states": [
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "Kitchen",
+				"nativeHeading": "2nd floor",
+				"nativeLinkedView": "Kitchen",
+				"nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+				"commonRole": "iQontrolView",
+				"states": [
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Functions",
+			"nativeBackgroundImage": ".\\userimages\\demo\\abbildung-attraktiv-dekor-990824.jpg",
+			"devices": [
+			  {
+				"commonName": "Lights",
+				"nativeHeading": "",
+				"nativeLinkedView": "Lights",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolView",
+				"states": [
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "Climate-Control",
+				"nativeHeading": "",
+				"nativeLinkedView": "Climate-Control",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolView",
+				"states": [
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Living-Room",
+			"nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+			"devices": [
+			  {
+				"commonName": "Light",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolLight",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "LEVEL",
+					"value": ""
+				  },
+				  {
+					"state": "HUE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "Heater",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolThermostat",
+				"states": [
+				  {
+					"state": "SET_TEMPERATURE",
+					"value": ""
+				  },
+				  {
+					"state": "TEMPERATURE",
+					"value": ""
+				  },
+				  {
+					"state": "HUMIDITY",
+					"value": ""
+				  },
+				  {
+					"state": "CONTROL_MODE",
+					"value": ""
+				  },
+				  {
+					"state": "VALVE_STATES",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "TV",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolSwitch",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Kitchen",
+			"nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+			"devices": [
+			  {
+				"commonName": "Fan",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolFan",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "Light",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolLight",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "LEVEL",
+					"value": ""
+				  },
+				  {
+					"state": "HUE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Lights",
+			"nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+			"devices": [
+			  {
+				"commonName": "Living Room",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolLight",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "LEVEL",
+					"value": ""
+				  },
+				  {
+					"state": "HUE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  },
+			  {
+				"commonName": "Kitchen",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolLight",
+				"states": [
+				  {
+					"state": "STATE",
+					"value": ""
+				  },
+				  {
+					"state": "LEVEL",
+					"value": ""
+				  },
+				  {
+					"state": "HUE",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  },
+		  {
+			"commonName": "Climate-Control",
+			"nativeBackgroundImage": ".\\userimages\\demo\\bau-boden-dekorativ-131634.jpg",
+			"devices": [
+			  {
+				"commonName": "Living Room",
+				"nativeHeading": "",
+				"nativeLinkedView": "",
+				"nativeBackgroundImage": "",
+				"commonRole": "iQontrolThermostat",
+				"states": [
+				  {
+					"state": "SET_TEMPERATURE",
+					"value": ""
+				  },
+				  {
+					"state": "TEMPERATURE",
+					"value": ""
+				  },
+				  {
+					"state": "HUMIDITY",
+					"value": ""
+				  },
+				  {
+					"state": "CONTROL_MODE",
+					"value": ""
+				  },
+				  {
+					"state": "VALVE_STATES",
+					"value": ""
+				  },
+				  {
+					"state": "BATTERY",
+					"value": ""
+				  },
+				  {
+					"state": "UNREACH",
+					"value": ""
+				  },
+				  {
+					"state": "ERROR",
+					"value": ""
+				  }
+				]
+			  }
+			]
+		  }
+		]
 	},
 	"objects": [],
 	"instanceObjects": []

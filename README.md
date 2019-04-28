@@ -53,6 +53,9 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 ## Changelog
 
+### 0.0.8
+* (Sebastian Bormann) Added icons to image selectboxes.
+
 ### 0.0.7
 * (Sebastian Bormann) Changed order of tabs
 * (Sebastian Bormann) Autocreate for shelly should work now (i hope so, can't test it here)
