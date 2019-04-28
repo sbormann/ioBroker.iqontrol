@@ -53,6 +53,10 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 ## Changelog
 
+### 0.0.6
+* (Sebastian Bormann) Improved speed of select id and autocreate
+* (Sebastian Bormann) Set filter to channel on autocreate
+
 ### 0.0.5
 * (Sebastian Bormann) Bugfix: creation of many devices schould work now
 

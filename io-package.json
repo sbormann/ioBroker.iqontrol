@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "iqontrol",
-		"version": "0.0.5",
+		"version": "0.0.6",
 		"news": {
+			"0.0.6": {
+				"en": "Improved speed of select id and autocreate, set filter to channel on autocreate"
+			},
 			"0.0.5": {
 				"en": "Bugfix: creation of many devices schould work now"
 			},

@@ -96,12 +96,22 @@
 				},
 				columns: ['image', 'name', 'role', 'room']
 			};
-			socket.emit('getObjects', function (err, objs) {
-				options.objects = objs;
+			var toDo = function(){
+				options.objects = iobrokerObjects;
 				selectId = $('#dialogSelectId').selectId('init', options);
-				callback(selectId);
-			});
+				callback(selectId);				
+			}
+			if (iobrokerObjectsReady) {
+				toDo();
+			} else {
+				iobrokerObjectsReadyFunctions.push(toDo);
+			}
 		}
+		
+		var iobrokerObjects;
+		var iobrokerObjectsReady = false;
+		var iobrokerObjectsReadyFunctions = [];
+		
 
 		/************** LOAD ************** 
 		*** This will be called by the admin adapter when the settings page loads 
@@ -166,6 +176,16 @@
 
 						//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 						if (M) M.updateTextFields();
+						
+						//Get iobrokerObjects
+						socket.emit('getObjects', function (err, objs) {
+							iobrokerObjects = objs;
+							iobrokerObjectsReady = true;
+							for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+								if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+							}
+							iobrokerObjectsReadyFunctions = [];
+						});						
 					});
 				}
 			});
@@ -379,6 +399,7 @@
 					$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
 				}
 				$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
+				$('#dialogDeviceAutocreatePreviewStates').html('');
 				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
 				$('#dialogDeviceAutocreate').modal('open');
 			});
@@ -389,12 +410,25 @@
 				} else {
 					$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
 				}
+				var toDo = function(){
+					if(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()]){
+						$('#dialogDeviceAutocreateSourceIdCommonName').html(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()].common.name);
+					} else {
+						$('#dialogDeviceAutocreateSourceIdCommonName').html("");
+					}
+				}
+				if(iobrokerObjectsReady) {
+					toDo(); 
+				} else { 
+					iobrokerObjectsReadyFunctions.push(toDo);
+				}
 				$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
+				$('#dialogDeviceAutocreatePreviewStates').html('');
 				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
 			});
 			$('#dialogDeviceAutocreateSourceIdSelectIdButton').on('click', function(){
 				initSelectId(function (sid) {
-					sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'device'}, function (newId) {
+					sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'channel'}, function (newId) {
 						if (newId) {
 							$('#dialogDeviceAutocreateSourceId').val(newId).trigger('change');
 							if (M) M.updateTextFields();
@@ -408,18 +442,25 @@
 				$('#dialogDeviceAutocreateSourceIdSelectIdButton').addClass('disabled');
 				$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
 				$('#dialogDeviceAutocreatePreview').html(_('Please wait...'));
+				$('#dialogDeviceAutocreatePreviewStates').html('');
 				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
-				socket.emit('getObjects', function (err, objects) {
-					var id = $('#dialogDeviceAutocreateSourceId').val();
-					var result = deviceAutocreate(id, objects);
+				var toDo = function(){
+					var sourceId = $('#dialogDeviceAutocreateSourceId').val();
+					var result = deviceAutocreate(sourceId, iobrokerObjects);
 					$('#dialogDeviceAutocreatePreview').html(result.resultText);
+					$('#dialogDeviceAutocreatePreviewStates').html(result.resultStatesText);
 					$('#dialogDeviceAutocreateSourceId').removeClass('disabled');
 					$('#dialogDeviceAutocreateSourceIdSelectIdButton').removeClass('disabled');
 					if (result.resultValid){
 						dialogDeviceAutocreateResult = result.resultObject;
 						$('#dialogDeviceAutocreate a.btn-set').removeClass('disabled')
 					}
-				});
+				}
+				if (iobrokerObjectsReady) {
+					toDo();
+				} else {
+					iobrokerObjectsReadyFunctions.push(toDo);
+				}
 			});
 			function deviceAutocreate(sourceId, objects){
 				var resultObject = {};
@@ -431,7 +472,7 @@
 					//Find out Name
 					if (typeof objects[sourceId].common.name != udef) {
 						resultObject.commonName = objects[sourceId].common.name;
-						resultText += _("Name") + ": " + objects[sourceId].common.name + "<br><br>";
+						resultText += "<u>" + _("Name") + ":</u> " + objects[sourceId].common.name + "<br><br>";
 						resultValid = true;
 					} else {
 						resultObject.commonName = _("New Device");
@@ -442,95 +483,93 @@
 					for(id in objects){
 						if(id.indexOf(sourceId) == 0 && objects[id].type == 'state') childStates.push(id);
 					}
-					childStates.sort().reverse();
+					childStates.sort().reverse(); //reverse order, so that the top channel of multi-channel-devices wins
 					//Try to match childStates
-					resultStates = [];
+					resultStatesObj = {};
 					for(i = 0; i < childStates.length; i++){
 						var id = childStates[i];
 						var stateName = id.substring(id.lastIndexOf("."), id.length);
 						switch(stateName){
 							case ".STATE":
 							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
-								resultStates.push({state: 'LOCK_STATE', value: id});
+								resultStatesObj['LOCK_STATE'] = id;
 							} else {
-								resultStates.push({state: 'STATE', value: id});
+								resultStatesObj['STATE'] = id;
 							}
 							break;
 
 							case ".LEVEL":
-							resultStates.push({state: 'LEVEL', value: id});
+							resultStatesObj['LEVEL'] = id;
 							break;
 
 							case ".HUE":
-							resultStates.push({state: 'HUE', value: id});
+							resultStatesObj['HUE'] = id;
 							break;
 
 							case ".SET_TEMPERATURE":
-							resultStates.push({state: 'SET_TEMPERATURE', value: id});
+							resultStatesObj['SET_TEMPERATURE'] = id;
 							break;
 
 							case ".HUMIDITY": case ".ACTUAL_HUMIDITY":
-							resultStates.push({state: 'HUMIDITY', value: id});
+							resultStatesObj['HUMIDITY'] = id;
 							break;
 
 							case ".TEMPERATURE": case ".ACTUAL_TEMPERATURE":
-							resultStates.push({state: 'TEMPERATURE', value: id});
+							resultStatesObj['TEMPERATURE'] = id;
 							break;
 
 							case ".CONTROL_MODE":
-							resultStates.push({state: 'CONTROL_MODE', value: id});
+							resultStatesObj['CONTROL_MODE'] = id;
 							break;
 
 							case ".PARTY_TEMPERATURE":
-							resultStates.push({state: 'PARTY_TEMPERATURE', value: id});
+							resultStatesObj['PARTY_TEMPERATURE'] = id;
 							break;
 
 							case ".STATE_UNCERTAIN":
-							resultStates.push({state: 'LOCK_STATE_UNCERTAIN', value: id});
+							resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
 							break;
 
 							case ".OPEN":
-							resultStates.push({state: 'LOCK_OPEN', value: id});
+							resultStatesObj['LOCK_OPEN'] = id;
 							break;
 
 							case ".LOWBAT":
-							resultStates.push({state: 'BATTERY', value: id});
+							resultStatesObj['BATTERY'] = id;
 							break;
 
 							case ".UNREACH":
-							resultStates.push({state: 'UNREACH', value: id});
+							resultStatesObj['UNREACH'] = id;
 							break;
 
 							case ".ERROR": case ".FAULT_REPORTING":
-							resultStates.push({state: 'ERROR', value: id});
+							resultStatesObj['ERROR'] = id;
 							break;
 						}
 					}
-
-
 					//Try to find out the role
 					//--iQontrolView
 					var role = null;
 					if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
 						role = "iQontrolView";
-						// xxxx LINKED VIEW
 					}
 					//--all the others
-					//----find out the role of sources main state
+					//----find out the role of sources main state (priority in ascending order!)
 					var sourceRole = null;
-					if((index = resultStates.findIndex(element => element.state == 'LEVEL')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} else if((index = resultStates.findIndex(element => element.state == 'LOCK_STATE')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} else if((index = resultStates.findIndex(element => element.state == 'STATE')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} else if((index = resultStates.findIndex(element => element.state == 'SET_TEMPERATURE')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} else if((index = resultStates.findIndex(element => element.state == 'HUMIDITY')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} else if((index = resultStates.findIndex(element => element.state == 'TEMPERATURE')) != -1){
-						if(typeof objects[resultStates[index].value].common.role != udef) sourceRole = objects[resultStates[index].value].common.role;
-					} 
+					if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) { 
+						sourceRole = objects[resultStatesObj['STATE']].common.role;
+						if(sourceRole == 'state') { //special - check the parent channel's role
+							var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
+							if(resultStateParent.length > 0){
+								if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+							}
+						}
+					}
+					if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
+					if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
+					if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
+					if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
+					if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
 					//----try to match this to destination role
 					switch(sourceRole){
 						case "switch": case "switch.power": case "switch.enable":
@@ -561,11 +600,11 @@
 						role = 'iQontrolDoorWithLock';
 						break;
 
-						case "state":
+						case "sensor":						
 						role = 'iQontrolWindow';
 						break;
 
-						case "---missing---":
+						case "state":
 						role = 'iQontrolValue';
 						break;
 
@@ -585,7 +624,7 @@
 					if (role) {
 						resultObject.commonRole = role;
 						if (typeof iQontrolRoles[role] != udef && typeof iQontrolRoles[role].name != udef) {
-							resultText += _("Role") + ": " + iQontrolRoles[role].name + "<br><br>";
+							resultText += "<u>" + _("Role") + ":</u> " + iQontrolRoles[role].name + "<br><br>";
 						} else {
 							resultText += _("Role") + ": " + role + "<br><br>";
 						}
@@ -594,12 +633,16 @@
 						resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
 					}
 					//Got states?
+					resultStates = [];
+					for(state in resultStatesObj){
+						resultStates.push({state: state, value: resultStatesObj[state]});
+					}		
+					var resultStatesText = "";
 					if(resultStates.length > 0 ){
-						resultText += "<u>" + _("Matched the following states:") + "</u> <br>";
+						resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
 						for(i = 0; i < resultStates.length; i++){
-							resultText += resultStates[i].state + ": " + resultStates[i].value + "<br>";
+							resultStatesText += resultStates[i].state + ": " + resultStates[i].value + "<br>";
 						}
-						resultText += "<br><br>";
 						resultObject.states = resultStates;
 						resultValid = true;
 					} else {
@@ -615,6 +658,7 @@
 				var result = {};
 				result.resultObject = resultObject;
 				result.resultText = resultText;
+				result.resultStatesText = resultStatesText;
 				result.resultValid = resultValid;
 				return result;
 			}
@@ -1238,6 +1282,7 @@
 					<div class="input-field col s10">
                         <input class="value" type="text" id="dialogDeviceAutocreateSourceId" />
                         <label for="dialogDeviceAutocreateSourceId" class="translate">ID:</label>
+						<span class="helper-text" id="dialogDeviceAutocreateSourceIdCommonName"></span>
 					</div>
                     <div class="col s1">
                         <a id="dialogDeviceAutocreateSourceIdSelectIdButton" class="btn"><i class="material-icons">edit</i><span></span></a>
@@ -1255,7 +1300,12 @@
 					</div>
 				</div>
 				<div class="row">
-					<p id="dialogDeviceAutocreatePreview" style="min-height: 300px;"></p>
+					<div class="col s6">
+						<p id="dialogDeviceAutocreatePreview" style="min-height: 300px;"></p>
+					</div>
+					<div class="col s6">
+						<p id="dialogDeviceAutocreatePreviewStates" style="min-height: 300px;"></p>
+					</div>
 				</div>
             </div>
             <div class="modal-footer">
