@@ -10,6 +10,17 @@ a {
 	-webkit-touch-callout: none !important;
 }
 
+#Toolbar{
+	border-width: 0px !important;
+}
+
+.iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn:focus{
+	background-color: #0c5088 !important;
+    border-color: #0c5088 !important;
+    text-shadow: 0 1px 0 #0c5088 !important;
+    box-shadow: 0 0 12px #0c5088 !important;
+}
+
 #View{
 	background-color: transparent;
 }

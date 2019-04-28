@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "iqontrol",
-		"version": "0.0.4",
+		"version": "0.0.5",
 		"news": {
+			"0.0.5": {
+				"en": "Bugfix: creation of many devices schould work now"
+			},
 			"0.0.4": {
 				"en": "Bugfix: copy device created just a reference to old object, added Toolbar icons"
 			},

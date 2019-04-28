@@ -36,6 +36,9 @@ Please feel free to comment and let me know, how to fix these issues!
 
 ## Changelog
 
+### 0.0.5
+* (Sebastian Bormann) Bugfix: creation of many devices schould work now
+
 ### 0.0.4
 * (Sebastian Bormann) Bugfix: copy device created just a reference to old object
 * (Sebastian Bormann) Addes Toolbar-Icons

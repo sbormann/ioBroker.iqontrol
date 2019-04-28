@@ -32,124 +32,116 @@ class Iqontrol extends utils.Adapter {
 	}
 
 	//----------------------------------------------------------------------------
-	async createToolbar(index){
-		if(typeof index == 'undefined'){
-			index = 0;
-		}
-		this.log.debug("createToolbar(" + index + ")");
-		if(typeof this.config.toolbar != 'undefined' && index < this.config.toolbar.length){
-			var objName = this.config.toolbar[index].commonName;
-			var obj = {
-				"type": "device",
-				"common": {
-					"name": objName,
-					"desc": "created by iQontrol",
-					"role": "iQontrolToolbar",
-					"icon": ""
-				},
-				"native": {
-					"sortPrefix": ('000' + index).slice(-4),
-					"linkedView": this.namespace + ".Views." + this.config.toolbar[index].nativeLinkedView,
-					"icon": (typeof this.config.toolbar[index].nativeIcon != udef && this.config.toolbar[index].nativeIcon || "")
-				}
-			};
-			this.log.debug(">>>createToolbar " + index + ": " + objName);
-			createdObjects.push("Toolbar." + objName);
-			await this.setObjectAsync("Toolbar." + objName, obj, this.createToolbar(index + 1)); //Iterating
-		}
-	}
 
-	async createViews(index){
-		if(typeof index == 'undefined'){
-			index = 0;
-		}
-		this.log.debug("createViews(" + index + ")");
-		if(typeof this.config.views != 'undefined' && index < this.config.views.length){
-			var objName = this.config.views[index].commonName;
-			var nativeBackgroundImage = this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/") || "";
-			var obj = {
-				"type": "device",
-				"common": {
-					"name": objName,
-					"desc": "created by iQontrol",
-					"role": "iQontrolView",
-					"icon": ""
-				},
-				"native": {
-					"sortPrefix": ('000' + index).slice(-4),
-					"backgroundImage": (typeof this.config.views[index].nativeBackgroundImage != udef && this.config.views[index].nativeBackgroundImage || "").replace(/\\/g, "/")
-				}
-			};
-			await this.createDevices(index);
-			this.log.debug(">>>createView " + index + ": " + objName);
-			createdObjects.push("Views." + objName);
-			await this.setObjectAsync("Views." + objName, obj, this.createViews(index + 1)); //Iterating
+	async logbook(entry){
+		this.log.debug(entry)
+	}
+	
+	async createToolbar(){
+		if(typeof this.config.toolbar != 'undefined'){
+			for(var index = 0; index < this.config.toolbar.length; index++){
+				var objName = this.config.toolbar[index].commonName;
+				var obj = {
+					"type": "device",
+					"common": {
+						"name": objName,
+						"desc": "created by iQontrol",
+						"role": "iQontrolToolbar",
+						"icon": ""
+					},
+					"native": {
+						"sortPrefix": ('000' + index).slice(-4),
+						"linkedView": this.namespace + ".Views." + this.config.toolbar[index].nativeLinkedView,
+						"icon": (typeof this.config.toolbar[index].nativeIcon != udef && this.config.toolbar[index].nativeIcon || "")
+					}
+				};
+				this.log.debug(">>>createToolbar " + index + ": " + objName);
+				createdObjects.push("Toolbar." + objName);
+				this.setObjectAsync("Toolbar." + objName, obj, this.logbook("created: Toolbar." + objName));
+			}
 		}
 	}
 	
-	async createDevices(viewIndex, index){
-		if(typeof index == 'undefined'){
-			index = 0;
+	async createViews(){
+		if(typeof this.config.views != 'undefined'){
+			for(var index = 0; index < this.config.views.length; index++){
+				var objName = this.config.views[index].commonName;
+				var nativeBackgroundImage = this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/") || "";
+				var obj = {
+					"type": "device",
+					"common": {
+						"name": objName,
+						"desc": "created by iQontrol",
+						"role": "iQontrolView",
+						"icon": ""
+					},
+					"native": {
+						"sortPrefix": ('000' + index).slice(-4),
+						"backgroundImage": (typeof this.config.views[index].nativeBackgroundImage != udef && this.config.views[index].nativeBackgroundImage || "").replace(/\\/g, "/")
+					}
+				};
+				this.createDevices(index);
+				createdObjects.push("Views." + objName);
+				this.setObjectAsync("Views." + objName, obj, this.logbook("created: Views." + objName));
+			}
 		}
-		this.log.debug("createDevices(" + viewIndex + ", " + index + ")");
-		if(typeof this.config.views[viewIndex].devices != 'undefined' && index < this.config.views[viewIndex].devices.length){
-			var objName = this.config.views[viewIndex].devices[index].commonName;
-			var obj = {
-				"type": "channel",
-				"common": {
-					"name": objName,
-					"desc": "created by iQontrol",
-					"role": (typeof this.config.views[viewIndex].devices[index].commonRole != udef && this.config.views[viewIndex].devices[index].commonRole || ""),
-					"icon": ""
-				},
-				"native": {
-					"sortPrefix": ('000' + index).slice(-4),
-					"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
-					"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && (this.namespace + ".Views." + this.config.views[viewIndex].devices[index].nativeLinkedView) || ""),
-					"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
-				}
-			};
-			await this.createStates(viewIndex, index);
-			this.log.debug(">>>>>>createDevice " + viewIndex + ", " + index + ": " + objName);
-			createdObjects.push("Views." + this.config.views[viewIndex].commonName + "." + objName);
-			await this.setObjectAsync("Views." + this.config.views[viewIndex].commonName + "." + objName, obj, this.createDevices(viewIndex, index + 1)); //Iterating
+	}
+	
+	async createDevices(viewIndex){
+		if(typeof this.config.views[viewIndex].devices != 'undefined'){
+			for(var index = 0; index < this.config.views[viewIndex].devices.length; index++){
+				var objName = this.config.views[viewIndex].devices[index].commonName;
+				var obj = {
+					"type": "channel",
+					"common": {
+						"name": objName,
+						"desc": "created by iQontrol",
+						"role": (typeof this.config.views[viewIndex].devices[index].commonRole != udef && this.config.views[viewIndex].devices[index].commonRole || ""),
+						"icon": ""
+					},
+					"native": {
+						"sortPrefix": ('000' + index).slice(-4),
+						"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
+						"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && (this.namespace + ".Views." + this.config.views[viewIndex].devices[index].nativeLinkedView) || ""),
+						"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
+					}
+				};
+				this.createStates(viewIndex, index);
+				createdObjects.push("Views." + this.config.views[viewIndex].commonName + "." + objName);
+				this.setObjectAsync("Views." + this.config.views[viewIndex].commonName + "." + objName, obj, this.logbook("created: Views." + this.config.views[viewIndex].commonName + "." + objName));
+			}
 		}
 	}
 
-	async createStates(viewIndex, deviceIndex, index){
-		if(typeof index == 'undefined'){
-			index = 0;
-		}
-		this.log.debug("createStates(" + viewIndex + ", " + deviceIndex + ", " + index + ")");
-		if(typeof this.config.views[viewIndex].devices[deviceIndex].states != 'undefined' && index < this.config.views[viewIndex].devices[deviceIndex].states.length){
-			var objName = this.config.views[viewIndex].devices[deviceIndex].states[index].state;
-			var obj = {
-				"type": "state",
-				"common": {
-					"name": objName,
-					"desc": "created by iQontrol",
-					"role": "iQontrolLinkedState",
-					"type": "string",
-					"icon": "",
-					"read": true,
-					"write": false,
-					"def": ""
-				},
-				"native": {}
-			};
-			this.log.debug(">>>>>>>>>createState " + viewIndex + ", " + deviceIndex + ", " + index + ": " + objName);
-			createdObjects.push("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName);
-			this.setObjectAsync("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName, obj, this.setStateValue(viewIndex, deviceIndex, index));
+	async createStates(viewIndex, deviceIndex){
+		if(typeof this.config.views[viewIndex].devices[deviceIndex].states != 'undefined'){
+			for(var index = 0; index < this.config.views[viewIndex].devices[deviceIndex].states.length; index++){
+				var objName = this.config.views[viewIndex].devices[deviceIndex].states[index].state;
+				var obj = {
+					"type": "state",
+					"common": {
+						"name": objName,
+						"desc": "created by iQontrol",
+						"role": "iQontrolLinkedState",
+						"type": "string",
+						"icon": "",
+						"read": true,
+						"write": false,
+						"def": ""
+					},
+					"native": {}
+				};
+				createdObjects.push("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName);
+				this.setObjectAsync("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName, obj, this.setStateValue(viewIndex, deviceIndex, index));
+			}
 		}
 	}
 
 	async setStateValue(viewIndex, deviceIndex, index){
-		this.log.debug("setState(" + viewIndex + ", " + deviceIndex + ", " + index + ")");
 		if(typeof this.config.views[viewIndex].devices[deviceIndex].states != 'undefined' && index < this.config.views[viewIndex].devices[deviceIndex].states.length){
 			var objName = this.config.views[viewIndex].devices[deviceIndex].states[index].state;
-			var objValue = this.config.views[viewIndex].devices[deviceIndex].states[index].value;
-			this.log.debug(">>>>>>>>>>>>setState " + viewIndex + ", " + deviceIndex + ", " + index + ": " + objName + " -> " + objValue);
-			this.setStateAsync("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName, objValue, this.createStates(viewIndex, deviceIndex, index + 1)); //Iterating
+			var objValue = this.config.views[viewIndex].devices[deviceIndex].states[index].value || "";
+			this.setStateAsync("Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName, objValue, this.logbook("created: Views." + this.config.views[viewIndex].commonName + "." + this.config.views[viewIndex].devices[deviceIndex].commonName + "." + objName + " --> " + objValue)); 
 		}
 	}
 
