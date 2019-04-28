@@ -25,12 +25,12 @@ You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ
 It´s fully customizable.
 
 ## How to use
-* Creating views.
+* Start creating views.
 	You can consider views as something like a pages.
 * Then create devices on these views.
 	Devices have a role, that detemines the function of the device, which icons are used and so on.
 	Depending on that role you can link several states to the device. These will give the device its functionality.
-	You you select 'Link to other view' as role to create links between the different views.
+	If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.
 	You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.
 * Afterwards you can create a toolbar, wich is displayed as footer.
 	Toolbar-Entrys are links to views.
@@ -52,6 +52,10 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 
 ## Changelog
+
+### 0.0.7
+* (Sebastian Bormann) Changed order of tabs
+* (Sebastian Bormann) Autocreate for shelly should work now (i hope so, can't test it here)
 
 ### 0.0.6
 * (Sebastian Bormann) Improved speed of select id and autocreate

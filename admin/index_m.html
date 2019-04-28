@@ -240,9 +240,6 @@
 				}
 			}
 			
-			//+++++++++ Toolbar ++++++++++
-			//Nothing to do here
-			
 			//++++++++++ VIEWS ++++++++++
 			//Enhance TableViews with functions
 			function onTableViewsReady(){
@@ -490,7 +487,7 @@
 						var id = childStates[i];
 						var stateName = id.substring(id.lastIndexOf("."), id.length);
 						switch(stateName){
-							case ".STATE":
+							case ".STATE": case ".Switch"
 							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 								resultStatesObj['LOCK_STATE'] = id;
 							} else {
@@ -693,6 +690,9 @@
 				}
 			});
 
+			//+++++++++ Toolbar ++++++++++
+			//Nothing to do here
+			
 			//++++++++++ IMAGES ++++++++++
 			//Init Image-Upload
 			function initImageUpload(){
@@ -988,9 +988,9 @@
 			<div class="col s12">
 				<ul class="tabs hideOnLoad" id="QontrolTabs" style="display: none;">
 					<li class="tab col s2"><a href="#tabMain" class="translate active">Start</a></li>
-					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
 					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
 					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
+					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
 					<li class="tab col s2"><a href="#tabImages" class="translate">Images</a></li>
 				</ul>
 			</div>
@@ -1012,12 +1012,12 @@
 						<p>
 							Start setting up your interface by:
 							<ol>
-								<li>Creating views.<br>
+								<li>Start creating views.<br>
 									You can consider views as something like a pages.</li>
 								<li>Then create devices on these views.<br>
 									Devices have a role, that detemines the function of the device, which icons are used and so on.<br>
 									Depending on that role you can link several states to the device. These will give the device its functionality.<br>
-									You you select 'Link to other view' as role to create links between the different views.
+									If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.
 									You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</li>
 								<li>Afterwards you can create a toolbar, wich is displayed as footer.<br>
 									Toolbar-Entrys are links to views.<br>
@@ -1033,44 +1033,6 @@
 					<div class="col s12">
 						<br><br>
 						<a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i>Open iQontrol</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->
-			<div id="tabToolbar"    class="col s12 page">
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Toolbar</h6>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12" id="tableToolbar">
-						<div class="row">
-							<div class="col s2 m1 l1 center">
-								<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
-									<i class=" material-icons">add</i>
-								</button>
-							</div>
-						</div>
-						<div class="col s12 m12 l12">
-							<table class="table-values" style="width: 90%;">
-								<thead>
-									<tr>
-										<th data-name="commonName" class="translate">Name</th>
-										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
-										<th data-name="nativeIcon" data-type="select" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
-										<th data-buttons="up down delete"></th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<h6>Icons:</h6>
-						<img src='jQueryIcons.jpg' alt='jQuery Icons'>
 					</div>
 				</div>
 			</div>
@@ -1155,6 +1117,50 @@
 								</tr>
 							</thead>
 						</table>
+					</div>
+				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->
+			<div id="tabToolbar"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Toolbar</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12" id="tableToolbar">
+						<div class="row">
+							<div class="col s2 m1 l1 center">
+								<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class=" material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<div class="col s12 m12 l12">
+							<table class="table-values" style="width: 90%;">
+								<thead>
+									<tr>
+										<th data-name="commonName" class="translate">Name</th>
+										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
+										<th data-name="nativeIcon" data-type="select" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
+										<th data-buttons="up down delete"></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6>Homepage</h6>
+						<p>The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6>Icons</h6>
+						<img src='jQueryIcons.jpg' alt='jQuery Icons'>
 					</div>
 				</div>
 			</div>

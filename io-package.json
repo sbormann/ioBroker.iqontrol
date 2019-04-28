@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "iqontrol",
-		"version": "0.0.6",
+		"version": "0.0.7",
 		"news": {
+			"0.0.7": {
+				"en": "Changed order of tabs. Shelly added to autocreate."
+			},
 			"0.0.6": {
 				"en": "Improved speed of select id and autocreate, set filter to channel on autocreate"
 			},
