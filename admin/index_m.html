@@ -266,6 +266,18 @@
 						if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
 					});
 				}
+				//Add Thumbs to SelectBox
+				$lines.find('select[data-name]').each(function() {
+					var name = $(this).data('name');
+					if (name === 'nativeBackgroundImage') {
+						var index = $(this).data('index');
+						$(this).addClass('icons');
+						$(this).find('option').each(function() {
+							$(this).data('icon', imagePath + images[index].filename);
+						});
+					}
+				});
+				$('select').select();
 			}
 			
 			//++++++++++ DEVICES ++++++++++
@@ -487,7 +499,7 @@
 						var id = childStates[i];
 						var stateName = id.substring(id.lastIndexOf("."), id.length);
 						switch(stateName){
-							case ".STATE": case ".Switch"
+							case ".STATE": case ".Switch":
 							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 								resultStatesObj['LOCK_STATE'] = id;
 							} else {
