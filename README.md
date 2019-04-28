@@ -24,6 +24,21 @@ Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
 It´s fully customizable.
 
+## How to use
+* Creating views.
+	You can consider views as something like a pages.
+* Then create devices on these views.
+	Devices have a role, that detemines the function of the device, which icons are used and so on.
+	Depending on that role you can link several states to the device. These will give the device its functionality.
+	You you select 'Link to other view' as role to create links between the different views.
+	You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.
+* Afterwards you can create a toolbar, wich is displayed as footer.
+	Toolbar-Entrys are links to views.
+	The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.
+* To give everything a fancy style, you can upload your own images.
+	You can use your images as background-images for views, or for devices.
+	The free builtin demo-wallpapers are from www.pexels.com.
+
 ## Knowns issues
 This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
 However there are a few limitations:
@@ -32,6 +47,8 @@ However there are a few limitations:
 You can do these operations manually via ftp under iobroker/iobroker-data/files/iqontrol/userimages
 
 Please feel free to comment and let me know, how to fix these issues!
+
+Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
 
 ## Changelog
