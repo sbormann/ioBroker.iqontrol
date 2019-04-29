@@ -348,7 +348,7 @@
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
 			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>Select Role</option>");
-			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "'>" + iQontrolRoles[element].name + "</option>"); }
+			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
 			$('select').select();
 
 			//Enhance dialogDeviceEditCommonRole-Selectbox with functions
@@ -447,7 +447,7 @@
 				} else { 
 					iobrokerObjectsReadyFunctions.push(toDo);
 				}
-				$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
+				$('#dialogDeviceAutocreatePreview').html(_("Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first."));
 				$('#dialogDeviceAutocreatePreviewStates').html('');
 				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
 			});
@@ -696,16 +696,16 @@
 					var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference 
 					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
 				});
-				$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>Select view</option>");
+				$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 				views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>Select device</option>");
+				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
 				$('select').select();
 				$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
 				$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
 				$('#dialogDeviceCopyFrom').modal('open');
 			});
 			$('#dialogDeviceCopyFromSourceView').on('change', function(){
-				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>Select device</option>");
+				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
 				views[$('#dialogDeviceCopyFromSourceView').val()].devices.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceDevice').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 				$('select').select();
 				$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
@@ -890,7 +890,7 @@
 					if (command === 'edit') {
 						$(this).on('click', function () {
 							var index = $(this).data('index');
-							var newName = prompt(_("Change filename from \n" + images[index].filename + " to:"), images[index].filename);
+							var newName = prompt(_("Change filename from %s to:", images[index].filename), images[index].filename);
 							if(newName && newName != images[index].filename){
 								renameFile(imagePath + images[index].filename, imagePath + newName, function(){
 									getImages(function(){
@@ -909,7 +909,7 @@
 						$(this).find('i').addClass('red').html('delete_forever');
 						$(this).on('click', function (e) {
 							var index = $(this).data('index');
-							if(confirm(_("Delete file \n" + images[index].filename + "\n on server? \n Warning: This can't be undone!"))){
+							if(confirm(_("Delete file %s on server? Warning: This can't be undone!", images[index].filename))){
 								deleteFile(imagePath + images[index].filename, function(){
 									getImages(function(){
 										values2table('tableImages', images, onChange, onTableImagesReady);
@@ -943,7 +943,7 @@
 			});
 			//Rename Dir
 			$('#imagesUploadRenameDir').on('click', function () {
-				var newName = prompt(_("Change Directory Name from \n" + $('#imagesSelectedDir').val() + " to:"), $('#imagesSelectedDir').val());
+				var newName = prompt(_("Change Directory Name from %s to:", $('#imagesSelectedDir').val()), $('#imagesSelectedDir').val());
 				if (newName.indexOf('/') != 0) newName = "/" + newName;
 				if(newName && newName != $('#imagesSelectedDir').val()){
 					renameFile(imagePath + $('#imagesSelectedDir').val(), imagePath + newName, function(){
@@ -959,7 +959,7 @@
 			});
 			//Delete Dir
 			$('#imagesUploadDeleteDir').on('click', function () {
-				if(confirm(_("Delete directory \n" + $('#imagesSelectedDir').val() + "\n and all its content on server? \n Warning: This can't be undone!"))){
+				if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
 					deleteFile(imagePath + $('#imagesSelectedDir').val(), function(){
 						getImages(function(){
 							values2table('tableImages', images, onChange, onTableImagesReady);
@@ -1034,35 +1034,35 @@
 				</div>
 				<div class="row showOnLoad">
 					<div class="col s12">
-						<p>Loading settings...</p>
+						<p class="translate">Loading settings...</p>
 					</div>
 				</div>
 				<div class="row hideOnLoad" style="display: none;">
 					<div class="col s12">
 						<p>
-							Start setting up your interface by:
-							<ol>
-								<li>Start creating views.<br>
-									You can consider views as something like a pages.</li>
-								<li>Then create devices on these views.<br>
-									Devices have a role, that detemines the function of the device, which icons are used and so on.<br>
-									Depending on that role you can link several states to the device. These will give the device its functionality.<br>
-									If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.
-									You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</li>
-								<li>Afterwards you can create a toolbar, wich is displayed as footer.<br>
-									Toolbar-Entrys are links to views.<br>
-									The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</li>
-								<li>To give everything a fancy style, you can upload your own images.<br>
-									You can use your images as background-images for views, or for devices.<br>
-									The free builtin demo-wallpapers are from www.pexels.com.</li>
-							</ol>
+                                                    <span class="translate">Start setting up your interface by:</span>
+                                                    <ol>
+                                                        <li><span class="translate">Start creating views.</span><br>
+                                                                    <span class="translate">You can consider views as something like a pages.</span></li>
+                                                            <li><span class="translate">Then create devices on these views.</span><br>
+                                                                    <span class="translate">Devices have a role, that detemines the function of the device, which icons are used and so on.</span><br>
+                                                                    <span class="translate">Depending on that role you can link several states to the device. These will give the device its functionality.</span><br>
+                                                                    <span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span>
+                                                                    <span class="translate">You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</span></li>
+                                                            <li><span class="translate">Afterwards you can create a toolbar, wich is displayed as footer.</span><br>
+                                                                    <span class="translate">Toolbar-Entrys are links to views.</span><br>
+                                                                    <span class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</span></li>
+                                                            <li><span class="translate">To give everything a fancy style, you can upload your own images.</span><br>
+                                                                    <span class="translate">You can use your images as background-images for views, or for devices.</span><br>
+                                                                    <span class="translate">The free builtin demo-wallpapers are from www.pexels.com.</span></li>
+                                                    </ol>
 						</p>
 					</div>
 				</div>
 				<div class="row hideOnLoad" style="display: none;">
 					<div class="col s12">
 						<br><br>
-						<a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i>Open iQontrol</a>
+                                                <a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i><span class="translate">Open iQontrol</span></a>
 					</div>
 				</div>
 			</div>
@@ -1077,8 +1077,8 @@
 				<div class="col s12" id="tableViews">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
-							<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class=" material-icons">add</i>
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class=" material-icons translate">Add</i>
 							</button>
 						</div>
 					</div>
@@ -1118,8 +1118,8 @@
 				</div>
 				<div class="row divDevices" style="display:none;">
 					<div class="col s12">
-						<a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i>Autocreate Device</a>
-						<a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i>Copy Existing Device to this view</a>
+                                            <a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
+                                            <a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
 					</div>
 				</div>
 				<div class="row divDevices" style="display:none;">
@@ -1130,8 +1130,8 @@
 				<div class="col s12 divDevices" id="tableDevices">
 					<div class="row">
 						<div class="col s2 m1 l1 center">
-							<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class=" material-icons">add</i>
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="translate material-icons">Add</i>
 							</button>
 						</div>
 					</div>
@@ -1162,8 +1162,8 @@
 					<div class="col s12" id="tableToolbar">
 						<div class="row">
 							<div class="col s2 m1 l1 center">
-								<button title="Add" class="table-button-add btn-floating waves-effect waves-light btn-small">
-									<i class=" material-icons">add</i>
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="translate material-icons">Add</i>
 								</button>
 							</div>
 						</div>
@@ -1173,7 +1173,7 @@
 									<tr>
 										<th data-name="commonName" class="translate">Name</th>
 										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
-										<th data-name="nativeIcon" data-type="select" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
+										<th data-name="nativeIcon" data-type="select" class="translate" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
 										<th data-buttons="up down delete" style="width:150px;"></th>
 									</tr>
 								</thead>
@@ -1183,13 +1183,13 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<h6>Homepage</h6>
-						<p>The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
+						<h6 class="translate">Homepage</h6>
+						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<h6>Icons</h6>
+						<h6 class="translate">Icons</h6>
 						<img src='jQueryIcons.jpg' alt='jQuery Icons'>
 					</div>
 				</div>
@@ -1205,10 +1205,10 @@
 				<div class = "row">
 					<div class="col s8 m6">
 						<form id="imagesUploadFileForm">
-							<label>Select file to upload</label>
-							<div class = "file-field input-field">
-								<div class = "btn-small waves-effect waves-light">
-									<span>Browse</span>
+							<label class="translate">Select file to upload</label>
+							<div class="file-field input-field">
+								<div class="btn-small waves-effect waves-light">
+									<span class="translate">Browse</span>
 									<input type = "file" accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
 								</div>
 								<div class = "file-path-wrapper">
@@ -1220,10 +1220,10 @@
 				</div>
 				<div class = "row">
 					<div class="col s12">
-						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i>Upload file here</a>
-						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i>Create Directory</a>
-						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i>Rename Directory</a>
-						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i>Delete Directory</a>
+                                            <a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file here</span></a>
+                                                <a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
+                                                <a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
+                                                <a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
 						<br><br>
 					</div>
 				</div>
@@ -1326,13 +1326,13 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<a class="waves-effect waves-light btn" id="dialogDeviceAutocreateCreatePreviewButton"><i class="material-icons left">check_circle</i>Try to create preview</a>
+                                            <a class="waves-effect waves-light btn" id="dialogDeviceAutocreateCreatePreviewButton"><i class="material-icons left">check_circle</i><span class="translate">Try to create preview</span></a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Preview:</h6>
-						<p>This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.</p>
+						<p class="translate">This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.</p>
 					</div>
 				</div>
 				<div class="row">

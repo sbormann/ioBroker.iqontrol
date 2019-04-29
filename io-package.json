@@ -1,87 +1,132 @@
 {
-	"common": {
-		"name": "iqontrol",
-		"version": "0.0.8",
-		"news": {
-			"0.0.8": {
-				"en": "Added icons to image selectboxes."
-			},
-			"0.0.7": {
-				"en": "Changed order of tabs. Shelly added to autocreate."
-			},
-			"0.0.6": {
-				"en": "Improved speed of select id and autocreate, set filter to channel on autocreate."
-			},
-			"0.0.5": {
-				"en": "Bugfix: creation of many devices schould work now."
-			},
-			"0.0.4": {
-				"en": "Bugfix: copy device created just a reference to old object, added Toolbar icons."
-			},
-			"0.0.3": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "iQontrol",
-		"titleLang": {
-			"en": "iQontrol",
-			"de": "iQontrol",
-			"ru": "iQontrol",
-			"pt": "iQontrol",
-			"nl": "iQontrol",
-			"fr": "iQontrol",
-			"it": "iQontrol",
-			"es": "iQontrol",
-			"pl": "iQontrol",
-			"zh-cn": "iQontrol"
-		},
-		"desc": {
-			"en": "Fast Web-App for Visualization",
-			"de": "Schnelle Web-App zur Visualisierung",
-			"ru": "Быстрое веб-приложение для визуализации",
-			"pt": "Fast Web-App para visualização",
-			"nl": "Snelle web-app voor visualisatie",
-			"fr": "Web-App rapide pour la visualisation",
-			"it": "App Web veloce per visualizzazione",
-			"es": "Rápida aplicación web para visualización",
-			"pl": "Szybka aplikacja internetowa do wizualizacji",
-			"zh-cn": "用于可视化的快速Web应用程序"
-		},
-		"authors": [
-			"Sebastian Bormann <sebastian@bormann.net>"
-		],
-		"keywords": [
-			"visualization",
-			"user",
+    "common": {
+        "name": "iqontrol",
+        "version": "0.0.8",
+        "news": {
+            "0.0.8": {
+                "en": "Added icons to image selectboxes.",
+                "de": "Hinzugefügt Symbole, um Bild selectboxes.",
+                "ru": "Добавлены иконки для окна изображения.",
+                "pt": "Adicionado ícones a imagem selectboxes.",
+                "nl": "Toegevoegd pictogrammen afbeelding selectboxes.",
+                "fr": "Ajout d'icônes à l'image de fenêtres.",
+                "it": "Aggiunte icone di immagine caselle di selezione.",
+                "es": "Añadidos iconos a la imagen de cajas de selección.",
+                "pl": "Dodano ikony do okna obrazu.",
+                "zh-cn": "添加标来像selectboxes的。"
+            },
+            "0.0.7": {
+                "en": "Changed order of tabs. Shelly added to autocreate.",
+                "de": "Geänderte Reihenfolge der Registerkarten. Shelly Hinzugefügt autocreate.",
+                "ru": "Изменен порядок вкладок. Шелли добавлено автосоздание.",
+                "pt": "Alterada a ordem dos separadores. Shelly adicionado à autocreate.",
+                "nl": "Gewijzigde volgorde van tabbladen. Shelly toegevoegd aan autocreate.",
+                "fr": "Changé l'ordre des onglets. Shelly ajouté à autocreate.",
+                "it": "Cambiato l'ordine delle schede. Shelly aggiunto autocreate.",
+                "es": "Cambiado el orden de las pestañas. Shelly añadido a autocreate.",
+                "pl": "Zmieniono kolejność kart. Shelley dodano automatycznym generowaniem.",
+                "zh-cn": "改变订单的标签。 谢莉加入到自动创建的。"
+            },
+            "0.0.6": {
+                "en": "Improved speed of select id and autocreate, set filter to channel on autocreate.",
+                "de": "Verbesserte Geschwindigkeit von select id und autocreate, setzen Sie filter auf Kanal über autocreate.",
+                "ru": "Улучшена скорость выберите ID и автосоздание, набор фильтров на канал на автосоздание.",
+                "pt": "Maior velocidade de selecionar o id e autocreate, conjunto de filtro para o canal autocreate.",
+                "nl": "Verbeterde snelheid van select id en autocreate, filter instellen op kanaal op autocreate.",
+                "fr": "Amélioration de la vitesse de select id et autocreate, définir un filtre de canal sur autocreate.",
+                "it": "Migliorata la velocità di selezionare l'id e autocreate, set di filtri per canale su autocreate.",
+                "es": "Mejora de la velocidad de select id y autocreate, conjunto de filtros para canales en autocreate.",
+                "pl": "Poprawiona szybkość wybierz ID i automatycznym generowaniem, zestaw filtrów na kanał na automatycznym generowaniem.",
+                "zh-cn": "改进速度的选择id和自动创建、设置过滤器的通道上的自动创建的。"
+            },
+            "0.0.5": {
+                "en": "Bugfix: creation of many devices schould work now.",
+                "de": "Bugfix: Erstellung von vielen Geräten sollte jetzt funktionieren.",
+                "ru": "Исправление: создание многих устройств должны работать сейчас.",
+                "pt": "Correcção de bug: a criação de muitos dispositivos schould trabalho agora.",
+                "nl": "Bugfix: de creatie van veel apparaten schould werk nu.",
+                "fr": "Correction: la création de nombreux dispositifs devaient travailler maintenant.",
+                "it": "Bugfix: la creazione di molti dispositivi dovrebbero funzionare ora.",
+                "es": "Bugfix: la creación de muchos dispositivos schould trabajo ahora.",
+                "pl": "Poprawka: tworzenie wielu urządzeń powinny już działać.",
+                "zh-cn": "修正：创造的许多设备schould现在的工作。"
+            },
+            "0.0.4": {
+                "en": "Bugfix: copy device created just a reference to old object, added Toolbar icons.",
+                "de": "Bugfix: kopieren-Gerät erzeugt nur ein Verweis auf alte Objekte, Symbole in der Symbolleiste Hinzugefügt.",
+                "ru": "Исправление: устройство копия создается только ссылка на старый объект, добавлены иконки панели инструментов.",
+                "pt": "Bugfix: dispositivo de cópia criada apenas uma referência para o objeto antigo, adicionados ícones da barra de Ferramentas.",
+                "nl": "Bugfix: kopieer apparaat gemaakt van een verwijzing naar het oude object toegevoegd pictogrammen op de Werkbalk.",
+                "fr": "Correction: correction d'un appareil de copie créé juste une référence à l'objet ancien, ajouté des icônes de Barre d'outils.",
+                "it": "Bugfix: copia del dispositivo, creato proprio un riferimento al vecchio oggetto, l'aggiunta di icone della Barra degli strumenti.",
+                "es": "Bugfix: copia dispositivo creado sólo una referencia a objeto viejo, agregar la Barra de herramientas de iconos.",
+                "pl": "Poprawka: urządzenie kopia jest tworzona tylko link na stary obiekt, dodane ikony paska narzędzi.",
+                "zh-cn": "修正：复制设备，创建了仅有的一个参照旧的对象，加入工具栏图标。"
+            },
+            "0.0.3": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "iQontrol",
+        "titleLang": {
+            "en": "iQontrol",
+            "de": "iQontrol",
+            "ru": "iQontrol",
+            "pt": "iQontrol",
+            "nl": "iQontrol",
+            "fr": "iQontrol",
+            "it": "iQontrol",
+            "es": "iQontrol",
+            "pl": "iQontrol",
+            "zh-cn": "iQontrol"
+        },
+        "desc": {
+            "en": "Fast Web-App for Visualization",
+            "de": "Schnelle Web-App zur Visualisierung",
+            "ru": "Быстрое веб-приложение для визуализации",
+            "pt": "Fast Web-App para visualização",
+            "nl": "Snelle web-app voor visualisatie",
+            "fr": "Web-App rapide pour la visualisation",
+            "it": "App Web veloce per visualizzazione",
+            "es": "Rápida aplicación web para visualización",
+            "pl": "Szybka aplikacja internetowa do wizualizacji",
+            "zh-cn": "用于可视化的快速Web应用程序"
+        },
+        "authors": [
+            "Sebastian Bormann <sebastian@bormann.net>"
+        ],
+        "keywords": [
+            "visualization",
+            "user",
             "interface",
             "webapp",
             "ui"
-		],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "iqontrol.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
-		"readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "visualization",
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "iqontrol.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
+        "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "visualization",
         "highlight": true,
-		"compact": true,
+        "compact": true,
         "singleton": false,
-		"materialize": true,
-		"materializeTab": true,
-		"localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+        "materialize": true,
+        "materializeTab": true,
+        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": {
             "link": "iqontrol/index.html",
             "name": "iQontrol",
@@ -89,470 +134,476 @@
             "color": "gray",
             "order": 1
         },
-		"adminTab": {
-			"singleton": true,
-			"name": {
-				"en": "iQontrol",
-				"de": "iQontrol",
-				"ru": "iQontrol",
-				"pt": "iQontrol",
-				"nl": "iQontrol",
-				"fr": "iQontrol",
-				"it": "iQontrol",
-				"es": "iQontrol",
-				"pl": "iQontrol",
-				"zh-cn": "iQontrol"
-			},
-			"link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
-			"fa-icon": "blur_on"
-		},
-		"supportCustoms": false,
-		"dependencies": [
-			{ "admin": ">=3.0.0" },
-			{ "js-controller": ">=1.4.2" },
-			{ "web": ">=1.7.1" }
-		]
-	},
-	"native": {
-		"demotoolbar": [
-		  {
-			"commonName": "Home",
-			"nativeLinkedView": "Home",
-			"nativeIcon": "home"
-		  },
-		  {
-			"commonName": "Rooms",
-			"nativeLinkedView": "Rooms",
-			"nativeIcon": "grid"
-		  },
-		  {
-			"commonName": "Functions",
-			"nativeLinkedView": "Functions",
-			"nativeIcon": "gear"
-		  }
-		],
-		"demoviews": [
-		  {
-			"commonName": "Home",
-			"nativeBackgroundImage": ".\\userimages\\demo\\4k-wallpaper-architektur-backstein-1308624.jpg",
-			"devices": [
-			  {
-				"commonName": "ioBroker uptime",
-				"nativeHeading": "ioBroker",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
-				"commonRole": "iQontrolValue",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": "system.adapter.admin.0.uptime"
-				  },
-				  {
-					"state": "LEVEL",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Rooms",
-			"nativeBackgroundImage": ".\\userimages\\demo\\farbe-flora-gras-1275415.jpg",
-			"devices": [
-			  {
-				"commonName": "Living Room",
-				"nativeHeading": "1st floor",
-				"nativeLinkedView": "Living-Room",
-				"nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
-				"commonRole": "iQontrolView",
-				"states": [
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "Kitchen",
-				"nativeHeading": "2nd floor",
-				"nativeLinkedView": "Kitchen",
-				"nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
-				"commonRole": "iQontrolView",
-				"states": [
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Functions",
-			"nativeBackgroundImage": ".\\userimages\\demo\\abbildung-attraktiv-dekor-990824.jpg",
-			"devices": [
-			  {
-				"commonName": "Lights",
-				"nativeHeading": "",
-				"nativeLinkedView": "Lights",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolView",
-				"states": [
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "Climate-Control",
-				"nativeHeading": "",
-				"nativeLinkedView": "Climate-Control",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolView",
-				"states": [
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Living-Room",
-			"nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
-			"devices": [
-			  {
-				"commonName": "Light",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolLight",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "LEVEL",
-					"value": ""
-				  },
-				  {
-					"state": "HUE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "Heater",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolThermostat",
-				"states": [
-				  {
-					"state": "SET_TEMPERATURE",
-					"value": ""
-				  },
-				  {
-					"state": "TEMPERATURE",
-					"value": ""
-				  },
-				  {
-					"state": "HUMIDITY",
-					"value": ""
-				  },
-				  {
-					"state": "CONTROL_MODE",
-					"value": ""
-				  },
-				  {
-					"state": "VALVE_STATES",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "TV",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolSwitch",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Kitchen",
-			"nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
-			"devices": [
-			  {
-				"commonName": "Fan",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolFan",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "Light",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolLight",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "LEVEL",
-					"value": ""
-				  },
-				  {
-					"state": "HUE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Lights",
-			"nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
-			"devices": [
-			  {
-				"commonName": "Living Room",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolLight",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "LEVEL",
-					"value": ""
-				  },
-				  {
-					"state": "HUE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  },
-			  {
-				"commonName": "Kitchen",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolLight",
-				"states": [
-				  {
-					"state": "STATE",
-					"value": ""
-				  },
-				  {
-					"state": "LEVEL",
-					"value": ""
-				  },
-				  {
-					"state": "HUE",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  },
-		  {
-			"commonName": "Climate-Control",
-			"nativeBackgroundImage": ".\\userimages\\demo\\bau-boden-dekorativ-131634.jpg",
-			"devices": [
-			  {
-				"commonName": "Living Room",
-				"nativeHeading": "",
-				"nativeLinkedView": "",
-				"nativeBackgroundImage": "",
-				"commonRole": "iQontrolThermostat",
-				"states": [
-				  {
-					"state": "SET_TEMPERATURE",
-					"value": ""
-				  },
-				  {
-					"state": "TEMPERATURE",
-					"value": ""
-				  },
-				  {
-					"state": "HUMIDITY",
-					"value": ""
-				  },
-				  {
-					"state": "CONTROL_MODE",
-					"value": ""
-				  },
-				  {
-					"state": "VALVE_STATES",
-					"value": ""
-				  },
-				  {
-					"state": "BATTERY",
-					"value": ""
-				  },
-				  {
-					"state": "UNREACH",
-					"value": ""
-				  },
-				  {
-					"state": "ERROR",
-					"value": ""
-				  }
-				]
-			  }
-			]
-		  }
-		]
-	},
-	"objects": [],
-	"instanceObjects": []
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "iQontrol",
+                "de": "iQontrol",
+                "ru": "iQontrol",
+                "pt": "iQontrol",
+                "nl": "iQontrol",
+                "fr": "iQontrol",
+                "it": "iQontrol",
+                "es": "iQontrol",
+                "pl": "iQontrol",
+                "zh-cn": "iQontrol"
+            },
+            "link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+            "fa-icon": "blur_on"
+        },
+        "supportCustoms": false,
+        "dependencies": [
+            {
+                "admin": ">=3.0.0"
+            },
+            {
+                "js-controller": ">=1.4.2"
+            },
+            {
+                "web": ">=1.7.1"
+            }
+        ]
+    },
+    "native": {
+        "demotoolbar": [
+            {
+                "commonName": "Home",
+                "nativeLinkedView": "Home",
+                "nativeIcon": "home"
+            },
+            {
+                "commonName": "Rooms",
+                "nativeLinkedView": "Rooms",
+                "nativeIcon": "grid"
+            },
+            {
+                "commonName": "Functions",
+                "nativeLinkedView": "Functions",
+                "nativeIcon": "gear"
+            }
+        ],
+        "demoviews": [
+            {
+                "commonName": "Home",
+                "nativeBackgroundImage": ".\\userimages\\demo\\4k-wallpaper-architektur-backstein-1308624.jpg",
+                "devices": [
+                    {
+                        "commonName": "ioBroker uptime",
+                        "nativeHeading": "ioBroker",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                        "commonRole": "iQontrolValue",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": "system.adapter.admin.0.uptime"
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Rooms",
+                "nativeBackgroundImage": ".\\userimages\\demo\\farbe-flora-gras-1275415.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "1st floor",
+                        "nativeLinkedView": "Living-Room",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "2nd floor",
+                        "nativeLinkedView": "Kitchen",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Functions",
+                "nativeBackgroundImage": ".\\userimages\\demo\\abbildung-attraktiv-dekor-990824.jpg",
+                "devices": [
+                    {
+                        "commonName": "Lights",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Lights",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Climate-Control",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Climate-Control",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Living-Room",
+                "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                "devices": [
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Heater",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "TV",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolSwitch",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Kitchen",
+                "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                "devices": [
+                    {
+                        "commonName": "Fan",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolFan",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Lights",
+                "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Climate-Control",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bau-boden-dekorativ-131634.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "objects": [],
+    "instanceObjects": []
 }
