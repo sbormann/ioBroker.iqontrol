@@ -219,7 +219,7 @@
 					var viewIds = [""];
 					views.forEach(function(element){ viewIds.push(element.commonName); });
 					$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
-					$('#devicesSelectedView').empty().append("<option disabled selected value>Select view</option>");
+					$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 					views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 					//Add Images to Selectbox for BackgroundImage
 					var imagenames = [];
@@ -515,7 +515,7 @@
 						var id = childStates[i];
 						var stateName = id.substring(id.lastIndexOf("."), id.length);
 						switch(stateName){
-							case ".STATE": case ".Switch":
+							case ".STATE": case ".Switch": case ".on":
 							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 								resultStatesObj['LOCK_STATE'] = id;
 							} else {
@@ -523,11 +523,11 @@
 							}
 							break;
 
-							case ".LEVEL":
+							case ".LEVEL": case ".level":
 							resultStatesObj['LEVEL'] = id;
 							break;
 
-							case ".HUE":
+							case ".HUE": case ".hue":
 							resultStatesObj['HUE'] = id;
 							break;
 
@@ -629,6 +629,10 @@
 						role = 'iQontrolWindow';
 						break;
 
+						//case "level.blind":						
+						//role = 'iQontrolBlind';
+						//break;
+
 						case "state":
 						role = 'iQontrolValue';
 						break;
@@ -649,7 +653,7 @@
 					if (role) {
 						resultObject.commonRole = role;
 						if (typeof iQontrolRoles[role] != udef && typeof iQontrolRoles[role].name != udef) {
-							resultText += "<u>" + _("Role") + ":</u> " + iQontrolRoles[role].name + "<br><br>";
+							resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[role].name) + "<br><br>";
 						} else {
 							resultText += _("Role") + ": " + role + "<br><br>";
 						}
@@ -1047,7 +1051,7 @@
                                                             <li><span class="translate">Then create devices on these views.</span><br>
                                                                     <span class="translate">Devices have a role, that detemines the function of the device, which icons are used and so on.</span><br>
                                                                     <span class="translate">Depending on that role you can link several states to the device. These will give the device its functionality.</span><br>
-                                                                    <span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span>
+                                                                    <span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span><br>
                                                                     <span class="translate">You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</span></li>
                                                             <li><span class="translate">Afterwards you can create a toolbar, wich is displayed as footer.</span><br>
                                                                     <span class="translate">Toolbar-Entrys are links to views.</span><br>
@@ -1078,7 +1082,7 @@
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class=" material-icons translate">Add</i>
+								<i class=" material-icons translate">add</i>
 							</button>
 						</div>
 					</div>
@@ -1131,7 +1135,7 @@
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class="translate material-icons">Add</i>
+								<i class="translate material-icons">add</i>
 							</button>
 						</div>
 					</div>
@@ -1163,7 +1167,7 @@
 						<div class="row">
 							<div class="col s2 m1 l1 center">
 								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-									<i class="translate material-icons">Add</i>
+									<i class="translate material-icons">add</i>
 								</button>
 							</div>
 						</div>
@@ -1212,7 +1216,7 @@
 									<input type = "file" accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
 								</div>
 								<div class = "file-path-wrapper">
-									<input class = "file-path validate" type = "text" placeholder = "Drop file here" />
+									<input class = "file-path validate translate" type = "text" placeholder = "Drop file here" />
 								</div>
 							</div>
 						</form>
@@ -1379,7 +1383,7 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">The selected Device will be copied to View <i><span id="dialogDeviceCopyFromDestinationView"></span></i></h6>
+						<h6 class="sub-title"><span class="translate">The selected Device will be copied to View </span><i><span id="dialogDeviceCopyFromDestinationView"></span></i></h6>
 					</div>
 				</div>
             </div>

@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "news": {
+            "0.0.9": {
+                "en": "HUE added. LinkedView now also works on windows, doors and fire-sensor. Added translation (thanks ldittmar!)"
+            },
             "0.0.8": {
                 "en": "Added icons to image selectboxes.",
                 "de": "Hinzugefügt Symbole, um Bild selectboxes.",
