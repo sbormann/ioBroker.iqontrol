@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.10",
+        "version": "0.0.11",
         "news": {
+            "0.0.11": {
+                "en": "Added compatibility for edge and firefox. Again Hue bugfixes. Removed Tooltip from Toolbar."
+				},
             "0.0.10": {
                 "en": "Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)"
 				},

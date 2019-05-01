@@ -99,6 +99,9 @@ a {
 	display: block;
 	background-size:cover; background-position:center;	
 	opacity: 0.99;
+	-webkit-border-radius: 15px;
+	   -moz-border-radius: 15px;
+			border-radius: 15px;
 	-webkit-transform: scale3d(1.0,1.0,1);
 	   -moz-transform: scale3d(1.0,1.0,1);
 			transform: scale3d(1.0,1.0,1);
@@ -285,14 +288,14 @@ a {
 
 .colorPicker + .ui-slider-track {
 	background-image:url(./images/hue.png) !important;
-	background-repeat:repeat-x !important;
-	background-size:100% !important;
+	background-repeat:repeat-y !important;
+	background-size:100%, auto !important;
 }
 
 .colorTemperaturePicker + .ui-slider-track {
 	background-image:url(./images/ct.png) !important;
-	background-repeat:repeat-x !important;
-	background-size:100% !important;
+	background-repeat:repeat-y !important;
+	background-size:100%, auto !important;
 }
 
 .fullWidthSlider .ui-slider-input{
@@ -325,15 +328,6 @@ a {
 .ui-state-disabled {
 	opacity: 0.75 !important;
 }
-
-#SettingsAddDeviceCommonName .matched{
-	background-color: yellow;
-}
-
-.SettingsAddDeviceState .matched{
-	background-color: yellow;
-}
-
 
 
 

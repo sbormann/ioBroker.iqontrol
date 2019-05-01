@@ -52,6 +52,10 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 
 ## Changelog
+### 0.0.11
+* (Sebastian Bormann) Added compatibility for edge and firefox. 
+* (Sebastian Bormann) Again Hue bugfixes.
+* (Sebastian Bormann) Removed Tooltip from Toolbar.
 
 ### 0.0.10
 * (Sebastian Bormann) Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)

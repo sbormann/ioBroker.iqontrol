@@ -487,7 +487,7 @@ function renderToolbar(){
 		for (var i = 0; i < toolbarSorted.length; i++){
 			var id = toolbarSorted[i][1];
 			toolbarLinksToOtherViews.push(usedObjects[id].native.linkedView);
-			toolbarContent += "<li><a href='#View' data-icon='" + (usedObjects[id].native.icon || "") + "' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink ui-nodisc-icon' data-theme='b' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
+			toolbarContent += "<li><a data-icon='" + (usedObjects[id].native.icon || "") + "' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink ui-nodisc-icon' data-theme='b' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
 		}
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
@@ -528,6 +528,7 @@ function renderView(id, updateOnly){
 		//Render View
 		if(!updateOnly)	if (usedObjects[id].native.backgroundImage) {
 			changeViewBackground(usedObjects[id].native.backgroundImage);
+			window.scrollTo(0, 0);
 		} else {
 			changeViewBackground("");
 		}
@@ -544,15 +545,15 @@ function renderView(id, updateOnly){
 				switch(usedObjects[deviceId].common.role){
 					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity":		
 					if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
-						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' href='#View' onclick='renderView(\"" + usedObjects[deviceId].native.linkedView + "\"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + viewLinksToOtherViews.length + ";'>";
+						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' onclick='renderView(\"" + usedObjects[deviceId].native.linkedView + "\"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + viewLinksToOtherViews.length + ";'>";
 						viewLinksToOtherViews.push(usedObjects[deviceId].native.linkedView);
 					} else { //No link
-						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' href='#View' onclick=''>";		
+						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' onclick=''>";		
 					}
 					break;
 
 					default:
-					deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' href='#Dialog' data-rel='popup' data-transition='pop' data-position-to='window' onclick='renderDialog(\"" + deviceId + "\")'>";
+					deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' data-rel='popup' data-transition='pop' data-position-to='window' href='#Dialog' onclick='renderDialog(\"" + deviceId + "\");'>";
 				}
 					//--BackgroundImage
 					switch(usedObjects[deviceId].common.role){
@@ -626,7 +627,7 @@ function renderView(id, updateOnly){
 						var onclick = "";
 						if(linkedLevelId) onclick = "toggleState(\"" + linkedLevelId + "\", \"" + deviceId + "\");";
 						if(linkedStateId) onclick = "toggleState(\"" + linkedStateId + "\", \"" + deviceId + "\");";
-						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' href='' onclick='" + onclick + "'>";
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/light_on.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/light_off.png' />";
 						break;
@@ -636,7 +637,7 @@ function renderView(id, updateOnly){
 						var linkedStateId = getLinkedStateId(stateId);
 						var onclick = "";
 						//if(linkedStateId) onclick = "startProgram(\"" + linkedStateId + "\", \"" + deviceId + "\");";
-						//linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' href='' onclick='" + onclick + "'>";
+						//linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play_on.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
 						break;
@@ -646,7 +647,7 @@ function renderView(id, updateOnly){
 						var linkedStateId = getLinkedStateId(stateId);
 						var onclick = "";
 						if(linkedStateId) onclick = "startProgram(\"" + linkedStateId + "\", \"" + deviceId + "\");";
-						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' href='' onclick='" + onclick + "'>";
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
 						break;
@@ -656,7 +657,7 @@ function renderView(id, updateOnly){
 						var linkedStateId = getLinkedStateId(stateId);
 						var onclick = "";
 						if(linkedStateId) onclick = "toggleState(\"" + linkedStateId + "\", \"" + deviceId + "\");";
-						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' href='' onclick='" + onclick + "'>";
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fan_on.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fan_off.png' />";
 						break;
@@ -666,7 +667,7 @@ function renderView(id, updateOnly){
 						var linkedStateId = getLinkedStateId(stateId);
 						var onclick = "";
 						if(linkedStateId) onclick = "toggleState(\"" + linkedStateId + "\", \"" + deviceId + "\");";
-						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' href='' onclick='" + onclick + "'>";
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/switch_on.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/switch_off.png' />";
 					}
@@ -1183,7 +1184,7 @@ function renderDialog(deviceId){
 			var state = getStateObject(linkedStateId);
 			if(state){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _("Program") + ":</label>";
-				dialogContent += "<a href='' data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 				if (linkedStateId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
@@ -1206,7 +1207,7 @@ function renderDialog(deviceId){
 			var state = getStateObject(linkedStateId);
 			if(state){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _("Scene") + ":</label>";
-				dialogContent += "<a href='' data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 				if (linkedStateId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
@@ -1423,7 +1424,7 @@ function renderDialog(deviceId){
 					dialogContent += "<legend><image src='./images/door_lock.png' / style='width:16px; height:16px;'>&nbsp;" + _("Doorlock") + ":</legend>";
 			}
 			if(lockOpen){
-				dialogContent += "<a href='' data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 				if (linkedLockOpenId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
@@ -1996,7 +1997,7 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
 }
 
-//jQuery
+//jQuery and window events
 $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swiperight", ".ui-page", function(event){
 		viewSwipe("right");
@@ -2018,6 +2019,7 @@ $(window).on("orientationchange resize", function(){
 		console.log("orientationchange");
 	}, 250);
 });	
+
 
 
 
