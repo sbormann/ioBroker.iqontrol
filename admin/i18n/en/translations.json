@@ -2,6 +2,7 @@
     "Acknowledged": "Acknowledged",
     "Actual Directory": "Actual Directory",
     "Add": "Add",
+    "add": "add",
     "Afterwards you can create a toolbar, wich is displayed as footer.": "Afterwards you can create a toolbar, wich is displayed as footer.",
     "Alarm": "Alarm",
     "All": "All",
@@ -41,6 +42,7 @@
     "ID": "ID",
     "ID:": "ID:",
     "Icons": "Icons",
+	"Icon": "Icon,"
     "If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.": "If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.",
     "Images": "Images",
     "Invert selection": "Invert selection",

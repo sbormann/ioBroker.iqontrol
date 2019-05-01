@@ -456,6 +456,18 @@ function getTimeFromHMTimeCode(HMTimeCode){
 	return Hour + ":" + Minutes;
 }
 
+function colorTemperatureToRGB(value,  min,  max){
+	var rgbWW = {r: 255, g: 204, b: 82};
+	var rgbCW = {r: 174, g: 228, b: 255};
+	value = (Math.max(0, Math.min(value, 255)) - min) / (max - min); //0...1
+	if(value <0.5){
+		var rgb = {r: rgbWW.r + ((value/0.5) * 255), g: rgbWW.g + ((value/0.5) * 255), b: rgbWW.b + ((value/0.5) * 255)};
+	} else {
+		var rgb = {r: rgbCW.r + (((1-value)/0.5) * 255), g: rgbCW.g + (((1-value)/0.5) * 255), b: rgbCW.b + (((1-value)/0.5) * 255)};		
+	}
+	return rgb;
+}
+
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
 	toolbarSorted = [];
@@ -754,7 +766,13 @@ function renderView(id, updateOnly){
 								var _deviceId = deviceId;
 								var _linkedStateId = linkedStateId;
 								updateViewFunctions[linkedStateId].push(function(){
-									if (states[_linkedStateId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").css("color", "hsl(" + states[_linkedStateId].val + ", 100%, 50%)");
+									if (states[_linkedStateId]){
+										var min = 0;
+										var max = 359;
+										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.min !== udef) min = usedObjects[_linkedStateId].common.min;
+										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.max !== udef) max = usedObjects[_linkedStateId].common.max;
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").css("color", "hsl(" + ((states[_linkedStateId].val - min) / (max - min)) * 359 + ", 100%, 50%)");
+									}
 								});
 							})();
 							stateIdsToUpdate.push(linkedStateId);
@@ -782,6 +800,30 @@ function renderView(id, updateOnly){
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBText").html(states[_linkedStateId].val + unit);
 									} else {
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBIcon").hide();
+									}
+								});
+							})();
+							stateIdsToUpdate.push(linkedStateId);
+						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
+						break;
+
+						case "iQontrolLight":
+						var stateId = deviceId + ".CT";
+						var linkedStateId = getLinkedStateId(stateId);
+						if (linkedStateId){
+							deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/colortemperature.png'>";
+							deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceId + "'>&nbsp;&#9608;&#9608;</div>";
+							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceId = deviceId;
+								var _linkedStateId = linkedStateId;
+								updateViewFunctions[linkedStateId].push(function(){
+									if (states[_linkedStateId]){
+										var min = 0;
+										var max = 100;
+										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.min !== udef) min = usedObjects[_linkedStateId].common.min;
+										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.max !== udef) max = usedObjects[_linkedStateId].common.max;
+										var rgb = colorTemperatureToRGB(states[_linkedStateId].val, min, max);
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBText").css("color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
 									}
 								});
 							})();
@@ -972,7 +1014,7 @@ function renderView(id, updateOnly){
 											if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
 												result = state.val;
 												resultText = result + state.unit;
-											} else if(state){ 																	//STATE = bool or text; LEVEL = nothing
+											} else if(state){ 															//STATE = bool or text; LEVEL = nothing
 												result = state.val;
 												resultText = state.plainText;
 											}
@@ -980,7 +1022,7 @@ function renderView(id, updateOnly){
 											if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = level
 												result = state.val * level.val;
 												resultText = result + level.unit;
-											} else if(level) {																	//STATE = undefined (or string - but that makes no sense); LEVEL = level
+											} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = level
 												result = level.val;
 												resultText = result + level.unit;
 											}
@@ -1870,6 +1912,50 @@ function renderDialog(deviceId){
 							dialogBindingFunctions.push(bindingFunction);
 						})();
 						stateIdsToUpdate.push(linkedHueId);
+					}
+				}
+			}
+			//----ColorTemperaturePicker
+			var ctId = deviceId + ".CT";
+			var linkedCtId = getLinkedStateId(ctId);
+			var ct = getStateObject(linkedCtId);
+			if(ct){
+				if(ct.type == 'level'){
+					var min = 0;
+					var max = 100;
+					if(typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.min !== udef) min = usedObjects[linkedCtId].common.min;
+					if(typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.max !== udef) max = usedObjects[linkedCtId].common.max;
+					dialogContent += "<label for='DialogCtSlider' ><image src='./images/colortemperature.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color-Temperature") + ":</label>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					if (linkedCtId){
+						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedCtId = linkedCtId;
+							var DialogCtSliderReadoutTimer;
+							var updateFunction = function(){
+								if (states[_linkedCtId]){
+									$("#DialogCtSlider").val(states[_linkedCtId].val);
+									$("#DialogCtSlider").slider('refresh');
+								}
+							};
+							updateDialogFunctions[linkedCtId].push(updateFunction);
+							var bindingFunction = function(){
+								$('#DialogCtSlider').slider({
+									start: function(event, ui){
+										clearInterval(DialogCtSliderReadoutTimer);
+										DialogCtSliderReadoutTimer = setInterval(function(){
+											setState(_linkedCtId, _deviceId, $("#DialogCtSlider").val());
+										}, 500);
+									},
+									stop: function(event, ui) {
+										clearInterval(DialogCtSliderReadoutTimer);
+										setState(_linkedCtId, _deviceId, $("#DialogCtSlider").val());
+									}
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})();
+						stateIdsToUpdate.push(linkedCtId);
 					}
 				}
 			}

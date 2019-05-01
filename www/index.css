@@ -289,6 +289,12 @@ a {
 	background-size:100% !important;
 }
 
+.colorTemperaturePicker + .ui-slider-track {
+	background-image:url(./images/ct.png) !important;
+	background-repeat:repeat-x !important;
+	background-size:100% !important;
+}
+
 .fullWidthSlider .ui-slider-input{
 	display: none;
 }

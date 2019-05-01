@@ -53,6 +53,9 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 ## Changelog
 
+### 0.0.10
+* (Sebastian Bormann) Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)
+
 ### 0.0.9
 * (Sebastian Bormann) "Philips HUE added to autocreate (colortemp is not working yet!).  
 * (Sebastian Bormann) LinkedView now also works on windows, doors and fire-sensor.

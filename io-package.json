@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.9",
+        "version": "0.0.10",
         "news": {
+            "0.0.10": {
+                "en": "Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)"
+				},
             "0.0.9": {
                 "en": "HUE added. LinkedView now also works on windows, doors and fire-sensor. Added translation (thanks ldittmar!)"
             },

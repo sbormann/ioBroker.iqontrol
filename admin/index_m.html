@@ -27,7 +27,7 @@
 		var iQontrolRoles = {
 			"iQontrolView": 				{name: "Link to other view", 			states: ["BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
@@ -529,6 +529,10 @@
 
 							case ".HUE": case ".hue":
 							resultStatesObj['HUE'] = id;
+							break;
+
+							case ".ct":
+							resultStatesObj['CT'] = id;
 							break;
 
 							case ".SET_TEMPERATURE":
