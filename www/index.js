@@ -459,7 +459,7 @@ function getTimeFromHMTimeCode(HMTimeCode){
 function colorTemperatureToRGB(value,  min,  max){
 	var rgbWW = {r: 255, g: 204, b: 82};
 	var rgbCW = {r: 174, g: 228, b: 255};
-	value = (Math.max(0, Math.min(value, 255)) - min) / (max - min); //0...1
+	value = (Math.max(min, Math.min(value, max)) - min) / (max - min); //0...1
 	if(value <0.5){
 		var rgb = {r: rgbWW.r + ((value/0.5) * 255), g: rgbWW.g + ((value/0.5) * 255), b: rgbWW.b + ((value/0.5) * 255)};
 	} else {
