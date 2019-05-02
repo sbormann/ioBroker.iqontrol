@@ -54,6 +54,7 @@
     "Matched the following states:": "Die folgenden States wurden zugeordnet:",
     "Name": "Name",
     "New Device": "Neues Gerät",
+    "No duplicates allowed! View Names must be unique.": "Doppelte Namen sind nicht erlaubt! Ansichts-Namen müssen eindeutig sein.",
     "Ok": "OK",
     "Open iQontrol": "iQontrol öffnen",
     "Operations": "Aktionen",

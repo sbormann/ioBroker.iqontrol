@@ -3,6 +3,9 @@
         "name": "iqontrol",
         "version": "0.0.11",
         "news": {
+            "0.0.12": {
+                "en": "Check for unallowed chars in object names. Check for duplicates in view names. Level fires a slider in dialog - even when it has a state list (HUE again :)). Added Blinds (Homematic) - please test it, i don't have one to test."
+				},
             "0.0.11": {
                 "en": "Added compatibility for edge and firefox. Again Hue bugfixes. Removed Tooltip from Toolbar."
 				},

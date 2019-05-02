@@ -25,7 +25,7 @@
 		var imagePath = "/userimages";
 		var imagePathBS = imagePath.replace(/\//g, "\\");
 		var iQontrolRoles = {
-			"iQontrolView": 				{name: "Link to other view", 			states: ["BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
@@ -36,6 +36,7 @@
 			"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
+			"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"]},
 			"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"]},
@@ -258,6 +259,7 @@
 							var oldVal = $(this).data('oldval');
 							var newVal = $(this).val();
 							changeViewsCommonName(index, oldVal, newVal);
+							if(viewsCheckDuplicates()) alert(_("No duplicates allowed! View Names must be unique."));
 						});
 					}
 				});
@@ -280,6 +282,25 @@
 					}
 				});
 				$('select').select();
+				viewsCheckDuplicates();
+			}
+			//Check for duplicates
+			function viewsCheckDuplicates(){
+				var duplicates = false;
+				var viewCommonNames = [];
+				views.forEach(function(element){
+					if (viewCommonNames.indexOf(element.commonName) > -1){
+						duplicates = true;
+					} else {
+						viewCommonNames.push(element.commonName);
+					}
+				});
+				if(duplicates){
+					$('#viewsNoDuplicatesAllowed').show();
+				} else {
+					$('#viewsNoDuplicatesAllowed').hide();
+				}
+				return duplicates;
 			}
 			
 			//++++++++++ DEVICES ++++++++++
@@ -527,6 +548,14 @@
 							resultStatesObj['LEVEL'] = id;
 							break;
 
+							case ".DIRECTION": 
+							resultStatesObj['DIRECTION'] = id;
+							break;
+
+							case ".STOP":
+							resultStatesObj['STOP'] = id;
+							break;
+
 							case ".HUE": case ".hue":
 							resultStatesObj['HUE'] = id;
 							break;
@@ -633,9 +662,9 @@
 						role = 'iQontrolWindow';
 						break;
 
-						//case "level.blind":						
-						//role = 'iQontrolBlind';
-						//break;
+						case "level.blind":						
+						role = 'iQontrolBlind';
+						break;
 
 						case "state":
 						role = 'iQontrolValue';
@@ -1100,6 +1129,11 @@
 								</tr>
 							</thead>
 						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 center">
+						<h5 id="viewsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! View Names must be unique.</h5>
 					</div>
 				</div>
 			</div>

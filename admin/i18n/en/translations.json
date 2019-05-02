@@ -42,7 +42,7 @@
     "ID": "ID",
     "ID:": "ID:",
     "Icons": "Icons",
-	"Icon": "Icon,"
+	"Icon": "Icon",
     "If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.": "If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.",
     "Images": "Images",
     "Invert selection": "Invert selection",
@@ -54,6 +54,7 @@
     "Matched the following states:": "Matched the following states:",
     "Name": "Name",
     "New Device": "New Device",
+    "No duplicates allowed! View Names must be unique.": "No duplicates allowed! View Names must be unique.",
     "Ok": "Ok",
     "Open iQontrol": "Open iQontrol",
     "Operations": "Operations",

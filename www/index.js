@@ -340,6 +340,10 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.valueList = ["off", "on"];
 				break;
 
+				case "level": case "level.dimmer": case "level.blind":
+				result.type = "level";
+				break;
+
 				case "state":
 				if(usedObjects[linkedStateId].native.CONTROL) {
 					switch(usedObjects[linkedStateId].native.CONTROL) {
@@ -432,8 +436,31 @@ function toggleState(linkedStateId, deviceId, callback){
 			var min = 0;
 			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
 			if(typeof state.valueList !== udef && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
+			break;
 		}
 		setState(linkedStateId, deviceId, newVal, false, callback);
+	}
+}
+
+function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, deviceId, callback){
+	var state = getStateObject(linkedStateId);
+	if(state){
+		var direction = getStateObject(linkedDirectionId);
+		var stop = getStateObject(linkedStopId);
+		if(state.type == "level"){
+			if(direction && direction.val > 0 && stop) { //working
+				setState(linkedStopId, deviceId, true, false, callback);
+			} else { //standing still
+				var oldVal = state.val;
+				var min = 0;
+				var max = 100;
+				if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
+				if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
+				var newVal;
+				if(oldVal > min) newVal = min; else newVal = max;
+				setState(linkedStateId, deviceId, newVal, false, callback);
+			}
+		}
 	}
 }
 
@@ -607,6 +634,23 @@ function renderView(id, updateOnly){
 						case "iQontrolWindow":
 						iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/window_opened.png' />";
 						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/window_closed.png' />";
+						break;
+
+						case "iQontrolBlind":
+						var levelId = deviceId + ".LEVEL";
+						var linkedLevelId = getLinkedStateId(levelId);
+						var directionId = deviceId + ".DIRECTION";
+						var linkedDirectionId = getLinkedStateId(directionId);
+						var stopId = deviceId + ".STOP";
+						var linkedStopId = getLinkedStateId(stopId);
+						var onclick = "";
+						if(linkedLevelId) onclick = "toggleBlind(\"" + linkedLevelId + "\", \"" + (linkedDirectionId || "") + "\", \"" + (linkedStopId || "") + "\", \"" + deviceId + "\");";
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
+							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_opened.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_closed.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon middle' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_middle.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon closing' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_closing.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon opening' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_opening.png' />";
 						break;
 
 						case "iQontrolFire":
@@ -993,6 +1037,83 @@ function renderView(id, updateOnly){
 							}
 							break;
 
+							case "iQontrolBlind": 
+							var levelId = deviceId + ".LEVEL";
+							var linkedLevelId = getLinkedStateId(levelId);
+							if (linkedLevelId === null) stateIdsToFetch.push(levelId);
+							var directionId = deviceId + ".DIRECTION";
+							var linkedDirectionId = getLinkedStateId(directionId);
+							if (linkedDirectionId === null) stateIdsToFetch.push(directionId);
+							var stopId = deviceId + ".STOP";
+							var linkedStopId = getLinkedStateId(stopId);
+							if (linkedStopId === null) stateIdsToFetch.push(stopId);
+							if (linkedLevelId || linkedDirectionId){
+								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
+									var _linkedLevelId = linkedLevelId;
+									var _linkedDirectionId = linkedDirectionId;
+									var updateFunction = function(){
+										var level = getStateObject(_linkedLevelId);
+										var min = 0;
+										var max = 100;
+										if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.min !== udef) min = usedObjects[_linkedLevelId].common.min;
+										if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.max !== udef) max = usedObjects[_linkedLevelId].common.max;
+										var direction = getStateObject(_linkedDirectionId);
+										var resultText = "";
+										if(level && typeof level.val !== udef && level.val == min){ //Closed
+											resultText = _("closed");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+										} else if(level && typeof level.val !== udef && level.val == max){ //Opened
+											resultText = _("opened");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+
+										} else if(direction && typeof direction.val !== udef && direction.val == 1){ //Middle, but opening
+											resultText = _("opening");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+										} else if(direction && typeof direction.val !== udef && direction.val == 2){ //Middle, but closing
+											resultText = _("closing");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").addClass("active");
+										} else { //Middle with no movement
+											resultText = level.val + level.unit;
+											if(direction && typeof direction.val !== udef && direction.val == 3) resultText = "<i>" + resultText + "</i>";
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+										}
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+									};
+									if(linkedLevelId) updateViewFunctions[linkedLevelId].push(updateFunction);
+									if(linkedDirectionId) updateViewFunctions[linkedDirectionId].push(updateFunction);
+								})();
+								stateIdsToUpdate.push(linkedLevelId);
+								stateIdsToUpdate.push(linkedDirectionId);
+								stateIdsToUpdate.push(linkedStopId);
+							}
+							break;
+							
 							default:
 							var stateId = deviceId + ".STATE";
 							var linkedStateId = getLinkedStateId(stateId);
@@ -1178,35 +1299,14 @@ function renderDialog(deviceId){
 			}
 			break;
 
-			case "iQontrolProgram":
+			case "iQontrolProgram": case "iQontrolScene":
 			var stateId = deviceId + ".STATE";
 			var linkedStateId = getLinkedStateId(stateId);
 			var state = getStateObject(linkedStateId);
+			var type = "Program";
+			if (usedObjects[deviceId].common.role == "iQontrolScene") type = "Scene";
 			if(state){
-				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _("Program") + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
-				if (linkedStateId){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedStateId = linkedStateId;
-						var bindingFunction = function(){
-							$('#DialogStateButton').on('click', function(e) {
-								startProgram(_linkedStateId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})();
-					stateIdsToUpdate.push(linkedStateId);
-				}
-			}
-			break;
-
-			case "iQontrolScene":
-			var stateId = deviceId + ".STATE";
-			var linkedStateId = getLinkedStateId(stateId);
-			var state = getStateObject(linkedStateId);
-			if(state){
-				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _("Scene") + ":</label>";
+				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 				if (linkedStateId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
@@ -1231,7 +1331,7 @@ function renderDialog(deviceId){
 			var state = getStateObject(linkedStateId);
 			if(state){
 				switch(state.type){
-					case 'switch':
+					case "switch":
 					dialogContent += "<label for='DialogStateSwitch' ><image src='./images/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _("Switch") + ":</label>";
 					dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 						dialogContent += "<option value='false'>0</option>";
@@ -1265,7 +1365,7 @@ function renderDialog(deviceId){
 					}
 					break;
 
-					case 'level':
+					case "level":  
 					var min = 0;
 					var max = 100;
 					if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
@@ -1304,7 +1404,7 @@ function renderDialog(deviceId){
 					}
 					break;
 
-					case 'valueList':
+					case "valueList":
 					dialogContent += "<label for='DialogStateValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Selection") + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 						for(val in state.valueList){
@@ -1333,7 +1433,7 @@ function renderDialog(deviceId){
 					}
 					break;
 
-					case 'string':
+					case "string":
 					dialogContent += "<label for='DialogStateString' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Text") + ":</label>";
 					dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
 					if (linkedStateId){
@@ -1364,12 +1464,14 @@ function renderDialog(deviceId){
 			var linkedLevelId = getLinkedStateId(levelId);
 			var level = getStateObject(linkedLevelId);
 			if(level){
-				if(level.type == 'level'){
+				if(level.type == "level"){
 					var min = 0;
 					var max = 100;
 					if(typeof usedObjects[linkedLevelId] !== udef && typeof usedObjects[linkedLevelId].common.min !== udef) min = usedObjects[linkedLevelId].common.min;
 					if(typeof usedObjects[linkedLevelId] !== udef && typeof usedObjects[linkedLevelId].common.max !== udef) max = usedObjects[linkedLevelId].common.max;
-					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Dimmer") + ":</label>";
+					var type = "Dimmer";
+					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
+					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + level.readonly.toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (linkedLevelId){
 						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
@@ -1406,6 +1508,30 @@ function renderDialog(deviceId){
 		}
 		//--Additional Content
 		switch(usedObjects[deviceId].common.role){
+			case "iQontrolBlind": 
+			//----Blind
+			var stateId = deviceId + ".STOP";
+			var linkedStateId = getLinkedStateId(stateId);
+			var state = getStateObject(linkedStateId);
+			if(state){
+				dialogContent += "<label for='DialogStateButton' ><image src='./images/stop.png' / style='width:16px; height:16px;'>&nbsp;" + _("Stop") + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("Stop	") + "</a>";
+				if (linkedStateId){
+					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedStateId = linkedStateId;
+						var bindingFunction = function(){
+							$('#DialogStateButton').on('click', function(e) {
+								startProgram(_linkedStateId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})();
+					stateIdsToUpdate.push(linkedStateId);
+				}
+			}
+			break;
+
 			case "iQontrolDoorWithLock":
 			//----DoorWithLock
 			var stateId = deviceId + ".STATE";
@@ -1877,7 +2003,7 @@ function renderDialog(deviceId){
 			var linkedHueId = getLinkedStateId(hueId);
 			var hue = getStateObject(linkedHueId);
 			if(hue){
-				if(hue.type == 'level'){
+				if(hue.type == "level"){
 					var min = 0;
 					var max = 100;
 					if(typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.min !== udef) min = usedObjects[linkedHueId].common.min;
@@ -1921,7 +2047,7 @@ function renderDialog(deviceId){
 			var linkedCtId = getLinkedStateId(ctId);
 			var ct = getStateObject(linkedCtId);
 			if(ct){
-				if(ct.type == 'level'){
+				if(ct.type == "level"){
 					var min = 0;
 					var max = 100;
 					if(typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.min !== udef) min = usedObjects[linkedCtId].common.min;
