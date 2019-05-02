@@ -226,6 +226,26 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef) oldValue= states[stateId].val;
 	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
+		if (typeof newValue != typeof oldValue){
+			switch(typeof oldValue){
+				case "string":
+				newValue = String(newValue);
+				break;
+				
+				case "number":
+				newValue = Number(newValue);
+				break;
+				
+				case "boolean":
+				if(newValue == false || newValue == "false" || newValue < 1){
+					newValue = false;
+				} else {
+					newValue = true;
+				} 
+				break;
+			}
+			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
+		}
 		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
 		(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 			var _stateId = stateId;
@@ -300,17 +320,9 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		result.unit = getUnit(linkedStateId);
 		result.readonly = false;
 		if(typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
-		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = !usedObjects[linkedStateId].common.min;
-		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = !usedObjects[linkedStateId].common.max;
+		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
+		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		result.plainText = "";
-		if(usedObjects[linkedStateId].common.states){
-			var val = result.val;
-			if(val == true || val == "true") val = 1;
-			if(val == false || val == "false") val = 0;
-			result.plainText = _(usedObjects[linkedStateId].common.states[val]);
-			result.type = "valueList";
-			result.valueList = usedObjects[linkedStateId].common.states;
-		}
 		if(usedObjects[linkedStateId].common.role) {
 			switch(usedObjects[linkedStateId].common.role){
 				case "indicator.state":
@@ -345,6 +357,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				break;
 
 				case "state":
+				result.type = "string";
 				if(usedObjects[linkedStateId].native.CONTROL) {
 					switch(usedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
@@ -359,6 +372,17 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 						result.readonly = true;
 						break;
 					}
+				}
+				break;
+			}
+			if(usedObjects[linkedStateId].common.states){
+				var val = result.val;
+				if(val == true || val == "true") val = 1;
+				if(val == false || val == "false") val = 0;
+				if(usedObjects[linkedStateId].common.states[val]) result.plainText = _(usedObjects[linkedStateId].common.states[val]);
+				result.valueList = usedObjects[linkedStateId].common.states;
+				if (((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1) || (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch") {
+						result.type = "valueList";
 				}
 			}
 		}
@@ -553,7 +577,7 @@ function renderView(id, updateOnly){
 		}
 		viewSorted.sort();
 		//Render View
-		if(!updateOnly)	if (usedObjects[id].native.backgroundImage) {
+		if(!updateOnly)	if (usedObjects[id] && typeof usedObjects[id].native != udef && usedObjects[id].native.backgroundImage) {
 			changeViewBackground(usedObjects[id].native.backgroundImage);
 			window.scrollTo(0, 0);
 		} else {
@@ -975,6 +999,50 @@ function renderView(id, updateOnly){
 							}
 							break;
 
+							case "iQontrolDoor": case "iQontrolWindow":
+							var stateId = deviceId + ".STATE";
+							var linkedStateId = getLinkedStateId(stateId);
+							if (linkedStateId === null) stateIdsToFetch.push(stateId);
+							if (linkedStateId){
+								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
+									var _linkedStateId = linkedStateId;
+									var updateFunction = function(){
+										var state = getStateObject(_linkedStateId);
+										var resultText;
+										if(state && typeof state.plainText == 'number'){		//STATE = number
+											result = state.val;
+											resultText = result + state.unit;
+										} else if(state){ 										//STATE = bool or text
+											result = state.val;
+											if(typeof state.val == 'boolean') {					//STATE = bool -> force to opened or closed
+												if (result) {
+													resultText = _("opened");
+												} else {
+													resultText = _("closed");
+												}
+											} else {											//STATE = text
+												resultText = state.plainText;
+											}
+										}
+										resultText = unescape(resultText);
+										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+										if (result == 0) {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+										}
+									};
+									if(linkedStateId) updateViewFunctions[linkedStateId].push(updateFunction);
+								})();
+								stateIdsToUpdate.push(linkedStateId);
+							}
+							break;
+
 							case "iQontrolDoorWithLock":
 							var stateId = deviceId + ".STATE";
 							var linkedStateId = getLinkedStateId(stateId);
@@ -1177,7 +1245,7 @@ function renderView(id, updateOnly){
 		}
 		if(!updateOnly){
 			$("#ViewHeaderTitle").html(usedObjects[id].common.name);
-			$("#ViewContent").html(viewContent);
+			$("#ViewContent").html(viewContent + "<br><br>");
 			removeDuplicates(stateIdsToFetch);
 			if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(){
 				console.log(stateIdsToFetch.length + " states fetched while rendering view.");

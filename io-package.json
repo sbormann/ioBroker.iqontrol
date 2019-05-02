@@ -1,17 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.12",
+        "version": "0.0.13",
         "news": {
+            "0.0.13": {
+                "en": "Doors and Windows now force true/false to be translated to opened/closed. Double Entrys on WelcomeScreen/Overview removed. States are now set with the correct value type. Changed recognition of state types."
+            },
             "0.0.12": {
                 "en": "Check for unallowed chars in object names. Check for duplicates in view names. Level fires a slider in dialog - even when it has a state list (HUE again :)). Added Blinds (Homematic) - please test it, i don't have one to test."
-				},
+            },
             "0.0.11": {
                 "en": "Added compatibility for edge and firefox. Again Hue bugfixes. Removed Tooltip from Toolbar."
-				},
+            },
             "0.0.10": {
                 "en": "Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)"
-				},
+            },
             "0.0.9": {
                 "en": "HUE added. LinkedView now also works on windows, doors and fire-sensor. Added translation (thanks ldittmar!)"
             },
@@ -139,13 +142,15 @@
         "materialize": true,
         "materializeTab": true,
         "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
-        "welcomeScreen": {
+        "welcomeScreen": false,
+        "welcomeScreenPro": {
             "link": "iqontrol/index.html",
             "name": "iQontrol",
             "img": "iqontrol.admin/iqontrol.png",
             "color": "gray",
             "order": 1
         },
+        "noIntro": false,
         "adminTab": {
             "singleton": true,
             "name": {

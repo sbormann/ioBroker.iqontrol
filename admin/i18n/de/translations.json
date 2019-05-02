@@ -98,6 +98,7 @@
     "Thumbnail": "Vorschau",
     "Time stamp": "Zeitstempel",
     "To give everything a fancy style, you can upload your own images.": "Um dem ganzen einen eigenen Stil zu verpassen, können Sie eigene Bilder hochladen.",
+	"To work you need to activate socket.IO in web-adaptor-settings!": "Im web-Adapter muss socket.IO aktiviert sein!",
     "Toolbar": "Symbolleiste",
     "Toolbar-Entrys are links to views.": "Die Einträge der Symbolleiste sind Verknüpfungen zu anderen Ansichten.",
     "Try to create preview": "Vorschau erstellen",

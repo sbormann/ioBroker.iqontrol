@@ -52,6 +52,13 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 
 ## Changelog
+
+### 0.0.13
+* (Sebastian Bormann) Doors and Windows now force true/false to be translated to opened/closed.
+* (Sebastian Bormann) Double Entrys on WelcomeScreen/Overview removed.
+* (Sebastian Bormann) States are now set with the correct value type.
+* (Sebastian Bormann) Changed recognition of state types. I hope there are no new bugs now!
+
 ### 0.0.12
 * (Sebastian Bormann) Check for unallowed chars in object names.
 * (Sebastian Bormann) Check for duplicates in view names.

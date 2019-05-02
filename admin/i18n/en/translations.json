@@ -97,6 +97,7 @@
     "Thumbnail": "Thumbnail",
     "Time stamp": "Time stamp",
     "To give everything a fancy style, you can upload your own images.": "To give everything a fancy style, you can upload your own images.",
+	"To work you need to activate socket.IO in web-adaptor-settings!": "To work you need to activate socket.IO in web-adaptor-settings!",
     "Toolbar": "Toolbar",
     "Toolbar-Entrys are links to views.": "Toolbar-Entrys are links to views.",
     "Try to create preview": "Try to create preview",
