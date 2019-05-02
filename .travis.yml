@@ -2,12 +2,11 @@ os:
   - linux
   - osx
   - windows
-
 language: node_js
 node_js:
   - '8'
   - '10'
-
+  - '12'
 env:
   - CXX=g++-4.8
 addons:
@@ -16,7 +15,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.9
-
 before_install:
   - 'if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then CC=gcc-4.9; fi'
   - 'if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then CC=g++-4.9; fi'
@@ -25,6 +23,6 @@ before_script:
   - 'if [[ $NPMVERSION == 5 ]]; then npm install -g npm; fi'
   - npm -v
 script:
-  - npm run test:package
-  - npm run test:unit
-  - npm run test:integration
+  - 'npm run test:package'
+  - 'npm run test:unit'
+  - 'npm run test:integration'
