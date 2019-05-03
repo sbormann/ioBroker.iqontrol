@@ -24,6 +24,10 @@ Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
 It´s fully customizable.
 
+## You need...
+* Nodejs 8 or higher
+* socketIO has to be enabled in web-adapter
+
 ## How to use
 * Start creating views.
 	You can consider views as something like a pages.
