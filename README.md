@@ -53,6 +53,9 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 ## Changelog
 
+### 0.0 14
+* (Sebastian Bormann) If role of state is not further specified, then check for role of parent object.
+
 ### 0.0.13
 * (Sebastian Bormann) Doors and Windows now force true/false to be translated to opened/closed.
 * (Sebastian Bormann) Double Entrys on WelcomeScreen/Overview removed.

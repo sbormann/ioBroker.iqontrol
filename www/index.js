@@ -323,7 +323,16 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		result.plainText = "";
-		if(usedObjects[linkedStateId].common.role) {
+		result.role = usedObjects[linkedStateId].common.role;
+		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
+		if(result.role == "state" && usedObjects[linkedParentId] && typeof usedObjects[linkedParentId].common.role != udef && usedObjects[linkedParentId].common.role){
+			switch(parentRole = usedObjects[linkedParentId].common.role){
+					case "switch": case "sensor.alarm": case "sensor.alarm.fire":
+					result.role = parentRole;
+					break;
+			}					
+		}
+		if(result.role) {
 			switch(usedObjects[linkedStateId].common.role){
 				case "indicator.state":
 				result.plainText = result.val;
@@ -331,7 +340,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.readonly = true;
 				break;
 
-				case "sensor.window": case "sensor.door": case "sensor.lock":
+				case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
 				if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
 				result.type = "string";
 				result.readonly = true;
@@ -339,6 +348,12 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "sensor.alarm":
 				if(result.val) result.plainText = _("OK"); else result.plainText = _("alarm");
+				result.type = "string";
+				result.readonly = true;
+				break;
+
+				case "sensor.alarm.fire":
+				if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
 				result.type = "string";
 				result.readonly = true;
 				break;
@@ -358,7 +373,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "state":
 				result.type = "string";
-				if(usedObjects[linkedStateId].native.CONTROL) {
+				if(usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
 					switch(usedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
 						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
@@ -1263,6 +1278,7 @@ function renderView(id, updateOnly){
 }
 
 function changeViewBackground(url){
+	if(!url || url == "") url = "./images/background.png";
 	$.backstretch(url, {fade: 300});
 }
 

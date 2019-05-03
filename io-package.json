@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.13",
+        "version": "0.0.14",
         "news": {
+            "0.0.14": {
+                "en": "If role of state is not further specified, then check for role of parent object."
+            },
             "0.0.13": {
                 "en": "Doors and Windows now force true/false to be translated to opened/closed. Double Entrys on WelcomeScreen/Overview removed. States are now set with the correct value type. Changed recognition of state types."
             },

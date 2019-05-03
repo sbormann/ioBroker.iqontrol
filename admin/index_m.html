@@ -536,7 +536,7 @@
 						var id = childStates[i];
 						var stateName = id.substring(id.lastIndexOf("."), id.length);
 						switch(stateName){
-							case ".STATE": case ".Switch": case ".on":
+							case ".STATE": case ".state": case ".Switch": case ".switch": case ".on":
 							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 								resultStatesObj['LOCK_STATE'] = id;
 							} else {
@@ -560,7 +560,7 @@
 							resultStatesObj['HUE'] = id;
 							break;
 
-							case ".ct":
+							case ".CT": case ".ct":
 							resultStatesObj['CT'] = id;
 							break;
 

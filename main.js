@@ -56,7 +56,7 @@ class Iqontrol extends utils.Adapter {
 					},
 					"native": {
 						"sortPrefix": ('000' + index).slice(-4),
-						"linkedView": this.namespace + ".Views." + idEncode(this.config.toolbar[index].nativeLinkedView),
+						"linkedView": (typeof this.config.toolbar[index].nativeLinkedView != udef && this.config.toolbar[index].nativeLinkedView != "" && (this.namespace + ".Views." + idEncode(this.config.toolbar[index].nativeLinkedView)) || ""),
 						"icon": (typeof this.config.toolbar[index].nativeIcon != udef && this.config.toolbar[index].nativeIcon || "")
 					}
 				};
@@ -109,7 +109,7 @@ class Iqontrol extends utils.Adapter {
 					"native": {
 						"sortPrefix": ('000' + index).slice(-4),
 						"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
-						"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && (this.namespace + ".Views." + idEncode(this.config.views[viewIndex].devices[index].nativeLinkedView)) || ""),
+						"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && this.config.views[viewIndex].devices[index].nativeLinkedView != "" && (this.namespace + ".Views." + idEncode(this.config.views[viewIndex].devices[index].nativeLinkedView)) || ""),
 						"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 					}
 				};
