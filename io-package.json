@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.14",
+        "version": "0.0.15",
         "news": {
+            "0.0.15": {
+                "en": "Improved check for value type of states. Improved slider-tooltip to lower font-size at large numbers."
+            },
             "0.0.14": {
                 "en": "If role of state is not further specified, then check for role of parent object."
             },

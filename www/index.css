@@ -311,7 +311,15 @@ a {
 }
 
 .ui-slider-popup {
-    font-size: 30px !important;
+    font-size: 29px !important;
+}
+
+.ui-slider-popup.longText {
+    font-size: 20px !important;
+}
+
+.ui-slider-popup.extraLongText {
+    font-size: 16px !important;
 }
 
 .ui-listview a {  

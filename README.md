@@ -57,6 +57,10 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 ## Changelog
 
+### 0.0.15
+* (Sebastian Bormann) Improved check for value type of states.
+* (Sebastian Bormann) Improved slider-tooltip to lower font-size at large numbers.
+
 ### 0.0 14
 * (Sebastian Bormann) If role of state is not further specified, then check for role of parent object.
 

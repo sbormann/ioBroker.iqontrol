@@ -223,11 +223,18 @@ function fetchAllStates(callback){
 function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
 	if (!preventUpdateTime) preventUpdateTime = 5000;
-	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef) oldValue= states[stateId].val;
+	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
 	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
-		if (typeof newValue != typeof oldValue){
-			switch(typeof oldValue){
+		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
+		var convertTo = "";
+		if ((stateType == "string" || stateType == "number" || stateType == "boolean") && typeof newValue != stateType){
+			convertTo = stateType;
+		} else if (oldValue != null && (typeof oldValue == "string" || typeof oldValue == "number" || typeof oldValue == "boolean") && typeof newValue != typeof oldValue){
+			convertTo = typeof oldValue;
+		}
+		if(convertTo != ""){
+			switch(convertTo){
 				case "string":
 				newValue = String(newValue);
 				break;
@@ -2178,6 +2185,15 @@ function renderDialog(deviceId){
 	$("#Dialog").on("popupafterclose", function(event, ui){
 		actualDialogId = "";
 		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Remove Binding Functions!!!!
+	});
+	$('.iQontrolDialogSlider').on('change', function(){ 
+		if ($(this).val() < 9999) {
+			$(this).prev('div.ui-slider-popup').removeClass('longText').removeClass('extraLongText');
+		} else if ($(this).val() < 99999) {
+			$(this).prev('div.ui-slider-popup').addClass('longText').removeClass('extraLongText');
+		} else {
+			$(this).prev('div.ui-slider-popup').removeClass('longText').addClass('extraLongText');
+		}
 	});
 	for(var i = 0; i < dialogBindingFunctions.length; i++){ dialogBindingFunctions[i](); }
 	dialogBindingFunctions = [];
