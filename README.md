@@ -77,10 +77,10 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 ### Links to other view:
 * Has no further states, but it will respect the linked-view-property
 
-### Switch, Fan:
+### <img src="img/icons/switch_on.png" width="48"> Switch, <img src="img/icons/fan_on.png" width="48"> Fan:
 * STATE: boolean - display and set on/off-state
 
-### Light:
+### <img src="img/icons/light_on.png" width="48"> Light:
 Every light may have one or both of the following states:
 * STATE: boolean - display and set on/off-state
 * LEVEL: number - display an set the level of the light
@@ -89,63 +89,63 @@ Optional you can define the following states:
 * HUE: number - color of the light
 * CT: number - color-temperature of the light
 
-### Thermostat:
+### <img src="img/icons/radiator.png" width="48"> Thermostat:
 * SET_TEMPERATURE: number - goal-temperature
 * TEMPERATURE: number - actual temperature to be displayed in small in the upper right corner
 * HUMIDITY: number - actual humidity to be displayed in small in the upper right corner
 * CONTROL_MODE: value-list - display and set the mode of the thermostat
 * VALVE_STATES: array of names and numbers - displayes the opening in percentage of the valves associated with the therostat
 
-### Homematic-Thermostat:
+### <img src="img/icons/radiator.png" width="48"> Homematic-Thermostat:
 In addition to normal thermostat you can define:
 * PARTY_TEMPERATURE: string - special-formatted string to define the party- oder holiday-mode of homematic-thermostats
 * BOOST_STATE: number - displayes the remaining boost-time of homematic-thermostats
 
-### Temperature-Sensor, Humidity-Sensor:
+### <img src="img/icons/temperature.png" width="48"> Temperature-Sensor, <img src="img/icons/humidity.png" width="48"> Humidity-Sensor:
 * STATE: number - temperature or humidity that will be displayed in the lower part of the device
 * TEMPERATURE: number - temperature that will be displayed in small in the upper right corner
 * HUMIDITY: number - humidity that will be displayed in small in the upper right corner
 
-### Brigthness-Sensor:
+### <img src="img/icons/brightness_light.png" width="48"> Brigthness-Sensor:
 * STATE: number - brightness that will be displayed in the lower part of the device
 * BRIGHTNESS: number - brightness that will be displayed in small in the upper right corner
 
-### Door, Window:
+### <img src="img/icons/door_closed.png" width="48"> Door, <img src="img/icons/window_closed.png" width="48"> Window:
 * STATE: boolean - display if the door or window is opened or closed. 
     *  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
     * You can also assign a string to display any text like "3 windows open" or "all closed".
 * Doors and Windows respect the linked-view-property
 
-### Door with lock:
+### <img src="img/icons/door_locked.png" width="48"> Door with lock:
 * STATE: boolean - display if the door is opened or closed. 
 * LOCK_STATE: boolean - display if the door is locked or unlocked
 * LOCK_STATE_UNCERTAIN: boolean - the STATE will be displayed in italic-font, if true to represent that the exact position of the lock is unknown
 * LOCK_OPEN: boolean - if set to true, the door will open completely
 
-### Blind:
+### <img src="img/icons/blind_middle.png" width="48"> Blind:
 * LEVEL: number - height of the blind in percentage
 * DIRECTION: value-list - can be Stop, Up and Down
 * STOP: boolean - if set to true, the blind will stop
 
-### Fire-Sensor, Alarm:
+### <img src="img/icons/fire_on.png" width="48"> Fire-Sensor, <img src="img/icons/alarm_on.png" width="48"> Alarm:
 * STATE: boolean - if true the sensor will be displayed as triggered
     *  Alternativeley you can assign a value-list, to display additional states like 'tampered'.
     * You can also assign a string to display any text like "fire in upper floor".
 
-### Value:
+### <img src="img/icons/value_on.png" width="48"> Value:
 * STATE: any valid state to be displayed (have a look at general states-section)
 * LEVEL: number - will produce a slider in dialog
 
-### Universal:
+### <img src="img/icons/value_off.png" width="48"> Universal:
 * Universal is not yet implemented - but it will be like Value, but with the opportunity to let you chose your own on- and off-icons
 
-### Program:
+### <img src="img/icons/play_on.png" width="48"> Program:
 * STATE: boolean - if set to true, the program will be started
 
-### Scene:
+### <img src="img/icons/play.png" width="48"> Scene:
 * STATE: boolean - displayes, if the scene is active. If set to true, the scene will be started
 
-### Button:
+### <img src="img/icons/button.png" width="48"> Button:
 * STATE: any desired type of state
 * VALUE: this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the putton is pressed
 
