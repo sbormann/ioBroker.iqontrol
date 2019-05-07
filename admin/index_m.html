@@ -1,5 +1,8 @@
 <html>
 <head>
+	<!-- iQontrol - Copyright (c) by Sebatian Bormann -->
+	<!-- Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information -->
+
 	<!-- Load ioBroker scripts and styles-->
 	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
     <link rel="stylesheet" type="text/css" href="../../lib/css/fancytree/ui.fancytree.min.css"/>
@@ -19,1020 +22,8 @@
 	<!-- Load own files -->
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script type="text/javascript" src="words.js"></script>
+	<script type="text/javascript" src="index_m.js"></script>
 
-	<script type="text/javascript">
-		//++++++++++ SETTINGS ++++++++++
-		var imagePath = "/userimages";
-		var imagePathBS = imagePath.replace(/\//g, "\\");
-		var iQontrolRoles = {
-			"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]},
-			"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"]}
-		}
-		var udef = 'undefined';
-
-		//++++++++++ GLOBAL FUNCTIONS ++++++++++	
-		function initDialog(id, callback) {
-			var $dialog = $('#' + id);
-			if (!$dialog.data('inited')) {
-				$dialog.data('inited', true);
-				$dialog.modal({
-					dismissible: false
-				});
-
-				$dialog.find('.btn-set').on('click', function () {
-					var $dialog = $('#' + $(this).data('dialogid'));
-					var callback = $dialog.data('callback');
-					if (typeof callback === 'function') callback();
-					$dialog.data('callback', null);
-				});
-			}
-			$dialog.find('.btn-set').data('dialogid', id);
-			$dialog.data('callback', callback);
-		}
-
-		var selectId;
-		function initSelectId(callback) {
-			if (selectId) {
-				$('#dialogSelectId').css('z-index', '99999');
-				return callback(selectId);
-			}
-			var options = {
-				noMultiselect: true,
-				imgPath:       '../../lib/css/fancytree/',
-				filter:        {type: 'state'},
-				name:          'scenes-select-state',
-				texts: {
-					select:          _('Select'),
-					cancel:          _('Cancel'),
-					all:             _('All'),
-					id:              _('ID'),
-					name:            _('Name'),
-					role:            _('Role'),
-					room:            _('Room'),
-					value:           _('Value'),
-					selectid:        _('Select ID'),
-					from:            _('From'),
-					lc:              _('Last changed'),
-					ts:              _('Time stamp'),
-					wait:            _('Processing...'),
-					ack:             _('Acknowledged'),
-					selectAll:       _('Select all'),
-					unselectAll:     _('Deselect all'),
-					invertSelection: _('Invert selection')
-				},
-				columns: ['image', 'name', 'role', 'room']
-			};
-			var toDo = function(){
-				options.objects = iobrokerObjects;
-				selectId = $('#dialogSelectId').selectId('init', options);
-				callback(selectId);				
-			}
-			if (iobrokerObjectsReady) {
-				toDo();
-			} else {
-				iobrokerObjectsReadyFunctions.push(toDo);
-			}
-		}
-		
-		var iobrokerObjects;
-		var iobrokerObjectsReady = false;
-		var iobrokerObjectsReadyFunctions = [];
-		
-
-		/************** LOAD ************** 
-		*** This will be called by the admin adapter when the settings page loads 
-		***********************************/
-		function load(settings, onChange) {
-		//++++++++++ START ++++++++++
-			//Hide Settings
-			console.log("Loading Settings");
-			$('.hideOnLoad').hide();
-			$('.showOnLoad').show();
-
-			//Select elements with id=key and class=value and insert value
-			if (!settings) return;
-			$('.value').each(function () {
-				var $key = $(this);
-				var id = $key.attr('id');
-				if ($key.attr('type') === 'checkbox') {
-					//do not call onChange direct, because onChange could expect some arguments
-					$key.prop('checked', settings[id])
-						.on('change', () => onChange())
-						;
-				} else {
-					//do not call onChange direct, because onChange could expect some arguments
-					$key.val(settings[id])
-						.on('change', () => onChange())
-						.on('keyup', () => onChange())
-						;
-				}
-			});
-
-			//Get Subsettings
-			toolbar = settings.toolbar || settings.demotoolbar || [];
-			views = settings.views || settings.demoviews || [];
-
-			//Set initial values of further variables
-			images = [];
-			imagesDirs = [];
-			devicesSelectedView = -1;
-
-			//Init imageUpload
-			initImageUpload();
-
-			//Get Link of first Web-Adapter
-			var link = "";
-			console.log("getLink of first Web-Adapter");
-			getExtendableInstances(function (result) {
-				if (result) {
-					link = location.protocol + "//" + location.hostname + ":" + result[0].native.port + "/iqontrol";
-					console.log("Got Link: " + link);
-					$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
-
-					//Get images
-					console.log("getImages");
-					getImages(function(){
-						//Signal to admin, that no changes yet
-						onChange(false);
-
-						//Show Settings
-						console.log("All settings loaded. Adapter ready.");
-						$('.hideOnLoad').show();
-						$('.showOnLoad').hide();
-
-						//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-						if (M) M.updateTextFields();
-						
-						//Get iobrokerObjects
-						socket.emit('getObjects', function (err, objs) {
-							iobrokerObjects = objs;
-							iobrokerObjectsReady = true;
-							for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
-								if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
-							}
-							iobrokerObjectsReadyFunctions = [];
-						});						
-					});
-				}
-			});
-
-			//++++++++++ TABS ++++++++++
-			//Enhance Tabs with onShow-Function
-			$('ul.tabs li a').on('click', function(){ onTabShow($(this).attr('href'));});
-			function onTabShow(tabId){
-				switch(tabId){
-					case "#tabToolbar":
-					//Add Views to Selectbox for LinkedView
-					var viewIds = [];
-					views.forEach(function(element){ viewIds.push(element.commonName); });
-					$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
-					//Fill Table
-					values2table('tableToolbar', toolbar, onChange);
-					break;
-
-					case "#tabViews":
-					//Add Images to Selectbox for BackgroundImage
-					var imagenames = [];
-					images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
-					$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
-					$('select').select();
-					//Fill Table
-					values2table('tableViews', views, onChange, onTableViewsReady);
-					break;
-
-					case "#tabDevices":
-					//Add Views to Selectbox for Views and for LinkedView
-					var viewIds = [""];
-					views.forEach(function(element){ viewIds.push(element.commonName); });
-					$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
-					$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-					views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-					//Add Images to Selectbox for BackgroundImage
-					var imagenames = [];
-					images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
-					$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
-					$('select').select();
-					//Reset devicesSelecteView
-					devicesSelectedView = -1;
-					$('.divDevices').hide();
-					break;
-
-					case "#tabImages":
-					//Fill Table
-					values2table('tableImages', images, onChange, onTableImagesReady);
-					//Add Dirs to Selectbox for SelectedDir
-					imagesSelectedDirFillSelectbox();
-					break;
-				}
-			}
-			
-			//++++++++++ VIEWS ++++++++++
-			//Enhance TableViews with functions
-			function onTableViewsReady(){
-				var $div = $('#tableViews');
-				var $table = $div.find('.table-values');
-				var $lines = $table.find('.table-lines');
-				//CommonName changed
-				$lines.find('input[data-name]').each(function () {
-					var name = $(this).data('name');
-					if (name === 'commonName') {
-						$(this).on('focusin', function(){
-							$(this).data('oldval', $(this).val());
-						});
-						$(this).on('change', function (){
-							var index = $(this).data('index');
-							var oldVal = $(this).data('oldval');
-							var newVal = $(this).val();
-							changeViewsCommonName(index, oldVal, newVal);
-							if(viewsCheckDuplicates()) alert(_("No duplicates allowed! View Names must be unique."));
-						});
-					}
-				});
-				function changeViewsCommonName(index, oldVal, newVal){
-					toolbar.forEach(function(element){
-						if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
-					});
-				}
-				//Add Thumbs to SelectBox
-				$lines.find('select[data-name]').each(function() {
-					var name = $(this).data('name');
-					if (name === 'nativeBackgroundImage') {
-						var index = $(this).data('index');
-						$(this).addClass('icons');
-						$(this).find('option').each(function() {
-							var icon = $(this).val().replace(/\\/g, "/").substring(1) || "";
-							if (icon != "") $(this).attr('data-icon', link + icon);
-							$(this).addClass('left');
-						});
-					}
-				});
-				$('select').select();
-				viewsCheckDuplicates();
-			}
-			//Check for duplicates
-			function viewsCheckDuplicates(){
-				var duplicates = false;
-				var viewCommonNames = [];
-				views.forEach(function(element){
-					if (viewCommonNames.indexOf(element.commonName) > -1){
-						duplicates = true;
-					} else {
-						viewCommonNames.push(element.commonName);
-					}
-				});
-				if(duplicates){
-					$('#viewsNoDuplicatesAllowed').show();
-				} else {
-					$('#viewsNoDuplicatesAllowed').hide();
-				}
-				return duplicates;
-			}
-			
-			//++++++++++ DEVICES ++++++++++
-			//Enhance devicesSelectedView-Selectbox with functions
-			$('#devicesSelectedView').on('change', function(){
-				devicesSelectedView = $('#devicesSelectedView').val();
-				if(devicesSelectedView > -1){
-					if(!views[devicesSelectedView].devices) views[devicesSelectedView].devices = [];
-					//Fill Table
-					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
-					$('.divDevices').show();
-				} else {
-					$('.divDevices').hide();
-				}
-			});
-
-			//Enhance TableDevices with functions
-			function onTableDevicesReady(){
-				var $div = $('#tableDevices');
-				var $table = $div.find('.table-values');
-				var $lines = $table.find('.table-lines');
-				//Button-Functions
-				$lines.find('a[data-command]').each(function () {
-					var command = $(this).data('command');
-					//Edit Device
-					if (command === 'edit') {
-						$(this).on('click', function () {
-							var viewIndex = devicesSelectedView;
-							var deviceIndex = $(this).data('index');
-							initDialog('dialogDeviceEdit', function(){ //save dialog
-								var viewIndex =   $('#dialogDeviceEditViewIndex').val();
-								var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-								views[viewIndex].devices[deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
-								views[viewIndex].devices[deviceIndex].states = dialogDeviceEditStatesTable;
-							});
-							$('#dialogDeviceEditCommonName').html(views[viewIndex].devices[deviceIndex].commonName || "");
-							$('#dialogDeviceEditViewIndex').val(viewIndex);
-							$('#dialogDeviceEditDeviceIndex').val(deviceIndex);
-							dialogDeviceEditStates = views[viewIndex].devices[deviceIndex].states || [];
-							dialogDeviceEditStatesTable = [];
-							if(views[viewIndex].devices[deviceIndex].commonRole) {
-								$('#dialogDeviceEditCommonRole').val(views[viewIndex].devices[deviceIndex].commonRole).trigger('change');
-							} else {
-								$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
-							}
-							$('select').select()
-							$('#dialogDeviceEdit').modal('open');
-						});
-					}
-				});
-				//Add Thumbs to SelectBox
-				$lines.find('select[data-name]').each(function() {
-					var name = $(this).data('name');
-					if (name === 'nativeBackgroundImage') {
-						var index = $(this).data('index');
-						$(this).addClass('icons');
-						$(this).find('option').each(function() {
-							var icon = $(this).val().replace(/\\/g, "/").substring(1) || "";
-							if (icon != "") $(this).attr('data-icon', link + icon);
-							$(this).addClass('left');
-						});
-					}
-				});
-				$('select').select();
-			}
-
-			//Add Roles to dialogDeviceEditCommonRole-Selectbox
-			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>Select Role</option>");
-			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
-			$('select').select();
-
-			//Enhance dialogDeviceEditCommonRole-Selectbox with functions
-			$('#dialogDeviceEditCommonRole').on('change', function(){
-				var viewIndex =   $('#dialogDeviceEditViewIndex').val();
-				var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-				dialogDeviceEditCommonRole = $('#dialogDeviceEditCommonRole').val();
-				if(typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new table
-					var index = dialogDeviceEditStates.findIndex(function(element){ return element.state == entry.state;});
-					if (index == -1) {
-						dialogDeviceEditStates.push(entry);
-					} else {
-						dialogDeviceEditStates[index] = entry;
-					}
-				});
-				dialogDeviceEditStatesTable = [];
-				if(dialogDeviceEditCommonRole){
-					iQontrolRoles[dialogDeviceEditCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
-						value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).value || "";
-						dialogDeviceEditStatesTable.push({'state':entry, 'value':value});
-					});
-				}
-				//Fill Table
-				values2table('tabledialogDeviceEditStates', dialogDeviceEditStatesTable, onChange, onTabledialogDeviceEditStatesReady);
-			});
-
-			//Enhance tabledialogDeviceEditStates with functions
-			function onTabledialogDeviceEditStatesReady(){
-				var $div = $('#tabledialogDeviceEditStates');
-				var $table = $div.find('.table-values');
-				var $lines = $table.find('.table-lines');
-				//Make State Readonly and add id for selectId-Dialog
-				$lines.find('input[data-name]').each(function () {
-					var name = $(this).data('name');
-					if (name === 'state') {
-						$(this).prop('readonly', true);
-					}
-					if (name === 'value') {
-						var stateIndex = $(this).data('index');
-						$(this).prop('id', 'tabledialogDeviceEditStatesValue_' + stateIndex);
-					}
-					if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">object: {"name":"ID", "name2":"ID2"}</span>');
-				});
-				//Button-Functions
-				$lines.find('a[data-command]').each(function () {
-					var command = $(this).data('command');
-					if (command === 'edit') {
-						$(this).on('click', function () {
-							var stateIndex = $(this).data('index');
-							$('#dialogSelectId').data('selectidfor', 'tabledialogDeviceEditStatesValue_' + stateIndex);
-							initSelectId(function (sid) {
-								sid.selectId('show', $('#tabledialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
-									if (newId) {
-										$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-									}
-								});
-							});
-						});
-					}
-				});
-			}
-
-			//Enhance DeviceAutocreate with functions
-			var dialogDeviceAutocreateResult;
-			$('#devicesAutocreateButton').on('click', function () {
-				initDialog('dialogDeviceAutocreate', function(){ //save dialog
-					views[$('#devicesSelectedView').val()].devices.push(dialogDeviceAutocreateResult);
-					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
-				});
-				if ($('#dialogDeviceAutocreateSourceId').val() == "") {
-					$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
-				} else {
-					$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
-				}
-				$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
-				$('#dialogDeviceAutocreatePreviewStates').html('');
-				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
-				$('#dialogDeviceAutocreate').modal('open');
-			});
-			$('#dialogDeviceAutocreateSourceId').on('input change', function(){
-				dialogDeviceAutocreateResult = {};
-				if($(this).val() == ""){
-					$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
-				} else {
-					$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
-				}
-				var toDo = function(){
-					if(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()]){
-						$('#dialogDeviceAutocreateSourceIdCommonName').html(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()].common.name);
-					} else {
-						$('#dialogDeviceAutocreateSourceIdCommonName').html("");
-					}
-				}
-				if(iobrokerObjectsReady) {
-					toDo(); 
-				} else { 
-					iobrokerObjectsReadyFunctions.push(toDo);
-				}
-				$('#dialogDeviceAutocreatePreview').html(_("Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first."));
-				$('#dialogDeviceAutocreatePreviewStates').html('');
-				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
-			});
-			$('#dialogDeviceAutocreateSourceIdSelectIdButton').on('click', function(){
-				initSelectId(function (sid) {
-					sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'channel'}, function (newId) {
-						if (newId) {
-							$('#dialogDeviceAutocreateSourceId').val(newId).trigger('change');
-							if (M) M.updateTextFields();
-						}
-					});
-				});
-			});
-			$('#dialogDeviceAutocreateCreatePreviewButton').on('click', function(){
-				dialogDeviceAutocreateResult = {};
-				$('#dialogDeviceAutocreateSourceId').addClass('disabled');
-				$('#dialogDeviceAutocreateSourceIdSelectIdButton').addClass('disabled');
-				$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
-				$('#dialogDeviceAutocreatePreview').html(_('Please wait...'));
-				$('#dialogDeviceAutocreatePreviewStates').html('');
-				$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
-				var toDo = function(){
-					var sourceId = $('#dialogDeviceAutocreateSourceId').val();
-					var result = deviceAutocreate(sourceId, iobrokerObjects);
-					$('#dialogDeviceAutocreatePreview').html(result.resultText);
-					$('#dialogDeviceAutocreatePreviewStates').html(result.resultStatesText);
-					$('#dialogDeviceAutocreateSourceId').removeClass('disabled');
-					$('#dialogDeviceAutocreateSourceIdSelectIdButton').removeClass('disabled');
-					if (result.resultValid){
-						dialogDeviceAutocreateResult = result.resultObject;
-						$('#dialogDeviceAutocreate a.btn-set').removeClass('disabled')
-					}
-				}
-				if (iobrokerObjectsReady) {
-					toDo();
-				} else {
-					iobrokerObjectsReadyFunctions.push(toDo);
-				}
-			});
-			function deviceAutocreate(sourceId, objects){
-				var resultObject = {};
-				var resultText = "";
-				var resultValid = false;
-				if(!objects[sourceId]){
-					resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
-				} else {
-					//Find out Name
-					if (typeof objects[sourceId].common.name != udef) {
-						resultObject.commonName = objects[sourceId].common.name;
-						resultText += "<u>" + _("Name") + ":</u> " + objects[sourceId].common.name + "<br><br>";
-						resultValid = true;
-					} else {
-						resultObject.commonName = _("New Device");
-						resultText += "<blockquote>" + _("The name of the device could not be determined and was set to") + " \'" + _("New Device") + "\'</blockquote><br><br>";
-					}
-					//Get childStates
-					var childStates = [];
-					for(id in objects){
-						if(id.indexOf(sourceId) == 0 && objects[id].type == 'state') childStates.push(id);
-					}
-					childStates.sort().reverse(); //reverse order, so that the top channel of multi-channel-devices wins
-					//Try to match childStates
-					resultStatesObj = {};
-					for(i = 0; i < childStates.length; i++){
-						var id = childStates[i];
-						var stateName = id.substring(id.lastIndexOf("."), id.length);
-						switch(stateName){
-							case ".STATE": case ".state": case ".Switch": case ".switch": case ".on":
-							if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
-								resultStatesObj['LOCK_STATE'] = id;
-							} else {
-								resultStatesObj['STATE'] = id;
-							}
-							break;
-
-							case ".LEVEL": case ".level":
-							resultStatesObj['LEVEL'] = id;
-							break;
-
-							case ".DIRECTION": 
-							resultStatesObj['DIRECTION'] = id;
-							break;
-
-							case ".STOP":
-							resultStatesObj['STOP'] = id;
-							break;
-
-							case ".HUE": case ".hue":
-							resultStatesObj['HUE'] = id;
-							break;
-
-							case ".CT": case ".ct":
-							resultStatesObj['CT'] = id;
-							break;
-
-							case ".SET_TEMPERATURE":
-							resultStatesObj['SET_TEMPERATURE'] = id;
-							break;
-
-							case ".HUMIDITY": case ".ACTUAL_HUMIDITY":
-							resultStatesObj['HUMIDITY'] = id;
-							break;
-
-							case ".TEMPERATURE": case ".ACTUAL_TEMPERATURE":
-							resultStatesObj['TEMPERATURE'] = id;
-							break;
-
-							case ".CONTROL_MODE":
-							resultStatesObj['CONTROL_MODE'] = id;
-							break;
-
-							case ".PARTY_TEMPERATURE":
-							resultStatesObj['PARTY_TEMPERATURE'] = id;
-							break;
-
-							case ".STATE_UNCERTAIN":
-							resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
-							break;
-
-							case ".OPEN":
-							resultStatesObj['LOCK_OPEN'] = id;
-							break;
-
-							case ".LOWBAT":
-							resultStatesObj['BATTERY'] = id;
-							break;
-
-							case ".UNREACH":
-							resultStatesObj['UNREACH'] = id;
-							break;
-
-							case ".ERROR": case ".FAULT_REPORTING":
-							resultStatesObj['ERROR'] = id;
-							break;
-						}
-					}
-					//Try to find out the role
-					//--iQontrolView
-					var role = null;
-					if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
-						role = "iQontrolView";
-					}
-					//--all the others
-					//----find out the role of sources main state (priority in ascending order!)
-					var sourceRole = null;
-					if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) { 
-						sourceRole = objects[resultStatesObj['STATE']].common.role;
-						if(sourceRole == 'state') { //special - check the parent channel's role
-							var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
-							if(resultStateParent.length > 0){
-								if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
-							}
-						}
-					}
-					if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
-					if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
-					if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
-					if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
-					if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
-					//----try to match this to destination role
-					switch(sourceRole){
-						case "switch": case "switch.power": case "switch.enable":
-						role = 'iQontrolSwitch';
-						break;
-
-						case "switch.light": case "level.dimmer":
-						role = 'iQontrolLight';
-						break;
-
-						case "---missing---":
-						role = 'iQontrolFan';
-						break;
-
-						case "---missing---":
-						role = 'iQontrolThermostat';
-						break;
-
-						case "level.temperature":
-						role = 'iQontrolHomematicThermostat';
-						break;
-
-						case "---missing---":
-						role = 'iQontrolDoor';
-						break;
-
-						case "switch.lock":
-						role = 'iQontrolDoorWithLock';
-						break;
-
-						case "sensor":						
-						role = 'iQontrolWindow';
-						break;
-
-						case "level.blind":						
-						role = 'iQontrolBlind';
-						break;
-
-						case "state":
-						role = 'iQontrolValue';
-						break;
-
-						case "sensor.alarm.fire":
-						role = 'iQontrolFire';
-						break;
-
-						case "action.execute":
-						role = 'iQontrolProgram';
-						break;
-
-						case "scene.state":
-						role = 'iQontrolScene';
-						break;
-					}
-					//Got role?
-					if (role) {
-						resultObject.commonRole = role;
-						if (typeof iQontrolRoles[role] != udef && typeof iQontrolRoles[role].name != udef) {
-							resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[role].name) + "<br><br>";
-						} else {
-							resultText += _("Role") + ": " + role + "<br><br>";
-						}
-						resultValid = true;
-					} else {
-						resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
-					}
-					//Got states?
-					resultStates = [];
-					for(state in resultStatesObj){
-						resultStates.push({state: state, value: resultStatesObj[state]});
-					}		
-					var resultStatesText = "";
-					if(resultStates.length > 0 ){
-						resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
-						for(i = 0; i < resultStates.length; i++){
-							resultStatesText += resultStates[i].state + ": " + resultStates[i].value + "<br>";
-						}
-						resultObject.states = resultStates;
-						resultValid = true;
-					} else {
-						resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
-					}
-					//Result valid?
-					if(resultValid) {
-						resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
-					} else {
-						resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
-					}
-				}
-				var result = {};
-				result.resultObject = resultObject;
-				result.resultText = resultText;
-				result.resultStatesText = resultStatesText;
-				result.resultValid = resultValid;
-				return result;
-			}
-
-			//Enhance DeviceCopyFrom with functions
-			$('#devicesCopyFromButton').on('click', function () {
-				initDialog('dialogDeviceCopyFrom', function(){ //save dialog
-					var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
-					var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
-					var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference 
-					values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
-				});
-				$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-				views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
-				$('select').select();
-				$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
-				$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
-				$('#dialogDeviceCopyFrom').modal('open');
-			});
-			$('#dialogDeviceCopyFromSourceView').on('change', function(){
-				$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
-				views[$('#dialogDeviceCopyFromSourceView').val()].devices.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceDevice').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-				$('select').select();
-				$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
-			});
-			$('#dialogDeviceCopyFromSourceDevice').on('change', function(){
-				if($('#dialogDeviceCopyFromSourceDevice').val()){
-					$('#dialogDeviceCopyFrom a.btn-set').removeClass('disabled')
-				} else {
-					$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
-				}
-			});
-
-			//+++++++++ Toolbar ++++++++++
-			//Nothing to do here
-			
-			//++++++++++ IMAGES ++++++++++
-			//Init Image-Upload
-			function initImageUpload(){
-				document.getElementById('imagesUploadFile').addEventListener('change', imagesUploadHandleFileSelect, false);
-				$('#imagesUploadFileSubmit').on('click', imagesUploadHandleSubmit);
-			}
-			function imagesUploadHandleFileSelect() {
-				$('#imagesUploadFileSubmit').addClass('disabled');
-				var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
-				if (!files.length) return;
-				var file = files[0];
-				if (file.size > 10 * 1024 * 1024) {
-					alert(_('File %s is too big. Maximum 10MB', escape(file.name)));
-					$('#imagesUploadFile').val('');
-					return;
-				}
-				$('#imagesUploadFileSubmit').removeClass('disabled');
-			}
-			function imagesUploadHandleSubmit() {
-				var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
-				if (!files.length) return;
-				var file = files[0];
-				uploadFile(file, imagePath + $('#imagesSelectedDir').val(), function (name) {
-					$('#imagesUploadFileForm')[0].reset();
-					$('#imagesUploadFileSubmit').addClass('disabled');
-					getImages(function(){
-						values2table('tableImages', images, onChange, onTableImagesReady);
-						var dummy = $('#imagesSelectedDir').val();
-						imagesSelectedDirFillSelectbox();
-						$('#imagesSelectedDir').val(dummy).trigger('change');
-						$('select').select();
-					});
-				});
-			}
-
-			//File-Operations
-			function uploadFile(file, path, callback) {
-				if(typeof path == 'function') {
-					callback = path;
-					path = null;
-				}
-				var reader = new FileReader();
-				reader.onload = function(e) { //Closure to capture the file information.
-					socket.emit('writeFile', adapter, (path ? path + "/" : "") + file.name, e.target.result, function () {
-						if (callback) callback(file.name);
-					});
-				};
-				reader.readAsArrayBuffer(file);
-			}
-			function deleteFile(path, callback) {
-				alert("Hmm. In this alpha-Version deleting files does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-				socket.emit('unlink', adapter, path, function (err) {
-					if (callback) callback(err);
-				});
-			}
-			function renameFile(oldPath, newPath, callback) {
-				alert("Hmm. In this alpha-Version renaming does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-				socket.emit('rename', adapter, oldPath, newPath, function (err) {
-					if (callback) callback(err);
-				});
-			}
-			function createDir(path, callback) {
-				alert("Hmm. In this alpha-Version creating dirs does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-				socket.emit('mkdir', adapter, path, function (err) {
-					if (callback) callback(err);
-				});
-			}
-
-			//getImages
-			var getImagesRunningTasks = 0;
-			function getImages(path, callback){
-				if(typeof path == 'function') callback = path;
-				if(typeof path != "string") {
-					path = imagePath;
-					images = [];
-					imagesDirs = [{
-								dirname: 		"/",
-					}];
-				};
-				socket.emit('readDir', adapter, path, function(err, obj){
-					obj.forEach(function(element){
-						if(element.isDir) {
-							imagesDirs.push({
-								dirname:		path.substring(imagePath.length) + "/" + element.file
-							});
-							getImagesRunningTasks += 1;
-							getImages(path + "/" + element.file, callback);
-						} else {
-							images.push({
-								filename: 		path.substring(imagePath.length) + "/" + element.file,
-								filenameBS: 	path.substring(imagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
-								filenameVS:		path.substring(imagePath.length).replace(/\//g, "|") + "|" + element.file.replace(/\//g, "|")
-							});
-							console.log("Got Image: " + path + "/" + element.file);
-						}
-					});
-					if(getImagesRunningTasks > 0) {
-						getImagesRunningTasks -= 1;
-					} else {
-						console.log("Got all images.");
-						if(typeof callback == 'function') callback();
-					}
-				});
-			}
-			
-			//Add Images to Selectbox for SelectedDir
-			function imagesSelectedDirFillSelectbox(){
-				var dirnames = [];
-				$('#imagesSelectedDir').empty();
-				imagesDirs.forEach(function(element){ $('#imagesSelectedDir').append("<option value='" + element.dirname + "'>" + element.dirname + "</option>"); });
-				$('select').select();
-				imagesSelectedDirFilterList();
-			}
-
-			//Enhance Selectbox for SelectedDir
-			$('#imagesSelectedDir').on('change', imagesSelectedDirFilterList);
-			function imagesSelectedDirFilterList(){
-				var val = $('#imagesSelectedDir').val();
-				if(val == "/"){
-					$('#imagesUploadRenameDir').addClass('disabled');
-					$('#imagesUploadDeleteDir').addClass('disabled');
-				} else {
-					$('#imagesUploadRenameDir').removeClass('disabled');
-					$('#imagesUploadDeleteDir').removeClass('disabled');
-				}
-				var $div = $('#tableImages');
-				var $table = $div.find('.table-values');
-				var $lines = $table.find('.table-lines');
-				if (!val) {
-					$lines.show();
-				} else {
-					$lines.find('input[data-name]').each(function () {
-						var name = $(this).data('name');
-						if (name === 'filename') {
-							$line = $(this).closest('tr');
-							if($(this).val().indexOf(val) == 0 && $(this).val().lastIndexOf("/") <= val.length) {
-								$line.show();
-							} else {
-								$line.hide();
-							}
-						}
-					});
-				}
-			}
-
-			//Enhance tableImages with functions
-			function onTableImagesReady(){
-				var $div = $('#tableImages');
-				var $table = $div.find('.table-values');
-				var $lines = $table.find('.table-lines');
-				//Make Filename Readonly
-				$lines.find('input[data-name]').each(function () {
-					var name = $(this).data('name');
-					if (name === 'filename') {
-						$(this).prop('readonly', true);
-					}
-				});
-				//Button-Functions
-				$lines.find('a[data-command]').each(function () {
-					var command = $(this).data('command');
-					//Replace photo-button with thumbnail
-					if (command === 'photo') {
-						var imageIndex = $(this).data('index');
-						$(this).replaceWith("<img src='" + link + "/" + imagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;'></img>");
-					}
-					//Rename file
-					if (command === 'edit') {
-						$(this).on('click', function () {
-							var index = $(this).data('index');
-							var newName = prompt(_("Change filename from %s to:", images[index].filename), images[index].filename);
-							if(newName && newName != images[index].filename){
-								renameFile(imagePath + images[index].filename, imagePath + newName, function(){
-									getImages(function(){
-										values2table('tableImages', images, onChange, onTableImagesReady);
-										var dummy = $('#imagesSelectedDir').val();
-										imagesSelectedDirFillSelectbox();
-										$('#imagesSelectedDir').val(dummy).trigger('change');
-										$('select').select();
-									});
-								});
-							}
-						});
-					}
-					//Delete
-					if (command === 'delete_forever') {
-						$(this).find('i').addClass('red').html('delete_forever');
-						$(this).on('click', function (e) {
-							var index = $(this).data('index');
-							if(confirm(_("Delete file %s on server? Warning: This can't be undone!", images[index].filename))){
-								deleteFile(imagePath + images[index].filename, function(){
-									getImages(function(){
-										values2table('tableImages', images, onChange, onTableImagesReady);
-										var dummy = $('#imagesSelectedDir').val();
-										imagesSelectedDirFillSelectbox();
-										$('#imagesSelectedDir').val(dummy).trigger('change');
-										$('select').select();
-									});
-								});
-							}
-						});
-					}
-				});
-				imagesSelectedDirFilterList();
-			}
-			//Create Dir
-			$('#imagesUploadCreateDir').on('click', function(){
-				var newName = prompt(_("Create Directory"), (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder");
-				if(newName != ""){
-					if (newName.indexOf('/') != 0) newName = "/" + newName;
-					createDir(imagePath + newName, function(){
-						getImages(function(){
-							values2table('tableImages', images, onChange, onTableImagesReady);
-							var dummy = $('#imagesSelectedDir').val();
-							imagesSelectedDirFillSelectbox();
-							$('#imagesSelectedDir').val(dummy).trigger('change');
-							$('select').select();
-						});
-					});
-				}
-			});
-			//Rename Dir
-			$('#imagesUploadRenameDir').on('click', function () {
-				var newName = prompt(_("Change Directory Name from %s to:", $('#imagesSelectedDir').val()), $('#imagesSelectedDir').val());
-				if (newName.indexOf('/') != 0) newName = "/" + newName;
-				if(newName && newName != $('#imagesSelectedDir').val()){
-					renameFile(imagePath + $('#imagesSelectedDir').val(), imagePath + newName, function(){
-						getImages(function(){
-							values2table('tableImages', images, onChange, onTableImagesReady);
-							var dummy = $('#imagesSelectedDir').val();
-							imagesSelectedDirFillSelectbox();
-							$('#imagesSelectedDir').val(dummy).trigger('change');
-							$('select').select();
-						});
-					});
-				}
-			});
-			//Delete Dir
-			$('#imagesUploadDeleteDir').on('click', function () {
-				if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
-					deleteFile(imagePath + $('#imagesSelectedDir').val(), function(){
-						getImages(function(){
-							values2table('tableImages', images, onChange, onTableImagesReady);
-							var dummy = $('#imagesSelectedDir').val();
-							imagesSelectedDirFillSelectbox();
-							$('#imagesSelectedDir').val(dummy).trigger('change');
-							$('select').select();
-						});
-					});
-				}
-			});
-
-
-		}
-
-		/************** SAVE ************** 
-		*** This will be called by the admin adapter when the user presses the save button 
-		***********************************/
-		function save(callback) {
-			//Select elements with class=value and build settings object
-			var obj = {};
-			$('.value').each(function () {
-				var $this = $(this);
-				if ($this.attr('type') === 'checkbox') {
-					obj[$this.attr('id')] = $this.prop('checked');
-				} else {
-					obj[$this.attr('id')] = $this.val();
-				}
-			});
-			//Get edited subsettings
-			obj.toolbar = toolbar;
-			obj.views = views;
-			//Save settings
-			callback(obj);
-		}
-	</script>
 	<style>
 		.modal { max-height:85% !important; max-width:95% !important; width:80% !important; height:80% !important; overflow: visible !important;}
 		.dialog-select-container {max-height: 90% !important;}
@@ -1108,6 +99,12 @@
 						<p><i class="material-icons left">error</i><span class="translate">To work you need to activate socket.IO in web-adaptor-settings!</span></p>
 					</div>
 				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<br>
+						<p style="font-size: small;">(C) Sebastian Bormann</p>
+					</div>
+				</div>
 			</div>
 
 			<!-- ++++++++++ TAB: Views ++++++++++ -->
@@ -1121,7 +118,7 @@
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class=" material-icons translate">add</i>
+								<i class="material-icons">add</i>
 							</button>
 						</div>
 					</div>
@@ -1159,6 +156,11 @@
 						<span class="translate">View to edit</span>
 					</div>
 				</div>
+				<div class="row divDevicesNothingSelected" style="min-height: 500px;">
+					<div class="col s12">
+						<h6 class="translate sub-title" style="display: none;">Please select a device to edit</h6><!-- Placeholder - needed to fix issue with unscrollable selectbox -->
+					</div>
+				</div>
 				<div class="row divDevices" style="display:none;">
 					<div class="col s12">
 						<h6 class="translate sub-title">Operations</h6>
@@ -1166,8 +168,8 @@
 				</div>
 				<div class="row divDevices" style="display:none;">
 					<div class="col s12">
-                                            <a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
-                                            <a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
+						<a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
+						<a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
 					</div>
 				</div>
 				<div class="row divDevices" style="display:none;">
@@ -1179,7 +181,7 @@
 					<div class="row">
 						<div class="col s2 m1 l1 center">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class="translate material-icons">add</i>
+								<i class="material-icons">add</i>
 							</button>
 						</div>
 					</div>
@@ -1211,7 +213,7 @@
 						<div class="row">
 							<div class="col s2 m1 l1 center">
 								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-									<i class="translate material-icons">add</i>
+									<i class="material-icons">add</i>
 								</button>
 							</div>
 						</div>
@@ -1268,10 +270,10 @@
 				</div>
 				<div class = "row">
 					<div class="col s12">
-                                            <a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file here</span></a>
-                                                <a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
-                                                <a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
-                                                <a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
+						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file here</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
 						<br><br>
 					</div>
 				</div>
@@ -1314,7 +316,10 @@
                 </div>
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Select Role</h6>
+						<h6 class="translate sub-title">
+							<a class="btn-floating btn-small waves-effect waves-light" href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#description-of-roles-and-associated-states" target="_blank"><i class="material-icons">live_help</i></a>
+							Select Role
+						</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -1329,14 +334,57 @@
 						<h6 class="translate sub-title">Set Corresponding States</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tabledialogDeviceEditStates">
+				<div class="col s12" id="tableDialogDeviceEditStates">
 					<div class="col s12 m12 l12">
 						<table class="table-values" style="width: 90%;">
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
+									<th data-name="type" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Type</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit" style="width:50px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: Device Edit StateArray -->
+        <div id="dialogDeviceEditStateArray" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditStateArrayIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit State:</span> <span id="dialogDeviceEditStateArrayName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">List</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogDeviceEditStateArray">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1 center">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-name="type" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Type</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit delete" style="width:50px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -1374,7 +422,7 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-                                            <a class="waves-effect waves-light btn" id="dialogDeviceAutocreateCreatePreviewButton"><i class="material-icons left">check_circle</i><span class="translate">Try to create preview</span></a>
+                        <a class="waves-effect waves-light btn" id="dialogDeviceAutocreateCreatePreviewButton"><i class="material-icons left">check_circle</i><span class="translate">Try to create preview</span></a>
 					</div>
 				</div>
 				<div class="row">

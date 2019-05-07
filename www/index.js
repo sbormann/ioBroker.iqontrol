@@ -1,3 +1,6 @@
+//iQontrol - Copyright (c) by Sebatian Bormann
+//Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
+
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
@@ -87,23 +90,6 @@ function getStarted(){
 	});
 }
 
-function getEverything(){
-	fetchAllViews(function(){
-		console.log("All Views received.");
-		renderView(actualViewId);
-		fetchAllStates(function(){
-			console.log("All States received.");
-			renderView(actualViewId, "updateOnly");
-			fetchAllObjects(function(){
-				console.log("All objects received.");
-				renderView(actualViewId, "updateOnly");
-				renderDialog(actualDialogId, "updateOnly");
-				$("#SettingsButtonRenderSettings").attr("disabled", false);
-			});
-		});
-	});
-}
-
 function fetchToolbar(callback){
 	servConn.getChildren(namespace + ".Toolbar", useCache, function(err, _toolbarIds) {
 		toolbar = _toolbarIds;
@@ -124,17 +110,6 @@ function fetchView(id, callback){
 	} else {
 		if(callback) callback();
 	}
-}
-
-function fetchAllViews(callback){
-	servConn.getChildren(namespace + ".Views", useCache, function(err, _viewIds) {
-		var i = 0;
-		fetchChildren(id = _viewIds[i], destination = views, _callback = function (){
-			if(++i < _viewIds.length) fetchChildren(_viewIds[i], destination = views, _callback); else {		//Iterating through all ViewIds
-				if(callback) callback();
-			}
-		});
-	});
 }
 
 function fetchChildren(id, destination, callback){
@@ -165,6 +140,7 @@ function fetchObject(id, callback){
 		if(callback) callback(error = "alreadyWaitingForObject");	//Do nothing - there is already a task running that trys to retrieve the object
 	} else {
 		waitingForObject[id] = true;
+		console.log("Fetch object: " + id);
 		servConn.getObject(id, useCache, function(err, _object) {
 			if(_object) {
 				var _id = _object._id;
@@ -179,16 +155,6 @@ function fetchObject(id, callback){
 			}
 		});
 	}
-}
-
-function fetchAllObjects(callback){	//Gets all objects - due to performance reasons this is called after the first initialization, wich uses fetchObject(id) to retrieve only the used objects
-	servConn.getObjects(useCache, function(err, _objects) {
-		if(_objects) {
-			usedObjects = _objects;
-			waitingForObject = {};
-		}
-		if(callback) callback();
-	});
 }
 
 function fetchStates(ids, callback){
@@ -209,17 +175,6 @@ function fetchStates(ids, callback){
 	}
 }
 
-function fetchAllStates(callback){
-	setTimeout(function(){
-		servConn.getStates(function (err, _states) {
-			if(_states){
-				states = _states;
-			}
-			if(callback) callback();
-		});
-	}, 1000);
-}
-
 function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
 	if (!preventUpdateTime) preventUpdateTime = 5000;
@@ -228,10 +183,10 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
 		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
 		var convertTo = "";
-		if ((stateType == "string" || stateType == "number" || stateType == "boolean") && typeof newValue != stateType){
-			convertTo = stateType;
-		} else if (oldValue != null && (typeof oldValue == "string" || typeof oldValue == "number" || typeof oldValue == "boolean") && typeof newValue != typeof oldValue){
-			convertTo = typeof oldValue;
+		if (stateType == "string" || stateType == "number" || stateType == "boolean"){
+			if (typeof newValue != stateType) convertTo = stateType;
+		} else if (oldValue != null && (typeof oldValue == "string" || typeof oldValue == "number" || typeof oldValue == "boolean")){
+			if (typeof newValue != typeof oldValue) convertTo = typeof oldValue;
 		}
 		if(convertTo != ""){
 			switch(convertTo){
@@ -433,6 +388,21 @@ function removeDuplicates(array) { //Removes duplicates from an array
     });
 }
 
+function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+    try {
+        var o = JSON.parse(jsonString);
+        // Handle non-exception-throwing cases:
+        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+        // but... JSON.parse(null) returns null, and typeof null === "object", 
+        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+    return false;
+};
+
 function updateState(stateId, ignorePreventUpdate){
 	if(preventUpdate[stateId]){
 		console.log(">> ack: " + states[stateId].ack + " val: " + states[stateId].val + " newVal: " + preventUpdate[stateId].newVal);
@@ -518,6 +488,15 @@ function startProgram(linkedStateId, deviceId, callback){
 	}
 }
 
+function startButton(linkedStateId, setValueId, deviceId, callback){
+	console.log("Button");
+	console.log(linkedStateId);
+	var constSetValueId = getLinkedStateId(setValueId);
+	if(linkedStateId && constSetValueId){
+		setState(linkedStateId, deviceId, constSetValueId, true, callback);
+	}
+}
+
 function getTimeFromHMTimeCode(HMTimeCode){
 	if(typeof HMTimeCode == udef) return udef;
 	//Decodes Homematic Timecode (for example in PARTY_START_TIME)
@@ -569,6 +548,7 @@ function renderToolbar(){
 
 //++++++++++ VIEW ++++++++++
 function renderView(id, updateOnly){
+	if(updateOnly) alert("updateOnly");
 	console.log("renderView " + id + ", updateOnly: " + updateOnly);
 	if(!id) id = homeId;
 	actualViewId = id;
@@ -616,7 +596,7 @@ function renderView(id, updateOnly){
 			viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceId + "'>";
 				//--Link to Dialog
 				switch(usedObjects[deviceId].common.role){
-					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity":		
+					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness":		
 					if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
 						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' onclick='renderView(\"" + usedObjects[deviceId].native.linkedView + "\"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + viewLinksToOtherViews.length + ";'>";
 						viewLinksToOtherViews.push(usedObjects[deviceId].native.linkedView);
@@ -658,6 +638,11 @@ function renderView(id, updateOnly){
 						case "iQontrolHumidity":
 						iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/humidity.png' />";
 						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/humidity.png' />";
+						break;
+
+						case "iQontrolBrightness":
+						iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/brightness_light.png' />";
+						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/brightness_dark.png' />";
 						break;
 
 						case "iQontrolValue":
@@ -729,6 +714,20 @@ function renderView(id, updateOnly){
 						//if(linkedStateId) onclick = "startProgram(\"" + linkedStateId + "\", \"" + deviceId + "\");";
 						//linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play_on.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
+						break;
+
+						case "iQontrolButton": 
+						var stateId = deviceId + ".STATE";
+						var linkedStateId = getLinkedStateId(stateId);
+						var setValueId = deviceId + ".SET_VALUE";
+						if (getLinkedStateId(setValueId) == null) stateIdsToFetch.push(setValueId);
+						var onclick = "";
+						if(linkedStateId){
+							onclick = "startButton(\"" + linkedStateId + "\", \"" + setValueId + "\", \"" + deviceId + "\");";
+						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
+						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
 						break;
 
@@ -829,11 +828,29 @@ function renderView(id, updateOnly){
 					} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
 					//--Info A
 					switch(usedObjects[deviceId].common.role){
-						case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHumidity":
+						case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity":
 						var stateId = deviceId + ".TEMPERATURE";
 						var linkedStateId = getLinkedStateId(stateId);
 						if (linkedStateId){
 							deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/temperature.png'>";
+							deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceId = deviceId;
+								var _linkedStateId = linkedStateId;
+								updateViewFunctions[linkedStateId].push(function(){
+									var unit = getUnit(_linkedStateId);
+									if (states[_linkedStateId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").html(states[_linkedStateId].val + unit);
+								});
+							})();
+							stateIdsToUpdate.push(linkedStateId);
+						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
+						break;
+
+						case "iQontrolBrightness":
+						var stateId = deviceId + ".BRIGHTNESS";
+						var linkedStateId = getLinkedStateId(stateId);
+						if (linkedStateId){
+							deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/brightness.png'>";
 							deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
@@ -875,7 +892,7 @@ function renderView(id, updateOnly){
 					}
 					//--Info B
 					switch(usedObjects[deviceId].common.role){
-						case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature":
+						case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity":
 						var stateId = deviceId + ".HUMIDITY";
 						var linkedStateId = getLinkedStateId(stateId);
 						if (linkedStateId) {
@@ -935,7 +952,7 @@ function renderView(id, updateOnly){
 					//--State
 					deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceId + "'>";
 						switch(usedObjects[deviceId].common.role){
-							case "iQontrolView":
+							case "iQontrolView": case "iQontrolButton":
 							break;
 
 							case "iQontrolProgram":
@@ -991,9 +1008,17 @@ function renderView(id, updateOnly){
 							var partyTemperatureId = deviceId + ".PARTY_TEMPERATURE";
 							var linkedPartyTemperatureId = getLinkedStateId(partyTemperatureId);
 							if (linkedPartyTemperatureId === null) stateIdsToFetch.push(partyTemperatureId);
+							var boostStateId = deviceId + ".BOOST_STATE";
+							var linkedBoostStateId = getLinkedStateId(boostStateId);
+							if (linkedBoostStateId === null) stateIdsToFetch.push(boostStateId);
 							var valveStatesId = deviceId + ".VALVE_STATES";
-							var linkedValveStatesId = getLinkedStateId(valveStatesId);
-							if (linkedValveStatesId === null) stateIdsToFetch.push(valveStatesId);
+							//Special: VALVE_STATES is Array
+							if (typeof states[valveStatesId] == udef) {
+								stateIdsToFetch.push(valveStatesId);
+							}
+							if (typeof usedObjects[valveStatesId] == udef) {
+								fetchObject(valveStatesId, function(error){});
+							}
 							if (linkedStateId){
 								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
@@ -1049,7 +1074,7 @@ function renderView(id, updateOnly){
 										}
 										resultText = unescape(resultText);
 										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
-										if (result == 0) {
+										if (typeof result == udef || result == 0) {
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
@@ -1308,6 +1333,7 @@ function renderDialog(deviceId){
 	if (typeof deviceId == udef || deviceId == "") return;
 	actualDialogId = deviceId;
 	updateDialogFunctions = {};
+	stateIdsToFetch = [];
 	stateIdsToUpdate = [];
 	if(typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native.readonly !== udef && usedObjects[deviceId].native.readonly !== "" && usedObjects[deviceId].native.readonly !== "false" && usedObjects[deviceId].native.readonly !== false) var dialogReadonly = true; else var dialogReadonly = false;
 	//Render Dialog
@@ -1406,6 +1432,30 @@ function renderDialog(deviceId){
 						var bindingFunction = function(){
 							$('#DialogStateButton').on('click', function(e) {
 								startProgram(_linkedStateId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})();
+					stateIdsToUpdate.push(linkedStateId);
+				}
+			}
+			break;
+
+			case "iQontrolButton":
+			var stateId = deviceId + ".STATE";
+			var linkedStateId = getLinkedStateId(stateId);
+			var type = "Button";
+			if(linkedStateId){
+				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("push") + "</a>";
+				if (linkedStateId){
+					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedStateId = linkedStateId;
+						var _setValueId = _deviceId + ".SET_VALUE";
+						var bindingFunction = function(){
+							$('#DialogStateButton').on('click', function(e) {
+								startButton(_linkedStateId, _setValueId, _deviceId);
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
@@ -1768,6 +1818,28 @@ function renderDialog(deviceId){
 			var stateId = deviceId + ".CONTROL_MODE";
 			var linkedStateId = getLinkedStateId(stateId);
 			var state = getStateObject(linkedStateId);
+			var boostStateId = deviceId + ".BOOST_STATE";
+			var linkedBoostStateId = getLinkedStateId(boostStateId);
+			var boostState = getStateObject(boostStateId);
+			//get additional linkedStates for HomeaticThermostat:
+			//these are not part of the configured States in the adapter, but rather
+			//they are generated from parentId of linkedControlModeId - so they are direct linked states
+			//thats why getLinkedState could not be used! State and Object must be fetched manually
+			if(linkedStateId){
+				var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
+				var additionalLinkedStates = [];
+				additionalLinkedStates.push(linkedParentId + ".MANU_MODE");
+				additionalLinkedStates.push(linkedParentId + ".AUTO_MODE");
+				additionalLinkedStates.push(linkedParentId + ".BOOST_MODE");
+				for(var i = 0; i < additionalLinkedStates.length; i++){
+					if (typeof states[additionalLinkedStates[i]] == udef) {
+						stateIdsToFetch.push(additionalLinkedStates[i]);
+					}
+					if (typeof usedObjects[additionalLinkedStates[i]] == udef) {
+						fetchObject(additionalLinkedStates[i], function(error){});
+					}
+				}
+			}
 			if(state){
 				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
 					dialogContent += "<legend><image src='./images/config.png' / style='width:16px; height:16px;'>&nbsp;" + _("Mode") + ":</legend>";
@@ -1785,27 +1857,28 @@ function renderDialog(deviceId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = linkedStateId;
+						var _linkedBoostStateId = linkedBoostStateId;
 						var _valueList = state.valueList;
-						var linkedParentId = _linkedStateId.substring(0, _linkedStateId.lastIndexOf("."));
-						var _linkedBoostState = linkedParentId + ".BOOST_STATE";
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
 								$("#DialogThermostatControlModeCheckboxradio_" + states[_linkedStateId].val).prop("checked", true);
 								$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
-								var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
-								if (_valueList[value] == "BOOST-MODE"){
-									var unit = getUnit(_linkedBoostState);
-									if (states[_linkedBoostState]){
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + states[_linkedBoostState].val + unit + "</span>");
-									}
-								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogThermostatControlModeText").html("");
-								}
 							}
 						};
 						updateDialogFunctions[linkedStateId].push(updateFunction);
-						if(!updateDialogFunctions[_linkedBoostState]) updateDialogFunctions[_linkedBoostState] = [];
-						updateDialogFunctions[_linkedBoostState].push(updateFunction);
+						var updateFunction = function(){
+							var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
+							if (_valueList[value] == "BOOST-MODE"){
+								var unit = getUnit(_linkedBoostStateId);
+								if (states[_linkedBoostStateId] && typeof states[_linkedBoostStateId].val != udef){
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + states[_linkedBoostStateId].val + unit + "</span>");
+								}
+							} else {
+								$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogThermostatControlModeText").html("");
+							}
+						};
+						if(!updateDialogFunctions[_linkedBoostStateId]) updateDialogFunctions[_linkedBoostStateId] = [];
+						updateDialogFunctions[_linkedBoostStateId].push(updateFunction);
 						var bindingFunction = function(){
 							$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
 								var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
@@ -1821,6 +1894,7 @@ function renderDialog(deviceId){
 						dialogBindingFunctions.push(bindingFunction);
 					})();
 					stateIdsToUpdate.push(linkedStateId);
+					stateIdsToUpdate.push(linkedBoostStateId);
 				}
 				dialogContent += "<br>";
 
@@ -2039,50 +2113,43 @@ function renderDialog(deviceId){
 			}
 
 			//------Valve States
-			var stateId = deviceId + ".VALVE_STATES"; //Special: VALVE_STATES is a JSON Object: {name:linkedStateId, name2:linkedStateId2, ...}
+			var stateId = deviceId + ".VALVE_STATES"; //Special: VALVE_STATES is an Array: [{"name":"ValveName", "type":"LinkedState", "value":"LinkedStateId"}, ...}
 			if(typeof states[stateId] !== udef && typeof states[stateId].val !== udef && states[stateId].val !== "") {
-				var linkedStateIds = JSON.parse(states[stateId].val);
+				var linkedStateIds = tryParseJSON(states[stateId].val);
 			}
 			var linkedStateIdsAreValid = false;
-			if(linkedStateIds) for(name in linkedStateIds){
-				if(typeof linkedStateIds[name] !== udef && linkedStateIds[name] !== "") {
+			if(Array.isArray(linkedStateIds) && typeof linkedStateIds == 'object') linkedStateIds.forEach(function(element){
+				if (typeof element.name !== udef && element.name !== udef){
 					linkedStateIdsAreValid = true;
-					break;
 				}
-			}
+			});	
 			if(linkedStateIdsAreValid){
+				//get additional linkedStates from Array:
+				linkedStateIds.forEach(function(element){
+					if (typeof states[element.value] == udef) {
+						stateIdsToFetch.push(element.value);
+					}
+					if (typeof usedObjects[element.value] == udef) {
+						fetchObject(element.value, function(error){});
+					}
+				});
 				dialogContent += "<div data-role='collapsible' data-iconpos='right' data-inset='true' class=''>";
 					dialogContent += "<h4><image src='./images/setpoint.png' / style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>";
 					dialogContent += "<div id='DialogThermostatValveStatesContent'>";
 						dialogContent += "<div id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
-							var _deviceId = deviceId;
 							var _linkedStateIds = linkedStateIds;
 							var updateFunction = function(){
 								$("#DialogThermostatValveStatesContentList").html("");
-								var valveStatesToFetch = [];
-								for(name in _linkedStateIds){
-									if(states[_linkedStateIds[name]]){
-										if(typeof usedObjects[_linkedStateIds[name]] == udef){
-											fetchObject(_linkedStateIds[name], function(error){ if(!error) updateState(_linkedStateIds[name]); });
-										} else {
-											var state = getStateObject(_linkedStateIds[name]);
-											if(state) $("#DialogThermostatValveStatesContentList").append("<li>" + name + ": " + state.val + state.unit + "</li>");
-										}
-									} else {
-										valveStatesToFetch.push(_linkedStateIds[name]);
-									}
-								}
-								if(valveStatesToFetch.length > 0) {
-									fetchStates(valveStatesToFetch, function(){ updateState(_linkedStateIds[name]); });
-								}
+								_linkedStateIds.forEach(function(_element){
+									var state = getStateObject(_element.value);
+									if(state) $("#DialogThermostatValveStatesContentList").append("<li>" + _element.name + ": " + state.val + state.unit + "</li>");
+								});
 							};
-							for(name in _linkedStateIds){
-								if(!updateDialogFunctions[linkedStateIds[name]]) updateDialogFunctions[linkedStateIds[name]] = [];
-								updateDialogFunctions[linkedStateIds[name]].push(updateFunction);
-							};
+							if(!updateDialogFunctions[_linkedStateIds[0].value]) updateDialogFunctions[_linkedStateIds[0].value] = [];
+							updateDialogFunctions[_linkedStateIds[0].value].push(updateFunction);
 						})();
-						for(name in linkedStateIds){stateIdsToUpdate.push(linkedStateIds[name]);};
+						stateIdsToUpdate.push(linkedStateIds[0].value);
 					dialogContent += "</div>";
 				dialogContent += "</div>";
 			}
@@ -2184,7 +2251,6 @@ function renderDialog(deviceId){
 	$("#Dialog").enhanceWithin();
 	$("#Dialog").on("popupafterclose", function(event, ui){
 		actualDialogId = "";
-		//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx Remove Binding Functions!!!!
 	});
 	$('.iQontrolDialogSlider').on('change', function(){ 
 		if ($(this).val() < 9999) {
@@ -2200,7 +2266,10 @@ function renderDialog(deviceId){
 	stateIdsToUpdate = removeDuplicates(stateIdsToUpdate);
 	for (var i = 0; i < stateIdsToUpdate.length; i++){updateState(stateIdsToUpdate[i], "ignorePreventUpdateForDialog");}
 	stateIdsToUpdate = [];
-}
+	if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(){
+		console.log(stateIdsToFetch.length + " additional states fetched while rendering dialog.");
+		for (var i = 0; i < stateIdsToFetch.length; i++){updateState(stateIdsToFetch[i], "ignorePreventUpdateForDialog");}
+	});}
 
 function dialogThermostatPartyModeCheckConsistency(){
 	var now = new Date();

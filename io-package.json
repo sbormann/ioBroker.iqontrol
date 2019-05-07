@@ -1,28 +1,103 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.15",
+        "version": "0.0.16",
         "news": {
+            "0.0.16": {
+                "en": "Role of device is displayed in devices-table. VALVE_STATES is now editable via GUI (show opening of valves associated with a thermostat in percentage). Added Role 'Button': You can define a constant SET_VALUE wich will be written to the ID that is linked with STATE if the button is pressed. Rewritten parts of front-end to guarentee better compatibility. Boost-Mode for Homematic-Thermostat should work now. Added state BOOST_STATE for Homematic-Thermostat - ability to display remaining boost-time if in boost-mode. Added dessription of roles and corresponding states. Temperature und Humidity-Sensors can now display a STATE at bottom of device, and both, TEMPERATURE and HUMIDITY, in small in the upper right corner. Better handling of Auto-Create of Temperature- und Humidity-Sensors. German translation: 'geöffnet' lower case. Zigbee humidity and temperature added to auto-creation. Fixed not scrollable selectbox at devices tab.",
+                "de": "Die Rolle des Geräts wird in der Gerätetabelle angezeigt. ",
+                "ru": "Роль устройства отображается в таблице устройств. ",
+                "pt": "A função do dispositivo é exibida na tabela de dispositivos. ",
+                "nl": "De rol van apparaat wordt weergegeven in de apparaten-tabel. ",
+                "fr": "Le rôle de device est affiché dans devices-table. ",
+                "it": "Il ruolo del dispositivo viene visualizzato nella tabella dei dispositivi. ",
+                "es": "La función del dispositivo se muestra en la tabla de dispositivos. ",
+                "pl": "Rola urządzenia jest wyświetlana w tabeli urządzeń. ",
+                "zh-cn": "设备的角色显示在设备表中。 "
+            },
             "0.0.15": {
-                "en": "Improved check for value type of states. Improved slider-tooltip to lower font-size at large numbers."
+                "en": "Improved check for value type of states. Improved slider-tooltip to lower font-size at large numbers.",
+                "de": "Verbesserte Überprüfung des Werttyps von Status. ",
+                "ru": "Улучшена проверка типов значений состояний. ",
+                "pt": "Verificação aprimorada do tipo de valor dos estados. ",
+                "nl": "Verbeterde controle op waardetype toestanden. ",
+                "fr": "Amélioration de la vérification du type de valeur des états. ",
+                "it": "Controllo migliorato per il tipo di valore degli stati. ",
+                "es": "Comprobación mejorada para el tipo de valor de los estados. ",
+                "pl": "Poprawiono sprawdzanie typu wartości stanów. ",
+                "zh-cn": "改进了对状态值类型的检查。"
             },
             "0.0.14": {
-                "en": "If role of state is not further specified, then check for role of parent object."
+                "en": "If role of state is not further specified, then check for role of parent object.",
+                "de": "Wenn die Zustandsrolle nicht weiter spezifiziert ist, überprüfen Sie die Rolle des übergeordneten Objekts.",
+                "ru": "Если роль состояния не указана, проверьте роль родительского объекта.",
+                "pt": "Se a função do estado não for especificada posteriormente, verifique a função do objeto pai.",
+                "nl": "Als de rol van de staat niet nader wordt gespecificeerd, controleert u de rol van het bovenliggende object.",
+                "fr": "Si le rôle de l'état n'est pas précisé, recherchez le rôle de l'objet parent.",
+                "it": "Se il ruolo dello stato non viene ulteriormente specificato, controllare il ruolo dell'oggetto principale.",
+                "es": "Si no se especifica más la función de estado, verifique la función del objeto principal.",
+                "pl": "Jeśli rola stanu nie jest dalej określona, ​​sprawdź rolę obiektu nadrzędnego.",
+                "zh-cn": "如果未进一步指定state的角色，则检查父对象的角色。"
             },
             "0.0.13": {
-                "en": "Doors and Windows now force true/false to be translated to opened/closed. Double Entrys on WelcomeScreen/Overview removed. States are now set with the correct value type. Changed recognition of state types."
+                "en": "Doors and Windows now force true/false to be translated to opened/closed. Double Entrys on WelcomeScreen/Overview removed. States are now set with the correct value type. Changed recognition of state types.",
+                "de": "Türen und Fenster erzwingen, dass wahr / falsch in geöffnet / geschlossen übersetzt wird. ",
+                "ru": "Двери и окна теперь принудительно переводят true / false в открытое / закрытое. ",
+                "pt": "Portas e Windows agora forçam true / false para serem traduzidos para aberto / fechado. ",
+                "nl": "Deuren en Windows dwingen nu true / false om te worden vertaald naar geopend / gesloten. ",
+                "fr": "Les portes et les fenêtres forcent maintenant true / false à être converti en ouvert / fermé. ",
+                "it": "Porte e finestre ora impongono che true / false venga tradotto in aperto / chiuso. ",
+                "es": "Las puertas y las ventanas ahora obligan a verdadero / falso a ser traducido / abierto. ",
+                "pl": "Drzwi i Windows wymuszają teraz tłumaczenie prawdy / fałszu na otwarte / zamknięte. ",
+                "zh-cn": "门和Windows现在强制将true / false转换为打开/关闭。"
             },
             "0.0.12": {
-                "en": "Check for unallowed chars in object names. Check for duplicates in view names. Level fires a slider in dialog - even when it has a state list (HUE again :)). Added Blinds (Homematic) - please test it, i don't have one to test."
+                "en": "Check for unallowed chars in object names. Check for duplicates in view names. Level fires a slider in dialog - even when it has a state list (HUE again :)). Added Blinds (Homematic) - please test it, i don't have one to test.",
+                "de": "Suchen Sie nach nicht zulässigen Zeichen in Objektnamen. ",
+                "ru": "Проверьте наличие недопустимых символов в именах объектов. ",
+                "pt": "Verifique se há caracteres não permitidos nos nomes de objetos. ",
+                "nl": "Controleer op niet-toegestane tekens in objectnamen. ",
+                "fr": "Recherchez les caractères non autorisés dans les noms d'objet. ",
+                "it": "Controlla i caratteri non consentiti nei nomi degli oggetti. ",
+                "es": "Compruebe si hay caracteres no permitidos en los nombres de objeto. ",
+                "pl": "Sprawdź, czy w nazwach obiektów nie ma niedozwolonych znaków. ",
+                "zh-cn": "检查对象名称中的不允许的字符。"
             },
             "0.0.11": {
-                "en": "Added compatibility for edge and firefox. Again Hue bugfixes. Removed Tooltip from Toolbar."
+                "en": "Added compatibility for edge and firefox. Again Hue bugfixes. Removed Tooltip from Toolbar.",
+                "de": "Kompatibilität für Edge und Firefox wurde hinzugefügt. ",
+                "ru": "Добавлена ​​совместимость для edge и firefox. ",
+                "pt": "Adicionado compatibilidade para borda e firefox. ",
+                "nl": "Compatibiliteit toegevoegd voor edge en firefox. ",
+                "fr": "Ajout de la compatibilité pour Edge et Firefox. ",
+                "it": "Aggiunta compatibilità per edge e firefox. ",
+                "es": "Compatibilidad añadida para edge y firefox. ",
+                "pl": "Dodano kompatybilność dla Edge i Firefox. ",
+                "zh-cn": "增加了edge和firefox的兼容性。"
             },
             "0.0.10": {
-                "en": "Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)"
+                "en": "Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)",
+                "de": "ColorTemperature hinzugefügt. ",
+                "ru": "Добавлена ​​цветовая температура. ",
+                "pt": "Adicionado ColorTemperature. ",
+                "nl": "Kleurtemperatuur toegevoegd. ",
+                "fr": "Ajouté CouleurTempérature. ",
+                "it": "Aggiunto ColorTemperature. ",
+                "es": "ColorTemperature añadido. ",
+                "pl": "Dodano temperaturę barwową. ",
+                "zh-cn": "添加了ColorTemperature。 "
             },
             "0.0.9": {
-                "en": "HUE added. LinkedView now also works on windows, doors and fire-sensor. Added translation (thanks ldittmar!)"
+                "en": "HUE added. LinkedView now also works on windows, doors and fire-sensor. Added translation (thanks ldittmar!)",
+                "de": "HUE hinzugefügt. ",
+                "ru": "HUE добавлен ",
+                "pt": "HUE adicionado. ",
+                "nl": "HUE toegevoegd. ",
+                "fr": "HUE ajouté. ",
+                "it": "HUE aggiunto. ",
+                "es": "HUE añadido. ",
+                "pl": "Dodano HUE. ",
+                "zh-cn": "HUE补充道。 "
             },
             "0.0.8": {
                 "en": "Added icons to image selectboxes.",

@@ -54,8 +54,116 @@ Please feel free to comment and let me know, how to fix these issues!
 
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
+## Description of roles and associated states
+Every device has a role, wich defines the function of the device. Every role generates a set of states, wich can be linked to a corresponding io-broker state.
+If you use the auto-create-function, you can chose an existing device from the io-broker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
+This will only work for known devices. For unknown devices, and to give devices advanced features, you can add devices manually or edit the devices that were created by autocreate.
+To edit the role and the linked states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
+
+### General states:
+Every role has the following three states:
+* BATTERY: boolean - when true, a little battery-empty-icon will be displayed
+* ERROR: boolean - when true, a little exclamation-mark-icon will be displayed
+* UNREACH: boolean - when true, a little wireless-icon will be displayed
+
+Most of the roles have a STATE-state. Mostly it represents the main function of the device. You can assign io-broker-states of the following types to it:
+* boolean - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it trys to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
+* number - will be displayed with its corresponding unit and generate a slider in the dialog.
+* string - a text to be displayed
+* value-list - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. Technically an value-list is a number with a corresponding translation-list, defined in the 'native.states' property.
+
+However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
+
+### Links to other view:
+* Has no further states, but it will respect the linked-view-property
+
+### Switch, Fan:
+* STATE: boolean - display and set on/off-state
+
+### Light:
+Every light may have one or both of the following states:
+* STATE: boolean - display and set on/off-state
+* LEVEL: number - display an set the level of the light
+
+Optional you can define the following states:
+* HUE: number - color of the light
+* CT: number - color-temperature of the light
+
+### Thermostat:
+* SET_TEMPERATURE: number - goal-temperature
+* TEMPERATURE: number - actual temperature to be displayed in small in the upper right corner
+* HUMIDITY: number - actual humidity to be displayed in small in the upper right corner
+* CONTROL_MODE: value-list - display and set the mode of the thermostat
+* VALVE_STATES: array of names and numbers - displayes the opening in percentage of the valves associated with the therostat
+
+### Homematic-Thermostat:
+In addition to normal thermostat you can define:
+* PARTY_TEMPERATURE: string - special-formatted string to define the party- oder holiday-mode of homematic-thermostats
+* BOOST_STATE: number - displayes the remaining boost-time of homematic-thermostats
+
+### Temperature-Sensor, Humidity-Sensor:
+* STATE: number - temperature or humidity that will be displayed in the lower part of the device
+* TEMPERATURE: number - temperature that will be displayed in small in the upper right corner
+* HUMIDITY: number - humidity that will be displayed in small in the upper right corner
+
+### Brigthness-Sensor:
+* STATE: number - brightness that will be displayed in the lower part of the device
+* BRIGHTNESS: number - brightness that will be displayed in small in the upper right corner
+
+### Door, Window:
+* STATE: boolean - display if the door or window is opened or closed. 
+**  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
+** You can also assign a string to display any text like "3 windows open" or "all closed".
+* Doors and Windows respect the linked-view-property
+
+### Door with lock:
+* STATE: boolean - display if the door is opened or closed. 
+* LOCK_STATE: boolean - display if the door is locked or unlocked
+* LOCK_STATE_UNCERTAIN: boolean - the STATE will be displayed in italic-font, if true to represent that the exact position of the lock is unknown
+* LOCK_OPEN: boolean - if set to true, the door will open completely
+
+### Blind:
+* LEVEL: number - height of the blind in percentage
+* DIRECTION: value-list - can be Stop, Up and Down
+* STOP: boolean - if set to true, the blind will stop
+
+### Fire-Sensor, Alarm:
+* STATE: boolean - if true the sensor will be displayed as triggered
+**  Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+** You can also assign a string to display any text like "fire in upper floor".
+
+### Value:
+* STATE: any valid state to be displayed (have a look at general states-section)
+* LEVEL: number - will produce a slider in dialog
+
+### Universal:
+* Universal is not yet implemented - but it will be like Value, but with the opportunity to let you chose your own on- and off-icons
+
+### Program:
+* STATE: boolean - if set to true, the program will be started
+
+### Scene:
+* STATE: boolean - displayes, if the scene is active. If set to true, the scene will be started
+
+### Button:
+* STATE: any desired type of state
+* VALUE: this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the putton is pressed
+
 
 ## Changelog
+
+### 0.0.16
+* (Sebastian Bormann) Role of device is displayed in devices-table.
+* (Sebastian Bormann) VALVE_STATES is now editable via GUI (show opening of valves associated with a thermostat in percentage).
+* (Sebastian Bormann) Added Role 'Button': You can define a constant SET_VALUE wich will be written to the ID that is linked with STATE if the button is pressed.
+* (Sebastian Bormann) Rewritten parts of front-end to guarentee better compatibility. Boost-Mode for Homematic-Thermostat should work now.
+* (Sebastian Bormann) Added state BOOST_STATE for Homematic-Thermostat - ability to display remaining boost-time if in boost-mode.
+* (Sebastian Bormann) Added dessription of roles and corresponding states.
+* (Sebastian Bormann) Temperature und Humidity-Sensors can now display a STATE at bottom of device, and both, TEMPERATURE and HUMIDITY, in small in the upper right corner.
+* (Sebastian Bormann) Better handling of Auto-Create of Temperature- und Humidity-Sensors.
+* (Sebastian Bormann) German translation: 'geöffnet' lower case.
+* (Sebastian Bormann) Zigbee humidity and temperature added to auto-creation.
+* (Sebastian Bormann) Fixed not scrollable selectbox at devices tab.
 
 ### 0.0.15
 * (Sebastian Bormann) Improved check for value type of states.
@@ -85,7 +193,7 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 * (Sebastian Bormann) Added ColorTemperature. Hoepfully HUE works now? Can't test ist, because i do not own any hue lamp :)
 
 ### 0.0.9
-* (Sebastian Bormann) "Philips HUE added to autocreate (colortemp is not working yet!).  
+* (Sebastian Bormann) Philips HUE added to autocreate (colortemp is not working yet!).  
 * (Sebastian Bormann) LinkedView now also works on windows, doors and fire-sensor.
 * (Sebastian Bormann) Added translation (thanks ldittmar!).
 
