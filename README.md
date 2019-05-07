@@ -112,8 +112,8 @@ In addition to normal thermostat you can define:
 
 ### Door, Window:
 * STATE: boolean - display if the door or window is opened or closed. 
-**  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
-** You can also assign a string to display any text like "3 windows open" or "all closed".
+    *  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
+    * You can also assign a string to display any text like "3 windows open" or "all closed".
 * Doors and Windows respect the linked-view-property
 
 ### Door with lock:
@@ -129,8 +129,8 @@ In addition to normal thermostat you can define:
 
 ### Fire-Sensor, Alarm:
 * STATE: boolean - if true the sensor will be displayed as triggered
-**  Alternativeley you can assign a value-list, to display additional states like 'tampered'.
-** You can also assign a string to display any text like "fire in upper floor".
+    *  Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+    * You can also assign a string to display any text like "fire in upper floor".
 
 ### Value:
 * STATE: any valid state to be displayed (have a look at general states-section)
