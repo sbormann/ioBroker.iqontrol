@@ -1511,7 +1511,10 @@ function renderDialog(deviceId){
 					var max = 100;
 					if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
 					if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
-					dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Dimmer") + ":</label>";
+					var type = "Level";
+					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
+					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
+					dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (linkedStateId){
 						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
@@ -1610,7 +1613,8 @@ function renderDialog(deviceId){
 					var max = 100;
 					if(typeof usedObjects[linkedLevelId] !== udef && typeof usedObjects[linkedLevelId].common.min !== udef) min = usedObjects[linkedLevelId].common.min;
 					if(typeof usedObjects[linkedLevelId] !== udef && typeof usedObjects[linkedLevelId].common.max !== udef) max = usedObjects[linkedLevelId].common.max;
-					var type = "Dimmer";
+					var type = "Level";
+					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
 					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + level.readonly.toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";

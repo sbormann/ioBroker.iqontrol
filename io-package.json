@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.16",
+        "version": "0.0.17",
         "news": {
+            "0.0.17": {
+                "en": "Changed description of slider (level/dimmer/value/height).",
+                "de": "Geänderte Beschreibung des Schiebereglers (Ebene / Dimmer / Wert / Höhe).",
+                "ru": "Изменено описание слайдера (уровень / диммер / значение / высота).",
+                "pt": "Descrição alterada do controle deslizante (nível / dimmer / valor / altura).",
+                "nl": "Gewijzigde beschrijving van schuifregelaar (niveau / dimmer / waarde / hoogte).",
+                "fr": "Modification de la description du curseur (niveau / gradateur / valeur / hauteur).",
+                "it": "Descrizione modificata del cursore (livello / dimmer / valore / altezza).",
+                "es": "Se modificó la descripción del control deslizante (nivel / dimmer / valor / altura).",
+                "pl": "Zmieniono opis suwaka (poziom / dimmer / wartość / wysokość).",
+                "zh-cn": "更改了滑块的说明（水平/调光器/值/高度）。"
+            },
             "0.0.16": {
                 "en": "Role of device is displayed in devices-table. VALVE_STATES is now editable via GUI (show opening of valves associated with a thermostat in percentage). Added Role 'Button': You can define a constant SET_VALUE wich will be written to the ID that is linked with STATE if the button is pressed. Rewritten parts of front-end to guarentee better compatibility. Boost-Mode for Homematic-Thermostat should work now. Added state BOOST_STATE for Homematic-Thermostat - ability to display remaining boost-time if in boost-mode. Added dessription of roles and corresponding states. Temperature und Humidity-Sensors can now display a STATE at bottom of device, and both, TEMPERATURE and HUMIDITY, in small in the upper right corner. Better handling of Auto-Create of Temperature- und Humidity-Sensors. German translation: 'geöffnet' lower case. Zigbee humidity and temperature added to auto-creation. Fixed not scrollable selectbox at devices tab.",
                 "de": "Die Rolle des Geräts wird in der Gerätetabelle angezeigt. ",

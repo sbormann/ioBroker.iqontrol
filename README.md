@@ -152,6 +152,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.17
+* (Sebastian Bormann) Changed description of slider (level/dimmer/value/height).
+
 ### 0.0.16
 * (Sebastian Bormann) Role of device is displayed in devices-table.
 * (Sebastian Bormann) VALVE_STATES is now editable via GUI (show opening of valves associated with a thermostat in percentage).
