@@ -152,6 +152,14 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.18
+* (Sebastian Bormann) Improved fetching of VALVE_STATES.
+* (Sebastian Bormann) Changed Button Icon.
+* (Sebastian Bormann) Added Loading-Spinner if disconnected.
+* (Sebastian Bormann) Due to new iOs 12.2 PWD-Mode added visibility-check and connectivity-check.
+* (Sebastian Bormann) Added role-icons to role-selectbox in edit device dialog.
+* (Sebastian Bormann) Fixed missing value-list for states of the type string.
+
 ### 0.0.17
 * (Sebastian Bormann) Changed description of slider (level/dimmer/value/height).
 

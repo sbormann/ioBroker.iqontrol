@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.17",
+        "version": "0.0.18",
         "news": {
+            "0.0.18": {
+                "en": "Improved fetching of VALVE_STATES. Changed Button Icon. Added Loading-Spinner if disconnected. Due to new iOs 12.2 PWD-Mode added visibility-check and connectivity-check. Added role-icons to role-selectbox in edit device dialog. Fixed missing value-list for states of the type string."
+			},
             "0.0.17": {
                 "en": "Changed description of slider (level/dimmer/value/height).",
                 "de": "Geänderte Beschreibung des Schiebereglers (Ebene / Dimmer / Wert / Höhe).",

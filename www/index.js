@@ -45,14 +45,16 @@ connCallbacks = {
 		if(isConnected) {
 			//Connected -> Starting point
 			console.log('connected');
+			$('.loader').show();
 			getStarted();
-
 		} else {
 			console.log('disconnected');
+			$('.loader').show();
 		}
 	},
 	onRefresh: function() {
 		console.log('refresh');
+			$('.loader').show();
 		getStarted();
 		//window.location.reload();
 	},
@@ -69,13 +71,6 @@ connCallbacks = {
 };
 
 //Websocket Help-Functions
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
-
 function getStarted(){
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Get Toolbar (and according objects)
@@ -87,8 +82,17 @@ function getStarted(){
 		viewHistory = toolbarLinksToOtherViews;
 		viewHistoryPosition = 0;
 		console.log("Home rendered.");
+		$('.loader').hide();
+		$.mobile.loading('hide');
 	});
 }
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
 function fetchToolbar(callback){
 	servConn.getChildren(namespace + ".Toolbar", useCache, function(err, _toolbarIds) {
@@ -286,6 +290,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		result.plainText = "";
 		result.role = usedObjects[linkedStateId].common.role;
+		result.type = usedObjects[linkedStateId].common.type;
 		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
 		if(result.role == "state" && usedObjects[linkedParentId] && typeof usedObjects[linkedParentId].common.role != udef && usedObjects[linkedParentId].common.role){
 			switch(parentRole = usedObjects[linkedParentId].common.role){
@@ -358,7 +363,9 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				if(val == false || val == "false") val = 0;
 				if(usedObjects[linkedStateId].common.states[val]) result.plainText = _(usedObjects[linkedStateId].common.states[val]);
 				result.valueList = usedObjects[linkedStateId].common.states;
-				if (((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1) || (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch") {
+				if (((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1) 
+				|| (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
+				|| result.type == 'string') {
 						result.type = "valueList";
 				}
 			}
@@ -727,8 +734,8 @@ function renderView(id, updateOnly){
 							onclick = "startButton(\"" + linkedStateId + "\", \"" + setValueId + "\", \"" + deviceId + "\");";
 						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
 						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
 						break;
 
 						case "iQontrolScene":
@@ -1840,7 +1847,10 @@ function renderDialog(deviceId){
 						stateIdsToFetch.push(additionalLinkedStates[i]);
 					}
 					if (typeof usedObjects[additionalLinkedStates[i]] == udef) {
-						fetchObject(additionalLinkedStates[i], function(error){});
+						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							var _additionalLinkedState = additionalLinkedStates[i];
+							fetchObject(_additionalLinkedState, function(error){ updateState(_additionalLinkedState, "ignorePreventUpdateForDialog"); });
+						})();
 					}
 				}
 			}
@@ -2134,7 +2144,10 @@ function renderDialog(deviceId){
 						stateIdsToFetch.push(element.value);
 					}
 					if (typeof usedObjects[element.value] == udef) {
-						fetchObject(element.value, function(error){});
+						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							var _elementValue = element.value;
+							fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
+						})();
 					}
 				});
 				dialogContent += "<div data-role='collapsible' data-iconpos='right' data-inset='true' class=''>";
@@ -2147,13 +2160,15 @@ function renderDialog(deviceId){
 								$("#DialogThermostatValveStatesContentList").html("");
 								_linkedStateIds.forEach(function(_element){
 									var state = getStateObject(_element.value);
-									if(state) $("#DialogThermostatValveStatesContentList").append("<li>" + _element.name + ": " + state.val + state.unit + "</li>");
+									if(state) $("#DialogThermostatValveStatesContentList").append("<li>" + _element.name + ": " + state.val + state.unit || "" + "</li>");
 								});
 							};
-							if(!updateDialogFunctions[_linkedStateIds[0].value]) updateDialogFunctions[_linkedStateIds[0].value] = [];
-							updateDialogFunctions[_linkedStateIds[0].value].push(updateFunction);
+							_linkedStateIds.forEach(function(_element){
+								if(!updateDialogFunctions[_element.value]) updateDialogFunctions[_element.value] = [];
+								updateDialogFunctions[_element.value].push(updateFunction);
+								stateIdsToUpdate.push(_element.value);
+							});
 						})();
-						stateIdsToUpdate.push(linkedStateIds[0].value);
 					dialogContent += "</div>";
 				dialogContent += "</div>";
 			}
@@ -2256,6 +2271,7 @@ function renderDialog(deviceId){
 	$("#Dialog").on("popupafterclose", function(event, ui){
 		actualDialogId = "";
 	});
+	//Fit slider popup size to text-length
 	$('.iQontrolDialogSlider').on('change', function(){ 
 		if ($(this).val() < 9999) {
 			$(this).prev('div.ui-slider-popup').removeClass('longText').removeClass('extraLongText');
@@ -2272,7 +2288,12 @@ function renderDialog(deviceId){
 	stateIdsToUpdate = [];
 	if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(){
 		console.log(stateIdsToFetch.length + " additional states fetched while rendering dialog.");
-		for (var i = 0; i < stateIdsToFetch.length; i++){updateState(stateIdsToFetch[i], "ignorePreventUpdateForDialog");}
+		(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+			var _stateIdsToFetch = stateIdsToFetch;
+			for (var i = 0; i < _stateIdsToFetch.length; i++){
+				updateState(_stateIdsToFetch[i], "ignorePreventUpdateForDialog"); 
+			}			
+		})();
 	});}
 
 function dialogThermostatPartyModeCheckConsistency(){
@@ -2296,7 +2317,16 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
 }
 
-//jQuery and window events
+//++++++++++ JQUERY AND WINDOW ++++++++++
+//Refresh Background on resize and orientationchange
+$(window).on("orientationchange resize", function(){
+	setTimeout(function(){
+		$.backstretch("resize");
+		console.log("orientationchange");
+	}, 250);
+});	
+
+//Enable swiping
 $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swiperight", ".ui-page", function(event){
 		viewSwipe("right");
@@ -2306,18 +2336,44 @@ $(document).one("pagecreate", ".swipePage", function(){
 	});
 });
 
+//Check Connection when opening page
+var hidden, visibilityChange; 
+if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+	hidden = "hidden";
+	visibilityChange = "visibilitychange";
+} else if (typeof document.msHidden !== "undefined") {
+	hidden = "msHidden";
+	visibilityChange = "msvisibilitychange";
+} else if (typeof document.webkitHidden !== "undefined") {
+	hidden = "webkitHidden";
+	visibilityChange = "webkitvisibilitychange";
+}
+if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+	console.log("This browser doesn' support the Page Visibility API.");
+} else {
+	document.addEventListener(visibilityChange, handleVisibilityChange, false);
+}
+function handleVisibilityChange() {
+	if (!document[hidden]) { //Page gets visible
+		var connected = servConn.getIsConnected() || false;
+		if (!connected) {
+			console.log("Page visible-event - socket is disconnected");
+			$('.loader').show();
+		} else {
+			console.log("Page visible-event - socket is connected");
+			renderView(actualViewId || homeId);
+			if (actualDialogId) renderDialog(actualDialogId);
+		}
+	}
+}
+
+//Document ready - start connection
 $(document).ready(function(){
 	$("[data-role='header'], [data-role='footer']").toolbar();
-	$(".settingsToBeRendered").hide();
 	servConn.init(connOptions, connCallbacks);
+	servConn.setReconnectInterval(1000);
 });
 
-$(window).on("orientationchange resize", function(){
-	setTimeout(function(){
-		$.backstretch("resize");
-		console.log("orientationchange");
-	}, 250);
-});	
 
 
 
