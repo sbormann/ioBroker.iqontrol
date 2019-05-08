@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.18",
+        "version": "0.0.19",
         "news": {
+            "0.0.19": {
+                "en": "Improved reloading of page in new PWD-Mode of iOs 12.2.",
+                "de": "Verbessertes Neuladen von Seiten im neuen PWD-Modus von iOs 12.2.",
+                "ru": "Улучшена перезагрузка страницы в новом PWD-режиме iOs 12.2.",
+                "pt": "Recarregamento de página aprimorado no novo modo PWD de IOs 12.2.",
+                "nl": "Verbeterd herladen van pagina in nieuwe PWD-modus van iOs 12.2.",
+                "fr": "Rechargement amélioré de la page dans le nouveau mode PWD d'iOs 12.2.",
+                "it": "Miglioramento del ricaricamento della pagina nella nuova modalità PWD di iOs 12.2.",
+                "es": "Mejora de la recarga de la página en el nuevo modo PWD de iOs 12.2.",
+                "pl": "Poprawione przeładowanie strony w nowym trybie PWD iOs 12.2.",
+                "zh-cn": "改进了iOs 12.2的新PWD模式中页面的重新加载。"
+            },
             "0.0.18": {
                 "en": "Improved fetching of VALVE_STATES. Changed Button Icon. Added Loading-Spinner if disconnected. Due to new iOs 12.2 PWD-Mode added visibility-check and connectivity-check. Added role-icons to role-selectbox in edit device dialog. Fixed missing value-list for states of the type string.",
                 "de": "Verbessertes Abrufen von VALVE_STATES. ",

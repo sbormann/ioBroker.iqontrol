@@ -78,10 +78,15 @@ function getStarted(){
 		console.log("Toolbar received.");
 		renderToolbar();
 		//Get Views (and according objects)
-		renderView(homeId);
-		viewHistory = toolbarLinksToOtherViews;
-		viewHistoryPosition = 0;
-		console.log("Home rendered.");
+		renderView(actualViewId || homeId);
+		if (actualDialogId) renderDialog(actualDialogId);
+		if(actualViewId == homeId){
+			viewHistory = toolbarLinksToOtherViews;
+			viewHistoryPosition = 0;
+			console.log("Home rendered.");
+		} else {
+			console.log("Rendered actual view.");
+		}
 		$('.loader').hide();
 		$.mobile.loading('hide');
 	});
@@ -2318,14 +2323,6 @@ function dialogThermostatPartyModeCheckConsistency(){
 }
 
 //++++++++++ JQUERY AND WINDOW ++++++++++
-//Refresh Background on resize and orientationchange
-$(window).on("orientationchange resize", function(){
-	setTimeout(function(){
-		$.backstretch("resize");
-		console.log("orientationchange");
-	}, 250);
-});	
-
 //Enable swiping
 $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swiperight", ".ui-page", function(event){
@@ -2334,6 +2331,13 @@ $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swipeleft", ".ui-page", function(event){
 		viewSwipe("left");
 	});
+});
+
+//Document ready - start connection
+$(document).ready(function(){
+	$("[data-role='header'], [data-role='footer']").toolbar();
+	servConn.init(connOptions, connCallbacks);
+	servConn.setReconnectInterval(1000);
 });
 
 //Check Connection when opening page
@@ -2367,12 +2371,14 @@ function handleVisibilityChange() {
 	}
 }
 
-//Document ready - start connection
-$(document).ready(function(){
-	$("[data-role='header'], [data-role='footer']").toolbar();
-	servConn.init(connOptions, connCallbacks);
-	servConn.setReconnectInterval(1000);
-});
+//Refresh Background on resize and orientationchange
+$(window).on("orientationchange resize", function(){
+	setTimeout(function(){
+		$.backstretch("resize");
+		console.log("orientationchange");
+	}, 250);
+});	
+
 
 
 
