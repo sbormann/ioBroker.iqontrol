@@ -143,6 +143,7 @@ function load(settings, onChange) {
 	//Get Subsettings
 	toolbar = settings.toolbar || settings.demotoolbar || [];
 	views = settings.views || settings.demoviews || [];
+	version = settings.version;
 
 	//Set initial values of further variables
 	images = [];
@@ -1178,6 +1179,9 @@ function save(callback) {
 	//Get edited subsettings
 	obj.toolbar = toolbar;
 	obj.views = views;
+	//Set version
+	version = ++version || 0;
+	obj.version = version;
 	//Save settings
 	callback(obj);
 }

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.19",
+        "version": "0.0.20",
         "news": {
+            "0.0.20": {
+                "en": "New trial to get it working in iOs 12.2.",
+                "de": "Neue Testversion, um es in iOS 12.2 zum Laufen zu bringen.",
+                "ru": "Новая пробная версия, чтобы заставить его работать в iOs 12.2.",
+                "pt": "Novo teste para fazê-lo funcionar em iOs 12.2.",
+                "nl": "Nieuwe proef om het in iOs te laten werken 12.2.",
+                "fr": "Nouvel essai pour le faire fonctionner dans iOs 12.2.",
+                "it": "Nuovo processo per farlo funzionare in iOs 12.2.",
+                "es": "Nueva prueba para que funcione en iOs 12.2.",
+                "pl": "Nowa wersja próbna do pracy w iOs 12.2.",
+                "zh-cn": "新的试验让它在iOs 12.2中运行。"
+            },
             "0.0.19": {
                 "en": "Improved reloading of page in new PWD-Mode of iOs 12.2.",
                 "de": "Verbessertes Neuladen von Seiten im neuen PWD-Modus von iOs 12.2.",

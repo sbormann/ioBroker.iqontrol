@@ -4,8 +4,6 @@
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
-
-
 var useCache = true;
 systemLang = "de";					//Used for translate.js -> _(string) translates string to this language
 
@@ -16,6 +14,7 @@ var toolbarSorted = [];				//Contains the IDs of the toolbar in sorted order
 var homeId;							//Contains the ID of the view linked to the first toolbar-item
 var actualViewId;					//Contains the ID of the actual View
 var actualDialogId;					//Contains the ID of the actual Dialog
+var actualVersion;					//Contains actual version of settings - when version changes, reload page
 var views = {}; 					//Contains all views (extracted from <namespace + '.Views'>) in the form of {ID:[ChildIDs]}
 									//Common attributes:
 									//	role: Used to describe wich widget schould be displayed
@@ -28,10 +27,12 @@ var toolbarLinksToOtherViews = [];	//Will become History when clicking on a link
 var usedObjects = {}; 				//Contains all used Objekte in the form of {id:object}
 var waitingForObject = {};			//Contains all IDs where actual tasks to retreive the object are running
 var states = {}; 					//Contains all used and over the time changed States in the form of {id:stateobject}
+var stateIdsToFetch = [];			//Contains all missing stateIds after rendering a view or dialog - they will be fetched and if ready, the view or dialog ist rendered again
+var stateIdsToUpdate = [];			//Contains all stateIds after rendering a view or dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the view or dialog
 var updateViewFunctions = {};		//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
 var updateDialogFunctions = {}; 	//Same as updateViewFunctions, but for dialog-page
 var preventUpdate = {};				//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
-const udef = 'undefined'
+const udef = 'undefined';
 
 
 //++++++++++ WEBSOCKET ++++++++++
@@ -44,25 +45,33 @@ connCallbacks = {
 	onConnChange: function(isConnected) {
 		if(isConnected) {
 			//Connected -> Starting point
-			console.log('connected');
+			console.log('Socket connected');
+			//alert('1 Socket connected '  + actualViewId);
 			$('.loader').show();
+			states = {};
+			stateIdsToFetch = [];
+			stateIdsToUpdate = [];
+			servConn.clearCache();
 			getStarted();
 		} else {
-			console.log('disconnected');
-			$('.loader').show();
+			console.log('Socket disconnected');
+			//alert('Socket disconnected');
+			$('.loader').show();			
 		}
 	},
 	onRefresh: function() {
-		console.log('refresh');
-			$('.loader').show();
-		getStarted();
-		//window.location.reload();
+		console.log('Socket refresh');
+		alert('Socket refresh');
+		$('.loader').show();
+		//getStarted();
+		window.location.reload();
 	},
 	onUpdate: function(stateId, state) {
 		setTimeout(function() {
 			//console.log('NEW VALUE of ' + id + ': ' + JSON.stringify(state));
 			states[stateId] = state;
 			updateState(stateId);
+			$('.loader').hide();
 		}, 0);
 	},
 	onError: function(err) {
@@ -74,21 +83,29 @@ connCallbacks = {
 function getStarted(){
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Get Toolbar (and according objects)
-	fetchToolbar(function(){
-		console.log("Toolbar received.");
-		renderToolbar();
-		//Get Views (and according objects)
-		renderView(actualViewId || homeId);
-		if (actualDialogId) renderDialog(actualDialogId);
-		if(actualViewId == homeId){
-			viewHistory = toolbarLinksToOtherViews;
-			viewHistoryPosition = 0;
-			console.log("Home rendered.");
-		} else {
-			console.log("Rendered actual view.");
+	fetchOptions(function(){ 
+		if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef && typeof usedObjects[namespace + ".Options"].native.version != udef){
+			if(typeof actualVersion != udef) {
+				if(actualVersion != usedObjects[namespace + ".Options"].native.version) window.location.reload;
+			} else {
+				actualVersion = usedObjects[namespace + ".Options"].native.version;
+			}
 		}
-		$('.loader').hide();
-		$.mobile.loading('hide');
+		fetchToolbar(function(){
+			console.log("Toolbar received.");
+			renderToolbar();
+			//Get Views (and according objects)
+			renderView(actualViewId || homeId);
+			if(actualViewId == homeId){
+				viewHistory = toolbarLinksToOtherViews;
+				viewHistoryPosition = 0;
+				console.log("Home rendered.");
+			} else {
+				console.log("Rendered actual view.");
+			}
+			$('.loader').hide();
+			$.mobile.loading('hide');
+		});
 	});
 }
 
@@ -99,12 +116,28 @@ function getUrlParameter(name) {
     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+function fetchOptions(callback){
+	servConn.getObject(namespace + ".Options", useCache, function(err, _object) {
+		if(_object) {
+			var _id = _object._id;
+			delete waitingForObject._id;
+			usedObjects[_id] = _object;
+			console.log("Fetched Object: " + _id);
+			updateState(_id);
+			if(callback) callback();
+		} else {
+			console.log("Object not found");
+			if(callback) callback(error = "objectNotFound"); //Object not found
+		}
+	});
+}
+
 function fetchToolbar(callback){
 	servConn.getChildren(namespace + ".Toolbar", useCache, function(err, _toolbarIds) {
 		toolbar = _toolbarIds;
 		var i = 0;
 		fetchObject(id = _toolbarIds[i], _callback = function (){
-			if(++i < _toolbarIds.length) fetchObject(_toolbarIds[i], _callback); else {		//Iterating through all ToolbarIds
+			if(++i < _toolbarIds.length) fetchObject(_toolbarIds[i], _callback); else {		//Iterating through all toolbarIds
 				if(callback) callback();
 			}
 		});
@@ -177,7 +210,7 @@ function fetchStates(ids, callback){
 			if(_states){
 				states = Object.assign(_states, states);
 			}
-			if(callback) callback();
+			if(callback) callback(err);
 		});
 	} else {
 		if(callback) callback();
@@ -560,7 +593,6 @@ function renderToolbar(){
 
 //++++++++++ VIEW ++++++++++
 function renderView(id, updateOnly){
-	if(updateOnly) alert("updateOnly");
 	console.log("renderView " + id + ", updateOnly: " + updateOnly);
 	if(!id) id = homeId;
 	actualViewId = id;
@@ -1306,9 +1338,13 @@ function renderView(id, updateOnly){
 			$("#ViewHeaderTitle").html(usedObjects[id].common.name);
 			$("#ViewContent").html(viewContent + "<br><br>");
 			removeDuplicates(stateIdsToFetch);
-			if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(){
-				console.log(stateIdsToFetch.length + " states fetched while rendering view.");
-				renderView(actualViewId);
+			if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(error){
+				if(!error) {
+					console.log(stateIdsToFetch.length + " states fetched while rendering view.");
+					renderView(actualViewId);
+				} else {
+					console.log("ERROR fetching states while rendering view.");
+				}
 			});
 		}
 		stateIdsToUpdate = removeDuplicates(stateIdsToUpdate);
@@ -2322,7 +2358,7 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
 }
 
-//++++++++++ JQUERY AND WINDOW ++++++++++
+//++++++++++ GENERAL ++++++++++
 //Enable swiping
 $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swiperight", ".ui-page", function(event){
@@ -2337,7 +2373,8 @@ $(document).one("pagecreate", ".swipePage", function(){
 $(document).ready(function(){
 	$("[data-role='header'], [data-role='footer']").toolbar();
 	servConn.init(connOptions, connCallbacks);
-	servConn.setReconnectInterval(1000);
+	servConn.setReconnectInterval(500);
+	servConn.setReloadTimeout(30);
 });
 
 //Check Connection when opening page
@@ -2360,13 +2397,15 @@ if (typeof document.addEventListener === "undefined" || typeof document[hidden] 
 function handleVisibilityChange() {
 	if (!document[hidden]) { //Page gets visible
 		var connected = servConn.getIsConnected() || false;
-		if (!connected) {
-			console.log("Page visible-event - socket is disconnected");
-			$('.loader').show();
-		} else {
+		if (connected) {
 			console.log("Page visible-event - socket is connected");
-			renderView(actualViewId || homeId);
-			if (actualDialogId) renderDialog(actualDialogId);
+			//alert("Page visible-event - socket is connected");
+			//renderView(actualViewId || homeId, "updateOnly");
+			//if (actualDialogId) renderDialog(actualDialogId);
+		} else {
+			console.log("Page visible-event - socket is disconnected");
+			//alert("Page visible-event - socket is disconnected");
+			$('.loader').show();
 		}
 	}
 }

@@ -155,6 +155,25 @@ class Iqontrol extends utils.Adapter {
 		}
 	}
 
+	async createOptions(){
+		var objName = "Options";
+		var objId = objName;
+		var obj = {
+			"type": "device",
+			"common": {
+				"name": objName,
+				"desc": "created by iQontrol",
+				"role": "iQontrolOptions",
+				"icon": "",
+			},
+			"native": {
+				"version": (this.config.version || 0)
+			}
+		};
+		createdObjects.push("Options");
+		this.setObjectAsync("Options", obj, this.logbook("created: Options"));
+	}
+
 	async deleteUnusedObjects(){
 		this.log.debug("deleteUnusedObjects()");
 		var that = this;
@@ -193,10 +212,13 @@ class Iqontrol extends utils.Adapter {
 		this.log.info("Creating Views...");
 		await this.createViews();
 		
+		this.log.info("Creating Options...");
+		await this.createOptions();
+		
 		this.log.info("Created Devices: " + createdObjects.length + " (" + createdObjects.toString() + ")");
-
 		this.log.info("Deleting unused Objects...");
 		await this.deleteUnusedObjects();
+		
 		
 		
 		//--------------------------------- HELP ------------------------------------

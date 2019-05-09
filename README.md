@@ -152,6 +152,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.20
+* (Sebastian Bormann) New trial to get it working in iOs 12.2.
+
 ### 0.0.19
 * (Sebastian Bormann) Improved reloading of page in new PWD-Mode of iOs 12.2.
 
