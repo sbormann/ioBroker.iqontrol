@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.20",
+        "version": "0.0.21",
         "news": {
+            "0.0.21": {
+                "en": "Added Push2Reload on mobile devices - reloads whole page when pushing down on homepage, otherwise only the acual view is reloaded: Improved reloading on reconnect (hoepefully to get it finally good working on iOS 12.2).",
+                "de": "Push2Reload auf Mobilgeräten hinzugefügt - Lädt die ganze Seite neu, wenn Sie auf die Startseite klicken. Andernfalls wird nur die aktuelle Ansicht neu geladen: Verbessertes Neuladen bei erneuter Verbindung (hoffentlich funktioniert es jetzt auch unter iOS 12.2).",
+                "ru": "Добавлена ​​Push2Reload на мобильных устройствах - перезагружается вся страница при нажатии на домашнюю страницу, в противном случае перезагружается только актуальный вид: улучшена перезагрузка при переподключении (с надеждой, чтобы наконец-то все хорошо работало на iOS 12.2)",
+                "pt": "Adicionado Push2Reload em dispositivos móveis - recarrega toda a página ao empurrar para baixo na página inicial, caso contrário, apenas a visão real é recarregada: Melhoria de recarga na reconexão (hoepefully para obtê-lo finalmente bom trabalho no iOS 12.2).",
+                "nl": "Push2Reload toegevoegd op mobiele apparaten - laadt de hele pagina opnieuw bij het indrukken van de startpagina, anders wordt alleen de acual-weergave opnieuw geladen: verbeterde herladen bij opnieuw verbinden (hoepefully om het eindelijk goed te laten werken op iOS 12.2).",
+                "fr": "Ajout de Push2Reload sur les appareils mobiles: recharge la page entière lorsque vous appuyez sur la page d’accueil, sinon seule la vue réelle est rechargée: Rechargement amélioré lors de la reconnexion (pour que cela fonctionne enfin correctement sur iOS 12.2).",
+                "it": "Aggiunto Push2Reload sui dispositivi mobili - ricarica tutta la pagina quando si spinge verso il basso sulla homepage, altrimenti viene ricaricata solo la vista in tempo reale: Migliorato il ricaricamento alla riconnessione (per poter finalmente funzionare bene su iOS 12.2).",
+                "es": "Push2Reload agregado en dispositivos móviles: vuelve a cargar toda la página cuando se empuja hacia abajo en la página de inicio; de lo contrario, solo se recarga la vista real: se mejoró la recarga al volver a conectarse (sin darme cuenta para que finalmente funcione correctamente en iOS 12.2).",
+                "pl": "Dodano Push2Reload na urządzeniach mobilnych - przeładowuje całą stronę po naciśnięciu na stronę główną, w przeciwnym razie przeładowywany jest tylko widok główny: Poprawione przeładowanie na ponowne połączenie (hoepefully, aby w końcu dobrze działało na iOS 12.2).",
+                "zh-cn": "在移动设备上添加了Push2Reload  - 在主页上下载时重新加载整个页面，否则只重新加载了视图：改进了重新连接时的重新加载（顽强地让它最终在iOS 12.2上运行良好）。"
+            },
             "0.0.20": {
                 "en": "New trial to get it working in iOs 12.2.",
                 "de": "Neue Testversion, um es in iOS 12.2 zum Laufen zu bringen.",

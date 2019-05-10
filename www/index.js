@@ -34,7 +34,6 @@ var updateDialogFunctions = {}; 	//Same as updateViewFunctions, but for dialog-p
 var preventUpdate = {};				//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 const udef = 'undefined';
 
-
 //++++++++++ WEBSOCKET ++++++++++
 connOptions = {
 	name:          namespace,  		// optional - default 'vis.0'
@@ -46,16 +45,9 @@ connCallbacks = {
 		if(isConnected) {
 			//Connected -> Starting point
 			console.log('Socket connected');
-			//alert('1 Socket connected '  + actualViewId);
-			$('.loader').show();
-			states = {};
-			stateIdsToFetch = [];
-			stateIdsToUpdate = [];
-			servConn.clearCache();
 			getStarted();
 		} else {
 			console.log('Socket disconnected');
-			//alert('Socket disconnected');
 			$('.loader').show();			
 		}
 	},
@@ -63,8 +55,7 @@ connCallbacks = {
 		console.log('Socket refresh');
 		alert('Socket refresh');
 		$('.loader').show();
-		//getStarted();
-		window.location.reload();
+		getStarted();
 	},
 	onUpdate: function(stateId, state) {
 		setTimeout(function() {
@@ -81,6 +72,16 @@ connCallbacks = {
 
 //Websocket Help-Functions
 function getStarted(){
+	$('.loader').show();
+	toolbar = {};
+	views = {};
+	states = {};
+	stateIdsToFetch = [];
+	stateIdsToUpdate = [];
+	usedObjects = {};
+	waitingForObject = {};	
+	preventUpdate = {};		
+	servConn.clearCache();
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Get Toolbar (and according objects)
 	fetchOptions(function(){ 
@@ -89,7 +90,8 @@ function getStarted(){
 				if(actualVersion != usedObjects[namespace + ".Options"].native.version) window.location.reload;
 			} else {
 				actualVersion = usedObjects[namespace + ".Options"].native.version;
-			}
+			}		
+			$('#iQontrolVersion').html("Version " + actualVersion + " ");
 		}
 		fetchToolbar(function(){
 			console.log("Toolbar received.");
@@ -2372,6 +2374,21 @@ $(document).one("pagecreate", ".swipePage", function(){
 //Document ready - start connection
 $(document).ready(function(){
 	$("[data-role='header'], [data-role='footer']").toolbar();
+	//PullToRefresh
+	$('#ViewMain').ptrLight({
+		'refresh': function() {
+			if(homeId != "" && actualViewId != "" && actualViewId != homeId) {
+				getStarted();
+			} else {
+				window.location.reload();
+			}
+		},
+		ignoreThreshold: 10,
+		pullThreshold: 200,
+		maxPullThreshold: 500,
+		spinnerTimeout: 200
+	});
+	//Init socket.io
 	servConn.init(connOptions, connCallbacks);
 	servConn.setReconnectInterval(500);
 	servConn.setReloadTimeout(30);
@@ -2399,12 +2416,8 @@ function handleVisibilityChange() {
 		var connected = servConn.getIsConnected() || false;
 		if (connected) {
 			console.log("Page visible-event - socket is connected");
-			//alert("Page visible-event - socket is connected");
-			//renderView(actualViewId || homeId, "updateOnly");
-			//if (actualDialogId) renderDialog(actualDialogId);
 		} else {
 			console.log("Page visible-event - socket is disconnected");
-			//alert("Page visible-event - socket is disconnected");
 			$('.loader').show();
 		}
 	}
@@ -2417,7 +2430,6 @@ $(window).on("orientationchange resize", function(){
 		console.log("orientationchange");
 	}, 250);
 });	
-
 
 
 
