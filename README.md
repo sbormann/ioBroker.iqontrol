@@ -152,6 +152,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### dev
+
+
 ### 0.0.22
 * (watcherkb) Improved german translation.
 * (BramTown) Improved german translation.
