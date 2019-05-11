@@ -152,17 +152,22 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.21
+* (Sebastian Bormann) Added Push2Reload on mobile devices - reloads whole page when pushing down on homepage, otherwise only the acual view is reloaded.
+* (Sebastian Bormann) Improved reloading on reconnect (hoepefully to get it finally good working on iOS 12.2).
+
+
 ### 0.0.20
-* (Sebastian Bormann) New trial to get it working in iOs 12.2.
+* (Sebastian Bormann) New trial to get it working in iOS 12.2.
 
 ### 0.0.19
-* (Sebastian Bormann) Improved reloading of page in new PWD-Mode of iOs 12.2.
+* (Sebastian Bormann) Improved reloading of page in new PWD-Mode of iOS 12.2.
 
 ### 0.0.18
 * (Sebastian Bormann) Improved fetching of VALVE_STATES.
 * (Sebastian Bormann) Changed Button Icon.
 * (Sebastian Bormann) Added Loading-Spinner if disconnected.
-* (Sebastian Bormann) Due to new iOs 12.2 PWD-Mode added visibility-check and connectivity-check.
+* (Sebastian Bormann) Due to new iOS 12.2 PWD-Mode added visibility-check and connectivity-check.
 * (Sebastian Bormann) Added role-icons to role-selectbox in edit device dialog.
 * (Sebastian Bormann) Fixed missing value-list for states of the type string.
 
