@@ -152,7 +152,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 0.0.22`
+### 0.0.22
 * (watcherkb) Improved german translation.
 * (BramTown) Improved german translation.
 * (Sebastian Bormann) Short after another coming reconnect-events (<5s) are ignored now.
