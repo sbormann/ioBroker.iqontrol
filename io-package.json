@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.21",
+        "version": "0.0.22",
         "news": {
+            "0.0.22": {
+                "en": "Improved german translation. Short after another coming reconnect-events (<5s) are ignored now.",
+                "de": "Verbesserte deutsche Übersetzung. ",
+                "ru": "Улучшен немецкий перевод. ",
+                "pt": "Melhor tradução alemã. ",
+                "nl": "Verbeterde Duitse vertaling. ",
+                "fr": "Amélioration de la traduction allemande. ",
+                "it": "Traduzione tedesca migliorata ",
+                "es": "Traducción al alemán mejorada. ",
+                "pl": "Poprawione tłumaczenie niemieckie. ",
+                "zh-cn": "改进了德语翻译。"
+            },
             "0.0.21": {
                 "en": "Added Push2Reload on mobile devices - reloads whole page when pushing down on homepage, otherwise only the acual view is reloaded: Improved reloading on reconnect (hoepefully to get it finally good working on iOS 12.2).",
                 "de": "Push2Reload auf Mobilgeräten hinzugefügt - Lädt die ganze Seite neu, wenn Sie auf die Startseite klicken. Andernfalls wird nur die aktuelle Ansicht neu geladen: Verbessertes Neuladen bei erneuter Verbindung (hoffentlich funktioniert es jetzt auch unter iOS 12.2).",

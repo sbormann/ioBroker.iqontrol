@@ -32,6 +32,7 @@ var stateIdsToUpdate = [];			//Contains all stateIds after rendering a view or d
 var updateViewFunctions = {};		//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
 var updateDialogFunctions = {}; 	//Same as updateViewFunctions, but for dialog-page
 var preventUpdate = {};				//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
+var reconnectedShortly = false;		//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 const udef = 'undefined';
 
 //++++++++++ WEBSOCKET ++++++++++
@@ -44,8 +45,14 @@ connCallbacks = {
 	onConnChange: function(isConnected) {
 		if(isConnected) {
 			//Connected -> Starting point
-			console.log('Socket connected');
-			getStarted();
+			if(!reconnectedShortly){
+				console.log('Socket connected - getStarted');
+				getStarted();
+			} else {
+				console.log('Socket connected - But it connected shortly before, so this event will be ignored');
+				clearTimeout(reconnectedShortly);
+			}
+			reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
 		} else {
 			console.log('Socket disconnected');
 			$('.loader').show();			

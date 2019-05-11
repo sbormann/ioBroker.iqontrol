@@ -10,8 +10,8 @@
 
 [![NPM](https://nodei.co/npm/iobroker.iqontrol.png?downloads=true)](https://nodei.co/npm/iobroker.iqontrol/)
 
-**Tests:** Linux/Mac: [![Travis-CI](http://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/)
+**Tests:** Linux/Mac/Windows: [![Travis-CI](http://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol)
+<!-- Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/) -->
 
 ## iqontrol adapter for ioBroker
 
@@ -152,10 +152,14 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.22`
+* (watcherkb) Improved german translation.
+* (BramTown) Improved german translation.
+* (Sebastian Bormann) Short after another coming reconnect-events (<5s) are ignored now.
+
 ### 0.0.21
 * (Sebastian Bormann) Added Push2Reload on mobile devices - reloads whole page when pushing down on homepage, otherwise only the acual view is reloaded.
 * (Sebastian Bormann) Improved reloading on reconnect (hoepefully to get it finally good working on iOS 12.2).
-
 
 ### 0.0.20
 * (Sebastian Bormann) New trial to get it working in iOS 12.2.
