@@ -153,7 +153,7 @@ In addition to normal thermostat you can define:
 ## Changelog
 
 ### dev
-
+* developing constants
 
 ### 0.0.22
 * (watcherkb) Improved german translation.
