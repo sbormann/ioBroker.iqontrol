@@ -5,7 +5,6 @@
     "Afterwards you can create a toolbar, wich is displayed as footer.": "Afterwards you can create a toolbar, wich is displayed as footer.",
     "Alarm": "Alarm",
     "All": "All",
-	"and": "and",
     "Autocreate Device": "Autocreate Device",
     "Autocreate Device:": "Autocreate Device:",
     "Background Image": "Background Image",
@@ -51,7 +50,6 @@
     "Light": "Light",
     "Link to other view": "Link to other view",
     "Linked View": "Linked View",
-	"is only available for": "is only available for",
     "Loading settings...": "Loading settings...",
     "Matched the following states:": "Matched the following states:",
     "Name": "Name",
@@ -115,5 +113,7 @@
     "You can create this device now if you want.": "You can create this device now if you want.",
     "You can use your images as background-images for views, or for devices.": "You can use your images as background-images for views, or for devices.",
     "add": "add",
-    "iqontrol adapter settings": "Adapter settings for iqontrol"
+    "and": "and",
+    "iqontrol adapter settings": "Adapter settings for iqontrol",
+    "is only available for": "is only available for"
 }
