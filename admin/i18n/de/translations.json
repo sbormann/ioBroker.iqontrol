@@ -5,7 +5,6 @@
     "Afterwards you can create a toolbar, wich is displayed as footer.": "Danach können Sie eine Symbolleiste erstellen, die als Fußleiste angezeigt wird.",
     "Alarm": "Alarmgeber",
     "All": "Alle",
-	"and": "und",
     "Autocreate Device": "Gerät automatisch erstellen",
     "Autocreate Device:": "Gerät automatisch erstellen:",
     "Background Image": "Hintergrundbild",
@@ -51,7 +50,6 @@
     "Light": "Licht",
     "Link to other view": "Verknüpfung zu anderer Ansicht",
     "Linked View": "Verknüpfte Ansicht",
-	"is only available for": "ist nur verfügbar für",
     "Loading settings...": "Einstellungen laden...",
     "Matched the following states:": "Die folgenden States wurden zugeordnet:",
     "Name": "Name",
@@ -115,5 +113,7 @@
     "You can create this device now if you want.": "Sie können dieses Gerät nun erstellen.",
     "You can use your images as background-images for views, or for devices.": "Sie können Ihre Bilder dann als Hintergrundbilder für Ansichten oder Geräte verwenden.",
     "add": "hinzufügen",
-    "iqontrol adapter settings": "Adaptereinstellungen für iQontrol"
+    "and": "und",
+    "iqontrol adapter settings": "Adaptereinstellungen für iQontrol",
+    "is only available for": "ist nur verfügbar für"
 }

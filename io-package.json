@@ -3,9 +3,18 @@
         "name": "iqontrol",
         "version": "0.0.23",
         "news": {
-			"0.0.23": {
-				"en": "Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development. Fixed Pull2Refresh on android devices / chrome. Added external links Added popups with iframes."
-			},
+            "0.0.23": {
+                "en": "Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development. Fixed Pull2Refresh on android devices / chrome. Added external links Added popups with iframes.",
+                "de": "Die Behandlung konstanter Werte (anstelle von linkedStates) wurde umgeschrieben - dies ist eine Voraussetzung für die weitere Entwicklung. ",
+                "ru": "Переписано, как обрабатываются значения констант (вместо связанных состояний) - это требование для дальнейшей разработки. ",
+                "pt": "Reescreva como os valores constantes (em vez de linkedStates) são distribuídos - esse é um requisito para desenvolvimento adicional. ",
+                "nl": "Herschrijf hoe constante waarden (in plaats van linkedStates) worden verwerkt - dit is een vereiste voor verdere ontwikkeling. ",
+                "fr": "Réécrivez comment les valeurs constantes (au lieu de linkedStates) sont manipulées - ceci est une nécessité pour un développement ultérieur. ",
+                "it": "Riscrivi come vengono gestiti i valori costanti (invece di linkedStates): questo è un requisito per ulteriori sviluppi. ",
+                "es": "Reescriba cómo se manejan los valores constantes (en lugar de los estados vinculados); esto es un requisito para un mayor desarrollo. ",
+                "pl": "Przepisz, w jaki sposób wartości stałe (zamiast sprzężonych) są traktowane - jest to wymóg dalszego rozwoju. ",
+                "zh-cn": "重写了如何对常量值（而不是linkedStates）进行处理 - 这是进一步开发的要求。"
+            },
             "0.0.22": {
                 "en": "Improved german translation. Short after another coming reconnect-events (<5s) are ignored now.",
                 "de": "Verbesserte deutsche Übersetzung. ",
