@@ -23,9 +23,11 @@ var iQontrolRoles = {
 	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
 	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
 	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
-	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"}
+	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
+	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
+	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
-var udef = 'undefined';
+const udef = 'undefined';
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++	
 function initDialog(id, callback) {
@@ -338,7 +340,10 @@ function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'commonName') {
 				var deviceIndex = $(this).data('index');
-				if (views[devicesSelectedView].devices[deviceIndex].commonRole) $(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+				if (views[devicesSelectedView].devices[deviceIndex].commonRole){
+					$(this).next('span').remove();
+					$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+				}
 			}
 		});
 		//Button-Functions
@@ -354,6 +359,7 @@ function load(settings, onChange) {
 						var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 						views[viewIndex].devices[deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
 						views[viewIndex].devices[deviceIndex].states = dialogDeviceEditStatesTable;
+						onTableDevicesReady();
 					});
 					$('#dialogDeviceEditCommonName').html(views[viewIndex].devices[deviceIndex].commonName || "");
 					$('#dialogDeviceEditViewIndex').val(viewIndex);
@@ -370,7 +376,7 @@ function load(settings, onChange) {
 				});
 			}
 		});
-		//Add Thumbs to SelectBox
+		//Add Thumbs to SelectBox and readonly to LinkedView if the role is not allowed to have a link
 		$lines.find('select[data-name]').each(function() {
 			var name = $(this).data('name');
 			if (name === 'nativeBackgroundImage') {
@@ -381,6 +387,17 @@ function load(settings, onChange) {
 					if (icon != "") $(this).attr('data-icon', link + icon);
 					$(this).addClass('left');
 				});
+			}
+			if (name === 'nativeLinkedView') {
+				var index = $(this).data('index');
+				switch(views[devicesSelectedView].devices[index].commonRole){
+					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": //Link to other View allowed	
+					$(this).parent('div').parent('td').css('opacity', '1');
+					break;
+					
+					default: //Link to other view not allowed
+					$(this).parent('div').parent('td').css('opacity', '0');
+				}
 			}
 		});
 		$('select').select();
@@ -402,27 +419,26 @@ function load(settings, onChange) {
 		dialogDeviceEditStatesTable = [];
 		if(dialogDeviceEditCommonRole){
 			iQontrolRoles[dialogDeviceEditCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
-				var type  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).type || "";
+				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).value || "";
-				if(type == ""){
+				if(commonRole == ""){
 					if(entry == "VALVE_STATES"){
-						type = "array";
-						var valueObj = tryParseJSON(value);
-						if(Array.isArray(valueObj) == false) {
-							//For backward-compatibility -> transfer old object-style to new array-style
+						commonRole = "array";
+						var valueObj = tryParseJSON(value);						
+						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
 							var valueArray = [];
 							for(name in valueObj){
-								valueArray.push({'name':name, 'type':'linkedState', 'value':valueObj[name]});
+								valueArray.push({'name':name, 'commonRole':'linkedState', 'value':valueObj[name]});
 							}
 							value = JSON.stringify(valueArray);
 						}
-					} else if(entry == "SET_VALUE"){
-						type = "const";
+					} else if(entry == "SET_VALUE"  || entry == "HTML" || entry == "URL"){
+						commonRole = "const";
 					} else {
-						type = "linkedState";
+						commonRole = "linkedState";
 					}
 				}
-				dialogDeviceEditStatesTable.push({'state':entry, 'type':type, 'value':value});
+				dialogDeviceEditStatesTable.push({'state':entry, 'commonRole':commonRole, 'value':value});
 			});
 		}
 		//Fill Table
@@ -440,19 +456,21 @@ function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'state') {
 				$(this).prop('readonly', true);
-				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", type: "LinkedState", value: "ID"}, ...]</span>');
+				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID"}, ...]</span>');
 				if ($(this).val() == "SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "URL") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "HTML") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 			}
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
-				if (dialogDeviceEditStatesTable[stateIndex].type == 'array') $(this).prop('readonly', true);
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
 			}
 		});
-		//Hide type
+		//Hide role
 		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
-			if (name === 'type') {
+			if (name === 'commonRole') {
 				$(this).parent('div').parent('td').hide();
 			}
 		});
@@ -461,9 +479,9 @@ function load(settings, onChange) {
 			var command = $(this).data('command');
 			if (command === 'edit') {
 				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].type == 'const') { //const - remove edit button
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - remove edit button
 					$(this).hide();
-				} else if (dialogDeviceEditStatesTable[stateIndex].type == 'array') { //array - open Edit Array Dialog
+				} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open Edit Array Dialog
 					$(this).on('click', function () {
 						var stateIndex = $(this).data('index');
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
@@ -496,10 +514,10 @@ function load(settings, onChange) {
 		var $div = $('#tableDialogDeviceEditStateArray');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
-		//Hide type
+		//Hide role
 		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
-			if (name === 'type') {
+			if (name === 'commonRole') {
 				$(this).parent('div').parent('td').hide();
 			}
 		});

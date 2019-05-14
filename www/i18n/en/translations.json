@@ -46,6 +46,7 @@
     "Change filename from %s to:": "Change filename from %s to:",
     "Color": "Color",
     "Color-Temperature": "Color-Temperature",
+	"Content not available": "Content not available",
     "Copy Device:": "Copy Device:",
     "Copy Existing Device to this view": "Copy Existing Device to this view",
     "Copy this device": "Copy this device",
