@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.22",
+        "version": "0.0.23",
         "news": {
+			"0.0.23": {
+				"en": "Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development. Fixed Pull2Refresh on android devices / chrome. Added external links Added popups with iframes."
+			},
             "0.0.22": {
                 "en": "Improved german translation. Short after another coming reconnect-events (<5s) are ignored now.",
                 "de": "Verbesserte deutsche Übersetzung. ",

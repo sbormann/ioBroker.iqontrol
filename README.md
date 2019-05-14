@@ -57,8 +57,8 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 ## Description of roles and associated states
 Every device has a role, wich defines the function of the device. Every role generates a set of states, wich can be linked to a corresponding io-broker state.
 If you use the auto-create-function, you can chose an existing device from the io-broker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
-This will only work for known devices. For unknown devices, and to give devices advanced features, you can add devices manually or edit the devices that were created by autocreate.
-To edit the role and the linked states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
+This will only work for known devices. For unknown devices, and to give devices advanced features, you can add devices manually via the (+)-Button or edit the devices that were created by autocreate.
+To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
 
 ### General states:
 Every role has the following three states:
@@ -66,15 +66,15 @@ Every role has the following three states:
 * ERROR: boolean - when true, a little exclamation-mark-icon will be displayed
 * UNREACH: boolean - when true, a little wireless-icon will be displayed
 
-Most of the roles have a STATE-state. Mostly it represents the main function of the device. You can assign io-broker-states of the following types to it:
-* boolean - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it trys to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
+Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
+* boolean - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
 * number - will be displayed with its corresponding unit and generate a slider in the dialog.
 * string - a text to be displayed
 * value-list - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. Technically an value-list is a number with a corresponding translation-list, defined in the 'native.states' property.
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
-### Links to other view:
+### Link to other view:
 * Has no further states, but it will respect the linked-view-property
 
 ### <img src="img/icons/switch_on.png" width="32"> Switch, <img src="img/icons/fan_on.png" width="32"> Fan:
@@ -146,14 +146,26 @@ In addition to normal thermostat you can define:
 * STATE: boolean - displayes, if the scene is active. If set to true, the scene will be started
 
 ### <img src="img/icons/button.png" width="32"> Button:
-* STATE: any desired type of state
-* VALUE: this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the putton is pressed
+* STATE: any - any desired type of state
+* SET_VALUE: CONSTANT string - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the putton is pressed
+
+### <img src="img/icons/popup.png" width="32"> Popup:
+* STATE: any - can be used to display further informations
+* URL: CONSTANT string - this url will be opened as iframe inside popup
+* HTML: CONSTANT string - this markup will be displayed inside the popup if no URL is specified
+
+### <img src="img/icons/link.png" width="32"> External Link:
+* STATE: any - can be used to display further informations
+* URL: CONSTANT string - this url will be opened
 
 
 ## Changelog
 
-### dev
-* developing constants
+### 0.0.23
+* (Sebastian Bormann) Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development.
+* (Sebastian Bormann) Fixed Pull2Refresh on android devices / chrome.
+* (Sebastian Bormann) Added external links
+* (Sebastian Bormann) Added popups with iframes
 
 ### 0.0.22
 * (watcherkb) Improved german translation.
@@ -161,20 +173,20 @@ In addition to normal thermostat you can define:
 * (Sebastian Bormann) Short after another coming reconnect-events (<5s) are ignored now.
 
 ### 0.0.21
-* (Sebastian Bormann) Added Push2Reload on mobile devices - reloads whole page when pushing down on homepage, otherwise only the acual view is reloaded.
+* (Sebastian Bormann) Added Pull2Refresh on mobile devices - reloads whole page when pulling down on homepage, otherwise only the acual view is reloaded.
 * (Sebastian Bormann) Improved reloading on reconnect (hoepefully to get it finally good working on iOS 12.2).
 
 ### 0.0.20
 * (Sebastian Bormann) New trial to get it working in iOS 12.2.
 
 ### 0.0.19
-* (Sebastian Bormann) Improved reloading of page in new PWD-Mode of iOS 12.2.
+* (Sebastian Bormann) Improved reloading of page in new PWA-Mode of iOS 12.2.
 
 ### 0.0.18
 * (Sebastian Bormann) Improved fetching of VALVE_STATES.
 * (Sebastian Bormann) Changed Button Icon.
 * (Sebastian Bormann) Added Loading-Spinner if disconnected.
-* (Sebastian Bormann) Due to new iOS 12.2 PWD-Mode added visibility-check and connectivity-check.
+* (Sebastian Bormann) Due to new iOS 12.2 PWA-Mode added visibility-check and connectivity-check.
 * (Sebastian Bormann) Added role-icons to role-selectbox in edit device dialog.
 * (Sebastian Bormann) Fixed missing value-list for states of the type string.
 

@@ -46,6 +46,7 @@
     "Change filename from %s to:": "Dateinamen ändern von %s auf:",
     "Color": "Farbe",
     "Color-Temperature": "Farbtemperatur",
+	"Content not available": "Inhalt nicht verfügbar",
     "Copy Device:": "Gerät kopieren:",
     "Copy Existing Device to this view": "Bestehendes Gerät in diese Ansicht kopieren",
     "Copy this device": "Dieses Gerät kopieren",

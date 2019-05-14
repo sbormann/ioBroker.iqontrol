@@ -41,7 +41,9 @@ a {
 
 #View{
 	background-color: transparent;
-}
+	height: 100%;
+	-webkit-overflow-scrolling: touch;
+	overflow-y: scroll;}
 
 #ViewMain {
 	padding: 3px;
@@ -298,6 +300,27 @@ a {
 
 #Dialog{
 	min-width: 300px;
+}
+
+.iQontrolDialogIframeWrapper{
+	overflow-y-webkit-overflow-scrolling: touch;
+  	overflow-y: scroll;
+	height: 85vh;
+	max-height: 100%;
+	width: 85vw;
+	max-width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 2px inset #eee;
+	scrolling: auto;
+	overflow: scroll;
+}
+
+.iQontrolDialogIframe{
+	scrolling: none;
+	width: 100%;
+	height: 100%;
+	border: none;
 }
 
 .small {

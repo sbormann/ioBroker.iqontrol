@@ -33,7 +33,31 @@ var updateViewFunctions = {};		//Used to save all in the view-page currently vis
 var updateDialogFunctions = {}; 	//Same as updateViewFunctions, but for dialog-page
 var preventUpdate = {};				//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 var reconnectedShortly = false;		//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
+var iQontrolRoles = {
+	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
+	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fan_on.png"},
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
+	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
+	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
+	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
+	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
+	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
+	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
+	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
+	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
+	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
+	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
+	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
+	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
+	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
+	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
+}
 const udef = 'undefined';
+
 
 //++++++++++ WEBSOCKET ++++++++++
 connOptions = {
@@ -169,7 +193,7 @@ function fetchChildren(id, destination, callback){
 			if(childs.length > 0){
 				destination[parentId] = childs;
 				var j = 0;
-				fetchObject(id = childs[j], _callback = function(){ //Get Child-Object
+				fetchObject(childs[j], _callback = function(){ //Get Child-Object
 					if(++j < childs.length) fetchObject(childs[j], _callback); else {		//Iterating through all childs
 						if(callback) callback();
 					}
@@ -297,13 +321,46 @@ function setObject(objId, obj, callback){
 //++++++++++ HELPERS ++++++++++
 function getLinkedStateId(stateId){
 	if (states[stateId]){
-		var linkedStateId = states[stateId].val;
-		if(!updateViewFunctions[linkedStateId]) updateViewFunctions[linkedStateId] = [];
-		if(!updateDialogFunctions[linkedStateId]) updateDialogFunctions[linkedStateId] = [];
-		if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
-			fetchObject(linkedStateId, function(error){});
+		if(typeof states[stateId].val != udef && (states[stateId].val.substring(0, 6) == 'CONST:' || states[stateId].val.substring(0, 6) == 'ARRAY:')) { //role of stateId is 'const' or 'array'
+			var linkedStateId = "CONST:" + stateId;
+			var constantValue = states[stateId].val.substring(6);
+			var constantObj = {
+				"type": "state",
+				"common": {
+					"name": stateId.substring(stateId.lastIndexOf('.') + 1),
+					"desc": "created by iQontrol",
+					"role": "state",
+					"type": "string",
+					"icon": "",
+					"read": true,
+					"write": false,
+					"def": ""
+				},
+				"native": {}
+			};
+			usedObjects[linkedStateId] = constantObj;
+			var constantState = {
+				"val": constantValue,
+				"ack": true,
+				"from": "iQontrol",
+				"lc": 0,
+				"q": 0,
+				"ts": 0,
+				"user": "system.user.admin"
+			};
+			states[linkedStateId] = constantState;
+			if(!updateViewFunctions[linkedStateId]) updateViewFunctions[linkedStateId] = [];
+			if(!updateDialogFunctions[linkedStateId]) updateDialogFunctions[linkedStateId] = [];
+			return linkedStateId;
+		} else { //role of stateId is 'linkedState'
+			var linkedStateId = states[stateId].val;
+			if(!updateViewFunctions[linkedStateId]) updateViewFunctions[linkedStateId] = [];
+			if(!updateDialogFunctions[linkedStateId]) updateDialogFunctions[linkedStateId] = [];
+			if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
+				fetchObject(linkedStateId, function(error){});
+			}
+			return linkedStateId;
 		}
-		return linkedStateId;
 	} else {
 		return null;
 	}
@@ -542,13 +599,10 @@ function startProgram(linkedStateId, deviceId, callback){
 	}
 }
 
-function startButton(linkedStateId, setValueId, deviceId, callback){
-	console.log("Button");
-	console.log(linkedStateId);
-	var constSetValueId = getLinkedStateId(setValueId);
-	if(linkedStateId && constSetValueId){
-		setState(linkedStateId, deviceId, constSetValueId, true, callback);
-	}
+function startButton(linkedStateId, linkedSetValueId, deviceId, callback){
+	var newValue = states[linkedSetValueId].val || "";
+	console.log("Button " + linkedStateId + " --> " + newValue);
+	setState(linkedStateId, deviceId, newValue, true, callback);
 }
 
 function getTimeFromHMTimeCode(HMTimeCode){
@@ -643,11 +697,22 @@ function renderView(id, updateOnly){
 		for (var i = 0; i < viewSorted.length; i++){
 			var deviceId = viewSorted[i][1];
 			var deviceContent = "";
-			if(usedObjects[deviceId].native.heading && usedObjects[deviceId].native.heading !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.heading + "</h4>";
+			//Render Heading
+			if (usedObjects[deviceId].native.heading && usedObjects[deviceId].native.heading !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.heading + "</h4>";
 			//Render Device
+			//--Get linked States
+			//  While getting the LinkedStateId the correspondig usedObject is also fetched
+			//  If the linked State is not fetched yet, write it in to stateIdsToFetch-Array - they will be fetched alltogether after rendering the view. Then the view is rendered again.
+/**			var linkedStateIds = {};
+			iQontrolRoles[usedObjects[deviceId].common.role].states.forEach(function(elementState){
+				var stateId = deviceId + "." + elementState;
+				var linkedStateId = getLinkedStateId(stateId);
+				if (linkedStateId == null) stateIdsToFetch.push(stateId);
+				linkedStateIds.elementState = linkedStateId;
+			}); **/
 			//--Box
 			viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceId + "'>";
-				//--Link to Dialog
+				//--Link (to Dialog / Popup / External Link / Other View)
 				switch(usedObjects[deviceId].common.role){
 					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness":		
 					if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
@@ -657,8 +722,30 @@ function renderView(id, updateOnly){
 						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' onclick=''>";		
 					}
 					break;
-
-					default:
+					
+					case "iQontrolExternalLink": //External Link
+					var stateId = deviceId + ".STATE";
+					var linkedStateId = getLinkedStateId(stateId);
+					if (linkedStateId === null) stateIdsToFetch.push(stateId);
+					var urlId = deviceId + ".URL";
+					var linkedUrlId = getLinkedStateId(urlId);
+					if (linkedUrlId == null) stateIdsToFetch.push(urlId);
+					if (linkedUrlId){
+						deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' target='_blank'>";
+						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedUrlId = linkedUrlId;
+							updateViewFunctions[_linkedUrlId].push(function(){
+								var href = "";
+								if (states[_linkedUrlId]) href = states[_linkedUrlId].val;
+								$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceLinkToDialog").attr('href', href);
+							});
+						})();
+						stateIdsToUpdate.push(linkedUrlId);
+					}
+					break;
+					
+					default: //Dialog
 					deviceContent += "<a class='iQontrolDeviceLinkToDialog' data-iQontrol-Device-ID='" + deviceId + "' data-rel='popup' data-transition='pop' data-position-to='window' href='#Dialog' onclick='renderDialog(\"" + deviceId + "\");'>";
 				}
 					//--BackgroundImage
@@ -720,6 +807,22 @@ function renderView(id, updateOnly){
 						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/window_closed.png' />";
 						break;
 
+						case "iQontrolPopup":
+						var urlId = deviceId + ".URL";
+						var linkedUrlId = getLinkedStateId(urlId);
+						if (linkedUrlId == null) stateIdsToFetch.push(urlId);
+						var htmlId = deviceId + ".HTML";
+						var linkedHtmlId = getLinkedStateId(htmlId);
+						if (linkedHtmlId == null) stateIdsToFetch.push(htmlId);
+						iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/popup.png' />";
+						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/popup.png' />";
+						break;
+
+						case "iQontrolExternalLink":
+						iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/link.png' />";
+						iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/link.png' />";
+						break;
+
 						case "iQontrolBlind":
 						var levelId = deviceId + ".LEVEL";
 						var linkedLevelId = getLinkedStateId(levelId);
@@ -774,11 +877,14 @@ function renderView(id, updateOnly){
 						var stateId = deviceId + ".STATE";
 						var linkedStateId = getLinkedStateId(stateId);
 						var setValueId = deviceId + ".SET_VALUE";
-						if (getLinkedStateId(setValueId) == null) stateIdsToFetch.push(setValueId);
+						var linkedSetValueId = getLinkedStateId(setValueId);
 						var onclick = "";
-						if(linkedStateId){
-							onclick = "startButton(\"" + linkedStateId + "\", \"" + setValueId + "\", \"" + deviceId + "\");";
-						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
+						if(linkedStateId && linkedSetValueId){
+							onclick = "startButton(\"" + linkedStateId + "\", \"" + linkedSetValueId + "\", \"" + deviceId + "\");";
+						} else {
+							if (linkedStateId === null) stateIdsToFetch.push(stateId);
+							if (linkedSetValueId == null) stateIdsToFetch.push(setValueId);
+						}
 						linkContent += "<a class='iQontrolDeviceLinkToSwitch' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
 							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
@@ -1501,6 +1607,8 @@ function renderDialog(deviceId){
 			case "iQontrolButton":
 			var stateId = deviceId + ".STATE";
 			var linkedStateId = getLinkedStateId(stateId);
+			var setValueId = deviceId + ".SET_VALUE";
+			var linkedSetValueId = getLinkedStateId(setValueId);
 			var type = "Button";
 			if(linkedStateId){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
@@ -1509,10 +1617,10 @@ function renderDialog(deviceId){
 					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = linkedStateId;
-						var _setValueId = _deviceId + ".SET_VALUE";
+						var _linkedSetValueId = linkedSetValueId || "";
 						var bindingFunction = function(){
 							$('#DialogStateButton').on('click', function(e) {
-								startButton(_linkedStateId, _setValueId, _deviceId);
+								startButton(_linkedStateId, _linkedSetValueId, _deviceId);
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
@@ -2221,6 +2329,39 @@ function renderDialog(deviceId){
 						})();
 					dialogContent += "</div>";
 				dialogContent += "</div>";
+			}
+			break;
+			
+			case "iQontrolPopup":
+			//----Popup with url or html
+			var urlId = deviceId + ".URL";
+			var linkedUrlId = getLinkedStateId(urlId);
+			var url = getStateObject(linkedUrlId);
+			var htmlId = deviceId + ".HTML";
+			var linkedHtmlId = getLinkedStateId(htmlId);
+			var html = getStateObject(linkedHtmlId);
+			if (url || html){
+				dialogContent += "<div class='iQontrolDialogIframeWrapper'>";
+				dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceId + "' id='DialogPopupIframe' scrolling='no'>" + _("Content not available") + "</iframe>";
+				dialogContent += "</div>";				
+				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceId = deviceId;
+					var _linkedUrlId = linkedUrlId;
+					var _linkedHtmlId = linkedHtmlId;
+					var updateFunction = function(){
+						var iframe = document.getElementById('DialogPopupIframe');
+						if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
+							iframe.src = states[_linkedUrlId].val;
+						} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
+							var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+							iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+						}
+					}	
+					if (linkedUrlId) updateDialogFunctions[linkedUrlId].push(updateFunction);
+					if (linkedHtmlId) updateDialogFunctions[linkedHtmlId].push(updateFunction);
+				})();
+				if (linkedUrlId) stateIdsToUpdate.push(linkedUrlId);
+				if (linkedHtmlId) stateIdsToUpdate.push(linkedHtmlId);
 			}
 			break;
 

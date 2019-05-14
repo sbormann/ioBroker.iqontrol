@@ -199,6 +199,21 @@
 						</table>
 					</div>
 				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s11" style="font-size: small;">
+						<p><br></p>
+						'<span class="translate">Linked View</span>'  
+						<span class="translate">is only available for</span>:  
+						<span class="translate">Link to other view</span>, 
+						<span class="translate">Window</span>, 
+						<span class="translate">Door</span>, 
+						<span class="translate">Fire-Sensor</span>, 
+						<span class="translate">Temperature-Sensor</span>, 
+						<span class="translate">Humidity-Sensor</span>  
+						<span class="translate">and</span> 
+						<span class="translate">Brightness-Sensor</span> 
+					</div>
+				</div>
 			</div>
 
 			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->
@@ -340,7 +355,7 @@
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
-									<th data-name="type" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Type</th>
+									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit" style="width:50px;"></th>
 								</tr>
@@ -382,7 +397,7 @@
 							<thead>
 								<tr>
 									<th data-name="name" class="translate">Name</th>
-									<th data-name="type" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Type</th>
+									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit delete" style="width:50px;"></th>
 								</tr>
