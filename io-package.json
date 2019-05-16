@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.23",
+        "version": "0.0.24",
         "news": {
+            "0.0.24": {
+                "en": "Fixed jittering whiles scrolling on iOS (was related to Pull2Refresh). System language of iobroker will be loaded and used.",
+                "de": "Behebung von Jittering beim Scrollen unter iOS (stand in Zusammenhang mit Pull2Refresh). ",
+                "ru": "Исправлена ​​прокрутка при дрожании на iOS (была связана с Pull2Refresh). ",
+                "pt": "Correção de jittering enquanto rolava no iOS (estava relacionado ao Pull2Refresh). ",
+                "nl": "Fixed jittering scrollend op iOS (was gerelateerd aan Pull2Refresh). ",
+                "fr": "Correction des tremblements lors du défilement sur iOS (était liée à Pull2Refresh). ",
+                "it": "Risolto il problema del jittering che scorreva su iOS (era correlato a Pull2Refresh). ",
+                "es": "Se corrigieron los errores de jittering en iOS (se relacionó con Pull2Refresh). ",
+                "pl": "Naprawiono drżenie podczas przewijania w systemie iOS (było związane z Pull2Refresh). ",
+                "zh-cn": "修复了iOS上滚动时的抖动（与Pull2Refresh有关）。"
+            },
             "0.0.23": {
                 "en": "Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development. Fixed Pull2Refresh on android devices / chrome. Added external links Added popups with iframes.",
                 "de": "Die Behandlung konstanter Werte (anstelle von linkedStates) wurde umgeschrieben - dies ist eine Voraussetzung für die weitere Entwicklung. ",

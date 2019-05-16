@@ -41,9 +41,8 @@ a {
 
 #View{
 	background-color: transparent;
-	height: 100%;
-	-webkit-overflow-scrolling: touch;
-	overflow-y: scroll;}
+	overflow-y: scroll;
+}
 
 #ViewMain {
 	padding: 3px;

@@ -5,10 +5,11 @@
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
 var useCache = true;
-systemLang = "de";					//Used for translate.js -> _(string) translates string to this language
 
 
 //Delcarations
+var config = {};					//Contains the system config (like system language)
+var systemLang = "en";				//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
 var toolbar = {};					//Contains the toolbar (extracted form <namespace + '.Toolbar'>) in the form of {ID}
 var toolbarSorted = [];				//Contains the IDs of the toolbar in sorted order
 var homeId;							//Contains the ID of the view linked to the first toolbar-item
@@ -113,8 +114,13 @@ function getStarted(){
 	waitingForObject = {};	
 	preventUpdate = {};		
 	servConn.clearCache();
+	//Get Config
+	fetchConfig(function(){
+		systemLang = config.language || systemLang;
+		translateAll();
+	});
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
-	//Get Toolbar (and according objects)
+	//Get Options
 	fetchOptions(function(){ 
 		if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef && typeof usedObjects[namespace + ".Options"].native.version != udef){
 			if(typeof actualVersion != udef) {
@@ -124,6 +130,7 @@ function getStarted(){
 			}		
 			$('#iQontrolVersion').html("Version " + actualVersion + " ");
 		}
+		//Get Toolbar (and according objects)
 		fetchToolbar(function(){
 			console.log("Toolbar received.");
 			renderToolbar();
@@ -149,6 +156,18 @@ function getUrlParameter(name) {
     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
+function fetchConfig(callback){
+	servConn.getConfig(true, function(err, _config){
+		if(_config){
+			config = _config;
+			if(callback) callback();
+		} else {
+			console.log("Config could not be loaded")
+			if(callback) callback(error = "ConfigCouldNotBeLoaded");
+		}
+	});
+}
+
 function fetchOptions(callback){
 	servConn.getObject(namespace + ".Options", useCache, function(err, _object) {
 		if(_object) {
@@ -159,7 +178,7 @@ function fetchOptions(callback){
 			updateState(_id);
 			if(callback) callback();
 		} else {
-			console.log("Object not found");
+			console.log("Options-Object not found");
 			if(callback) callback(error = "objectNotFound"); //Object not found
 		}
 	});
@@ -2531,10 +2550,12 @@ $(document).ready(function(){
 				window.location.reload();
 			}
 		},
-		ignoreThreshold: 10,
-		pullThreshold: 200,
-		maxPullThreshold: 500,
-		spinnerTimeout: 200
+		ignoreThreshold: 20,
+		pullThreshold: $(window).height() / 2,
+		maxPullThreshold: $(window).height(),
+		spinnerTimeout: 100,
+		allowPtrWhenStartedWhileScrolled: false,
+		scrollingDom: $('#View')
 	});
 	//Init socket.io
 	servConn.init(connOptions, connCallbacks);
