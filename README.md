@@ -161,6 +161,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.24
+* (Sebastian Bormann) Fixed jittering on Safari while scrolling (was related to Pull2Refresh).
+* (Sebastian Bormann) System language of iobroker will be loaded and used.
+
 ### 0.0.23
 * (Sebastian Bormann) Rewrote how constant values (instead of linkedStates) are handeled - this is a requirement for further development.
 * (Sebastian Bormann) Fixed Pull2Refresh on android devices / chrome.
