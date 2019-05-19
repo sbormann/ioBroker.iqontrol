@@ -7,7 +7,8 @@
 
 ### RenderView
 
-Part A) RenderView runs a loop over all devices that are inside this view. This is what happens inside this loop:
+Part A) 
+RenderView runs a loop over all devices that are inside this view. This is what happens inside this loop:
 ````
 /** The ID of the actual Device is stored in deviceId **/
 deviceId = iqontrol.0.Views.<view>.<device>
@@ -55,7 +56,8 @@ if(linkedStateId){
 }
 ````
 
-Part B) At the end, outside of the loop all the missing states are fetched:
+Part B) 
+At the end, outside of the loop all the missing states are fetched:
 ````
 if(!updateOnly){
 	$("#ViewHeaderTitle").html(usedObjects[id].common.name);
@@ -68,7 +70,8 @@ if(!updateOnly){
 }
 ````
 
-Part C) After that all the generated Update-Functions are called once:
+Part C) 
+After that all the generated Update-Functions are called once:
 ````
 stateIdsToUpdate = removeDuplicates(stateIdsToUpdate);
 fetchStates(stateIdsToUpdate, function(){

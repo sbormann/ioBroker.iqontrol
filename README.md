@@ -178,7 +178,7 @@ In addition to normal thermostat you can define:
 
 
 ## Developing
-* Have a look at [Operating Principle of Frontend](Operating Principle of Frontend.md)
+* Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
 
 
@@ -186,7 +186,7 @@ In addition to normal thermostat you can define:
 
 ### dev
 * (Sebastian Bormann) Added motion-sensor.
-* (Sebastian Bormann) Added description, how the frontend works: [Operating Principle of Frontend](Operating Principle of Frontend.md).
+* (Sebastian Bormann) Added description, how the frontend works: [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md).
 
 ### 0.0.24
 * (Sebastian Bormann) Fixed jittering on Safari while scrolling (was related to Pull2Refresh).
