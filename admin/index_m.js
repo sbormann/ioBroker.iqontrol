@@ -14,6 +14,7 @@ var iQontrolRoles = {
 	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
 	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
 	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
+	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
 	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
 	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
 	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
@@ -391,7 +392,7 @@ function load(settings, onChange) {
 			if (name === 'nativeLinkedView') {
 				var index = $(this).data('index');
 				switch(views[devicesSelectedView].devices[index].commonRole){
-					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": //Link to other View allowed	
+					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion": //Link to other View allowed	
 					$(this).parent('div').parent('td').css('opacity', '1');
 					break;
 					
@@ -653,7 +654,7 @@ function load(settings, onChange) {
 				var id = childStates[i];
 				var stateName = id.substring(id.lastIndexOf("."), id.length);
 				switch(stateName){
-					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": 
+					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE":
 					if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 						resultStatesObj['LOCK_STATE'] = id;
 					} else {
@@ -746,6 +747,8 @@ function load(settings, onChange) {
 					if(resultStateParent.length > 0){
 						if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
 					}
+				} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
+					sourceRole = "sensor.motion";
 				}
 			}
 			if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
@@ -798,6 +801,10 @@ function load(settings, onChange) {
 					resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
 					delete resultStatesObj['BRIGHTNESS'];
 				}
+				break;
+
+				case "sensor.motion":
+				role = 'iQontrolMotion';
 				break;
 
 				case "sensor.door":

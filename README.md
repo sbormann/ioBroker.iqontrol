@@ -24,9 +24,13 @@ Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
 It´s fully customizable.
 
+
+
 ## You need...
 * Nodejs 8 or higher
 * socketIO has to be enabled in web-adapter
+
+
 
 ## How to use
 * Start creating views.
@@ -43,6 +47,8 @@ It´s fully customizable.
 	You can use your images as background-images for views, or for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
+
+
 ## Knowns issues
 This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
 However there are a few limitations:
@@ -53,6 +59,8 @@ You can do these operations manually via ftp under iobroker/iobroker-data/files/
 Please feel free to comment and let me know, how to fix these issues!
 
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
+
+
 
 ## Description of roles and associated states
 Every device has a role, wich defines the function of the device. Every role generates a set of states, wich can be linked to a corresponding io-broker state.
@@ -105,16 +113,22 @@ In addition to normal thermostat you can define:
 * STATE: number - temperature or humidity that will be displayed in the lower part of the device
 * TEMPERATURE: number - temperature that will be displayed in small in the upper right corner
 * HUMIDITY: number - humidity that will be displayed in small in the upper right corner
+* Respects the linked-view-property
 
 ### <img src="img/icons/brightness_light.png" width="32"> Brigthness-Sensor:
 * STATE: number - brightness that will be displayed in the lower part of the device
 * BRIGHTNESS: number - brightness that will be displayed in small in the upper right corner
+* Respects the linked-view-property
+
+### <img src="img/icons/motion_on.png" width="32"> Motion-Sensor:
+* STATE: boolean - display if motion is detected or not
+* Respects the linked-view-property
 
 ### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
 * STATE: boolean - display if the door or window is opened or closed. 
     *  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
     * You can also assign a string to display any text like "3 windows open" or "all closed".
-* Doors and Windows respect the linked-view-property
+* Respect the linked-view-property
 
 ### <img src="img/icons/door_locked.png" width="32"> Door with lock:
 * STATE: boolean - display if the door is opened or closed. 
@@ -127,17 +141,20 @@ In addition to normal thermostat you can define:
 * DIRECTION: value-list - can be Stop, Up and Down
 * STOP: boolean - if set to true, the blind will stop
 
-### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor, <img src="img/icons/alarm_on.png" width="32"> Alarm:
+### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor:
 * STATE: boolean - if true the sensor will be displayed as triggered
-    *  Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+    * Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+    * You can also assign a string to display any text like "fire in upper floor".
+* Respects the linked-view-property
+
+### <img src="img/icons/alarm_on.png" width="32"> Alarm:
+* STATE: boolean - if true the sensor will be displayed as triggered
+    * Alternativeley you can assign a value-list, to display additional states like 'tampered'.
     * You can also assign a string to display any text like "fire in upper floor".
 
 ### <img src="img/icons/value_on.png" width="32"> Value:
 * STATE: any valid state to be displayed (have a look at general states-section)
 * LEVEL: number - will produce a slider in dialog
-
-### <img src="img/icons/value_off.png" width="32"> Universal:
-* Universal is not yet implemented - but it will be like Value, but with the opportunity to let you chose your own on- and off-icons
 
 ### <img src="img/icons/play_on.png" width="32"> Program:
 * STATE: boolean - if set to true, the program will be started
@@ -159,7 +176,17 @@ In addition to normal thermostat you can define:
 * URL: CONSTANT string - this url will be opened
 
 
+
+## Developing
+* Have a look at [Operating Principle of Frontend](Operating Principle of Frontend.md)
+
+
+
 ## Changelog
+
+### dev
+* (Sebastian Bormann) Added motion-sensor.
+* (Sebastian Bormann) Added description, how the frontend works: [Operating Principle of Frontend](Operating Principle of Frontend.md).
 
 ### 0.0.24
 * (Sebastian Bormann) Fixed jittering on Safari while scrolling (was related to Pull2Refresh).
