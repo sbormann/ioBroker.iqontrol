@@ -7,7 +7,7 @@
 
 ### RenderView
 
-Part A) 
+#### Part A) 
 RenderView runs a loop over all devices that are inside this view. This is what happens inside this loop:
 ````
 /** The ID of the actual Device is stored in deviceId **/
@@ -56,7 +56,7 @@ if(linkedStateId){
 }
 ````
 
-Part B) 
+#### Part B) 
 At the end, outside of the loop all the missing states are fetched:
 ````
 if(!updateOnly){
@@ -70,7 +70,7 @@ if(!updateOnly){
 }
 ````
 
-Part C) 
+#### Part C) 
 After that all the generated Update-Functions are called once:
 ````
 stateIdsToUpdate = removeDuplicates(stateIdsToUpdate);
