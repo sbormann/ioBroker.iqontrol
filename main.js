@@ -17,7 +17,6 @@ function idEncode(id){
 	return id.replace(/[\.\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
 }
 
-		
 class Iqontrol extends utils.Adapter {
 
 	/**
@@ -152,8 +151,12 @@ class Iqontrol extends utils.Adapter {
 					"native": {}
 				};
 				var stateValue = this.config.views[viewIndex].devices[deviceIndex].states[index].value || "";
-				if (objCommonRole == 'const') stateValue = "CONST:" + stateValue;
-				// xxxxxxxxxxxxxxxxxxxxxxxx if (objCommonRole == 'array') stateValue = "ARRAY:" + stateValue;				
+				if (objCommonRole == 'const') {
+					stateValue = stateValue.replace(/\\n/g, '\n');
+					stateValue = "CONST:" + stateValue;
+				} else if (objCommonRole == 'array') {
+					stateValue = "ARRAY:" + stateValue;
+				}					
 				createdObjects.push(objId);
 				this.setObjectAsync(objId, obj, this.setStateValue(objId, stateValue));
 			}

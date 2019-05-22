@@ -302,8 +302,7 @@ a {
 }
 
 .iQontrolDialogIframeWrapper{
-	overflow-y-webkit-overflow-scrolling: touch;
-  	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 	height: 85vh;
 	max-height: 100%;
 	width: 85vw;
@@ -317,6 +316,7 @@ a {
 
 .iQontrolDialogIframe{
 	scrolling: none;
+	overflow: visible;
 	width: 100%;
 	height: 100%;
 	border: none;
@@ -327,15 +327,21 @@ a {
 }
 
 .colorPicker + .ui-slider-track {
-	background-image:url(./images/hue.png) !important;
-	background-repeat:repeat-y !important;
-	background-size:100%, auto !important;
+	background-image: url(./images/hue.png) !important;
+	background-repeat: repeat-y !important;
+	background-size: 100%, auto !important;
 }
 
 .colorTemperaturePicker + .ui-slider-track {
-	background-image:url(./images/ct.png) !important;
-	background-repeat:repeat-y !important;
-	background-size:100%, auto !important;
+	background-image: url(./images/ct.png) !important;
+	background-repeat: repeat-y !important;
+	background-size: 100%, auto !important;
+}
+
+.colorSaturationPicker + .ui-slider-track {
+	background-image: linear-gradient(to right, white, black) !important;
+	background-repeat: repeat-y !important;
+	background-size: 100%, auto !important;
 }
 
 .fullWidthSlider .ui-slider-input{
