@@ -2453,6 +2453,15 @@ function renderDialog(deviceId){
 										DialogHueSliderReadoutTimer = setInterval(function(){
 											setState(_linkedHueId, _deviceId, $("#DialogHueSlider").val());
 										}, 500);
+										//Update ColorSaturationPicker-Slider linear-gradient immediatly
+										setInterval(function(){
+											var hueMin = 0;
+											var hueMax = 359;
+											if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
+											if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
+											var hue = (($("#DialogHueSlider").val() - hueMin) / (hueMax - hueMin)) * 359;
+											$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
+										}, 50);	
 									},
 									stop: function(event, ui) {
 										clearInterval(DialogHueSliderReadoutTimer);
@@ -2496,17 +2505,17 @@ function renderDialog(deviceId){
 							updateDialogFunctions[linkedSaturationId].push(updateFunction);
 							var updateHueFunction = function(){
 								if (states[_linkedHueId]){
-								var hueMin = 0;
-								var hueMax = 359;
-								if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
-								if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
-									hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
+									var hueMin = 0;
+									var hueMax = 359;
+									if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
+									if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
+									var hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
 									$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
 								} else {
 									$("#DialogSaturationSlider + .ui-slider-track").attr('style', '');
 								}
 							};
-							updateViewFunctions[linkedHueId].push(updateHueFunction); //Special: This is pushed to updateVIEWfunctions, because it needs to be updated immediatly when a new hue is set (preventUpdate is respected)
+							updateDialogFunctions[linkedHueId].push(updateHueFunction);
 							var bindingFunction = function(){
 								$('#DialogSaturationSlider').slider({
 									start: function(event, ui){
