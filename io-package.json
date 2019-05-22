@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.24",
+        "version": "0.0.25",
         "news": {
+            "0.0.25": {
+                "en": "Added motion-sensor. Added description, how the frontend works. Added dialog for editing constants like SET_VALUE, URL or HTML. Changed the way arrays are stored. Added submit-button for values of type string. Added saturation to hue-lights. Better icons for color-temperature and brightness-sensor.",
+                "de": "Bewegungssensor hinzugefügt. ",
+                "ru": "Добавлен датчик движения. ",
+                "pt": "Adicionado sensor de movimento. ",
+                "nl": "Bewegingssensor toegevoegd. ",
+                "fr": "Capteur de mouvement ajouté. ",
+                "it": "Aggiunto sensore di movimento. ",
+                "es": "Sensor de movimiento añadido. ",
+                "pl": "Dodano czujnik ruchu. ",
+                "zh-cn": "添加了运动传感器。"
+            },
             "0.0.24": {
                 "en": "Fixed jittering whiles scrolling on iOS (was related to Pull2Refresh). System language of iobroker will be loaded and used.",
                 "de": "Behebung von Jittering beim Scrollen unter iOS (stand in Zusammenhang mit Pull2Refresh). ",

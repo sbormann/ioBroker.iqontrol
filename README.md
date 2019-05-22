@@ -184,9 +184,14 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### dev
+### 0.0.25
 * (Sebastian Bormann) Added motion-sensor.
 * (Sebastian Bormann) Added description, how the frontend works: [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md).
+* (Sebastian Bormann) Added dialog for editing constants like SET_VALUE, URL or HTML.
+* (Sebastian Bormann) Changed the way arrays are stored.
+* (Sebastian Bormann) Added submit-button for values of type string.
+* (Sebastian Bormann) Added saturation to hue-lights.
+* (Sebastian Bormann) Better icons for color-temperature and brightness-sensor.
 
 ### 0.0.24
 * (Sebastian Bormann) Fixed jittering on Safari while scrolling (was related to Pull2Refresh).

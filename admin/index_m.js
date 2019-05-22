@@ -7,7 +7,7 @@ var imagePathBS = imagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "SATURATION", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fan_on.png"},
 	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
@@ -480,9 +480,20 @@ function load(settings, onChange) {
 			var command = $(this).data('command');
 			if (command === 'edit') {
 				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - remove edit button
-					$(this).hide();
-				} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open Edit Array Dialog
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
+					$(this).on('click', function () {
+						var stateIndex = $(this).data('index');
+						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+						});
+						$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+						$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+						$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+						$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
+						$('#dialogDeviceEditStateConstant').modal('open');
+					});
+				} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 					$(this).on('click', function () {
 						var stateIndex = $(this).data('index');
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
@@ -495,7 +506,7 @@ function load(settings, onChange) {
 						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						$('#dialogDeviceEditStateArray').modal('open');
 					});
-				} else { //linkedState - open selectID
+				} else { //linkedState - open selectID dialog
 					$(this).on('click', function(){
 						var stateIndex = $(this).data('index');
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
@@ -680,6 +691,10 @@ function load(settings, onChange) {
 
 					case ".CT": case ".ct":
 					resultStatesObj['CT'] = id;
+					break;
+
+					case ".SATURATION": case ".saturation":
+					resultStatesObj['SATURATION'] = id;
 					break;
 
 					case ".SET_TEMPERATURE":

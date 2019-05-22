@@ -464,7 +464,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "state":
 				result.type = "string";
-				if(usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
+				if(typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
 					switch(usedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
 						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
@@ -517,6 +517,15 @@ function removeDuplicates(array) { //Removes duplicates from an array
     return array.filter(function(item) {
         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
     });
+}
+
+function addCustomCSS(){
+	//Not functional, just documented for later use
+	//This is how to change CSS:
+	var customCSS = "#ViewMain { font-size: 50px; }";
+	$('head').append('<style id="customCSS">' + customCSS + '</style>');
+	//This is how to remove all the changes:
+	//$('#customCSS').remove();
 }
 
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
@@ -1051,23 +1060,38 @@ function renderView(id, updateOnly){
 						case "iQontrolLight":
 						var stateId = deviceId + ".HUE";
 						var linkedStateId = getLinkedStateId(stateId);
+						var saturationId = deviceId + ".SATURATION";
+						var linkedSaturationId = getLinkedStateId(saturationId);
+						if (linkedSaturationId === null) stateIdsToFetch.push(saturationId);
 						if (linkedStateId){
 							deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/color.png'>";
 							deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'>&nbsp;&#9608;&#9608;</div>";
 							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
 								var _linkedStateId = linkedStateId;
-								updateViewFunctions[linkedStateId].push(function(){
+								var _linkedSaturationId = linkedSaturationId;
+								var updateFunction = function(){
 									if (states[_linkedStateId]){
 										var min = 0;
 										var max = 359;
 										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.min !== udef) min = usedObjects[_linkedStateId].common.min;
 										if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.max !== udef) max = usedObjects[_linkedStateId].common.max;
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").css("color", "hsl(" + ((states[_linkedStateId].val - min) / (max - min)) * 359 + ", 100%, 50%)");
-									}
-								});
+										var	saturation = 100;
+										if (states[_linkedSaturationId]) {
+											var saturationMin = 0;
+											var saturationMax = 100;
+											if(typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.min !== udef) saturationMin = usedObjects[_linkedSaturationId].common.min;
+											if(typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.max !== udef) saturationMax = usedObjects[_linkedSaturationId].common.max;
+											saturation = ((states[_linkedSaturationId].val - saturationMin) / (saturationMax - saturationMin)) * 100;
+										}
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").css("color", "hsl(" + ((states[_linkedStateId].val - min) / (max - min)) * 359 + ", 100%," + (100-(saturation/2)) + "%)");
+									}									
+								};
+								updateViewFunctions[linkedStateId].push(updateFunction);
+								if (linkedSaturationId) updateViewFunctions[linkedSaturationId].push(updateFunction);
 							})();
 							stateIdsToUpdate.push(linkedStateId);
+							if (linkedSaturationId) stateIdsToUpdate.push(linkedSaturationId);
 						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
 						break;
 
@@ -1741,7 +1765,7 @@ function renderDialog(deviceId){
 					case "valueList":
 					dialogContent += "<label for='DialogStateValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Selection") + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
-						for(val in state.valueList){
+					for(val in state.valueList){
 							dialogContent += "<option value='" + val + "'>" + _(state.valueList[val]) + "</option>";
 						}
 					dialogContent += "</select>";
@@ -1770,7 +1794,10 @@ function renderDialog(deviceId){
 					case "string":
 					dialogContent += "<label for='DialogStateString' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Text") + ":</label>";
 					dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
-					if (linkedStateId){
+					if (!state.readonly && !dialogReadonly) {
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
+					}
+ 					if (linkedStateId){
 						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedStateId = linkedStateId;
@@ -1782,7 +1809,7 @@ function renderDialog(deviceId){
 							};
 							updateDialogFunctions[linkedStateId].push(updateFunction);
 							var bindingFunction = function(){
-								$('#DialogStateString').on('change', function(event, ui) {
+								$('#DialogStateStringSubmit').on('click', function(e) {
 									setState(_linkedStateId, _deviceId, $("#DialogStateString").val());
 								});
 							};
@@ -2310,11 +2337,15 @@ function renderDialog(deviceId){
 			}
 
 			//------Valve States
-			var stateId = deviceId + ".VALVE_STATES"; //Special: VALVE_STATES is an Array: [{"name":"ValveName", "type":"LinkedState", "value":"LinkedStateId"}, ...}
-			if(typeof states[stateId] !== udef && typeof states[stateId].val !== udef && states[stateId].val !== "") {
+			var stateId = deviceId + ".VALVE_STATES"; //Special: VALVE_STATES is an Array: [{"name":"ValveName", "type":"LinkedState", "value":"LinkedStateId"}, ...]
+			var linkedStateId = getLinkedStateId(stateId);
+			var state = getStateObject(linkedStateId);
+			if (state && typeof state.val != udef) linkedStateIds = tryParseJSON(state.val);
+
+/* 			if(typeof states[stateId] !== udef && typeof states[stateId].val !== udef && states[stateId].val !== "") {
 				var linkedStateIds = tryParseJSON(states[stateId].val);
 			}
-			var linkedStateIdsAreValid = false;
+ */			var linkedStateIdsAreValid = false;
 			if(Array.isArray(linkedStateIds) && typeof linkedStateIds == 'object') linkedStateIds.forEach(function(element){
 				if (typeof element.name !== udef && element.name !== udef){
 					linkedStateIdsAreValid = true;
@@ -2398,7 +2429,7 @@ function renderDialog(deviceId){
 			if(hue){
 				if(hue.type == "level"){
 					var min = 0;
-					var max = 100;
+					var max = 359;
 					if(typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.min !== udef) min = usedObjects[linkedHueId].common.min;
 					if(typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.max !== udef) max = usedObjects[linkedHueId].common.max;
 					dialogContent += "<label for='DialogHueSlider' ><image src='./images/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
@@ -2432,6 +2463,67 @@ function renderDialog(deviceId){
 							dialogBindingFunctions.push(bindingFunction);
 						})();
 						stateIdsToUpdate.push(linkedHueId);
+					}
+				}
+			}
+			//----ColorSaturationPicker
+			var saturationId = deviceId + ".SATURATION";
+			var linkedSaturationId = getLinkedStateId(saturationId);
+			var saturation = getStateObject(linkedSaturationId);
+			var hueId = deviceId + ".HUE";
+			var linkedHueId = getLinkedStateId(hueId);
+			var hue = getStateObject(linkedHueId);
+			if(saturation && hue){
+				if(saturation.type == "level"){
+					var min = 0;
+					var max = 100;
+					if(typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.min !== udef) min = usedObjects[linkedSaturationId].common.min;
+					if(typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.max !== udef) max = usedObjects[linkedSaturationId].common.max;
+					dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (state.readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					if (linkedSaturationId){
+						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedSaturationId = linkedSaturationId;
+							var _linkedHueId = linkedHueId;
+							var DialogSaturationSliderReadoutTimer;
+							var updateFunction = function(){
+								if (states[_linkedSaturationId]){
+									$("#DialogSaturationSlider").val(states[_linkedSaturationId].val);
+									$("#DialogSaturationSlider").slider('refresh');
+								}
+							};
+							updateDialogFunctions[linkedSaturationId].push(updateFunction);
+							var updateHueFunction = function(){
+								if (states[_linkedHueId]){
+								var hueMin = 0;
+								var hueMax = 359;
+								if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
+								if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
+									hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
+									$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
+								} else {
+									$("#DialogSaturationSlider + .ui-slider-track").attr('style', '');
+								}
+							};
+							updateViewFunctions[linkedHueId].push(updateHueFunction); //Special: This is pushed to updateVIEWfunctions, because it needs to be updated immediatly when a new hue is set (preventUpdate is respected)
+							var bindingFunction = function(){
+								$('#DialogSaturationSlider').slider({
+									start: function(event, ui){
+										clearInterval(DialogSaturationSliderReadoutTimer);
+										DialogSaturationSliderReadoutTimer = setInterval(function(){
+											setState(_linkedSaturationId, _deviceId, $("#DialogSaturationSlider").val());
+										}, 500);
+									},
+									stop: function(event, ui) {
+										clearInterval(DialogSaturationSliderReadoutTimer);
+										setState(_linkedSaturationId, _deviceId, $("#DialogSaturationSlider").val());
+									}
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})();
+						stateIdsToUpdate.push(linkedSaturationId);
 					}
 				}
 			}
