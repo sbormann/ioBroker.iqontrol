@@ -21,6 +21,8 @@
 
 	<!-- Load own files -->
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="./materialize-colorpicker/css/materialize-colorpicker.min.css" />
+	<script type="text/javascript" src="./materialize-colorpicker/js/materialize-colorpicker.min.js"></script>
 	<script type="text/javascript" src="words.js"></script>
 	<script type="text/javascript" src="index_m.js"></script>
 
@@ -30,6 +32,7 @@
 		.m .page {height: auto !important; min-height:75% !important;}
 		#tableViews .dropdown-content {width: auto !important;}
 		#tableDevices .dropdown-content {width: auto !important;}
+		.inputClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
 	</style>
 </head>
 
@@ -50,6 +53,7 @@
 					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
 					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
 					<li class="tab col s2"><a href="#tabImages" class="translate">Images</a></li>
+					<li class="tab col s2"><a href="#tabOptions" class="translate">Options</a></li>
 				</ul>
 			</div>
 
@@ -314,6 +318,85 @@
 						</table>
 					</div>
 				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Options ++++++++++ -->
+			<div id="tabOptions"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Options - Toolbar-Layout</h6>
+					</div>
+				</div>
+				<div class="row">
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarColor" />
+						<label for="optionsLayoutToolbarColor" class="translate">Toolbar Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarTextColor" />
+						<label for="optionsLayoutToolbarTextColor" class="translate">Toolbar Text-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarBorderColor" />
+						<label for="optionsLayoutToolbarBorderColor" class="translate">Toolbar Border-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverColor" />
+						<label for="optionsLayoutToolbarHoverColor" class="translate">Toolbar Hover Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverTextColor" />
+						<label for="optionsLayoutToolbarHoverTextColor" class="translate">Toolbar Hover Text-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedColor" />
+						<label for="optionsLayoutToolbarSelectedColor" class="translate">Toolbar Selected Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedTextColor" />
+						<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Toolbar Selected Text-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverColor" />
+						<label for="optionsLayoutToolbarSelectedHoverColor" class="translate">Toolbar Selected Hover Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverTextColor" />
+						<label for="optionsLayoutToolbarSelectedHoverTextColor" class="translate">Toolbar Selected Hover Text-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+                        <select class="value" id="optionsLayoutToolbarIconPosition">
+							<option value=""  class="translate"></option>
+							<option value="bottom" class="translate">bottom</option>
+							<option value="left" class="translate">left</option>
+							<option value="right" class="translate">right</option>
+							<option value="top" class="translate">top</option>
+                        </select>
+                        <label for="options.layout.toolbarIconPosition" class="translate">Toolbar Icon Position:</label>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+                        <select class="value" id="optionsLayoutToolbarIconColor">
+							<option value=""  class="translate"></option>
+							<option value="white" class="translate">white</option>
+							<option value="black" class="translate">black</option>
+                        </select>
+                        <label for="options.layout.toolbarIconPosition" class="translate">Toolbar Icon Color:</label>
+                    </div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarIconBackgroundColor" />
+						<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Toolbar Icon Background-Color:</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>

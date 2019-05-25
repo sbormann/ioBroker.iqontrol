@@ -184,6 +184,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.26
+* (Sebastian Bormann) Added brightness to motion-sensor.
+* (Sebastian Bormann) Added options tab. You can now configure colors of toolbar.
+* (Sebastian Bormann) Fixed rendering of constants.
+* (Sebastian Bormann) Resized the demo-wallpapers for faster loading.
+
 ### 0.0.25
 * (Sebastian Bormann) Added motion-sensor.
 * (Sebastian Bormann) Added description, how the frontend works: [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md).

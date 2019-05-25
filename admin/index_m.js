@@ -124,6 +124,26 @@ function load(settings, onChange) {
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
 
+	//Init Colorpickers
+	$('.MaterializeColorPicker').colorpicker().on('changeColor', function(event){
+		$(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+		onChange();
+	});
+	$('.MaterializeColorPicker').on('change', function(){
+		if ($(this).val() == "") {
+			$(this).css('border-right', '0px solid black');
+		}
+	});
+	
+	//Add function to inputClear-Buttons
+	$('.inputClear').on('click', function(){
+		if($(this).data('default')){
+			$(this).prevAll('input').val($(this).data('default')).trigger('change');
+		} else {
+			$(this).prevAll('input').val('').trigger('change');
+		}
+	});
+	
 	//Select elements with id=key and class=value and insert value
 	if (!settings) return;
 	$('.value').each(function () {
@@ -146,12 +166,16 @@ function load(settings, onChange) {
 	//Get Subsettings
 	toolbar = settings.toolbar || settings.demotoolbar || [];
 	views = settings.views || settings.demoviews || [];
+	//options = settings.options || [];
 	version = settings.version;
 
 	//Set initial values of further variables
 	images = [];
 	imagesDirs = [];
 	devicesSelectedView = -1;
+	
+	//Update all Colorpickers
+	$('.MaterializeColorPicker').trigger('change');
 
 	//Init imageUpload
 	initImageUpload();
@@ -217,6 +241,10 @@ function load(settings, onChange) {
 
 			case "#tabImages":
 			loadImages();
+			break;
+
+			case "#tabOptions":
+			loadOptions();
 			break;
 		}
 	}
@@ -1199,7 +1227,11 @@ function load(settings, onChange) {
 		}
 	});
 
-
+	//++++++++++ OPTIONS ++++++++++
+	//Load Options
+	function loadOptions(){
+		//Nothing to do
+	}
 }
 
 /************** SAVE *****************************************************************
