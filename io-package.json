@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.25",
+        "version": "0.0.26",
         "news": {
+            "0.0.26": {
+                "en": "Added brightness to motion-sensor. Added options tab. You can now configure colors of toolbar. Fixed rendering of constants. Resized the demo-wallpapers for faster loading.",
+                "de": "Helligkeit für Bewegungssensor hinzugefügt. ",
+                "ru": "Добавлена ​​яркость датчика движения. ",
+                "pt": "Adicionado brilho ao sensor de movimento. ",
+                "nl": "Helderheid toegevoegd aan bewegingssensor. ",
+                "fr": "Ajout de la luminosité au capteur de mouvement. ",
+                "it": "Aggiunta luminosità al sensore di movimento. ",
+                "es": "Brillo agregado al sensor de movimiento. ",
+                "pl": "Dodano jasność do czujnika ruchu. ",
+                "zh-cn": "为运动传感器增加了亮度。"
+            },
             "0.0.25": {
                 "en": "Added motion-sensor. Added description, how the frontend works. Added dialog for editing constants like SET_VALUE, URL or HTML. Changed the way arrays are stored. Added submit-button for values of type string. Added saturation to hue-lights. Better icons for color-temperature and brightness-sensor.",
                 "de": "Bewegungssensor hinzugefügt. ",

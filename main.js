@@ -182,6 +182,19 @@ class Iqontrol extends utils.Adapter {
 				"version": (this.config.version || 0)
 			}
 		};
+		if (this.config.optionsLayoutToolbarColor) obj.native.LayoutToolbarColor = this.config.optionsLayoutToolbarColor;
+		if (this.config.optionsLayoutToolbarTextColor) obj.native.LayoutToolbarTextColor = this.config.optionsLayoutToolbarTextColor;
+		if (this.config.optionsLayoutToolbarBorderColor) obj.native.LayoutToolbarBorderColor = this.config.optionsLayoutToolbarBorderColor;
+		if (this.config.optionsLayoutToolbarHoverColor) obj.native.LayoutToolbarHoverColor = this.config.optionsLayoutToolbarHoverColor;
+		if (this.config.optionsLayoutToolbarHoverTextColor) obj.native.LayoutToolbarHoverTextColor = this.config.optionsLayoutToolbarHoverTextColor;
+		if (this.config.optionsLayoutToolbarSelectedColor) obj.native.LayoutToolbarSelectedColor = this.config.optionsLayoutToolbarSelectedColor;
+		if (this.config.optionsLayoutToolbarSelectedTextColor) obj.native.LayoutToolbarSelectedTextColor = this.config.optionsLayoutToolbarSelectedTextColor;
+		if (this.config.optionsLayoutToolbarSelectedHoverColor) obj.native.LayoutToolbarSelectedHoverColor = this.config.optionsLayoutToolbarSelectedHoverColor;
+		if (this.config.optionsLayoutToolbarSelectedHoverTextColor) obj.native.LayoutToolbarSelectedHoverTextColor = this.config.optionsLayoutToolbarSelectedHoverTextColor;
+		if (this.config.optionsLayoutToolbarIconPosition) obj.native.LayoutToolbarIconPosition = this.config.optionsLayoutToolbarIconPosition;
+		if (this.config.optionsLayoutToolbarIconColor) obj.native.LayoutToolbarIconColor = this.config.optionsLayoutToolbarIconColor;
+		if (this.config.optionsLayoutToolbarIconBackgroundColor) obj.native.LayoutToolbarIconBackgroundColor = this.config.optionsLayoutToolbarIconBackgroundColor;
+		
 		createdObjects.push("Options");
 		this.setObjectAsync("Options", obj, this.logbook("created: Options"));
 	}

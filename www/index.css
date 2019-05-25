@@ -32,16 +32,32 @@ a {
 	border-width: 0px !important;
 }
 
-.iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn:focus{
+.iQontrolToolbarLink.ui-btn:not(.ui-btn-active){
+	background-color: #333333 !important;
+    border-color: #1f1f1f !important;
+	color: #ffffff !important;
+    text-shadow: 0 1px 0 #111111 !important;
+}
+
+.iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{
+	background-color: #373737 !important;
+	color: #ffffff !important;
+}
+
+.iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn-active:hover{
 	background-color: #0c5088 !important;
-    border-color: #0c5088 !important;
-    text-shadow: 0 1px 0 #0c5088 !important;
+    border-color: #1f1f1f !important;
+	color: #ffffff !important;
     box-shadow: 0 0 12px #0c5088 !important;
+    text-shadow: 0 1px 0 #111111 !important;
+}
+
+.iQontrolToolbarLink.ui-btn:after{
+	background-color: transparent !important;
 }
 
 #View{
 	background-color: transparent;
-	overflow-y: scroll;
 }
 
 #ViewMain {

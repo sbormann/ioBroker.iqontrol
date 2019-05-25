@@ -10,12 +10,12 @@ var useCache = true;
 //Delcarations
 var config = {};					//Contains the system config (like system language)
 var systemLang = "en";				//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
+var options = {};					//Contains the options (extracted form <namespace + '.Options'>'.native')
 var toolbar = {};					//Contains the toolbar (extracted form <namespace + '.Toolbar'>) in the form of {ID}
 var toolbarSorted = [];				//Contains the IDs of the toolbar in sorted order
 var homeId;							//Contains the ID of the view linked to the first toolbar-item
 var actualViewId;					//Contains the ID of the actual View
 var actualDialogId;					//Contains the ID of the actual Dialog
-var actualVersion;					//Contains actual version of settings - when version changes, reload page
 var views = {}; 					//Contains all views (extracted from <namespace + '.Views'>) in the form of {ID:[ChildIDs]}
 									//Common attributes:
 									//	role: Used to describe wich widget schould be displayed
@@ -123,14 +123,8 @@ function getStarted(){
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Get Options
 	fetchOptions(function(){ 
-		if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef && typeof usedObjects[namespace + ".Options"].native.version != udef){
-			if(typeof actualVersion != udef) {
-				if(actualVersion != usedObjects[namespace + ".Options"].native.version) window.location.reload;
-			} else {
-				actualVersion = usedObjects[namespace + ".Options"].native.version;
-			}		
-			$('#iQontrolVersion').html("Version " + actualVersion + " ");
-		}
+		console.log("Options received.");
+		handleOptions();
 		//Get Toolbar (and according objects)
 		fetchToolbar(function(){
 			console.log("Toolbar received.");
@@ -254,7 +248,7 @@ function fetchObject(id, callback){
 
 function fetchStates(ids, callback){
 	var _ids = [];
-	if(ids.constructor === Array) _ids = ids; else _ids.push(ids);
+	if(ids.constructor === Array) _ids = Object.assign([], ids); else _ids.push(ids);
 	for(i = 0; i < _ids.length; i++){
 		if(states[_ids]) _ids.splice(i, 1);
 	}
@@ -464,7 +458,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "state":
 				result.type = "string";
-				if(typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
+				if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
 					switch(usedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
 						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
@@ -519,13 +513,12 @@ function removeDuplicates(array) { //Removes duplicates from an array
     });
 }
 
-function addCustomCSS(){
-	//Not functional, just documented for later use
+function addCustomCSS(customCSS){
 	//This is how to change CSS:
-	var customCSS = "#ViewMain { font-size: 50px; }";
-	$('head').append('<style id="customCSS">' + customCSS + '</style>');
+	//customCSS = "#ViewMain { font-size: 50px; }";
 	//This is how to remove all the changes:
 	//$('#customCSS').remove();
+	$('head').append('<style id="customCSS">' + customCSS + '</style>');
 }
 
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
@@ -657,6 +650,75 @@ function colorTemperatureToRGB(value,  min,  max){
 	return rgb;
 }
 
+//++++++++++ OPTIONS ++++++++++
+function handleOptions(){
+	if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef){
+		options = usedObjects[namespace + ".Options"].native;
+		if(options.LayoutToolbarColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	background-color: " + options.LayoutToolbarColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	color: " + options.LayoutToolbarTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarBorderColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	border-color: " + options.LayoutToolbarBorderColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarHoverColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	background-color: " + options.LayoutToolbarHoverColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarHoverTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	color: " + options.LayoutToolbarHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn-active:hover{";
+			customCSS += "	background-color: " + options.LayoutToolbarSelectedColor + " !important;";
+			customCSS += "	box-shadow: 0 0 12px " + options.LayoutToolbarSelectedColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn-active:hover{";
+			customCSS += "	color: " + options.LayoutToolbarSelectedTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedHoverColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn-active:hover{";
+			customCSS += "	background-color: " + options.LayoutToolbarSelectedHoverColor + " !important;";
+			customCSS += "	box-shadow: 0 0 12px " + options.LayoutToolbarSelectedHoverColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedHoverTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn-active:hover{";
+			customCSS += "	color: " + options.LayoutToolbarSelectedHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarIconBackgroundColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	background-color: " + options.LayoutToolbarIconBackgroundColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+	}
+}
+
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
 	toolbarSorted = [];
@@ -672,11 +734,11 @@ function renderToolbar(){
 	homeId = usedObjects[toolbarSorted[0][1]].native.linkedView;
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];
-	toolbarContent += "<div data-role='navbar' data-iconpos='top' id='iQontrolToolbar'><ul>";
+	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
 		for (var i = 0; i < toolbarSorted.length; i++){
 			var id = toolbarSorted[i][1];
 			toolbarLinksToOtherViews.push(usedObjects[id].native.linkedView);
-			toolbarContent += "<li><a data-icon='" + (usedObjects[id].native.icon || "") + "' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink ui-nodisc-icon' data-theme='b' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
+			toolbarContent += "<li><a data-icon='" + (usedObjects[id].native.icon || "") + "' onclick='renderView(\"" + usedObjects[id].native.linkedView + "\"); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + (toolbarLinksToOtherViews.length - 1) + ";' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + i + "'>" + usedObjects[id].common.name + "</a></li>";
 		}
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
@@ -1039,7 +1101,7 @@ function renderView(id, updateOnly){
 						} else if (linkedStateId === null) stateIdsToFetch.push(stateId);
 						break;
 
-						case "iQontrolBrightness":
+						case "iQontrolBrightness": case "iQontrolMotion": 
 						var stateId = deviceId + ".BRIGHTNESS";
 						var linkedStateId = getLinkedStateId(stateId);
 						if (linkedStateId){
