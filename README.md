@@ -184,6 +184,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.27
+* (Sebastian Bormann) Added marquee (scrolling text) for long states and device names (can be configured  in options). 
+* (Sebastian Bormann) Added more toolbar-options. 
+* (Sebastian Bormann) Enhanced handling of value lists. 
+* (Sebastian Bormann) Disabled swiping when dialog is opened.
+
 ### 0.0.26
 * (Sebastian Bormann) Added brightness to motion-sensor.
 * (Sebastian Bormann) Added options tab. You can now configure colors of toolbar.
