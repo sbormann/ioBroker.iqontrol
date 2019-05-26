@@ -182,6 +182,8 @@ class Iqontrol extends utils.Adapter {
 				"version": (this.config.version || 0)
 			}
 		};
+		if (this.config.optionsLayoutToolbarFooterColor) obj.native.LayoutToolbarFooterColor = this.config.optionsLayoutToolbarFooterColor;
+		if (this.config.optionsLayoutToolbarFooterOpacity) obj.native.LayoutToolbarFooterOpacity = this.config.optionsLayoutToolbarFooterOpacity;
 		if (this.config.optionsLayoutToolbarColor) obj.native.LayoutToolbarColor = this.config.optionsLayoutToolbarColor;
 		if (this.config.optionsLayoutToolbarTextColor) obj.native.LayoutToolbarTextColor = this.config.optionsLayoutToolbarTextColor;
 		if (this.config.optionsLayoutToolbarBorderColor) obj.native.LayoutToolbarBorderColor = this.config.optionsLayoutToolbarBorderColor;
@@ -194,6 +196,9 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutToolbarIconPosition) obj.native.LayoutToolbarIconPosition = this.config.optionsLayoutToolbarIconPosition;
 		if (this.config.optionsLayoutToolbarIconColor) obj.native.LayoutToolbarIconColor = this.config.optionsLayoutToolbarIconColor;
 		if (this.config.optionsLayoutToolbarIconBackgroundColor) obj.native.LayoutToolbarIconBackgroundColor = this.config.optionsLayoutToolbarIconBackgroundColor;
+		if (this.config.optionsLayoutViewMarqueeDisabled) obj.native.LayoutViewMarqueeDisabled = this.config.optionsLayoutViewMarqueeDisabled;
+		if (this.config.optionsLayoutViewMarqueeNamesEnabled) obj.native.LayoutViewMarqueeNamesEnabled = this.config.optionsLayoutViewMarqueeNamesEnabled;
+		if (this.config.optionsLayoutViewMarqueeSpeed) obj.native.LayoutViewMarqueeSpeed = this.config.optionsLayoutViewMarqueeSpeed;
 		
 		createdObjects.push("Options");
 		this.setObjectAsync("Options", obj, this.logbook("created: Options"));

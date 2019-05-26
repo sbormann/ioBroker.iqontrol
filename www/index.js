@@ -477,10 +477,18 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			}
 			if(usedObjects[linkedStateId].common.states){
 				var val = result.val;
-				if(val == true || val == "true") val = 1;
-				if(val == false || val == "false") val = 0;
-				if(usedObjects[linkedStateId].common.states[val]) result.plainText = _(usedObjects[linkedStateId].common.states[val]);
-				result.valueList = usedObjects[linkedStateId].common.states;
+				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
+				if (typeof result.val == 'boolean' || result.val == "true" || result.val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
+					for (var key in result.valueList){
+						var newKey = null;
+						if (key == -1 || key == 0 || key == false || key == "false") newKey = "false";
+						if (key == 1 || key == true || key == "true") newKey = "true";
+						if (newKey != null) {
+							delete Object.assign(result.valueList, {[newKey]: result.valueList[key]})[key]; //This renames key to newKey
+						}
+					};
+				}
+				if(result.valueList[val]) result.plainText = _(result.valueList[val]);
 				if (((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1) 
 				|| (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
 				|| result.type == 'string') {
@@ -547,10 +555,14 @@ function updateState(stateId, ignorePreventUpdate){
 		delete preventUpdate[stateId];
 	}
 	if(updateViewFunctions[stateId]) for (i = 0; i < updateViewFunctions[stateId].length; i++){
-		if(!preventUpdate[stateId] || ignorePreventUpdate) updateViewFunctions[stateId][i](stateId);
+		if(!preventUpdate[stateId] || ignorePreventUpdate) {
+			updateViewFunctions[stateId][i](stateId);
+		}
 	}
 	if(updateDialogFunctions[stateId]) for (i = 0; i < updateDialogFunctions[stateId].length; i++){
-		if(!preventUpdate[stateId] || ignorePreventUpdate == "ignorePreventUpdateForDialog") updateDialogFunctions[stateId][i](stateId);
+		if(!preventUpdate[stateId] || ignorePreventUpdate == "ignorePreventUpdateForDialog") {
+			updateDialogFunctions[stateId][i](stateId);
+		}
 	}
 }
 
@@ -654,6 +666,18 @@ function colorTemperatureToRGB(value,  min,  max){
 function handleOptions(){
 	if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef){
 		options = usedObjects[namespace + ".Options"].native;
+		if(options.LayoutToolbarFooterColor) {
+			customCSS = "#Toolbar.ui-footer{";
+			customCSS += "	background-color: " + options.LayoutToolbarFooterColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarFooterOpacity) {
+			customCSS = "#Toolbar.ui-footer{";
+			customCSS += "	opacity: " + options.LayoutToolbarFooterOpacity + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		if(options.LayoutToolbarColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
 			customCSS += "	background-color: " + options.LayoutToolbarColor + " !important;";
@@ -1580,8 +1604,27 @@ function renderView(id, updateOnly){
 			}
 			stateIdsToUpdate = [];
 		});
+		if (!options.LayoutViewMarqueeDisabled) $('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText').one('DOMSubtreeModified', function(){ bindMarquee($(this)); }).trigger('DOMSubtreeModified');		
+		if (!options.LayoutViewMarqueeDisabled && options.LayoutViewMarqueeNamesEnabled) $('.iQontrolDeviceName').one('DOMSubtreeModified', function(){ bindMarquee($(this)); }).trigger('DOMSubtreeModified');		
 	});
 }
+
+function bindMarquee(element){
+	if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
+		element.marquee('destroy').marquee({
+			speed: (options.LayoutViewMarqueeSpeed || "40"),
+			gap: 40,
+			delayBeforeStart: 2500,
+			direction: 'left',
+			duplicated: true,
+			pauseOnHover: true,
+			startVisible: true
+		}).one("DOMSubtreeModified", function(){ bindMarquee($(this)); }); //rebind bacause .marquee('destroy') also unbinds the DOMSubtreeModified-Event
+	} else {
+		element.marquee('destroy').one("DOMSubtreeModified", function(){ bindMarquee($(this)); }); //rebind bacause .marquee('destroy') also unbinds the DOMSubtreeModified-Event
+	}
+}
+
 
 function changeViewBackground(url){
 	if(!url || url == "") url = "./images/background.png";
@@ -1837,7 +1880,8 @@ function renderDialog(deviceId){
 							var _linkedStateId = linkedStateId;
 							var updateFunction = function(){
 								if (states[_linkedStateId]){
-									$("#DialogStateValueList")[0].selectedIndex = states[_linkedStateId].val;
+									//$("#DialogStateValueList")[0].selectedIndex = states[_linkedStateId].val;
+									$("#DialogStateValueList").val(states[_linkedStateId].val.toString());
 									$("#DialogStateValueList").selectmenu('refresh');
 								}
 							};
@@ -1872,7 +1916,7 @@ function renderDialog(deviceId){
 							updateDialogFunctions[linkedStateId].push(updateFunction);
 							var bindingFunction = function(){
 								$('#DialogStateStringSubmit').on('click', function(e) {
-									setState(_linkedStateId, _deviceId, $("#DialogStateString").val());
+									setState(_linkedStateId, _deviceId, $("#DialogStateString").val(), true);
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
@@ -2078,7 +2122,8 @@ function renderDialog(deviceId){
 						var _linkedStateId = linkedStateId;
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
-								$("#DialogThermostatControlModeValueList")[0].selectedIndex = states[_linkedStateId].val;
+								//$("#DialogThermostatControlModeValueList")[0].selectedIndex = states[_linkedStateId].val;
+								$("#DialogThermostatControlModeValueList").val(states[_linkedStateId].val.toString());
 								$("#DialogThermostatControlModeValueList").selectmenu('refresh');
 							}
 						};
@@ -2706,6 +2751,10 @@ $(document).one("pagecreate", ".swipePage", function(){
 		viewSwipe("left");
 	});
 });
+$(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
+	event.stopPropagation();
+	event.preventDefault();
+});
 
 //Document ready - start connection
 $(document).ready(function(){
@@ -2768,8 +2817,3 @@ $(window).on("orientationchange resize", function(){
 		console.log("orientationchange");
 	}, 250);
 });	
-
-
-
-
-
