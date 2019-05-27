@@ -87,6 +87,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 
 ### <img src="img/icons/switch_on.png" width="32"> Switch, <img src="img/icons/fan_on.png" width="32"> Fan:
 * STATE: boolean - display and set on/off-state
+* POWER: number - power-consumption that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
@@ -96,6 +97,7 @@ Every light may have one or both of the following states:
 Optional you can define the following states:
 * HUE: number - color of the light
 * CT: number - color-temperature of the light
+* POWER: number - power-consumption that will be displayed in small in the upper right corner - but only, if CT is not specified (otherwise CT is displayed and POWER is ignored)
 
 ### <img src="img/icons/radiator.png" width="32"> Thermostat:
 * SET_TEMPERATURE: number - goal-temperature
@@ -183,6 +185,11 @@ In addition to normal thermostat you can define:
 
 
 ## Changelog
+
+### 0.0.28
+* (Sebastian Bormann) Added datapoint POWER to switch, fan and light.
+* (Sebastian Bormann) Fixed marquee for small info texts in the upper right corner at big screen sizes.
+* (Sebastian Bormann) Added more options for configuring header-colors and device-colors (experimental state). Text-color ist not configurable yet.
 
 ### 0.0.27
 * (Sebastian Bormann) Added marquee (scrolling text) for long states and device names (can be configured  in options). 
