@@ -182,6 +182,7 @@ class Iqontrol extends utils.Adapter {
 				"version": (this.config.version || 0)
 			}
 		};
+		//Toolbar
 		if (this.config.optionsLayoutToolbarFooterColor) obj.native.LayoutToolbarFooterColor = this.config.optionsLayoutToolbarFooterColor;
 		if (this.config.optionsLayoutToolbarFooterOpacity) obj.native.LayoutToolbarFooterOpacity = this.config.optionsLayoutToolbarFooterOpacity;
 		if (this.config.optionsLayoutToolbarColor) obj.native.LayoutToolbarColor = this.config.optionsLayoutToolbarColor;
@@ -196,10 +197,30 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutToolbarIconPosition) obj.native.LayoutToolbarIconPosition = this.config.optionsLayoutToolbarIconPosition;
 		if (this.config.optionsLayoutToolbarIconColor) obj.native.LayoutToolbarIconColor = this.config.optionsLayoutToolbarIconColor;
 		if (this.config.optionsLayoutToolbarIconBackgroundColor) obj.native.LayoutToolbarIconBackgroundColor = this.config.optionsLayoutToolbarIconBackgroundColor;
+		//Headers
+		if (this.config.optionsLayoutViewMainHeaderColor) obj.native.LayoutViewMainHeaderColor = this.config.optionsLayoutViewMainHeaderColor;
+		if (this.config.optionsLayoutViewMainHeaderTextColor) obj.native.LayoutViewMainHeaderTextColor = this.config.optionsLayoutViewMainHeaderTextColor;
+		if (this.config.optionsLayoutViewSubHeaderColor) obj.native.LayoutViewSubHeaderColor = this.config.optionsLayoutViewSubHeaderColor;
+		if (this.config.optionsLayoutViewSubHeaderTextColor) obj.native.LayoutViewSubHeaderTextColor = this.config.optionsLayoutViewSubHeaderTextColor;
+		//Devices General
+		if (this.config.optionsLayoutViewDeviceColor) obj.native.LayoutViewDeviceColor = this.config.optionsLayoutViewDeviceColor;
+		if (this.config.optionsLayoutViewDeviceOpacity) obj.native.LayoutViewDeviceOpacity = this.config.optionsLayoutViewDeviceOpacity;
+		if (this.config.optionsLayoutViewDeviceHoverColor) obj.native.LayoutViewDeviceHoverColor = this.config.optionsLayoutViewDeviceHoverColor;
+		if (this.config.optionsLayoutViewDeviceHoverOpacity) obj.native.LayoutViewDeviceHoverOpacity = this.config.optionsLayoutViewDeviceHoverOpacity;
+		//Devices Inactive
+		if (this.config.optionsLayoutViewDeviceInactiveColor) obj.native.LayoutViewDeviceInactiveColor = this.config.optionsLayoutViewDeviceInactiveColor;
+		if (this.config.optionsLayoutViewDeviceInactiveOpacity) obj.native.LayoutViewDeviceInactiveOpacity = this.config.optionsLayoutViewDeviceInactiveOpacity;
+		if (this.config.optionsLayoutViewDeviceInactiveHoverColor) obj.native.LayoutViewDeviceInactiveHoverColor = this.config.optionsLayoutViewDeviceInactiveHoverColor;
+		if (this.config.optionsLayoutViewDeviceInactiveHoverOpacity) obj.native.LayoutViewDeviceInactiveHoverOpacity = this.config.optionsLayoutViewDeviceInactiveHoverOpacity;
+		//Devices Active
+		if (this.config.optionsLayoutViewDeviceActiveColor) obj.native.LayoutViewDeviceActiveColor = this.config.optionsLayoutViewDeviceActiveColor;
+		if (this.config.optionsLayoutViewDeviceActiveOpacity) obj.native.LayoutViewDeviceActiveOpacity = this.config.optionsLayoutViewDeviceActiveOpacity;
+		if (this.config.optionsLayoutViewDeviceActiveHoverColor) obj.native.LayoutViewDeviceActiveHoverColor = this.config.optionsLayoutViewDeviceActiveHoverColor;
+		if (this.config.optionsLayoutViewDeviceActiveHoverOpacity) obj.native.LayoutViewDeviceActiveHoverOpacity = this.config.optionsLayoutViewDeviceActiveHoverOpacity;
+		//Marquee
 		if (this.config.optionsLayoutViewMarqueeDisabled) obj.native.LayoutViewMarqueeDisabled = this.config.optionsLayoutViewMarqueeDisabled;
 		if (this.config.optionsLayoutViewMarqueeNamesEnabled) obj.native.LayoutViewMarqueeNamesEnabled = this.config.optionsLayoutViewMarqueeNamesEnabled;
 		if (this.config.optionsLayoutViewMarqueeSpeed) obj.native.LayoutViewMarqueeSpeed = this.config.optionsLayoutViewMarqueeSpeed;
-		
 		createdObjects.push("Options");
 		this.setObjectAsync("Options", obj, this.logbook("created: Options"));
 	}

@@ -167,6 +167,13 @@ a {
 	overflow: hidden;
 }
 
+.iQontrolDeviceBackground:hover {
+	opacity: 0.95;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
+
 .iQontrolDeviceBackground.active {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.82;
@@ -175,7 +182,7 @@ a {
 			transform: scale3d(1.0,1.0,1);
 }
 
-.iQontrolDeviceBackground:hover {
+.iQontrolDeviceBackground.active:hover {
 	opacity: 0.95;
 	-webkit-transform: scale3d(1.0,1.0,1);
 	   -moz-transform: scale3d(1.0,1.0,1);
@@ -482,7 +489,7 @@ a {
 	}
 
 	.iQontrolDeviceInfoAText {
-		position:absolute; left: 90px; top: 30px; width: 70px; height: 18px;
+		position:absolute; left: 90px; top: 30px; width: 70px; height: 22px;
 		font-size: 11pt;
 	}
 
@@ -491,7 +498,7 @@ a {
 	}
 
 	.iQontrolDeviceInfoBText {
-		position:absolute; left: 90px; top: 58px; width: 70px; height: 18px;
+		position:absolute; left: 90px; top: 58px; width: 70px; height: 22px;
 		font-size: 11pt;
 	}
 

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.27",
+        "version": "0.0.28",
         "news": {
+            "0.0.28": {
+                "en": "Added datapoint POWER to switch, fan and light, Fixed marquee for small info texts in the upper right corner at big screen sizes, Added more options for configuring header-colors and device-colors (experimental state), Text-color ist not configurable yet.",
+                "de": "Datenpunkt POWER zum Schalten, Lüften und Beleuchten hinzugefügt. Feste Auswahl für kleine Infotexte in der oberen rechten Ecke bei großen Bildschirmgrößen. Weitere Optionen zum Konfigurieren von Kopf- und Gerätefarben (experimenteller Status) hinzugefügt. Textfarbe ist noch nicht konfigurierbar ",
+                "ru": "Добавлено Datapoint POWER для переключения, вентилятора и подсветки, Исправлена ​​помеха для небольших информационных текстов в верхнем правом углу при больших размерах экрана, Добавлены дополнительные параметры для настройки цветов заголовка и цветов устройства (экспериментальное состояние), Цвет текста еще не настраивается ",
+                "pt": "Adicionado Datapoint POWER para alternar, ventilador e luz, Marcador fixo para pequenos textos de informação no canto superior direito em tamanhos de tela grande, Adicionado mais opções para configurar cores de cabeçalho e cores do dispositivo (estado experimental), Cor de texto não é configurável ainda ",
+                "nl": "Datapunt POWER toegevoegd om te schakelen, te ventileren en te verlichten, Vaste selectiekader voor kleine informatieteksten in de rechterbovenhoek bij grote schermformaten, Meer opties toegevoegd voor het configureren van koptekstkleuren en apparaatkleuren (experimentele status), Tekstkleur is nog niet configureerbaar ",
+                "fr": "Point de données ajouté POWER pour allumer, allumer et éteindre, rectangle de sélection fixe pour les petits textes d’information dans le coin supérieur droit pour les grandes tailles d’écran, ajout de plus d’options pour la configuration des couleurs d’en-tête et des couleurs de périphérique (état expérimental), Couleur du texte n’a pas encore été configurée ",
+                "it": "Aggiunto punto di riferimento POWER per passare, ventilatore e luce, riquadro fisso per piccoli messaggi informativi nell'angolo in alto a destra con schermi di grandi dimensioni, Aggiunte ulteriori opzioni per la configurazione di colori dell'intestazione e colori del dispositivo (stato sperimentale), Colore testo ist non ancora configurabile ",
+                "es": "Se agregó el punto de datos POWER para cambiar, ventilador y luz, marquesina fija para pequeños textos de información en la esquina superior derecha en tamaños de pantalla grandes, se agregaron más opciones para configurar colores de encabezado y colores del dispositivo (estado experimental), el color del texto aún no se puede configurar ",
+                "pl": "Dodano punkt danych POWER do przełączania, włączania i wyłączania światła, Naprawiono markizę dla małych tekstów informacyjnych w prawym górnym rogu przy dużych ekranach, Dodano więcej opcji konfiguracji kolorów nagłówka i kolorów urządzenia (stan eksperymentalny), Nie można jeszcze skonfigurować koloru tekstu ",
+                "zh-cn": "为开关，风扇和灯添加了数据点POWER，在大屏幕尺寸的右上角为小信息文本添加了固定选框，添加了更多用于配置标题颜色和设备颜色的选项（实验状态），文本颜色不可配置"
+            },
             "0.0.27": {
                 "en": "Added marquee (scrolling text) for long states and device names (can be configured  in options), Added more toolbar-options, Enhanced handling of value lists, Disabled swiping when dialog is opened.",
                 "de": "Laufschrift (Laufschrift) für lange Status und Gerätenamen hinzugefügt (kann in Optionen konfiguriert werden), Weitere Symbolleistenoptionen hinzugefügt, Verbesserte Handhabung von Wertelisten, Deaktiviertes Wischen beim Öffnen des Dialogfelds.",
