@@ -14,6 +14,7 @@
 <!-- Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/) -->
 
 If you like it, please consider a donation.  
+  
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url)
 
 
@@ -100,6 +101,7 @@ Every light may have one or both of the following states:
 
 Optional you can define the following states:
 * HUE: number - color of the light
+* SATURATION: number - saturation of the light (from white to pure color)
 * CT: number - color-temperature of the light
 * POWER: number - power-consumption that will be displayed in small in the upper right corner - but only, if CT is not specified (otherwise CT is displayed and POWER is ignored)
 
@@ -189,6 +191,11 @@ In addition to normal thermostat you can define:
 
 
 ## Changelog
+
+### 0.0.29
+* (Sebastian Bormann) hanged parts of the code to be backward-compatible to older browsers like ie 11.
+* (Sebastian Bormann) Now its possible to define a value list for a data point under .native.states wich will have a greater priority than a value list under .common.states. 
+* (Sebastian Bormann) Updated dependency for axios to 0.0.19 to fix a scurity issue
 
 ### 0.0.28
 * (Sebastian Bormann) Added datapoint POWER to switch, fan and light.
