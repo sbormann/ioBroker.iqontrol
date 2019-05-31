@@ -4,6 +4,9 @@
         "version": "0.0.28",
         "news": {
             "0.0.28": {
+                "en": "Changed parts of the code to be backward-compatible to older browsers like ie 11, Now its possible to define a value list for a data point under native-states wich will have a greater priority than a value list under common-states, Updated dependency for axios to v0-0-19 to fix a scurity issue."
+            },
+            "0.0.28": {
                 "en": "Added datapoint POWER to switch, fan and light, Fixed marquee for small info texts in the upper right corner at big screen sizes, Added more options for configuring header-colors and device-colors (experimental state), Text-color ist not configurable yet.",
                 "de": "Datenpunkt POWER zum Schalten, Lüften und Beleuchten hinzugefügt. Feste Auswahl für kleine Infotexte in der oberen rechten Ecke bei großen Bildschirmgrößen. Weitere Optionen zum Konfigurieren von Kopf- und Gerätefarben (experimenteller Status) hinzugefügt. Textfarbe ist noch nicht konfigurierbar ",
                 "ru": "Добавлено Datapoint POWER для переключения, вентилятора и подсветки, Исправлена ​​помеха для небольших информационных текстов в верхнем правом углу при больших размерах экрана, Добавлены дополнительные параметры для настройки цветов заголовка и цветов устройства (экспериментальное состояние), Цвет текста еще не настраивается ",

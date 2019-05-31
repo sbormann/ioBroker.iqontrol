@@ -60,6 +60,34 @@ var iQontrolRoles = {
 }
 const udef = 'undefined';
 
+//++++++++++ POLYFILL ++++++++++
+//Object.assign
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+      var to = Object(target);
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+        if (nextSource != null) { // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
 
 //++++++++++ WEBSOCKET ++++++++++
 connOptions = {
@@ -203,7 +231,8 @@ function fetchView(id, callback){
 
 function fetchChildren(id, destination, callback){
 	fetchObject(id, function(){ //Get Parent-Object
-		servConn.getChildren(id, false, function(err, childs, parentId = id){
+		servConn.getChildren(id, false, function(err, childs){
+			var parentId = id;
 			if(childs.length > 0){
 				destination[parentId] = childs;
 				var j = 0;
@@ -475,16 +504,22 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				}
 				break;
 			}
-			if(usedObjects[linkedStateId].common.states){
+			if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states || usedObjects[linkedStateId].common.states){
+				if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states) {
+						result.valueList = Object.assign({}, usedObjects[linkedStateId].native.states);
+				} else {
+						result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
+				}
 				var val = result.val;
-				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
 				if (typeof result.val == 'boolean' || result.val == "true" || result.val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
 					for (var key in result.valueList){
 						var newKey = null;
-						if (key == -1 || key == 0 || key == false || key == "false") newKey = "false";
-						if (key == 1 || key == true || key == "true") newKey = "true";
+						if (key == -1 || key == 0 || key == false) newKey = "false";
+						if (key == 1 || key == true) newKey = "true";
 						if (newKey != null) {
-							delete Object.assign(result.valueList, {[newKey]: result.valueList[key]})[key]; //This renames key to newKey
+							var dummy = {};
+							dummy[newKey] = result.valueList[key];
+							delete Object.assign(result.valueList, dummy)[key]; //This renames key to newKey
 						}
 					};
 				}
@@ -1247,6 +1282,9 @@ function renderView(id, updateOnly){
 						case "iQontrolLight":
 						var stateId = deviceId + ".HUE";
 						var linkedStateId = getLinkedStateId(stateId);
+									  
+												  
+															  
 						var saturationId = deviceId + ".SATURATION";
 						var linkedSaturationId = getLinkedStateId(saturationId);
 						if (linkedSaturationId === null) stateIdsToFetch.push(saturationId);
@@ -1749,25 +1787,35 @@ function renderView(id, updateOnly){
 			}
 			stateIdsToUpdate = [];
 		});
-		if (!options.LayoutViewMarqueeDisabled) $('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText').one('DOMSubtreeModified', function(){ bindMarquee($(this)); }).trigger('DOMSubtreeModified');		
-		if (!options.LayoutViewMarqueeDisabled && options.LayoutViewMarqueeNamesEnabled) $('.iQontrolDeviceName').one('DOMSubtreeModified', function(){ bindMarquee($(this)); }).trigger('DOMSubtreeModified');		
+		//Marquee
+ 		if (!options.LayoutViewMarqueeDisabled){
+			var marqueeObserver = new MutationObserver(function(mutationList){
+				if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
+					var element = $(mutationList[0].target);
+					if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
+						console.log("Starting marquee");
+						element.marquee({
+							speed: (options.LayoutViewMarqueeSpeed || "40"),
+							gap: 40,
+							delayBeforeStart: 2500,
+							direction: 'left',
+							duplicated: true,
+							pauseOnHover: true,
+							startVisible: true
+						}); 
+					}
+				}
+			});
+			$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText').each(function(){
+				marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+			});
+			if(options.LayoutViewMarqueeNamesEnabled){
+				$('.iQontrolDeviceName').each(function(){
+					marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+				});				
+			}
+		} 
 	});
-}
-
-function bindMarquee(element){
-	if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
-		element.marquee('destroy').marquee({
-			speed: (options.LayoutViewMarqueeSpeed || "40"),
-			gap: 40,
-			delayBeforeStart: 2500,
-			direction: 'left',
-			duplicated: true,
-			pauseOnHover: true,
-			startVisible: true
-		}).one("DOMSubtreeModified", function(){ bindMarquee($(this)); }); //rebind bacause .marquee('destroy') also unbinds the DOMSubtreeModified-Event
-	} else {
-		element.marquee('destroy').one("DOMSubtreeModified", function(){ bindMarquee($(this)); }); //rebind bacause .marquee('destroy') also unbinds the DOMSubtreeModified-Event
-	}
 }
 
 function changeViewBackground(url){
