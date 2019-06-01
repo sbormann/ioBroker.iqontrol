@@ -1,10 +1,19 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.28",
+        "version": "0.0.29",
         "news": {
-            "0.0.28": {
-                "en": "Changed parts of the code to be backward-compatible to older browsers like ie 11, Now its possible to define a value list for a data point under native-states wich will have a greater priority than a value list under common-states, Updated dependency for axios to v0-0-19 to fix a scurity issue."
+            "0.0.29": {
+                "en": "Changed parts of the code to be backward-compatible to older browsers like ie 11, Now its possible to define a value list for a data point under native-states wich will have a greater priority than a value list under common-states, Updated dependency for axios to v0-0-19 to fix a scurity issue.",
+                "de": "Teile des Codes wurden geändert, um mit älteren Browsern wie z. B. 11 abwärtskompatibel zu sein. Es ist jetzt möglich, eine Werteliste für einen Datenpunkt unter Native-States zu definieren, die eine höhere Priorität als eine Werteliste unter Common-States haben ",
+                "ru": "Изменены части кода для обеспечения обратной совместимости со старыми браузерами, такими как, например, 11. Теперь возможно определить список значений для точки данных в собственных состояниях, которые будут иметь больший приоритет, чем список значений в общих состояниях, Обновлена ​​зависимость ",
+                "pt": "Partes alteradas do código para ser compatível com versões anteriores para navegadores mais antigos como, por exemplo, 11, agora é possível definir uma lista de valores para um ponto de dados sob estados nativos que terão uma prioridade maior que uma lista de valores em estados comuns ",
+                "nl": "Veranderde delen van de code om achterwaarts compatibel te zijn met oudere browsers zoals bv. 11, Nu is het mogelijk om een ​​waardenlijst voor een gegevenspunt onder natiestaten te definiëren die een grotere prioriteit hebben dan een waardenlijst onder common-states, bijgewerkte afhankelijkheid ",
+                "fr": "Modification des parties du code pour une compatibilité ascendante avec les navigateurs plus anciens, par exemple 11, il est maintenant possible de définir une liste de valeurs pour un point de données dans des états natifs, qui aura une priorité supérieure à une liste de valeurs dans des états communs, dépendance mise à jour ",
+                "it": "Parti modificate del codice per essere compatibili con le versioni precedenti di browser precedenti come 11, ora è possibile definire una lista valori per un punto dati in stati nativi che avrà una priorità maggiore di una lista valori in stati comuni, dipendenza aggiornata ",
+                "es": "Las partes del código modificadas para que sean compatibles con versiones anteriores de navegadores más antiguos como, por ejemplo, 11, ahora es posible definir una lista de valores para un punto de datos en estados nativos que tendrá una prioridad mayor que una lista de valores en estados comunes, dependencia actualizada ",
+                "pl": "Zmieniono części kodu, aby były kompatybilne wstecz ze starszymi przeglądarkami, takimi jak np. 11, Teraz możliwe jest zdefiniowanie listy wartości dla punktu danych w stanach natywnych, które będą miały wyższy priorytet niż lista wartości w stanach wspólnych, Aktualizacja zależności ",
+                "zh-cn": "将部分代码更改为向后兼容旧版浏览器，例如11，现在可以为本机状态下的数据点定义值列表，其优先级高于常见状态下的值列表，更新后的依赖关系"
             },
             "0.0.28": {
                 "en": "Added datapoint POWER to switch, fan and light, Fixed marquee for small info texts in the upper right corner at big screen sizes, Added more options for configuring header-colors and device-colors (experimental state), Text-color ist not configurable yet.",
