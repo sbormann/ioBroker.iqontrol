@@ -1,7 +1,5 @@
-<h1>
-	<img src="admin/iqontrol.png" width="64"/>
-	ioBroker.iqontrol
-</h1>
+![Logo](admin/iqontrol.png)
+# ioBroker.iqontrol
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
@@ -192,8 +190,11 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.30
+* (Sebastian Bormann) fixed io-package.json
+
 ### 0.0.29
-* (Sebastian Bormann) hanged parts of the code to be backward-compatible to older browsers like ie 11.
+* (Sebastian Bormann) changed parts of the code to be backward-compatible to older browsers like ie 11.
 * (Sebastian Bormann) Now its possible to define a value list for a data point under .native.states wich will have a greater priority than a value list under .common.states. 
 * (Sebastian Bormann) Updated dependency for axios to 0.0.19 to fix a scurity issue
 

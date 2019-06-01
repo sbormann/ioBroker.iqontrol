@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.29",
+        "version": "0.0.30",
         "news": {
+            "0.0.30": {
+                "en": "Fixed io-package-json.",
+                "de": "Io-package-json behoben.",
+                "ru": "Исправлено io-package-json.",
+                "pt": "Corrigido io-package-json.",
+                "nl": "Vaste io-pakket-json.",
+                "fr": "Correction de io-package-json.",
+                "it": "Risolto il problema con io-package-json.",
+                "es": "Arreglado el io-package-json.",
+                "pl": "Naprawiono io-package-json.",
+                "zh-cn": "修复了io-package-json。"
+            },
             "0.0.29": {
                 "en": "Changed parts of the code to be backward-compatible to older browsers like ie 11, Now its possible to define a value list for a data point under native-states wich will have a greater priority than a value list under common-states, Updated dependency for axios to v0-0-19 to fix a scurity issue.",
                 "de": "Teile des Codes wurden geändert, um mit älteren Browsern wie z. B. 11 abwärtskompatibel zu sein. Es ist jetzt möglich, eine Werteliste für einen Datenpunkt unter Native-States zu definieren, die eine höhere Priorität als eine Werteliste unter Common-States haben ",
