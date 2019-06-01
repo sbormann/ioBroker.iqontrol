@@ -24,8 +24,8 @@ Fast Web-App for Visualization.
 ![Example](img/screenshot2.jpg)
 
 Runs in any Browser.
-You can save it as Web-App on iOS-Homescreen and it looks and feels like a nativ app.
-It´s fully customizable.
+You can save it as Web-App on iOS-Homescreen and it looks and feels like a native app.
+It's fully customizable.
 
 
 
@@ -37,13 +37,13 @@ It´s fully customizable.
 
 ## How to use
 * Start creating views.
-	You can consider views as something like a pages.
+	You can consider views as something like a page.
 * Then create devices on these views.
-	Devices have a role, that detemines the function of the device, which icons are used and so on.
+	Devices have a role, that determines the function of the device, which icons are used and so on.
 	Depending on that role you can link several states to the device. These will give the device its functionality.
 	If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.
-	You can also try to use the Autocreate-Function to chose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.
-* Afterwards you can create a toolbar, wich is displayed as footer.
+	You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.
+* Afterwards you can create a toolbar, which is displayed as footer.
 	Toolbar-Entrys are links to views.
 	The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.
 * To give everything a fancy style, you can upload your own images.
@@ -52,7 +52,7 @@ It´s fully customizable.
 
 
 
-## Knowns issues
+## Known issues
 This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
 However there are a few limitations:
 - Uploading images (as background-images or for skinning device-buttons) works, but renaming and deleting does not work
@@ -66,9 +66,9 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 
 ## Description of roles and associated states
-Every device has a role, wich defines the function of the device. Every role generates a set of states, wich can be linked to a corresponding io-broker state.
-If you use the auto-create-function, you can chose an existing device from the io-broker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
-This will only work for known devices. For unknown devices, and to give devices advanced features, you can add devices manually via the (+)-Button or edit the devices that were created by autocreate.
+Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding io-broker state.
+If you use the auto-create-function, you can choose an existing device from the io-broker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
+This will only work for known devices. For unknown devices, and to give devices advanced features, you can add them manually via the (+)-Button or edit the devices that were created by autocreate.
 To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
 
 ### General states:
@@ -81,7 +81,7 @@ Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represen
 * boolean - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
 * number - will be displayed with its corresponding unit and generate a slider in the dialog.
 * string - a text to be displayed
-* value-list - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. Technically an value-list is a number with a corresponding translation-list, defined in the 'native.states' or 'common.states' property.
+* value-list - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. Technically a value-list is a number with a corresponding translation-list, defined in the 'native.states' or 'common.states' property.
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
@@ -95,7 +95,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
 * STATE: boolean - display and set on/off-state
-* LEVEL: number - display an set the level of the light
+* LEVEL: number - display and set the level of the light
 
 Optional you can define the following states:
 * HUE: number - color of the light
@@ -108,12 +108,12 @@ Optional you can define the following states:
 * TEMPERATURE: number - actual temperature to be displayed in small in the upper right corner
 * HUMIDITY: number - actual humidity to be displayed in small in the upper right corner
 * CONTROL_MODE: value-list - display and set the mode of the thermostat
-* VALVE_STATES: array of names and numbers - displayes the opening in percentage of the valves associated with the therostat
+* VALVE_STATES: array of names and numbers - displays the opening in percentage of the valves associated with the thermostat
 
 ### <img src="img/icons/radiator.png" width="32"> Homematic-Thermostat:
 In addition to normal thermostat you can define:
-* PARTY_TEMPERATURE: string - special-formatted string to define the party- oder holiday-mode of homematic-thermostats
-* BOOST_STATE: number - displayes the remaining boost-time of homematic-thermostats
+* PARTY_TEMPERATURE: string - special-formatted string to define the party- or holiday-mode of homematic-thermostats
+* BOOST_STATE: number - displays the remaining boost-time of homematic-thermostats
 
 ### <img src="img/icons/temperature.png" width="32"> Temperature-Sensor, <img src="img/icons/humidity.png" width="32"> Humidity-Sensor:
 * STATE: number - temperature or humidity that will be displayed in the lower part of the device
@@ -121,7 +121,7 @@ In addition to normal thermostat you can define:
 * HUMIDITY: number - humidity that will be displayed in small in the upper right corner
 * Respects the linked-view-property
 
-### <img src="img/icons/brightness_light.png" width="32"> Brigthness-Sensor:
+### <img src="img/icons/brightness_light.png" width="32"> Brightness-Sensor:
 * STATE: number - brightness that will be displayed in the lower part of the device
 * BRIGHTNESS: number - brightness that will be displayed in small in the upper right corner
 * Respects the linked-view-property
@@ -132,7 +132,7 @@ In addition to normal thermostat you can define:
 
 ### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
 * STATE: boolean - display if the door or window is opened or closed. 
-    *  Alternativeley you can assign a value-list, to display additional states like 'tilted'.
+    * Alternatively you can assign a value-list, to display additional states like 'tilted'.
     * You can also assign a string to display any text like "3 windows open" or "all closed".
 * Respect the linked-view-property
 
@@ -149,13 +149,13 @@ In addition to normal thermostat you can define:
 
 ### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor:
 * STATE: boolean - if true the sensor will be displayed as triggered
-    * Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+    * Alternatively you can assign a value-list, to display additional states like 'tampered'.
     * You can also assign a string to display any text like "fire in upper floor".
 * Respects the linked-view-property
 
 ### <img src="img/icons/alarm_on.png" width="32"> Alarm:
 * STATE: boolean - if true the sensor will be displayed as triggered
-    * Alternativeley you can assign a value-list, to display additional states like 'tampered'.
+    * Alternatively you can assign a value-list, to display additional states like 'tampered'.
     * You can also assign a string to display any text like "fire in upper floor".
 
 ### <img src="img/icons/value_on.png" width="32"> Value:
@@ -166,14 +166,14 @@ In addition to normal thermostat you can define:
 * STATE: boolean - if set to true, the program will be started
 
 ### <img src="img/icons/play.png" width="32"> Scene:
-* STATE: boolean - displayes, if the scene is active. If set to true, the scene will be started
+* STATE: boolean - displays, if the scene is active. If set to true, the scene will be started
 
 ### <img src="img/icons/button.png" width="32"> Button:
 * STATE: any - any desired type of state
-* SET_VALUE: CONSTANT string - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the putton is pressed
+* SET_VALUE: CONSTANT string - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the button is pressed
 
 ### <img src="img/icons/popup.png" width="32"> Popup:
-* STATE: any - can be used to display further informations
+* STATE: any - can be used to display further information
 * URL: CONSTANT string - this url will be opened as iframe inside popup
 * HTML: CONSTANT string - this markup will be displayed inside the popup if no URL is specified
 
@@ -190,8 +190,11 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.0.31-Developing
+* Fixed some typos
+
 ### 0.0.30
-* (Sebastian Bormann) fixed io-package.json
+* (Sebastian Bormann) Fixed io-package.json
 
 ### 0.0.29
 * (Sebastian Bormann) changed parts of the code to be backward-compatible to older browsers like ie 11.

@@ -1,9 +1,7 @@
-<h1>
-	<img src="admin/iqontrol.png" width="64"/>
-	ioBroker.iqontrol
-</h1>
+![Logo](admin/iqontrol.png)
+# ioBroker.iqontrol
 
-## iqontrol adatper for ioBroker: Operating Principle of Frontend
+## iqontrol adaptper for ioBroker: Operating Principle of Frontend
 
 ### RenderView
 
