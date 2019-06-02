@@ -116,7 +116,12 @@ Optional you can define the following states:
     * **BRIGHTNESS_WHITE**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
 * Alternative color-spaces:
     * **HUE_MILIGHT**: *number* - Milight uses another staring-point in the hue color-cirlce: 
-        ````MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; function modulo(n, m){ return ((n % m) + m) %m; }````
+        ````
+		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
+		function modulo(n, m){ 
+			return ((n % m) + m) %m;
+		}
+        ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
     * **RGB**: *string* - instead of using HUE, SATURATION and BRIGHTNESS you can use the RGB-Format (hex)
     * **RGBW**: *string* - instead of using HUE, SATURATION, BRIGHTNESS and BRIGHTNESS_WHITE you can use the RGBW-Format (hex)
