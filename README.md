@@ -104,7 +104,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
 * **STATE**: *boolean* - display and set on/off-state
-* **LEVEL**: *number* - display and set the level of the light
+* **LEVEL**: *number* - display and set the level of the light 
 
 Optional you can define the following states:
 * For coloured LEDs:
