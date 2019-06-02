@@ -211,9 +211,9 @@ In addition to normal thermostat you can define:
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
+****
 
-
-## Changelog
+# Changelog
 
 ### 0.0.31-Developing
 * Fixed some typos
