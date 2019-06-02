@@ -119,7 +119,7 @@ Optional you can define the following states:
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
 		function modulo(n, m){ 
-			return ((n % m) + m) %m;
+			return ((n % m) + m) % m;
 		}
         ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
