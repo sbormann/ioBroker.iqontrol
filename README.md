@@ -73,20 +73,20 @@ To edit the role and the states of a device, click on the pencil behind the devi
 
 ### General states:
 Every role has the following three states:
-* BATTERY: boolean - when true, a little battery-empty-icon will be displayed
-* ERROR: boolean - when true, a little exclamation-mark-icon will be displayed
-* UNREACH: boolean - when true, a little wireless-icon will be displayed
+* **BATTERY**: *boolean* - when true, a little battery-empty-icon will be displayed
+* **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
+* **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
 
 Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
-* boolean - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
-* number - will be displayed with its corresponding unit and generate a slider in the dialog.
-* string - a text to be displayed
-* value-list - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. 
-    * Technically a value-list is a value with a corresponding translation-list, defined in the 'native.states' or 'common.states' object of the datapoint:
+* *boolean* - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog.
+* *number* - will be displayed with its corresponding unit and generate a slider in the dialog.
+* *string* - a text to be displayed
+* *value-list* - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. 
+    * Technically a *value-list* is a value with a corresponding translation-list, defined in the 'native.states' or 'common.states' object of the datapoint:
     ````
         "native": {
-            "states": {"true":"Text for true", "false":"Text for false"},
-			...
+            "states": {"true": "Text for true", "false": "Text for false"},
+            ...
         }
     ````
     * You can create your own value list by adding the states-object to the ```` "native":{}```` part of the datapoint. This will only be read by iQontrol and has no influence to other scripts. 
@@ -95,100 +95,109 @@ Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represen
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
 ### Link to other view:
-* Has no further states, but it will respect the linked-view-property
+* Has no further states, but it will respect the **linked-view-property**
 
 ### <img src="img/icons/switch_on.png" width="32"> Switch, <img src="img/icons/fan_on.png" width="32"> Fan:
-* STATE: boolean - display and set on/off-state
-* POWER: number - power-consumption that will be displayed in small in the upper right corner
+* **STATE**: *boolean* - display and set on/off-state
+* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
-* STATE: boolean - display and set on/off-state
-* LEVEL: number - display and set the level of the light
+* **STATE**: *boolean* - display and set on/off-state
+* **LEVEL**: *number* - display and set the level of the light
 
 Optional you can define the following states:
-* HUE: number - color of the light
-* SATURATION: number - saturation of the light (from white to pure color)
-* CT: number - color-temperature of the light
-* POWER: number - power-consumption that will be displayed in small in the upper right corner - but only, if CT is not specified (otherwise CT is displayed and POWER is ignored)
+* For coloured LEDs:
+    * **HUE**: *number* - color of the light
+    * **SATURATION**: *number* - saturation of the light (from white to pure color)
+    * **BRIGHTNESS**: *number* - the brightness of the colored LEDs (this is only respected, if the light has both, coloured and white LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+* For white LEDs:
+    * **CT**: *number* - color-temperature of the light, if it has two shades of white
+    * **BRIGHTNESS_WHITE**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+* Alternative color-spaces:
+    * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
+    * **RGB**: *string* - instead of using HUE, SATURATION and BRIGHTNESS you can use the RGB-Format (hex)
+    * **RGBW**: *string* - instead of using HUE, SATURATION, BRIGHTNESS and BRIGHTNESS_WHITE you can use the RGBW-Format (hex)
+    * **RGBWWCW**: *string* - instead of HUE, SATURATION, BRIGHTNESS, CT and BRIGHTNESS_WHITE you can use the RGBWWCW-Format (hex)
+* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner - but only, if CT is not specified (otherwise CT is displayed and POWER is ignored)
 
 ### <img src="img/icons/radiator.png" width="32"> Thermostat:
-* SET_TEMPERATURE: number - goal-temperature
-* TEMPERATURE: number - actual temperature to be displayed in small in the upper right corner
-* HUMIDITY: number - actual humidity to be displayed in small in the upper right corner
-* CONTROL_MODE: value-list - display and set the mode of the thermostat
-* VALVE_STATES: array of names and numbers - displays the opening in percentage of the valves associated with the thermostat
+* **SET_TEMPERATURE**: *number* - goal-temperature
+* **TEMPERATURE**: *number* - actual temperature to be displayed in small in the upper right corner
+* **HUMIDITY**: *number* - actual humidity to be displayed in small in the upper right corner
+* **CONTROL_MODE**: *value-list* - display and set the mode of the thermostat
+* **VALVE_STATES**: array of names and numbers - displays the opening of the valves that are associated with the thermostat
 
 ### <img src="img/icons/radiator.png" width="32"> Homematic-Thermostat:
 In addition to normal thermostat you can define:
-* PARTY_TEMPERATURE: string - special-formatted string to define the party- or holiday-mode of homematic-thermostats
-* BOOST_STATE: number - displays the remaining boost-time of homematic-thermostats
+* **PARTY_TEMPERATURE**: *string* - special-formatted string to define the party- or holiday-mode of homematic-thermostats
+* **BOOST_STATE**: *number* - displays the remaining boost-time of homematic-thermostats
 
 ### <img src="img/icons/temperature.png" width="32"> Temperature-Sensor, <img src="img/icons/humidity.png" width="32"> Humidity-Sensor:
-* STATE: number - temperature or humidity that will be displayed in the lower part of the device
-* TEMPERATURE: number - temperature that will be displayed in small in the upper right corner
-* HUMIDITY: number - humidity that will be displayed in small in the upper right corner
-* Respects the linked-view-property
+* **STATE**: *number* - temperature or humidity that will be displayed in the lower part of the device
+* **TEMPERATURE**: *number* - temperature that will be displayed in small in the upper right corner
+* **HUMIDITY**: *number* - humidity that will be displayed in small in the upper right corner
+* Respects the **linked-view-property**
 
 ### <img src="img/icons/brightness_light.png" width="32"> Brightness-Sensor:
-* STATE: number - brightness that will be displayed in the lower part of the device
-* BRIGHTNESS: number - brightness that will be displayed in small in the upper right corner
-* Respects the linked-view-property
+* **STATE**: *number* - brightness that will be displayed in the lower part of the device
+* **BRIGHTNESS**: *number* - brightness that will be displayed in small in the upper right corner
+* Respects the **linked-view-property**
 
 ### <img src="img/icons/motion_on.png" width="32"> Motion-Sensor:
-* STATE: boolean - display if motion is detected or not
-* Respects the linked-view-property
+* **STATE**: *boolean* - display if motion is detected or not
+* Respects the **linked-view-property**
 
 ### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
-* STATE: boolean - display if the door or window is opened or closed. 
+* **STATE**: *boolean* - display if the door or window is opened or closed. 
     * Alternatively you can assign a value-list, to display additional states like 'tilted'.
-    * You can also assign a string to display any text like "3 windows open" or "all closed".
-* Respect the linked-view-property
+    * You can also assign a *string* to display any text like "3 windows open" or "all closed".
+* Respect the **linked-view-property**
 
 ### <img src="img/icons/door_locked.png" width="32"> Door with lock:
-* STATE: boolean - display if the door is opened or closed. 
-* LOCK_STATE: boolean - display if the door is locked or unlocked
-* LOCK_STATE_UNCERTAIN: boolean - the STATE will be displayed in italic-font, if true to represent that the exact position of the lock is unknown
-* LOCK_OPEN: boolean - if set to true, the door will open completely
+* **STATE**: *boolean* - display if the door is opened or closed. 
+* **LOCK_STATE**: *boolean* - display if the door is locked or unlocked
+* **LOCK_STATE_UNCERTAIN**: *boolean* - the STATE will be displayed in italic-font, if true to represent that the exact position of the lock is unknown
+* **LOCK_OPEN**: *boolean* - if set to true, the door will open completely
 
 ### <img src="img/icons/blind_middle.png" width="32"> Blind:
-* LEVEL: number - height of the blind in percentage
-* DIRECTION: value-list - can be Stop, Up and Down
-* STOP: boolean - if set to true, the blind will stop
+* **LEVEL**: *number* - height of the blind in percentage
+* **DIRECTION**: *value-list* - can be Stop, Up and Down
+* **STOP**: *boolean* - if set to true, the blind will stop
 
 ### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor:
-* STATE: boolean - if true the sensor will be displayed as triggered
-    * Alternatively you can assign a value-list, to display additional states like 'tampered'.
-    * You can also assign a string to display any text like "fire in upper floor".
-* Respects the linked-view-property
+* **STATE**: *boolean* - if true the sensor will be displayed as triggered
+    * Alternatively you can assign a *value-list*, to display additional states like 'tampered'.
+    * You can also assign a *string* to display any text like "fire in upper floor".
+* Respects the **linked-view-property**
 
 ### <img src="img/icons/alarm_on.png" width="32"> Alarm:
-* STATE: boolean - if true the sensor will be displayed as triggered
-    * Alternatively you can assign a value-list, to display additional states like 'tampered'.
-    * You can also assign a string to display any text like "fire in upper floor".
+* **STATE**: *boolean* - if true the sensor will be displayed as triggered
+    * Alternatively you can assign a *value-list*, to display additional states like 'tampered'.
+    * You can also assign a *string* to display any text like "fire in upper floor".
 
 ### <img src="img/icons/value_on.png" width="32"> Value:
-* STATE: any valid state to be displayed (have a look at general states-section)
-* LEVEL: number - will produce a slider in dialog
+* **STATE**: *any* valid state to be displayed (have a look at general states-section)
+* **LEVEL**: *number* - will produce a slider in dialog
 
 ### <img src="img/icons/play_on.png" width="32"> Program:
-* STATE: boolean - if set to true, the program will be started
+* **STATE**: *boolean* - if set to true, the program will be started
 
 ### <img src="img/icons/play.png" width="32"> Scene:
-* STATE: boolean - displays, if the scene is active. If set to true, the scene will be started
+* **STATE**: *boolean* - displays, if the scene is active. If set to true, the scene will be started
 
 ### <img src="img/icons/button.png" width="32"> Button:
-* STATE: any - any desired type of state
-* SET_VALUE: CONSTANT string - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the button is pressed
+* **STATE**: *any* - any desired type of state
+* **SET_VALUE**: CONSTANT *string* - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the button is pressed
 
 ### <img src="img/icons/popup.png" width="32"> Popup:
-* STATE: any - can be used to display further information
-* URL: CONSTANT string - this url will be opened as iframe inside popup
-* HTML: CONSTANT string - this markup will be displayed inside the popup if no URL is specified
+* **STATE**: *any* - can be used to display further information
+* **URL**: CONSTANT *string* - this url will be opened as iframe inside popup
+* **HTML**: CONSTANT *string* - this markup will be displayed inside the popup if no URL is specified
 
 ### <img src="img/icons/link.png" width="32"> External Link:
-* STATE: any - can be used to display further informations
-* URL: CONSTANT string - this url will be opened
+* **STATE**: *any* - can be used to display further informations
+* **URL**: CONSTANT *string* - this url will be opened
 
 
 
