@@ -119,7 +119,7 @@ Optional you can define the following states:
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
 		function modulo(n, m){ 
-			return ((n % m) + m) % m;
+			return ((n % m) + m) %m;
 		}
         ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
@@ -184,7 +184,7 @@ In addition to normal thermostat you can define:
     * You can also assign a *string* to display any text like "fire in upper floor".
 
 ### <img src="img/icons/value_on.png" width="32"> Value:
-* **STATE**: *any* valid state to be displayed (have a look at general states-section)
+* **STATE**: *any* - any valid state to be displayed (have a look at general states-section)
 * **LEVEL**: *number* - will produce a slider in dialog
 
 ### <img src="img/icons/play_on.png" width="32"> Program:
