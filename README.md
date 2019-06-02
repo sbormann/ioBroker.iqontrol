@@ -84,10 +84,10 @@ Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represen
 * *value-list* - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog. 
     * Technically a *value-list* is a value with a corresponding translation-list, defined in the 'native.states' or 'common.states' object of the datapoint:
         ````
-		"native": {
-			"states": {"true": "Text for true", "false": "Text for false"},
-			...
-		}
+        "native": {
+            "states": {"true": "Text for true", "false": "Text for false"},
+            ...
+        }
         ````
     * You can create your own value list by adding the states-object to the ```` "native":{}```` part of the datapoint. This will only be read by iQontrol and has no influence to other scripts. 
     * A state-object inside of the ````"common":{}```` part will also be recognized by iQontrol, but with lower priority. If you change it here, it may have influence to other scipts. Even more it may be overwritten by the adapter that created the datapoint.
@@ -104,7 +104,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
 * **STATE**: *boolean* - display and set on/off-state
-* **LEVEL**: *number* - display and set the level of the light 
+* **LEVEL**: *number* - display and set the level of the light
 
 Optional you can define the following states:
 * For coloured LEDs:
