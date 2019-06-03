@@ -216,10 +216,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.31-Developing
-* Fixed some typos
-* Enhanced colour-mixing of light with seperate brightness-datapoints for color and white
-* Rewritten rendering of view as praparation for further enhancements
+### 0.0.31
+* (Sebastian Bormann) Fixed some typos.
+* (Sebastian Bormann) Enhanced colour-mixing of light with seperate brightness-datapoints for color and white.
+* (Sebastian Bormann) Rewritten rendering of view as praparation for further enhancements.
 
 ### 0.0.30
 * (Sebastian Bormann) Fixed io-package.json
@@ -227,7 +227,7 @@ In addition to normal thermostat you can define:
 ### 0.0.29
 * (Sebastian Bormann) changed parts of the code to be backward-compatible to older browsers like ie 11.
 * (Sebastian Bormann) Now its possible to define a value list for a data point under .native.states wich will have a greater priority than a value list under .common.states. 
-* (Sebastian Bormann) Updated dependency for axios to 0.0.19 to fix a scurity issue
+* (Sebastian Bormann) Updated dependency for axios to 0.0.19 to fix a scurity issue.
 
 ### 0.0.28
 * (Sebastian Bormann) Added datapoint POWER to switch, fan and light.

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.30",
+        "version": "0.0.31",
         "news": {
+            "0.0.31": {
+                "en": "Fixed some typos, Enhanced colour-mixing of light with seperate brightness-datapoints for color and white, Rewritten rendering of view as praparation for further enhancements.",
+                "de": "Einige Tippfehler wurden behoben. Verbesserte Farbmischung von Licht mit separaten Helligkeitsdatenpunkten für Farbe und Weiß. Die Darstellung der Ansicht als Vorbereitung für weitere Verbesserungen wurde umgeschrieben.",
+                "ru": "Исправлены некоторые опечатки, улучшено смешение цветов с отдельными точками яркости для цвета и белого, переписан рендеринг вида в качестве подготовки к дальнейшим улучшениям.",
+                "pt": "Corrigidos alguns erros de digitação, Melhoria da mistura de cores da luz com pontos de dados de brilho separados para cores e branco, Reescrita a renderização da visualização como uma praparação para melhorias adicionais.",
+                "nl": "Enkele typfouten gecorrigeerd, Verbeterde kleurmenging van licht met afzonderlijke helderheidsdatapunten voor kleur en wit, Herschreven weergaveweergave als gepatenteerd voor verdere verbeteringen.",
+                "fr": "Correction de quelques fautes de frappe, Amélioration du mélange des couleurs de la lumière avec des points de données de luminosité distincts pour la couleur et le blanc, Rendu du rendu de vue réécrit en tant que pragaration pour des améliorations supplémentaires.",
+                "it": "Risolti alcuni errori di battitura, miglioramento della miscelazione dei colori della luce con punti luce separati per il colore e il bianco, Riscritto il rendering della vista come miglioramento per ulteriori miglioramenti.",
+                "es": "Se corrigieron algunos errores tipográficos, se mejoró la mezcla de color de la luz con puntos de datos de brillo por separado para el color y el blanco, se volvió a escribir la vista como preparación para otras mejoras.",
+                "pl": "Naprawiono kilka literówek, ulepszone mieszanie kolorów światła z oddzielnymi punktami jasności-koloru dla koloru i bieli, przepisane renderowanie widoku jako przygotowanie do dalszych ulepszeń.",
+                "zh-cn": "修正了一些拼写错误，增强了混色的光线和分离的亮度 - 颜色和白色的数据点，重写了视图渲染作为进一步增强的准备。"
+            },
             "0.0.30": {
                 "en": "Fixed io-package-json.",
                 "de": "Io-package-json behoben.",
