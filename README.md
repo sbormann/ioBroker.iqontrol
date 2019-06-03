@@ -107,14 +107,14 @@ Every light may have one or both of the following states:
 * **LEVEL**: *number* - display and set the level of the light
 
 Optional you can define the following states:
-* For coloured LEDs:
+* For coloured LEDs (HSB-color-space):
     * **HUE**: *number* - color of the light from 0-360° (hue format)
     * **SATURATION**: *number* - saturation of the light (from white to pure color)
-    * **BRIGHTNESS**: *number* - the brightness of the colored LEDs (this is only respected, if the light has both, coloured and white LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+    * **COLOR_BRIGHTNESS**: *number* - the brightness of the colored LEDs (this is only respected, if the light has both, coloured and white LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
 * For white LEDs:
     * **CT**: *number* - color-temperature of the light, if it has two shades of white
-    * **BRIGHTNESS_WHITE**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
-* Alternative color-spaces:
+    * **WHITE_BRIGHTNESS**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+* Alternative color-spaces **not yet implemented**:
     * **HUE_MILIGHT**: *number* - Milight uses another staring-point in the hue color-cirlce: 
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
@@ -123,10 +123,10 @@ Optional you can define the following states:
 		}
         ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
-    * **RGB**: *string* - instead of using HUE, SATURATION and BRIGHTNESS you can use the RGB-Format (hex)
-    * **RGBW**: *string* - instead of using HUE, SATURATION, BRIGHTNESS and BRIGHTNESS_WHITE you can use the RGBW-Format (hex)
-    * **RGBWWCW**: *string* - instead of HUE, SATURATION, BRIGHTNESS, CT and BRIGHTNESS_WHITE you can use the RGBWWCW-Format (hex)
-* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner - but only, if CT is not specified (otherwise CT is displayed and POWER is ignored)
+    * **RGB**: *string* - instead of using HUE, SATURATION and COLOR_BRIGHTNESS you can use the RGB-Format (hex)
+    * **RGBW**: *string* - instead of using HUE, SATURATION, COLOR_BRIGHTNESS and WHITE_BRIGHTNESS you can use the RGBW-Format (hex)
+    * **RGBWWCW**: *string* - instead of HUE, SATURATION, COLOR_BRIGHTNESS, CT and WHITE_BRIGHTNESS you can use the RGBWWCW-Format (hex)
+* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/radiator.png" width="32"> Thermostat:
 * **SET_TEMPERATURE**: *number* - goal-temperature
@@ -211,12 +211,15 @@ In addition to normal thermostat you can define:
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
+
 ****
 
 # Changelog
 
 ### 0.0.31-Developing
 * Fixed some typos
+* Enhanced colour-mixing of light with seperate brightness-datapoints for color and white
+* Rewritten rendering of view as praparation for further enhancements
 
 ### 0.0.30
 * (Sebastian Bormann) Fixed io-package.json

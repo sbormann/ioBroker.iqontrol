@@ -7,7 +7,7 @@ var imagePathBS = imagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "CT", "SATURATION", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
 	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
@@ -701,7 +701,7 @@ function load(settings, onChange) {
 					}
 					break;
 
-					case ".LEVEL": case ".level":
+					case ".LEVEL": case ".level": case ".bri":
 					resultStatesObj['LEVEL'] = id;
 					break;
 
@@ -721,7 +721,7 @@ function load(settings, onChange) {
 					resultStatesObj['CT'] = id;
 					break;
 
-					case ".SATURATION": case ".saturation":
+					case ".SATURATION": case ".saturation": case ".sat":
 					resultStatesObj['SATURATION'] = id;
 					break;
 
