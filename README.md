@@ -216,10 +216,11 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.31
+### 0.0.31-dev
 * (Sebastian Bormann) Fixed some typos.
 * (Sebastian Bormann) Enhanced colour-mixing of light with seperate brightness-datapoints for color and white.
 * (Sebastian Bormann) Rewritten rendering of view as praparation for further enhancements.
+* (Sebastian Bormann) Rewritten rendering of dialog as praparation for further enhancements.
 
 ### 0.0.30
 * (Sebastian Bormann) Fixed io-package.json
