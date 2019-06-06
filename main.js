@@ -217,6 +217,21 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewDeviceActiveOpacity) obj.native.LayoutViewDeviceActiveOpacity = this.config.optionsLayoutViewDeviceActiveOpacity;
 		if (this.config.optionsLayoutViewDeviceActiveHoverColor) obj.native.LayoutViewDeviceActiveHoverColor = this.config.optionsLayoutViewDeviceActiveHoverColor;
 		if (this.config.optionsLayoutViewDeviceActiveHoverOpacity) obj.native.LayoutViewDeviceActiveHoverOpacity = this.config.optionsLayoutViewDeviceActiveHoverOpacity;
+		//Device-Name
+		if (this.config.optionsLayoutViewDeviceNameInactiveTextColor) obj.native.LayoutViewDeviceNameInactiveTextColor = this.config.optionsLayoutViewDeviceNameInactiveTextColor;
+		if (this.config.optionsLayoutViewDeviceNameInactiveHoverTextColor) obj.native.LayoutViewDeviceNameInactiveHoverTextColor = this.config.optionsLayoutViewDeviceNameInactiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceNameActiveTextColor) obj.native.LayoutViewDeviceNameActiveTextColor = this.config.optionsLayoutViewDeviceNameActiveTextColor;
+		if (this.config.optionsLayoutViewDeviceNameActiveHoverTextColor) obj.native.LayoutViewDeviceNameActiveHoverTextColor = this.config.optionsLayoutViewDeviceNameActiveHoverTextColor;
+		//State
+		if (this.config.optionsLayoutViewDeviceStateInactiveTextColor) obj.native.LayoutViewDeviceStateInactiveTextColor = this.config.optionsLayoutViewDeviceStateInactiveTextColor;
+		if (this.config.optionsLayoutViewDeviceStateInactiveHoverTextColor) obj.native.LayoutViewDeviceStateInactiveHoverTextColor = this.config.optionsLayoutViewDeviceStateInactiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceStateActiveTextColor) obj.native.LayoutViewDeviceStateActiveTextColor = this.config.optionsLayoutViewDeviceStateActiveTextColor;
+		if (this.config.optionsLayoutViewDeviceStateActiveHoverTextColor) obj.native.LayoutViewDeviceStateActiveHoverTextColor = this.config.optionsLayoutViewDeviceStateActiveHoverTextColor;
+		//Info
+		if (this.config.optionsLayoutViewDeviceInfoInactiveTextColor) obj.native.LayoutViewDeviceInfoInactiveTextColor = this.config.optionsLayoutViewDeviceInfoInactiveTextColor;
+		if (this.config.optionsLayoutViewDeviceInfoInactiveHoverTextColor) obj.native.LayoutViewDeviceInfoInactiveHoverTextColor = this.config.optionsLayoutViewDeviceInfoInactiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceInfoActiveTextColor) obj.native.LayoutViewDeviceInfoActiveTextColor = this.config.optionsLayoutViewDeviceInfoActiveTextColor;
+		if (this.config.optionsLayoutViewDeviceInfoActiveHoverTextColor) obj.native.LayoutViewDeviceInfoActiveHoverTextColor = this.config.optionsLayoutViewDeviceInfoActiveHoverTextColor;
 		//Marquee
 		if (this.config.optionsLayoutViewMarqueeDisabled) obj.native.LayoutViewMarqueeDisabled = this.config.optionsLayoutViewMarqueeDisabled;
 		if (this.config.optionsLayoutViewMarqueeNamesEnabled) obj.native.LayoutViewMarqueeNamesEnabled = this.config.optionsLayoutViewMarqueeNamesEnabled;

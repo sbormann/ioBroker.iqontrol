@@ -174,7 +174,7 @@ a {
 			transform: scale3d(1.0,1.0,1);
 }
 
-.iQontrolDeviceBackground.active {
+.iQontrolDevice.active .iQontrolDeviceBackground {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.82;
 	-webkit-transform: scale3d(1.0,1.0,1);
@@ -182,7 +182,7 @@ a {
 			transform: scale3d(1.0,1.0,1);
 }
 
-.iQontrolDeviceBackground.active:hover {
+.iQontrolDevice.active .iQontrolDeviceBackground:hover {
 	opacity: 0.95;
 	-webkit-transform: scale3d(1.0,1.0,1);
 	   -moz-transform: scale3d(1.0,1.0,1);
@@ -278,6 +278,9 @@ a {
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 .iQontrolDeviceInfoBIcon {
@@ -296,6 +299,9 @@ a {
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 .iQontrolDeviceName  {
@@ -307,6 +313,9 @@ a {
 	font-size: 9pt;
 	font-weight: bold;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);	
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 .iQontrolDeviceState  {
@@ -318,6 +327,9 @@ a {
 	font-size: 9pt;
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);	
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 #Dialog{
