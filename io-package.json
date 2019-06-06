@@ -4,16 +4,16 @@
         "version": "0.0.31",
         "news": {
             "0.0.31": {
-                "en": "Fixed some typos, Enhanced colour-mixing of light with seperate brightness-datapoints for color and white, Rewritten rendering of view as praparation for further enhancements.",
-                "de": "Einige Tippfehler wurden behoben. Verbesserte Farbmischung von Licht mit separaten Helligkeitsdatenpunkten für Farbe und Weiß. Die Darstellung der Ansicht als Vorbereitung für weitere Verbesserungen wurde umgeschrieben.",
-                "ru": "Исправлены некоторые опечатки, улучшено смешение цветов с отдельными точками яркости для цвета и белого, переписан рендеринг вида в качестве подготовки к дальнейшим улучшениям.",
-                "pt": "Corrigidos alguns erros de digitação, Melhoria da mistura de cores da luz com pontos de dados de brilho separados para cores e branco, Reescrita a renderização da visualização como uma praparação para melhorias adicionais.",
-                "nl": "Enkele typfouten gecorrigeerd, Verbeterde kleurmenging van licht met afzonderlijke helderheidsdatapunten voor kleur en wit, Herschreven weergaveweergave als gepatenteerd voor verdere verbeteringen.",
-                "fr": "Correction de quelques fautes de frappe, Amélioration du mélange des couleurs de la lumière avec des points de données de luminosité distincts pour la couleur et le blanc, Rendu du rendu de vue réécrit en tant que pragaration pour des améliorations supplémentaires.",
-                "it": "Risolti alcuni errori di battitura, miglioramento della miscelazione dei colori della luce con punti luce separati per il colore e il bianco, Riscritto il rendering della vista come miglioramento per ulteriori miglioramenti.",
-                "es": "Se corrigieron algunos errores tipográficos, se mejoró la mezcla de color de la luz con puntos de datos de brillo por separado para el color y el blanco, se volvió a escribir la vista como preparación para otras mejoras.",
-                "pl": "Naprawiono kilka literówek, ulepszone mieszanie kolorów światła z oddzielnymi punktami jasności-koloru dla koloru i bieli, przepisane renderowanie widoku jako przygotowanie do dalszych ulepszeń.",
-                "zh-cn": "修正了一些拼写错误，增强了混色的光线和分离的亮度 - 颜色和白色的数据点，重写了视图渲染作为进一步增强的准备。"
+                "en": "Fixed some typos, Enhanced colour-mixing of light with seperate brightness-datapoints for color and white, Rewritten rendering of view and dialog as praparation for further enhancements, Added option to colorize Device-Texts.",
+                "de": "Einige Tippfehler behoben, Verbesserte Farbmischung von Licht mit separaten Helligkeitsdatenpunkten für Farbe und Weiß, Umgeschriebene Darstellung von Ansicht und Dialogfeld als Vorbereitung für weitere Verbesserungen, Option zum Einfärben von Gerätetexten hinzugefügt.",
+                "ru": "Исправлены некоторые опечатки, улучшено смешение цветов с отдельными точками яркости для цвета и белого, переписан рендеринг вида и диалога в качестве подготовки к дальнейшим улучшениям, добавлена ​​опция для раскрашивания текстов устройства.",
+                "pt": "Corrigido alguns erros de digitação, Melhoria da mistura de cores da luz com distintas datapoints de brilho para cor e branco, Reescrita renderização de visão e diálogo como praparação para melhorias adicionais, Opção adicionada para colorir Textos de Dispositivos.",
+                "nl": "Enkele typfouten gecorrigeerd, Verbeterde kleurmenging van licht met afzonderlijke helderheidsdatapunten voor kleur en wit, Herschreven weergaveweergave en dialoogvenster als praparatie voor verdere verbeteringen, Optie toegevoegd om apparaatteksten in te kleuren.",
+                "fr": "Correction de quelques fautes de frappe, Amélioration du mélange de couleurs de lumière avec des points de données de luminosité distincts pour la couleur et le blanc, Rendu du rendu de vue et de dialogue réécrit en guise de préparation pour des améliorations supplémentaires, Ajout d'une option permettant de colorier les textes de l'appareil.",
+                "it": "Risolti alcuni errori di battitura, miglioramento della miscelazione dei colori della luce con punti luce separati per il colore e il bianco, Riscritto il rendering della vista e il dialogo come miglioramento per ulteriori miglioramenti, Aggiunta l'opzione per colorare i Testi dispositivo.",
+                "es": "Se corrigieron algunos errores tipográficos, se mejoró la mezcla de color de la luz con puntos de datos de brillo separados para el color y el blanco, se volvió a escribir la vista y el diálogo como praparación para otras mejoras, se agregó la opción para colorear los textos del dispositivo",
+                "pl": "Naprawiono kilka literówek, ulepszone mieszanie kolorów światła z oddzielnymi punktami jasności-koloru dla koloru i bieli, Przepisane renderowanie widoku i okno dialogowe jako przygotowanie do dalszych ulepszeń, Dodano opcję kolorowania tekstu urządzenia.",
+                "zh-cn": "修正了一些拼写错误，增强了颜色混合的光线和单独的亮度 - 颜色和白色的数据点，重写了视图和对话框的渲染作为进一步增强的准备，增加了设备文本着色的选项。"
             },
             "0.0.30": {
                 "en": "Fixed io-package-json.",

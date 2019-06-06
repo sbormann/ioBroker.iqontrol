@@ -3,6 +3,8 @@
 
 ## iqontrol adaptper for ioBroker: Operating Principle of Frontend
 
+Updated for version > 0.0.30
+
 ### RenderView
 
 #### Part A) 
@@ -12,45 +14,59 @@ RenderView runs a loop over all devices that are inside this view. This is what 
 deviceId = iqontrol.0.Views.<view>.<device>
 
 
-/** Now all parts of the device are rendered. Some parts may differ from the role of the device. **/
+/** Get all linkedStateIds **/
+//  While getting the LinkedStateId the correspondig usedObject is also fetched
+//  If the linked State is not fetched yet, write it in to viewStateIdsToFetch-Array 
+//  they will be fetched alltogether after rendering the view. Then the view is rendered again.
 
-stateId = deviceId + ".STATE"; 
-	//Example for datapoint .STATE. May also be any other datapoint like .LEVEL, .HUE, ...
+var viewLinkedStateIds = {}; 
+iQontrolRoles[usedObjects[deviceId].common.role].states.forEach(function(elementState){
+	var stateId = deviceId + "." + elementState;    
+	var linkedStateId = getLinkedStateId(stateId);
+		//getLinkedStateId(iQontrolId) returns:
+		//a) null, if state[stateId] is not fetched yet,
+		//b) 'undefined', if state[stateId] is fetched, but state[stateId].val doesn't exist,
+		//c) the linkedStateIde (for example hm-rpc.0.lightLivingRoom.1.LEVEL), if state[stateId].val exists
+		//  Important: usedObjects[linkedStateId] will be fetched now (async), if it is not fetched yet	
+    
+    if (linkedStateId == null) viewStateIdsToFetch.push(stateId);
+		//In case of a) (state is not fetched yet), store it in the array 'stateIdsToFetch'. 
+		//At the end, outside the loop (see Part B), all these states will be fetched at once 
+    
+    viewLinkedStateIds[elementState] = linkedStateId; 
+    	//The linkedStateId is added to the object viewLinkedStateIds
+        //Example: viewLinkedStateIds['.LEVEL'] may be 'milight.0.zone1.brightness'
+    
+	if (linkedStateId) viewLinkedStateIdsToUpdate.push(linkedStateId);
+		//Push the linkedStateId to the array 'viewLinkedStateIdsToUpdate'. 
+		//At the end, outside the loop (see Part C), all updateFunctions will be called.
+		//This will update the HTML with the initial values.    
+});
 
-linkedStateId = getLinkedStateId(iQontrolId); 
-	//getLinkedStateId(iQontrolId) returns:
-	//a) null, if state[stateId] is not fetched yet,
-	//b) 'undefined', if state[stateId] is fetched, but state[stateId].val doesn't exist,
-	//c) the linkedStateIde (for example hm-rpc.0.lightLivingRoom.1.LEVEL), if state[stateId].val exists
-	//  Important: usedObjects[linkedStateId] will be fetched now (async), if it is not fetched yet
 
+/** Now all parts of the device are rendered. Some parts may differ from the role of the device. This is only an example: **/
+if(viewLinkedStateIds['.STATE']){   //Example for .STATE. May also be any other datapoint like .LEVEL, .HUE, ...
+    deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+		//This is an example for generated HTML-Code for this device
 
-if (linkedStateId == null) stateIdsToFetch.push(stateId)
-	//In case of a), state[stateId] is not fetched yet, store it in the array 'stateIdsToFetch'. 
-	//At the end, outside the loop (see Part B), all these states will be fetched at once 
-
-if(linkedStateId){ 
-	/** Generate the necessary HTML-Code for the device now **/
-	deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceId + "'>";
-
-	(function(){ //|---Closure---> (everything declared inside keeps its value as ist is at the time the function is created)
+	(function(){ //<---Closure---> (everything declared inside keeps its value as ist is at the time the function is created)
 		var _deviceId = deviceId;
-		var _linkedStateId = linkedStateId;
+		var _linkedStateId = viewLinkedStateIds['.STATE'];
+        	// These inside the closure declared variables keep its value, 
+            // even when called later and when the loop has jumped to the next device
 
-		/** Define an update-function for the linkedStateId and push it to the array updateViewFunctions.
-		This function will be called, when the linkedStateId changes its value. It will update the generated HTML-Code with the new value **/
 		var updateFunction = function(){
-			var state = getStateObject(_linkedStateId);
+			// This is an update-function for the linkedState. 
+			// This function will be called, when the linkedStateId changes its value. 
+            // It will update the generated HTML-Code with the new value.
+            var state = getStateObject(_linkedStateId);
 			if (state) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(state.val + state.unit);
 		};
-		updateViewFunctions[linkedStateId].push(updateFunction);
-	})(); //---End of Closure--->|
+        
+        viewUpdateFunctions[linkedStateId].push(updateFunction);
+        	// The updateFunction is added to viewUpdateFunctions
 
-	stateIdsToUpdate.push(linkedStateId);
-		//Push the linkedStateId to the array 'stateIdsToUpdate'. 
-		//At the end, outside the loop (see Part C), the all updateFunctions of the unsed linkedStateId inside the loop will be called.
-		//This will update the HTML with the initial values.
-
+	})(); //<---End of Closure--->
 }
 ````
 
@@ -63,7 +79,7 @@ if(!updateOnly){
 	removeDuplicates(stateIdsToFetch);
 	if(stateIdsToFetch.length > 0) fetchStates(stateIdsToFetch, function(){
 		console.log(stateIdsToFetch.length + " states fetched while rendering view.");
-		renderView(actualViewId);
+		renderView(actualViewId, "updateOnly");
 	});
 }
 ````
@@ -71,17 +87,12 @@ if(!updateOnly){
 #### Part C) 
 After that all the generated Update-Functions are called once:
 ````
-stateIdsToUpdate = removeDuplicates(stateIdsToUpdate);
-fetchStates(stateIdsToUpdate, function(){
-	for (var i = 0; i < stateIdsToUpdate.length; i++){
-		updateState(stateIdsToUpdate[i], "ignorePreventUpdateForDialog");
+viewLinkedStateIdsToUpdate = removeDuplicates(viewLinkedStateIdsToUpdate);
+fetchStates(viewLinkedStateIdsToUpdate, function(){
+	for (var i = 0; i < viewLinkedStateIdsToUpdate.length; i++){
+		updateState(viewLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
 	}
-	stateIdsToUpdate = [];
+	viewLinkedStateIdsToUpdate = [];
 });
 ````
-
-
-
-
-
 

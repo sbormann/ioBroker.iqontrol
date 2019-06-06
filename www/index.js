@@ -335,14 +335,14 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 			var _stateId = stateId;
 			var _deviceId = deviceId;
 			var _preventUpdateTime = preventUpdateTime;
-			$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceLoading").addClass("active");
+			$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").addClass("active");
 			preventUpdate[stateId] = {};
 			preventUpdate[stateId].stateId = stateId;
 			preventUpdate[stateId].deviceId = deviceId;
 			preventUpdate[stateId].newVal = newValue;
 			preventUpdate[stateId].timerId = setTimeout(function(){
 				console.log("<< preventUpdate dexpired.")
-				$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceLoading").removeClass("active");
+				$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").removeClass("active");
 				delete preventUpdate[_stateId];
 				updateState(_stateId);
 			}, _preventUpdateTime);
@@ -880,6 +880,81 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		//Device-Name
+		if(options.LayoutViewDeviceNameInactiveTextColor) {
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceNameInactiveHoverTextColor) {
+			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceNameActiveTextColor) {
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutViewDeviceNameActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceNameActiveHoverTextColor) {
+			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutViewDeviceNameActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//State
+		if(options.LayoutViewDeviceStateInactiveTextColor) {
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceStateInactiveHoverTextColor) {
+			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceStateActiveTextColor) {
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutViewDeviceStateActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceStateActiveHoverTextColor) {
+			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutViewDeviceStateActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Info
+		if(options.LayoutViewDeviceInfoInactiveTextColor) {
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoInactiveHoverTextColor) {
+			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoActiveTextColor) {
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceInfoAText, .iQontrolDevice.active .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoActiveHoverTextColor) {
+			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 	}
 }
 
@@ -988,7 +1063,7 @@ function renderView(id, updateOnly){
 							viewUpdateFunctions[_linkedUrlId].push(function(){
 								var href = "";
 								if (states[_linkedUrlId]) href = states[_linkedUrlId].val;
-								$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceLinkToDialog").attr('href', href);
+								$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLinkToDialog").attr('href', href);
 							});
 						})();
 					}
@@ -1162,9 +1237,9 @@ function renderView(id, updateOnly){
 							viewUpdateFunctions[_linkedErrorId].push(function(){
 								var stateError = getStateObject(_linkedErrorId)
 								if (typeof stateError !== udef && stateError.val) {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceError").addClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceError").addClass("active");
 								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceError").removeClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceError").removeClass("active");
 								}
 							});
 						})();
@@ -1178,9 +1253,9 @@ function renderView(id, updateOnly){
 							viewUpdateFunctions[_linkedUnreachId].push(function(){
 								var stateUnreach = getStateObject(_linkedUnreachId)
 								if (typeof stateUnreach !== udef && stateUnreach.val) {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceUnreach").addClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceUnreach").addClass("active");
 								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceUnreach").removeClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceUnreach").removeClass("active");
 								}
 							});
 						})();
@@ -1194,9 +1269,9 @@ function renderView(id, updateOnly){
 							viewUpdateFunctions[_linkedBatteryId].push(function(){
 								var stateBattery = getStateObject(_linkedBatteryId)
 								if (typeof stateBattery !== udef && stateBattery.val) {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBattery").addClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceBattery").addClass("active");
 								} else {
-									$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBattery").removeClass("active");
+									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceBattery").removeClass("active");
 								}
 							});
 						})();
@@ -1212,7 +1287,7 @@ function renderView(id, updateOnly){
 								var _linkedTemperatureId = viewLinkedStateIds["TEMPERATURE"];
 								viewUpdateFunctions[_linkedTemperatureId].push(function(){
 									var unit = getUnit(_linkedTemperatureId);
-									if (states[_linkedTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").html(states[_linkedTemperatureId].val + unit);
+									if (states[_linkedTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedTemperatureId].val + unit);
 								});
 							})();
 						}
@@ -1227,7 +1302,7 @@ function renderView(id, updateOnly){
 								var _linkedBrightnessId = viewLinkedStateIds["BRIGHTNESS"];
 								viewUpdateFunctions[_linkedBrightnessId].push(function(){
 									var unit = getUnit(_linkedBrightnessId);
-									if (states[_linkedBrightnessId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoAText").html(states[_linkedBrightnessId].val + unit);
+									if (states[_linkedBrightnessId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedBrightnessId].val + unit);
 								});
 							})();
 						}
@@ -1256,7 +1331,7 @@ function renderView(id, updateOnly){
 												if(typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.max !== udef) saturationMax = usedObjects[_linkedSaturationId].common.max;
 												saturation = ((states[_linkedSaturationId].val - saturationMin) / (saturationMax - saturationMin)) * 100;
 											}
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoATextHue").show().css("color", "hsl(" + ((states[_linkedHueId].val - min) / (max - min)) * 359 + ", 100%," + (100-(saturation/2)) + "%)");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextHue").show().css("color", "hsl(" + ((states[_linkedHueId].val - min) / (max - min)) * 359 + ", 100%," + (100-(saturation/2)) + "%)");
 										}									
 									};
 									viewUpdateFunctions[_linkedHueId].push(updateFunction);
@@ -1274,7 +1349,7 @@ function renderView(id, updateOnly){
 											if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.min !== udef) min = usedObjects[_linkedCtId].common.min;
 											if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.max !== udef) max = usedObjects[_linkedCtId].common.max;
 											var rgb = colorTemperatureToRGB(states[_linkedCtId].val, min, max);
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoATextCt").show().css("color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextCt").show().css("color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
 										}
 									});
 								})();
@@ -1297,10 +1372,10 @@ function renderView(id, updateOnly){
 								viewUpdateFunctions[_linkedHumidityId].push(function(){
 									var unit = getUnit(_linkedHumidityId);
 									if (states[_linkedHumidityId] && typeof states[_linkedHumidityId].val !== udef){
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBIcon").show();
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBText").html(states[_linkedHumidityId].val + unit);
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").show();
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(states[_linkedHumidityId].val + unit);
 									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBIcon").hide();
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 									}
 								});
 							})();
@@ -1317,10 +1392,10 @@ function renderView(id, updateOnly){
 								viewUpdateFunctions[_linkedPowerId].push(function(){
 									var unit = getUnit(_linkedPowerId);
 									if (states[_linkedPowerId] && typeof states[_linkedPowerId].val !== udef){
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBIcon").show();
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBText").html(states[_linkedPowerId].val + unit);
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").show();
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(states[_linkedPowerId].val + unit);
 									} else {
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceInfoBIcon").hide();
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 									}
 								});
 							})();
@@ -1365,13 +1440,14 @@ function renderView(id, updateOnly){
 									var updateFunction = function(){
 										var state = getStateObject(_linkedStateId);
 										if(state && typeof state.val !== udef && state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
 										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
 										}
 									};
 									viewUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -1389,12 +1465,12 @@ function renderView(id, updateOnly){
 									var updateFunction = function(){
 										var unit = getUnit(_linkedSetTemperatureId);
 										var mode = "&nbsp;" + getPlainText(_linkedControlModeId);
-										if (states[_linkedSetTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(states[_linkedSetTemperatureId].val + unit + "<span class='small'>" + mode + "</span>");
-										if (typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
+										if (states[_linkedSetTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(states[_linkedSetTemperatureId].val + unit + "<span class='small'>" + mode + "</span>");
+										if (typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
 										if (typeof states[_linkedSetTemperatureId] !== udef && typeof states[_linkedSetTemperatureId].val !== udef && states[_linkedSetTemperatureId].val > 0) {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 										}
 									};
 									viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
@@ -1428,15 +1504,15 @@ function renderView(id, updateOnly){
 											}
 										}
 										resultText = unescape(resultText);
-										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
 										if (typeof result == udef || result == 0) {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
 										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
 										}
 									};
 									if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -1459,29 +1535,29 @@ function renderView(id, updateOnly){
 										var resultText = "";
 										if(state && typeof state.val !== udef && state.val){ //Opened
 											resultText = _("opened");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.locked").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.unlocked").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.locked").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
 										} else if(lockState && typeof lockState.val !== udef && lockState.val){ //Closed, but unlocked
 											resultText = _("unlocked");
 											if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "<i>";
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.locked").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.unlocked").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.locked").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.unlocked").addClass("active");
 										} else { //Locked
 											resultText = _("locked");
 											if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.locked").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.unlocked").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.locked").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
 										}
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
 									};
 									if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 									if(_linkedLockStateId) viewUpdateFunctions[_linkedLockStateId].push(updateFunction);
@@ -1506,48 +1582,48 @@ function renderView(id, updateOnly){
 										var resultText = "";
 										if(level && typeof level.val !== udef && level.val == min){ //Closed
 											resultText = _("closed");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
 										} else if(level && typeof level.val !== udef && level.val == max){ //Opened
 											resultText = _("opened");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
 
 										} else if(direction && typeof direction.val !== udef && direction.val == 1){ //Middle, but opening
 											resultText = _("opening");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
 										} else if(direction && typeof direction.val !== udef && direction.val == 2){ //Middle, but closing
 											resultText = _("closing");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").addClass("active");
 										} else { //Middle with no movement
 											resultText = level.val + level.unit;
 											if(direction && typeof direction.val !== udef && direction.val == 3) resultText = "<i>" + resultText + "</i>";
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.middle").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.opening").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.closing").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
 										}
-										$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
 									};
 									if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 									if(_linkedDirectionId) viewUpdateFunctions[_linkedDirectionId].push(updateFunction);
@@ -1587,15 +1663,15 @@ function renderView(id, updateOnly){
 										}
 										if(resultText == "0%") resultText = _("off");
 										resultText = unescape(resultText);
-										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceState").html(resultText);
+										if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
 										if (result == 0) {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").removeClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
 										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceBackground").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.on").addClass("active");
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'] .iQontrolDeviceIcon.off").removeClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
 										}
 									};
 									if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
