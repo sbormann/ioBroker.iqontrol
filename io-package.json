@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.31",
+        "version": "0.0.32",
         "news": {
+            "0.0.32": {
+                "en": "Added Battery, Heaters are displayed as inactive, if set-value is at its minimum, Added check for existance of common.role before rendering view",
+                "de": "Batterie hinzugefügt, Heizungen werden als inaktiv angezeigt, wenn der eingestellte Wert am niedrigsten ist. Überprüfung auf Vorhandensein einer gemeinsamen Rolle vor dem Rendern der Ansicht hinzugefügt",
+                "ru": "Добавлена ​​батарея, нагреватели отображаются как неактивные, если заданное значение минимально, добавлена ​​проверка на наличие common.role перед просмотром рендера",
+                "pt": "Bateria adicionada, Aquecedores são exibidos como inativos, se o valor-conjunto estiver no mínimo, Verificação adicionada para existência de common.role antes da exibição de renderização",
+                "nl": "Toegevoegd batterij, Verwarmers worden weergegeven als inactief, als de ingestelde waarde op zijn minimum is, Toegevoegd controle voor het bestaan ​​van common.role vóór weergave weergave",
+                "fr": "Batterie ajoutée, les éléments chauffants sont affichés comme étant inactifs, si la valeur définie est minimale, Vérification ajoutée de l'existence de common.role avant de rendre la vue",
+                "it": "Aggiunta batteria, i riscaldatori vengono visualizzati come inattivi, se il valore impostato è al minimo, Aggiunto controllo dell'esistenza di common.role prima della visualizzazione rendering",
+                "es": "Batería agregada, los calentadores se muestran como inactivos, si el valor establecido es mínimo, compruebe la existencia de common.role antes de mostrar la vista",
+                "pl": "Dodano baterię, grzałki są wyświetlane jako nieaktywne, jeśli ustawiona wartość jest na minimalnym poziomie, Dodano sprawdzenie istnienia common.role przed renderowaniem widoku",
+                "zh-cn": "添加电池，加热器显示为非活动状态，如果设置值最小，则在渲染视图之前添加检查common.role是否存在"
+            },
             "0.0.31": {
                 "en": "Fixed some typos, Enhanced colour-mixing of light with seperate brightness-datapoints for color and white, Rewritten rendering of view and dialog as praparation for further enhancements, Added option to colorize Device-Texts.",
                 "de": "Einige Tippfehler behoben, Verbesserte Farbmischung von Licht mit separaten Helligkeitsdatenpunkten für Farbe und Weiß, Umgeschriebene Darstellung von Ansicht und Dialogfeld als Vorbereitung für weitere Verbesserungen, Option zum Einfärben von Gerätetexten hinzugefügt.",

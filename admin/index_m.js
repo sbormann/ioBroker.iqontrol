@@ -21,6 +21,7 @@ var iQontrolRoles = {
 	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
 	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
 	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
+	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
 	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
 	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
 	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
@@ -28,7 +29,7 @@ var iQontrolRoles = {
 	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
 	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
-const udef = 'undefined';
+const udef = 'undefined'; 
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++	
 function initDialog(id, callback) {
