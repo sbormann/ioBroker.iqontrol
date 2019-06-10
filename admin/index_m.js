@@ -9,8 +9,8 @@ var iQontrolRoles = {
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
 	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
 	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
 	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
@@ -756,6 +756,10 @@ function load(settings, onChange) {
 
 					case ".PARTY_TEMPERATURE":
 					resultStatesObj['PARTY_TEMPERATURE'] = id;
+					break;
+
+					case ".WINDOW_OPEN_REPORTING":
+					resultStatesObj['WINDOW_OPEN_REPORTING'] = id;
 					break;
 
 					case ".STATE_UNCERTAIN":

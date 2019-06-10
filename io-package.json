@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.32",
+        "version": "0.0.33",
         "news": {
+            "0.0.33": {
+                "en": "Added WINDOW_OPENING_REPORTING to thermostat and homematic-thermostat, Fixed marquee not always starting correctly",
+                "de": "WINDOW_OPENING_REPORTING für Thermostat und Homematic-Thermostat hinzugefügt. Laufschrift startet nicht immer korrekt",
+                "ru": "Добавлен WINDOW_OPENING_REPORTING для термостата и homematic-термостата, исправлена ​​ошибка, при которой не всегда корректно запускался шатер",
+                "pt": "Adicionou WINDOW_OPENING_REPORTING ao termostato e ao termostato homematic. Marcação fixa nem sempre é iniciada corretamente",
+                "nl": "WINDOW_OPENING_REPORTING toegevoegd aan thermostaat en homematicethermostaat, vast kader niet altijd correct gestart",
+                "fr": "Ajout de WINDOW_OPENING_REPORTING au thermostat et au thermostat homematic, le rectangle de sélection fixe ne démarre pas toujours correctement",
+                "it": "Aggiunto WINDOW_OPENING_REPORTING a termostato e termostato omostatico, Selezione fissa non sempre avviata correttamente",
+                "es": "Se agregó WINDOW_OPENING_REPORTING al termostato y al termostato homemático. La marquesina fija no siempre se inicia correctamente",
+                "pl": "Dodano WINDOW_OPENING_REPORTING do termostatu i termostatu homematyki, Naprawiono nie zawsze poprawne uruchamianie markizy",
+                "zh-cn": "将WINDOW_OPENING_REPORTING添加到恒温器和家庭恒温器，固定选框并不总是正确启动"
+            },
             "0.0.32": {
                 "en": "Added Battery, Heaters are displayed as inactive, if set-value is at its minimum, Added check for existance of common.role before rendering view",
                 "de": "Batterie hinzugefügt, Heizungen werden als inaktiv angezeigt, wenn der eingestellte Wert am niedrigsten ist. Überprüfung auf Vorhandensein einer gemeinsamen Rolle vor dem Rendern der Ansicht hinzugefügt",

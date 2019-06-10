@@ -31,6 +31,7 @@ var states = {}; 						//Contains all used and over the time changed States in t
 var viewStateIdsToFetch = [];			//Contains all missing stateIds after rendering a view - they will be fetched and if ready, the view ist rendered again
 var viewLinkedStateIdsToUpdate = [];	//Contains all linkedStateIds after rendering a view, where updateFunctions were created - the corresponding updateFunctions are called after rendering the view
 var viewUpdateFunctions = {};			//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
+var marqueeObserver;					//Contains MutationObserver for marquee-enabled elements
 var dialogStateIdsToFetch = [];			//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
 var dialogLinkedStateIdsToUpdate = [];	//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 		//Same as viewUpdateFunctions, but for dialog-page
@@ -41,8 +42,8 @@ var iQontrolRoles = {
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
 	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
 	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
 	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
@@ -1124,7 +1125,7 @@ function renderView(id, updateOnly){
 						iconContent += "<image class='iQontrolDeviceIcon charged25' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_25.png' />";
 						iconContent += "<image class='iQontrolDeviceIcon charged10' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_10.png' />";
 						iconContent += "<image class='iQontrolDeviceIcon empty off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_empty.png' />";
-						iconContent += "<image class='iQontrolDeviceIcon charging' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_charging_overlay.png' />";
+						iconContent += "<image class='iQontrolDeviceIcon charging overlay' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_charging_overlay.png' />";
 						break;
 
 						case "iQontrolValue":
@@ -1475,6 +1476,7 @@ function renderView(id, updateOnly){
 									var _linkedSetTemperatureId = viewLinkedStateIds["SET_TEMPERATURE"];
 									var _linkedControlModeId = viewLinkedStateIds["CONTROL_MODE"];
 									var _linkedPartyTemperatureId = viewLinkedStateIds["PARTY_TEMPERATURE"];
+									var _linkedWindowOpenReportingId = viewLinkedStateIds["WINDOW_OPEN_REPORTING"];
 									var updateFunction = function(){
 										var unit = getUnit(_linkedSetTemperatureId);
 										var min = 0;
@@ -1484,6 +1486,7 @@ function renderView(id, updateOnly){
 										var mode = "&nbsp;" + getPlainText(_linkedControlModeId);
 										if (states[_linkedSetTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(states[_linkedSetTemperatureId].val + unit + "<span class='small'>" + mode + "</span>");
 										if (typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
+										if (typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
 										if (typeof states[_linkedSetTemperatureId] !== udef && typeof states[_linkedSetTemperatureId].val !== udef && states[_linkedSetTemperatureId].val > min) {
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 										} else {
@@ -1493,6 +1496,7 @@ function renderView(id, updateOnly){
 									viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
 									viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
 									viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
+									viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
 								})();
 							}
 							break;
@@ -1613,7 +1617,6 @@ function renderView(id, updateOnly){
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
-
 										} else if(direction && typeof direction.val !== udef && direction.val == 1){ //Middle, but opening
 											resultText = _("opening");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
@@ -1631,7 +1634,7 @@ function renderView(id, updateOnly){
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").addClass("active");
 										} else { //Middle with no movement
-											resultText = level.val + level.unit;
+											if(level && typeof level.val !== udef) resultText = level.val + level.unit;
 											if(direction && typeof direction.val !== udef && direction.val == 3) resultText = "<i>" + resultText + "</i>";
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
@@ -1791,49 +1794,64 @@ function renderView(id, updateOnly){
 			removeDuplicates(viewStateIdsToFetch);
 			if(viewStateIdsToFetch.length > 0) fetchStates(viewStateIdsToFetch, function(error){
 				if(!error) {
-					console.log(viewStateIdsToFetch.length + " states fetched while rendering view.");
-					renderView(actualViewId, "updateOnly");
+					console.log(viewStateIdsToFetch.length + " states fetched while rendering view. Updating view.");
+					renderView(actualViewId, "updateOnlyAfterFetchingStatesWhileRenderingView");
 				} else {
 					console.log("ERROR fetching states while rendering view.");
 				}
 			});
 		}
 		viewLinkedStateIdsToUpdate = removeDuplicates(viewLinkedStateIdsToUpdate);
-		fetchStates(viewLinkedStateIdsToUpdate, function(){
-			for (var i = 0; i < viewLinkedStateIdsToUpdate.length; i++){
-				updateState(viewLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
-			}
-			viewLinkedStateIdsToUpdate = [];
-		});
-		//Marquee
- 		if (!options.LayoutViewMarqueeDisabled){
-			var marqueeObserver = new MutationObserver(function(mutationList){
-				if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
-					var element = $(mutationList[0].target);
-					if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
-						console.log("Starting marquee");
-						element.marquee({
-							speed: (options.LayoutViewMarqueeSpeed || "40"),
-							gap: 40,
-							delayBeforeStart: 2500,
-							direction: 'left',
-							duplicated: true,
-							pauseOnHover: true,
-							startVisible: true
-						}); 
-					}
+		if(updateOnly || (!updateOnly && viewStateIdsToFetch.length == 0)) { //Do this only one time - when there where no states to fetch, or when they have been fetched and therefore the "onlyUpdate"-flag is set
+			fetchStates(viewLinkedStateIdsToUpdate, function(){
+				for (var i = 0; i < viewLinkedStateIdsToUpdate.length; i++){
+					updateState(viewLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
 				}
+				viewLinkedStateIdsToUpdate = [];
+				startMarqueeObserver();
 			});
-			$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText').each(function(){
-				marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-			});
-			if(options.LayoutViewMarqueeNamesEnabled){
-				$('.iQontrolDeviceName').each(function(){
-					marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-				});				
-			}
-		} 
+		}
 	});
+}
+
+function startMarqueeObserver(){
+	console.log("Starting marquee observer");
+	if(marqueeObserver){
+		marqueeObserver.disconnect();
+	} else {
+		marqueeObserver = new MutationObserver(function(mutationList){
+			if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
+				applyMarqueeOnOverflow($(mutationList[0].target));
+			}
+		});		
+	}
+	if (!options.LayoutViewMarqueeDisabled ){
+		$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText').each(function(){
+			marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+			applyMarqueeOnOverflow($(this));
+		});
+		if(options.LayoutViewMarqueeNamesEnabled){
+			$('.iQontrolDeviceName').each(function(){
+				marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+				applyMarqueeOnOverflow($(this));
+			});				
+		}
+	} 
+}
+
+function applyMarqueeOnOverflow(element){
+	if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
+		console.log("Starting marquee");
+		element.marquee({
+			speed: (options.LayoutViewMarqueeSpeed || "40"),
+			gap: 40,
+			delayBeforeStart: 2000,
+			direction: 'left',
+			duplicated: true,
+			pauseOnHover: true,
+			startVisible: true
+		}); 
+	}
 }
 
 function changeViewBackground(url){
@@ -3026,6 +3044,6 @@ $(window).on("orientationchange resize", function(){
 	setTimeout(function(){
 		console.log("orientationchange / resize");
 		$.backstretch("resize"); //Refresh background
-		$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText, .iQontrolDeviceName').trigger('DOMSubtreeModified');	//Refresh marquee	
+		//$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText, .iQontrolDeviceName').append(" ");	//Refresh marquee	
 	}, 250);
 });	
