@@ -222,7 +222,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.44dev
+### 0.0.44
 * (Sebastian Bormann) Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future.
 * (Sebastian Bormann) Linked Views can now be set for all roles and are available in the dialog and by a forced touch.
 * (Sebastian Bormann) Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion.
