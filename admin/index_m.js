@@ -7,7 +7,7 @@ var imagePathBS = imagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
 	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
@@ -406,9 +406,9 @@ function load(settings, onChange) {
 				});
 			}
 		});
-		//Add Thumbs to SelectBox and readonly to LinkedView if the role is not allowed to have a link
 		$lines.find('select[data-name]').each(function() {
 			var name = $(this).data('name');
+			//Add Thumbs to SelectBox
 			if (name === 'nativeBackgroundImage') {
 				var index = $(this).data('index');
 				$(this).addClass('icons');
@@ -418,6 +418,8 @@ function load(settings, onChange) {
 					$(this).addClass('left');
 				});
 			}
+			/* The following part is deactivated, because the PressureMenue makes it unnecessary to disallow linkedView to some roles
+			//Remove LinkedView for unallowed Roles
 			if (name === 'nativeLinkedView') {
 				var index = $(this).data('index');
 				switch(views[devicesSelectedView].devices[index].commonRole){
@@ -428,7 +430,7 @@ function load(settings, onChange) {
 					default: //Link to other view not allowed
 					$(this).parent('div').parent('td').css('opacity', '0');
 				}
-			}
+			} */
 		});
 		$('select').select();
 	}

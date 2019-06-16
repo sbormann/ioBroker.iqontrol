@@ -44,6 +44,7 @@
 	<script type="text/javascript" src="jquery/plugins/jquery.backstretch.min.js"></script>
 	<script type="text/javascript" src="jquery/plugins/ptrLight.modified.js"></script>
 	<script type="text/javascript" src="jquery/plugins/jquery.marquee.min.js"></script>
+	<script type="text/javascript" src="jquery/plugins/jquery.pressure.min.js"></script>
 	<script type="text/javascript" src="../../lib/js/socket.io.js"></script>  <!-- Replace with correct URL -->
 	<script type="text/javascript" src="../../lib/js/translate.js"></script>  <!-- Replace with correct URL -->
     <script type="text/javascript" src="words.js"></script>
@@ -61,6 +62,7 @@
 			<h1 id="ViewHeaderTitle">iQontrol</h1>
 			<div id="ViewContent"></div>
 			<p><br></p>
+			<input type="checkbox" id="focusable" style="height:0; margin-left:-200px; clear: both;" />
 		</div>
 		<div data-role="popup" data-overlay-theme="b" id="Dialog">
 			<!-- <div data-role="header"> -->
@@ -70,6 +72,9 @@
 				<h4 id="DialogHeaderTitle">iQontrol</h4>
 				<div id="DialogContent"></div>
 			</div>
+		</div>
+		<div data-role="popup" data-theme="a" data-overlay-theme="b" data-dismissible="true" id="PressureMenu">
+			<ul id="PressureMenuList" data-role="listview" data-inset="true"></ul>
 		</div>
 	</div>
 

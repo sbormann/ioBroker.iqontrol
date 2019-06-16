@@ -95,7 +95,8 @@ Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represen
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
 ### Link to other view:
-* Has no further states, but it will respect the **linked-view-property**
+* Has no further states
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/switch_on.png" width="32"> Switch, <img src="img/icons/fan_on.png" width="32"> Fan:
 * **STATE**: *boolean* - display and set on/off-state
@@ -115,7 +116,7 @@ Optional you can define the following states:
     * **CT**: *number* - color-temperature of the light, if it has two shades of white
     * **WHITE_BRIGHTNESS**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
 * Alternative color-spaces **not yet implemented**:
-    * **HUE_MILIGHT**: *number* - Milight uses another staring-point in the hue color-cirlce: 
+    * **HUE_MILIGHT**: *number* - Milight uses another starting-point in the hue color-cirlce: 
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
 		function modulo(n, m){ 
@@ -145,16 +146,16 @@ In addition to normal thermostat you can define:
 * **STATE**: *number* - temperature or humidity that will be displayed in the lower part of the device
 * **TEMPERATURE**: *number* - temperature that will be displayed in small in the upper right corner
 * **HUMIDITY**: *number* - humidity that will be displayed in small in the upper right corner
-* Respects the **linked-view-property**
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/brightness_light.png" width="32"> Brightness-Sensor:
 * **STATE**: *number* - brightness that will be displayed in the lower part of the device
 * **BRIGHTNESS**: *number* - brightness that will be displayed in small in the upper right corner
-* Respects the **linked-view-property**
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/motion_on.png" width="32"> Motion-Sensor:
 * **STATE**: *boolean* - display if motion is detected or not
-* Respects the **linked-view-property**
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
 * **STATE**: *boolean* - display if the door or window is opened or closed. 
@@ -177,7 +178,7 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
     * Alternatively you can assign a *value-list*, to display additional states like 'tampered'.
     * You can also assign a *string* to display any text like "fire in upper floor".
-* Respects the **linked-view-property**
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/alarm_on.png" width="32"> Alarm:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
@@ -221,15 +222,21 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.44dev
+* (Sebastian Bormann) Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future.
+* (Sebastian Bormann) Linked Views can now be set for all roles and are available in the dialog and by a forced touch.
+* (Sebastian Bormann) Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion.
+* (Sebastian Bormann) Fixed issure 49 (state for role switch if type is number).
+
 ### 0.0.33
-* (Sebastian Bormann) Added WINDOW_OPENING_REPORTING to thermostat and homematic-thermostat
-* (Sebastian Bormann) Fixed marquee not always starting correctly
+* (Sebastian Bormann) Added WINDOW_OPENING_REPORTING to thermostat and homematic-thermostat.
+* (Sebastian Bormann) Fixed marquee not always starting correctly.
 
 ### 0.0.32
-* (Sebastian Bormann) Added Battery
-* (Sebastian Bormann) Heaters are displayed as inactive, if set-value is at its minimum
-* (Sebastian Bormann) Added meta.user object to allow backup of user uploaded files via iobroker backup
-* (Sebastian Bormann) Added check for existance of common.role before rendering view
+* (Sebastian Bormann) Added Battery.
+* (Sebastian Bormann) Heaters are displayed as inactive, if set-value is at its minimum.
+* (Sebastian Bormann) Added meta.user object to allow backup of user uploaded files via iobroker backup.
+* (Sebastian Bormann) Added check for existance of common.role before rendering view.
 
 ### 0.0.31
 * (Sebastian Bormann) Fixed some typos.

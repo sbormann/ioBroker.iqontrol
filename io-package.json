@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.33",
+        "version": "0.0.34",
         "news": {
+            "0.0.34": {
+                "en": "Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future, Linked Views can now be set for all roles and are available in the dialog and by a forced touch, Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion, Fixed state for switch if type is number",
+                "de": "Menü mit erzwungener Berührung hinzugefügt (Fest drücken oder Lang drücken bei nicht unterstützten Geräten), das zukünftig mehr Platz für erweiterte Funktionen bietet. Verknüpfte Ansichten können jetzt für alle Rollen festgelegt werden und sind im Dialogfeld und durch erzwungene Berührung verfügbar. Zeitstempel hinzugefügt für ",
+                "ru": "Добавлено принудительное сенсорное меню (жмите сильно или долго нажимайте на неподдерживаемых устройствах), которое даст больше места для расширенных функций в будущем, теперь можно установить связанные виды для всех ролей и доступны в диалоге и принудительным касанием, Добавлена ​​метка времени для ",
+                "pt": "Adicionado menu de toque forçado (pressione ou pressione longamente em dispositivos não suportados), o que dará mais espaço para recursos estendidos no futuro, Linked Views agora pode ser definido para todas as funções e estão disponíveis na caixa de diálogo e por um toque forçado, Adicionado timestamp para ",
+                "nl": "Toegevoegd geforceerd aanraakmenu (druk hard of druk lang op niet-ondersteunde apparaten), wat in de toekomst meer ruimte zal bieden voor uitgebreide functies, Linked Views kunnen nu worden ingesteld voor alle rollen en zijn beschikbaar in het dialoogvenster en door een geforceerde aanrakingen, Toegevoegd tijdstempel voor ",
+                "fr": "Ajout du menu tactile forcé (appuyer fort ou appuyer longuement sur des appareils non pris en charge), ce qui laissera plus de place pour les fonctionnalités étendues, Les vues liées peuvent maintenant être définies pour tous les rôles et sont disponibles dans la boîte de dialogue ",
+                "it": "Aggiunto menu a sfioramento forzato (premere a lungo o premere a lungo sui dispositivi non supportati), che in futuro offrirà più spazio per funzionalità estese, le viste collegate possono ora essere impostate per tutti i ruoli e sono disponibili nella finestra di dialogo e con un tocco forzato, Aggiunto timestamp per ",
+                "es": "Se agregó el menú de toque forzado (presione con fuerza o presione prolongadamente en dispositivos no compatibles), lo que le dará más espacio para funciones extendidas en el futuro, las Vistas vinculadas ahora se pueden configurar para todos los roles y están disponibles en el diálogo y con un toque forzado. ",
+                "pl": "Dodano wymuszone menu dotykowe (naciskaj mocno lub naciskaj długo na nieobsługiwanych urządzeniach), co da więcej miejsca na rozszerzone funkcje w przyszłości. Połączone widoki można teraz ustawić dla wszystkich ról i są one dostępne w oknie dialogowym i wymuszonym dotknięciu, Dodano znacznik czasu dla ",
+                "zh-cn": "添加了强制触摸菜单（在不支持的设备上按下或长按），将来会为扩展功能提供更多空间，现在可以为所有角色设置链接视图，并且可以在对话框中通过强制触摸获得，添加了时间戳"
+            },
             "0.0.33": {
                 "en": "Added WINDOW_OPENING_REPORTING to thermostat and homematic-thermostat, Fixed marquee not always starting correctly",
                 "de": "WINDOW_OPENING_REPORTING für Thermostat und Homematic-Thermostat hinzugefügt. Laufschrift startet nicht immer korrekt",
