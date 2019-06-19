@@ -100,6 +100,7 @@
     "Overall Hover Background-Color:": "总的来说，悬停 - 背景颜色：",
     "Overall Hover Opacity:": "总的来说，悬停 - 不透明度：",
     "Overall Opacity:": "整体不透明度：",
+    "Please assign a role in device settings": "请在设备设置中指定角色",
     "Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first.": "请从ioBroker对象中选择设备，并且点击\"尝试创建预览\"。",
     "Please select a device to edit": "请选择要编辑的设备",
     "Please wait...": "请等待...",

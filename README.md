@@ -222,7 +222,12 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.44
+### 0.0.35
+* (Sebastian Bormann) Fixed crash of frontend, if a device has no role and added info to admin to chose a role
+* (Sebastian Bormann) Removed filtering of states in select-id-dialog for autocreate
+* (Sebastian Bormann) Further improvments of forced touch with force-indicator and hopefully a better compatibility with more devices
+
+### 0.0.34
 * (Sebastian Bormann) Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future.
 * (Sebastian Bormann) Linked Views can now be set for all roles and are available in the dialog and by a forced touch.
 * (Sebastian Bormann) Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion.

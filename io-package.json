@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.34",
+        "version": "0.0.35",
         "news": {
+            "0.0.35": {
+                "en": "Fixed crash of frontend, if a device has no role and added info to admin to chose a role, Removed filtering of states in select-id-dialog for autocreate, Further improvement of forced touch with force-indicator and hopefully a better compatibility with more devices.",
+                "de": "Absturz des Frontends behoben, wenn ein Gerät keine Rolle hat und dem Administrator Informationen hinzugefügt wurden, um eine Rolle auszuwählen. Das Filtern von Zuständen im Auswahl-ID-Dialog für die automatische Erstellung wurde entfernt. Eine weitere Verbesserung der erzwungenen Berührung mit der Kraftanzeige und hoffentlich eine bessere Kompatibilität mit mehr ",
+                "ru": "Исправлен сбой внешнего интерфейса, если устройство не имеет роли и добавлена ​​информация для администратора по выбору роли, Удалена фильтрация состояний в диалоге выбора идентификатора для автоматического создания, Дальнейшее улучшение принудительного прикосновения с помощью индикатора силы и, возможно, лучшая совместимость с другими ",
+                "pt": "Corrigido o travamento do frontend, se um dispositivo não tiver função e adicionado informações ao administrador para escolher uma função, Removido o filtro de estados na caixa de diálogo select-id para autocreate, Melhoria adicional do toque forçado com indicador de força e esperançosamente uma melhor compatibilidade com mais ",
+                "nl": "Vaste crash van frontend, als een apparaat geen rol heeft en toegevoegde info aan admin om een ​​rol te kiezen, Verwijderd filteren van toestanden in select-id-dialoog voor autocreate, Verdere verbetering van geforceerde aanrakingen met force-indicator en hopelijk een betere compatibiliteit met meer ",
+                "fr": "Correction du crash de l'interface, si un périphérique n'a pas de rôle et ajout d'informations à l'administrateur pour choisir un rôle, Filtrage supprimé des états dans select-id-dialog pour la création automatique, Amélioration du contact forcé avec indicateur de force et, espérons-le, d'une meilleure compatibilité avec d'autres ",
+                "it": "Risolto il crash del frontend, se un dispositivo non ha ruolo e ha aggiunto informazioni all'amministratore per scegliere un ruolo, Rimosso il filtraggio degli stati in select-id-dialog per autocreate, Ulteriore miglioramento del tocco forzato con indicatore di forza e si spera una migliore compatibilità con più ",
+                "es": "Se solucionó el bloqueo de la interfaz, si un dispositivo no tiene un rol y se agregó información a la administración para elegir un rol, se eliminó el filtrado de estados en el cuadro de diálogo Seleccionar-ID para autocrear, una mejora adicional del contacto forzado con el indicador de fuerza y, con suerte, una mejor compatibilidad con más ",
+                "pl": "Naprawiono awarię nakładki, jeśli urządzenie nie ma żadnej roli i dodało informacje do administratora, aby wybrać rolę, Usunięto filtrowanie stanów w oknie dialogowym select-id dla autokreacji, Dalsza poprawa wymuszonego dotyku ze wskaźnikiem siły i, miejmy nadzieję, lepsza kompatybilność z więcej ",
+                "zh-cn": "修复了前端崩溃，如果设备没有角色并向管理员添加信息以选择角色，则在select-id-dialog中删除状态过滤以进行自动创建，使用强制指示器进一步改善强制触摸，并希望更好地兼容更多"
+            },
             "0.0.34": {
                 "en": "Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future, Linked Views can now be set for all roles and are available in the dialog and by a forced touch, Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion, Fixed state for switch if type is number",
                 "de": "Menü mit erzwungener Berührung hinzugefügt (Fest drücken oder Lang drücken bei nicht unterstützten Geräten), das zukünftig mehr Platz für erweiterte Funktionen bietet. Verknüpfte Ansichten können jetzt für alle Rollen festgelegt werden und sind im Dialogfeld und durch erzwungene Berührung verfügbar. Zeitstempel hinzugefügt für ",

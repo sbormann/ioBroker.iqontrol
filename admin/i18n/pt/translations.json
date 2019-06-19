@@ -100,6 +100,7 @@
     "Overall Hover Background-Color:": "No geral, Hover - Cor de fundo:",
     "Overall Hover Opacity:": "No geral, Hover - Opacidade:",
     "Overall Opacity:": "Opacidade geral:",
+    "Please assign a role in device settings": "Por favor, atribua um papel nas configurações do dispositivo",
     "Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first.": "Por favor escolha um ID de dispositivo de ioBroker-Objeto-Árvore e prima 'Tenta criar preview' primeiro.",
     "Please select a device to edit": "Por favor, selecione um dispositivo para editar",
     "Please wait...": "Por favor aguarde...",

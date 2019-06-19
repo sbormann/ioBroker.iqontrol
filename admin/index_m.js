@@ -373,6 +373,9 @@ function load(settings, onChange) {
 				if (views[devicesSelectedView].devices[deviceIndex].commonRole){
 					$(this).next('span').remove();
 					$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+				} else {
+					$(this).next('span').remove();
+					$(this).after('<span style="font-size:x-small; color: red;">' + _('Please assign a role in device settings') + '</span>');
 				}
 			}
 		});
@@ -634,7 +637,7 @@ function load(settings, onChange) {
 	});
 	$('#dialogDeviceAutocreateSourceIdSelectIdButton').on('click', function(){
 		initSelectId(function (sid) {
-			sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'channel'}, function (newId) {
+			sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'state'}, function (newId) {
 				if (newId) {
 					$('#dialogDeviceAutocreateSourceId').val(newId).trigger('change');
 					if (M) M.updateTextFields();

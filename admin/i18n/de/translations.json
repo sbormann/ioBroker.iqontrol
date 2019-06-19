@@ -100,6 +100,7 @@
     "Overall Hover Background-Color:": "Übergreifende Mouse-Over Hintergrundfarbe:",
     "Overall Hover Opacity:": "Übergreifende Mouse-Over Deckkraft:",
     "Overall Opacity:": "Übergreifende Deckkraft:",
+    "Please assign a role in device settings": "Bitte Gerätetyp in den Geräteeinstellungen angeben",
     "Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first.": "Bitte wählen Sie eine Geräte-ID aus dem ioBroker-Objekt-Baum und klicken Sie auf \"Vorschau erstellen\".",
     "Please select a device to edit": "Bitte wählen Sie ein Gerät zum Editieren aus",
     "Please wait...": "Bitte warten...",
