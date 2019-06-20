@@ -230,7 +230,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.36-DEV
+### 0.0.36
 * (Sebastian Bormann) Added compatibility for some android devices to forced touch.
 * (Sebastian Bormann) Changed the way hue and ct is displayed for better compatibility to some devices.
 
