@@ -34,6 +34,10 @@ var viewUpdateFunctions = {};			//Used to save all in the view-page currently vi
 var marqueeObserver;					//Contains MutationObserver for marquee-enabled elements
 var pressureMenu = {};					//Contains Items for Pressure Menu in the form of pressureMenu[deviceId] = {linkedView, externalLink} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
 var pressureMenuClickTimer = false;		//If a click is performed on a pressure-enabled element this contains the timer, after wich the long pressure begins and the click event is prevented/stoped from propagation
+var pressureMenuForceOldValue = 0;		//Contains last value of Force - to be compared with actual value
+var pressureMenuOpened = false;			//If the pressureMenu has been opened this ist set to true
+var pressureMenuFallbackTimer = false;	//Used as Fallback for some devices - contains a setInterval-Id if fallback is running
+var pressureMenuFallbackForce = 0;		//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
 var dialogStateIdsToFetch = [];			//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
 var dialogLinkedStateIdsToUpdate = [];	//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 		//Same as viewUpdateFunctions, but for dialog-page
@@ -1375,7 +1379,7 @@ function renderView(id, updateOnly){
 							case "iQontrolLight":
 							if (viewLinkedStateIds["HUE"] || viewLinkedStateIds["CT"]){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/color.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'><span class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceId + "' style='display:none;'>&nbsp;&#9608;&#9608;</span><span class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceId + "' style='display:none;'>&nbsp;&#9608;&#9608;</span></div>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceId + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceId + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								if (viewLinkedStateIds["HUE"]){
 									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
@@ -1388,14 +1392,14 @@ function renderView(id, updateOnly){
 												if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) min = usedObjects[_linkedHueId].common.min;
 												if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) max = usedObjects[_linkedHueId].common.max;
 												var	saturation = 100;
-												if (states[_linkedSaturationId]) {
+												if (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val != udef) {
 													var saturationMin = 0;
 													var saturationMax = 100;
 													if(typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.min !== udef) saturationMin = usedObjects[_linkedSaturationId].common.min;
 													if(typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.max !== udef) saturationMax = usedObjects[_linkedSaturationId].common.max;
 													saturation = ((states[_linkedSaturationId].val - saturationMin) / (saturationMax - saturationMin)) * 100;
 												}
-												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextHue").show().css("color", "hsl(" + ((states[_linkedHueId].val - min) / (max - min)) * 359 + ", 100%," + (100-(saturation/2)) + "%)");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + ((states[_linkedHueId].val - min) / (max - min)) * 359 + ", 100%," + (100-(saturation/2)) + "%)");
 											}									
 										};
 										viewUpdateFunctions[_linkedHueId].push(updateFunction);
@@ -1413,7 +1417,7 @@ function renderView(id, updateOnly){
 												if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.min !== udef) min = usedObjects[_linkedCtId].common.min;
 												if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.max !== udef) max = usedObjects[_linkedCtId].common.max;
 												var rgb = colorTemperatureToRGB(states[_linkedCtId].val, min, max);
-												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextCt").show().css("color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
 											}
 										});
 									})();
@@ -1864,8 +1868,8 @@ function renderView(id, updateOnly){
 				}
 				viewLinkedStateIdsToUpdate = [];
 				$('.iQontrolDeviceLinkToToggle').off('click').on('click', function(e){ e.stopPropagation(); });
-				startMarqueeObserver();
-				startPressureMenu();
+				applyMarqueeObserver();
+				applyPressureMenu();
 				$('.iQontrolDeviceLinkToToggle').on('click', function(event){pressureMenuClickTimer = false;});
 				setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 			});
@@ -1873,32 +1877,32 @@ function renderView(id, updateOnly){
 	});
 }
 
-function startMarqueeObserver(){
+function applyMarqueeObserver(){
 	console.log("Starting marquee observer");
 	if(marqueeObserver){
 		marqueeObserver.disconnect();
 	} else {
 		marqueeObserver = new MutationObserver(function(mutationList){
 			if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
-				applyMarqueeOnOverflow($(mutationList[0].target));
+				startMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});		
 	}
 	if (!options.LayoutViewMarqueeDisabled ){
 		$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText').each(function(){
 			marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-			applyMarqueeOnOverflow($(this));
+			startMarqueeOnOverflow($(this));
 		});
 		if(options.LayoutViewMarqueeNamesEnabled){
 			$('.iQontrolDeviceName').each(function(){
 				marqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
-				applyMarqueeOnOverflow($(this));
+				startMarqueeOnOverflow($(this));
 			});				
 		}
 	} 
 }
 
-function applyMarqueeOnOverflow(element){
+function startMarqueeOnOverflow(element){
 	if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
 		console.log("Starting marquee");
 		element.marquee({
@@ -1913,58 +1917,87 @@ function applyMarqueeOnOverflow(element){
 	}
 }
 
-function startPressureMenu(){
-	//pressureMenuClickTimer
+function applyPressureMenu(){
 	$('.iQontrolDeviceLink').pressure({
-		start: function(event){
-			// this is called on force start
+		start: function(event){	// this is called on force start
+			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+			$(this).parents('.iQontrolDevicePressureIndicator').addClass('active'); 
+			pressureMenuForceOldValue = 0;
 			if (pressureMenuClickTimer) clearTimeout(pressureMenuClickTimer);
-			pressureMenuClickTimer = setTimeout(function(){pressureMenuClickTimer = false;}, 300);
-			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			$(this).parents('.iQontrolDevicePressureIndicator').addClass('active');
+			pressureMenuClickTimer = setTimeout(function(){
+				pressureMenuClickTimer = false;
+			}, 300);
 		},
-		end: function(){
-			// this is called on force end
+		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
+			event.preventDefault();
+			event.stopPropagation();
+		},
+		endDeepPress: function(){ // this is called when the "force click" / "deep press" end
+		},
+		end: function(){ // this is called on force end
 			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-				var that = this;
+			pressureMenuForceOldValue = 0;
+			if (pressureMenuFallbackTimer) {
+				clearInterval(pressureMenuFallbackTimer);
+				pressureMenuFallbackTimer = false;
+				pressureMenuFallbackForce = 0;
+			}
+			var that = this;
 			setTimeout(function(){
 				if(pressureMenuClickTimer){
 					var onclick = $(that).data('onclick');
 					if (onclick) new Function(onclick)();
 				} 
 			}, 100);
+			pressureMenuOpened = false;
 		},
-		startDeepPress: function(event){
-			// this is called on "force click" / "deep press", aka once the force is greater than 0.5
-			event.preventDefault();
-			event.stopPropagation();
-		},
-		endDeepPress: function(){
-			// this is called when the "force click" / "deep press" end
-		},
-		change: function(force, event){
-			// this is called every time there is a change in pressure
-			// 'force' is a value ranging from 0 to 1
-			$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
-			if (force==1){
+		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
+			if (force == 1 && pressureMenuForceOldValue == 0) { //Incompatibility with some android devices: force jumps directly from 0 to 1 (instead of using polyfill from pressure.js)
+				//Fallback
+				console.log("PressureMenu Fallback activated");
 				event.preventDefault();
 				event.stopPropagation();
-				$(this).parents('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-				var _deviceId = $(this).data('iqontrol-device-id');
-				if (pressureMenu[_deviceId]){
-					$('#PressureMenuList').empty();
-					for (key in pressureMenu[_deviceId]){
-						var element = pressureMenu[_deviceId][key];
-						$('#PressureMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
-					}; 
-					$('#PressureMenuList').listview('refresh');
-					$("#PressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(this)}); 
+				if (pressureMenuFallbackTimer) {
+					clearInterval(pressureMenuFallbackTimer);
+					pressureMenuFallbackTimer = false;
+					pressureMenuFallbackForce = 0;
+				}
+				var that = this;
+				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					var _that = that;
+					pressureMenuFallbackTimer = setInterval(function(){
+						if (pressureMenuFallbackForce >= 1 && !pressureMenuOpened){
+							$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+							if (pressureMenuFallbackTimer) clearInterval(pressureMenuFallbackTimer);
+							pressureMenuFallbackTimer = false;
+							pressureMenuFallbackForce = 0;
+							openPressureMenu($(_that).data('iqontrol-device-id'), _that);
+							pressureMenuOpened = true;
+						} else {
+							$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * pressureMenuFallbackForce + 'px rgba(175,175,175,0.85)');
+							pressureMenuFallbackForce += 0.05;
+						}
+					}, 50);
+				})();
+			} else {
+				$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
+				if (force >= 1 && !pressureMenuOpened){
+					event.preventDefault();
+					event.stopPropagation();
+					$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+					if (pressureMenuFallbackTimer) {
+						clearInterval(pressureMenuFallbackTimer);
+						pressureMenuFallbackTimer = false;
+						pressureMenuFallbackForce = 0;
+					}
+					openPressureMenu($(this).data('iqontrol-device-id'), this);
+					pressureMenuOpened = true;
 				}
 			}
+			pressureMenuForceOldValue = force;
 		},
-		unsupported: function(){
+		unsupported: function(){ // this is called once there is a touch on the element and the device or browser does not support Force or 3D touch
 			// NOTE: this is only called if the polyfill option is disabled!
-			// this is called once there is a touch on the element and the device or browser does not support Force or 3D touch
 		}
 	},{
 		polyfill: true,
@@ -1973,6 +2006,19 @@ function startPressureMenu(){
 		preventSelect: true,
 		only: null
 	});
+}
+
+function openPressureMenu(deviceId, positionToElement){
+	console.log("OpenPressureMenu");
+	if (pressureMenu[deviceId]){
+		$('#PressureMenuList').empty();
+		for (key in pressureMenu[deviceId]){
+			var element = pressureMenu[deviceId][key];
+			$('#PressureMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
+		}; 
+		$('#PressureMenuList').listview('refresh');
+		$("#PressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(positionToElement)}); 
+	}	
 }
 
 function changeViewBackground(url){

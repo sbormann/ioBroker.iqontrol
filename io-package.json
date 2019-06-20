@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.35",
+        "version": "0.0.36",
         "news": {
+            "0.0.36": {
+                "en": "Added compatibility for some android devices to forced touch, Changed the way hue and ct is displayed for better compatibility to some devices.",
+                "de": "Kompatibilität für einige Android-Geräte zur erzwungenen Berührung hinzugefügt. Die Anzeige von Farbton und ct wurde geändert, um die Kompatibilität mit einigen Geräten zu verbessern.",
+                "ru": "Добавлена ​​совместимость для некоторых устройств Android для принудительного касания, Изменен способ отображения оттенков и ct для лучшей совместимости с некоторыми устройствами.",
+                "pt": "Adicionado compatibilidade para alguns dispositivos Android para toque forçado, mudou a maneira como matiz e ct é exibido para melhor compatibilidade com alguns dispositivos.",
+                "nl": "Compatibiliteit toegevoegd voor sommige Android-apparaten om geforceerd aan te raken, veranderde de manier waarop tint en ct worden weergegeven voor betere compatibiliteit met sommige apparaten.",
+                "fr": "Ajout de la compatibilité de certains appareils Android au contact forcé, modification de la façon dont la teinte et le ct sont affichés pour une meilleure compatibilité avec certains appareils.",
+                "it": "Aggiunta compatibilità per alcuni dispositivi Android al tocco forzato, Modificata la modalità di visualizzazione di hue e ct per una migliore compatibilità con alcuni dispositivi.",
+                "es": "Se agregó compatibilidad para algunos dispositivos Android al toque forzado. Se modificó la forma en que se muestran el tono y el sonido para una mejor compatibilidad con algunos dispositivos.",
+                "pl": "Dodano kompatybilność niektórych urządzeń z systemem Android z wymuszonym dotknięciem, Zmieniono sposób wyświetlania odcienia i ct, aby uzyskać lepszą kompatybilność z niektórymi urządzeniami.",
+                "zh-cn": "添加了一些Android设备与强制触摸的兼容性，更改了hue和ct的显示方式，以便更好地兼容某些设备。"
+            },
             "0.0.35": {
                 "en": "Fixed crash of frontend, if a device has no role and added info to admin to chose a role, Removed filtering of states in select-id-dialog for autocreate, Further improvement of forced touch with force-indicator and hopefully a better compatibility with more devices.",
                 "de": "Absturz des Frontends behoben, wenn ein Gerät keine Rolle hat und dem Administrator Informationen hinzugefügt wurden, um eine Rolle auszuwählen. Das Filtern von Zuständen im Auswahl-ID-Dialog für die automatische Erstellung wurde entfernt. Eine weitere Verbesserung der erzwungenen Berührung mit der Kraftanzeige und hoffentlich eine bessere Kompatibilität mit mehr ",

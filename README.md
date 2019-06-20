@@ -22,6 +22,8 @@
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url)
 
 
+****
+
 ## iqontrol adapter for ioBroker
 
 Fast Web-App for Visualization.
@@ -228,10 +230,14 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.36-DEV
+* (Sebastian Bormann) Added compatibility for some android devices to forced touch.
+* (Sebastian Bormann) Changed the way hue and ct is displayed for better compatibility to some devices.
+
 ### 0.0.35
-* (Sebastian Bormann) Fixed crash of frontend, if a device has no role and added info to admin to chose a role
-* (Sebastian Bormann) Removed filtering of states in select-id-dialog for autocreate
-* (Sebastian Bormann) Further improvments of forced touch with force-indicator and hopefully a better compatibility with more devices
+* (Sebastian Bormann) Fixed crash of frontend, if a device has no role and added info to admin to chose a role.
+* (Sebastian Bormann) Removed filtering of states in select-id-dialog for autocreate.
+* (Sebastian Bormann) Further improvments of forced touch with force-indicator and hopefully a better compatibility with more devices.
 
 ### 0.0.34
 * (Sebastian Bormann) Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future.
