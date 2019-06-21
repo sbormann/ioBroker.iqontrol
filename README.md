@@ -72,13 +72,13 @@ Please feel free to comment and let me know, how to fix these issues!
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
 ## URL-Parameters
-* The frontend is called via 'http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html'
-    * '<port of web adapter>' is usually 8082
-* To open a specified instance you can add 'namespace=iqontrol.<instance-number>' as URL-parameter
-* To open a specified view as homepage you can add 'home=<viewID>' as URL-parameter
+* The frontend is called via ``http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html``
+    * ``<port of web adapter>`` is usually 8082
+* To open a specified instance you can add ``namespace=iqontrol.<instance-number>`` as URL-parameter
+* To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter
 
-** Example: **
-* 'https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room'
+**Example:**
+* ``https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room``
     * Note upper and lower case
 
 ## Description of roles and associated states
