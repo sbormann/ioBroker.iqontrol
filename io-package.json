@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.36",
+        "version": "0.0.37",
         "news": {
+            "0.0.37": {
+                "en": "Some more little changes to forced touch, Added option to open a view via url by adding 'home=<viewId>' to url-parameters",
+                "de": "Weitere kleine Änderungen bei der erzwungenen Berührung. Option zum Öffnen einer Ansicht über die URL durch Hinzufügen von 'home = <viewId>' zu den URL-Parametern hinzugefügt",
+                "ru": "Еще несколько небольших изменений в принудительном касании. Добавлена ​​возможность открывать представление через URL, добавив home = <viewId> к параметрам url.",
+                "pt": "Mais algumas pequenas alterações ao toque forçado, opção adicionada para abrir uma visualização via URL, adicionando 'home = <viewId>' aos parâmetros-url",
+                "nl": "Nog wat kleine wijzigingen aan geforceerde aanrakingen, optie toegevoegd om een ​​weergave te openen via url door 'home = <viewId>' toe te voegen aan URL-parameters",
+                "fr": "Quelques modifications supplémentaires apportées au toucher forcé, option ajoutée pour ouvrir une vue via une URL en ajoutant 'home = <viewId>' à url-parameters",
+                "it": "Alcune più piccole modifiche al tocco forzato, opzione aggiunta per aprire una vista tramite url aggiungendo 'home = <viewId>' ai parametri url",
+                "es": "Algunos cambios más pequeños al toque forzado, opción agregada para abrir una vista vía url agregando 'home = <viewId>' a url-parameters",
+                "pl": "Kilka drobnych zmian w wymuszonym dotknięciu, Dodano opcję otwierania widoku przez URL, dodając „home = <viewId>” do parametrów url",
+                "zh-cn": "对强制触摸的一些更改很少，添加了通过url打开视图的选项，将“home = <viewId>”添加到url-parameters"
+            },
             "0.0.36": {
                 "en": "Added compatibility for some android devices to forced touch, Changed the way hue and ct is displayed for better compatibility to some devices.",
                 "de": "Kompatibilität für einige Android-Geräte zur erzwungenen Berührung hinzugefügt. Die Anzeige von Farbton und ct wurde geändert, um die Kompatibilität mit einigen Geräten zu verbessern.",

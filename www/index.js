@@ -3,9 +3,9 @@
 
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
+var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
 var connectionLink = location.origin;
 var useCache = true;
-
 
 //Delcarations
 var config = {};						//Contains the system config (like system language)
@@ -13,7 +13,6 @@ var systemLang = "en";					//Used for translate.js -> _(string) translates strin
 var options = {};						//Contains the options (extracted form <namespace + '.Options'>'.native')
 var toolbar = {};						//Contains the toolbar (extracted form <namespace + '.Toolbar'>) in the form of {ID}
 var toolbarSorted = [];					//Contains the IDs of the toolbar in sorted order
-var homeId;								//Contains the ID of the view linked to the first toolbar-item
 var actualViewId;						//Contains the ID of the actual View
 var actualDialogId;						//Contains the ID of the actual Dialog
 var views = {}; 						//Contains all views (extracted from <namespace + '.Views'>) in the form of {ID:[ChildIDs]}
@@ -1002,6 +1001,7 @@ function handleOptions(){
 
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
+	if (toolbar.length < 1) return; 
 	toolbarSorted = [];
 	for (var i = 0; i < toolbar.length; i++){
 		var id = toolbar[i];
@@ -1012,7 +1012,7 @@ function renderToolbar(){
 		toolbarSorted.push([sortPrefix + usedObjects[id].common.name + sortPostfix, id]);
 	}
 	toolbarSorted.sort();
-	homeId = usedObjects[toolbarSorted[0][1]].native.linkedView;
+	if (homeId == '') homeId = usedObjects[toolbarSorted[0][1]].native.linkedView;
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];
 	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
@@ -1091,7 +1091,7 @@ function renderView(id, updateOnly){
 				viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceId + "'>";
 					//--PressureMenu (some settings are made in the "--Link" and also in other sections)
 					pressureMenu[deviceId] = {};
-					pressureMenu[deviceId].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick:'$("#PressureMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceId + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 200);'};
+					pressureMenu[deviceId].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick:'$("#PressureMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceId + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
 					if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
 						var linkedView = usedObjects[deviceId].native.linkedView;
 						var linkedViewName = linkedView.substring(linkedView.lastIndexOf('.') + 1);
@@ -1920,6 +1920,7 @@ function startMarqueeOnOverflow(element){
 function applyPressureMenu(){
 	$('.iQontrolDeviceLink').pressure({
 		start: function(event){	// this is called on force start
+			console.log("Pressure start");
 			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 			$(this).parents('.iQontrolDevicePressureIndicator').addClass('active'); 
 			pressureMenuForceOldValue = 0;
@@ -1935,6 +1936,7 @@ function applyPressureMenu(){
 		endDeepPress: function(){ // this is called when the "force click" / "deep press" end
 		},
 		end: function(){ // this is called on force end
+			console.log("Pressure end");
 			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 			pressureMenuForceOldValue = 0;
 			if (pressureMenuFallbackTimer) {
@@ -1942,16 +1944,29 @@ function applyPressureMenu(){
 				pressureMenuFallbackTimer = false;
 				pressureMenuFallbackForce = 0;
 			}
-			var that = this;
-			setTimeout(function(){
-				if(pressureMenuClickTimer){
-					var onclick = $(that).data('onclick');
-					if (onclick) new Function(onclick)();
-				} 
-			}, 100);
 			pressureMenuOpened = false;
+			var that = this;
+			(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+				var _that = that;
+				setTimeout(function(){
+					if(pressureMenuClickTimer && !pressureMenuOpened){ //Click recognized - Execute data-onclick function
+						console.log("Pressure click recognized");
+						$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+						pressureMenuForceOldValue = 0;
+						if (pressureMenuFallbackTimer) {
+							clearInterval(pressureMenuFallbackTimer);
+							pressureMenuFallbackTimer = false;
+							pressureMenuFallbackForce = 0;
+						}
+						pressureMenuOpened = false;
+						var onclick = $(that).data('onclick');
+						if (onclick) new Function(onclick)();
+					} 
+				}, 100);
+			})();
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
+			console.log("Pressure change: " + force + "|" + pressureMenuForceOldValue);
 			if (force == 1 && pressureMenuForceOldValue == 0) { //Incompatibility with some android devices: force jumps directly from 0 to 1 (instead of using polyfill from pressure.js)
 				//Fallback
 				console.log("PressureMenu Fallback activated");
@@ -1966,7 +1981,9 @@ function applyPressureMenu(){
 				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
 					pressureMenuFallbackTimer = setInterval(function(){
+						console.log("Pressure Fallback: " + pressureMenuFallbackForce);
 						if (pressureMenuFallbackForce >= 1 && !pressureMenuOpened){
+							console.log("Pressure Fallback reached 1");
 							$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 							if (pressureMenuFallbackTimer) clearInterval(pressureMenuFallbackTimer);
 							pressureMenuFallbackTimer = false;
@@ -1982,6 +1999,7 @@ function applyPressureMenu(){
 			} else {
 				$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
 				if (force >= 1 && !pressureMenuOpened){
+					console.log("Pressure reached 1");
 					event.preventDefault();
 					event.stopPropagation();
 					$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
