@@ -238,7 +238,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.37-development
+### 0.0.37
 * (Sebastian Bormann) Some more little changes to forced touch.
 * (Sebastian Bormann) Added option to open a view via url by adding 'home=<viewId>' to url-parameters.
 
