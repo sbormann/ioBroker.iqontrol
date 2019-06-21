@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.37",
+        "version": "0.0.38",
         "news": {
+            "0.0.38": {
+                "en": "Again changes to forced touch for gained compatibility",
+                "de": "Erneut Änderungen an erzwungener Berührung, um Kompatibilität zu erreichen",
+                "ru": "Снова изменения принудительного прикосновения для получения совместимости",
+                "pt": "Mais uma vez muda para toque forçado para compatibilidade ganhada",
+                "nl": "Wederom verandert dit in geforceerde aanrakingen voor verbeterde compatibiliteit",
+                "fr": "Encore une fois des changements au contact forcé pour une compatibilité améliorée",
+                "it": "Di nuovo cambia in tocco forzato per ottenere compatibilità",
+                "es": "Nuevamente cambia al toque forzado para ganar compatibilidad",
+                "pl": "Ponownie zmiany wymuszonego dotyku dla uzyskania kompatybilności",
+                "zh-cn": "再次改为强制触摸以获得兼容性"
+            },
             "0.0.37": {
                 "en": "Some more little changes to forced touch, Added option to open a view via url by adding 'home=<viewId>' to url-parameters",
                 "de": "Weitere kleine Änderungen bei der erzwungenen Berührung. Option zum Öffnen einer Ansicht über die URL durch Hinzufügen von 'home = <viewId>' zu den URL-Parametern hinzugefügt",

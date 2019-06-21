@@ -6,6 +6,10 @@ body {
 }
 
 .loader {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	border: 16px solid #484848; /* Light grey */
 	border-top: 16px solid #059; /* Blue */
 	border-radius: 50%;
@@ -93,6 +97,8 @@ body {
 
 .iQontrolDevicePressureIndicator{
 	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 	display: inline-block;
 	top: 0; left: 0;
@@ -111,6 +117,10 @@ body {
 }
 
 .iQontrolDevice{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	display: block;
 	top: 0; left:0;
 	width: 104px; max-width: 104px;
@@ -144,15 +154,23 @@ body {
 
 .iQontrolDeviceLink{
 	-webkit-user-select: none !important;
-	-webkit-touch-callout: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: default !important;
 }
 
 .iQontrolDeviceLinkToToggle {
 	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 }
 
 .iQontrolDeviceBackgroundImage {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	background-color: rgba(255, 255, 255, 0.6);
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	display: block;
@@ -178,6 +196,10 @@ body {
 }
 
 .iQontrolDeviceBackground {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	background-color: rgb(180, 180, 180);
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	display: block;
@@ -214,6 +236,7 @@ body {
 }
 
 .iQontrolDeviceIcon {
+	pointer-events:none !important;
 	position:absolute; left: 5px; top: 5px; width: 38px; height: 38px;
 	margin: 3px;
 	overflow: hidden;
@@ -224,16 +247,15 @@ body {
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
 	opacity: 0;
-	pointer-events:none;
 }
 
 .iQontrolDeviceIcon.active {
+	pointer-events:auto !important;
 	opacity: 1;
-	pointer-events:auto;
 }
 
 .iQontrolDeviceIcon.overlay {
-	pointer-events:none! important;
+	pointer-events:none !important;
 }
 
 .iQontrolDeviceIcon:hover {
@@ -243,7 +265,7 @@ body {
 }
 
 .iQontrolDeviceLoading {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 15px; top: 15px; width: 24px; height: 24px;
 	overflow: hidden;
 	z-index: 1000;
@@ -258,7 +280,7 @@ body {
 }
 
 .iQontrolDeviceError {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 52px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
@@ -269,7 +291,7 @@ body {
 }
 
 .iQontrolDeviceUnreach {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 71px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
@@ -280,7 +302,7 @@ body {
 }
 
 .iQontrolDeviceBattery {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 90px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
@@ -291,13 +313,13 @@ body {
 }
 
 .iQontrolDeviceInfoAIcon {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 52px; top: 20px; width: 12px; height: 12px;
 	overflow: hidden;
 }
 
 .iQontrolDeviceInfoAText {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 66px; top: 18px; width: 42px; height: 16px;
 	overflow: hidden;
 	background: transparent;
@@ -312,13 +334,13 @@ body {
 }
 
 .iQontrolDeviceInfoBIcon {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 52px; top: 39px; width: 12px; height: 12px;
 	overflow: hidden;
 }
 
 .iQontrolDeviceInfoBText {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 66px; top: 37px; width: 42px; height: 16px;
 	overflow: hidden;
 	background: transparent;
@@ -333,7 +355,7 @@ body {
 }
 
 .iQontrolDeviceName  {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 5px; top: 58px; width: 103px; height: 30px;
 	overflow: hidden;
 	background: transparent;
@@ -347,7 +369,7 @@ body {
 }
 
 .iQontrolDeviceState  {
-	pointer-events:none;
+	pointer-events:none !important;
 	position:absolute; left: 5px; top: 90px; width: 103px; height: 17px;
 	overflow: hidden;
 	background: transparent;
@@ -427,7 +449,7 @@ body {
 }
 
 .fullWidthSlider .ui-slider-track{
-	margin-left: 15px;
+	margin-left: 15px !important;
 }
 
 .ui-slider-track .ui-btn.ui-slider-handle {
@@ -448,7 +470,7 @@ body {
 
 .ui-listview a {  
 /* Link-Listview nicht fett und ohne Umbruch */
-	font-weight: normal;
+	font-weight: normal !important;
 	white-space: normal !important;
 }
 
@@ -462,7 +484,6 @@ body {
 }
 
 .ui-state-disabled.ui-btn.ui-btn-icon-right::after{
-	background-color: red !important;
 	display: none !important;
 }
 
@@ -559,7 +580,6 @@ body {
 	}
 
 	.iQontrolDeviceInfoAIcon {
-		pointer-events:none;
 		position:absolute; left: 72px; top: 30px; width: 18px; height: 18px;
 	}
 

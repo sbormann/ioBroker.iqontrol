@@ -135,9 +135,7 @@ Optional you can define the following states:
     * **HUE_MILIGHT**: *number* - Milight uses another starting-point in the hue color-cirlce: 
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
-		function modulo(n, m){ 
-			return ((n % m) + m) %m;
-		}
+		function modulo(n, m){ return ((n % m) + m) %m; }
         ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
     * **RGB**: *string* - instead of using HUE, SATURATION and COLOR_BRIGHTNESS you can use the RGB-Format (hex)
@@ -237,6 +235,9 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.0.38
+* (Sebastian Bormann) Again changes to forced touch for gained compatibility
 
 ### 0.0.37
 * (Sebastian Bormann) Some more little changes to forced touch.

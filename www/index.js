@@ -32,9 +32,9 @@ var viewLinkedStateIdsToUpdate = [];	//Contains all linkedStateIds after renderi
 var viewUpdateFunctions = {};			//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
 var marqueeObserver;					//Contains MutationObserver for marquee-enabled elements
 var pressureMenu = {};					//Contains Items for Pressure Menu in the form of pressureMenu[deviceId] = {linkedView, externalLink} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
-var pressureMenuClickTimer = false;		//If a click is performed on a pressure-enabled element this contains the timer, after wich the long pressure begins and the click event is prevented/stoped from propagation
-var pressureMenuForceOldValue = 0;		//Contains last value of Force - to be compared with actual value
-var pressureMenuOpened = false;			//If the pressureMenu has been opened this ist set to true
+var pressureMenuIgnorePressure = false;	//Set to true, if the PressureMenu-function is temporarily disabled, for example because a click function has been called
+var pressureMenuIgnoreClick = false;	//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
+var pressureMenuForceOld = [];			//Array of objectQueries that stores the last pressure force of the corresponding objects
 var pressureMenuFallbackTimer = false;	//Used as Fallback for some devices - contains a setInterval-Id if fallback is running
 var pressureMenuFallbackForce = 0;		//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
 var dialogStateIdsToFetch = [];			//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
@@ -1867,10 +1867,8 @@ function renderView(id, updateOnly){
 					updateState(viewLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
 				}
 				viewLinkedStateIdsToUpdate = [];
-				$('.iQontrolDeviceLinkToToggle').off('click').on('click', function(e){ e.stopPropagation(); });
 				applyMarqueeObserver();
 				applyPressureMenu();
-				$('.iQontrolDeviceLinkToToggle').on('click', function(event){pressureMenuClickTimer = false;});
 				setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 			});
 		}
@@ -1918,60 +1916,59 @@ function startMarqueeOnOverflow(element){
 }
 
 function applyPressureMenu(){
+	$('.iQontrolDeviceLink').off('click').on('click', function(event){
+		console.log("CLICK");
+		if (!pressureMenuIgnoreClick){
+			pressureMenuIgnorePressure = true;
+			var onclick = $(this).data('onclick');
+			if (onclick) new Function(onclick)();
+		} else {
+			console.log("CLICK ignored");
+		}
+	});
+	$('.iQontrolDeviceLinkToToggle').off('click').on('click', function(event){
+		console.log("CLICK TOGGLE");
+		event.stopPropagation();
+		pressureMenuIgnorePressure = true;
+	});
 	$('.iQontrolDeviceLink').pressure({
 		start: function(event){	// this is called on force start
-			console.log("Pressure start");
-			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			$(this).parents('.iQontrolDevicePressureIndicator').addClass('active'); 
-			pressureMenuForceOldValue = 0;
-			if (pressureMenuClickTimer) clearTimeout(pressureMenuClickTimer);
-			pressureMenuClickTimer = setTimeout(function(){
-				pressureMenuClickTimer = false;
-			}, 300);
+			console.log("PRESSURE start");
+			$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+			pressureMenuForceOld[this] = 0;
+			pressureMenuIgnorePressure = false;
+			pressureMenuIgnoreClick = false;
 		},
 		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
-			event.preventDefault();
-			event.stopPropagation();
+			//console.log("PRESSURE startDeepPress");
+			//-- do nothing --			
 		},
 		endDeepPress: function(){ // this is called when the "force click" / "deep press" end
+			//console.log("PRESSURE endDeepPress");
+			//-- do nothing --
 		},
 		end: function(){ // this is called on force end
-			console.log("Pressure end");
-			$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			pressureMenuForceOldValue = 0;
+			console.log("PRESSURE end");
+			$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+			// pressureMenuForceOld[this] = 0; //xxx necessary?
 			if (pressureMenuFallbackTimer) {
 				clearInterval(pressureMenuFallbackTimer);
 				pressureMenuFallbackTimer = false;
 				pressureMenuFallbackForce = 0;
 			}
-			pressureMenuOpened = false;
-			var that = this;
-			(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
-				var _that = that;
-				setTimeout(function(){
-					if(pressureMenuClickTimer && !pressureMenuOpened){ //Click recognized - Execute data-onclick function
-						console.log("Pressure click recognized");
-						$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-						pressureMenuForceOldValue = 0;
-						if (pressureMenuFallbackTimer) {
-							clearInterval(pressureMenuFallbackTimer);
-							pressureMenuFallbackTimer = false;
-							pressureMenuFallbackForce = 0;
-						}
-						pressureMenuOpened = false;
-						var onclick = $(that).data('onclick');
-						if (onclick) new Function(onclick)();
-					} 
-				}, 100);
-			})();
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
-			console.log("Pressure change: " + force + "|" + pressureMenuForceOldValue);
-			if (force == 1 && pressureMenuForceOldValue == 0) { //Incompatibility with some android devices: force jumps directly from 0 to 1 (instead of using polyfill from pressure.js)
-				//Fallback
-				console.log("PressureMenu Fallback activated");
-				event.preventDefault();
-				event.stopPropagation();
+			var forceOld = pressureMenuForceOld[this] || 0;
+			console.log("	PRESSURE change " + force + "|" + forceOld);
+			if (pressureMenuIgnorePressure || pressureMenuFallbackTimer) {
+				console.log("	PRESSURE change ignore");
+				return;
+			}
+			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
+				//console.log("PRESSURE change start");
+				//-- do nothing --
+			} else if (force >= 1 && forceOld == 0){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
+				console.log("PRESSURE change start FALLBACK");
 				if (pressureMenuFallbackTimer) {
 					clearInterval(pressureMenuFallbackTimer);
 					pressureMenuFallbackTimer = false;
@@ -1980,42 +1977,28 @@ function applyPressureMenu(){
 				var that = this;
 				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
+					var _event = event;
 					pressureMenuFallbackTimer = setInterval(function(){
-						console.log("Pressure Fallback: " + pressureMenuFallbackForce);
-						if (pressureMenuFallbackForce >= 1 && !pressureMenuOpened){
-							console.log("Pressure Fallback reached 1");
-							$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-							if (pressureMenuFallbackTimer) clearInterval(pressureMenuFallbackTimer);
-							pressureMenuFallbackTimer = false;
-							pressureMenuFallbackForce = 0;
-							openPressureMenu($(_that).data('iqontrol-device-id'), _that);
-							pressureMenuOpened = true;
+						console.log("PRESSURE Fallback: " + pressureMenuFallbackForce);
+						if (pressureMenuIgnorePressure) {
+							console.log("	PRESSURE Fallback change ignore");
 						} else {
-							$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * pressureMenuFallbackForce + 'px rgba(175,175,175,0.85)');
-							pressureMenuFallbackForce += 0.05;
+							if (pressureMenuFallbackForce >= 1){
+								pressureMenuFallbackForce = 1;
+							} else {
+								pressureMenuFallbackForce += 0.1;
+							}
+							pressureMenuChange(pressureMenuFallbackForce, _event, _that);	
 						}
+						pressureMenuForceOld[_that] = pressureMenuFallbackForce;
 					}, 50);
 				})();
-			} else {
-				$('.iQontrolDevicePressureIndicator.active').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
-				if (force >= 1 && !pressureMenuOpened){
-					console.log("Pressure reached 1");
-					event.preventDefault();
-					event.stopPropagation();
-					$('.iQontrolDevicePressureIndicator').removeClass('active').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-					if (pressureMenuFallbackTimer) {
-						clearInterval(pressureMenuFallbackTimer);
-						pressureMenuFallbackTimer = false;
-						pressureMenuFallbackForce = 0;
-					}
-					openPressureMenu($(this).data('iqontrol-device-id'), this);
-					pressureMenuOpened = true;
-				}
+			} else { //Pressure change
+				pressureMenuChange(force, event, this);				
 			}
-			pressureMenuForceOldValue = force;
+			pressureMenuForceOld[this] = force;
 		},
-		unsupported: function(){ // this is called once there is a touch on the element and the device or browser does not support Force or 3D touch
-			// NOTE: this is only called if the polyfill option is disabled!
+		unsupported: function(){ // this is called once there is a touch on the element and the device or browser does not support Force or 3D touch - NOTE: this is only called if the polyfill option is disabled!
 		}
 	},{
 		polyfill: true,
@@ -2024,6 +2007,23 @@ function applyPressureMenu(){
 		preventSelect: true,
 		only: null
 	});
+}
+
+function pressureMenuChange(force, event, that){
+	if (force > 0.5 && !pressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
+		console.log("PRESSURE changeFunction startDeepPress");
+		pressureMenuIgnoreClick = true;
+	} 
+	if (force >= 1 && pressureMenuForceOld[that] < 1){ //Pressure changeFunction Maximum reached
+		console.log("PRESSURE changeFunction Maximum reached");
+		pressureMenuIgnorePressure = true;
+		event.preventDefault();
+		event.stopPropagation();
+		openPressureMenu($(that).data('iqontrol-device-id'), that);
+		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	} else {
+		$(that).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');	
+	}
 }
 
 function openPressureMenu(deviceId, positionToElement){
@@ -3278,7 +3278,7 @@ if (typeof document.addEventListener === "undefined" || typeof document[hidden] 
 }
 function handleVisibilityChange() {
 	if (!document[hidden]) { //Page gets visible
-		var connected = servConn.getIsConnected() || false;
+		var connected = servConn.getIsConnected() || false; 
 		if (connected) {
 			console.log("Page visible-event - socket is connected");
 		} else {
@@ -3289,10 +3289,9 @@ function handleVisibilityChange() {
 }
 
 //Refresh Background on resize and orientationchange
-$(window).on("orientationchange resize", function(){
+$(window).on('orientationchange resize', function(){
 	setTimeout(function(){
 		console.log("orientationchange / resize");
 		$.backstretch("resize"); //Refresh background
-		//$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, iQontrolDeviceInfoBText, .iQontrolDeviceName').append(" ");	//Refresh marquee	
 	}, 250);
 });	
