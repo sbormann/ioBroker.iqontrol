@@ -3,9 +3,34 @@
 
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
-var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
 var connectionLink = location.origin;
 var useCache = true;
+var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
+var iQontrolRoles = {
+	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
+	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
+	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
+	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
+	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
+	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
+	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
+	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
+	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
+	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
+	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
+	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
+	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
+	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
+	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
+	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
+	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
+	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
+}
 
 //Delcarations
 var config = {};						//Contains the system config (like system language)
@@ -42,31 +67,6 @@ var dialogLinkedStateIdsToUpdate = [];	//Contains all linkedStateIds after rende
 var dialogUpdateFunctions = {}; 		//Same as viewUpdateFunctions, but for dialog-page
 var preventUpdate = {};					//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 var reconnectedShortly = false;			//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
-var iQontrolRoles = {
-	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
-	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
-	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
-	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
-	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
-	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
-	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
-	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
-	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
-	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
-	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
-	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
-	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
-	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
-	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
-	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
-	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
-	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
-	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
-}
 const udef = 'undefined';
 
 //++++++++++ POLYFILL ++++++++++
@@ -182,13 +182,6 @@ function getStarted(){
 		});
 	});
 } 
-
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
 
 function fetchConfig(callback){
 	servConn.getConfig(true, function(err, _config){
@@ -338,7 +331,7 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
 		}
 		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
-		(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _stateId = stateId;
 			var _deviceId = deviceId;
 			var _preventUpdateTime = preventUpdateTime;
@@ -359,7 +352,7 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 				}, 200);
 				if(callback) callback(error);
 			});
-		})();
+		})(); //<--End Closure
 	} else {
 		console.log("<<<<<< setState aborted (old Value = new Value = " + newValue.toString() + ")");
 	}
@@ -742,6 +735,13 @@ function colorTemperatureToRGB(value,  min,  max){
 	return rgb;
 }
 
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
 //++++++++++ OPTIONS ++++++++++
 function handleOptions(){
 	if(typeof usedObjects[namespace + ".Options"] != udef && typeof usedObjects[namespace + ".Options"].native != udef){
@@ -1113,7 +1113,7 @@ function renderView(id, updateOnly){
 						if (viewLinkedStateIds["URL"]){
 							deviceContent += "<a class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' target='_blank'>";
 							pressureMenu[deviceId].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#PressureMenu").popup("close");'};
-							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
 								var _linkedUrlId = viewLinkedStateIds["URL"];
 								viewUpdateFunctions[_linkedUrlId].push(function(){
@@ -1122,7 +1122,7 @@ function renderView(id, updateOnly){
 									$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLink").attr('href', href);
 									pressureMenu[_deviceId].externalLink.href = href;
 								});
-							})();
+							})(); //<--End Closure
 						}
 						break;
 						
@@ -1299,7 +1299,7 @@ function renderView(id, updateOnly){
 						//--IconError
 						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceId + "' src='./images/error.png'>";
 						if (viewLinkedStateIds["ERROR"]){
-							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
 								var _linkedErrorId = viewLinkedStateIds["ERROR"];
 								viewUpdateFunctions[_linkedErrorId].push(function(){
@@ -1310,12 +1310,12 @@ function renderView(id, updateOnly){
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceError").removeClass("active");
 									}
 								});
-							})();
+							})(); //<--End Closure
 						}
 						//--IconUnreach
 						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceId + "' src='./images/unreach.png'>";
 						if (viewLinkedStateIds["UNREACH"]){
-							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
 								var _linkedUnreachId = viewLinkedStateIds["UNREACH"];
 								viewUpdateFunctions[_linkedUnreachId].push(function(){
@@ -1326,12 +1326,12 @@ function renderView(id, updateOnly){
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceUnreach").removeClass("active");
 									}
 								});
-							})();
+							})(); //<--End Closure
 						}
 						//--IconBattery
 						deviceContent += "<image class='iQontrolDeviceBattery' data-iQontrol-Device-ID='" + deviceId + "' src='./images/battery.png'>";
 						if (viewLinkedStateIds["BATTERY"]){
-							(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
 								var _linkedBatteryId = viewLinkedStateIds["BATTERY"];
 								viewUpdateFunctions[_linkedBatteryId].push(function(){
@@ -1342,7 +1342,7 @@ function renderView(id, updateOnly){
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceBattery").removeClass("active");
 									}
 								});
-							})();
+							})(); //<--End Closure
 						}
 						//--Info A
 						switch(usedObjects[deviceId].common.role){
@@ -1350,14 +1350,14 @@ function renderView(id, updateOnly){
 							if (viewLinkedStateIds["TEMPERATURE"]){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/temperature.png'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
-								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
 									var _linkedTemperatureId = viewLinkedStateIds["TEMPERATURE"];
 									viewUpdateFunctions[_linkedTemperatureId].push(function(){
 										var unit = getUnit(_linkedTemperatureId);
 										if (states[_linkedTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedTemperatureId].val + unit);
 									});
-								})();
+								})(); //<--End Closure
 							}
 							break;
 
@@ -1365,14 +1365,14 @@ function renderView(id, updateOnly){
 							if (viewLinkedStateIds["BRIGHTNESS"]){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/brightness.png'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
-								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
 									var _linkedBrightnessId = viewLinkedStateIds["BRIGHTNESS"];
 									viewUpdateFunctions[_linkedBrightnessId].push(function(){
 										var unit = getUnit(_linkedBrightnessId);
 										if (states[_linkedBrightnessId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedBrightnessId].val + unit);
 									});
-								})();
+								})(); //<--End Closure
 							}
 							break;
 
@@ -1381,7 +1381,7 @@ function renderView(id, updateOnly){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/color.png'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceId + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceId + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								if (viewLinkedStateIds["HUE"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedHueId = viewLinkedStateIds["HUE"];
 										var _linkedSaturationId = viewLinkedStateIds["SATURATION"];
@@ -1404,10 +1404,10 @@ function renderView(id, updateOnly){
 										};
 										viewUpdateFunctions[_linkedHueId].push(updateFunction);
 										if (_linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								if (viewLinkedStateIds["CT"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedCtId = viewLinkedStateIds["CT"];
 										viewUpdateFunctions[_linkedCtId].push(function(){
@@ -1420,7 +1420,7 @@ function renderView(id, updateOnly){
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
 											}
 										});
-									})();
+									})(); //<--End Closure
 								}
 							}
 							break;
@@ -1434,7 +1434,7 @@ function renderView(id, updateOnly){
 							if (viewLinkedStateIds["HUMIDITY"]) {
 								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/humidity.png' style='display:none;'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
-								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
 									var _linkedHumidityId = viewLinkedStateIds["HUMIDITY"];
 									viewUpdateFunctions[_linkedHumidityId].push(function(){
@@ -1446,7 +1446,7 @@ function renderView(id, updateOnly){
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 										}
 									});
-								})();
+								})(); //<--End Closure
 							}
 							break;
 
@@ -1454,7 +1454,7 @@ function renderView(id, updateOnly){
 							if (viewLinkedStateIds["POWER"]) {
 								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/power.png' style='display:none;'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
-								(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
 									var _linkedPowerId = viewLinkedStateIds["POWER"];
 									viewUpdateFunctions[_linkedPowerId].push(function(){
@@ -1466,7 +1466,7 @@ function renderView(id, updateOnly){
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 										}
 									});
-								})();
+								})(); //<--End Closure
 							}
 							break;
 
@@ -1489,20 +1489,20 @@ function renderView(id, updateOnly){
 
 								case "iQontrolProgram":
 								if (viewLinkedStateIds["STATE"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolScene":
 								if (viewLinkedStateIds["STATE"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var updateFunction = function(){
@@ -1519,13 +1519,13 @@ function renderView(id, updateOnly){
 											}
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 															
 								case "iQontrolThermostat": case "iQontrolHomematicThermostat":
 								if (viewLinkedStateIds["SET_TEMPERATURE"]){ 
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedSetTemperatureId = viewLinkedStateIds["SET_TEMPERATURE"];
 										var _linkedControlModeId = viewLinkedStateIds["CONTROL_MODE"];
@@ -1551,13 +1551,13 @@ function renderView(id, updateOnly){
 										viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
 										viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
 										viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolDoor": case "iQontrolWindow":
 								if (viewLinkedStateIds["STATE"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var updateFunction = function(){
@@ -1591,13 +1591,13 @@ function renderView(id, updateOnly){
 											}
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolDoorWithLock":
 								if (viewLinkedStateIds["STATE"] || viewLinkedStateIds["LOCK_STATE"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var _linkedLockStateId = viewLinkedStateIds["LOCK_STATE"];
@@ -1637,13 +1637,13 @@ function renderView(id, updateOnly){
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLockStateId) viewUpdateFunctions[_linkedLockStateId].push(updateFunction);
 										if(_linkedLockStateUncertainId) viewUpdateFunctions[_linkedLockStateUncertainId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolBlind": 
 								if (viewLinkedStateIds["LEVEL"] || viewLinkedStateIds["DIRECTION"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedLevelId = viewLinkedStateIds["LEVEL"];
 										var _linkedDirectionId = viewLinkedStateIds["DIRECTION"];
@@ -1701,13 +1701,13 @@ function renderView(id, updateOnly){
 										};
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 										if(_linkedDirectionId) viewUpdateFunctions[_linkedDirectionId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolBattery": 
 								if (viewLinkedStateIds["STATE"] || viewLinkedStateIds['CHARGING']){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var _linkedChargingId = viewLinkedStateIds["CHARGING"];
@@ -1785,14 +1785,14 @@ function renderView(id, updateOnly){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 								break;
 								
 								default:
 								var stateId = deviceId + ".STATE";
 								if (viewLinkedStateIds["STATE"] || viewLinkedStateIds["LEVEL"]){
-									(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = viewLinkedStateIds["STATE"];
 										var _linkedLevelId = viewLinkedStateIds["LEVEL"];
@@ -1833,7 +1833,7 @@ function renderView(id, updateOnly){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
-									})();
+									})(); //<--End Closure
 								}
 							}
 						deviceContent += "</div>";
@@ -1975,7 +1975,7 @@ function applyPressureMenu(){
 					pressureMenuFallbackForce = 0;
 				}
 				var that = this;
-				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
 					var _event = event;
 					pressureMenuFallbackTimer = setInterval(function(){
@@ -1992,7 +1992,7 @@ function applyPressureMenu(){
 						}
 						pressureMenuForceOld[_that] = pressureMenuFallbackForce;
 					}, 50);
-				})();
+				})(); //<--End Closure
 			} else { //Pressure change
 				pressureMenuChange(force, event, this);				
 			}
@@ -2096,7 +2096,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Goal-Temperature") + ":</label>";
 				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='0.5'/>";
 				if (dialogLinkedStateIds["SET_TEMPERATURE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
 						var DialogStateSliderReadoutTimer;
@@ -2122,7 +2122,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2132,7 +2132,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<label for='DialogStateValue'><image src='./images/door.png' / style='width:16px; height:16px;'>&nbsp;" + _("Door") + ":</label>";
 				dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
 				if (dialogLinkedStateIds["STATE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
@@ -2148,7 +2148,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2160,7 +2160,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 				if (dialogLinkedStateIds["STATE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var bindingFunction = function(){
@@ -2169,7 +2169,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2179,7 +2179,7 @@ function renderDialog(deviceId, dialogExtended){
 			if(dialogLinkedStateIds["STATE"]){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("push") + "</a>";
-				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedStateId = dialogLinkedStateIds["STATE"];
 					var _linkedSetValueId = dialogLinkedStateIds["SET_VALUE"] || "";
@@ -2189,7 +2189,7 @@ function renderDialog(deviceId, dialogExtended){
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
-				})();
+				})(); //<--End Closure
 			}
 			break;
 
@@ -2206,7 +2206,7 @@ function renderDialog(deviceId, dialogExtended){
 						dialogContent += "<option value='true'>I</option>";
 					dialogContent += "</select>";
 					if (dialogLinkedStateIds["STATE"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var updateFunction = function(){
@@ -2230,7 +2230,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 					break;
 
@@ -2245,7 +2245,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["STATE"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var DialogStateSliderReadoutTimer;
@@ -2274,7 +2274,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 					break;
 
@@ -2288,7 +2288,7 @@ function renderDialog(deviceId, dialogExtended){
 						}
 					dialogContent += "</select>";
 					if (dialogLinkedStateIds["STATE"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var updateFunction = function(){
@@ -2306,7 +2306,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 					break;
 
@@ -2317,7 +2317,7 @@ function renderDialog(deviceId, dialogExtended){
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
 					}
  					if (dialogLinkedStateIds["STATE"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var updateFunction = function(){
@@ -2335,7 +2335,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 					break;
 				}
@@ -2353,7 +2353,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + dialogStates["LEVEL"].readonly.toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["LEVEL"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 							var DialogLevelSliderReadoutTimer;
@@ -2382,7 +2382,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -2409,7 +2409,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/stop.png' / style='width:16px; height:16px;'>&nbsp;" + _("Stop") + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("Stop") + "</a>";
 				if (dialogLinkedStateIds["STOP"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStopId = dialogLinkedStateIds["STOP"];
 						var bindingFunction = function(){
@@ -2418,7 +2418,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2431,7 +2431,7 @@ function renderDialog(deviceId, dialogExtended){
 			if(dialogStates["LOCK_OPEN"]){
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 				if (dialogLinkedStateIds["LOCK_OPEN"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLockOpenId = dialogLinkedStateIds["LOCK_OPEN"];
 						var bindingFunction = function(){
@@ -2440,7 +2440,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			if(dialogStates["LOCK_STATE"]){
@@ -2452,7 +2452,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "</fieldset>";
 				dialogContent += "<div class='DialogLockStateUncertainText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 				if (dialogLinkedStateIds["STATE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"]; 
 						var updateFunction = function(){
@@ -2466,10 +2466,10 @@ function renderDialog(deviceId, dialogExtended){
 							}
 						};
 						dialogUpdateFunctions[_linkedStateId].push(updateFunction);
-					})();
+					})(); //<--End Closure
 				}
 				if (dialogLinkedStateIds["LOCK_STATE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLockStateId = dialogLinkedStateIds["LOCK_STATE"];
 						var updateFunction = function(){
@@ -2490,10 +2490,10 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 				if (dialogLinkedStateIds["LOCK_STATE_UNCERTAIN"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLockStateUncertainId = dialogLinkedStateIds["LOCK_STATE_UNCERTAIN"];
 						var updateFunction = function(){
@@ -2506,7 +2506,7 @@ function renderDialog(deviceId, dialogExtended){
 							}
 						};
 						dialogUpdateFunctions[_linkedLockStateUncertainId].push(updateFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2521,7 +2521,7 @@ function renderDialog(deviceId, dialogExtended){
 					}
 				dialogContent += "</select>";
 				if (dialogLinkedStateIds["CONTROL_MODE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 						var updateFunction = function(){
@@ -2537,7 +2537,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 			break;
@@ -2560,10 +2560,10 @@ function renderDialog(deviceId, dialogExtended){
 						dialogStateIdsToFetch.push(additionalLinkedStates[i]);
 					}
 					if (typeof usedObjects[additionalLinkedStates[i]] == udef) {
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _additionalLinkedState = additionalLinkedStates[i];
 							fetchObject(_additionalLinkedState, function(error){ updateState(_additionalLinkedState, "ignorePreventUpdateForDialog"); });
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -2581,7 +2581,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "</fieldset>";
 				dialogContent += "<div class='DialogThermostatControlModeText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 				if (dialogLinkedStateIds["CONTROL_MODE"]){
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 						var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
@@ -2619,7 +2619,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 				dialogContent += "<br>";
 
@@ -2708,7 +2708,7 @@ function renderDialog(deviceId, dialogExtended){
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 
-					(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["PARTY_TEMPERATURE"];
 						var _linkedParentId = _linkedStateId.substring(0, _linkedStateId.lastIndexOf("."));
@@ -2828,7 +2828,7 @@ function renderDialog(deviceId, dialogExtended){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
-					})();
+					})(); //<--End Closure
 				}
 			}
 
@@ -2848,10 +2848,10 @@ function renderDialog(deviceId, dialogExtended){
 						dialogStateIdsToFetch.push(element.value);
 					}
 					if (typeof usedObjects[element.value] == udef) {
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _elementValue = element.value;
 							fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
-						})();
+						})(); //<--End Closure
 					}
 					dialogLinkedStateIdsToUpdate.push(element.value);
 				});
@@ -2861,7 +2861,7 @@ function renderDialog(deviceId, dialogExtended){
 						dialogContent += "<div id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 					dialogContent += "</div>";
 				dialogContent += "</div>";
-				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _linkedStateIds = linkedValveStateIds;
 					var updateFunction = function(){
 						$("#DialogThermostatValveStatesContentList").html("");
@@ -2874,7 +2874,7 @@ function renderDialog(deviceId, dialogExtended){
 						if(!dialogUpdateFunctions[_element.value]) dialogUpdateFunctions[_element.value] = [];
 						dialogUpdateFunctions[_element.value].push(updateFunction);
 					});
-				})();
+				})(); //<--End Closure
 			}
 			break;
 			
@@ -2884,7 +2884,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<div class='iQontrolDialogIframeWrapper'>";
 				dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceId + "' id='DialogPopupIframe' scrolling='no'>" + _("Content not available") + "</iframe>";
 				dialogContent += "</div>";				
-				(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedUrlId = dialogLinkedStateIds["URL"];
 					var _linkedHtmlId = dialogLinkedStateIds["HTML"];
@@ -2899,7 +2899,7 @@ function renderDialog(deviceId, dialogExtended){
 					}	
 					if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
 					if (_linkedHtmlId) dialogUpdateFunctions[_linkedHtmlId].push(updateFunction);
-				})();
+				})(); //<--End Closure
 			}
 			break;
 
@@ -2915,7 +2915,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogHueSlider' ><image src='./images/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["HUE"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["HUE"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
 							var DialogHueSliderReadoutTimer;
@@ -2950,7 +2950,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -2964,7 +2964,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogLinkedStateIds["SATURATION"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["SATURATION"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedSaturationId = dialogLinkedStateIds["SATURATION"];
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
@@ -3004,7 +3004,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -3018,7 +3018,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogColorBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of color") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["COLOR_BRIGHTNESS"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["COLOR_BRIGHTNESS"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedColorBrightnessId = dialogLinkedStateIds["COLOR_BRIGHTNESS"];
 							var DialogColorBrightnessSliderReadoutTimer;
@@ -3044,7 +3044,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -3059,7 +3059,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogCtSlider' ><image src='./images/colortemperature.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color-Temperature") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["CT"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["CT"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedCtId = dialogLinkedStateIds["CT"];
 							var DialogCtSliderReadoutTimer;
@@ -3085,7 +3085,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					}
 				}
 			}
@@ -3099,7 +3099,7 @@ function renderDialog(deviceId, dialogExtended){
 					dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["WHITE_BRIGHTNESS"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["WHITE_BRIGHTNESS"]){
-						(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
 							var _linkedWhiteBrightnessId = dialogLinkedStateIds["WHITE_BRIGHTNESS"];
 							var DialogWhiteBrightnessSliderReadoutTimer;
@@ -3125,7 +3125,7 @@ function renderDialog(deviceId, dialogExtended){
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
-						})();
+						})(); //<--End Closure
 					} 
 				}
 			}
@@ -3165,12 +3165,12 @@ function renderDialog(deviceId, dialogExtended){
 	dialogLinkedStateIdsToUpdate = [];
 	if(dialogStateIdsToFetch.length > 0) fetchStates(dialogStateIdsToFetch, function(){
 		console.log(dialogStateIdsToFetch.length + " additional states fetched while rendering dialog.");
-		(function(){ //Closure (everything declared inside keeps its value as ist is at the time the function is created)
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _dialogStateIdsToFetch = dialogStateIdsToFetch;
 			for (var i = 0; i < _dialogStateIdsToFetch.length; i++){
 				updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog"); 
 			}			
-		})();
+		})(); //<--End Closure
 	});}
 
 function dialogUpdateTimestamp(state){

@@ -236,8 +236,13 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.39
+* (Sebastian Bormann) Now file-operations in admin should work (file and directory renaming and deleting).
+* (Sebastian Bormann) Added Image-Popup in admin.
+* (Sebastian Bormann) Renamed demo-images.
+
 ### 0.0.38
-* (Sebastian Bormann) Again changes to forced touch for gained compatibility
+* (Sebastian Bormann) Again changes to forced touch for gained compatibility.
 
 ### 0.0.37
 * (Sebastian Bormann) Some more little changes to forced touch.

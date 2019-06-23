@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.38",
+        "version": "0.0.39",
         "news": {
+            "0.0.39": {
+                "en": "Now file-operations in admin should work (file and directory renaming and deleting), Added Image-Popup in admin.",
+                "de": "Jetzt sollten die Dateioperationen in admin funktionieren (Umbenennen und Löschen von Dateien und Verzeichnissen). Image-Popup in admin hinzugefügt.",
+                "ru": "Теперь файловые операции в админке должны работать (переименование и удаление файлов и каталогов), добавлен Image-Popup в админке.",
+                "pt": "Agora as operações de arquivo no admin devem funcionar (renomeação e exclusão de arquivos e diretórios), Adicionado Image-Popup no admin.",
+                "nl": "Nu moeten bestandsbewerkingen in admin werken (bestands- en map hernoemen en verwijderen), Image-Popup toegevoegd in admin.",
+                "fr": "Maintenant, les opérations de fichier dans admin devraient fonctionner (renommer et supprimer des fichiers et des répertoires), a ajouté Image-Popup dans admin.",
+                "it": "Ora le operazioni sui file in admin dovrebbero funzionare (file e directory rinominare e cancellare), Aggiunto Image-Popup in admin.",
+                "es": "Ahora las operaciones de archivo en admin deberían funcionar (cambio de nombre y eliminación de archivos y directorios), se agregó Image-Popup en admin.",
+                "pl": "Teraz operacje na plikach w admin powinny działać (zmiana nazwy pliku i katalogu oraz usuwanie), Dodano Image-Popup w admin.",
+                "zh-cn": "现在admin中的文件操作应该工作（文件和目录重命名和删除），在admin中添加了Image-Popup。"
+            },
             "0.0.38": {
                 "en": "Again changes to forced touch for gained compatibility",
                 "de": "Erneut Änderungen an erzwungener Berührung, um Kompatibilität zu erreichen",
@@ -547,13 +559,13 @@
         "demoviews": [
             {
                 "commonName": "Home",
-                "nativeBackgroundImage": ".\\userimages\\demo\\4k-wallpaper-architektur-backstein-1308624.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bakestone.jpg",
                 "devices": [
                     {
                         "commonName": "ioBroker uptime",
                         "nativeHeading": "ioBroker",
                         "nativeLinkedView": "",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                         "commonRole": "iQontrolValue",
                         "states": [
                             {
@@ -582,13 +594,13 @@
             },
             {
                 "commonName": "Rooms",
-                "nativeBackgroundImage": ".\\userimages\\demo\\farbe-flora-gras-1275415.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\grass.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
                         "nativeHeading": "1st floor",
                         "nativeLinkedView": "Living-Room",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -609,7 +621,7 @@
                         "commonName": "Kitchen",
                         "nativeHeading": "2nd floor",
                         "nativeLinkedView": "Kitchen",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -630,7 +642,7 @@
             },
             {
                 "commonName": "Functions",
-                "nativeBackgroundImage": ".\\userimages\\demo\\abbildung-attraktiv-dekor-990824.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\decor.jpg",
                 "devices": [
                     {
                         "commonName": "Lights",
@@ -678,7 +690,7 @@
             },
             {
                 "commonName": "Living-Room",
-                "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                 "devices": [
                     {
                         "commonName": "Light",
@@ -783,7 +795,7 @@
             },
             {
                 "commonName": "Kitchen",
-                "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                 "devices": [
                     {
                         "commonName": "Fan",
@@ -847,7 +859,7 @@
             },
             {
                 "commonName": "Lights",
-                "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -919,7 +931,7 @@
             },
             {
                 "commonName": "Climate-Control",
-                "nativeBackgroundImage": ".\\userimages\\demo\\bau-boden-dekorativ-131634.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\green.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -966,6 +978,17 @@
             }
         ]
     },
-    "objects": [],
+    "objects": [
+        {
+            "_id": "iqontrol.meta",
+            "type": "meta",
+            "common": {
+                "name": "userfiles and images for iQontrol",
+                "type": "meta.user",
+                "expert": true
+            },
+            "native": {}
+        }
+    ],
     "instanceObjects": []
 }
