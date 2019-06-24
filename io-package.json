@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.39",
+        "version": "0.0.40",
         "news": {
+            "0.0.40": {
+                "en": "Appended missing conn_js in admin-folder.",
+                "de": "Fehlende conn_js im Admin-Ordner angehängt.",
+                "ru": "Добавлен недостающий conn_js в админ-папку.",
+                "pt": "Appended missing conn_js in admin-folder.",
+                "nl": "Bijgesloten ontbrekende conn_js in admin-map.",
+                "fr": "Conn_js manquant ajouté dans le dossier admin.",
+                "it": "Aggiunti conn_js mancanti nella cartella admin.",
+                "es": "Adjunto faltan conn_js en la carpeta admin.",
+                "pl": "Dodano brakujące conn_js w folderze administracyjnym.",
+                "zh-cn": "管理文件夹中缺少conn_js。"
+            },
             "0.0.39": {
                 "en": "Now file-operations in admin should work (file and directory renaming and deleting), Added Image-Popup in admin.",
                 "de": "Jetzt sollten die Dateioperationen in admin funktionieren (Umbenennen und Löschen von Dateien und Verzeichnissen). Image-Popup in admin hinzugefügt.",

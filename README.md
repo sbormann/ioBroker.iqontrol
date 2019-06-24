@@ -234,6 +234,9 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.040
+* (Sebastian Bormann) Appended missing conn.js in admin-folder.
+
 ### 0.0.39
 * (Sebastian Bormann) Now file-operations in admin should work (file and directory renaming and deleting).
 * (Sebastian Bormann) Added Image-Popup in admin.
