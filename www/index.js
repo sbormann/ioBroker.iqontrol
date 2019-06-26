@@ -2405,47 +2405,47 @@ function renderDialog(deviceId, dialogExtended){
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolBlind":
 			//----Blind
-			// if(dialogStates["UP"]){
-			// 	dialogContent += "<label for='DialogStateButton' ><image src='./images/up.png' / style='width:16px; height:16px;'>&nbsp;" + _("Up") + ":</label>";
-			// 	dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("Up") + "</a>";
-			// 	if (dialogLinkedStateIds["UP"]){
-			// 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			// 			var _deviceId = deviceId;
-			// 			var _linkedUpId = dialogLinkedStateIds["UP"];
-			// 			var bindingFunction = function(){
-			// 				$('#DialogStateButton').on('click', function(e) {
-			// 					startProgram(_linkedUpId, _deviceId);
-			// 				});
-			// 			};
-			// 			dialogBindingFunctions.push(bindingFunction);
-			// 		})(); //<--End Closure
-			// 	}
-			// }
-			// if(dialogStates["STOP"]){
-			// 	dialogContent += "<label for='DialogStateButton' ><image src='./images/stop.png' / style='width:16px; height:16px;'>&nbsp;" + _("Stop") + ":</label>";
-			// 	dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("Stop") + "</a>";
-			// 	if (dialogLinkedStateIds["STOP"]){
-			// 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			// 			var _deviceId = deviceId;
-			// 			var _linkedStopId = dialogLinkedStateIds["STOP"];
-			// 			var bindingFunction = function(){
-			// 				$('#DialogStateButton').on('click', function(e) {
-			// 					startProgram(_linkedStopId, _deviceId);
-			// 				});
-			// 			};
-			// 			dialogBindingFunctions.push(bindingFunction);
-			// 		})(); //<--End Closure
-			// 	}
-			// }
+			if(dialogStates["UP"]){
+				dialogContent += "<label for='DialogStateUPButton' ><image src='./images/up.png' / style='width:16px; height:16px;'>&nbsp;" + _("Up") + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _("Up") + "</a>";
+				if (dialogLinkedStateIds["UP"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedUpId = dialogLinkedStateIds["UP"];
+						var bindingFunction = function(){
+							$('#DialogStateUPButton').on('click', function(e) {
+								startProgram(_linkedUpId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			if(dialogStates["STOP"]){
+				dialogContent += "<label for='DialogStateStopButton' ><image src='./images/stop.png' / style='width:16px; height:16px;'>&nbsp;" + _("Stop") + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _("Stop") + "</a>";
+				if (dialogLinkedStateIds["STOP"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedStopId = dialogLinkedStateIds["STOP"];
+						var bindingFunction = function(){
+							$('#DialogStateStopButton').on('click', function(e) {
+								startProgram(_linkedStopId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
 			if(dialogStates["DOWN"]){
-				dialogContent += "<label for='DialogStateButton' ><image src='./images/down.png' / style='width:16px; height:16px;'>&nbsp;" + _("Down") + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateButton' id='DialogStateButton'>" + _("Down") + "</a>";
+				dialogContent += "<label for='DialogStateDownButton' ><image src='./images/down.png' / style='width:16px; height:16px;'>&nbsp;" + _("Down") + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _("Down") + "</a>";
 				if (dialogLinkedStateIds["DOWN"]){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedDownId = dialogLinkedStateIds["DOWN"];
 						var bindingFunction = function(){
-							$('#DialogStateButton').on('click', function(e) {
+							$('#DialogStateDownButton').on('click', function(e) {
 								startProgram(_linkedDownId, _deviceId);
 							});
 						};
