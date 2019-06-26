@@ -24,6 +24,7 @@
 	<link rel="stylesheet" type="text/css" href="./materialize-colorpicker/css/materialize-colorpicker.min.css" />
 	<script type="text/javascript" src="./materialize-colorpicker/js/materialize-colorpicker.min.js"></script>
 	<script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="conn.js"></script>
 	<script type="text/javascript" src="index_m.js"></script>
 
 	<style>
@@ -271,7 +272,12 @@
 						<h6 class="translate sub-title">Images</h6>
 					</div>
 				</div>
-				<div class = "row">
+				<div class="row showOnLoad">
+					<div class="col s12">
+						<p class="translate">Loading images...</p>
+					</div>
+				</div>
+				<div class = "row hideOnLoad">
 					<div class="col s8 m6">
 						<form id="imagesUploadFileForm">
 							<label class="translate">Select file to upload</label>
@@ -287,16 +293,17 @@
 						</form>
 					</div>
 				</div>
-				<div class = "row">
+				<div class = "row hideOnLoad">
 					<div class="col s12">
 						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file here</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadRefresh"><i class="material-icons left">refresh</i><span class="translate">Refresh</span></a>
 						<br><br>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row hideOnLoad">
 					<div class="input-field col s12">
 						<select class="value" id="imagesSelectedDir">
 						</select>
@@ -304,7 +311,7 @@
 						<span class="translate">Actual Directory</span>
 					</div>
 				</div>
-				<div class="col s12" id="tableImages">
+				<div class="col s12 hideOnLoad" id="tableImages">
 					<div class="col s12 m12 l12">
 						<table class="table-values" style="width: 90%;">
 							<thead>
@@ -873,6 +880,25 @@
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>
+
+		<!-- DIALOG: ImagePopup -->
+        <div id="dialogImagePopup" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Image:</span> <span id="dialogImagePopupImageName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogImagePopupImage"></div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+            </div>
+        </div>		
     </div>
 </body>
 </html>

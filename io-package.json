@@ -1,8 +1,80 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.34",
+        "version": "0.0.40",
         "news": {
+            "0.0.40": {
+                "en": "Appended missing conn_js in admin-folder.",
+                "de": "Fehlende conn_js im Admin-Ordner angehängt.",
+                "ru": "Добавлен недостающий conn_js в админ-папку.",
+                "pt": "Appended missing conn_js in admin-folder.",
+                "nl": "Bijgesloten ontbrekende conn_js in admin-map.",
+                "fr": "Conn_js manquant ajouté dans le dossier admin.",
+                "it": "Aggiunti conn_js mancanti nella cartella admin.",
+                "es": "Adjunto faltan conn_js en la carpeta admin.",
+                "pl": "Dodano brakujące conn_js w folderze administracyjnym.",
+                "zh-cn": "管理文件夹中缺少conn_js。"
+            },
+            "0.0.39": {
+                "en": "Now file-operations in admin should work (file and directory renaming and deleting), Added Image-Popup in admin.",
+                "de": "Jetzt sollten die Dateioperationen in admin funktionieren (Umbenennen und Löschen von Dateien und Verzeichnissen). Image-Popup in admin hinzugefügt.",
+                "ru": "Теперь файловые операции в админке должны работать (переименование и удаление файлов и каталогов), добавлен Image-Popup в админке.",
+                "pt": "Agora as operações de arquivo no admin devem funcionar (renomeação e exclusão de arquivos e diretórios), Adicionado Image-Popup no admin.",
+                "nl": "Nu moeten bestandsbewerkingen in admin werken (bestands- en map hernoemen en verwijderen), Image-Popup toegevoegd in admin.",
+                "fr": "Maintenant, les opérations de fichier dans admin devraient fonctionner (renommer et supprimer des fichiers et des répertoires), a ajouté Image-Popup dans admin.",
+                "it": "Ora le operazioni sui file in admin dovrebbero funzionare (file e directory rinominare e cancellare), Aggiunto Image-Popup in admin.",
+                "es": "Ahora las operaciones de archivo en admin deberían funcionar (cambio de nombre y eliminación de archivos y directorios), se agregó Image-Popup en admin.",
+                "pl": "Teraz operacje na plikach w admin powinny działać (zmiana nazwy pliku i katalogu oraz usuwanie), Dodano Image-Popup w admin.",
+                "zh-cn": "现在admin中的文件操作应该工作（文件和目录重命名和删除），在admin中添加了Image-Popup。"
+            },
+            "0.0.38": {
+                "en": "Again changes to forced touch for gained compatibility",
+                "de": "Erneut Änderungen an erzwungener Berührung, um Kompatibilität zu erreichen",
+                "ru": "Снова изменения принудительного прикосновения для получения совместимости",
+                "pt": "Mais uma vez muda para toque forçado para compatibilidade ganhada",
+                "nl": "Wederom verandert dit in geforceerde aanrakingen voor verbeterde compatibiliteit",
+                "fr": "Encore une fois des changements au contact forcé pour une compatibilité améliorée",
+                "it": "Di nuovo cambia in tocco forzato per ottenere compatibilità",
+                "es": "Nuevamente cambia al toque forzado para ganar compatibilidad",
+                "pl": "Ponownie zmiany wymuszonego dotyku dla uzyskania kompatybilności",
+                "zh-cn": "再次改为强制触摸以获得兼容性"
+            },
+            "0.0.37": {
+                "en": "Some more little changes to forced touch, Added option to open a view via url by adding 'home=<viewId>' to url-parameters",
+                "de": "Weitere kleine Änderungen bei der erzwungenen Berührung. Option zum Öffnen einer Ansicht über die URL durch Hinzufügen von 'home = <viewId>' zu den URL-Parametern hinzugefügt",
+                "ru": "Еще несколько небольших изменений в принудительном касании. Добавлена ​​возможность открывать представление через URL, добавив home = <viewId> к параметрам url.",
+                "pt": "Mais algumas pequenas alterações ao toque forçado, opção adicionada para abrir uma visualização via URL, adicionando 'home = <viewId>' aos parâmetros-url",
+                "nl": "Nog wat kleine wijzigingen aan geforceerde aanrakingen, optie toegevoegd om een ​​weergave te openen via url door 'home = <viewId>' toe te voegen aan URL-parameters",
+                "fr": "Quelques modifications supplémentaires apportées au toucher forcé, option ajoutée pour ouvrir une vue via une URL en ajoutant 'home = <viewId>' à url-parameters",
+                "it": "Alcune più piccole modifiche al tocco forzato, opzione aggiunta per aprire una vista tramite url aggiungendo 'home = <viewId>' ai parametri url",
+                "es": "Algunos cambios más pequeños al toque forzado, opción agregada para abrir una vista vía url agregando 'home = <viewId>' a url-parameters",
+                "pl": "Kilka drobnych zmian w wymuszonym dotknięciu, Dodano opcję otwierania widoku przez URL, dodając „home = <viewId>” do parametrów url",
+                "zh-cn": "对强制触摸的一些更改很少，添加了通过url打开视图的选项，将“home = <viewId>”添加到url-parameters"
+            },
+            "0.0.36": {
+                "en": "Added compatibility for some android devices to forced touch, Changed the way hue and ct is displayed for better compatibility to some devices.",
+                "de": "Kompatibilität für einige Android-Geräte zur erzwungenen Berührung hinzugefügt. Die Anzeige von Farbton und ct wurde geändert, um die Kompatibilität mit einigen Geräten zu verbessern.",
+                "ru": "Добавлена ​​совместимость для некоторых устройств Android для принудительного касания, Изменен способ отображения оттенков и ct для лучшей совместимости с некоторыми устройствами.",
+                "pt": "Adicionado compatibilidade para alguns dispositivos Android para toque forçado, mudou a maneira como matiz e ct é exibido para melhor compatibilidade com alguns dispositivos.",
+                "nl": "Compatibiliteit toegevoegd voor sommige Android-apparaten om geforceerd aan te raken, veranderde de manier waarop tint en ct worden weergegeven voor betere compatibiliteit met sommige apparaten.",
+                "fr": "Ajout de la compatibilité de certains appareils Android au contact forcé, modification de la façon dont la teinte et le ct sont affichés pour une meilleure compatibilité avec certains appareils.",
+                "it": "Aggiunta compatibilità per alcuni dispositivi Android al tocco forzato, Modificata la modalità di visualizzazione di hue e ct per una migliore compatibilità con alcuni dispositivi.",
+                "es": "Se agregó compatibilidad para algunos dispositivos Android al toque forzado. Se modificó la forma en que se muestran el tono y el sonido para una mejor compatibilidad con algunos dispositivos.",
+                "pl": "Dodano kompatybilność niektórych urządzeń z systemem Android z wymuszonym dotknięciem, Zmieniono sposób wyświetlania odcienia i ct, aby uzyskać lepszą kompatybilność z niektórymi urządzeniami.",
+                "zh-cn": "添加了一些Android设备与强制触摸的兼容性，更改了hue和ct的显示方式，以便更好地兼容某些设备。"
+            },
+            "0.0.35": {
+                "en": "Fixed crash of frontend, if a device has no role and added info to admin to chose a role, Removed filtering of states in select-id-dialog for autocreate, Further improvement of forced touch with force-indicator and hopefully a better compatibility with more devices.",
+                "de": "Absturz des Frontends behoben, wenn ein Gerät keine Rolle hat und dem Administrator Informationen hinzugefügt wurden, um eine Rolle auszuwählen. Das Filtern von Zuständen im Auswahl-ID-Dialog für die automatische Erstellung wurde entfernt. Eine weitere Verbesserung der erzwungenen Berührung mit der Kraftanzeige und hoffentlich eine bessere Kompatibilität mit mehr ",
+                "ru": "Исправлен сбой внешнего интерфейса, если устройство не имеет роли и добавлена ​​информация для администратора по выбору роли, Удалена фильтрация состояний в диалоге выбора идентификатора для автоматического создания, Дальнейшее улучшение принудительного прикосновения с помощью индикатора силы и, возможно, лучшая совместимость с другими ",
+                "pt": "Corrigido o travamento do frontend, se um dispositivo não tiver função e adicionado informações ao administrador para escolher uma função, Removido o filtro de estados na caixa de diálogo select-id para autocreate, Melhoria adicional do toque forçado com indicador de força e esperançosamente uma melhor compatibilidade com mais ",
+                "nl": "Vaste crash van frontend, als een apparaat geen rol heeft en toegevoegde info aan admin om een ​​rol te kiezen, Verwijderd filteren van toestanden in select-id-dialoog voor autocreate, Verdere verbetering van geforceerde aanrakingen met force-indicator en hopelijk een betere compatibiliteit met meer ",
+                "fr": "Correction du crash de l'interface, si un périphérique n'a pas de rôle et ajout d'informations à l'administrateur pour choisir un rôle, Filtrage supprimé des états dans select-id-dialog pour la création automatique, Amélioration du contact forcé avec indicateur de force et, espérons-le, d'une meilleure compatibilité avec d'autres ",
+                "it": "Risolto il crash del frontend, se un dispositivo non ha ruolo e ha aggiunto informazioni all'amministratore per scegliere un ruolo, Rimosso il filtraggio degli stati in select-id-dialog per autocreate, Ulteriore miglioramento del tocco forzato con indicatore di forza e si spera una migliore compatibilità con più ",
+                "es": "Se solucionó el bloqueo de la interfaz, si un dispositivo no tiene un rol y se agregó información a la administración para elegir un rol, se eliminó el filtrado de estados en el cuadro de diálogo Seleccionar-ID para autocrear, una mejora adicional del contacto forzado con el indicador de fuerza y, con suerte, una mejor compatibilidad con más ",
+                "pl": "Naprawiono awarię nakładki, jeśli urządzenie nie ma żadnej roli i dodało informacje do administratora, aby wybrać rolę, Usunięto filtrowanie stanów w oknie dialogowym select-id dla autokreacji, Dalsza poprawa wymuszonego dotyku ze wskaźnikiem siły i, miejmy nadzieję, lepsza kompatybilność z więcej ",
+                "zh-cn": "修复了前端崩溃，如果设备没有角色并向管理员添加信息以选择角色，则在select-id-dialog中删除状态过滤以进行自动创建，使用强制指示器进一步改善强制触摸，并希望更好地兼容更多"
+            },
             "0.0.34": {
                 "en": "Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future, Linked Views can now be set for all roles and are available in the dialog and by a forced touch, Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion, Fixed state for switch if type is number",
                 "de": "Menü mit erzwungener Berührung hinzugefügt (Fest drücken oder Lang drücken bei nicht unterstützten Geräten), das zukünftig mehr Platz für erweiterte Funktionen bietet. Verknüpfte Ansichten können jetzt für alle Rollen festgelegt werden und sind im Dialogfeld und durch erzwungene Berührung verfügbar. Zeitstempel hinzugefügt für ",
@@ -499,13 +571,13 @@
         "demoviews": [
             {
                 "commonName": "Home",
-                "nativeBackgroundImage": ".\\userimages\\demo\\4k-wallpaper-architektur-backstein-1308624.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bakestone.jpg",
                 "devices": [
                     {
                         "commonName": "ioBroker uptime",
                         "nativeHeading": "ioBroker",
                         "nativeLinkedView": "",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                         "commonRole": "iQontrolValue",
                         "states": [
                             {
@@ -534,13 +606,13 @@
             },
             {
                 "commonName": "Rooms",
-                "nativeBackgroundImage": ".\\userimages\\demo\\farbe-flora-gras-1275415.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\grass.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
                         "nativeHeading": "1st floor",
                         "nativeLinkedView": "Living-Room",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -561,7 +633,7 @@
                         "commonName": "Kitchen",
                         "nativeHeading": "2nd floor",
                         "nativeLinkedView": "Kitchen",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -582,7 +654,7 @@
             },
             {
                 "commonName": "Functions",
-                "nativeBackgroundImage": ".\\userimages\\demo\\abbildung-attraktiv-dekor-990824.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\decor.jpg",
                 "devices": [
                     {
                         "commonName": "Lights",
@@ -630,7 +702,7 @@
             },
             {
                 "commonName": "Living-Room",
-                "nativeBackgroundImage": ".\\userimages\\demo\\angewandte-kunst-aromatherapie-behandlung-5914.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                 "devices": [
                     {
                         "commonName": "Light",
@@ -735,7 +807,7 @@
             },
             {
                 "commonName": "Kitchen",
-                "nativeBackgroundImage": ".\\userimages\\demo\\architektur-attraktiv-aussen-988873.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                 "devices": [
                     {
                         "commonName": "Fan",
@@ -799,7 +871,7 @@
             },
             {
                 "commonName": "Lights",
-                "nativeBackgroundImage": ".\\userimages\\demo\\design-farbe-kunst-891030.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -871,7 +943,7 @@
             },
             {
                 "commonName": "Climate-Control",
-                "nativeBackgroundImage": ".\\userimages\\demo\\bau-boden-dekorativ-131634.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\green.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -918,6 +990,17 @@
             }
         ]
     },
-    "objects": [],
+    "objects": [
+        {
+            "_id": "iqontrol.meta",
+            "type": "meta",
+            "common": {
+                "name": "userfiles and images for iQontrol",
+                "type": "meta.user",
+                "expert": true
+            },
+            "native": {}
+        }
+    ],
     "instanceObjects": []
 }

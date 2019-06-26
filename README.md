@@ -8,13 +8,21 @@
 
 [![NPM](https://nodei.co/npm/iobroker.iqontrol.png?downloads=true)](https://nodei.co/npm/iobroker.iqontrol/)
 
-**Tests:** Linux/Mac/Windows: [![Travis-CI](http://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol)
+**Tests:**
+
+| Linux/Mac/Windows: | Cross-Browser-Checking: |
+| --- | --- |
+| [![Travis-CI](http://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol) | [![Browserstack](img/browserstack.png)](https://www.browserstack.com) |
+
 <!-- Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/) -->
 
-If you like it, please consider a donation.  
+\
+**If you like it, please consider a donation:**
   
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url)
 
+
+****
 
 ## iqontrol adapter for ioBroker
 
@@ -55,15 +63,21 @@ It's fully customizable.
 ## Known issues
 This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
 However there are a few limitations:
-- Uploading images (as background-images or for skinning device-buttons) works, but renaming and deleting does not work
-- Creating and deleting sub-directories is also not working.
-You can do these operations manually via ftp under iobroker/iobroker-data/files/iqontrol/userimages
+- Uploaded images (as background-images or for skinning device-buttons) are not included in the backup-file created by iobroker
 
 Please feel free to comment and let me know, how to fix these issues!
 
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
+## URL-Parameters
+* The frontend is called via ``http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html``
+    * ``<port of web adapter>`` is usually 8082
+* To open a specified instance you can add ``namespace=iqontrol.<instance-number>`` as URL-parameter
+* To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter
 
+**Example:**
+* ``https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room``
+    * Note upper and lower case
 
 ## Description of roles and associated states
 Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding io-broker state.
@@ -119,9 +133,7 @@ Optional you can define the following states:
     * **HUE_MILIGHT**: *number* - Milight uses another starting-point in the hue color-cirlce: 
         ````
 		MilightHue = modulo(66 - (hue / 3.60), 100) * 2.55; 
-		function modulo(n, m){ 
-			return ((n % m) + m) %m;
-		}
+		function modulo(n, m){ return ((n % m) + m) %m; }
         ````
     * **RGB_HUEONLY**: *string* - instead of using HUE you can use the RGB_HUEONLY-Format (hex). In this special case the RGB-Format will only accept pure saturated colors of the hue-color-circle. Mixed white is not allowed
     * **RGB**: *string* - instead of using HUE, SATURATION and COLOR_BRIGHTNESS you can use the RGB-Format (hex)
@@ -222,7 +234,31 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.44
+### 0.0.040
+* (Sebastian Bormann) Appended missing conn.js in admin-folder.
+
+### 0.0.39
+* (Sebastian Bormann) Now file-operations in admin should work (file and directory renaming and deleting).
+* (Sebastian Bormann) Added Image-Popup in admin.
+* (Sebastian Bormann) Renamed demo-images.
+
+### 0.0.38
+* (Sebastian Bormann) Again changes to forced touch for gained compatibility.
+
+### 0.0.37
+* (Sebastian Bormann) Some more little changes to forced touch.
+* (Sebastian Bormann) Added option to open a view via url by adding 'home=<viewId>' to url-parameters.
+
+### 0.0.36
+* (Sebastian Bormann) Added compatibility for some android devices to forced touch.
+* (Sebastian Bormann) Changed the way hue and ct is displayed for better compatibility to some devices.
+
+### 0.0.35
+* (Sebastian Bormann) Fixed crash of frontend, if a device has no role and added info to admin to chose a role.
+* (Sebastian Bormann) Removed filtering of states in select-id-dialog for autocreate.
+* (Sebastian Bormann) Further improvments of forced touch with force-indicator and hopefully a better compatibility with more devices.
+
+### 0.0.34
 * (Sebastian Bormann) Added forced touch menu (press hard or press long on unsupported devices), wich will give more room for extended features in future.
 * (Sebastian Bormann) Linked Views can now be set for all roles and are available in the dialog and by a forced touch.
 * (Sebastian Bormann) Added timestamp for Window, Door, Fire, Temperature, Humidity, Brightness and Motion.

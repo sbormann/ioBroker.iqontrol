@@ -1,7 +1,9 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
-//++++++++++ SETTINGS ++++++++++
+//Settings
+//namespace and connectionLink are defined later inside load-function, because relevant informations are missing at this moment
+var useCache = true;
 var imagePath = "/userimages";
 var imagePathBS = imagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
@@ -30,6 +32,7 @@ var iQontrolRoles = {
 	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
 const udef = 'undefined'; 
+
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++	
 function initDialog(id, callback) {
@@ -120,6 +123,9 @@ var iobrokerObjectsReadyFunctions = [];
 ****************************************************************************/
 function load(settings, onChange) {
 //++++++++++ START ++++++++++
+	//Loading begins
+	var loading = true;
+
 	//Hide Settings
 	console.log("Loading Settings");
 	$('.hideOnLoad').hide();
@@ -167,7 +173,6 @@ function load(settings, onChange) {
 	//Get Subsettings
 	toolbar = settings.toolbar || settings.demotoolbar || [];
 	views = settings.views || settings.demoviews || [];
-	//options = settings.options || [];
 	version = settings.version;
 
 	//Set initial values of further variables
@@ -179,7 +184,7 @@ function load(settings, onChange) {
 	$('.MaterializeColorPicker').trigger('change');
 
 	//Init imageUpload
-	initImageUpload();
+	initImageUpload(); //+++++++++++++++++++++++++++++++++++++++
 
 	//Get Link of first Web-Adapter
 	var link = "";
@@ -195,6 +200,43 @@ function load(settings, onChange) {
 			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "' data-icon='" + (iQontrolRoles[element].icon ? link + iQontrolRoles[element].icon : "") + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
 			$('select').select();
 
+			//Init socket.io via conn.js and servConn-Object
+			console.log("Init socket.io");
+			var namespace = adapter + "." + instance;
+			var connectionLink = location.protocol + "//" + location.hostname + ":" + result[0].native.port;
+			var connOptions = {
+				name:          namespace,  		// optional - default 'vis.0'
+				connLink:      connectionLink,  // optional URL of the socket.io adapter
+				socketSession: ''           	// optional - used by authentication
+			};
+			var connCallbacks = {
+				onConnChange: function(isConnected) {
+					if(isConnected) {
+						console.log('Socket connected');
+					} else {
+						console.log('Socket disconnected');
+					}
+				},
+				onRefresh: function() {
+					console.log('Socket refresh');
+				},
+				onError: function(err) {
+					window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
+				}
+			};
+			
+			//Try to init socket.io
+			try {
+				servConn.init(connOptions, connCallbacks);
+				servConn.setReconnectInterval(5000);
+				servConn.setReloadTimeout(300);
+				console.log("Inited socket.io");
+			} catch {
+				//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
+				console.log("Error initing socket.io - Fallback");
+				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+			}
+
 			//Get images
 			console.log("getImages");
 			getImages(function(){
@@ -205,6 +247,7 @@ function load(settings, onChange) {
 				console.log("All settings loaded. Adapter ready.");
 				$('.hideOnLoad').show();
 				$('.showOnLoad').hide();
+				loading = false;
 
 				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 				if (M) M.updateTextFields();
@@ -219,9 +262,11 @@ function load(settings, onChange) {
 					iobrokerObjectsReadyFunctions = [];
 				});						
 			});
+		} else {
+			alert("Error on receiving extendable Instances");
 		}
 	});
-
+	
 
 	//++++++++++ TABS ++++++++++
 	//Enhance Tabs with onShow-Function
@@ -257,6 +302,7 @@ function load(settings, onChange) {
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
 		images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		imagenames.sort();
 		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
 		//Fill Table
@@ -338,6 +384,7 @@ function load(settings, onChange) {
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
 		images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		imagenames.sort();
 		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
 		//Reset devicesSelecteView
@@ -373,6 +420,9 @@ function load(settings, onChange) {
 				if (views[devicesSelectedView].devices[deviceIndex].commonRole){
 					$(this).next('span').remove();
 					$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+				} else {
+					$(this).next('span').remove();
+					$(this).after('<span style="font-size:x-small; color: red;">' + _('Please assign a role in device settings') + '</span>');
 				}
 			}
 		});
@@ -634,7 +684,7 @@ function load(settings, onChange) {
 	});
 	$('#dialogDeviceAutocreateSourceIdSelectIdButton').on('click', function(){
 		initSelectId(function (sid) {
-			sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'channel'}, function (newId) {
+			sid.selectId('show', $('#dialogDeviceAutocreateSourceId').val(), {type: 'state'}, function (newId) {
 				if (newId) {
 					$('#dialogDeviceAutocreateSourceId').val(newId).trigger('change');
 					if (M) M.updateTextFields();
@@ -1029,35 +1079,87 @@ function load(settings, onChange) {
 			path = null;
 		}
 		var reader = new FileReader();
-		reader.onload = function(e) { //Closure to capture the file information.
+		reader.onload = function(e) { //Closure--> to capture the file information.
 			socket.emit('writeFile', adapter, (path ? path + "/" : "") + file.name, e.target.result, function () {
 				if (callback) callback(file.name);
 			});
 		};
 		reader.readAsArrayBuffer(file);
 	}
+	function readDir(path, callback) { //callback(err, obj)
+		if(servConn.getIsConnected()) {
+			servConn.readDir("/" + adapter + path, callback);
+		} else {
+			socket.emit('readDir', adapter, path, callback);			
+		}		
+	}
 	function deleteFile(path, callback) {
-		alert("Hmm. In this alpha-Version deleting files does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-		socket.emit('unlink', adapter, path, function (err) {
-			if (callback) callback(err);
-		});
+		if(servConn.getIsConnected()){
+			servConn.unlink("/" + adapter + path, function(err){ if (callback) callback(err); });
+		} else {
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+			//socket.emit('unlink', adapter, path, function(err){	if (callback) callback(err); });
+		}
 	}
 	function renameFile(oldPath, newPath, callback) {
-		alert("Hmm. In this alpha-Version renaming does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-		socket.emit('rename', adapter, oldPath, newPath, function (err) {
-			if (callback) callback(err);
+		var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
+		createDir(newDir, function(){
+			if(servConn.getIsConnected()){
+				servConn.renameFile("/" + adapter + oldPath, "/" + adapter + newPath, function(err){ if (callback) callback(err); });
+			} else {
+				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+				//socket.emit('rename', adapter, oldPath, newPath, function(err){	if (callback) callback(err); });
+			}			
 		});
 	}
-	function createDir(path, callback) {
-		alert("Hmm. In this alpha-Version creating dirs does not work for me. Don't know why. So please report, if you get it working or if you find the bug...: sebastian@bormann.net");
-		socket.emit('mkdir', adapter, path, function (err) {
-			if (callback) callback(err);
+	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
+		if (typeof index != 'number') index = 0;
+		pathSubdirs = path.split('/');
+		if (index >= pathSubdirs.length){
+			if(callback) callback();
+		} else {
+			pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
+			var pathSubdirExists = await checkExistance(pathSubdir);
+			if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _path = path;
+					var _callback = callback;
+					var _index = index;
+					if(servConn.getIsConnected()){
+						servConn.mkdir("/" + adapter + pathSubdir, function(err){ 
+							createDir(_path, _callback, _index + 1); 
+						});
+					} else {
+						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+						//socket.emit('mkdir', adapter, pathSubdir, function(err){ 
+						//	createDir(_path, _callback, _index + 1);
+						//});
+					}
+				})(); //<--End Closure
+			} else { //Subdir exists - iterate to next subdir
+				createDir(path, callback, index + 1); 
+			}
+		}
+	}
+	
+	//CheckExistance
+	async function checkExistance(path){
+		var result = await readDirAsync(path);
+		if(result == null) return true; else return false;
+	}
+	function readDirAsync(path){
+		return new Promise(resolve => {
+			readDir(path, function(err, obj){
+				resolve(err);
+			});
 		});
 	}
 
 	//getImages
 	var getImagesRunningTasks = 0;
 	function getImages(path, callback){
+		$('.hideOnLoad').hide();
+		$('.showOnLoad').show();
 		if(typeof path == 'function') callback = path;
 		if(typeof path != "string") {
 			path = imagePath;
@@ -1066,7 +1168,7 @@ function load(settings, onChange) {
 						dirname: 		"/",
 			}];
 		};
-		socket.emit('readDir', adapter, path, function(err, obj){
+		socketCallback = function(err, obj){
 			obj.forEach(function(element){
 				if(element.isDir) {
 					imagesDirs.push({
@@ -1087,16 +1189,21 @@ function load(settings, onChange) {
 				getImagesRunningTasks -= 1;
 			} else {
 				console.log("Got all images.");
+				$('.hideOnLoad').show();
+				$('.showOnLoad').hide();
 				if(typeof callback == 'function') callback();
 			}
-		});
+		}
+		readDir(path, socketCallback);
 	}
 	
 	//Add Images to Selectbox for SelectedDir
 	function imagesSelectedDirFillSelectbox(){
-		var dirnames = [];
+		var imagesDirsSorted = [];
+		imagesDirs.forEach(function(element){ imagesDirsSorted.push(element.dirname); });
+		imagesDirsSorted.sort();
 		$('#imagesSelectedDir').empty();
-		imagesDirs.forEach(function(element){ $('#imagesSelectedDir').append("<option value='" + element.dirname + "'>" + element.dirname + "</option>"); });
+		imagesDirsSorted.forEach(function(element){ $('#imagesSelectedDir').append("<option value='" + element + "'>" + element + "</option>"); });
 		$('select').select();
 		imagesSelectedDirFilterList();
 	}
@@ -1150,27 +1257,40 @@ function load(settings, onChange) {
 			//Replace photo-button with thumbnail
 			if (command === 'photo') {
 				var imageIndex = $(this).data('index');
-				$(this).replaceWith("<img src='" + link + "/" + imagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;'></img>");
+				$(this).replaceWith("<img src='" + link + "/" + imagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
 			}
 			//Rename file
 			if (command === 'edit') {
 				$(this).on('click', function () {
 					var index = $(this).data('index');
-					var newName = prompt(_("Change filename from %s to:", images[index].filename), images[index].filename);
-					if(newName && newName != images[index].filename){
-						renameFile(imagePath + images[index].filename, imagePath + newName, function(){
-							getImages(function(){
-								values2table('tableImages', images, onChange, onTableImagesReady);
-								var dummy = $('#imagesSelectedDir').val();
-								imagesSelectedDirFillSelectbox();
-								$('#imagesSelectedDir').val(dummy).trigger('change');
-								$('select').select();
+					var oldName = images[index].filename;
+					var newName = images[index].filename;
+					var isValid = false;
+					do {
+						newName = prompt(_("Change filename from %s to:", oldName), newName).replace(/\\/g, "/");
+						isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
+						if (!isValid) alert(_("Invalid Name"));
+					} while (!isValid)
+					if(newName != "" && newName != oldName){
+						if (newName.indexOf('/') != 0) newName = "/" + newName;
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _oldName = imagePath + images[index].filename;
+							var _newName = imagePath + newName;
+							renameFile(_oldName, _newName, function(){
+								changeImageName(_oldName, _newName);
+								getImages(function(){
+									values2table('tableImages', images, onChange, onTableImagesReady);
+									var dummy = $('#imagesSelectedDir').val();
+									imagesSelectedDirFillSelectbox();
+									$('#imagesSelectedDir').val(dummy).trigger('change');
+									$('select').select();
+								});
 							});
-						});
+						})(); //<--End Closure
 					}
 				});
 			}
-			//Delete
+			//Delete file
 			if (command === 'delete_forever') {
 				$(this).find('i').addClass('red').html('delete_forever');
 				$(this).on('click', function (e) {
@@ -1189,13 +1309,27 @@ function load(settings, onChange) {
 				});
 			}
 		});
+		//ImagePopup
+		$('.thumbnail').on('click', function(){
+			initDialog('dialogImagePopup', function(){});
+			var imageLink = $(this).attr('src');
+			$("#dialogImagePopupImageName").text(imageLink);
+			$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>"); 
+			$("#dialogImagePopup").modal('open');
+		});
 		imagesSelectedDirFilterList();
 	}
 	//Create Dir
 	$('#imagesUploadCreateDir').on('click', function(){
-		var newName = prompt(_("Create Directory"), (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder");
+		var newName = (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder";
+		var isValid = false;
+		do {
+			newName = prompt(_("Create Directory"), newName).replace(/\\/g, "/");
+			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
+			if (!isValid) alert(_("Invalid Name"));
+		} while (!isValid)
 		if(newName != ""){
-			if (newName.indexOf('/') != 0) newName = "/" + newName;
+			if (newName.indexOf('/') != 0) newName = "/" + newName;			
 			createDir(imagePath + newName, function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
@@ -1208,28 +1342,42 @@ function load(settings, onChange) {
 		}
 	});
 	//Rename Dir
-	$('#imagesUploadRenameDir').on('click', function () {
-		var newName = prompt(_("Change Directory Name from %s to:", $('#imagesSelectedDir').val()), $('#imagesSelectedDir').val());
-		if (newName.indexOf('/') != 0) newName = "/" + newName;
-		if(newName && newName != $('#imagesSelectedDir').val()){
-			renameFile(imagePath + $('#imagesSelectedDir').val(), imagePath + newName, function(){
-				getImages(function(){
-					values2table('tableImages', images, onChange, onTableImagesReady);
-					var dummy = $('#imagesSelectedDir').val();
-					imagesSelectedDirFillSelectbox();
-					$('#imagesSelectedDir').val(dummy).trigger('change');
-					$('select').select();
+	$('#imagesUploadRenameDir').on('click', function(){
+		var oldName = $('#imagesSelectedDir').val();
+		var newName = $('#imagesSelectedDir').val();
+		var isValid = false;
+		do {
+			newName = prompt(_("Change Directory Name from %s to:", oldName), newName).replace(/\\/g, "/");
+			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
+			if (!isValid) alert(_("Invalid Name"));
+		} while (!isValid)
+		if(newName != "" && newName != oldName){
+			if (newName.indexOf('/') != 0) newName = "/" + newName;
+			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+				var _oldName = imagePath + oldName;
+				var _newName = imagePath + newName;				
+				renameFile(_oldName, _newName, function(){
+					changeImageName(_oldName, _newName);
+					getImages(function(){
+						values2table('tableImages', images, onChange, onTableImagesReady);
+						var dummy = $('#imagesSelectedDir').val();
+						imagesSelectedDirFillSelectbox();
+						$('#imagesSelectedDir').val(dummy).trigger('change');
+						$('select').select();
+					});
 				});
-			});
+			})(); //<--End Closure
 		}
 	});
 	//Delete Dir
-	$('#imagesUploadDeleteDir').on('click', function () {
+	$('#imagesUploadDeleteDir').on('click', function(){
 		if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
 			deleteFile(imagePath + $('#imagesSelectedDir').val(), function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
 					var dummy = $('#imagesSelectedDir').val();
+					dummy = dummy.substring(0, dummy.lastIndexOf('/'));
+					if (dummy == "") dummy = "/";
 					imagesSelectedDirFillSelectbox();
 					$('#imagesSelectedDir').val(dummy).trigger('change');
 					$('select').select();
@@ -1237,6 +1385,26 @@ function load(settings, onChange) {
 			});
 		}
 	});
+	//Refresh
+	$('#imagesUploadRefresh').on('click', function(){
+		getImages(function(){
+			values2table('tableImages', images, onChange, onTableImagesReady);
+			var dummy = $('#imagesSelectedDir').val();
+			$('#imagesSelectedDir').val(dummy).trigger('change');
+			$('select').select();
+		});
+	});
+	//Change ImageName in views and devices
+	function changeImageName(oldName, newName){
+		oldName = "." + oldName.replace(/\//g, "\\");
+		newName = "." + newName.replace(/\//g, "\\");
+		views.forEach(function(view){
+			if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.substring(oldName.length);
+			view.devices.forEach(function(device){
+				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.substring(oldName.length);
+			});
+		});
+	}
 
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
