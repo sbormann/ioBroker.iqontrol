@@ -676,11 +676,13 @@ function toggleState(linkedStateId, deviceId, callback){
 	}
 }
 
-function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, deviceId, callback){
+function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, linkedUpId, linkedDownId, deviceId, callback){
 	var state = getStateObject(linkedStateId);
 	if(state){
 		var direction = getStateObject(linkedDirectionId);
 		var stop = getStateObject(linkedStopId);
+		var up = getStateObject(linkedUpId);
+		var down = getStateObject(linkedDownId);
 		if(state.type == "level"){
 			if(direction && direction.val > 0 && stop) { //working
 				setState(linkedStopId, deviceId, true, false, callback);
@@ -693,6 +695,19 @@ function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, deviceId, c
 				var newVal;
 				if(oldVal > min) newVal = min; else newVal = max;
 				setState(linkedStateId, deviceId, newVal, false, callback);
+			}
+		} else if(up && down) {
+			var oldVal = state.val;
+			var min = 0;
+			var max = 100;
+			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
+			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
+			var newVal;
+			if(oldVal > min) newVal = min; else newVal = max;
+			if(newVal === max){
+				setState(linkedUpId, deviceId, true, false, callback);
+			} else if (newVal === min) {
+				setState(linkedDownId, deviceId, true, false, callback);
 			}
 		}
 	}
@@ -1215,7 +1230,7 @@ function renderView(id, updateOnly){
 
 							case "iQontrolBlind":
 							var onclick = "";
-							if(viewLinkedStateIds["LEVEL"]) onclick = "toggleBlind(\"" + viewLinkedStateIds["LEVEL"] + "\", \"" + (viewLinkedStateIds["DIRECTION"] || "") + "\", \"" + (viewLinkedStateIds["STOP"] || "") + "\", \"" + (viewLinkedStateIds["STOP"] || "") + "\", \"" + (viewLinkedStateIds["DOWN"] || "") + "\", \"" + deviceId + "\");";
+							if(viewLinkedStateIds["LEVEL"]) onclick = "toggleBlind(\"" + viewLinkedStateIds["LEVEL"] + "\", \"" + (viewLinkedStateIds["DIRECTION"] || "") + "\", \"" + (viewLinkedStateIds["STOP"] || "") + "\", \"" + (viewLinkedStateIds["UP"] || "") + "\", \"" + (viewLinkedStateIds["DOWN"] || "") + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 								iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_opened.png' />";
 								iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_closed.png' />";
