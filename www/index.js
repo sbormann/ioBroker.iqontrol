@@ -694,22 +694,31 @@ function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, linkedUpId,
 				if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
 				var newVal;
 				if(oldVal > min) newVal = min; else newVal = max;
-				setState(linkedStateId, deviceId, newVal, false, callback);
-			}
-		} else if(up && down) {
-			var oldVal = state.val;
-			var min = 0;
-			var max = 100;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
-			var newVal;
-			if(oldVal > min) newVal = min; else newVal = max;
-			if(newVal === max){
-				setState(linkedUpId, deviceId, true, false, callback);
-			} else if (newVal === min) {
-				setState(linkedDownId, deviceId, true, false, callback);
+				if(up && down) {
+					if(newVal === max){
+						setState(linkedUpId, deviceId, true, false, callback);
+					} else if (newVal === min) {
+						setState(linkedDownId, deviceId, true, false, callback);
+					}
+				} else {
+					setState(linkedStateId, deviceId, newVal, false, callback);
+				}
 			}
 		}
+		// else if(up && down) {
+		// 	var oldVal = state.val;
+		// 	var min = 0;
+		// 	var max = 100;
+		// 	if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
+		// 	if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
+		// 	var newVal;
+		// 	if(oldVal > min) newVal = min; else newVal = max;
+		// 	if(newVal === max){
+		// 		setState(linkedUpId, deviceId, true, false, callback);
+		// 	} else if (newVal === min) {
+		// 		setState(linkedDownId, deviceId, true, false, callback);
+		// 	}
+		// }
 	}
 }
 
