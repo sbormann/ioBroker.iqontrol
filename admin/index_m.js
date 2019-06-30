@@ -20,7 +20,7 @@ var iQontrolRoles = {
 	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
 	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
 	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
-	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
+	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
 	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
 	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
 	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
@@ -31,10 +31,10 @@ var iQontrolRoles = {
 	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
 	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
-const udef = 'undefined'; 
+const udef = 'undefined';
 
 
-//++++++++++ GLOBAL FUNCTIONS ++++++++++	
+//++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
 	var $dialog = $('#' + id);
 	if (!$dialog.data('inited')) {
@@ -89,7 +89,7 @@ function initSelectId(callback) {
 	var toDo = function(){
 		options.objects = iobrokerObjects;
 		selectId = $('#dialogSelectId').selectId('init', options);
-		callback(selectId);				
+		callback(selectId);
 	}
 	if (iobrokerObjectsReady) {
 		toDo();
@@ -103,7 +103,7 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
         var o = JSON.parse(jsonString);
         // Handle non-exception-throwing cases:
         // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-        // but... JSON.parse(null) returns null, and typeof null === "object", 
+        // but... JSON.parse(null) returns null, and typeof null === "object",
         // so we must check for that, too. Thankfully, null is falsey, so this suffices:
         if (o && typeof o === "object") {
             return o;
@@ -141,7 +141,7 @@ function load(settings, onChange) {
 			$(this).css('border-right', '0px solid black');
 		}
 	});
-	
+
 	//Add function to inputClear-Buttons
 	$('.inputClear').on('click', function(){
 		if($(this).data('default')){
@@ -150,7 +150,7 @@ function load(settings, onChange) {
 			$(this).prevAll('input').val('').trigger('change');
 		}
 	});
-	
+
 	//Select elements with id=key and class=value and insert value
 	if (!settings) return;
 	$('.value').each(function () {
@@ -179,7 +179,7 @@ function load(settings, onChange) {
 	images = [];
 	imagesDirs = [];
 	devicesSelectedView = -1;
-	
+
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change');
 
@@ -224,7 +224,7 @@ function load(settings, onChange) {
 					window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
 				}
 			};
-			
+
 			//Try to init socket.io
 			try {
 				servConn.init(connOptions, connCallbacks);
@@ -251,7 +251,7 @@ function load(settings, onChange) {
 
 				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 				if (M) M.updateTextFields();
-				
+
 				//Get iobrokerObjects
 				socket.emit('getObjects', function (err, objs) {
 					iobrokerObjects = objs;
@@ -260,13 +260,13 @@ function load(settings, onChange) {
 						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
 					}
 					iobrokerObjectsReadyFunctions = [];
-				});						
+				});
 			});
 		} else {
 			alert("Error on receiving extendable Instances");
 		}
 	});
-	
+
 
 	//++++++++++ TABS ++++++++++
 	//Enhance Tabs with onShow-Function
@@ -294,8 +294,8 @@ function load(settings, onChange) {
 			break;
 		}
 	}
-	
-	
+
+
 	//++++++++++ VIEWS ++++++++++
 	//Load Views
 	function loadViews(){
@@ -371,7 +371,7 @@ function load(settings, onChange) {
 		return duplicates;
 	}
 
-	
+
 	//++++++++++ DEVICES ++++++++++
 	//Load Devices
 	function loadDevices(){
@@ -473,10 +473,10 @@ function load(settings, onChange) {
 			if (name === 'nativeLinkedView') {
 				var index = $(this).data('index');
 				switch(views[devicesSelectedView].devices[index].commonRole){
-					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion": //Link to other View allowed	
+					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion": //Link to other View allowed
 					$(this).parent('div').parent('td').css('opacity', '1');
 					break;
-					
+
 					default: //Link to other view not allowed
 					$(this).parent('div').parent('td').css('opacity', '0');
 				}
@@ -506,7 +506,7 @@ function load(settings, onChange) {
 				if(commonRole == ""){
 					if(entry == "VALVE_STATES"){
 						commonRole = "array";
-						var valueObj = tryParseJSON(value);						
+						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
 							var valueArray = [];
 							for(name in valueObj){
@@ -641,13 +641,13 @@ function load(settings, onChange) {
 			}
 		});
 	}
-	
+
 	//Enhance DeviceAutocreate with functions
 	var dialogDeviceAutocreateResult;
 	$('#devicesAutocreateButton').on('click', function () {
 		initDialog('dialogDeviceAutocreate', function(){ //save dialog
 			views[$('#devicesSelectedView').val()].devices.push(dialogDeviceAutocreateResult);
-			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
+			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 		});
 		if ($('#dialogDeviceAutocreateSourceId').val() == "") {
 			$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
@@ -674,8 +674,8 @@ function load(settings, onChange) {
 			}
 		}
 		if(iobrokerObjectsReady) {
-			toDo(); 
-		} else { 
+			toDo();
+		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
 		}
 		$('#dialogDeviceAutocreatePreview').html(_("Please select a device ID from ioBroker-Object-Tree and press 'Try to create preview' first."));
@@ -758,7 +758,7 @@ function load(settings, onChange) {
 					resultStatesObj['LEVEL'] = id;
 					break;
 
-					case ".DIRECTION": 
+					case ".DIRECTION":
 					resultStatesObj['DIRECTION'] = id;
 					break;
 
@@ -844,7 +844,7 @@ function load(settings, onChange) {
 			//--all the others
 			//----find out the role of sources main state (priority in ascending order!)
 			var sourceRole = null;
-			if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) { 
+			if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
 				sourceRole = objects[resultStatesObj['STATE']].common.role;
 				if(sourceRole == 'state') { //special - check the parent channel's role
 					var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
@@ -919,11 +919,11 @@ function load(settings, onChange) {
 				role = 'iQontrolDoorWithLock';
 				break;
 
-				case "sensor": case "sensor.window":						
+				case "sensor": case "sensor.window":
 				role = 'iQontrolWindow';
 				break;
 
-				case "level.blind":						
+				case "level.blind":
 				role = 'iQontrolBlind';
 				break;
 
@@ -959,7 +959,7 @@ function load(settings, onChange) {
 			resultStates = [];
 			for(state in resultStatesObj){
 				resultStates.push({state: state, value: resultStatesObj[state]});
-			}		
+			}
 			var resultStatesText = "";
 			if(resultStates.length > 0 ){
 				resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
@@ -991,8 +991,8 @@ function load(settings, onChange) {
 		initDialog('dialogDeviceCopyFrom', function(){ //save dialog
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
-			var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference 
-			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);					
+			var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference
+			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 		});
 		$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
@@ -1027,8 +1027,8 @@ function load(settings, onChange) {
 		//Fill Table
 		values2table('tableToolbar', toolbar, onChange);
 	}
-	
-	
+
+
 	//++++++++++ IMAGES ++++++++++
 	//Load Images
 	function loadImages(){
@@ -1090,8 +1090,8 @@ function load(settings, onChange) {
 		if(servConn.getIsConnected()) {
 			servConn.readDir("/" + adapter + path, callback);
 		} else {
-			socket.emit('readDir', adapter, path, callback);			
-		}		
+			socket.emit('readDir', adapter, path, callback);
+		}
 	}
 	function deleteFile(path, callback) {
 		if(servConn.getIsConnected()){
@@ -1109,7 +1109,7 @@ function load(settings, onChange) {
 			} else {
 				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
 				//socket.emit('rename', adapter, oldPath, newPath, function(err){	if (callback) callback(err); });
-			}			
+			}
 		});
 	}
 	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
@@ -1126,22 +1126,22 @@ function load(settings, onChange) {
 					var _callback = callback;
 					var _index = index;
 					if(servConn.getIsConnected()){
-						servConn.mkdir("/" + adapter + pathSubdir, function(err){ 
-							createDir(_path, _callback, _index + 1); 
+						servConn.mkdir("/" + adapter + pathSubdir, function(err){
+							createDir(_path, _callback, _index + 1);
 						});
 					} else {
 						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-						//socket.emit('mkdir', adapter, pathSubdir, function(err){ 
+						//socket.emit('mkdir', adapter, pathSubdir, function(err){
 						//	createDir(_path, _callback, _index + 1);
 						//});
 					}
 				})(); //<--End Closure
 			} else { //Subdir exists - iterate to next subdir
-				createDir(path, callback, index + 1); 
+				createDir(path, callback, index + 1);
 			}
 		}
 	}
-	
+
 	//CheckExistance
 	async function checkExistance(path){
 		var result = await readDirAsync(path);
@@ -1196,7 +1196,7 @@ function load(settings, onChange) {
 		}
 		readDir(path, socketCallback);
 	}
-	
+
 	//Add Images to Selectbox for SelectedDir
 	function imagesSelectedDirFillSelectbox(){
 		var imagesDirsSorted = [];
@@ -1314,7 +1314,7 @@ function load(settings, onChange) {
 			initDialog('dialogImagePopup', function(){});
 			var imageLink = $(this).attr('src');
 			$("#dialogImagePopupImageName").text(imageLink);
-			$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>"); 
+			$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>");
 			$("#dialogImagePopup").modal('open');
 		});
 		imagesSelectedDirFilterList();
@@ -1329,7 +1329,7 @@ function load(settings, onChange) {
 			if (!isValid) alert(_("Invalid Name"));
 		} while (!isValid)
 		if(newName != ""){
-			if (newName.indexOf('/') != 0) newName = "/" + newName;			
+			if (newName.indexOf('/') != 0) newName = "/" + newName;
 			createDir(imagePath + newName, function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
@@ -1355,7 +1355,7 @@ function load(settings, onChange) {
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
 			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 				var _oldName = imagePath + oldName;
-				var _newName = imagePath + newName;				
+				var _newName = imagePath + newName;
 				renameFile(_oldName, _newName, function(){
 					changeImageName(_oldName, _newName);
 					getImages(function(){
