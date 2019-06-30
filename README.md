@@ -234,7 +234,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.040
+### 0.0.41-DEV
+* Inverted colortemperature-scale for hue-lights (now it uses the mired-Scale = micro reciprocal degree-scale instead of kelvin)
+
+### 0.0.40
 * (Sebastian Bormann) Appended missing conn.js in admin-folder.
 
 ### 0.0.39
