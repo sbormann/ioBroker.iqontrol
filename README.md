@@ -235,7 +235,8 @@ In addition to normal thermostat you can define:
 # Changelog
 
 ### 0.0.41-DEV
-* Inverted colortemperature-scale for hue-lights (now it uses the mired-Scale = micro reciprocal degree-scale instead of kelvin)
+* (Sebastian Bormann) Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin)
+* (Ansgar Schulte) Added Up and Down Buttons to Blinds
 
 ### 0.0.40
 * (Sebastian Bormann) Appended missing conn.js in admin-folder.
