@@ -4,8 +4,8 @@
 //Settings
 //namespace and connectionLink are defined later inside load-function, because relevant informations are missing at this moment
 var useCache = true;
-var imagePath = "/userimages";
-var imagePathBS = imagePath.replace(/\//g, "\\");
+var userfilesImagePath = "/iqontrol.meta/userimages";
+var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
@@ -184,7 +184,7 @@ function load(settings, onChange) {
 	$('.MaterializeColorPicker').trigger('change');
 
 	//Init imageUpload
-	initImageUpload(); //+++++++++++++++++++++++++++++++++++++++
+	initImageUpload();
 
 	//Get Link of first Web-Adapter
 	var link = "";
@@ -240,8 +240,32 @@ function load(settings, onChange) {
 			//Get images
 			console.log("getImages");
 			getImages(function(){
+				//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
+				var oldImagePath = "/" + adapter + "/userimages";
+				renameFile(oldImagePath + "/", userfilesImagePath + "/", function(err){
+					if(typeof err == udef) {
+						alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!"));
+					}
+				});				
+				
+				//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
+				var oldImagePath = ".\\userimages";
+				var fileLocationChanged = false;
+				views.forEach(function(view){
+					if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePath) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePath.length);})) {
+						view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePath.length);
+						fileLocationChanged = true;
+					}
+					view.devices.forEach(function(device){
+						if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePath) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePath.length);})) {
+							device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePath.length);
+							fileLocationChanged = true;
+						}
+					});
+				});
+				
 				//Signal to admin, that no changes yet
-				onChange(false);
+				if (fileLocationChanged) onChange(true); else onChange(false);
 
 				//Show Settings
 				console.log("All settings loaded. Adapter ready.");
@@ -301,7 +325,7 @@ function load(settings, onChange) {
 	function loadViews(){
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
-		images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
 		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
@@ -383,7 +407,7 @@ function load(settings, onChange) {
 		views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
-		images.forEach(function(element){ imagenames.push("." + imagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
 		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
@@ -1059,7 +1083,7 @@ function load(settings, onChange) {
 		var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
 		if (!files.length) return;
 		var file = files[0];
-		uploadFile(file, imagePath + $('#imagesSelectedDir').val(), function (name) {
+		uploadFile(file, userfilesImagePath + $('#imagesSelectedDir').val(), function (name) {
 			$('#imagesUploadFileForm')[0].reset();
 			$('#imagesUploadFileSubmit').addClass('disabled');
 			getImages(function(){
@@ -1080,7 +1104,11 @@ function load(settings, onChange) {
 		}
 		var reader = new FileReader();
 		reader.onload = function(e) { //Closure--> to capture the file information.
-			socket.emit('writeFile', adapter, (path ? path + "/" : "") + file.name, e.target.result, function () {
+			path = (path ? path + "/" : "") + file.name;
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
 				if (callback) callback(file.name);
 			});
 		};
@@ -1088,28 +1116,51 @@ function load(settings, onChange) {
 	}
 	function readDir(path, callback) { //callback(err, obj)
 		if(servConn.getIsConnected()) {
-			servConn.readDir("/" + adapter + path, callback);
+			servConn.readDir(path, callback);
 		} else {
-			socket.emit('readDir', adapter, path, callback);
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			socket.emit('readDir', adapter, parts.join('/'), callback);
 		}
 	}
 	function deleteFile(path, callback) {
 		if(servConn.getIsConnected()){
-			servConn.unlink("/" + adapter + path, function(err){ if (callback) callback(err); });
+			servConn.unlink(path, function(err){ if (callback) callback(err); });
 		} else {
 			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-			//socket.emit('unlink', adapter, path, function(err){	if (callback) callback(err); });
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
 		}
 	}
 	function renameFile(oldPath, newPath, callback) {
 		var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
 		createDir(newDir, function(){
+			var oldParts = oldPath.split('/');
+			var oldAdapter = oldParts[1];
+			var newParts = newPath.split('/');
+			var newAdapter = newParts[1];
+			if(oldAdapter != newAdapter){
+				newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
+				newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
+			}
 			if(servConn.getIsConnected()){
-				servConn.renameFile("/" + adapter + oldPath, "/" + adapter + newPath, function(err){ if (callback) callback(err); });
+				servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
 			} else {
 				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-				//socket.emit('rename', adapter, oldPath, newPath, function(err){	if (callback) callback(err); });
+				oldParts.splice(0, 2);
+				newParts.splice(0, 2);
+				//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
 			}
+		});
+	}
+	function renameFileAsync(oldPath, newPath){
+		return new Promise(resolve => {
+			renameFile(oldPath, newPath, function(err, obj){
+				resolve(err);
+			});
 		});
 	}
 	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
@@ -1126,11 +1177,14 @@ function load(settings, onChange) {
 					var _callback = callback;
 					var _index = index;
 					if(servConn.getIsConnected()){
-						servConn.mkdir("/" + adapter + pathSubdir, function(err){
+						servConn.mkdir(pathSubdir, function(err){
 							createDir(_path, _callback, _index + 1);
 						});
 					} else {
 						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+						var parts = path.split('/');
+						var adapter = parts[1];
+						parts.splice(0, 2);
 						//socket.emit('mkdir', adapter, pathSubdir, function(err){
 						//	createDir(_path, _callback, _index + 1);
 						//});
@@ -1162,7 +1216,7 @@ function load(settings, onChange) {
 		$('.showOnLoad').show();
 		if(typeof path == 'function') callback = path;
 		if(typeof path != "string") {
-			path = imagePath;
+			path = userfilesImagePath;
 			images = [];
 			imagesDirs = [{
 						dirname: 		"/",
@@ -1172,15 +1226,15 @@ function load(settings, onChange) {
 			obj.forEach(function(element){
 				if(element.isDir) {
 					imagesDirs.push({
-						dirname:		path.substring(imagePath.length) + "/" + element.file
+						dirname:		path.substring(userfilesImagePath.length) + "/" + element.file
 					});
 					getImagesRunningTasks += 1;
 					getImages(path + "/" + element.file, callback);
 				} else {
 					images.push({
-						filename: 		path.substring(imagePath.length) + "/" + element.file,
-						filenameBS: 	path.substring(imagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
-						filenameVS:		path.substring(imagePath.length).replace(/\//g, "|") + "|" + element.file.replace(/\//g, "|")
+						filename: 		path.substring(userfilesImagePath.length) + "/" + element.file,
+						filenameBS: 	path.substring(userfilesImagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
+						filenameVS:		path.substring(userfilesImagePath.length).replace(/\//g, "|") + "|" + element.file.replace(/\//g, "|")
 					});
 					console.log("Got Image: " + path + "/" + element.file);
 				}
@@ -1257,7 +1311,7 @@ function load(settings, onChange) {
 			//Replace photo-button with thumbnail
 			if (command === 'photo') {
 				var imageIndex = $(this).data('index');
-				$(this).replaceWith("<img src='" + link + "/" + imagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
+				$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
 			}
 			//Rename file
 			if (command === 'edit') {
@@ -1274,8 +1328,8 @@ function load(settings, onChange) {
 					if(newName != "" && newName != oldName){
 						if (newName.indexOf('/') != 0) newName = "/" + newName;
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _oldName = imagePath + images[index].filename;
-							var _newName = imagePath + newName;
+							var _oldName = userfilesImagePath + images[index].filename;
+							var _newName = userfilesImagePath + newName;
 							renameFile(_oldName, _newName, function(){
 								changeImageName(_oldName, _newName);
 								getImages(function(){
@@ -1296,7 +1350,7 @@ function load(settings, onChange) {
 				$(this).on('click', function (e) {
 					var index = $(this).data('index');
 					if(confirm(_("Delete file %s on server? Warning: This can't be undone!", images[index].filename))){
-						deleteFile(imagePath + images[index].filename, function(){
+						deleteFile(userfilesImagePath + images[index].filename, function(){
 							getImages(function(){
 								values2table('tableImages', images, onChange, onTableImagesReady);
 								var dummy = $('#imagesSelectedDir').val();
@@ -1330,7 +1384,7 @@ function load(settings, onChange) {
 		} while (!isValid)
 		if(newName != ""){
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
-			createDir(imagePath + newName, function(){
+			createDir(userfilesImagePath + newName, function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
 					var dummy = $('#imagesSelectedDir').val();
@@ -1354,8 +1408,8 @@ function load(settings, onChange) {
 		if(newName != "" && newName != oldName){
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
 			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-				var _oldName = imagePath + oldName;
-				var _newName = imagePath + newName;
+				var _oldName = userfilesImagePath + oldName;
+				var _newName = userfilesImagePath + newName;
 				renameFile(_oldName, _newName, function(){
 					changeImageName(_oldName, _newName);
 					getImages(function(){
@@ -1372,7 +1426,7 @@ function load(settings, onChange) {
 	//Delete Dir
 	$('#imagesUploadDeleteDir').on('click', function(){
 		if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
-			deleteFile(imagePath + $('#imagesSelectedDir').val(), function(){
+			deleteFile(userfilesImagePath + $('#imagesSelectedDir').val(), function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
 					var dummy = $('#imagesSelectedDir').val();

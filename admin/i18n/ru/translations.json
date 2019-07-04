@@ -183,5 +183,7 @@
     "left": "оставил",
     "right": "право",
     "top": "Топ",
-    "white": "белый"
+    "white": "белый",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "Загруженные изображения были перемещены в новое место. ",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "Загруженные изображения были перемещены в новое место. "
 }

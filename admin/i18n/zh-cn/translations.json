@@ -183,5 +183,7 @@
     "left": "剩下",
     "right": "对",
     "top": "最佳",
-    "white": "白色"
+    "white": "白色",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "上传的图像已移至新位置。",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "上传的图像已移至新位置。"
 }

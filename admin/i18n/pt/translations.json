@@ -183,5 +183,7 @@
     "left": "esquerda",
     "right": "certo",
     "top": "topo",
-    "white": "branco"
+    "white": "branco",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "As imagens enviadas foram movidas para um novo local. ",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "As imagens enviadas foram movidas para um novo local. "
 }

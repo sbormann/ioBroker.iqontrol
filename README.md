@@ -235,6 +235,7 @@ In addition to normal thermostat you can define:
 # Changelog
 
 ### 0.0.41-DEV
+* (Sebastian Bormann) Major Change: The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically
 * (Sebastian Bormann) Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin)
 * (Ansgar Schulte) Added Up and Down Buttons to Blinds
 

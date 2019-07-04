@@ -1,4 +1,5 @@
 {
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "Die hochgeladenen Bilder wurden in ein neues Verzeichnis verschoben. Dies wird nur einmalig durchgeführt und dient dazu, die Dateien über die Backup-Funktion von ioBroker sichern zu können. Bitte laden Sie diese Seite neu und speichern Sie dann die Einstellungen, dabei werden die Dateinamen der Bilder automatisch angepasst.",
     "A 'Linked View' can be opened by a simple click at the following roles": "Eine 'Verknüpfte Ansicht' kann bei folgenden Geräten mit einem einfachen Klick aufgerufen werden",
     "Acknowledged": "Anerkannt",
     "Active Background Color:": "",

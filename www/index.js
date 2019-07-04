@@ -445,9 +445,9 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		//--Add type
-		result.type = usedObjects[linkedStateId].common.type;
+		result.type = usedObjects[linkedStateId].common.type || "string";
 		//--Add role
-		result.role = usedObjects[linkedStateId].common.role;
+		result.role = usedObjects[linkedStateId].common.role || "state";
 		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
 		if(result.role == "state" && usedObjects[linkedParentId] && typeof usedObjects[linkedParentId].common.role != udef && usedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
 			switch(parentRole = usedObjects[linkedParentId].common.role){
