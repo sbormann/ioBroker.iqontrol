@@ -147,6 +147,7 @@
     "The name of the device could not be determined and was set to": "Le nom de l'appareil n'a pas pu être déterminé et a été mis à",
     "The role of the device is unknown. Please set it manually.": "Le rôle de l'appareil est inconnu. Veuillez le régler manuellement.",
     "The selected Device will be copied to View ": "Le périphérique sélectionné sera copié dans View",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!": "Les images téléchargées ont été déplacées vers un nouvel emplacement. ",
     "Then create devices on these views.": "Ensuite, créer des dispositifs sur ces points de vue.",
     "Thermostat": "Thermostat",
     "This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.": "C'est de l'Alpha - encore très buggé. Vérifiez que le dispositif après la création et l'éditer pour corriger rôle et les états.",
@@ -183,7 +184,5 @@
     "left": "la gauche",
     "right": "droite",
     "top": "Haut",
-    "white": "blanc",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "Les images téléchargées ont été déplacées vers un nouvel emplacement. ",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "Les images téléchargées ont été déplacées vers un nouvel emplacement. "
+    "white": "blanc"
 }

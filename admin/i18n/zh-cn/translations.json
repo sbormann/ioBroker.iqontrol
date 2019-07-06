@@ -147,6 +147,7 @@
     "The name of the device could not be determined and was set to": "设备的名称不能确定和设定为",
     "The role of the device is unknown. Please set it manually.": "未配置设备的角色，请设置设备角色。",
     "The selected Device will be copied to View ": "选定的设备将复制到View",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!": "上传的图像已移至新位置。",
     "Then create devices on these views.": "在该显示页面创建设备。",
     "Thermostat": "恒温器设备",
     "This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.": "此功能处于开发阶段。设备自动创建后请检查并更正角色和状态。",
@@ -183,7 +184,5 @@
     "left": "剩下",
     "right": "对",
     "top": "最佳",
-    "white": "白色",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "上传的图像已移至新位置。",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "上传的图像已移至新位置。"
+    "white": "白色"
 }

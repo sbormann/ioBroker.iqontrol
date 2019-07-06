@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.40",
+        "version": "0.0.41",
         "news": {
+            "0.0.41": {
+                "en": "Major Change - The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically, Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin), (Ansgar Schulte) Added Up and Down Buttons to Blinds, When creating a directory it will be entered, When creating a directory it will be entered, Added Effect-Section to Light, If a state is not set yet, a standard value will be used.",
+                "de": "Wichtige Änderung - Der Speicherort der hochgeladenen Benutzerbilder hat sich geändert, so dass über die Backup-Funktion von iobroker auf die Bilder zugegriffen werden kann. Die Bilder werden automatisch an den neuen Speicherort verschoben. Bitte öffnen Sie die Admin-Seite für ALLE Instanzen und speichern Sie die Einstellungen, um sie anzupassen ",
+                "ru": "Основные изменения - местоположение загруженных образов пользователя изменилось, поэтому к изображениям можно получить доступ с помощью функции резервного копирования iobroker - изображения будут автоматически перемещены в новое местоположение - откройте страницу администратора для ВСЕХ экземпляров и сохраните настройки для настройки ",
+                "pt": "Major Change - A localização das imagens do usuário enviadas foi alterada, para que as imagens possam ser acessadas pela função de backup do iobroker - as imagens serão movidas para o novo local automaticamente - abra a página de administração para TODAS as instâncias e salve as configurações para ajustar ",
+                "nl": "Grote verandering - De locatie van de geüploade afbeeldingen is gewijzigd, dus de afbeeldingen zijn toegankelijk via de backup-functie van iobroker - de afbeeldingen worden automatisch naar de nieuwe locatie verplaatst - open de admin-pagina voor ALLE instanties en sla de instellingen op om aan te passen ",
+                "fr": "Changement majeur - L'emplacement des images utilisateur téléchargées a été modifié. Il est donc possible d'accéder aux images à l'aide de la fonction de sauvegarde d'iobroker. Les images seront automatiquement déplacées vers le nouvel emplacement. Ouvrez la page admin pour TOUTES les instances et enregistrez les paramètres à ajuster. ",
+                "it": "Modifica principale: la posizione delle immagini utente caricate è cambiata, quindi è possibile accedere alle immagini tramite la funzione di backup di iobroker - le immagini verranno spostate automaticamente nella nuova posizione - aprire la pagina di amministrazione per TUTTE le istanze e salvare le impostazioni per regolare ",
+                "es": "Cambio importante: la ubicación de las imágenes de usuario cargadas ha cambiado, por lo que se puede acceder a las imágenes con la función de respaldo de iobroker. Las imágenes se moverán a la nueva ubicación automáticamente. Abra la página de administración para TODAS las instancias y guarde las configuraciones para ajustarlas. ",
+                "pl": "Duża zmiana - Położenie przesłanych zdjęć użytkowników zmieniło się, więc dostęp do obrazów można uzyskać za pomocą funkcji kopii zapasowej iobroker - obrazy zostaną automatycznie przeniesione do nowej lokalizacji - otwórz stronę administratora dla WSZYSTKICH wystąpień i zapisz ustawienia, aby dostosować ",
+                "zh-cn": "主要更改 - 上传的userimages的位置已更改，因此可以通过iobroker的备份功能访问图像 - 图像将自动移动到新位置 - 请打开所有实例的admin-page并保存设置以进行调整"
+            },
             "0.0.40": {
                 "en": "Appended missing conn_js in admin-folder.",
                 "de": "Fehlende conn_js im Admin-Ordner angehängt.",

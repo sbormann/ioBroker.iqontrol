@@ -147,6 +147,7 @@
     "The name of the device could not be determined and was set to": "De naam van het apparaat kan niet worden bepaald en is ingesteld op",
     "The role of the device is unknown. Please set it manually.": "De rol van het toestel is onbekend. Houdt u deze handmatig instellen.",
     "The selected Device will be copied to View ": "Het geselecteerde apparaat wordt gekopieerd naar Weergave",
+    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!": "De geüploade afbeeldingen zijn verplaatst naar een nieuwe locatie. ",
     "Then create devices on these views.": "Maak apparaten op deze standpunten.",
     "Thermostat": "Thermostaat",
     "This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.": "Dit is Alpha - nog steeds erg buggy. Controleer het apparaat na het maken en bewerken om de juiste rol en de lidstaten.",
@@ -183,7 +184,5 @@
     "left": "links",
     "right": "rechts",
     "top": "top",
-    "white": "wit",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!": "De geüploade afbeeldingen zijn verplaatst naar een nieuwe locatie. ",
-    "The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated.": "De geüploade afbeeldingen zijn verplaatst naar een nieuwe locatie. "
+    "white": "wit"
 }

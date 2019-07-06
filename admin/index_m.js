@@ -9,7 +9,7 @@ var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
 	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
@@ -244,7 +244,7 @@ function load(settings, onChange) {
 				var oldImagePath = "/" + adapter + "/userimages";
 				renameFile(oldImagePath + "/", userfilesImagePath + "/", function(err){
 					if(typeof err == udef) {
-						alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please relaod this site and save the settings, so all filenames can be updated!"));
+						alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
 					}
 				});				
 				
@@ -1384,10 +1384,10 @@ function load(settings, onChange) {
 		} while (!isValid)
 		if(newName != ""){
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
-			createDir(userfilesImagePath + newName, function(){
-				getImages(function(){
+			createDir(userfilesImagePath + newName, function(err){
+				getImages(function(err){
 					values2table('tableImages', images, onChange, onTableImagesReady);
-					var dummy = $('#imagesSelectedDir').val();
+					if(!err) var dummy = newName; else var dummy = $('#imagesSelectedDir').val();
 					imagesSelectedDirFillSelectbox();
 					$('#imagesSelectedDir').val(dummy).trigger('change');
 					$('select').select();

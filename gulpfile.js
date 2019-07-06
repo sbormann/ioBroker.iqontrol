@@ -469,7 +469,7 @@ gulp.task("translate", async function (done) {
 		if (fs.existsSync("./admin/i18n/en/translations.json")) {
 			let enTranslations = require("./admin/i18n/en/translations.json");
 			for (let l in languages) {
-				console.log("Translate Text: " + l);
+				console.log("Translate Text admin: " + l);
 				let existing = {};
 				if (fs.existsSync("./admin/i18n/" + l + "/translations.json")) {
 					existing = require("./admin/i18n/" + l + "/translations.json");
@@ -486,10 +486,10 @@ gulp.task("translate", async function (done) {
 			}
 		}
                 
-                if (fs.existsSync("./www/i18n/en/translations.json")) {
+        if (fs.existsSync("./www/i18n/en/translations.json")) {
 			let enTranslations = require("./www/i18n/en/translations.json");
 			for (let l in languages) {
-				console.log("Translate Text: " + l);
+				console.log("Translate Text www: " + l);
 				let existing = {};
 				if (fs.existsSync("./www/i18n/" + l + "/translations.json")) {
 					existing = require("./www/i18n/" + l + "/translations.json");

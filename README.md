@@ -139,6 +139,10 @@ Optional you can define the following states:
     * **RGB**: *string* - instead of using HUE, SATURATION and COLOR_BRIGHTNESS you can use the RGB-Format (hex)
     * **RGBW**: *string* - instead of using HUE, SATURATION, COLOR_BRIGHTNESS and WHITE_BRIGHTNESS you can use the RGBW-Format (hex)
     * **RGBWWCW**: *string* - instead of HUE, SATURATION, COLOR_BRIGHTNESS, CT and WHITE_BRIGHTNESS you can use the RGBWWCW-Format (hex)
+* Effect-Mode:
+    * **EFFECT**: *value-list* - the effect to play
+	* **EFFECT_NEXT**: *boolean* - if set to true, the next effect will play (as an alternative for devices that dont support EFFECT-value list)
+	* **EFFECT_SPEED_UP** / **EFFECT_SPEED_DOWN**: *boolean* - if set to true, the effect will speed up/down
 * **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/radiator.png" width="32"> Thermostat:
@@ -185,6 +189,7 @@ In addition to normal thermostat you can define:
 * **LEVEL**: *number* - height of the blind in percentage
 * **DIRECTION**: *value-list* - can be Stop, Up and Down
 * **STOP**: *boolean* - if set to true, the blind will stop
+* **UP** / **DOWN**: *boolean* - if set to true, the blind will go up/down (for devices, that use UP and DOWN datapoints instead of LEVEL)
 
 ### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
@@ -234,10 +239,13 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.41-DEV
-* (Sebastian Bormann) Major Change: The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically
-* (Sebastian Bormann) Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin)
-* (Ansgar Schulte) Added Up and Down Buttons to Blinds
+### 0.0.41
+* (Sebastian Bormann) Major Change: The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically.
+* (Sebastian Bormann) Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin).
+* (Ansgar Schulte) Added Up and Down Buttons to Blinds.
+* (Sebastian Bormann) When creating a directory it will be entered.
+* (Sebastian Bormann) Added Effect-Section to Light
+* (Sebastian Bormann) If a state is not set yet, a standard value will be used
 
 ### 0.0.40
 * (Sebastian Bormann) Appended missing conn.js in admin-folder.

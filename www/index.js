@@ -9,7 +9,7 @@ var homeId = getUrlParameter('home') || '';	//If not specified, the first toolba
 var iQontrolRoles = {
 	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
 	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "HUE_MILIGHT", "RGB_HUEONLY", "RGB", "RGBW", "RGBWWCW", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
 	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
 	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
@@ -428,11 +428,12 @@ function getPlainText(linkedStateId){ //Gets plain text from a state that is a v
 }
 
 function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
+	if(!linkedStateId || linkedStateId == "") return;
 	var result = {};
-	if(linkedStateId !== "" && typeof states[linkedStateId] !== udef) {
+	if(typeof states[linkedStateId] !== udef) {
 		result = Object.assign(result, states[linkedStateId]);
 	}
-	if(linkedStateId !== "" && typeof usedObjects[linkedStateId] !== udef && typeof states[linkedStateId] !== udef) {
+	if(typeof usedObjects[linkedStateId] !== udef) {
 		//--Declare plainText
 		result.plainText = "";
 		//--Add unit
@@ -455,6 +456,10 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 					result.role = parentRole;
 					break;
 			}
+		}
+		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
+		if(!result.val){
+			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
 		}
 		//--Modify informations depending on the role
 		if(result.role) {
@@ -3169,6 +3174,82 @@ function renderDialog(deviceId, dialogExtended){
 							dialogBindingFunctions.push(bindingFunction);
 						})(); //<--End Closure
 					}
+				}
+			}
+			//----EffectMode
+			if(dialogStates["EFFECT"] && dialogStates["EFFECT"].type){
+				dialogContent += "<hr>";
+				dialogContent += "<label for='DialogEffectValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
+				dialogContent += "<select  class='iQontrolDialogValueList DialogEffectValueList' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["EFFECT"].readonly || dialogReadonly).toString() + "' name='DialogEffectValueList' id='DialogEffectValueList' data-native-menu='false'>";
+				for(val in dialogStates["EFFECT"].valueList){
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["EFFECT"].valueList[val]) + "</option>";
+					}
+				dialogContent += "</select>";
+				if (dialogLinkedStateIds["EFFECT"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedEffectId = dialogLinkedStateIds["EFFECT"];
+						var updateFunction = function(){
+							if (states[_linkedEffectId]){
+								if(typeof states[_linkedEffectId].val != udef) $("#DialogEffectValueList").val(states[_linkedEffectId].val.toString());
+								$("#DialogEffectValueList").selectmenu('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedEffectId].push(updateFunction);
+						var bindingFunction = function(){
+							$('.DialogEffectValueList').on('change', function(e) {
+								setState(_linkedEffectId, _deviceId, $("#DialogEffectValueList option:selected").val());
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			if(dialogStates["EFFECT_NEXT"] && dialogStates["EFFECT_NEXT"].type){
+				dialogContent += "<hr>";
+				dialogContent += "<label for='DialogEffectNextButton' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectNextButton' id='DialogEffectNextButton'>" + _("Next") + "</a>";
+				if (dialogLinkedStateIds["EFFECT_NEXT"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedEffectNextId = dialogLinkedStateIds["EFFECT_NEXT"];
+						var bindingFunction = function(){
+							$('#DialogEffectNextButton').on('click', function(e) {
+								startProgram(_linkedEffectNextId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			if(dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type){
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedUpButton' id='DialogEffectSpeedUpButton'>" + _("Faster") + "</a>";
+				if (dialogLinkedStateIds["EFFECT_SPEED_UP"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedEffectSpeedUpId = dialogLinkedStateIds["EFFECT_SPEED_UP"];
+						var bindingFunction = function(){
+							$('#DialogEffectSpeedUpButton').on('click', function(e) {
+								startProgram(_linkedEffectSpeedUpId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			if(dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type){
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
+				if (dialogLinkedStateIds["EFFECT_SPEED_DOWN"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedEffectSpeedDownId = dialogLinkedStateIds["EFFECT_SPEED_DOWN"];
+						var bindingFunction = function(){
+							$('#DialogEffectSpeedDownButton').on('click', function(e) {
+								startProgram(_linkedEffectSpeedDownId, _deviceId);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
 				}
 			}
 			break;
