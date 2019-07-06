@@ -35,13 +35,9 @@ Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a native app.
 It's fully customizable.
 
-
-
 ## You need...
 * Nodejs 8 or higher
 * socketIO has to be enabled in web-adapter
-
-
 
 ## How to use
 * Start creating views.
@@ -58,15 +54,7 @@ It's fully customizable.
 	You can use your images as background-images for views, or for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
-
-
-## Known issues
-This is the first alpha-Release, so there may be a lot of bugs. But for me it runs completely stable.
-However there are a few limitations:
-- Uploaded images (as background-images or for skinning device-buttons) are not included in the backup-file created by iobroker
-
-Please feel free to comment and let me know, how to fix these issues!
-
+## Forum
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
 ## URL-Parameters
@@ -229,11 +217,8 @@ In addition to normal thermostat you can define:
 * **STATE**: *any* - can be used to display further informations
 * **URL**: CONSTANT *string* - this url will be opened
 
-
-
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
-
 
 ****
 
