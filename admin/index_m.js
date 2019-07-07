@@ -2,7 +2,8 @@
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
 //Settings
-//namespace and connectionLink are defined later inside load-function, because relevant informations are missing at this moment
+//connectionLink are defined later inside load-function, because relevant informations are missing at this moment
+var namespace = "iqontrol.meta";
 var useCache = true;
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
@@ -202,7 +203,6 @@ function load(settings, onChange) {
 
 			//Init socket.io via conn.js and servConn-Object
 			console.log("Init socket.io");
-			var namespace = adapter + "." + instance;
 			var connectionLink = location.protocol + "//" + location.hostname + ":" + result[0].native.port;
 			var connOptions = {
 				name:          namespace,  		// optional - default 'vis.0'
@@ -228,6 +228,7 @@ function load(settings, onChange) {
 			//Try to init socket.io
 			try {
 				servConn.init(connOptions, connCallbacks);
+				servConn.namespace = namespace;
 				servConn.setReconnectInterval(5000);
 				servConn.setReloadTimeout(300);
 				console.log("Inited socket.io");
@@ -1096,119 +1097,6 @@ function load(settings, onChange) {
 		});
 	}
 
-	//File-Operations
-	function uploadFile(file, path, callback) {
-		if(typeof path == 'function') {
-			callback = path;
-			path = null;
-		}
-		var reader = new FileReader();
-		reader.onload = function(e) { //Closure--> to capture the file information.
-			path = (path ? path + "/" : "") + file.name;
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
-				if (callback) callback(file.name);
-			});
-		};
-		reader.readAsArrayBuffer(file);
-	}
-	function readDir(path, callback) { //callback(err, obj)
-		if(servConn.getIsConnected()) {
-			servConn.readDir(path, callback);
-		} else {
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			socket.emit('readDir', adapter, parts.join('/'), callback);
-		}
-	}
-	function deleteFile(path, callback) {
-		if(servConn.getIsConnected()){
-			servConn.unlink(path, function(err){ if (callback) callback(err); });
-		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
-		}
-	}
-	function renameFile(oldPath, newPath, callback) {
-		var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
-		createDir(newDir, function(){
-			var oldParts = oldPath.split('/');
-			var oldAdapter = oldParts[1];
-			var newParts = newPath.split('/');
-			var newAdapter = newParts[1];
-			if(oldAdapter != newAdapter){
-				newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
-				newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
-			}
-			if(servConn.getIsConnected()){
-				servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
-			} else {
-				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-				oldParts.splice(0, 2);
-				newParts.splice(0, 2);
-				//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
-			}
-		});
-	}
-	function renameFileAsync(oldPath, newPath){
-		return new Promise(resolve => {
-			renameFile(oldPath, newPath, function(err, obj){
-				resolve(err);
-			});
-		});
-	}
-	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
-		if (typeof index != 'number') index = 0;
-		pathSubdirs = path.split('/');
-		if (index >= pathSubdirs.length){
-			if(callback) callback();
-		} else {
-			pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
-			var pathSubdirExists = await checkExistance(pathSubdir);
-			if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
-				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-					var _path = path;
-					var _callback = callback;
-					var _index = index;
-					if(servConn.getIsConnected()){
-						servConn.mkdir(pathSubdir, function(err){
-							createDir(_path, _callback, _index + 1);
-						});
-					} else {
-						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
-						var parts = path.split('/');
-						var adapter = parts[1];
-						parts.splice(0, 2);
-						//socket.emit('mkdir', adapter, pathSubdir, function(err){
-						//	createDir(_path, _callback, _index + 1);
-						//});
-					}
-				})(); //<--End Closure
-			} else { //Subdir exists - iterate to next subdir
-				createDir(path, callback, index + 1);
-			}
-		}
-	}
-
-	//CheckExistance
-	async function checkExistance(path){
-		var result = await readDirAsync(path);
-		if(result == null) return true; else return false;
-	}
-	function readDirAsync(path){
-		return new Promise(resolve => {
-			readDir(path, function(err, obj){
-				resolve(err);
-			});
-		});
-	}
-
 	//getImages
 	var getImagesRunningTasks = 0;
 	function getImages(path, callback){
@@ -1373,6 +1261,7 @@ function load(settings, onChange) {
 		});
 		imagesSelectedDirFilterList();
 	}
+	
 	//Create Dir
 	$('#imagesUploadCreateDir').on('click', function(){
 		var newName = (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder";
@@ -1395,6 +1284,7 @@ function load(settings, onChange) {
 			});
 		}
 	});
+	
 	//Rename Dir
 	$('#imagesUploadRenameDir').on('click', function(){
 		var oldName = $('#imagesSelectedDir').val();
@@ -1423,6 +1313,7 @@ function load(settings, onChange) {
 			})(); //<--End Closure
 		}
 	});
+	
 	//Delete Dir
 	$('#imagesUploadDeleteDir').on('click', function(){
 		if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
@@ -1439,6 +1330,7 @@ function load(settings, onChange) {
 			});
 		}
 	});
+	
 	//Refresh
 	$('#imagesUploadRefresh').on('click', function(){
 		getImages(function(){
@@ -1448,6 +1340,33 @@ function load(settings, onChange) {
 			$('select').select();
 		});
 	});
+	
+	//Download Dir As Zip
+	$('#imagesUploadDownloadDirAsZip').on('click', function(){
+		$('#imagesUploadDownloadDirAsZip').addClass('disabled');
+		$('#imagesUploadDownloadDirAsZipIcon').text("hourglass_empty");
+		readDirAsZip(userfilesImagePath + $('#imagesSelectedDir').val(), function(err, data){
+			if (err) {
+				alert("Error: " + err);
+			} else if (data) {
+				var date = new Date();
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				if (m < 10) m = '0' + m;
+				d = date.getDate();
+				if (d < 10) d = '0' + d;
+				var dateText = y + "-" + m + "-" + d;
+				$('body').append('<a id="zip_download" href="data:application/zip;base64,' + data + '" download="' + dateText + '-iqontrol-userfiles.zip"></a>');
+				document.getElementById('zip_download').click();
+				document.getElementById('zip_download').remove();
+			} else {
+				alert("Error: no data received.");
+			}
+			$('#imagesUploadDownloadDirAsZipIcon').text("cloud_download");
+			$('#imagesUploadDownloadDirAsZip').removeClass('disabled');
+		});
+	});	
+	
 	//Change ImageName in views and devices
 	function changeImageName(oldName, newName){
 		oldName = "." + oldName.replace(/\//g, "\\");
@@ -1458,6 +1377,125 @@ function load(settings, onChange) {
 				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.substring(oldName.length);
 			});
 		});
+	}
+
+	//File-Operations
+	function uploadFile(file, path, callback) {
+		if(typeof path == 'function') {
+			callback = path;
+			path = null;
+		}
+		var reader = new FileReader();
+		reader.onload = function(e) { //Closure--> to capture the file information.
+			path = (path ? path + "/" : "") + file.name;
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
+				if (callback) callback(file.name);
+			});
+		};
+		reader.readAsArrayBuffer(file);
+	}
+	function readDir(path, callback) { //callback(err, obj)
+		if(servConn.getIsConnected()) {
+			servConn.readDir(path, callback);
+		} else {
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			socket.emit('readDir', adapter, parts.join('/'), callback);
+		}
+	}
+	function readDirAsync(path){
+		return new Promise(resolve => {
+			readDir(path, function(err, obj){
+				resolve(err);
+			});
+		});
+	}
+	function readDirAsZip(path, callback) {
+		var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
+		if(servConn.getIsConnected()){
+			servConn.readDirAsZip(pathWithoutSlashNamespace, false, function(err, data){ if (callback) callback(err, data); });
+		} else {
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+		}
+	}
+	function deleteFile(path, callback) {
+		if(servConn.getIsConnected()){
+			servConn.unlink(path, function(err){ if (callback) callback(err); });
+		} else {
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+			var parts = path.split('/');
+			var adapter = parts[1];
+			parts.splice(0, 2);
+			//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
+		}
+	}
+	function renameFile(oldPath, newPath, callback) {
+		var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
+		createDir(newDir, function(){
+			var oldParts = oldPath.split('/');
+			var oldAdapter = oldParts[1];
+			var newParts = newPath.split('/');
+			var newAdapter = newParts[1];
+			if(oldAdapter != newAdapter){
+				newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
+				newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
+			}
+			if(servConn.getIsConnected()){
+				servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
+			} else {
+				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+				oldParts.splice(0, 2);
+				newParts.splice(0, 2);
+				//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
+			}
+		});
+	}
+	function renameFileAsync(oldPath, newPath){
+		return new Promise(resolve => {
+			renameFile(oldPath, newPath, function(err, obj){
+				resolve(err);
+			});
+		});
+	}
+	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
+		if (typeof index != 'number') index = 0;
+		pathSubdirs = path.split('/');
+		if (index >= pathSubdirs.length){
+			if(callback) callback();
+		} else {
+			pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
+			var pathSubdirExists = await checkExistance(pathSubdir);
+			if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _path = path;
+					var _callback = callback;
+					var _index = index;
+					if(servConn.getIsConnected()){
+						servConn.mkdir(pathSubdir, function(err){
+							createDir(_path, _callback, _index + 1);
+						});
+					} else {
+						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+						var parts = path.split('/');
+						var adapter = parts[1];
+						parts.splice(0, 2);
+						//socket.emit('mkdir', adapter, pathSubdir, function(err){
+						//	createDir(_path, _callback, _index + 1);
+						//});
+					}
+				})(); //<--End Closure
+			} else { //Subdir exists - iterate to next subdir
+				createDir(path, callback, index + 1);
+			}
+		}
+	}
+	async function checkExistance(path){
+		var result = await readDirAsync(path);
+		if(result == null) return true; else return false;
 	}
 
 	//++++++++++ OPTIONS ++++++++++

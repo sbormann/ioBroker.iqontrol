@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.41",
+        "version": "0.0.42",
         "news": {
+			"0.0.42": {
+				"en":"Adjusted pathes of demo-files."
+			},
             "0.0.41": {
                 "en": "Major Change - The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically, Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin), (Ansgar Schulte) Added Up and Down Buttons to Blinds, When creating a directory it will be entered, When creating a directory it will be entered, Added Effect-Section to Light, If a state is not set yet, a standard value will be used.",
                 "de": "Wichtige Änderung - Der Speicherort der hochgeladenen Benutzerbilder hat sich geändert, so dass über die Backup-Funktion von iobroker auf die Bilder zugegriffen werden kann. Die Bilder werden automatisch an den neuen Speicherort verschoben. Bitte öffnen Sie die Admin-Seite für ALLE Instanzen und speichern Sie die Einstellungen, um sie anzupassen ",
@@ -583,13 +586,13 @@
         "demoviews": [
             {
                 "commonName": "Home",
-                "nativeBackgroundImage": ".\\userimages\\demo\\bakestone.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bakestone.jpg",
                 "devices": [
                     {
                         "commonName": "ioBroker uptime",
                         "nativeHeading": "ioBroker",
                         "nativeLinkedView": "",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
+                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\orangedrops.jpg",
                         "commonRole": "iQontrolValue",
                         "states": [
                             {
@@ -618,13 +621,13 @@
             },
             {
                 "commonName": "Rooms",
-                "nativeBackgroundImage": ".\\userimages\\demo\\grass.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\grass.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
                         "nativeHeading": "1st floor",
                         "nativeLinkedView": "Living-Room",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
+                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bottle.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -645,7 +648,7 @@
                         "commonName": "Kitchen",
                         "nativeHeading": "2nd floor",
                         "nativeLinkedView": "Kitchen",
-                        "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
+                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\whitestone.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -666,7 +669,7 @@
             },
             {
                 "commonName": "Functions",
-                "nativeBackgroundImage": ".\\userimages\\demo\\decor.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\decor.jpg",
                 "devices": [
                     {
                         "commonName": "Lights",
@@ -714,7 +717,7 @@
             },
             {
                 "commonName": "Living-Room",
-                "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bottle.jpg",
                 "devices": [
                     {
                         "commonName": "Light",
@@ -819,7 +822,7 @@
             },
             {
                 "commonName": "Kitchen",
-                "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\whitestone.jpg",
                 "devices": [
                     {
                         "commonName": "Fan",
@@ -883,7 +886,7 @@
             },
             {
                 "commonName": "Lights",
-                "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\orangedrops.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -955,7 +958,7 @@
             },
             {
                 "commonName": "Climate-Control",
-                "nativeBackgroundImage": ".\\userimages\\demo\\green.jpg",
+                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\green.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
