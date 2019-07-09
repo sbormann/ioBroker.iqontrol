@@ -432,6 +432,11 @@ body {
 	border: none;
 }
 
+.iQontrolDialogAdditionalInfoList{
+	list-style-position: outside;
+	padding-left: 10px;
+}
+
 .small {
 	font-size: 70%;
 }

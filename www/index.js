@@ -7,29 +7,29 @@ var connectionLink = location.origin;
 var useCache = true;
 var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
 var iQontrolRoles = {
-	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
-	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolView": 				{name: "Link to other view", 	states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"]},
+	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
-	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
-	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
-	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
-	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
-	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
-	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
-	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
-	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
-	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
-	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
-	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
-	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
-	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
-	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
-	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
-	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
+	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
+	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
+	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
+	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
+	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
+	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
+	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
+	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
+	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
+	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
+	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
+	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
+	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
+	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
+	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
+	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
 
 //Delcarations
@@ -100,9 +100,9 @@ if (typeof Object.assign != 'function') {
 
 //++++++++++ WEBSOCKET ++++++++++
 connOptions = {
-	name:          namespace,  		// optional - default 'vis.0'
-	connLink:      connectionLink,  // optional URL of the socket.io adapter
-	socketSession: ''           	// optional - used by authentication
+	name:          namespace,  			// optional - default 'vis.0'
+	connLink:      connectionLink,  	// optional URL of the socket.io adapter
+	socketSession: ''           		// optional - used by authentication
 };
 connCallbacks = {
 	onConnChange: function(isConnected) {
@@ -458,7 +458,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			}
 		}
 		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
-		if(!result.val){
+		if(typeof result.val == udef){
 			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
 		}
 		//--Modify informations depending on the role
@@ -554,7 +554,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 					result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
 			}
 			var val = result.val;
-			if (typeof result.val == 'boolean' || result.val == "true" || result.val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
+			if (typeof val == 'boolean' || val == "true" || val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
 				for (var key in result.valueList){
 					var newKey = null;
 					if (key == -1 || key == 0 || key == false) newKey = "false";
@@ -1876,7 +1876,7 @@ function renderView(id, updateOnly){
 			});
 		}
 		viewLinkedStateIdsToUpdate = removeDuplicates(viewLinkedStateIdsToUpdate);
-		if(updateOnly || (!updateOnly && viewStateIdsToFetch.length == 0)) { //Do this only one time - when there where no states to fetch, or when they have been fetched and therefore the "onlyUpdate"-flag is set
+		if(updateOnly || (!updateOnly && viewStateIdsToFetch.length == 0)) { //Do this only one time - when there where no states to fetch, or when they have been fetched and therefore the "updateOnly"-flag is set
 			fetchStates(viewLinkedStateIdsToUpdate, function(){
 				for (var i = 0; i < viewLinkedStateIdsToUpdate.length; i++){
 					updateState(viewLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
@@ -2308,7 +2308,10 @@ function renderDialog(deviceId, dialogExtended){
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var updateFunction = function(){
 								if (states[_linkedStateId]){
-									if(typeof states[_linkedStateId].val != udef) $("#DialogStateValueList").val(states[_linkedStateId].val.toString());
+									if(typeof states[_linkedStateId].val != udef) {
+										var val = states[_linkedStateId].val.toString();
+										$("#DialogStateValueList").val(val);
+									}
 									$("#DialogStateValueList").selectmenu('refresh');
 									dialogUpdateTimestamp(states[_linkedStateId]);
 								}
@@ -2881,6 +2884,7 @@ function renderDialog(deviceId, dialogExtended){
 
 			//------Valve States
 			//Special: VALVE_STATES is an Array: [{"name":"ValveName", "type":"LinkedState", "value":"LinkedStateId"}, ...]
+			var linkedValveStateIds;
 			if (dialogStates["VALVE_STATES"] && typeof dialogStates["VALVE_STATES"].val != udef) linkedValveStateIds = tryParseJSON(dialogStates["VALVE_STATES"].val);
 			var linkedValveStateIdsAreValid = false;
 			if(Array.isArray(linkedValveStateIds) && typeof linkedValveStateIds == 'object') linkedValveStateIds.forEach(function(element){
@@ -2905,7 +2909,7 @@ function renderDialog(deviceId, dialogExtended){
 				dialogContent += "<div data-role='collapsible' data-iconpos='right' data-inset='true' class=''>";
 					dialogContent += "<h4><image src='./images/setpoint.png' / style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>";
 					dialogContent += "<div id='DialogThermostatValveStatesContent'>";
-						dialogContent += "<div id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+						dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceId + "'></ul>";
 					dialogContent += "</div>";
 				dialogContent += "</div>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -3258,6 +3262,51 @@ function renderDialog(deviceId, dialogExtended){
 			//Nothing to do
 		}
 		//--Universal additional Content
+		//----Additional Info
+		//Special: ADDITIONAL_INFO is an Array: [{"name":"Name", "type":"LinkedState", "value":"LinkedStateId"}, ...]
+		var linkedAdditionalInfoIds;
+		if (dialogStates["ADDITIONAL_INFO"] && typeof dialogStates["ADDITIONAL_INFO"].val != udef) linkedAdditionalInfoIds = tryParseJSON(dialogStates["ADDITIONAL_INFO"].val);
+		var linkedAdditionalInfoIdsAreValid = false;
+		if(Array.isArray(linkedAdditionalInfoIds) && typeof linkedAdditionalInfoIds == 'object') linkedAdditionalInfoIds.forEach(function(element){
+			if (typeof element.name !== udef && element.name !== udef){
+				linkedAdditionalInfoIdsAreValid = true;
+			}
+		});
+		if(linkedAdditionalInfoIdsAreValid){
+			//get additional linkedStates from Array:
+			linkedAdditionalInfoIds.forEach(function(element){
+				if (typeof states[element.value] == udef) {
+					dialogStateIdsToFetch.push(element.value);
+				}
+				if (typeof usedObjects[element.value] == udef) {
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _elementValue = element.value;
+						fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
+					})(); //<--End Closure
+				}
+				dialogLinkedStateIdsToUpdate.push(element.value);
+			});
+			dialogContent += "<div data-role='collapsible' data-iconpos='right' data-inset='true' class=''>";
+				dialogContent += "<h4><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Additional Infos") + ":</h4>";
+				dialogContent += "<div id='DialogAdditionalInfosContent'>";
+					dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList' data-iQontrol-Device-ID='" + deviceId + "'></ul>";
+				dialogContent += "</div>";
+			dialogContent += "</div>";
+			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+				var _linkedStateIds = linkedAdditionalInfoIds;
+				var updateFunction = function(){
+					$("#DialogAdditionalInfosContentList").html("");
+					_linkedStateIds.forEach(function(_element){
+						var state = getStateObject(_element.value);
+						if(state) $("#DialogAdditionalInfosContentList").append("<li>" + _element.name + ": " + state.val + state.unit || "" + "</li>");
+					});
+				};
+				_linkedStateIds.forEach(function(_element){
+					if(!dialogUpdateFunctions[_element.value]) dialogUpdateFunctions[_element.value] = [];
+					dialogUpdateFunctions[_element.value].push(updateFunction);
+				});
+			})(); //<--End Closure
+		}
 		//----LinkedView
 		if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
 			var linkedView = usedObjects[deviceId].native.linkedView;
@@ -3378,6 +3427,7 @@ $(document).ready(function(){
 
 	//Init socket.io
 	servConn.init(connOptions, connCallbacks);
+	servConn.namespace = namespace;
 	servConn.setReconnectInterval(500);
 	servConn.setReloadTimeout(30);
 });

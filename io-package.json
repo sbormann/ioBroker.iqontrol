@@ -1,11 +1,32 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.42",
+        "version": "0.0.43",
         "news": {
-			"0.0.42": {
-				"en":"Adjusted pathes of demo-files."
-			},
+            "0.0.43": {
+                "en": "Changed initialization of socket.io to an asynchronous process to wait for connection before trying to use file-operations, Added general datapoint ADDITIONAL_INFO to display additional datapoints at the bottom of the info-dialog, Fixed value list type conflict.",
+                "de": "Die Initialisierung von socket.io wurde in einen asynchronen Prozess geändert, um auf die Verbindung zu warten, bevor versucht wird, Dateioperationen zu verwenden. Der allgemeine Datenpunkt ADDITIONAL_INFO wurde hinzugefügt, um zusätzliche Datenpunkte am unteren Rand des Infodialogs anzuzeigen.",
+                "ru": "Изменена инициализация socket.io для асинхронного процесса ожидания соединения, прежде чем пытаться использовать файловые операции. Добавлена ​​общая точка назначения данных ADDITIONAL_INFO для отображения дополнительных точек данных в нижней части информационного диалога. Конфликт типа списка фиксированных значений.",
+                "pt": "Alterada a inicialização de socket.io para um processo assíncrono para aguardar conexão antes de tentar usar operações de arquivo, Adicionado ponto de dados geral ADDITIONAL_INFO para exibir pontos de dados adicionais na parte inferior do diálogo de informações, Conflito de tipo de lista de valores fixos.",
+                "nl": "Gewijzigde initialisatie van socket.io in een asynchroon proces om te wachten op verbinding voordat geprobeerd werd om bestandsbewerkingen te gebruiken, Toegevoegd algemeen datapunt ADDITIONAL_INFO om extra datapunten weer te geven onderaan in het infodialoogvenster, Type conflict met vaste waarde lijst.",
+                "fr": "Initialisation de socket.io modifiée en un processus asynchrone pour attendre la connexion avant d'essayer d'utiliser les opérations sur les fichiers, Point de données général ajouté ADDITIONAL_INFO pour afficher des points de données supplémentaires au bas de la boîte de dialogue d'informations, Conflit de types de liste de valeurs fixes.",
+                "it": "Inizializzazione modificata di socket.io in un processo asincrono per attendere la connessione prima di provare a utilizzare le operazioni sui file, Aggiunto datapoint generale ADDITIONAL_INFO per visualizzare punti dati aggiuntivi nella parte inferiore della finestra di dialogo delle informazioni, Conflitto di tipo elenco di valori fissi.",
+                "es": "Se cambió la inicialización de socket.io a un proceso asíncrono para esperar la conexión antes de intentar usar operaciones de archivo. Se agregó el punto de datos general ADDITIONAL_INFO para mostrar puntos de datos adicionales en la parte inferior del diálogo de información, conflicto de tipo de lista de valor fijo.",
+                "pl": "Zmieniono inicjalizację socket.io na proces asynchroniczny, aby poczekać na połączenie przed próbą użycia operacji na plikach, Dodano ogólny punkt danych ADDITIONAL_INFO, aby wyświetlić dodatkowe punkty danych na dole okna dialogowego informacji, Konflikt listy wartości stałych.",
+                "zh-cn": "在尝试使用文件操作之前，将socket.io的初始化更改为异步进程以等待连接，添加了通用数据点ADDITIONAL_INFO以在信息对话框底部显示其他数据点，固定值列表类型冲突。"
+            },
+            "0.0.42": {
+                "en": "Adjusted pathes of demo-files.",
+                "de": "Angepasste Pfade von Demo-Dateien.",
+                "ru": "Скорректированы патчи демо-файлов.",
+                "pt": "Correções ajustadas de arquivos de demonstração.",
+                "nl": "Aangepaste paden van demo-bestanden.",
+                "fr": "Chemins ajustés des fichiers de démonstration.",
+                "it": "Percorsi corretti dei file demo.",
+                "es": "Ajustado las rutas de los archivos de demostración.",
+                "pl": "Dostosowane patche plików demo.",
+                "zh-cn": "调整了演示文件的路径。"
+            },
             "0.0.41": {
                 "en": "Major Change - The location of the uploaded userimages has changed, so the images can be accessed by backup-function of iobroker - the images will be moved to the new location automatically - please open admin-page for ALL instances and save the settings to adjust the filenames of used images automatically, Inverted colortemperature-scale for hue-lights (now it uses the mired-scale = micro reciprocal degree-scale instead of kelvin), (Ansgar Schulte) Added Up and Down Buttons to Blinds, When creating a directory it will be entered, When creating a directory it will be entered, Added Effect-Section to Light, If a state is not set yet, a standard value will be used.",
                 "de": "Wichtige Änderung - Der Speicherort der hochgeladenen Benutzerbilder hat sich geändert, so dass über die Backup-Funktion von iobroker auf die Bilder zugegriffen werden kann. Die Bilder werden automatisch an den neuen Speicherort verschoben. Bitte öffnen Sie die Admin-Seite für ALLE Instanzen und speichern Sie die Einstellungen, um sie anzupassen ",

@@ -37,7 +37,7 @@ It's fully customizable.
 
 ## You need...
 * Nodejs 8 or higher
-* socketIO has to be enabled in web-adapter
+* socket.IO has to be set to 'integrated' and 'Force Web-Sockets' has to be disabled in web-adapter
 
 ## How to use
 * Start creating views.
@@ -75,6 +75,7 @@ To edit the role and the states of a device, click on the pencil behind the devi
 
 ### General states:
 Every role has the following three states:
+* **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
 * **BATTERY**: *boolean* - when true, a little battery-empty-icon will be displayed
 * **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
 * **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
@@ -223,6 +224,11 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.0.43
+* (Sebastian Bormann) Changed initialization of socket.io to an asynchronous process to wait for connection before trying to use file-operations.
+* (Sebastian Bormann) Added general datapoint ADDITIONAL_INFO to display additional datapoints at the bottom of the info-dialog.
+* (Sebastian Bormann) Fixed value list type conflict.
 
 ### 0.0.42
 * (Sebastian Bormann) Adjusted pathes of demo-files.

@@ -8,29 +8,29 @@ var useCache = true;
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
-	"iQontrolView": 				{name: "Link to other view", 	states: ["BATTERY", "UNREACH", "ERROR"]},
-	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
+	"iQontrolView": 				{name: "Link to other view", 	states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"]},
+	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
+	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
 	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
-	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
-	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
-	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
-	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
-	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
-	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
-	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
-	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
-	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
-	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
-	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
-	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
-	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
-	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
-	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
-	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
+	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
+	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
+	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
+	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
+	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
+	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
+	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
+	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
+	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
+	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
+	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
+	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
+	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
+	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
+	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
+	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
+	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
+	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
 }
 const udef = 'undefined';
 
@@ -201,32 +201,31 @@ function load(settings, onChange) {
 			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "' data-icon='" + (iQontrolRoles[element].icon ? link + iQontrolRoles[element].icon : "") + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
 			$('select').select();
 
-			//Init socket.io via conn.js and servConn-Object
-			console.log("Init socket.io");
-			var connectionLink = location.protocol + "//" + location.hostname + ":" + result[0].native.port;
-			var connOptions = {
-				name:          namespace,  		// optional - default 'vis.0'
-				connLink:      connectionLink,  // optional URL of the socket.io adapter
-				socketSession: ''           	// optional - used by authentication
-			};
-			var connCallbacks = {
-				onConnChange: function(isConnected) {
-					if(isConnected) {
-						console.log('Socket connected');
-					} else {
-						console.log('Socket disconnected');
-					}
-				},
-				onRefresh: function() {
-					console.log('Socket refresh');
-				},
-				onError: function(err) {
-					window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
-				}
-			};
-
-			//Try to init socket.io
+			//Try to init socket.io via conn.js and servConn-Object
 			try {
+				console.log("Try to init socket.io");
+				var connectionLink = location.protocol + "//" + location.hostname + ":" + result[0].native.port;
+				var connOptions = {
+					name:          namespace,  			// optional - default 'vis.0'
+					connLink:      connectionLink,  	// optional URL of the socket.io adapter
+					socketSession: ''           		// optional - used by authentication
+				};
+				var connCallbacks = {
+					onConnChange: function(isConnected) {
+						if(isConnected) {
+							console.log('Socket connected');
+							goOnAfterSocketIsConnectedOrAfterSocketInitError();
+						} else {
+							console.log('Socket disconnected');
+						}
+					},
+					onRefresh: function() {
+						console.log('Socket refresh');
+					},
+					onError: function(err) {
+						window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
+					}
+				};
 				servConn.init(connOptions, connCallbacks);
 				servConn.namespace = namespace;
 				servConn.setReconnectInterval(5000);
@@ -235,62 +234,66 @@ function load(settings, onChange) {
 			} catch {
 				//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
 				console.log("Error initing socket.io - Fallback");
-				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
+				goOnAfterSocketIsConnectedOrAfterSocketInitError();
 			}
-
-			//Get images
-			console.log("getImages");
-			getImages(function(){
-				//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
-				var oldImagePath = "/" + adapter + "/userimages";
-				renameFile(oldImagePath + "/", userfilesImagePath + "/", function(err){
-					if(typeof err == udef) {
-						alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
-					}
-				});				
-				
-				//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
-				var oldImagePath = ".\\userimages";
-				var fileLocationChanged = false;
-				views.forEach(function(view){
-					if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePath) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePath.length);})) {
-						view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePath.length);
-						fileLocationChanged = true;
-					}
-					view.devices.forEach(function(device){
-						if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePath) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePath.length);})) {
-							device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePath.length);
-							fileLocationChanged = true;
-						}
-					});
-				});
-				
-				//Signal to admin, that no changes yet
-				if (fileLocationChanged) onChange(true); else onChange(false);
-
-				//Show Settings
-				console.log("All settings loaded. Adapter ready.");
-				$('.hideOnLoad').show();
-				$('.showOnLoad').hide();
-				loading = false;
-
-				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-				if (M) M.updateTextFields();
-
-				//Get iobrokerObjects
-				socket.emit('getObjects', function (err, objs) {
-					iobrokerObjects = objs;
-					iobrokerObjectsReady = true;
-					for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
-						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
-					}
-					iobrokerObjectsReadyFunctions = [];
-				});
-			});
 		} else {
 			alert("Error on receiving extendable Instances");
 		}
 	});
+	
+	function goOnAfterSocketIsConnectedOrAfterSocketInitError(){
+		//Get images
+		console.log("getImages");
+		getImages(async function(){
+			//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
+			console.log("Moving userfiles to new location...");
+			var oldImagePath = "/" + adapter + "/userimages";
+			var err = await renameFileAsync(oldImagePath + "/", userfilesImagePath + "/");
+			if(typeof err == udef) {
+				alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
+			} else console.log("...nothing to move.");
+			
+			//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
+			console.log("Adjusting image links to new userfiles location");
+			var oldImagePathRelative = ".\\userimages";
+			var fileLocationChanged = false;
+			views.forEach(function(view){
+				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
+					view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
+					fileLocationChanged = true;
+				}
+				view.devices.forEach(function(device){
+					if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
+						device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
+						fileLocationChanged = true;
+					}
+				});
+			});
+			
+			//Signal to admin, that no changes yet
+			if (fileLocationChanged) onChange(true); else onChange(false);
+
+			//Show Settings
+			console.log("All settings loaded. Adapter ready.");
+			$('.hideOnLoad').show();
+			$('.showOnLoad').hide();
+			loading = false;
+
+			//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+			if (M) M.updateTextFields();
+
+			//Get iobrokerObjects
+			socket.emit('getObjects', function (err, objs) {
+				iobrokerObjects = objs;
+				iobrokerObjectsReady = true;
+				for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+					if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+				}
+				iobrokerObjectsReadyFunctions = [];
+			});
+		});
+	}
 
 
 	//++++++++++ TABS ++++++++++
@@ -529,7 +532,7 @@ function load(settings, onChange) {
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).value || "";
 				if(commonRole == ""){
-					if(entry == "VALVE_STATES"){
+					if(entry == "VALVE_STATES" || entry == "ADDITIONAL_INFO"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
@@ -1419,14 +1422,14 @@ function load(settings, onChange) {
 		if(servConn.getIsConnected()){
 			servConn.readDirAsZip(pathWithoutSlashNamespace, false, function(err, data){ if (callback) callback(err, data); });
 		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
 		}
 	}
 	function deleteFile(path, callback) {
 		if(servConn.getIsConnected()){
 			servConn.unlink(path, function(err){ if (callback) callback(err); });
 		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
 			var parts = path.split('/');
 			var adapter = parts[1];
 			parts.splice(0, 2);
@@ -1447,7 +1450,7 @@ function load(settings, onChange) {
 			if(servConn.getIsConnected()){
 				servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
 			} else {
-				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
 				oldParts.splice(0, 2);
 				newParts.splice(0, 2);
 				//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
@@ -1479,7 +1482,7 @@ function load(settings, onChange) {
 							createDir(_path, _callback, _index + 1);
 						});
 					} else {
-						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!"));
+						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
 						var parts = path.split('/');
 						var adapter = parts[1];
 						parts.splice(0, 2);
