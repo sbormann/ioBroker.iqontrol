@@ -28,8 +28,8 @@
 
 Fast Web-App for Visualization.
 
-![Example](img/screenshot1.jpg)
-![Example](img/screenshot2.jpg)
+![Example](img/screenshot4.jpg)
+![Example](img/screenshot3.jpg)
 
 Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a native app.
