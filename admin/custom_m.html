@@ -1,44 +1,162 @@
 <script type="text/x-iobroker" data-template-name="iqontrol">
 	<div class="row">
-		<div class="col s2">
+		<div class="col s4">
 			<input type="checkbox" data-field="enabled" data-default="false"/>
 			<!-- this field is mandatory, just to find out if to include this settings or not</span-->
 			<span class="translate">enabled</span>
 		</div>
+		<div class="col s8">
+			<input type="checkbox" data-field="readonly">
+			<span class="translate">Readonly</span>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col s4">
+		</div>
+		<!--div class="col s8">
+			<input type="checkbox" data-field="invert">
+			<span class="translate">Invert</span>
+		</div-->
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="col s8">
+			<input type="text" data-field="unit">
+			<span class="translate">Unit</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12 tableStates">
+			<div class="row">
+				<h6 class="translate">Value-List:</h6>
+			</div>
+			<div class="row">
+				<div class="col s2 m1 l1 center">
+					<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+						<i class="material-icons">add</i>
+					</button>
+				</div>
+			</div>
+			<div class="col s12 m12 l12">
+				<table class="table-values" style="width: 90%;">
+					<thead>
+						<tr>
+							<th data-name="key" class="translate">Key</th>
+							<th data-name="value" class="translate">Value</th>
+							<th data-buttons="up down delete" style="width:150px;"></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<!--div class="col s4">
 			<input type="text" data-field="interval" size="30">
 			<span class="translate">period of time</span>
 		</div>
 		<div class="col s4">
 			<input type="text" data-field="state" size="30">
 			<span class="translate">new state</span>
-		</div>
-		<div class="col s2">
-			<input type="checkbox" data-field="setAck" data-default="false">
-			<span class="translate">ack</span>
-		</div>
+		</div-->
 	</div>
 </script>
 
 <script type="text/javascript">
+	//Declarations
+	var states = {};
+
+	//Translations
 	$.get("adapter/iqontrol/words.js", function(script) {
 		let translation = script.substring(script.indexOf('{'), script.length);
 		translation = translation.substring(0, translation.lastIndexOf(';'));
 		$.extend(systemDictionary, JSON.parse(translation));
 	});
 
-	// There are two ways how to predefine default settings:
-	// - with attribute "data-default" (content independent)
-	// - with function in global variable "defaults". Function name is equal with adapter name.
-	//   as input function receives object with all information concerning it
+	//Default Settings
 	if (typeof defaults !== 'undefined') {
 		defaults["iqontrol"] = function (obj, instanceObj) {
 			return {
 				enabled:        false,
-				interval:       '5m',
-				state:          false,
-				setAck:         false
+				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
+				invert:			false,
+				unit:			(obj && obj.common && obj.common.unit) || "",
+				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
 			};
 		}
 	}
+	
+    //Init
+    if (typeof customPostInits !== 'undefined') {
+       customPostInits.iqontrol = function ($div, values, instanceObj, type, role) {
+			var adapter =  $div.data('adapter');
+			console.log("iQontrol init");
+			//Add States to tableStates
+			if(values.states){
+				for (key in values.states){ 
+					if(typeof key != 'undefined') tableStatesAdd(adapter, key, values.states[key]);
+				}
+				changeTableStates(adapter);
+			}
+			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-add').on('click', function(){
+				tableStatesAdd(adapter);
+			});
+			$('#dialog-customs .btn-save').on('click', function(){ 
+				if($('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').is(":checked")){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _currentId = gMain.navigateGetParams();
+						var _currentObj = gMain.objects[_currentId];
+						var _adapter = adapter;
+						var _states = states[_adapter];
+						setTimeout(function(){
+							if (typeof _currentObj.common.custom == 'undefined') _currentObj.common.custom = {};
+							if (typeof _currentObj.common.custom[_adapter] == 'undefined') _currentObj.common.custom[_adapter] = {};
+							_currentObj.common.custom[_adapter].states = _states;
+							//alert("Adapter: " + _adapter + " Modified states: " + JSON.stringify(_states));
+							gMain.socket.emit('setObject', _currentId, _currentObj, function(err){
+								if(err) alert("Errir saving Object");
+							});
+						}, 100);	
+					})(); //<--End Closure
+				}
+			}); 
+        }
+    }
+	function tableStatesAdd(adapter, key, value){
+		key = key || "";
+		value = value || "";
+		var $table = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-values');
+		var line = $table.data('lines') || 0;
+		var tableLine = "<tr class='table-line'  data-instance='" + adapter + "' data-line='" + line + "'>";
+		tableLine += "		<td><input type='text' class='table-input key' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_key' id='" + adapter + "_tableStates_line" + line + "_key' value='" + key + "' /></td>";
+		tableLine += "		<td><input type='text' class='table-input value' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_value' id='" + adapter + "_tableStates_line" + line + "_value' value='" + value + "' /></td>";
+		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableStates_line" + line + "_delete'><i class='material-icons'>delete</i></button></td>";		
+		tableLine += "</tr>";
+		$table.append(tableLine);
+		$table.data('lines', line + 1);
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-delete').off('click').on('click', function(){
+			var line = $(this).data('line');
+			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-line[data-line="' + line + '"').remove();
+			changeTableStates(adapter);
+		});
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input').off('focusout').on('focusout', function(){changeTableStates(adapter);});
+	}
+	function changeTableStates(adapter){
+		var $lines = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-line');
+		states[adapter] = {};
+		$lines.each(function(index){
+			var line = $(this).data('line');
+			var key = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input.key[data-line="' + line + '"]').val();
+			var value = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input.value[data-line="' + line + '"]').val();
+			if(key != "") states[adapter][key] = value;
+		});
+		console.log("changeTableStates: " + JSON.stringify(states[adapter]));
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').trigger('change'); //to enable Save-Button
+	}
+
+	//OnSave - For future use with newer admin-versions
+	//if (typeof customPostOnSave !== 'undefined') {
+	//	customPostOnSave.iqontrol = function ($div, instance) {
+	//		var adapter =  $div.data('adapter');
+	//	};
+	//}
 </script>

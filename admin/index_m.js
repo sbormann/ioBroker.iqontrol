@@ -258,12 +258,12 @@ function load(settings, onChange) {
 			console.log("Adjusting image links to new userfiles location");
 			var oldImagePathRelative = ".\\userimages";
 			var fileLocationChanged = false;
-			views.forEach(function(view){
+			if (typeof views != udef) views.forEach(function(view){
 				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
 					view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
 					fileLocationChanged = true;
 				}
-				view.devices.forEach(function(device){
+				if (typeof view.devices != udef) view.devices.forEach(function(device){
 					if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
 						device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
 						fileLocationChanged = true;

@@ -415,8 +415,14 @@ function getLinkedStateId(stateId){
 
 function getUnit(linkedStateId){
 	var unit = "";
-	if(usedObjects[linkedStateId]) if(usedObjects[linkedStateId].common.unit) unit = _(usedObjects[linkedStateId].common.unit);
-	if(!(unit == "°C" || unit == "°F°" || unit == "%")) unit = "&nbsp;" + unit;
+	if(usedObjects[linkedStateId]){
+		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit !== udef){
+			unit = _(usedObjects[linkedStateId].common.custom[namespace].unit);
+		} else if(usedObjects[linkedStateId].common.unit) {
+			unit = _(usedObjects[linkedStateId].common.unit);
+		}
+	}
+	if(!(unit == "°C" || unit == "°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
 	return unit;
 }
 
@@ -442,6 +448,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		result.readonly = false;
 		if(typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
 		if(typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
+		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].readonly !== udef) result.readonly = usedObjects[linkedStateId].common.custom[namespace].readonly;
 		//--Add min and max
 		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
@@ -547,12 +554,18 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			}
 		}
 		//--Add valueList
-		if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states || usedObjects[linkedStateId].common.states){
-			if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states) {
-					result.valueList = Object.assign({}, usedObjects[linkedStateId].native.states);
-			} else {
-					result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
-			}
+		var statesSet = false;
+		if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace].states){
+				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.custom[namespace].states);
+				statesSet = true;
+		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states){
+				result.valueList = Object.assign({}, usedObjects[linkedStateId].native.states);
+				statesSet = true;
+		} else if (usedObjects[linkedStateId] && usedObjects[linkedStateId].common.states){
+				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
+				statesSet = true;
+		}
+		if(statesSet){
 			var val = result.val;
 			if (typeof val == 'boolean' || val == "true" || val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
 				for (var key in result.valueList){

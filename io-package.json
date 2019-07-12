@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.43",
+        "version": "0.0.44",
         "news": {
+            "0.0.44": {
+                "en": "Fixed incomplete loading of admin page with some settings, Added datapoint-configuration via custom-dialog",
+                "de": "Das unvollständige Laden der Admin-Seite mit einigen Einstellungen wurde behoben. Die Datenpunkt-Konfiguration wurde über einen benutzerdefinierten Dialog hinzugefügt",
+                "ru": "Исправлена ​​неполная загрузка страницы администратора с некоторыми настройками, добавлена ​​конфигурация datapoint через custom-диалог",
+                "pt": "Corrigido o carregamento incompleto da página de administração com algumas configurações. Adicionada configuração de ponto de dados via caixa de diálogo personalizada",
+                "nl": "Vast onvolledig laden van admin-pagina met enkele instellingen, Toegevoegd datapoint-configuratie via custom-dialoog",
+                "fr": "Correction du chargement incomplet de la page d'administration avec certains paramètres, Ajout de la configuration du point de donnée via un dialogue personnalisé",
+                "it": "Correzione del caricamento incompleto della pagina di amministrazione con alcune impostazioni, aggiunta della configurazione di punti di accesso tramite finestra di dialogo personalizzata",
+                "es": "Se corrigió la carga incompleta de la página de administración con algunas configuraciones. Se agregó la configuración del punto de datos a través del diálogo personalizado",
+                "pl": "Naprawiono niekompletne ładowanie strony administracyjnej z niektórymi ustawieniami, Dodano konfigurację punktu danych poprzez niestandardowe okno dialogowe",
+                "zh-cn": "修复了管理页面的不完整加载和一些设置，通过自定义对话框添加了数据点配置"
+            },
             "0.0.43": {
                 "en": "Changed initialization of socket.io to an asynchronous process to wait for connection before trying to use file-operations, Added general datapoint ADDITIONAL_INFO to display additional datapoints at the bottom of the info-dialog, Fixed value list type conflict.",
                 "de": "Die Initialisierung von socket.io wurde in einen asynchronen Prozess geändert, um auf die Verbindung zu warten, bevor versucht wird, Dateioperationen zu verwenden. Der allgemeine Datenpunkt ADDITIONAL_INFO wurde hinzugefügt, um zusätzliche Datenpunkte am unteren Rand des Infodialogs anzuzeigen.",
@@ -573,7 +585,7 @@
             "link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
             "fa-icon": "blur_on"
         },
-        "supportCustoms": false,
+        "supportCustoms": true,
         "dependencies": [
             {
                 "admin": ">=3.0.0"
@@ -607,13 +619,13 @@
         "demoviews": [
             {
                 "commonName": "Home",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bakestone.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bakestone.jpg",
                 "devices": [
                     {
                         "commonName": "ioBroker uptime",
                         "nativeHeading": "ioBroker",
                         "nativeLinkedView": "",
-                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\orangedrops.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                         "commonRole": "iQontrolValue",
                         "states": [
                             {
@@ -642,13 +654,13 @@
             },
             {
                 "commonName": "Rooms",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\grass.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\grass.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
                         "nativeHeading": "1st floor",
                         "nativeLinkedView": "Living-Room",
-                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bottle.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -669,7 +681,7 @@
                         "commonName": "Kitchen",
                         "nativeHeading": "2nd floor",
                         "nativeLinkedView": "Kitchen",
-                        "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\whitestone.jpg",
+                        "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                         "commonRole": "iQontrolView",
                         "states": [
                             {
@@ -690,7 +702,7 @@
             },
             {
                 "commonName": "Functions",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\decor.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\decor.jpg",
                 "devices": [
                     {
                         "commonName": "Lights",
@@ -738,7 +750,7 @@
             },
             {
                 "commonName": "Living-Room",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\bottle.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\bottle.jpg",
                 "devices": [
                     {
                         "commonName": "Light",
@@ -843,7 +855,7 @@
             },
             {
                 "commonName": "Kitchen",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\whitestone.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\whitestone.jpg",
                 "devices": [
                     {
                         "commonName": "Fan",
@@ -907,7 +919,7 @@
             },
             {
                 "commonName": "Lights",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\orangedrops.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\orangedrops.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
@@ -979,7 +991,7 @@
             },
             {
                 "commonName": "Climate-Control",
-                "nativeBackgroundImage": ".\\..\\iqontrol.meta\\userimages\\demo\\green.jpg",
+                "nativeBackgroundImage": ".\\userimages\\demo\\green.jpg",
                 "devices": [
                     {
                         "commonName": "Living Room",
