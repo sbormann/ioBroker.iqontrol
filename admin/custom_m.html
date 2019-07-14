@@ -1,31 +1,51 @@
 <script type="text/x-iobroker" data-template-name="iqontrol">
 	<div class="row">
-		<div class="col s4">
+		<div class="input-field col s4">
 			<input type="checkbox" data-field="enabled" data-default="false"/>
 			<!-- this field is mandatory, just to find out if to include this settings or not</span-->
 			<span class="translate">enabled</span>
 		</div>
-		<div class="col s8">
+		<div class="input-field col s8">
 			<input type="checkbox" data-field="readonly">
 			<span class="translate">Readonly</span>
 		</div>
 	</div>
+	<!--div class="row">
+		<div class="col s4">
+		</div>
+        <div class="input-field col s8">
+            <select data-field="showTimestamp">
+                <option value=""          		class="translate">Automatic</option>
+                <option value="Always"    		class="translate">Always</option>
+                <option value="Never"    		class="translate">Never</option>
+            </select>
+            <span class="translate">Show Timestamp</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only respected, if the datapoint is used as main state of a device)</span>
+        </div>
+	</div-->
 	<div class="row">
 		<div class="col s4">
 		</div>
-		<!--div class="col s8">
-			<input type="checkbox" data-field="invert">
-			<span class="translate">Invert</span>
-		</div-->
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="col s8">
+		<div class="input-field col s8">
 			<input type="text" data-field="unit">
 			<span class="translate">Unit</span>
 		</div>
 	</div>
+	<!--div class="row">
+		<div class="col s4">
+		</div>
+        <div class="input-field col s8">
+            <select data-field="type">
+                <option value="string"          class="translate">String</option>
+                <option value="Always"    		class="translate">Always</option>
+                <option value="Never"    		class="translate">Never</option>
+            </select>
+            <span class="translate">Show Timestamp</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only respected, if the datapoint is used as main state of a device)</span>
+        </div>
+	</div-->
 	<div class="row">
 		<div class="col s12 tableStates">
 			<div class="row">
@@ -50,14 +70,6 @@
 				</table>
 			</div>
 		</div>
-		<!--div class="col s4">
-			<input type="text" data-field="interval" size="30">
-			<span class="translate">period of time</span>
-		</div>
-		<div class="col s4">
-			<input type="text" data-field="state" size="30">
-			<span class="translate">new state</span>
-		</div-->
 	</div>
 </script>
 
@@ -78,8 +90,9 @@
 			return {
 				enabled:        false,
 				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
-				invert:			false,
 				unit:			(obj && obj.common && obj.common.unit) || "",
+				showTimestamp:	"",
+				type:			(obj && obj.common && obj.common.type) || "string",
 				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
 			};
 		}
@@ -111,7 +124,6 @@
 							if (typeof _currentObj.common.custom == 'undefined') _currentObj.common.custom = {};
 							if (typeof _currentObj.common.custom[_adapter] == 'undefined') _currentObj.common.custom[_adapter] = {};
 							_currentObj.common.custom[_adapter].states = _states;
-							//alert("Adapter: " + _adapter + " Modified states: " + JSON.stringify(_states));
 							gMain.socket.emit('setObject', _currentId, _currentObj, function(err){
 								if(err) alert("Errir saving Object");
 							});

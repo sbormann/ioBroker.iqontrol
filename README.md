@@ -234,6 +234,9 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.45 (2019-07-15)
+* (Sebastian Bormann) Devices are now zoomed to fit screen (configurable under options)
+
 ### 0.0.44
 * (Sebastian Bormann) Fixed incomplete loading of admin page with some settings.
 * (Sebastian Bormann) Added datapoint-configuration via custom-dialog.

@@ -62,6 +62,7 @@ body {
 }
 
 #ViewMain {
+	overflow-y:hidden;
 	padding: 3px;
 	margin: 0px;
 	min-height:100vh;
@@ -81,10 +82,14 @@ body {
 }
 
 #ViewContent {
+	transform-origin: left top;
 	display: inline-block;
 	width: 100%;
 	text-align: left;
 	vertical-align: top;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 #ViewContent h4 {

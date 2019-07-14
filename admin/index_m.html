@@ -98,7 +98,7 @@
 						<a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i><span class="translate">Open iQontrol</span></a>
 					</div>
 				</div>
-				<div class="row hideOnLoad" style="display: none;">
+				<div class="row">
 					<div class="col s12">
 						<br><br>
 						<p><i class="material-icons left">error</i><span class="translate">You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!</span></p>
@@ -668,6 +668,26 @@
 						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate sub-title">Resize Devices To Fit Screen:</p>
+					</div>
+                </div>
+				<div class="row">
+                    <div class="input-field col s12 m6 l4">
+						<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenDisabled" />
+						<label for="optionsLayoutViewResizeDevicesToFitScreenDisabled" class="translate">Resize disabled</label>
+					</div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value" type="number" min="1" max="5000" value="600" id="optionsLayoutViewResizeDevicesToFitScreenTreshold" />
+						<label for="optionsLayoutViewResizeDevicesToFitScreenTreshold" class="translate">Treshold in pixel (resize is disabled, if screen is bigger than this):</label>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+					</div>
+                    <div class="input-field col s12 m6 l4">
+						<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" checked />
+						<label for="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" class="translate">Resize even when screen is big</label>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -717,6 +737,12 @@
 							</thead>
 						</table>
 					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Set Corresponding Options</h6>
+					</div>
+					<div id="dialogDeviceEditOptions"></div>
 				</div>
             </div>
             <div class="modal-footer">

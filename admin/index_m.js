@@ -8,32 +8,125 @@ var useCache = true;
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
-	"iQontrolView": 				{name: "Link to other view", 	states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"]},
-	"iQontrolSwitch": 				{name: "Switch", 				states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/switch_on.png"},
-	"iQontrolLight": 				{name: "Light", 				states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/light_on.png"},
-	"iQontrolFan": 					{name: "Fan", 					states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], icon: "/images/icons/fan_on.png"},
-	"iQontrolThermostat": 			{name: "Thermostat", 			states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolHomematicThermostat": 	{name: "Homematic-Thermostat", 	states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/radiator.png"},
-	"iQontrolTemperature": 			{name: "Temperature-Sensor", 	states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/temperature.png"},
-	"iQontrolHumidity": 			{name: "Humidity-Sensor", 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/humidity.png"},
-	"iQontrolBrightness": 			{name: "Brigthness-Sensor", 	states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/brightness_light.png"},
-	"iQontrolMotion": 				{name: "Motion-Sensor", 		states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/motion_on.png"},
-	"iQontrolDoor": 				{name: "Door", 					states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_closed.png"},
-	"iQontrolDoorWithLock": 		{name: "Door with lock", 		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/door_locked.png"},
-	"iQontrolWindow": 				{name: "Window", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/window_closed.png"},
-	"iQontrolBlind": 				{name: "Blind", 				states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/blind_middle.png"},
-	"iQontrolFire": 				{name: "Fire-Sensor", 			states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/fire_on.png"},
-	"iQontrolAlarm": 				{name: "Alarm", 				states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/alarm_on.png"},
-	"iQontrolBattery": 				{name: "Battery", 				states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/battery_full.png"},
-	"iQontrolValue": 				{name: "Value", 				states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/value_on.png"},
-	"iQontrolProgram": 				{name: "Program", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play_on.png"},
-	"iQontrolScene": 				{name: "Scene", 				states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/play.png"},
-	"iQontrolButton": 				{name: "Button", 				states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/button.png"},
-	"iQontrolPopup": 				{name: "Popup", 				states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/popup.png"},
-	"iQontrolExternalLink":			{name: "External Link",			states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], icon: "/images/icons/link.png"}
+	"iQontrolView": 				{
+										name: "Link to other view", 	
+										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"]
+									},
+	"iQontrolSwitch": 				{
+										name: "Switch", 				
+										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/switch_on.png"
+									},
+	"iQontrolLight": 				{
+										name: "Light",
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/light_on.png"
+									},
+	"iQontrolFan": 					{
+										name: "Fan",
+										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
+										icon: "/images/icons/fan_on.png"
+									},
+	"iQontrolThermostat": 			{
+										name: "Thermostat",
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/radiator.png"
+									},
+	"iQontrolHomematicThermostat": 	{
+										name: "Homematic-Thermostat",
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/radiator.png"
+									},
+	"iQontrolTemperature": 			{
+										name: "Temperature-Sensor",
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/temperature.png"
+									},
+	"iQontrolHumidity": 			{
+										name: "Humidity-Sensor",
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/humidity.png"
+									},
+	"iQontrolBrightness": 			{
+										name: "Brigthness-Sensor",
+										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/brightness_light.png"
+									},
+	"iQontrolMotion": 				{
+										name: "Motion-Sensor",
+										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/motion_on.png"
+									},
+	"iQontrolDoor": 				{
+										name: "Door", 
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/door_closed.png"
+									},
+	"iQontrolDoorWithLock": 		{
+										name: "Door with lock",
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/door_locked.png"
+									},
+	"iQontrolWindow": 				{
+										name: "Window",
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/window_closed.png"
+									},
+	"iQontrolBlind": 				{
+										name: "Blind", 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/blind_middle.png",
+										options: {invert: {name: "Invert", type: "checkbox", default: "true"}, readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+									},
+	"iQontrolFire": 				{
+										name: "Fire-Sensor",
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/fire_on.png"
+									},
+	"iQontrolAlarm": 				{
+										name: "Alarm",
+										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
+										icon: "/images/icons/alarm_on.png"
+									},
+	"iQontrolBattery": 				{
+										name: "Battery", 
+										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/battery_full.png"
+									},
+	"iQontrolValue": 				{
+										name: "Value",
+										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/value_on.png"
+									},
+	"iQontrolProgram": 				{
+										name: "Program", 
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/play_on.png"
+									},
+	"iQontrolScene": 				{
+										name: "Scene", 	
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/play.png"
+									},
+	"iQontrolButton": 				{
+										name: "Button", 
+										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/button.png"
+									},
+	"iQontrolPopup": 				{
+										name: "Popup", 	
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/popup.png"
+									},
+	"iQontrolExternalLink":			{
+										name: "External Link",	
+										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/link.png"
+									}
 }
-const udef = 'undefined';
 
+//Delcarations
+const udef = 'undefined';
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {

@@ -236,6 +236,11 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewMarqueeDisabled) obj.native.LayoutViewMarqueeDisabled = this.config.optionsLayoutViewMarqueeDisabled;
 		if (this.config.optionsLayoutViewMarqueeNamesEnabled) obj.native.LayoutViewMarqueeNamesEnabled = this.config.optionsLayoutViewMarqueeNamesEnabled;
 		if (this.config.optionsLayoutViewMarqueeSpeed) obj.native.LayoutViewMarqueeSpeed = this.config.optionsLayoutViewMarqueeSpeed;
+		//resizeDevicesToFitScreen
+		if (this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled) obj.native.LayoutViewResizeDevicesToFitScreenDisabled = this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled;
+		if (this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold) obj.native.LayoutViewResizeDevicesToFitScreeTreshold = this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold;
+		if (this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens) obj.native.LayoutViewResizeDevicesToFitScreenOnBigScreens = this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens;
+		//Options ready
 		createdObjects.push("Options");
 		this.setObjectAsync("Options", obj, this.logbook("created: Options"));
 	}

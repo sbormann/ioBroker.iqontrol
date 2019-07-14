@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.44",
+        "version": "0.0.45",
         "news": {
+            "0.0.45": {
+                "en": "Devices are now zoomed to fit screen (configurable under options)"
+            },
             "0.0.44": {
                 "en": "Fixed incomplete loading of admin page with some settings, Added datapoint-configuration via custom-dialog",
                 "de": "Das unvollständige Laden der Admin-Seite mit einigen Einstellungen wurde behoben. Die Datenpunkt-Konfiguration wurde über einen benutzerdefinierten Dialog hinzugefügt",
