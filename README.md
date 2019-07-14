@@ -234,7 +234,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.0.44
+### 0.0.44 (2019-07-??)
 * (Sebastian Bormann) Fixed incomplete loading of admin page with some settings.
 * (Sebastian Bormann) Added datapoint-configuration via custom-dialog.
 
