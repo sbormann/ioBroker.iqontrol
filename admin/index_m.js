@@ -15,88 +15,104 @@ var iQontrolRoles = {
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
 										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/switch_on.png"
+										icon: "/images/icons/switch_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolLight": 				{
 										name: "Light",
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/light_on.png"
+										icon: "/images/icons/light_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
 										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
-										icon: "/images/icons/fan_on.png"
+										icon: "/images/icons/fan_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/radiator.png"
+										icon: "/images/icons/radiator.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/radiator.png"
+										icon: "/images/icons/radiator.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/temperature.png"
+										icon: "/images/icons/temperature.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/humidity.png"
+										icon: "/images/icons/humidity.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brigthness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/brightness_light.png"
+										icon: "/images/icons/brightness_light.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/motion_on.png"
+										icon: "/images/icons/motion_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/door_closed.png"
+										icon: "/images/icons/door_closed.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
 										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/door_locked.png"
+										icon: "/images/icons/door_locked.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/window_closed.png"
+										icon: "/images/icons/window_closed.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
 										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
-										options: {invert: {name: "Invert", type: "checkbox", default: "true"}, readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}}
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/fire_on.png"
+										icon: "/images/icons/fire_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
-										icon: "/images/icons/alarm_on.png"
+										icon: "/images/icons/alarm_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
 										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/battery_full.png"
+										icon: "/images/icons/battery_full.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/value_on.png"
+										icon: "/images/icons/value_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
@@ -106,13 +122,13 @@ var iQontrolRoles = {
 	"iQontrolScene": 				{
 										name: "Scene", 	
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/play.png"
+										icon: "/images/icons/play.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
 										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/button.png"
-									},
+										icon: "/images/icons/button.png"									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
@@ -560,6 +576,15 @@ function load(settings, onChange) {
 						var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 						views[viewIndex].devices[deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
 						views[viewIndex].devices[deviceIndex].states = dialogDeviceEditStatesTable;
+						dialogDeviceEditOptions = [];
+						$('.dialogDeviceEditOption').each(function(){ //save the options entrys
+							var option = $(this).data('option');
+							var type = $(this).data('type');
+							if (type == "checkbox") var value = $(this).prop('checked').toString(); else var value = $(this).val();
+							var entry = {option: option, type: type, value: value};
+							dialogDeviceEditOptions.push(entry);
+						});
+						views[viewIndex].devices[deviceIndex].options = dialogDeviceEditOptions; 
 						onTableDevicesReady();
 					});
 					$('#dialogDeviceEditCommonName').html(views[viewIndex].devices[deviceIndex].commonName || "");
@@ -567,6 +592,8 @@ function load(settings, onChange) {
 					$('#dialogDeviceEditDeviceIndex').val(deviceIndex);
 					dialogDeviceEditStates = views[viewIndex].devices[deviceIndex].states || [];
 					dialogDeviceEditStatesTable = [];
+					dialogDeviceEditOptions = views[viewIndex].devices[deviceIndex].options || [];
+					$('#dialogDeviceEditOptionsContent').empty();
 					if(views[viewIndex].devices[deviceIndex].commonRole) {
 						$('#dialogDeviceEditCommonRole').val(views[viewIndex].devices[deviceIndex].commonRole).trigger('change');
 					} else {
@@ -611,7 +638,8 @@ function load(settings, onChange) {
 		var viewIndex =   $('#dialogDeviceEditViewIndex').val();
 		var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 		dialogDeviceEditCommonRole = $('#dialogDeviceEditCommonRole').val();
-		if(typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new table
+		//States
+		if(typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new states table
 			var index = dialogDeviceEditStates.findIndex(function(element){ return element.state == entry.state;});
 			if (index == -1) {
 				dialogDeviceEditStates.push(entry);
@@ -620,10 +648,10 @@ function load(settings, onChange) {
 			}
 		});
 		dialogDeviceEditStatesTable = [];
-		if(dialogDeviceEditCommonRole){
+		if(dialogDeviceEditCommonRole){ //build states table
 			iQontrolRoles[dialogDeviceEditCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
-				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).commonRole || "";
-				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {'state': entry}).value || "";
+				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
+				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
 				if(commonRole == ""){
 					if(entry == "VALVE_STATES" || entry == "ADDITIONAL_INFO"){
 						commonRole = "array";
@@ -646,6 +674,69 @@ function load(settings, onChange) {
 		}
 		//Fill Table
 		values2table('tableDialogDeviceEditStates', dialogDeviceEditStatesTable, onChange, ontableDialogDeviceEditStatesReady);
+		//Options
+		$('.dialogDeviceEditOption').each(function(){ //save the entrys before bulding the new options content
+			var option = $(this).data('option');
+			var type = $(this).data('type');
+			if (type == "checkbox") var value = $(this).prop('checked').toString(); else var value = $(this).val();
+			var index = dialogDeviceEditOptions.findIndex(function(element){ return element.option == option;});
+			var entry = {option: option, type: type, value: value};
+			if (index == -1) {
+				dialogDeviceEditOptions.push(entry);
+			} else {
+				dialogDeviceEditOptions[index] = entry;
+			}
+		});
+		if(dialogDeviceEditCommonRole){ //build option content
+			var dialogDeviceEditOptionsContent = "";
+			for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //push all corresponding options for the selected role into the table
+				var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;				
+				var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
+				var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
+				switch(type){
+					case "text":
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l4'>";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + name + "</label>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+
+					case "select":
+					var selectOptionsString = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].selectOptions;
+					var selectOptions = selectOptionsString.split(';');
+					var selectOptionsContent = "";
+					selectOptions.forEach(function(option){
+						var parts = option.split('/');
+						if (parts.length < 2) parts.push(parts[0]);
+						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + parts[1] + "</option>";
+					});
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l4'>";
+					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
+					dialogDeviceEditOptionsContent += "    <span class='translate'>" + name + "</span>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+					
+					case "checkbox":
+					if(value == "true") value = true;
+					if(value == "false") value = false;
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l4'>";
+					dialogDeviceEditOptionsContent += "    <p><label>";
+					dialogDeviceEditOptionsContent += "        <input class='value dialogDeviceEditOption filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "' " + (value?"checked='checked'":"") + " />";
+					dialogDeviceEditOptionsContent += "        <span>" + _(name) + "</span>";
+					dialogDeviceEditOptionsContent += "    </label></p>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+				}
+			}
+			if(dialogDeviceEditOptionsContent == ""){
+				$('#dialogDeviceEditOptionsContent').html("<br><p>"+ _("This role has no options.") + "</p>");
+			} else {
+				$('#dialogDeviceEditOptionsContent').html(dialogDeviceEditOptionsContent);
+			}
+			$('select').select();
+			if (M) M.updateTextFields();
+		}
 	});
 
 	//Enhance tableDialogDeviceEditStates with functions
@@ -680,6 +771,7 @@ function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit
 			if (command === 'edit') {
 				var stateIndex = $(this).data('index');
 				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
@@ -721,6 +813,25 @@ function load(settings, onChange) {
 						});
 					});
 				}
+			}
+			//OpenCustom
+			if (command === 'openCustom') {
+				var stateIndex = $(this).data('index');
+				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
+				var stateObject = parent.gMain.objects[stateId];
+				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && typeof stateObject.common.custom[adapter + "." + instance] != udef){
+					$(this).find('i').addClass('indigo').html('build');
+				} else {
+					$(this).find('i').addClass('grey').html('build');
+				}
+				$(this).on('click', function (e) {
+					var _stateIndex = $(this).data('index');
+					var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
+					if (_stateId != ""){
+						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+						window.open(url);
+					}
+				});
 			}
 		});
 	}

@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.45",
+        "version": "0.0.46",
         "news": {
+            "0.0.46": {
+                "en": "Added options to device configuration dialog, Added readonly-flag to device options, Added invert color temperature flag to device options for lights, Added invert flag to device options for blinds.",
+                "de": "Optionen zum Gerätekonfigurationsdialog hinzugefügt, Readonly-Flag zu Geräteoptionen hinzugefügt, Farbtemperatur-Flag zu Geräteoptionen für Lichter umkehren hinzugefügt, Invert-Flag zu Geräteoptionen für Jalousien hinzugefügt.",
+                "ru": "Добавлены опции в диалог конфигурации устройства, Добавлен флаг readonly для параметров устройства, Добавлен флаг инвертирования цветовой температуры для параметров устройства для освещения, Добавлен флаг инвертирования для параметров устройства для жалюзи.",
+                "pt": "Adicionado opções para a caixa de diálogo de configuração do dispositivo, Adicionado readonly-bandeira para as opções do dispositivo, Adicionado sinalizador de temperatura da cor invertida para as opções do dispositivo para luzes, Adicionado inverter bandeira para as opções do dispositivo para blinds.",
+                "nl": "Opties toegevoegd aan apparaatconfiguratiedialoog, readonly-flag toegevoegd aan apparaatopties, vlag inverteer kleurtemperatuur toegevoegd aan apparaatopties voor lichten, vlag in invert toegevoegd aan apparaatopties voor blinds.",
+                "fr": "Ajout d'options à la boîte de dialogue de configuration du périphérique, Ajout de readonly-flag aux options de périphérique, Ajout d'un indicateur de température de couleur inversé aux options de dispositif pour les lumières, Ajout d'un indicateur d'inversion aux options de dispositif pour les stores.",
+                "it": "Aggiunte opzioni alla finestra di configurazione del dispositivo, aggiunte le opzioni readonly flag alle opzioni del dispositivo, il contrassegno della temperatura del colore invertito aggiunto alle opzioni del dispositivo per le luci, Aggiunto il contrassegno invertito alle opzioni del dispositivo per i bui.",
+                "es": "Se agregaron opciones al cuadro de diálogo de configuración del dispositivo, Se agregó la marca de solo lectura a las opciones del dispositivo, Se agregó la marca de temperatura de color invertido a las opciones del dispositivo para las luces, Se agregó la bandera de inversión a las opciones del dispositivo para persianas.",
+                "pl": "Dodano opcje do okna konfiguracji urządzenia, Dodano opcje tylko do odczytu do opcji urządzenia, Dodano flagę odwróconej temperatury koloru do opcji urządzenia dla świateł, Dodano flagę odwracania do opcji urządzenia dla rolet.",
+                "zh-cn": "添加了设备配置对话框的选项，为设备选项添加了readonly-flag，为灯光的设备选项添加了反转色温标志，为百叶窗的设备选项添加了反转标志。"
+            },
             "0.0.45": {
-                "en": "Devices are now zoomed to fit screen (configurable under options)"
+                "en": "Devices are now zoomed to fit screen (configurable under options)",
+                "de": "Geräte werden jetzt gezoomt, um sie an den Bildschirm anzupassen (konfigurierbar unter Optionen)",
+                "ru": "Устройства теперь масштабируются по размеру экрана (настраивается в настройках)",
+                "pt": "Os dispositivos agora são ampliados para caber na tela (configurável em opções)",
+                "nl": "Apparaten worden nu ingezoomd om op het scherm te passen (configureerbaar onder opties)",
+                "fr": "Les appareils sont maintenant zoomés pour s'adapter à l'écran (configurable dans les options)",
+                "it": "I dispositivi ora sono ingranditi per adattarsi allo schermo (configurabile sotto opzioni)",
+                "es": "Los dispositivos ahora se acercan para adaptarse a la pantalla (configurable en las opciones)",
+                "pl": "Urządzenia są teraz powiększane w celu dopasowania do ekranu (konfigurowalne w opcjach)",
+                "zh-cn": "设备现在缩放到适合屏幕（可在选项下配置）"
             },
             "0.0.44": {
                 "en": "Fixed incomplete loading of admin page with some settings, Added datapoint-configuration via custom-dialog",

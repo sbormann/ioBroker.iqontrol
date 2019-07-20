@@ -113,6 +113,13 @@ class Iqontrol extends utils.Adapter {
 						"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 					}
 				};
+				if(typeof this.config.views[viewIndex].devices[index].options != 'undefined'){
+					for(var i = 0; i < this.config.views[viewIndex].devices[index].options.length; i++){
+						var option = this.config.views[viewIndex].devices[index].options[i].option;
+						var value = this.config.views[viewIndex].devices[index].options[i].value || "";
+						obj.native[option] = value;
+					}
+				}
 				this.createStates(viewIndex, index);
 				createdObjects.push(objId);
 				this.setObjectAsync(objId, obj, this.logbook("created: " + objId));

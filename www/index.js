@@ -14,88 +14,104 @@ var iQontrolRoles = {
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
 										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/switch_on.png"
+										icon: "/images/icons/switch_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolLight": 				{
 										name: "Light",
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/light_on.png"
+										icon: "/images/icons/light_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
 										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
-										icon: "/images/icons/fan_on.png"
+										icon: "/images/icons/fan_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/radiator.png"
+										icon: "/images/icons/radiator.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/radiator.png"
+										icon: "/images/icons/radiator.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/temperature.png"
+										icon: "/images/icons/temperature.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/humidity.png"
+										icon: "/images/icons/humidity.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brigthness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/brightness_light.png"
+										icon: "/images/icons/brightness_light.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/motion_on.png"
+										icon: "/images/icons/motion_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/door_closed.png"
+										icon: "/images/icons/door_closed.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
 										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/door_locked.png"
+										icon: "/images/icons/door_locked.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/window_closed.png"
+										icon: "/images/icons/window_closed.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
 										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
-										options: {invert: {name: "Invert", type: "checkbox", default: "true"}, readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertBlindLevel: {name: "Invert Level (0 = open)", type: "checkbox", default: "false"}}
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/fire_on.png"
+										icon: "/images/icons/fire_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
-										icon: "/images/icons/alarm_on.png"
+										icon: "/images/icons/alarm_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
 										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/battery_full.png"
+										icon: "/images/icons/battery_full.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/value_on.png"
+										icon: "/images/icons/value_on.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
@@ -105,13 +121,13 @@ var iQontrolRoles = {
 	"iQontrolScene": 				{
 										name: "Scene", 	
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/play.png"
+										icon: "/images/icons/play.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
 										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/button.png"
-									},
+										icon: "/images/icons/button.png"									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
@@ -534,6 +550,8 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 	if(typeof usedObjects[linkedStateId] !== udef) {
 		//--Declare plainText
 		result.plainText = "";
+		//--Add custom
+		result.custom = typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace] || {};
 		//--Add unit
 		result.unit = getUnit(linkedStateId);
 		//--Add readonly
@@ -602,7 +620,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.readonly = true;
 				break;
 
-				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable":
+				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active":
 				if(typeof result.val == 'string') if (result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
 				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
 				result.type = "switch";
@@ -757,7 +775,9 @@ function updateState(stateId, ignorePreventUpdate){
 
 function toggleState(linkedStateId, deviceId, callback){
 	var state = getStateObject(linkedStateId);
-	if(state){
+	var deviceReadonly = false;
+	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.readonly != udef && usedObjects[deviceId].native.readonly == "true") deviceReadonly = true;
+	if(state && state.readonly == false && deviceReadonly == false){
 		switch(state.type){
 			case "switch":
 			var oldVal = state.val;
@@ -794,7 +814,9 @@ function toggleState(linkedStateId, deviceId, callback){
 
 function toggleBlind(linkedStateId, linkedDirectionId, linkedStopId, linkedUpId, linkedDownId, deviceId, callback){
 	var state = getStateObject(linkedStateId);
-	if(state){
+	var deviceReadonly = false;
+	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.readonly != udef && usedObjects[deviceId].native.readonly == "true") deviceReadonly = true;
+	if(state && state.readonly == false && deviceReadonly == false){
 		var direction = getStateObject(linkedDirectionId);
 		var stop = getStateObject(linkedStopId);
 		var up = getStateObject(linkedUpId);
@@ -849,14 +871,15 @@ function getTimeFromHMTimeCode(HMTimeCode){
 	return Hour + ":" + Minutes;
 }
 
-function colorTemperatureToRGB(value,  min,  max){
+function colorTemperatureToRGB(value,  min,  max, invertCt){
 	var rgbWW = {r: 255, g: 204, b: 82};
 	var rgbCW = {r: 174, g: 228, b: 255};
 	value = (Math.max(min, Math.min(value, max)) - min) / (max - min); //0...1
-	if(value <0.5){
-		var rgb = {r: rgbWW.r + ((value/0.5) * 255), g: rgbWW.g + ((value/0.5) * 255), b: rgbWW.b + ((value/0.5) * 255)};
+	if(invertCt) value = 1 - value;
+	if(value >0.5){
+		var rgb = {r: rgbWW.r + (((1-value)/0.5) * 255), g: rgbWW.g + (((1-value)/0.5) * 255), b: rgbWW.b + (((1-value)/0.5) * 255)};
 	} else {
-		var rgb = {r: rgbCW.r + (((1-value)/0.5) * 255), g: rgbCW.g + (((1-value)/0.5) * 255), b: rgbCW.b + (((1-value)/0.5) * 255)};
+		var rgb = {r: rgbCW.r + ((value/0.5) * 255), g: rgbCW.g + ((value/0.5) * 255), b: rgbCW.b + ((value/0.5) * 255)};
 	}
 	return rgb;
 }
@@ -1561,11 +1584,14 @@ function renderView(id, updateOnly){
 										var _linkedCtId = viewLinkedStateIds["CT"];
 										viewUpdateFunctions[_linkedCtId].push(function(){
 											if (states[_linkedCtId]){
+												var val = states[_linkedCtId].val;
 												var min = 0;
 												var max = 100;
 												if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.min !== udef) min = usedObjects[_linkedCtId].common.min;
 												if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.max !== udef) max = usedObjects[_linkedCtId].common.max;
-												var rgb = colorTemperatureToRGB(states[_linkedCtId].val, min, max);
+												var invertCt = false;
+												if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertCt != udef && usedObjects[_deviceId].native.invertCt == "true") invertCt = !invertCt;
+												var rgb = colorTemperatureToRGB(val, min, max, invertCt);
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
 											}
 										});
@@ -1802,9 +1828,18 @@ function renderView(id, updateOnly){
 											var max = 100;
 											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.min !== udef) min = usedObjects[_linkedLevelId].common.min;
 											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.max !== udef) max = usedObjects[_linkedLevelId].common.max;
+											var val = level.val;
+											var invertBlindLevel = false;
+											if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertBlindLevel != udef && usedObjects[_deviceId].native.invertBlindLevel == "true") invertBlindLevel = !invertBlindLevel;
+											if(invertBlindLevel){
+												val = max - (level.val - min);
+											}
 											var direction = getStateObject(_linkedDirectionId);
+											var directionOpeningValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.directionOpeningValue != udef && usedObjects[_deviceId].native.directionOpeningValue) || 1;
+											var directionClosingValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.directionClosingValue != udef && usedObjects[_deviceId].native.directionClosingValue) || 2;
+											var directionUncertainValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.directionUncertainValue != udef && usedObjects[_deviceId].native.directionUncertainValue) || 3;
 											var resultText = "";
-											if(level && typeof level.val !== udef && level.val == min){ //Closed
+											if(level && typeof level.val !== udef && val == min){ //Closed
 												resultText = _("closed");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
@@ -1812,7 +1847,7 @@ function renderView(id, updateOnly){
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
-											} else if(level && typeof level.val !== udef && level.val == max){ //Opened
+											} else if(level && typeof level.val !== udef && val == max){ //Opened
 												resultText = _("opened");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
@@ -1820,7 +1855,7 @@ function renderView(id, updateOnly){
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
-											} else if(direction && typeof direction.val !== udef && direction.val == 1){ //Middle, but opening
+											} else if(direction && typeof direction.val !== udef && direction.val.toString() == directionOpeningValue.toString()){ //Middle, but opening
 												resultText = _("opening");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
@@ -1828,7 +1863,7 @@ function renderView(id, updateOnly){
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.opening").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").removeClass("active");
-											} else if(direction && typeof direction.val !== udef && direction.val == 2){ //Middle, but closing
+											} else if(direction && typeof direction.val !== udef && direction.val.toString() == directionClosingValue.toString()){ //Middle, but closing
 												resultText = _("closing");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
@@ -1838,7 +1873,7 @@ function renderView(id, updateOnly){
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.closing").addClass("active");
 											} else { //Middle with no movement
 												if(level && typeof level.val !== udef) resultText = level.val + level.unit;
-												if(direction && typeof direction.val !== udef && direction.val == 3) resultText = "<i>" + resultText + "</i>";
+												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
@@ -2100,7 +2135,6 @@ function applyPressureMenu(){
 		end: function(){ // this is called on force end
 			console.log("PRESSURE end");
 			$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			// pressureMenuForceOld[this] = 0; //xxx necessary?
 			if (pressureMenuFallbackTimer) {
 				clearInterval(pressureMenuFallbackTimer);
 				pressureMenuFallbackTimer = false;
@@ -2215,7 +2249,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 	dialogUpdateFunctions = {};
 	dialogStateIdsToFetch = [];
 	dialogLinkedStateIdsToUpdate = [];
-	if(typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native.readonly !== udef && usedObjects[deviceId].native.readonly !== "" && usedObjects[deviceId].native.readonly !== "false" && usedObjects[deviceId].native.readonly !== false) var dialogReadonly = true; else var dialogReadonly = false;
+	var dialogReadonly = false;
+	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.readonly != udef && usedObjects[deviceId].native.readonly == "true") dialogReadonly = true;
 	//Render Dialog
 	var dialogContent = "";
 	var dialogBindingFunctions = [];
@@ -2239,10 +2274,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolThermostat": case "iQontrolHomematicThermostat":
 			if(dialogStates["SET_TEMPERATURE"]){
-				var min = 6;
-				var max = 30;
-				if(typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.min;
-				if(typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.max;
+				var min = dialogStates["SET_TEMPERATURE"].min || 6;
+				var max = dialogStates["SET_TEMPERATURE"].max || 30;
 				dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Goal-Temperature") + ":</label>";
 				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='0.5'/>";
 				if (dialogLinkedStateIds["SET_TEMPERATURE"]){
@@ -2385,10 +2418,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 					break;
 
 					case "level":
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["STATE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["STATE"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["STATE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["STATE"]].common.max;
+					var min = dialogStates["STATE"].min || 0;
+					var max = dialogStates["STATE"].max || 100;
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
@@ -2496,15 +2527,13 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----Level
 			if(dialogStates["LEVEL"]){
 				if(dialogStates["LEVEL"].type == "level"){
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["LEVEL"]] !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["LEVEL"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["LEVEL"]] !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["LEVEL"]].common.max;
+					var min = dialogStates["LEVEL"].min || 0;
+					var max = dialogStates["LEVEL"].max || 100;
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
 					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + dialogStates["LEVEL"].readonly.toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["LEVEL"]){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
@@ -2574,62 +2603,63 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolBlind":
 			//----Blind
-			if(dialogStates["UP"] && dialogStates["UP"].type){
-				dialogContent += "<label for='DialogStateUPButton' ><image src='./images/up.png' / style='width:16px; height:16px;'>&nbsp;" + _("Up") + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _("Up") + "</a>";
-				if (dialogLinkedStateIds["UP"]){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedUpId = dialogLinkedStateIds["UP"];
-						var bindingFunction = function(){
-							$('#DialogStateUPButton').on('click', function(e) {
-								startProgram(_linkedUpId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
+			if(!dialogReadonly && ((dialogStates["DOWN"] && dialogStates["DOWN"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["UP"] && dialogStates["UP"].type))){
+				dialogContent += "<div data-role='controlgroup' data-type='horizontal'>";
+				if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-d' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _("Down") + "</a>";
+					if (dialogLinkedStateIds["DOWN"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedDownId = dialogLinkedStateIds["DOWN"];
+							var bindingFunction = function(){
+								$('#DialogStateDownButton').on('click', function(e) {
+									startProgram(_linkedDownId, _deviceId);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 				}
-			}
-			if(dialogStates["STOP"] && dialogStates["STOP"].type){
-				dialogContent += "<label for='DialogStateStopButton' ><image src='./images/stop.png' / style='width:16px; height:16px;'>&nbsp;" + _("Stop") + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _("Stop") + "</a>";
-				if (dialogLinkedStateIds["STOP"]){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedStopId = dialogLinkedStateIds["STOP"];
-						var bindingFunction = function(){
-							$('#DialogStateStopButton').on('click', function(e) {
-								startProgram(_linkedStopId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
+				if(dialogStates["STOP"] && dialogStates["STOP"].type){
+					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _("Stop") + "</a>";
+					if (dialogLinkedStateIds["STOP"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedStopId = dialogLinkedStateIds["STOP"];
+							var bindingFunction = function(){
+								$('#DialogStateStopButton').on('click', function(e) {
+									startProgram(_linkedStopId, _deviceId);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 				}
-			}
-			if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
-				dialogContent += "<label for='DialogStateDownButton' ><image src='./images/down.png' / style='width:16px; height:16px;'>&nbsp;" + _("Down") + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _("Down") + "</a>";
-				if (dialogLinkedStateIds["DOWN"]){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedDownId = dialogLinkedStateIds["DOWN"];
-						var bindingFunction = function(){
-							$('#DialogStateDownButton').on('click', function(e) {
-								startProgram(_linkedDownId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
+				if(dialogStates["UP"] && dialogStates["UP"].type){
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-u' data-iconpos='right'  class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _("Up") + "</a>";
+					if (dialogLinkedStateIds["UP"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedUpId = dialogLinkedStateIds["UP"];
+							var bindingFunction = function(){
+								$('#DialogStateUPButton').on('click', function(e) {
+									startProgram(_linkedUpId, _deviceId);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 				}
+				dialogContent += "</div>";
 			}
 			break;
 
 			case "iQontrolDoorWithLock":
 			//----DoorWithLock
-			if(dialogStates["LOCK_STATE"] || dialogStates["LOCK_OPEN"]){
+			if(dialogStates["LOCK_STATE"] || (dialogStates["LOCK_OPEN"] && !dialogStates["LOCK_OPEN"].readonly && !dialogReadonly)){
 					dialogContent += "<legend><image src='./images/door_lock.png' / style='width:16px; height:16px;'>&nbsp;" + _("Doorlock") + ":</legend>";
 			}
-			if(dialogStates["LOCK_OPEN"]){
+			if(dialogStates["LOCK_OPEN"] && !dialogStates["LOCK_OPEN"].readonly && !dialogReadonly){
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 				if (dialogLinkedStateIds["LOCK_OPEN"]){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -2646,9 +2676,9 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			}
 			if(dialogStates["LOCK_STATE"]){
 				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
-					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
+					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' disabled='" + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
 					dialogContent += "<label for='DialogLockStateCheckboxradio_false'>" + _("locked") + "</label>";
-					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
+					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' disabled='" + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
 					dialogContent += "<label for='DialogLockStateCheckboxradio_true'>" + _("unlocked") + "</label>";
 				dialogContent += "</fieldset>";
 				dialogContent += "<div class='DialogLockStateUncertainText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
@@ -2658,7 +2688,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
-								if(states[_linkedStateId].val){ //Doop opened - deactivate Doorlock
+								if(states[_linkedStateId].val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Doop opened - deactivate Doorlock
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", true);
 								} else {
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", false);
@@ -2776,7 +2806,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 							var controlModeParty = val;
 							continue;
 						}
-						dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' data-iQontrol-Device-ID='" + deviceId + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
+						dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' disabled='" + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
 						dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
 					}
 				dialogContent += "</fieldset>";
@@ -2834,17 +2864,17 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 						dialogContent += "<div id='DialogThermostatPartyModeContent'>";
 							dialogContent += "<legend>" + _("Start") + ":</legend>";
 							dialogContent += "<fieldset data-role='controlgroup' data-mini='true' data-type='horizontal'>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStartDay' id='DialogThermostatPartyModeStartDay' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStartDay' id='DialogThermostatPartyModeStartDay' data-inline='true'>";
 									for(var i=1; i<=31; i++){
 										dialogContent += "<option>" + i + ".</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStartMonth' id='DialogThermostatPartyModeStartMonth' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStartMonth' id='DialogThermostatPartyModeStartMonth' data-inline='true'>";
 									for(var i=1; i<=12; i++){
 										dialogContent += "<option>" + i + ".</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStartYear' id='DialogThermostatPartyModeStartYear' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStartYear' id='DialogThermostatPartyModeStartYear' data-inline='true'>";
 									for(var i=year; i <= year + 5; i++){
 										var iString = "20" + i;
 										dialogContent += "<option>" + iString + "</option>";
@@ -2852,13 +2882,13 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 								dialogContent += "</select>";
 							dialogContent += "</fieldset>";
 							dialogContent += "<fieldset data-role='controlgroup' data-mini='true' data-type='horizontal'>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStartHour' id='DialogThermostatPartyModeStartHour' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStartHour' id='DialogThermostatPartyModeStartHour' data-inline='true'>";
 									for(var i=0; i<=23; i++){
 										if (i<10) var iString = "0" + i; else var iString = i;
 										dialogContent += "<option>" + iString + ":</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStartMin' id='DialogThermostatPartyModeStartMin' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStartMin' id='DialogThermostatPartyModeStartMin' data-inline='true'>";
 									for(var i=0; i<=59; i=i+30){
 										if (i<10) var iString = "0" + i; else var iString = i;
 										dialogContent += "<option>" + iString + "</option>";
@@ -2868,17 +2898,17 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 							dialogContent += "<div id='DialogThermostatPartyModeStartMomentError' style='display:none'><img src='./images/error.png' style='width: 16px; height: 16px;'><span class='small'>&nbsp;" + _("Must not lay in past") + "</span></img></div><br>"
 							dialogContent += "<legend>" + _("End") + ":</legend>";
 							dialogContent += "<fieldset data-role='controlgroup' data-mini='true' data-type='horizontal'>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStopDay' id='DialogThermostatPartyModeStopDay' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStopDay' id='DialogThermostatPartyModeStopDay' data-inline='true'>";
 									for(var i=1; i<=31; i++){
 										dialogContent += "<option>" + i + ".</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStopMonth' id='DialogThermostatPartyModeStopMonth' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStopMonth' id='DialogThermostatPartyModeStopMonth' data-inline='true'>";
 									for(var i=1; i<=12; i++){
 										dialogContent += "<option>" + i + ".</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStopYear' id='DialogThermostatPartyModeStopYear' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStopYear' id='DialogThermostatPartyModeStopYear' data-inline='true'>";
 									for(var i=year; i <= year + 5; i++){
 										var iString = "20" + i;
 										dialogContent += "<option>" + iString + "</option>";
@@ -2886,13 +2916,13 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 								dialogContent += "</select>";
 							dialogContent += "</fieldset>";
 							dialogContent += "<fieldset data-role='controlgroup' data-mini='true' data-type='horizontal'>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStopHour' id='DialogThermostatPartyModeStopHour' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStopHour' id='DialogThermostatPartyModeStopHour' data-inline='true'>";
 									for(var i=0; i<=23; i++){
 										if (i<10) var iString = "0" + i; else var iString = i;
 										dialogContent += "<option>" + iString + ":</option>";
 									}
 								dialogContent += "</select>";
-								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' name='DialogThermostatPartyModeStopMin' id='DialogThermostatPartyModeStopMin' data-inline='true'>";
+								dialogContent += "<select class='DialogThermostatPartyModeMomentSelect' data-disabled='" + dialogReadonly.toString() + "' name='DialogThermostatPartyModeStopMin' id='DialogThermostatPartyModeStopMin' data-inline='true'>";
 									for(var i=0; i<=59; i=i+30){
 										if (i<10) var iString = "0" + i; else var iString = i;
 										dialogContent += "<option>" + iString + "</option>";
@@ -2902,10 +2932,12 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 							dialogContent += "<div id='DialogThermostatPartyModeStopMomentError' style='display:none'><img src='./images/error.png' style='width: 16px; height: 16px;'><span class='small'>&nbsp;" + _("Has to be after start") + "</span></img></div><br>"
 							dialogContent += "<label for='DialogThermostatPartyModeTemperature' >" + _("Goal-Temperature") + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogThermostatPartyModeTemperature' id='DialogThermostatPartyModeTemperature' min='5' max='30' step='0.5'/><br>";
-							dialogContent += "<div class='ui-grid-a'>";
-								dialogContent += "<div class='ui-block-a'><input type='button' value='" + _("Save") + "' name='DialogThermostatPartyModeSave'></div>";
-								dialogContent += "<div class='ui-block-b'><input type='button' value='" + _("Delete") + "' name='DialogThermostatPartyModeDelete'></div>";
-							dialogContent += "</div>";
+							if(!dialogReadonly){
+								dialogContent += "<div class='ui-grid-a'>";
+									dialogContent += "<div class='ui-block-a'><input type='button' value='" + _("Save") + "' name='DialogThermostatPartyModeSave'></div>";
+									dialogContent += "<div class='ui-block-b'><input type='button' value='" + _("Delete") + "' name='DialogThermostatPartyModeDelete'></div>";
+								dialogContent += "</div>";
+							}
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 
@@ -3109,10 +3141,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----ColorPicker
 			if(dialogStates["HUE"]){
 				if(dialogStates["HUE"].type == "level"){
-					var min = 0;
-					var max = 359;
-					if(typeof usedObjects[dialogLinkedStateIds["HUE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["HUE"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["HUE"]] !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["HUE"]].common.max;
+					var min = dialogStates["HUE"].min || 0;
+					var max = dialogStates["HUE"].max || 359;
 					dialogContent += "<hr>";
 					dialogContent += "<label for='DialogHueSlider' ><image src='./images/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["HUE"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='1'/>";
@@ -3137,10 +3167,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 										}, 500);
 										//Update ColorSaturationPicker-Slider linear-gradient immediatly
 										setInterval(function(){
-											var hueMin = 0;
-											var hueMax = 359;
-											if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
-											if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
+											var hueMin = dialogStates["HUE"].min || 0;
+											var hueMax = dialogStates["HUE"].max || 359;
 											var hue = (($("#DialogHueSlider").val() - hueMin) / (hueMax - hueMin)) * 359;
 											$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
 										}, 50);
@@ -3159,10 +3187,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----ColorSaturationPicker
 			if(dialogStates["SATURATION"] && dialogStates["HUE"]){
 				if(dialogStates["SATURATION"].type == "level"){
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["SATURATION"]] !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["SATURATION"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["SATURATION"]] !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["SATURATION"]].common.max;
+					var min = dialogStates["SATURATION"].min || 0;
+					var max = dialogStates["SATURATION"].max || 100;
 					dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogLinkedStateIds["SATURATION"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["SATURATION"]){
@@ -3180,10 +3206,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 							dialogUpdateFunctions[_linkedSaturationId].push(updateFunction);
 							var updateHueFunction = function(){
 								if (states[_linkedHueId]){
-									var hueMin = 0;
-									var hueMax = 359;
-									if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef) hueMin = usedObjects[_linkedHueId].common.min;
-									if(typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef) hueMax = usedObjects[_linkedHueId].common.max;
+									var hueMin = dialogStates["HUE"].min || 0;
+									var hueMax = dialogStates["HUE"].max || 359;
 									var hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
 									$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
 								} else {
@@ -3213,10 +3237,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----ColorBrightness
 			if(dialogStates["COLOR_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"]){ //brightness is only necessary, if the light has color and white brightness - otherwise the level ist regulated via .LEVEL
 				if(dialogStates["COLOR_BRIGHTNESS"].type == "level"){
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]] !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]] !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.max;
+					var min = dialogStates["COLOR_BRIGHTNESS"].min || 0;
+					var max = dialogStates["COLOR_BRIGHTNESS"].max || 100;
 					dialogContent += "<label for='DialogColorBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of color") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["COLOR_BRIGHTNESS"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["COLOR_BRIGHTNESS"]){
@@ -3253,13 +3275,13 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----ColorTemperaturePicker
 			if(dialogStates["CT"]){
 				if(dialogStates["CT"].type == "level"){
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["CT"]] !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["CT"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["CT"]] !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["CT"]].common.max;
+					var min = dialogStates["CT"].min || 0;
+					var max = dialogStates["CT"].max || 100;
+					var invertCt = false;
+					if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.invertCt != udef && usedObjects[deviceId].native.invertCt == "true") invertCt = !invertCt;
 					dialogContent += "<hr>";
 					dialogContent += "<label for='DialogCtSlider' ><image src='./images/colortemperature.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color-Temperature") + ":</label>";
-					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["CT"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker" + (invertCt?" invert":"") + "' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["CT"].readonly || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["CT"]){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceId = deviceId;
@@ -3294,10 +3316,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			//----WhiteBrightness
 			if(dialogStates["WHITE_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"]){ //brightness is only necessary, if the light has color and white brightness - otherwise the level ist regulated via .LEVEL
 				if(dialogStates["WHITE_BRIGHTNESS"].type == "level"){
-					var min = 0;
-					var max = 100;
-					if(typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]] !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.min !== udef) min = usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.min;
-					if(typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]] !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.max !== udef) max = usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.max;
+					var min = dialogStates["WHITE_BRIGHTNESS"].min || 0;
+					var max = dialogStates["WHITE_BRIGHTNESS"].max || 100;
 					dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["WHITE_BRIGHTNESS"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 					if (dialogLinkedStateIds["WHITE_BRIGHTNESS"]){
@@ -3360,7 +3380,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 					})(); //<--End Closure
 				}
 			}
-			if(dialogStates["EFFECT_NEXT"] && dialogStates["EFFECT_NEXT"].type){
+			if(dialogStates["EFFECT_NEXT"] && dialogStates["EFFECT_NEXT"].type && !dialogStates["EFFECT_NEXT"].readonly && !dialogReadonly){
 				dialogContent += "<hr>";
 				dialogContent += "<label for='DialogEffectNextButton' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectNextButton' id='DialogEffectNextButton'>" + _("Next") + "</a>";
@@ -3377,35 +3397,39 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 					})(); //<--End Closure
 				}
 			}
-			if(dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type){
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedUpButton' id='DialogEffectSpeedUpButton'>" + _("Faster") + "</a>";
-				if (dialogLinkedStateIds["EFFECT_SPEED_UP"]){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedEffectSpeedUpId = dialogLinkedStateIds["EFFECT_SPEED_UP"];
-						var bindingFunction = function(){
-							$('#DialogEffectSpeedUpButton').on('click', function(e) {
-								startProgram(_linkedEffectSpeedUpId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
+			if(((dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type) || (dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type)) && !dialogStates["EFFECT_SPEED_UP"].readonly && !dialogStates["EFFECT_SPEED_UP"].readonly && !dialogReadonly){
+				dialogContent += "<div data-role='controlgroup' data-type='horizontal'>";
+				if(dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type){
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='minus' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
+					if (dialogLinkedStateIds["EFFECT_SPEED_DOWN"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedEffectSpeedDownId = dialogLinkedStateIds["EFFECT_SPEED_DOWN"];
+							var bindingFunction = function(){
+								$('#DialogEffectSpeedDownButton').on('click', function(e) {
+									startProgram(_linkedEffectSpeedDownId, _deviceId);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 				}
-			}
-			if(dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type){
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
-				if (dialogLinkedStateIds["EFFECT_SPEED_DOWN"]){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceId = deviceId;
-						var _linkedEffectSpeedDownId = dialogLinkedStateIds["EFFECT_SPEED_DOWN"];
-						var bindingFunction = function(){
-							$('#DialogEffectSpeedDownButton').on('click', function(e) {
-								startProgram(_linkedEffectSpeedDownId, _deviceId);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
+				if(dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type){
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='plus' data-iconpos='right' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogEffectSpeedUpButton' id='DialogEffectSpeedUpButton'>" + _("Faster") + "</a>";
+					if (dialogLinkedStateIds["EFFECT_SPEED_UP"]){
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceId = deviceId;
+							var _linkedEffectSpeedUpId = dialogLinkedStateIds["EFFECT_SPEED_UP"];
+							var bindingFunction = function(){
+								$('#DialogEffectSpeedUpButton').on('click', function(e) {
+									startProgram(_linkedEffectSpeedUpId, _deviceId);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 				}
+				dialogContent += "</div>";
 			}
 			break;
 

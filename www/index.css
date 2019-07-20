@@ -63,7 +63,6 @@ body {
 
 #ViewMain {
 	overflow-y:hidden;
-	padding: 3px;
 	margin: 0px;
 	min-height:100vh;
 	color: #FFF;
@@ -83,6 +82,7 @@ body {
 
 #ViewContent {
 	transform-origin: left top;
+	margin-bottom: 50px;
 	display: inline-block;
 	width: 100%;
 	text-align: left;
@@ -454,6 +454,12 @@ body {
 
 .colorTemperaturePicker + .ui-slider-track {
 	background-image: url(./images/ct.png) !important;
+	background-repeat: repeat-y !important;
+	background-size: 100%, auto !important;
+}
+
+.colorTemperaturePicker.invert + .ui-slider-track {
+	background-image: url(./images/ct_invert.png) !important;
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
