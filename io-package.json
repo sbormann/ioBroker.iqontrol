@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.46",
+        "version": "0.0.47",
         "news": {
+            "0.0.47": {
+                "en": "Added targetValueId inside custom datapoint configuration dialog wich allowes to have different datapoints vor actual value and for target value, Added invert-flag inside custom datapoint configuration dialog.",
+                "de": "TargetValueId im Konfigurationsdialog für benutzerdefinierte Datenpunkte hinzugefügt, der es ermöglicht, unterschiedliche Datenpunkte für den tatsächlichen Wert und für den Zielwert zu verwenden. Invert-flag im Konfigurationsdialog für benutzerdefinierte Datenpunkte hinzugefügt.",
+                "ru": "Добавлен targetValueId в диалоге конфигурации пользовательских точек данных, который позволяет иметь разные точки данных в зависимости от фактического значения и целевого значения. Добавлен флаг инвертирования в диалоговом окне конфигурации пользовательских точек данных.",
+                "pt": "O targetValueId foi adicionado dentro da caixa de diálogo de configuração do ponto de dados personalizado, que permite ter pontos de dados diferentes para o valor real e para o valor de destino, Adicionado sinalizador invertido dentro da caixa de diálogo de configuração do ponto de dados personalizado.",
+                "nl": "TargetValueId toegevoegd in het configuratiedialoogvenster voor de aangepaste datapunten waarmee verschillende datapunten voor de werkelijke waarde en voor de doelwaarde kunnen worden gemaakt. Invert-flag toegevoegd in het dialoogvenster met de aangepaste datapuntenconfiguratie.",
+                "fr": "Ajout de targetValueId dans la boîte de dialogue de configuration de point de données personnalisée, ce qui permet d’avoir différents points de données par rapport à la valeur réelle et pour la valeur cible, Ajout d’invert-flag dans la boîte de dialogue de configuration de points de données personnalisée.",
+                "it": "Aggiunto targetValueId all'interno della finestra di dialogo di configurazione del datapoint personalizzata che consente di avere datapoint diversi con valore effettivo e valore di destinazione, Aggiunto invert-flag all'interno della finestra di dialogo di configurazione del datapoint personalizzato.",
+                "es": "Se agregó targetValueId dentro del cuadro de diálogo de configuración de punto de datos personalizado que permite tener diferentes puntos de datos para el valor real y, para el valor objetivo, se agregó una marca de inversión dentro del cuadro de diálogo de configuración de punto de datos personalizado.",
+                "pl": "Dodano targetValueId w niestandardowym oknie dialogowym konfiguracji punktu danych, które pozwala na posiadanie różnych punktów danych lub wartości rzeczywistej i wartości docelowej, Dodano flagę odwracania wewnątrz niestandardowego okna konfiguracji punktu danych.",
+                "zh-cn": "在自定义数据点配置对话框中添加了targetValueId，允许具有不同的数据点和实际值以及目标值，在自定义数据点配置对话框中添加了invert-flag。"
+            },
             "0.0.46": {
                 "en": "Added options to device configuration dialog, Added readonly-flag to device options, Added invert color temperature flag to device options for lights, Added invert flag to device options for blinds.",
                 "de": "Optionen zum Gerätekonfigurationsdialog hinzugefügt, Readonly-Flag zu Geräteoptionen hinzugefügt, Farbtemperatur-Flag zu Geräteoptionen für Lichter umkehren hinzugefügt, Invert-Flag zu Geräteoptionen für Jalousien hinzugefügt.",

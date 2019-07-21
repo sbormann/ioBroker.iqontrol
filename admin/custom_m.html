@@ -6,15 +6,43 @@
 			<span class="translate">enabled</span>
 		</div>
 		<div class="input-field col s8">
-			<input type="checkbox" data-field="readonly">
+			<input type="checkbox" class="enableOnChange" data-field="readonly">
 			<span class="translate">Readonly</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="checkbox" class="enableOnChange" data-field="invert">
+			<span class="translate">Invert</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for booleans and for numbers with defined min and max)</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="unit">
+			<span class="translate">Unit</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="targetValueId">
+			<span class="translate">Write target values to this Datapoint ID</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(if you have different data points for the actual and the target value)</span>
 		</div>
 	</div>
 	<!--div class="row">
 		<div class="col s4">
 		</div>
         <div class="input-field col s8">
-            <select data-field="showTimestamp">
+            <select class="enableOnChange" data-field="showTimestamp">
                 <option value=""          		class="translate">Automatic</option>
                 <option value="Always"    		class="translate">Always</option>
                 <option value="Never"    		class="translate">Never</option>
@@ -24,26 +52,16 @@
 			<span class="translate" style="font-size: 75%;">(this is only respected, if the datapoint is used as main state of a device)</span>
         </div>
 	</div-->
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="text" data-field="unit">
-			<span class="translate">Unit</span>
-		</div>
-	</div>
 	<!--div class="row">
 		<div class="col s4">
 		</div>
-        <div class="input-field col s8">
+        <div class="enableOnChange" class="input-field col s8">
             <select data-field="type">
                 <option value="string"          class="translate">String</option>
-                <option value="Always"    		class="translate">Always</option>
-                <option value="Never"    		class="translate">Never</option>
+                <option value="boolean"    		class="translate">Boolean</option>
+                <option value="level"    		class="translate">Level</option>
             </select>
-            <span class="translate">Show Timestamp</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only respected, if the datapoint is used as main state of a device)</span>
+            <span class="translate">Type</span>
         </div>
 	</div-->
 	<div class="row">
@@ -90,9 +108,11 @@
 			return {
 				enabled:        false,
 				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
+				invert:			false,
 				unit:			(obj && obj.common && obj.common.unit) || "",
 				showTimestamp:	"",
 				type:			(obj && obj.common && obj.common.type) || "string",
+				targetValueId:	"",
 				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
 			};
 		}
@@ -112,6 +132,9 @@
 			}
 			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-add').on('click', function(){
 				tableStatesAdd(adapter);
+			});
+			$('.enableOnChange').on('change', function(){
+				$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true);			
 			});
 			$('#dialog-customs .btn-save').on('click', function(){ 
 				if($('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').is(":checked")){
@@ -162,7 +185,7 @@
 			if(key != "") states[adapter][key] = value;
 		});
 		console.log("changeTableStates: " + JSON.stringify(states[adapter]));
-		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').trigger('change'); //to enable Save-Button
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true).trigger('change');  //to enable Save-Button
 	}
 
 	//OnSave - For future use with newer admin-versions

@@ -234,6 +234,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.0.47 (2019-07-22)
+* (Sebastian Bormann) Added targetValueId inside custom datapoint configuration dialog wich allowes to have different datapoints vor actual value and for target value.
+* (Sebastian Bormann) Added invert-flag inside custom datapoint configuration dialog.
+
 ### 0.0.46 (2019-07-20)
 * (Sebastian Bormann) Added options to device configuration dialog.
 * (Sebastian Bormann) Added readonly-flag to device options.

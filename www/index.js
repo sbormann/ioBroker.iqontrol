@@ -229,7 +229,7 @@ connCallbacks = {
 			$('.loader').show();
 		}
 	},
-	onRefresh: function() {
+	onRefresh: function() { 
 		console.log('Socket refresh');
 		alert('Socket refresh');
 		$('.loader').show();
@@ -438,23 +438,60 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 			}
 			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
 		}
+		//Invert (iQontrol -> ioBroker - the opposite way is inside updateState-Function)
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
+			switch(typeof newValue){
+				case "boolean":
+				console.log("Inverting boolean value for state " + stateId + " from " + newValue + "...");
+				newValue = !newValue;
+				states[stateId].isInverted = false;
+				console.log("...to " + newValue);
+				break;
+				
+				case "number":
+				console.log("Inverting number value for state " + stateId + " from " + newValue + "...");
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
+				if(typeof min !== udef && typeof max !== udef){
+					newValue = max - (newValue - min);
+					states[stateId].isInverted = false;
+					console.log("...to " + newValue);
+				} else {
+					console.log("...aborted inverting, because min or max is missing");
+				}
+				break;
+				
+				case "string":
+				console.log("Inverting string value for state " + stateId + " is not supported!");
+				break;	
+
+				default:
+				console.log("Inverting value for state " + stateId + " is impossible - type not known: " + typeof newValue);
+			}
+		}
 		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _stateId = stateId;
 			var _deviceId = deviceId;
 			var _preventUpdateTime = preventUpdateTime;
 			$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").addClass("active");
-			preventUpdate[stateId] = {};
-			preventUpdate[stateId].stateId = stateId;
-			preventUpdate[stateId].deviceId = deviceId;
-			preventUpdate[stateId].newVal = newValue;
-			preventUpdate[stateId].timerId = setTimeout(function(){
+			preventUpdate[_stateId] = {};
+			preventUpdate[_stateId].stateId = _stateId;
+			preventUpdate[_stateId].deviceId = deviceId;
+			preventUpdate[_stateId].newVal = newValue;
+			preventUpdate[_stateId].timerId = setTimeout(function(){
 				console.log("<< preventUpdate dexpired.")
 				$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").removeClass("active");
 				delete preventUpdate[_stateId];
 				updateState(_stateId);
 			}, _preventUpdateTime);
-			servConn.setState(stateId, {val: newValue, ack: false} , function(error){
+			//TargetValueId
+			if(typeof usedObjects[_stateId].common.custom !== udef && typeof usedObjects[_stateId].common.custom[namespace] !== udef && typeof usedObjects[_stateId].common.custom[namespace].targetValueId !== udef && usedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
+				var _targetValueId = usedObjects[_stateId].common.custom[namespace].targetValueId;
+			} else {
+				var _targetValueId = _stateId;
+			}
+			servConn.setState(_targetValueId, {val: newValue, ack: false} , function(error){
 				setTimeout(function(){
 					updateState(_stateId, "ignorePreventUpdate");
 				}, 200);
@@ -752,6 +789,37 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
 };
 
 function updateState(stateId, ignorePreventUpdate){
+	//Invert (ioBroker -> iQontrol - the opposite way is inside setState-Function)
+	if(usedObjects[stateId] && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
+		if(typeof states[stateId].val !== udef && !states[stateId].isInverted) switch(typeof states[stateId].val){
+			case "boolean":
+			console.log("Inverting boolean state " + stateId + " from " + states[stateId].val + "...");
+			states[stateId].val = !states[stateId].val;
+			states[stateId].isInverted = true;
+			console.log("...to " + states[stateId].val);
+			break;
+			
+			case "number":
+			console.log("Inverting number state " + stateId + " from " + states[stateId].val + "...");
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
+			if(typeof min !== udef && typeof max !== udef){
+				states[stateId].val = max - (states[stateId].val - min);
+				states[stateId].isInverted = true;
+				console.log("...to " + states[stateId].val);
+			} else {
+				console.log("...aborted inverting, because min or max is missing");
+			}
+			break;
+			
+			case "string":
+			console.log("Inverting string state " + stateId + " is not supported!");
+			break;	
+
+			default:
+			console.log("Inverting state " + stateId + " is impossible - type not known: " + typeof states[stateId].val);
+		}
+	}
 	if(preventUpdate[stateId]){
 		console.log(">> ack: " + states[stateId].ack + " val: " + states[stateId].val + " newVal: " + preventUpdate[stateId].newVal);
 	}
