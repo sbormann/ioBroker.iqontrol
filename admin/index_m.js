@@ -20,9 +20,9 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/light_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
@@ -70,6 +70,12 @@ var iQontrolRoles = {
 										name: "Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_closed.png",
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+									},
+	"iQontrolGarageDoor": 				{
+										name: "Garage Door", 
+										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/garagedoor_closed.png",
 										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
 									},
 	"iQontrolDoorWithLock": 		{
