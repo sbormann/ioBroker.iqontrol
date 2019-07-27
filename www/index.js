@@ -15,134 +15,139 @@ var iQontrolRoles = {
 										name: "Switch", 				
 										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/switch_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolLight": 				{
 										name: "Light",
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/light_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: "RGB"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
 										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/temperature.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/humidity.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brigthness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/brightness_light.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/motion_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
 										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_locked.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/window_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
 										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}}
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/fire_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
 										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/battery_full.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/value_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/play_on.png"
+										icon: "/images/icons/play_on.png",
+										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/play.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}}
+										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
 										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/button.png"									},
+										icon: "/images/icons/button.png",
+										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/popup.png"
+										icon: "/images/icons/popup.png",
+										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
 										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/link.png"
+										icon: "/images/icons/link.png",
+										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
 									}
 }
 
@@ -189,6 +194,7 @@ var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
 var dialogLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 				//Same as viewUpdateFunctions, but for dialog-page
+
 const udef = 'undefined';
 
 //++++++++++ POLYFILL ++++++++++
@@ -2487,9 +2493,9 @@ function renderView(id, updateOnly, callback){
 											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.min !== udef) min = usedObjects[_linkedLevelId].common.min;
 											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.max !== udef) max = usedObjects[_linkedLevelId].common.max;
 											var val = level.val;
-											var invertBlindLevel = false;
-											if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertBlindLevel != udef && usedObjects[_deviceId].native.invertBlindLevel == "true") invertBlindLevel = !invertBlindLevel;
-											if(invertBlindLevel){
+											var invertActuatorLevel = false;
+											if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertActuatorLevel != udef && usedObjects[_deviceId].native.invertActuatorLevel == "true") invertActuatorLevel = !invertActuatorLevel;
+											if(invertActuatorLevel){
 												val = max - (level.val - min);
 											}
 											var direction = getStateObject(_linkedDirectionId);
@@ -2902,7 +2908,7 @@ function viewSwipe(direction){
 }
 
 //++++++++++ DIALOG ++++++++++
-function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTimestamp" (until now this is the only valid value)
+function renderDialog(deviceId){
 	if (typeof deviceId == udef || deviceId == "") return;
 	actualDialogId = deviceId;
 	dialogUpdateFunctions = {};
@@ -2945,6 +2951,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 						if (states[_linkedSetTemperatureId]){
 							$("#DialogStateSlider").val(states[_linkedSetTemperatureId].val);
 							$("#DialogStateSlider").slider('refresh');
+							dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
 						}
 					};
 					dialogUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
@@ -2978,6 +2985,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 						if (states[_linkedStateId]){
 							if(states[_linkedStateId].val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
 							$("#DialogStateValue").button('refresh');
+							dialogUpdateTimestamp(states[_linkedStateId]);
 						}
 					};
 					dialogUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -3003,6 +3011,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 					var bindingFunction = function(){
 						$('#DialogStateButton').on('click', function(e) {
 							startProgram(_linkedStateId, _deviceId);
+							dialogUpdateTimestamp(states[_linkedStateId]);
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
@@ -3022,6 +3031,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 					var bindingFunction = function(){
 						$('#DialogStateButton').on('click', function(e) {
 							startButton(_linkedStateId, _linkedSetValueId, _deviceId);
+							dialogUpdateTimestamp(states[_linkedStateId]);
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
@@ -3213,35 +3223,11 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			}
 		}
 		//----Timestamp
-		var showTimestamp = null;
-		var linkedStateId = null;
-		if(dialogLinkedStateIds["STATE"]) linkedStateId = dialogLinkedStateIds["STATE"]; else if (dialogLinkedStateIds["LEVEL"]) linkedStateId = dialogLinkedStateIds["LEVEL"];
-		if(linkedStateId && usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].common !== udef && typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].showTimestamp !== udef){
-			switch(usedObjects[linkedStateId].common.custom[namespace].showTimestamp){
-				case "Always":
-				showTimestamp = true;
-				break
-				
-				case "Never":
-				showTimestamp = false;
-				break;
-			}
-		} 
-		if (showTimestamp == null) { //custom.showTimestamp is undefined or set to automatic
-			switch(usedObjects[deviceId].common.role){
-				case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
-				showTimestamp = true;
-				break;
-
-				default:
-				if(dialogExtended == "showTimestamp") showTimestamp = true; else showTimestamp = false;
-			}
-		}
-		if (showTimestamp){ //The Timestamp is updated via the dialogUpdateTimestamp-Function
-			dialogContent += "<div id='DialogTimestamp' data-timestamp='' data-iQontrol-Device-ID='" + deviceId + "'>";
-				dialogContent += "<span class='small'>" + _("Last change:") + "&nbsp;</span><span id='DialogTimestampText' class='small' data-iQontrol-Device-ID='" + deviceId + "'></span>";
-			dialogContent += "</div>";
-		}
+		dialogContent += "<img class='iQontrolDialogTimestampSwitch show' style='display:none' src='./images/icons/timestamp_show.png'>";
+		dialogContent += "<img class='iQontrolDialogTimestampSwitch hide' style='display:none' src='./images/icons/timestamp_hide.png'>";
+		dialogContent += "<div id='DialogTimestamp' style='display: none;' data-timestamp='' data-iQontrol-Device-ID='" + deviceId + "'>";
+		dialogContent += "	<span class='small'>" + _("Last change:") + "&nbsp;</span><span id='DialogTimestampText' class='small' data-iQontrol-Device-ID='" + deviceId + "'></span>";
+		dialogContent += "</div>"; //The Timestamp itself is updated via the dialogUpdateTimestamp-Function
 		//--Additional Content
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolBlind":
@@ -3311,9 +3297,9 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 			}
 			if(dialogStates["LOCK_STATE"]){
 				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
-					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' disabled='" + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
+					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
 					dialogContent += "<label for='DialogLockStateCheckboxradio_false'>" + _("locked") + "</label>";
-					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' disabled='" + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
+					dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_true' value='true' />";
 					dialogContent += "<label for='DialogLockStateCheckboxradio_true'>" + _("unlocked") + "</label>";
 				dialogContent += "</fieldset>";
 				dialogContent += "<div class='DialogLockStateUncertainText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
@@ -3323,7 +3309,7 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
-								if(states[_linkedStateId].val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Doop opened - deactivate Doorlock
+								if(states[_linkedStateId].val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Door opened - deactivate Doorlock
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", true);
 								} else {
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", false);
@@ -3437,7 +3423,8 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 							var controlModeParty = val;
 							continue;
 						}
-						dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' disabled='" + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
+						dialogStates["CONTROL_MODE"].readonly = false; //SPECIAL: Homematic control mode IS readonly, because it writes to another targetValueId but the new targetValueId-Feature is not yet implemented for Homematic-Themostats. Therefore - as workaround - the readonly-mode is disabled here. 
+						dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceId + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
 						dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
 					}
 				dialogContent += "</fieldset>";
@@ -4143,7 +4130,50 @@ function renderDialog(deviceId, dialogExtended){ //dialogExtended may be "showTi
 				updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog");
 			}
 		})(); //<--End Closure
-	});}
+	});
+	//Show or hide Timestamp
+	var showTimestamp = null;
+	var dialogShowTimestamp = ""; //possible values: "" = auto, "yes", "no", "always", "never"
+	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.showTimestamp != udef) dialogShowTimestamp = usedObjects[deviceId].native.showTimestamp;
+	switch(dialogShowTimestamp){
+		case "yes": 
+		$('.iQontrolDialogTimestampSwitch.hide').show();
+		case "always":
+		showTimestamp = true;
+		break;
+		
+		case "no": 
+		$('.iQontrolDialogTimestampSwitch.show').show();
+		case "never":
+		showTimestamp = false;
+		break;
+
+		default:
+		switch(usedObjects[deviceId].common.role){
+			case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
+			showTimestamp = true;
+			$('.iQontrolDialogTimestampSwitch.hide').show();
+			break;
+
+			default:
+			showTimestamp = false;
+			$('.iQontrolDialogTimestampSwitch.show').show();
+		}
+	}
+	if (showTimestamp){ 
+		$('#DialogTimestamp').show();
+	}
+	$('.iQontrolDialogTimestampSwitch.show').on('click', function(){
+		$('#DialogTimestamp').show();
+		$('.iQontrolDialogTimestampSwitch.show').hide();
+		$('.iQontrolDialogTimestampSwitch.hide').show();
+	});
+	$('.iQontrolDialogTimestampSwitch.hide').on('click', function(){
+		$('#DialogTimestamp').hide();
+		$('.iQontrolDialogTimestampSwitch.show').show();
+		$('.iQontrolDialogTimestampSwitch.hide').hide();
+	});
+}
 
 function dialogUpdateTimestamp(state){
 	if(typeof state != udef && typeof state.lc != udef && state.lc != ""){

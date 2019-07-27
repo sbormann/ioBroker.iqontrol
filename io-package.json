@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.49",
+        "version": "0.1.0",
         "news": {
+            "0.1.0": {
+                "en": "First stable release, Added show Timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps, Fixed readonly handling of control mode for Homematic Thermostats.",
+                "de": "Erste stabile Version, Zeitstempel für Geräteoptionen anzeigen hinzugefügt, um das Standardverhalten zu wählen, und ein kleines Zeitstempelsymbol im Dialogfeld, um Zeitstempel anzuzeigen und auszublenden. Die schreibgeschützte Behandlung des Steuermodus für Homematic Thermostats wurde behoben.",
+                "ru": "Первый стабильный выпуск. Добавлено отображение метки времени в параметрах устройства для выбора поведения по умолчанию и небольшая иконка отметки времени в диалоговом окне для отображения и скрытия меток времени. Исправлена ​​обработка режима управления для термостатов Homematic только для чтения.",
+                "pt": "Primeira versão estável, Adicionado show Timestamp às opções do dispositivo para escolher o comportamento padrão e um pequeno timestamp-icon na caixa de diálogo para mostrar e ocultar timestamps, Fixo readonly manipulação do modo de controle para Termostatos Homematic.",
+                "nl": "Eerste stabiele release, toegevoegd Toon tijdstempel aan apparaatopties om standaardgedrag te kiezen en een klein tijdstempel-pictogram in het dialoogvenster om tijdstempels te tonen en te verbergen, vaste readonly afhandeling van regelmodus voor homematische thermostaten.",
+                "fr": "Première version stable, Added affiche les options show timestamp to device pour choisir le comportement par défaut et une petite icône timestamp dans la boîte de dialogue permettant d'afficher et de masquer les horodatages.",
+                "it": "Prima versione stabile, aggiunta mostra timestamp alle opzioni del dispositivo per scegliere il comportamento predefinito e una piccola icona timestamp nella finestra di dialogo per mostrare e nascondere i timestamp, risolta la gestione in sola lettura della modalità di controllo per i termostati omematici.",
+                "es": "Primera versión estable, Se agregaron opciones de marca de tiempo a dispositivo para elegir el comportamiento predeterminado y un pequeño icono de marca de tiempo en el cuadro de diálogo para mostrar y ocultar las marcas de tiempo.",
+                "pl": "Pierwsze stabilne wydanie, Dodano opcję Pokaż znacznik czasu do opcji urządzenia, aby wybrać domyślne zachowanie i małą ikonę znacznika czasu w oknie dialogowym, aby pokazać i ukryć znaczniki czasu, Naprawiono obsługę trybu sterowania tylko dla termostatów homematycznych.",
+                "zh-cn": "第一个稳定版本，添加show timestamp到设备选项以选择默认行为，并在对话框中显示一个小时间戳图标以显示和隐藏时间戳，修复了Homematic恒温器控制模式的只读处理。"
+            },
             "0.0.49": {
                 "en": "Added common type and common role to custom dialog, Added pressure menu for toolbar.",
                 "de": "Allgemeiner Typ und allgemeine Rolle zum benutzerdefinierten Dialogfeld hinzugefügt. Druckmenü für Symbolleiste hinzugefügt.",

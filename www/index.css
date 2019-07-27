@@ -438,6 +438,14 @@ body {
 	min-width: 300px;
 }
 
+.iQontrolDialogTimestampSwitch {
+	position: absolute;
+	right: 3px;
+	top: 2px;
+	width: 16px;	
+	cursor: pointer;
+}
+
 .iQontrolDialogIframeWrapper{
 	-webkit-overflow-scrolling: touch;
 	height: 85vh;
@@ -545,7 +553,7 @@ body {
 	text-shadow: 0 1px 0 grey;
 }
 
-
+/* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
 
 @media screen and (min-width: 1500px){
 	#ViewMain {

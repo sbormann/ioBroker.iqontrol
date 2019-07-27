@@ -239,6 +239,11 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.0 (2019-07-27)
+* (Sebastian Bormann) First stable release.
+* (Sebastian Bormann) Added show Timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps.
+* (Sebastian Bormann) Fixed readonly handling of control mode for Homematic Thermostats.
+
 ### 0.0.49 (2019-07-27)
 * (Sebastian Bormann) Added common type and common role to custom dialog.
 * (Sebastian Bormann) Added pressure menu for toolbar.
