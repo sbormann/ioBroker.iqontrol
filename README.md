@@ -176,7 +176,7 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - display if motion is detected or not
 * The **linked-view-property** is opened directly
 
-### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
+### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/garagedoor_closed.png" width="32"> Garage Door, <img src="img/icons/window_closed.png" width="32"> Window:
 * **STATE**: *boolean* - display if the door or window is opened or closed. 
     * Alternatively you can assign a *value-list*, to display additional states like 'tilted'.
     * You can also assign a *string* to display any text like "3 windows open" or "all closed".
@@ -238,6 +238,10 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.0.49 (2019-07-27)
+* (Sebastian Bormann) Added common type and common role to custom dialog.
+* (Sebastian Bormann) Added pressure menu for toolbar.
 
 ### 0.0.48 (2019-07-25)
 * (Sebastian Bormann) Datapoint BATTERY can now be a level - the battery-empty-icon will be shown if value is less than 10%.

@@ -52,18 +52,43 @@
 			<span class="translate" style="font-size: 75%;">(this is only respected, if the datapoint is used as main state of a device)</span>
         </div>
 	</div-->
-	<!--div class="row">
+	<div class="row">
 		<div class="col s4">
 		</div>
-        <div class="enableOnChange" class="input-field col s8">
-            <select data-field="type">
+        <div class="input-field col s8">
+            <select data-field="type" class="enableOnChange" >
+                <option value=""          		class="translate"></option>
                 <option value="string"          class="translate">String</option>
+                <option value="number"    		class="translate">Number</option>
                 <option value="boolean"    		class="translate">Boolean</option>
-                <option value="level"    		class="translate">Level</option>
+                <!--option value="object"    	class="translate">Object</option-->
+                <!--option value="array"    	class="translate">Array</option-->
+                <!--option value="mixed"    	class="translate">Mixed</option-->
             </select>
             <span class="translate">Type</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(overwrites common.type property)</span>
         </div>
-	</div-->
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+        <div class="input-field col s8">  
+            <select data-field="role" class="enableOnChange">
+                <option value=""          				class="translate"></option>
+                <option value="state"    				class="translate">State (state)</option>
+                <option value="level"    				class="translate">Level (level)</option>
+                <option value="switch"    				class="translate">Switch (switch)</option>
+				<option value="sensor.window"    		class="translate">Window/Door sensor (sensor.window)</option>
+                <option value="sensor.alarm"    		class="translate">Alarmsensor (sensor.alarm)</option>
+                <option value="sensor.alarm.fire" 		class="translate">Firesensor (sensor.alarm.fire)</option>
+                <!--option value="indicator.state"      class="translate">Indicator (indicator.state)</option-->
+            </select>
+            <span class="translate">Role</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(overwrites common.role property)</span>
+        </div>
+	</div>
 	<div class="row">
 		<div class="col s12 tableStates">
 			<div class="row">
@@ -112,8 +137,8 @@
 				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
 				invert:			false,
 				unit:			(obj && obj.common && obj.common.unit) || "",
-				showTimestamp:	"",
-				type:			(obj && obj.common && obj.common.type) || "string",
+				type:			(obj && obj.common && obj.common.type) || "",
+				role:			(obj && obj.common && obj.common.role) || "",
 				targetValueId:	"",
 				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
 			};

@@ -31,9 +31,11 @@ body {
 
 #Toolbar{
 	border-width: 0px !important;
+	background: transparent !important;
 }
 
 .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){
+	max-width: 100%;
 	background-color: #333333 !important;
     border-color: #1f1f1f !important;
 	color: #ffffff !important;
@@ -45,12 +47,14 @@ body {
 	color: #ffffff !important;
 }
 
-.iQontrolToolbarLink.ui-btn-active, .iQontrolToolbarLink.ui-btn-active:hover{
+.iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{
+	max-width: 100%;
+	z-index: 20;
 	background-color: #0c5088 !important;
     border-color: #1f1f1f !important;
 	color: #ffffff !important;
-    box-shadow: 0 0 12px #0c5088 !important;
-    text-shadow: 0 1px 0 #111111 !important;
+    box-shadow: 0 0 12px 1px #0c5088 !important;
+    text-shadow: 0 1px 0 0 #111111 !important;
 }
 
 .iQontrolToolbarLink.ui-btn:after{
@@ -397,11 +401,29 @@ body {
 			transition: all 1s;
 }
 
-#PressureMenu{
+#ToolbarPressureMenu{
+	background-color: #ffffffbf;
+	max-height: 90vh;
+	padding: 1px;
+	overflow-y: auto;
+}
+
+#ToolbarPressureMenu a{
+	min-width: 200px;
+	background-color: #d8d8d899;
+	border-top: 1px solid #9e9b9b82;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #9e9b9b82;
+	margin: -1px;
+	padding: 20px 40px 20px 10px;
+}
+
+#ViewPressureMenu{
 	background-color: #ffffffbf;
 }
 
-#PressureMenu a{
+#ViewPressureMenu a{
 	min-width: 200px;
 	background-color: #d8d8d899;
 	border-top: 1px solid #9e9b9b82;

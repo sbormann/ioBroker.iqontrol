@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.0.48",
+        "version": "0.0.49",
         "news": {
+            "0.0.49": {
+                "en": "Added common type and common role to custom dialog, Added pressure menu for toolbar.",
+                "de": "Allgemeiner Typ und allgemeine Rolle zum benutzerdefinierten Dialogfeld hinzugefügt. Druckmenü für Symbolleiste hinzugefügt.",
+                "ru": "Добавлен общий тип и общая роль в пользовательский диалог, Добавлено меню давления для панели инструментов.",
+                "pt": "Adicionado tipo comum e papel comum ao diálogo personalizado, Adicionado menu de pressão para a barra de ferramentas.",
+                "nl": "Gemeenschappelijk type en gemeenschappelijke rol toegevoegd aan aangepast dialoogvenster, Drukmenu toegevoegd voor werkbalk.",
+                "fr": "Ajout d'un type commun et d'un rôle commun dans la boîte de dialogue personnalisée, menu Ajout de pression pour la barre d'outils.",
+                "it": "Aggiunto tipo comune e ruolo comune nella finestra di dialogo personalizzata, menu di pressione aggiunto per la barra degli strumenti.",
+                "es": "Se agregó el tipo común y el rol común al cuadro de diálogo personalizado. Se agregó el menú de presión para la barra de herramientas.",
+                "pl": "Dodano wspólny typ i wspólną rolę do niestandardowego okna dialogowego, Dodano menu ciśnienia dla paska narzędzi.",
+                "zh-cn": "为自定义对话框添加了常用类型和常用角色，为工具栏添加了压力菜单。"
+            },
             "0.0.48": {
                 "en": "Datapoint BATTERY can now be a level - the battery-empty-icon will be shown if value is less than 10%, Added additional colorspaces for hue lights (RGB, RGBW, RGBWWCW, RGBCWWW, Milight-Hue, RGB Hue Only), Added Garage Door.",
                 "de": "Der Datenpunkt BATTERY kann jetzt einen Ladezustand annehmen - das Batterie-Leer-Symbol wird angezeigt, wenn der Wert unter 10% liegt. Zusätzliche Farbräume für Farblichter (RGB, RGBW, RGBWWCW, RGBCWWW, Milight-Hue, RGB Hue Only) wurden hinzugefügt ",
