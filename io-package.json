@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.0",
+        "version": "0.1.1",
         "news": {
+            "0.1.1": {
+                "en": "Added usericons.",
+                "de": "Usericons hinzugefügt.",
+                "ru": "Добавлены usericons.",
+                "pt": "Adicionado usericons.",
+                "nl": "Gebruikersicons toegevoegd.",
+                "fr": "Ajout des utilisateurs.",
+                "it": "Usericon aggiunti.",
+                "es": "Añadido usericons.",
+                "pl": "Dodano usericons.",
+                "zh-cn": "添加了用户。"
+            },
             "0.1.0": {
                 "en": "First stable release, Added show Timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps, Fixed readonly handling of control mode for Homematic Thermostats.",
                 "de": "Erste stabile Version, Zeitstempel für Geräteoptionen anzeigen hinzugefügt, um das Standardverhalten zu wählen, und ein kleines Zeitstempelsymbol im Dialogfeld, um Zeitstempel anzuzeigen und auszublenden. Die schreibgeschützte Behandlung des Steuermodus für Homematic Thermostats wurde behoben.",

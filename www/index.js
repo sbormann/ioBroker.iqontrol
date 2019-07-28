@@ -15,141 +15,266 @@ var iQontrolRoles = {
 										name: "Switch", 				
 										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/switch_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolLight": 				{
 										name: "Light",
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/light_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
+											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
+										}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
 										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/temperature.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/humidity.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brigthness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/brightness_light.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/motion_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
 										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_locked.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "door_opened.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "door_closed.png", default: ""},
+											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
+											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/window_closed.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
 										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}}
+										options: {
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "blind_closed.png", default: ""},
+											icon_middle: {name: "Icon middle", type: "icon", defaultIcons: "blind_middle.png", default: ""},
+											icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png", default: ""},
+											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
+											directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, 
+											directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, 
+											directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}
+										}
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/fire_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "alarm_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "alarm_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
 										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/battery_full.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png", default: ""},
+											icon_off: {name: "Icon empty", type: "icon", defaultIcons: "battery_empty.png", default: ""},
+											icon_charged75: {name: "Icon 75%", type: "icon", defaultIcons: "battery_75.png", default: ""},
+											icon_charged50: {name: "Icon 50%", type: "icon", defaultIcons: "battery_50.png", default: ""},
+											icon_charged25: {name: "Icon 25%", type: "icon", defaultIcons: "battery_25.png", default: ""},
+											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
+											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/value_on.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/play_on.png",
-										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/play.png",
-										options: {readonly: {name: "Readonly", type: "checkbox", default: "false"}, showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
 										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/button.png",
-										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/popup.png",
-										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;camera_on.png;camera_ptz_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;camera_on.png;camera_ptz_on.png", default: ""},
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
 										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/link.png",
-										options: {showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}}
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png", default: ""},
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
 									}
-}
+};
 
 //Delcarations
 var config = {};								//Contains the system config (like system language)
@@ -698,6 +823,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		if(typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
 		if(typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
 		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].readonly !== udef) result.readonly = usedObjects[linkedStateId].common.custom[namespace].readonly;
+		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].targetValueId !== udef && usedObjects[linkedStateId].common.custom[namespace].targetValueId !== "") result.readonly = false;
 		//--Add min and max
 		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
@@ -1893,101 +2019,110 @@ function renderView(id, updateOnly, callback){
 						//--Icon with Link to Switch
 						var linkContent = "";
 						var iconContent = "";
+						var icons = {};
+						if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef){
+							for (element in usedObjects[deviceId].native) {
+								if (element.substring(0, 5).toLowerCase() == "icon_"){
+									var iconClass = element.substring(5);
+									if (iconClass) icons[iconClass] = usedObjects[deviceId].native[element];
+								}
+							}
+						} 
 						switch(usedObjects[deviceId].common.role){
 							case "iQontrolView": case "":
 							//Do nothing
 							break;
 
 							case "iQontrolThermostat": case "iQontrolHomematicThermostat":
-							iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/radiator.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/radiator.png") + "' />";
 							break;
 
 							case "iQontrolTemperature":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/temperature.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/temperature.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/temperature.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/temperature.png") + "' />";
 							break;
 
 							case "iQontrolHumidity":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/humidity.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/humidity.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/humidity.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/humidity.png") + "' />";
 							break;
 
 							case "iQontrolBrightness":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/brightness_light.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/brightness_dark.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/brightness_light.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/brightness_dark.png") + "' />";
 							break;
 
 							case "iQontrolMotion":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/motion_on.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/motion_off.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/motion_on.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/motion_off.png") + "' />";
 							break;
 
 							case "iQontrolBattery":
-							iconContent += "<image class='iQontrolDeviceIcon full on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_full.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon charged75' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_75.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon charged50' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_50.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon charged25' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_25.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon charged10' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_10.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon empty off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_empty.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon charging overlay' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/battery_charging_overlay.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon full on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/battery_full.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon empty off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/battery_empty.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon charged75' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["charged75"] || "./images/icons/battery_75.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon charged50' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["charged50"] || "./images/icons/battery_50.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon charged25' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["charged25"] || "./images/icons/battery_25.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon charged10' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["charged10"] || "./images/icons/battery_10.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon charging overlay' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["charging"] || "./images/icons/battery_charging_overlay.png") + "' />";
 							break;
 
 							case "iQontrolValue":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/value_on.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/value_off.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/value_on.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/value_off.png") + "' />";
 							break;
 
 							case "iQontrolDoor":
-							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_opened.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_closed.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' />";
 							break;
 
 							case "iQontrolGarageDoor":
-							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/garagedoor_opened.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/garagedoor_closed.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' />";
 							break;
 							
 							case "iQontrolDoorWithLock":
-							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_opened.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_closed.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon locked' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_locked.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon unlocked' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/door_unlocked.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon locked' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["locked"] || "./images/icons/door_locked.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon unlocked' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["unlocked"] || "./images/icons/door_unlocked.png") + "' />";
 							break;
 
 							case "iQontrolWindow":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/window_opened.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/window_closed.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/window_opened.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/window_closed.png") + "' />";
 							break;
 
 							case "iQontrolPopup":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/popup.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/popup.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/popup.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/popup.png") + "' />";
 							break;
 
 							case "iQontrolExternalLink":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/link.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/link.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/link.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/link.png") + "' />";
 							break;
 
 							case "iQontrolBlind":
 							var onclick = "";
 							if(deviceLinkedStateIds["LEVEL"]) onclick = "toggleBlind(\"" + deviceLinkedStateIds["LEVEL"] + "\", \"" + (deviceLinkedStateIds["DIRECTION"] || "") + "\", \"" + (deviceLinkedStateIds["STOP"] || "") + "\", \"" + (deviceLinkedStateIds["UP"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN"] || "") + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_opened.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_closed.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon middle' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_middle.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon closing' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_closing.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon opening' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/blind_opening.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/blind_opened.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/blind_closed.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon middle' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["middle"] || "./images/icons/blind_middle.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon closing' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["closing"] || "./images/icons/blind_closing.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon opening' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["opening"] || "./images/icons/blind_opening.png") + "' />";
 							break;
 
 							case "iQontrolFire":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fire_on.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fire_off.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/fire_on.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/fire_off.png") + "' />";
 							break;
 
 							case "iQontrolAlarm":
-							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/alarm_on.png' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/alarm_off.png' />";
+							iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/alarm_on.png") + "' />";
+							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/alarm_off.png") + "' />";
 							break;
 
 							case "iQontrolLight":
@@ -1995,16 +2130,16 @@ function renderView(id, updateOnly, callback){
 							if(deviceLinkedStateIds["LEVEL"]) onclick = "toggleState(\"" + deviceLinkedStateIds["LEVEL"] + "\", \"" + deviceId + "\");";
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/light_on.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/light_off.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/light_on.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/light_off.png") + "' />";
 							break;
 
 							case "iQontrolProgram":
 							//var onclick = "";
 							//if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
 							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play_on.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/play_on.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/play.png") + "' />";
 							break;
 
 							case "iQontrolButton":
@@ -2013,36 +2148,32 @@ function renderView(id, updateOnly, callback){
 								onclick = "startButton(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceLinkedStateIds["SET_VALUE"] + "\", \"" + deviceId + "\");";
 							}
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/button.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/button.png") + "' />";
 							break;
 
 							case "iQontrolScene":
 							var onclick = "";
 							if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/play.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/play.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/play.png") + "' />";
 							break;
 
 							case "iQontrolFan":
 							var onclick = "";
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fan_on.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/fan_off.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/fan_on.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/fan_off.png") + "' />";
 							break;
 
 							case "iQontrolSwitch": default:
 							var onclick = "";
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/switch_on.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='./images/icons/switch_off.png' />";
-						}
-						if(usedObjects[deviceId] && typeof usedObjects[deviceId].native.icon_on !== udef && usedObjects[deviceId].native.icon_on !== "" && typeof usedObjects[deviceId].native.icon_off !== udef && usedObjects[deviceId].native.icon_off !== ""){
-							iconContent = "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + usedObjects[deviceId].native.icon_on + "' />";
-							iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + usedObjects[deviceId].native.icon_off + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' />";
+								iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' />";
 						}
 						if(linkContent !== "") {
 							deviceContent += linkContent + iconContent + "</a>";

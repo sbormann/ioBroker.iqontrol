@@ -52,6 +52,7 @@ It's fully customizable.
 	The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.
 * To give everything a fancy style, you can upload your own images.
 	You can use your images as background-images for views, or for devices.
+	Images in the folder /usericons can be used as icons for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
 ## Forum
@@ -76,8 +77,11 @@ To edit the role and the states of a device, click on the pencil behind the devi
 ### Modifying Datapoint Configuration
 You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the objects-tab of iobroker. Here you can:
 * Set Readonly-Flag
-* Set Invert-Flat (planned, not yet functional)
-* Set own Unit
+* Set Invert-Flat
+* Set a datapoint id, where target values are written to (if you have different data points for the actual and the target value)
+* Modify unit of datapoint
+* Modify type of datapoint
+* Modify role of datapoint
 * Set or modify a Value-List
   
 ![CustomDialog Call](img/custom_call.png)
@@ -239,7 +243,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.1.0 (2019-07-27)
+### 0.1.1 (2019-07-28)
+* (Sebastian Bormann) Added usericons.
+
+### 0.1.0 **stable** (2019-07-27)
 * (Sebastian Bormann) First stable release.
 * (Sebastian Bormann) Added show Timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps.
 * (Sebastian Bormann) Fixed readonly handling of control mode for Homematic Thermostats.
