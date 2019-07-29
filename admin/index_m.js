@@ -10,15 +10,18 @@ var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
-										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"]
+										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
+										options: {
+											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
+										}
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
 										states: ["STATE", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/switch_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -28,8 +31,8 @@ var iQontrolRoles = {
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/light_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
@@ -41,8 +44,8 @@ var iQontrolRoles = {
 										states: ["STATE", "BATTERY", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -159,7 +162,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png", default: ""},
@@ -170,9 +173,10 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
-											directionOpeningValue: {name: "value of DIRECTION for 'opening'", type: "text", default: "1"}, 
-											directionClosingValue: {name: "value of DIRECTION for 'closing'", type: "text", default: "2"}, 
-											directionUncertainValue: {name: "value of DIRECTION for 'uncertain'", type: "text", default: "3"}
+											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
+											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
+											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
+											favoritePositionCaption: {name: "Caption for FAVORITE_POSITION", type: "text", default: "Favorite Position"}
 										}
 									},
 	"iQontrolFire": 				{
@@ -180,8 +184,8 @@ var iQontrolRoles = {
 										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/fire_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -191,8 +195,8 @@ var iQontrolRoles = {
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "alarm_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "alarm_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -218,8 +222,8 @@ var iQontrolRoles = {
 										states: ["STATE", "LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/value_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -260,8 +264,8 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/popup.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;camera_on.png;camera_ptz_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;camera_on.png;camera_ptz_on.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -270,8 +274,8 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/link.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									}
@@ -799,7 +803,7 @@ function load(settings, onChange) {
 							}
 							value = JSON.stringify(valueArray);
 						}
-					} else if(entry == "SET_VALUE"  || entry == "HTML" || entry == "URL"){
+					} else if(entry == "SET_VALUE"  || entry == "UP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "HTML" || entry == "URL"){
 						commonRole = "const";
 					} else {
 						commonRole = "linkedState";
@@ -870,10 +874,14 @@ function load(settings, onChange) {
 					var defaultIcons = defaultIconsString.split(';');
 					var selectOptionsContent = "<option disabled selected value>" + _("Select Icon") + "</option>";
 					selectOptionsContent += "<optgroup label='" + _("Default Icons") + ":'>";
+					var icon = "./images/icons/blank.png"
+					selectOptionsContent += "        <option value='none' " + (('none' == value)?'selected':'') + "  class='translate'>No Icon</option>";
 					defaultIcons.forEach(function(option){
-						var icon = "./images/icons/" + option; 
-						var iconThumb = link + "/images/icons/" + option; 
-						selectOptionsContent += "        <option value='" + icon + "' " + ((icon == value)?'selected':'') + " data-icon='" + iconThumb + "' class='left translate'>" + option + "</option>";
+						if (option != "") {
+							var icon = "./images/icons/" + option; 
+							var iconThumb = link + "/images/icons/" + option; 
+							selectOptionsContent += "        <option value='" + icon + "' " + ((icon == value)?'selected':'') + " data-icon='" + iconThumb + "' class='left translate'>" + option + "</option>";
+						}
 					});
 					selectOptionsContent += "</optgroup>";
 					//User Icons
@@ -891,18 +899,12 @@ function load(settings, onChange) {
 						});
 						selectOptionsContent += "</optgroup>";
 					}
-					//Selectbox
+					//Icons Selectbox
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption icons' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
 					dialogDeviceEditOptionsContent += "    <span class='translate'>" + name + "</span>";
 					dialogDeviceEditOptionsContent += "</div>";					
-					
-//					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
-//					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
-//					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + name + "</label>";
-//					dialogDeviceEditOptionsContent += "</div>";
-
 					break;
 				}
 			}
@@ -929,6 +931,9 @@ function load(settings, onChange) {
 				$(this).prop('readonly', true);
 				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID"}, ...]</span>');
 				if ($(this).val() == "SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "UP_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "DOWN_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "FAVORITE_POSITION_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 				if ($(this).val() == "URL") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 				if ($(this).val() == "HTML") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 			}

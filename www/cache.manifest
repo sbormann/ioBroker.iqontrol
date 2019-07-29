@@ -1,7 +1,7 @@
 CACHE MANIFEST
 
 # iQontrol
-# Version 24
+# Version 0.1.1
 
 
 CACHE:
@@ -15,6 +15,7 @@ NETWORK:
 *
 
 FALLBACK:
+./index.html ./offline.html
 
 SETTINGS:
 

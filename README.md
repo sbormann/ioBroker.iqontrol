@@ -52,7 +52,7 @@ It's fully customizable.
 	The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.
 * To give everything a fancy style, you can upload your own images.
 	You can use your images as background-images for views, or for devices.
-	Images in the folder /usericons can be used as icons for devices.
+	Images in the folder '/usericons' can be used as icons for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
 ## Forum
@@ -194,9 +194,10 @@ In addition to normal thermostat you can define:
 
 ### <img src="img/icons/blind_middle.png" width="32"> Blind:
 * **LEVEL**: *number* - height of the blind in percentage
-* **DIRECTION**: *value-list* - can be Stop, Up and Down
-* **STOP**: *boolean* - if set to true, the blind will stop
-* **UP** / **DOWN**: *boolean* - if set to true, the blind will go up/down (for devices, that use UP and DOWN datapoints instead of LEVEL)
+* **DIRECTION**: *value-list* - can be Stop, Up and Down. The values that represent Stop, Up, Down and Unknown can be configured.
+* **STOP**: *boolean* - is set to true, if the stop button is pressed.
+* **UP** / **DOWN**: *boolean* - is set to true, if the up / down button is pressed (for devices, that use UP and DOWN datapoints instead of or in addition to LEVEL). Additional you can define a value via the **UP_SET_VALUE** / **DOWN_SET_VALUE** Datapoints. If defined, this value will be sent instead of true, when the Up / Down button is pressed. 
+* **FAVORITE_POSITION**: *boolean* - can be used to recall a favorite position. If the Favorite button (button caption can be configured in the device settings) is pressed, true will be sent to this datapoint. Additional you can define a value via the **FAVORITE_POSITION_SET_VALUE** Datapoint. If defined, this value will be sent instead of true, when the favorite button is pressed. 
 
 ### <img src="img/icons/fire_on.png" width="32"> Fire-Sensor:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
@@ -242,6 +243,12 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.1.2 (2019-07-29)
+* (Sebastian Bormann) Added FAVORITE_POSITION (with configurable button caption) and SET_VALUE for UP, DOWN and FAVORITE_POSITION to Blinds.
+* (Sebastian Bormann) Added 'No Icon' as option to icon configuration.
+* (Sebastian Bormann) Addes icon to 'Link to other view'.
+* (Sebastian Bormann) Added a bunch of new standard-icons.
 
 ### 0.1.1 (2019-07-28)
 * (Sebastian Bormann) Added usericons.

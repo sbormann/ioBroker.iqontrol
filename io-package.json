@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "news": {
+            "0.1.2": {
+                "en": "Added FAVORITE_POSITION (with configurable button caption) and SET_VALUE for UP, DOWN and FAVORITE_POSITION to Blinds, Added 'No Icon' as option to icon configuration, Addes icon to 'Link to other view', Added a bunch of new standard-icons.",
+                "de": "FAVORITE_POSITION (mit konfigurierbarer Tastenbeschriftung) und SET_VALUE für UP, DOWN und FAVORITE_POSITION zu Blinds hinzugefügt, 'Kein Icon' als Option zur Icon-Konfiguration hinzugefügt, Icon zu 'Link zu anderer Ansicht' hinzugefügt",
+                "ru": "Добавлены FAVORITE_POSITION (с настраиваемым заголовком кнопки) и SET_VALUE для UP, DOWN и FAVORITE_POSITION для жалюзи, добавлено «Нет значков» в качестве опции для конфигурации значков, значок «Добавляет» в «Ссылка на другой вид», Добавлена ​​куча новых стандартных значков.",
+                "pt": "Adicionado FAVORITE_POSITION (com legenda de botão configurável) e SET_VALUE para UP, DOWN e FAVORITE_POSITION para Blinds, Adicionado 'No Icon' como opção para configuração de ícone, ícone Add to 'Link to other view', Adicionado um monte de novos ícones padrão.",
+                "nl": "FAVORITE_POSITION (met instelbaar bijschrift) en SET_VALUE voor UP, DOWN en FAVORITE_POSITION toegevoegd aan Blinds, 'Geen pictogram' toegevoegd als optie voor pictogramconfiguratie, pictogram toegevoegd aan 'Link naar andere weergave', een aantal nieuwe standaardpictogrammen toegevoegd.",
+                "fr": "Ajout de FAVORITE_POSITION (avec légende de bouton configurable) et SET_VALUE pour UP, DOWN et FAVORITE_POSITION aux stores, Ajout de l'option \"Aucune icône\" dans la configuration de l'icône, Ajout d'une icône pour \"Lien vers une autre vue\", Ajout d'un ensemble de nouvelles icônes standard.",
+                "it": "Aggiunti FAVORITE_POSITION (con didascalia pulsante configurabile) e SET_VALUE per UP, DOWN e FAVORITE_POSITION a Blinds, aggiunta 'No Icon' come opzione alla configurazione dell'icona, aggiunge icona a 'Link ad altra vista', aggiunta una serie di nuove icone standard.",
+                "es": "Se agregó FAVORITE_POSITION (con título de botón configurable) y SET_VALUE para ARRIBA, ABAJO y FAVORITE_POSITION a las persianas, se agregó 'Sin icono' como opción a la configuración del icono, se agrega el icono a 'Enlace a otra vista', se agregaron un montón de nuevos iconos estándar.",
+                "pl": "Dodano FAVORITE_POSITION (z konfigurowalnym podpisem przycisku) i SET_VALUE dla UP, DOWN i FAVORITE_POSITION do żaluzji, Dodano opcję „Brak ikony” jako opcję do konfiguracji ikony, ikonę Addes do „Link do innego widoku”, Dodano kilka nowych standardowych ikon.",
+                "zh-cn": "添加了FAVORITE_POSITION（带有可配置按钮标题）和SET_VALUE用于UP，DOWN和FAVORITE_POSITION到Blinds，添加了'No Icon'作为图标配置选项，Addes图标添加到'链接到其他视图'，添加了一堆新的标准图标。"
+            },
             "0.1.1": {
                 "en": "Added usericons.",
                 "de": "Usericons hinzugefügt.",
