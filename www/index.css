@@ -68,6 +68,7 @@ body {
 #ViewMain {
 	overflow-y:hidden;
 	margin: 0px;
+	padding: 0px;
 	min-height:100vh;
 	color: #FFF;
 	font-size: 11pt;
@@ -86,7 +87,7 @@ body {
 
 #ViewContent {
 	transform-origin: left top;
-	margin-bottom: 50px;
+	padding-bottom: 300px;
 	display: inline-block;
 	width: 100%;
 	text-align: left;
@@ -186,7 +187,6 @@ body {
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	display: block;
 	background-size:cover; background-position:center;	
-	opacity: 0.99;
 	-webkit-border-radius: 15px;
 	   -moz-border-radius: 15px;
 			border-radius: 15px;
@@ -200,10 +200,39 @@ body {
 }
 
 .iQontrolDeviceBackgroundImage:hover {
-	opacity: 0.99;
 	-webkit-transform: scale3d(1.05,1.05,1);
 	   -moz-transform: scale3d(1.05,1.05,1);
 			transform: scale3d(1.05,1.05,1);
+}
+
+.iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active) {
+	pointer-events:none !important;
+	opacity: 0 !important;
+}
+
+.iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
+	pointer-events:none !important;
+	opacity: 0 !important;
+}
+
+.iQontrolDeviceBackgroundImage:not(.active) {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+
+.iQontrolDeviceBackgroundImage:not(.active):hover {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+
+.iQontrolDeviceBackgroundImage.active {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
+}
+
+.iQontrolDeviceBackgroundImage:hover {
+	background-color: rgba(255, 255, 255, 0.6);
+	opacity: 0.99;
 }
 
 .iQontrolDeviceBackground {
@@ -211,10 +240,8 @@ body {
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
-	background-color: rgb(180, 180, 180);
 	position: absolute;	top:0px; left:0px; width:100%; height:100%;
 	display: block;
-	opacity: 0.5;
 	-webkit-border-radius: 15px;
 	   -moz-border-radius: 15px;
 			border-radius: 15px;
@@ -228,25 +255,28 @@ body {
 }
 
 .iQontrolDeviceBackground:hover {
-	opacity: 0.95;
 	-webkit-transform: scale3d(1.0,1.0,1);
 	   -moz-transform: scale3d(1.0,1.0,1);
 			transform: scale3d(1.0,1.0,1);
 }
 
+.iQontrolDevice:not(.active) .iQontrolDeviceBackground {
+	background-color: rgb(180, 180, 180);
+	opacity: 0.5;
+}
+
+.iQontrolDevice:not(.active) .iQontrolDeviceBackground:hover {
+	background-color: rgb(180, 180, 180);
+	opacity: 0.95;
+}
 .iQontrolDevice.active .iQontrolDeviceBackground {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.82;
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
 }
 
 .iQontrolDevice.active .iQontrolDeviceBackground:hover {
+	background-color: rgb(255, 255, 255);
 	opacity: 0.95;
-	-webkit-transform: scale3d(1.0,1.0,1);
-	   -moz-transform: scale3d(1.0,1.0,1);
-			transform: scale3d(1.0,1.0,1);
 }
 
 .iQontrolDeviceIcon {

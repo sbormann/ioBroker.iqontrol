@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "news": {
+            "0.1.3": {
+                "en": "Added seperate background image for active devices, Fixed background-options (color and opacity) for active and inactive device tiles, Added more space to views bottom, Fixed invert level for blinds, Organized options in collapsible layout.",
+                "de": "Separates Hintergrundbild für aktive Geräte hinzugefügt. Feste Hintergrundoptionen (Farbe und Deckkraft) für aktive und inaktive Gerätekacheln. Mehr Platz für Ansichten unten hinzugefügt. Feste Umkehrstufe für Jalousien. Organisierte Optionen im reduzierbaren Layout.",
+                "ru": "Добавлено отдельное фоновое изображение для активных устройств, Исправлены параметры фона (цвет и непрозрачность) для плиток активных и неактивных устройств, Добавлено больше места для нижней части просмотров, Исправлен уровень инвертирования для жалюзи, Организованные параметры в разборном макете",
+                "pt": "Adicionado imagem de fundo separada para dispositivos ativos, Opções de plano de fundo fixo (cor e opacidade) para blocos de dispositivos ativos e inativos, Adicionado mais espaço para vistas inferior, Nível de inversão fixo para persianas, Opções organizadas no layout recolhível.",
+                "nl": "Afzonderlijke achtergrondafbeelding toegevoegd voor actieve apparaten, vaste achtergrondopties (kleur en dekking) voor actieve en inactieve apparaattegels, meer ruimte toegevoegd voor weergaven onderaan, vast omkeerniveau voor jaloezieën, georganiseerde opties in opvouwbare lay-out.",
+                "fr": "Ajout d'une image d'arrière-plan séparée pour les périphériques actifs, Options d'arrière-plan fixes (couleur et opacité) pour les mosaïques de périphériques actifs et inactifs, Ajout d'un espace supplémentaire au bas des vues, Niveau d'inversion fixe pour les stores, Options organisées dans une présentation réductible.",
+                "it": "Aggiunta immagine di sfondo separata per i dispositivi attivi, Opzioni di sfondo fisse (colore e opacità) per i riquadri dei dispositivi attivi e inattivi, Aggiunto più spazio al fondo delle viste, Livello di inversione fisso per persiane, Opzioni organizzate in layout pieghevole.",
+                "es": "Se agregó imagen de fondo separada para dispositivos activos, Opciones de fondo fijas (color y opacidad) para mosaicos de dispositivos activos e inactivos, Se agregó más espacio para vistas inferiores, Nivel de inversión fijo para persianas, Opciones organizadas en diseño plegable.",
+                "pl": "Dodano oddzielny obraz tła dla aktywnych urządzeń, Naprawiono opcje tła (kolor i krycie) dla aktywnych i nieaktywnych kafelków urządzeń, Dodano więcej miejsca na widoki na dole, Stały poziom odwrotny dla rolet, Opcje zorganizowane w układzie zwijanym.",
+                "zh-cn": "为活动设备添加了单独的背景图像，为活动和非活动设备切片添加了固定背景选项（颜色和不透明度），为视图底部添加了更多空间，为窗帘添加了固定反转级别，在可折叠布局中添加了有组织的选项。"
+            },
             "0.1.2": {
                 "en": "Added FAVORITE_POSITION (with configurable button caption) and SET_VALUE for UP, DOWN and FAVORITE_POSITION to Blinds, Added 'No Icon' as option to icon configuration, Addes icon to 'Link to other view', Added a bunch of new standard-icons.",
                 "de": "FAVORITE_POSITION (mit konfigurierbarer Tastenbeschriftung) und SET_VALUE für UP, DOWN und FAVORITE_POSITION zu Blinds hinzugefügt, 'Kein Icon' als Option zur Icon-Konfiguration hinzugefügt, Icon zu 'Link zu anderer Ansicht' hinzugefügt",

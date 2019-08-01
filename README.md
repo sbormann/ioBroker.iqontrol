@@ -35,9 +35,11 @@ Runs in any Browser.
 You can save it as Web-App on iOS-Homescreen and it looks and feels like a native app.
 It's fully customizable.
 
+
 ## You need...
 * Nodejs 8 or higher
 * socket.IO has to be set to 'integrated' and 'Force Web-Sockets' has to be disabled in web-adapter
+
 
 ## How to use
 * Start creating views.
@@ -55,8 +57,10 @@ It's fully customizable.
 	Images in the folder '/usericons' can be used as icons for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
+
 ## Forum
 Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
+
 
 ## URL-Parameters
 * The frontend is called via ``http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html``
@@ -67,6 +71,7 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 **Example:**
 * ``https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room``
     * Note upper and lower case
+
 
 ## Description of roles and associated states
 Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding io-broker state.
@@ -237,12 +242,20 @@ In addition to normal thermostat you can define:
 * **STATE**: *any* - can be used to display further informations
 * **URL**: CONSTANT *string* - this url will be opened
 
+
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
 ****
 
 # Changelog
+
+### 0.1.3 (2019-08-01)
+* (Sebastian Bormann) Added seperate background image for active devices.
+* (Sebastian Bormann) Fixed background-options (color and opacity) for active and inactive device tiles.
+* (Sebastian Bormann) Added more space to views bottom.
+* (Sebastian Bormann) Fixed invert level for blinds.
+* (Sebastian Bormann) Organized options in collapsible layout.
 
 ### 0.1.2 (2019-07-29)
 * (Sebastian Bormann) Added FAVORITE_POSITION (with configurable button caption) and SET_VALUE for UP, DOWN and FAVORITE_POSITION to Blinds.
@@ -255,7 +268,7 @@ In addition to normal thermostat you can define:
 
 ### 0.1.0 **stable** (2019-07-27)
 * (Sebastian Bormann) First stable release.
-* (Sebastian Bormann) Added show Timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps.
+* (Sebastian Bormann) Added show timestamp to device options to chose default behaviour and a small timestamp-icon in the dialog to show and hide timestamps.
 * (Sebastian Bormann) Fixed readonly handling of control mode for Homematic Thermostats.
 
 ### 0.0.49 (2019-07-27)

@@ -199,6 +199,7 @@
 									<th data-name="nativeHeading" class="translate">Heading</th>
 									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
+									<th data-name="nativeBackgroundImageActive" data-type="select" class="translate">Background Image Active</th>
 									<th data-buttons="edit up down delete" style="width:150px;"></th>
 								</tr>
 							</thead>
@@ -343,364 +344,403 @@
 			<div id="tabOptions"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Toolbar-Layout:</h6>
+						<h6 class="translate sub-title">Options</h6>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">General:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarFooterColor" />
-						<label for="optionsLayoutToolbarFooterColor" class="translate">Overall Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutToolbarFooterOpacity" />
-						<label for="optionsLayoutToolbarFooterOpacity" class="translate">Overall Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarBorderColor" />
-						<label for="optionsLayoutToolbarBorderColor" class="translate">Border-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Unselected Elements:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarColor" />
-						<label for="optionsLayoutToolbarColor" class="translate">Unselected Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarTextColor" />
-						<label for="optionsLayoutToolbarTextColor" class="translate">Unselected Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverColor" />
-						<label for="optionsLayoutToolbarHoverColor" class="translate">Unselected Hover Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverTextColor" />
-						<label for="optionsLayoutToolbarHoverTextColor" class="translate">Unselected Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Selected Element:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedColor" />
-						<label for="optionsLayoutToolbarSelectedColor" class="translate">Selected Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedTextColor" />
-						<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverColor" />
-						<label for="optionsLayoutToolbarSelectedHoverColor" class="translate">Selected Hover Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverTextColor" />
-						<label for="optionsLayoutToolbarSelectedHoverTextColor" class="translate">Selected Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Icons:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-                        <select class="value" id="optionsLayoutToolbarIconPosition">
-							<option value=""  class="translate"></option>
-							<option value="bottom" class="translate">bottom</option>
-							<option value="left" class="translate">left</option>
-							<option value="right" class="translate">right</option>
-							<option value="top" class="translate">top</option>
-                        </select>
-                        <label for="options.layout.toolbarIconPosition" class="translate">Icon Position:</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-                        <select class="value" id="optionsLayoutToolbarIconColor">
-							<option value=""  class="translate"></option>
-							<option value="white" class="translate">white</option>
-							<option value="black" class="translate">black</option>
-                        </select>
-                        <label for="options.layout.toolbarIconPosition" class="translate">Icon Color:</label>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarIconBackgroundColor" />
-						<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Icon Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                </div>
-
-				<div class="divider"></div>
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Headers:</h6>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewMainHeaderColor" />
-						<label for="optionsLayoutViewMainHeaderColor" class="translate">Main-Header Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewMainHeaderTextColor" />
-						<label for="optionsLayoutViewMainHeaderTextColor" class="translate">Main-Header Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewSubHeaderColor" />
-						<label for="optionsLayoutViewSubHeaderColor" class="translate">Sub-Headers Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewSubHeaderTextColor" />
-						<label for="optionsLayoutViewSubHeaderTextColor" class="translate">Sub-Headers Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="divider"></div>
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Device-Tiles:</h6>
-					</div>
-                </div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">General:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceColor" />
-						<label for="optionsLayoutViewDeviceColor" class="translate">Overall Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceOpacity" />
-						<label for="optionsLayoutViewDeviceOpacity" class="translate">Overall Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceHoverColor" />
-						<label for="optionsLayoutViewDeviceHoverColor" class="translate">Overall Hover Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceHoverOpacity" />
-						<label for="optionsLayoutViewDeviceHoverOpacity" class="translate">Overall Hover Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                </div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Inactive Devices:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInactiveColor" />
-						<label for="optionsLayoutViewDeviceInactiveColor" class="translate">Inactive Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveOpacity" />
-						<label for="optionsLayoutViewDeviceInactiveOpacity" class="translate">Inactive Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInactiveHoverColor" />
-						<label for="optionsLayoutViewDeviceInactiveHoverColor" class="translate">Inactive Hover Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveHoverOpacity" />
-						<label for="optionsLayoutViewDeviceInactiveHoverOpacity" class="translate">Inactive Hover Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                </div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Active Devices:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceActiveColor" />
-						<label for="optionsLayoutViewDeviceActiveColor" class="translate">Active Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveOpacity" />
-						<label for="optionsLayoutViewDeviceActiveOpacity" class="translate">Active Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceActiveHoverColor" />
-						<label for="optionsLayoutViewDeviceActiveHoverColor" class="translate">Active Hover Background-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveHoverOpacity" />
-						<label for="optionsLayoutViewDeviceActiveHoverOpacity" class="translate">Active Hover Opacity:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="divider"></div>
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Device-Text:</h6>
-					</div>
-                </div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Device-Name:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameInactiveTextColor" />
-						<label for="optionsLayoutViewDeviceNameInactiveTextColor" class="translate">Inactive Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameInactiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceNameInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameActiveTextColor" />
-						<label for="optionsLayoutViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameActiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceNameActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">State:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateInactiveTextColor" />
-						<label for="optionsLayoutViewDeviceStateInactiveTextColor" class="translate">Inactive Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateInactiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceStateInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateActiveTextColor" />
-						<label for="optionsLayoutViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateActiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceStateActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Info-Text:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoInactiveTextColor" />
-						<label for="optionsLayoutViewDeviceInfoInactiveTextColor" class="translate">Inactive Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoActiveTextColor" />
-						<label for="optionsLayoutViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoActiveHoverTextColor" />
-						<label for="optionsLayoutViewDeviceInfoActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Marquee (Scrolling of long text):</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="checkbox" id="optionsLayoutViewMarqueeDisabled" />
-						<label for="optionsLayoutViewMarqueeDisabled" class="translate">Marquee disabled</label>
-					</div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="checkbox" id="optionsLayoutViewMarqueeNamesEnabled" />
-						<label for="optionsLayoutViewMarqueeNamesEnabled" class="translate">Marquee for device-names enabled</label>
-					</div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="" max="1000" id="optionsLayoutViewMarqueeSpeed" />
-						<label for="optionsLayoutViewMarqueeSpeed" class="translate">Marquee Speed:</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-					</div>
-				</div>
-				<div class="divider"></div>
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Miscellaneous:</h6>
-					</div>
-                </div>
-				<div class="row">
-					<div class="col s12">
-						<p class="translate sub-title">Resize Devices To Fit Screen:</p>
-					</div>
-                </div>
-				<div class="row">
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenDisabled" />
-						<label for="optionsLayoutViewResizeDevicesToFitScreenDisabled" class="translate">Resize disabled</label>
-					</div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="number" min="1" max="5000" value="600" id="optionsLayoutViewResizeDevicesToFitScreenTreshold" />
-						<label for="optionsLayoutViewResizeDevicesToFitScreenTreshold" class="translate">Treshold in pixel (resize is disabled, if screen is bigger than this):</label>
-						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-					</div>
-                    <div class="input-field col s12 m6 l4">
-						<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" checked />
-						<label for="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" class="translate">Resize even when screen is big</label>
-					</div>
-				</div>
+				<ul class="collapsible">
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Toolbar-Layout:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">General:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarFooterColor" />
+									<label for="optionsLayoutToolbarFooterColor" class="translate">Overall Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutToolbarFooterOpacity" />
+									<label for="optionsLayoutToolbarFooterOpacity" class="translate">Overall Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarBorderColor" />
+									<label for="optionsLayoutToolbarBorderColor" class="translate">Border-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Unselected Elements:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarColor" />
+									<label for="optionsLayoutToolbarColor" class="translate">Unselected Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarTextColor" />
+									<label for="optionsLayoutToolbarTextColor" class="translate">Unselected Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverColor" />
+									<label for="optionsLayoutToolbarHoverColor" class="translate">Unselected Hover Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarHoverTextColor" />
+									<label for="optionsLayoutToolbarHoverTextColor" class="translate">Unselected Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Selected Element:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedColor" />
+									<label for="optionsLayoutToolbarSelectedColor" class="translate">Selected Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedTextColor" />
+									<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverColor" />
+									<label for="optionsLayoutToolbarSelectedHoverColor" class="translate">Selected Hover Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarSelectedHoverTextColor" />
+									<label for="optionsLayoutToolbarSelectedHoverTextColor" class="translate">Selected Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Icons:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<select class="value" id="optionsLayoutToolbarIconPosition">
+										<option value=""  class="translate"></option>
+										<option value="bottom" class="translate">bottom</option>
+										<option value="left" class="translate">left</option>
+										<option value="right" class="translate">right</option>
+										<option value="top" class="translate">top</option>
+									</select>
+									<label for="options.layout.toolbarIconPosition" class="translate">Icon Position:</label>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" id="optionsLayoutToolbarIconColor">
+										<option value=""  class="translate"></option>
+										<option value="white" class="translate">white</option>
+										<option value="black" class="translate">black</option>
+									</select>
+									<label for="options.layout.toolbarIconPosition" class="translate">Icon Color:</label>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutToolbarIconBackgroundColor" />
+									<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Icon Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Headers:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewMainHeaderColor" />
+									<label for="optionsLayoutViewMainHeaderColor" class="translate">Main-Header Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewMainHeaderTextColor" />
+									<label for="optionsLayoutViewMainHeaderTextColor" class="translate">Main-Header Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewSubHeaderColor" />
+									<label for="optionsLayoutViewSubHeaderColor" class="translate">Sub-Headers Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewSubHeaderTextColor" />
+									<label for="optionsLayoutViewSubHeaderTextColor" class="translate">Sub-Headers Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Device-Tiles:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceColor" />
+									<label for="optionsLayoutViewDeviceColor" class="translate">Inactive Devices - Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceOpacity" />
+									<label for="optionsLayoutViewDeviceOpacity" class="translate">Inactive Devices - Background-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceHoverColor" />
+									<label for="optionsLayoutViewDeviceHoverColor" class="translate">Inactive Devices, Hover - Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceHoverOpacity" />
+									<label for="optionsLayoutViewDeviceHoverOpacity" class="translate">Inactive Devices, Hover - Background-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInactiveColor" />
+									<label for="optionsLayoutViewDeviceInactiveColor" class="translate">Inactive Devices - Overlay-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveOpacity" />
+									<label for="optionsLayoutViewDeviceInactiveOpacity" class="translate">Inactive Devices - Overlay-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInactiveHoverColor" />
+									<label for="optionsLayoutViewDeviceInactiveHoverColor" class="translate">Inactive Devices, Hover - Overlay-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveHoverOpacity" />
+									<label for="optionsLayoutViewDeviceInactiveHoverOpacity" class="translate">Inactive Devices, Hover - Overlay-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewActiveDeviceColor" />
+									<label for="optionsLayoutViewActiveDeviceColor" class="translate">Active Devices - Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceOpacity" />
+									<label for="optionsLayoutViewActiveDeviceOpacity" class="translate">Active Devices - Background-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewActiveDeviceHoverColor" />
+									<label for="optionsLayoutViewActiveDeviceHoverColor" class="translate">Active Devices, Hover - Background-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceHoverOpacity" />
+									<label for="optionsLayoutViewActiveDeviceHoverOpacity" class="translate">Active Devices, Hover - Background-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceActiveColor" />
+									<label for="optionsLayoutViewDeviceActiveColor" class="translate">Active Devices - Overlay-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveOpacity" />
+									<label for="optionsLayoutViewDeviceActiveOpacity" class="translate">Active Devices - Overlay-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceActiveHoverColor" />
+									<label for="optionsLayoutViewDeviceActiveHoverColor" class="translate">Active Devices, Hover - Overlay-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveHoverOpacity" />
+									<label for="optionsLayoutViewDeviceActiveHoverOpacity" class="translate">Active Devices, Hover - Overlay-Opacity:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Device-Text:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Device-Name:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameInactiveTextColor" />
+									<label for="optionsLayoutViewDeviceNameInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameInactiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceNameInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameActiveTextColor" />
+									<label for="optionsLayoutViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceNameActiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceNameActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">State:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateInactiveTextColor" />
+									<label for="optionsLayoutViewDeviceStateInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateInactiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceStateInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateActiveTextColor" />
+									<label for="optionsLayoutViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceStateActiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceStateActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Info-Text:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoInactiveTextColor" />
+									<label for="optionsLayoutViewDeviceInfoInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoActiveTextColor" />
+									<label for="optionsLayoutViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker" type="text" id="optionsLayoutViewDeviceInfoActiveHoverTextColor" />
+									<label for="optionsLayoutViewDeviceInfoActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Marquee (Scrolling of long text):</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeDisabled" />
+									<label for="optionsLayoutViewMarqueeDisabled" class="translate">Marquee disabled</label>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeNamesEnabled" />
+									<label for="optionsLayoutViewMarqueeNamesEnabled" class="translate">Marquee for device-names enabled</label>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="" max="1000" id="optionsLayoutViewMarqueeSpeed" />
+									<label for="optionsLayoutViewMarqueeSpeed" class="translate">Marquee Speed:</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Miscellaneous:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Resize Devices To Fit Screen:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenDisabled" />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenDisabled" class="translate">Resize disabled</label>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="1" max="5000" value="600" id="optionsLayoutViewResizeDevicesToFitScreenTreshold" />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenTreshold" class="translate">Treshold in pixel (resize is disabled, if screen is bigger than this):</label>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" checked />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" class="translate">Resize even when screen is big</label>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>

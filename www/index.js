@@ -171,7 +171,7 @@ var iQontrolRoles = {
 											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
-											invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
+											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
 											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
@@ -1558,77 +1558,102 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		//Devices General
+		//Inactive Devices - Background 
 		if(options.LayoutViewDeviceColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage{";
+			customCSS = ".iQontrolDeviceBackgroundImage:not(.active){";
 			customCSS += "	background-color: " + options.LayoutViewDeviceColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage{";
+			customCSS = ".iQontrolDeviceBackgroundImage:not(.active){";
 			customCSS += "	opacity: " + options.LayoutViewDeviceOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceHoverColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage:hover{";
+			customCSS = ".iQontrolDeviceBackgroundImage:not(.active):hover{";
 			customCSS += "	background-color: " + options.LayoutViewDeviceHoverColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceHoverOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage:hover{";
+			customCSS = ".iQontrolDeviceBackgroundImage:not(.active):hover{";
 			customCSS += "	opacity: " + options.LayoutViewDeviceHoverOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		//Devices Inactive
+		//Inactive Devices - Overlay
 		if(options.LayoutViewDeviceInactiveColor) {
-			customCSS = ".iQontrolDeviceBackground:not(.active){";
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceBackground{";
 			customCSS += "	background-color: " + options.LayoutViewDeviceInactiveColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInactiveOpacity) {
-			customCSS = ".iQontrolDeviceBackground:not(.active){";
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceBackground{";
 			customCSS += "	opacity: " + options.LayoutViewDeviceInactiveOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInactiveHoverColor) {
-			customCSS = ".iQontrolDeviceBackground:not(.active):hover{";
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceBackground:hover{";
 			customCSS += "	background-color: " + options.LayoutViewDeviceInactiveHoverColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInactiveHoverOpacity) {
-			customCSS = ".iQontrolDeviceBackground:not(.active):hover{";
+			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceBackground:hover{";
 			customCSS += "	opacity: " + options.LayoutViewDeviceInactiveHoverOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		//Devices Active
+		//Active Devices - Background 
+		if(options.LayoutViewActiveDeviceColor) {
+			customCSS = ".iQontrolDeviceBackgroundImage.active{";
+			customCSS += "	background-color: " + options.LayoutViewActiveDeviceColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewActiveDeviceOpacity) {
+			customCSS = ".iQontrolDeviceBackgroundImage.active{";
+			customCSS += "	opacity: " + options.LayoutViewActiveDeviceOpacity + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewActiveDeviceHoverColor) {
+			customCSS = ".iQontrolDeviceBackgroundImage.active:hover{";
+			customCSS += "	background-color: " + options.LayoutViewActiveDeviceHoverColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewActiveDeviceHoverOpacity) {
+			customCSS = ".iQontrolDeviceBackgroundImage.active:hover{";
+			customCSS += "	opacity: " + options.LayoutViewActiveDeviceHoverOpacity + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Active Devices - Overlay
 		if(options.LayoutViewDeviceActiveColor) {
-			customCSS = ".iQontrolDeviceBackground.active{";
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceBackground{";
 			customCSS += "	background-color: " + options.LayoutViewDeviceActiveColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceActiveOpacity) {
-			customCSS = ".iQontrolDeviceBackground.active{";
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceBackground{";
 			customCSS += "	opacity: " + options.LayoutViewDeviceActiveOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceActiveHoverColor) {
-			customCSS = ".iQontrolDeviceBackground.active:hover{";
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceBackground:hover{";
 			customCSS += "	background-color: " + options.LayoutViewDeviceActiveHoverColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceActiveHoverOpacity) {
-			customCSS = ".iQontrolDeviceBackground.active:hover{";
+			customCSS = ".iQontrolDevice.active .iQontrolDeviceBackground:hover{";
 			customCSS += "	opacity: " + options.LayoutViewDeviceActiveHoverOpacity + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
@@ -2012,12 +2037,15 @@ function renderView(id, updateOnly, callback){
 						deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='renderDialog(\"" + deviceId + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 					}
 						//--BackgroundImage
-						switch(usedObjects[deviceId].common.role){
-							default:
-							var url = "";
-							if(usedObjects[deviceId].native.backgroundImage) url = usedObjects[deviceId].native.backgroundImage;
-							deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
-						}
+						var url = "";
+						if(usedObjects[deviceId].native.backgroundImage) url = usedObjects[deviceId].native.backgroundImage;
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
+							//--Background
+							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+						deviceContent += "</div>";
+						//--BackgroundImageActive
+						if(usedObjects[deviceId].native.backgroundImageActive) url = usedObjects[deviceId].native.backgroundImageActive;
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
 							//--Background
 							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 						deviceContent += "</div>";
@@ -2633,7 +2661,7 @@ function renderView(id, updateOnly, callback){
 											var val = level.val;
 											var invertActuatorLevel = false;
 											if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertActuatorLevel != udef && usedObjects[_deviceId].native.invertActuatorLevel == "true") invertActuatorLevel = !invertActuatorLevel;
-											if(invertActuatorLevel){
+											if(invertActuatorLevel){ // 0 = open
 												val = max - (level.val - min);
 											}
 											var direction = getStateObject(_linkedDirectionId);
@@ -3369,7 +3397,7 @@ function renderDialog(deviceId){
 		//--Additional Content
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolBlind":
-			//----Blind
+			//----Actuator
 			if(!dialogReadonly && ((dialogStates["DOWN"] && dialogStates["DOWN"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["UP"] && dialogStates["UP"].type))){
 				dialogContent += "<center><div data-role='controlgroup' data-type='horizontal'>";
 				if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
@@ -3381,7 +3409,7 @@ function renderDialog(deviceId){
 						var bindingFunction = function(){
 							$('#DialogStateDownButton').on('click', function(e) {
 								downSetValue = getStateObject(_linkedDownSetValueId);
-								setState(_linkedDownId, _deviceId, ((downSetValue && downSetValue.val) || true), true);
+								setState(_linkedDownId, _deviceId, ((downSetValue && typeof downSetValue.val !== udef) ? downSetValue.val : true), true);
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
@@ -3409,7 +3437,7 @@ function renderDialog(deviceId){
 						var bindingFunction = function(){
 							$('#DialogStateUPButton').on('click', function(e) {
 								upSetValue = getStateObject(_linkedUpSetValueId);
-								setState(_linkedUpId, _deviceId, ((upSetValue && upSetValue.val) || true), true);
+								setState(_linkedUpId, _deviceId, ((upSetValue && typeof upSetValue.val !== udef) ? upSetValue.val : true), true);
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);

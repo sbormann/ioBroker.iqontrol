@@ -172,7 +172,7 @@ var iQontrolRoles = {
 											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
-											invertBlindLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
+											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
 											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
@@ -663,6 +663,7 @@ function load(settings, onChange) {
 		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
 		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
+		$('*[data-name="nativeBackgroundImageActive"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
 		//Reset devicesSelecteView
 		devicesSelectedView = -1;
@@ -674,6 +675,10 @@ function load(settings, onChange) {
 		devicesSelectedView = $('#devicesSelectedView').val();
 		if(devicesSelectedView > -1){
 			if(!views[devicesSelectedView].devices) views[devicesSelectedView].devices = [];
+			//Backward-Compatibility: If BackgroundImageActive not set, set it to the same value, as BackgroundImage
+			views[devicesSelectedView].devices.forEach(function(device){
+				if (typeof device.nativeBackgroundImageActive == udef && typeof device.nativeBackgroundImage !== udef) device.nativeBackgroundImageActive = device.nativeBackgroundImage;
+			});
 			//Fill Table
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 			$('.divDevicesNothingSelected').hide();
@@ -1756,7 +1761,7 @@ function load(settings, onChange) {
 		});
 	});	
 	
-	//Change ImageName in views and devices
+	//Change ImageNames in views and devices and options
 	function changeImageName(oldName, newName){
 		oldName = "." + oldName.replace(/\//g, "\\");
 		newName = "." + newName.replace(/\//g, "\\");
@@ -1764,6 +1769,10 @@ function load(settings, onChange) {
 			if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.substring(oldName.length);
 			view.devices.forEach(function(device){
 				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.substring(oldName.length);
+				if(typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.indexOf(oldName) == 0 && device.nativeBackgroundImageActive.length >= oldName.length) device.nativeBackgroundImageActive = newName + device.nativeBackgroundImageActive.substring(oldName.length);
+				if (device.options) device.options.forEach(function(option){
+					if(option.type == "icon" && option.value.indexOf(oldName) == 0 && option.value.length >= oldName.length) option.value = newName + option.value.substring(oldName.length);
+				});
 			});
 		});
 	}
@@ -1890,7 +1899,7 @@ function load(settings, onChange) {
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
 	function loadOptions(){
-		//Nothing to do
+		$('.collapsible').collapsible();
 	}
 }
 

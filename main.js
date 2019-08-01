@@ -110,7 +110,8 @@ class Iqontrol extends utils.Adapter {
 						"sortPrefix": ('000' + index).slice(-4),
 						"heading": (typeof this.config.views[viewIndex].devices[index].nativeHeading != udef && this.config.views[viewIndex].devices[index].nativeHeading || ""),
 						"linkedView": (typeof this.config.views[viewIndex].devices[index].nativeLinkedView != udef && this.config.views[viewIndex].devices[index].nativeLinkedView != "" && (this.namespace + ".Views." + idEncode(this.config.views[viewIndex].devices[index].nativeLinkedView)) || ""),
-						"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/")
+						"backgroundImage": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImage != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImage || "").replace(/\\/g, "/"),
+						"backgroundImageActive": (typeof this.config.views[viewIndex].devices[index].nativeBackgroundImageActive != udef && this.config.views[viewIndex].devices[index].nativeBackgroundImageActive || "").replace(/\\/g, "/")
 					}
 				};
 				if(typeof this.config.views[viewIndex].devices[index].options != 'undefined'){
@@ -209,17 +210,22 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewMainHeaderTextColor) obj.native.LayoutViewMainHeaderTextColor = this.config.optionsLayoutViewMainHeaderTextColor;
 		if (this.config.optionsLayoutViewSubHeaderColor) obj.native.LayoutViewSubHeaderColor = this.config.optionsLayoutViewSubHeaderColor;
 		if (this.config.optionsLayoutViewSubHeaderTextColor) obj.native.LayoutViewSubHeaderTextColor = this.config.optionsLayoutViewSubHeaderTextColor;
-		//Devices General
+		//Inactive Devices - Background
 		if (this.config.optionsLayoutViewDeviceColor) obj.native.LayoutViewDeviceColor = this.config.optionsLayoutViewDeviceColor;
 		if (this.config.optionsLayoutViewDeviceOpacity) obj.native.LayoutViewDeviceOpacity = this.config.optionsLayoutViewDeviceOpacity;
 		if (this.config.optionsLayoutViewDeviceHoverColor) obj.native.LayoutViewDeviceHoverColor = this.config.optionsLayoutViewDeviceHoverColor;
 		if (this.config.optionsLayoutViewDeviceHoverOpacity) obj.native.LayoutViewDeviceHoverOpacity = this.config.optionsLayoutViewDeviceHoverOpacity;
-		//Devices Inactive
+		//Inactive Devices - Overlay
 		if (this.config.optionsLayoutViewDeviceInactiveColor) obj.native.LayoutViewDeviceInactiveColor = this.config.optionsLayoutViewDeviceInactiveColor;
 		if (this.config.optionsLayoutViewDeviceInactiveOpacity) obj.native.LayoutViewDeviceInactiveOpacity = this.config.optionsLayoutViewDeviceInactiveOpacity;
 		if (this.config.optionsLayoutViewDeviceInactiveHoverColor) obj.native.LayoutViewDeviceInactiveHoverColor = this.config.optionsLayoutViewDeviceInactiveHoverColor;
 		if (this.config.optionsLayoutViewDeviceInactiveHoverOpacity) obj.native.LayoutViewDeviceInactiveHoverOpacity = this.config.optionsLayoutViewDeviceInactiveHoverOpacity;
-		//Devices Active
+		//Active Devices - Background
+		if (this.config.optionsLayoutViewActiveDeviceColor ) obj.native.LayoutViewActiveDeviceColor = this.config.optionsLayoutViewActiveDeviceColor ;
+		if (this.config.optionsLayoutViewActiveDeviceOpacity) obj.native.LayoutViewActiveDeviceOpacity = this.config.optionsLayoutViewActiveDeviceOpacity;
+		if (this.config.optionsLayoutViewActiveDeviceHoverColor) obj.native.LayoutViewActiveDeviceHoverColor = this.config.optionsLayoutViewActiveDeviceHoverColor;
+		if (this.config.optionsLayoutViewActiveDeviceHoverOpacity) obj.native.LayoutViewActiveDeviceHoverOpacity = this.config.optionsLayoutViewActiveDeviceHoverOpacity;
+		//Active Devices - Overlay
 		if (this.config.optionsLayoutViewDeviceActiveColor) obj.native.LayoutViewDeviceActiveColor = this.config.optionsLayoutViewDeviceActiveColor;
 		if (this.config.optionsLayoutViewDeviceActiveOpacity) obj.native.LayoutViewDeviceActiveOpacity = this.config.optionsLayoutViewDeviceActiveOpacity;
 		if (this.config.optionsLayoutViewDeviceActiveHoverColor) obj.native.LayoutViewDeviceActiveHoverColor = this.config.optionsLayoutViewDeviceActiveHoverColor;
