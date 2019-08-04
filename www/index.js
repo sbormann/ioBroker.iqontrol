@@ -92,7 +92,7 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolBrightness": 			{
-										name: "Brigthness-Sensor",
+										name: "Brightness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
@@ -126,7 +126,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "TOGGLE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
@@ -581,6 +581,14 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 	if (!preventUpdateTime) preventUpdateTime = 5000;
 	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
 	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
+		//Confirm
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].confirm !== udef && usedObjects[stateId].common.custom[namespace].confirm == true) {
+			if (!confirm(_("Please confirm change"))) {
+				updateState(stateId, "ignorePreventUpdateForDialog");
+				if (callback) callback();
+				return;
+			}
+		}
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
 		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
 		var convertTo = "";
@@ -613,12 +621,12 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
 			switch(typeof newValue){
 				case "boolean":
-				console.log("Inverting boolean value for state " + stateId + " from " + newValue + "...");
-				newValue = !newValue;
-				states[stateId].isInverted = false;
-				console.log("...to " + newValue);
-				break;
-				
+					console.log("Inverting boolean value for state " + stateId + " from " + newValue + "...");
+					newValue = !newValue;
+					states[stateId].isInverted = false;
+					console.log("...to " + newValue);
+					break;
+					
 				case "number":
 				console.log("Inverting number value for state " + stateId + " from " + newValue + "...");
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
@@ -2008,7 +2016,7 @@ function renderView(id, updateOnly, callback){
 				viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceId + "'>";
 					//--Link (to Dialog / Popup / External Link / Other View)
 					switch(usedObjects[deviceId].common.role){
-						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
+						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
 						if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
 							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(\"" + usedObjects[deviceId].native.linkedView + "\");'>";
 						} else { //No link
@@ -2033,7 +2041,7 @@ function renderView(id, updateOnly, callback){
 						}
 						break;
 
-						default: //Dialog
+						default: //Link to Dialog
 						deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='renderDialog(\"" + deviceId + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 					}
 						//--BackgroundImage
@@ -2113,8 +2121,11 @@ function renderView(id, updateOnly, callback){
 							break;
 
 							case "iQontrolGarageDoor":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' />";
+							//var onclick = "";
+							//if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
+							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' />";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' />";
 							break;
 							
 							case "iQontrolDoorWithLock":
@@ -3112,6 +3123,7 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
+					var _confirm = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
 					var DialogStateSliderReadoutTimer;
 					var updateFunction = function(){
 						if (states[_linkedSetTemperatureId]){
@@ -3125,9 +3137,11 @@ function renderDialog(deviceId){
 						$('#DialogStateSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogStateSliderReadoutTimer);
-								DialogStateSliderReadoutTimer = setInterval(function(){
-									setState(_linkedSetTemperatureId, _deviceId, $("#DialogStateSlider").val() * 1);
-								}, 500);
+								if (!_confirm){
+									DialogStateSliderReadoutTimer = setInterval(function(){
+										setState(_linkedSetTemperatureId, _deviceId, $("#DialogStateSlider").val() * 1);
+									}, 500);
+								}
 							},
 							stop: function(event, ui) {
 								clearInterval(DialogStateSliderReadoutTimer);
@@ -3255,6 +3269,7 @@ function renderDialog(deviceId){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
+						var _confirm = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && usedObjects[_linkedStateId].common.custom[namespace].confirm == true);
 						var DialogStateSliderReadoutTimer;
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
@@ -3268,10 +3283,12 @@ function renderDialog(deviceId){
 							$('#DialogStateSlider').slider({
 								start: function(event, ui){
 									clearInterval(DialogStateSliderReadoutTimer);
-									DialogStateSliderReadoutTimer = setInterval(function(){
-										setState(_linkedStateId, _deviceId, $("#DialogStateSlider").val());
-										dialogUpdateTimestamp(states[_linkedStateId]);
-									}, 500);
+									if (!_confirm){
+										DialogStateSliderReadoutTimer = setInterval(function(){
+											setState(_linkedStateId, _deviceId, $("#DialogStateSlider").val());
+											dialogUpdateTimestamp(states[_linkedStateId]);
+										}, 500);
+									}
 								},
 								stop: function(event, ui) {
 									clearInterval(DialogStateSliderReadoutTimer);
@@ -3358,6 +3375,7 @@ function renderDialog(deviceId){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
+						var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
 						var DialogLevelSliderReadoutTimer;
 						var updateFunction = function(){
 							if (states[_linkedLevelId]){
@@ -3371,10 +3389,12 @@ function renderDialog(deviceId){
 							$('#DialogLevelSlider').slider({
 								start: function(event, ui){
 									clearInterval(DialogLevelSliderReadoutTimer);
-									DialogLevelSliderReadoutTimer = setInterval(function(){
-										setState(_linkedLevelId, _deviceId, $("#DialogLevelSlider").val());
-										dialogUpdateTimestamp(states[_linkedLevelId]);
-									}, 500);
+									if (!_confirm) {
+										DialogLevelSliderReadoutTimer = setInterval(function(){
+											setState(_linkedLevelId, _deviceId, $("#DialogLevelSlider").val());
+											dialogUpdateTimestamp(states[_linkedLevelId]);
+										}, 500);
+									}
 								},
 								stop: function(event, ui) {
 									clearInterval(DialogLevelSliderReadoutTimer);
@@ -3398,6 +3418,22 @@ function renderDialog(deviceId){
 		switch(usedObjects[deviceId].common.role){
 			case "iQontrolBlind":
 			//----Actuator
+			if(!dialogReadonly && (dialogStates["FAVORITE_POSITION"] && dialogStates["FAVORITE_POSITION"].type)){
+				var favoritePositionCaption = (deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.favoritePositionCaption != udef && usedObjects[deviceId].native.favoritePositionCaption) || _("Favorite Position");			
+				dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + favoritePositionCaption + "</a>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceId = deviceId;
+					var _linkedFavoritePositionId = dialogLinkedStateIds["FAVORITE_POSITION"];
+					var _linkedFavoritePositionSetValueId = dialogLinkedStateIds["FAVORITE_POSITION_SET_VALUE"];
+					var bindingFunction = function(){
+						$('#DialogStateFavoritePositionButton').on('click', function(e) {
+							favoritePositionSetValue = getStateObject(_linkedFavoritePositionSetValueId);
+							setState(_linkedFavoritePositionId, _deviceId, ((favoritePositionSetValue && favoritePositionSetValue.val) || true), true);
+						});
+					};
+					dialogBindingFunctions.push(bindingFunction);
+				})(); //<--End Closure
+			}
 			if(!dialogReadonly && ((dialogStates["DOWN"] && dialogStates["DOWN"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["UP"] && dialogStates["UP"].type))){
 				dialogContent += "<center><div data-role='controlgroup' data-type='horizontal'>";
 				if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
@@ -3443,25 +3479,28 @@ function renderDialog(deviceId){
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
+				if(!(dialogStates["DOWN"] && dialogStates["DOWN"].type) && !(dialogStates["UP"] && dialogStates["UP"].type) && dialogStates["LEVEL"]){
+ 					var onclick = "toggleActuator(\"" + (dialogLinkedStateIds["LEVEL"] || "") + "\", \"" + (dialogLinkedStateIds["DIRECTION"] || "") + "\", \"" + (dialogLinkedStateIds["STOP"] || "") + "\", \"" + (dialogLinkedStateIds["UP"] || "") + "\", \"" + (dialogLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceId + "\");";
+					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateToggleButton' id='DialogStateToggleButton' onclick='" + onclick + "'>" + _("Toggle") + "</a>";
+				}
 				dialogContent += "</div></center>";
 			}
-			if(!dialogReadonly && (dialogStates["FAVORITE_POSITION"] && dialogStates["FAVORITE_POSITION"].type)){
-				var favoritePositionCaption = (deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.favoritePositionCaption != udef && usedObjects[deviceId].native.favoritePositionCaption) || _("Favorite Position");			
-				dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + favoritePositionCaption + "</a>";
+			break;
+			
+			case "iQontrolGarageDoor":
+			if(dialogStates["TOGGLE"]){
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceId + "' name='DialogToggleButton' id='DialogToggleButton'>" + _("Toggle") + "</a>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
-					var _linkedFavoritePositionId = dialogLinkedStateIds["FAVORITE_POSITION"];
-					var _linkedFavoritePositionSetValueId = dialogLinkedStateIds["FAVORITE_POSITION_SET_VALUE"];
+					var _linkedToggleId = dialogLinkedStateIds["TOGGLE"];
 					var bindingFunction = function(){
-						$('#DialogStateFavoritePositionButton').on('click', function(e) {
-							favoritePositionSetValue = getStateObject(_linkedFavoritePositionSetValueId);
-							setState(_linkedFavoritePositionId, _deviceId, ((favoritePositionSetValue && favoritePositionSetValue.val) || true), true);
+						$('#DialogToggleButton').on('click', function(e) {
+							startProgram(_linkedToggleId, _deviceId);
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
 				})(); //<--End Closure
 			}
-			break;
 
 			case "iQontrolDoorWithLock":
 			//----DoorWithLock
@@ -3951,6 +3990,7 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedHueId = dialogLinkedStateIds["HUE"];
+					var _confirm = (usedObjects[_linkedHueId] && typeof usedObjects[_linkedHueId].common !== udef && typeof usedObjects[_linkedHueId].common.custom !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace].confirm !== udef && usedObjects[_linkedHueId].common.custom[namespace].confirm == true);
 					var DialogHueSliderReadoutTimer;
 					var DialogHueSliderReadoutTimer2;
 					var updateFunction = function(){
@@ -3965,11 +4005,13 @@ function renderDialog(deviceId){
 							start: function(event, ui){
 								clearInterval(DialogHueSliderReadoutTimer);
 								clearInterval(DialogHueSliderReadoutTimer2);
-								DialogHueSliderReadoutTimer = setInterval(function(){
-									if(_linkedHueId && _linkedHueId != ""){
-										setState(_linkedHueId, _deviceId, $("#DialogHueSlider").val());
-									}
-								}, 500);
+								if (!_confirm){
+									DialogHueSliderReadoutTimer = setInterval(function(){
+										if(_linkedHueId && _linkedHueId != ""){
+											setState(_linkedHueId, _deviceId, $("#DialogHueSlider").val());
+										}
+									}, 500);
+								}
 								//Update ColorSaturationPicker-Slider linear-gradient immediatly
 								DialogHueSliderReadoutTimer2 = setInterval(function(){
 									var hueMin = dialogStates["HUE"] && dialogStates["HUE"].min || 0;
@@ -4000,6 +4042,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedHueId = dialogLinkedStateIds["HUE"];
 					var _linkedSaturationId = dialogLinkedStateIds["SATURATION"];
+					var _confirm = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].confirm == true);
 					var DialogSaturationSliderReadoutTimer;
 					var updateFunction = function(){
 						if (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val !== udef){
@@ -4023,11 +4066,13 @@ function renderDialog(deviceId){
 						$('#DialogSaturationSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogSaturationSliderReadoutTimer);
-								DialogSaturationSliderReadoutTimer = setInterval(function(){
-									if(_linkedSaturationId && _linkedSaturationId != ""){
-										setState(_linkedSaturationId, _deviceId, $("#DialogSaturationSlider").val());
-									}
-								}, 500);
+								if (!_confirm){
+									DialogSaturationSliderReadoutTimer = setInterval(function(){
+										if(_linkedSaturationId && _linkedSaturationId != ""){
+											setState(_linkedSaturationId, _deviceId, $("#DialogSaturationSlider").val());
+										}
+									}, 500);
+								}
 							},
 							stop: function(event, ui) {
 								clearInterval(DialogSaturationSliderReadoutTimer);
@@ -4049,6 +4094,7 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedColorBrightnessId = dialogLinkedStateIds["COLOR_BRIGHTNESS"];
+					var _confirm = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm == true);
 					var DialogColorBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
 						if (states[_linkedColorBrightnessId] && typeof states[_linkedColorBrightnessId].val !== udef){
@@ -4061,11 +4107,13 @@ function renderDialog(deviceId){
 						$('#DialogColorBrightnessSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogColorBrightnessSliderReadoutTimer);
-								DialogColorBrightnessSliderReadoutTimer = setInterval(function(){
-									if(_linkedColorBrightnessId && _linkedColorBrightnessId != ""){
-										setState(_linkedColorBrightnessId, _deviceId, $("#DialogColorBrightnessSlider").val());
-									}
-								}, 500);
+								if (!_confirm){
+									DialogColorBrightnessSliderReadoutTimer = setInterval(function(){
+										if(_linkedColorBrightnessId && _linkedColorBrightnessId != ""){
+											setState(_linkedColorBrightnessId, _deviceId, $("#DialogColorBrightnessSlider").val());
+										}
+									}, 500);
+								}
 							},
 							stop: function(event, ui) {
 								clearInterval(DialogColorBrightnessSliderReadoutTimer);
@@ -4090,6 +4138,7 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedCtId = dialogLinkedStateIds["CT"];
+					var _confirm = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace].confirm !== udef && usedObjects[_linkedCtId].common.custom[namespace].confirm == true);
 					var DialogCtSliderReadoutTimer;
 					var updateFunction = function(){
 						if (states[_linkedCtId] && typeof states[_linkedCtId].val !== udef){
@@ -4102,11 +4151,13 @@ function renderDialog(deviceId){
 						$('#DialogCtSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogCtSliderReadoutTimer);
-								DialogCtSliderReadoutTimer = setInterval(function(){
-									if(_linkedCtId && _linkedCtId != ""){
-										setState(_linkedCtId, _deviceId, $("#DialogCtSlider").val());
-									}
-								}, 500);
+								if (!_confirm){
+									DialogCtSliderReadoutTimer = setInterval(function(){
+										if(_linkedCtId && _linkedCtId != ""){
+											setState(_linkedCtId, _deviceId, $("#DialogCtSlider").val());
+										}
+									}, 500);
+								}
 							},
 							stop: function(event, ui) {
 								clearInterval(DialogCtSliderReadoutTimer);
@@ -4128,6 +4179,7 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedWhiteBrightnessId = dialogLinkedStateIds["WHITE_BRIGHTNESS"];
+					var _confirm = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm == true);
 					var DialogWhiteBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
 						if (states[_linkedWhiteBrightnessId] && typeof states[_linkedWhiteBrightnessId].val !== udef){
@@ -4140,11 +4192,13 @@ function renderDialog(deviceId){
 						$('#DialogWhiteBrightnessSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogWhiteBrightnessSliderReadoutTimer);
-								DialogWhiteBrightnessSliderReadoutTimer = setInterval(function(){
-									if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId != ""){
-										setState(_linkedWhiteBrightnessId, _deviceId, $("#DialogWhiteBrightnessSlider").val());
-									}
-								}, 500);
+								if (!_confirm){
+									DialogWhiteBrightnessSliderReadoutTimer = setInterval(function(){
+										if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId != ""){
+											setState(_linkedWhiteBrightnessId, _deviceId, $("#DialogWhiteBrightnessSlider").val());
+										}
+									}, 500);
+								}
 							},
 							stop: function(event, ui) {
 								clearInterval(DialogWhiteBrightnessSliderReadoutTimer);

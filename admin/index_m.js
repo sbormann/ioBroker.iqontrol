@@ -93,7 +93,7 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolBrightness": 			{
-										name: "Brigthness-Sensor",
+										name: "Brightness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
@@ -127,7 +127,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "TOGGLE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
@@ -436,12 +436,41 @@ function load(settings, onChange) {
 	//Init imageUpload
 	initImageUpload();
 
-	//Get Link of first Web-Adapter
+	//Get Link of best fitting web-adapter
 	var link = "";
-	console.log("getLink of first Web-Adapter");
+	console.log("getLink of best fitting web-adapter");
 	getExtendableInstances(function (result) {
 		if (result) {
-			link = location.protocol + "//" + location.hostname + ":" + result[0].native.port + "/iqontrol";
+			//Find best fitting web-Adapter
+			var bestInstance = 0;
+			var goalSecure = (location.protocol == 'https:');
+			var goalSecureFound = false;
+			var goalSocketFound = false;
+			var goalForceWebSocketsFound = false;
+			for (i=0; i<result.length; i++){
+				if (result[i].native.secure == goalSecure){
+					if (!goalSecureFound) {
+						goalSecureFound = true;
+						bestInstance = i;
+					}	
+					if (result[i].native.socketio == ""){
+						if (!goalSocketFound) {
+							goalSocketFound = true;
+							bestInstance = i;
+						}
+						if (result[i].native.forceWebSockets == false){
+							if(!goalForceWebSocketsFound){
+								goalForceWebSocketsFound = true;
+								bestInstance = i;
+							}
+						}
+					}
+				}
+			}
+			if (!(goalSocketFound && goalForceWebSocketsFound)) alert(_("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+
+			//Create Link from best fitting web-adapter
+			link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
 			console.log("Got Link: " + link);
 			$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
 
@@ -451,43 +480,51 @@ function load(settings, onChange) {
 			$('select').select();
 
 			//Try to init socket.io via conn.js and servConn-Object
-			try {
-				console.log("Try to init socket.io");
-				var connectionLink = location.protocol + "//" + location.hostname + ":" + result[0].native.port;
-				var connOptions = {
-					name:          namespace,  			// optional - default 'vis.0'
-					connLink:      connectionLink,  	// optional URL of the socket.io adapter
-					socketSession: ''           		// optional - used by authentication
-				};
-				var connCallbacks = {
-					onConnChange: function(isConnected) {
-						if(isConnected) {
-							console.log('Socket connected');
-							goOnAfterSocketIsConnectedOrAfterSocketInitError();
-						} else {
-							console.log('Socket disconnected');
+			if(location.protocol == 'https:' && !result[bestInstance].native.secure){
+				alert(_("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter."));
+				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
+			} else if (location.protocol == 'http:' && result[bestInstance].native.secure){
+				alert(_("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter."));
+				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
+			} else {
+				try {
+					console.log("Try to init socket.io");
+					var connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
+					var connOptions = {
+						name:          namespace,  			// optional - default 'vis.0'
+						connLink:      connectionLink,  	// optional URL of the socket.io adapter
+						socketSession: ''           		// optional - used by authentication
+					};
+					var connCallbacks = {
+						onConnChange: function(isConnected) {
+							if(isConnected) {
+								console.log('Socket connected');
+								goOnAfterSocketIsConnectedOrAfterSocketInitError();
+							} else {
+								console.log('Socket disconnected');
+							}
+						},
+						onRefresh: function() {
+							console.log('Socket refresh');
+						},
+						onError: function(err) {
+							window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
 						}
-					},
-					onRefresh: function() {
-						console.log('Socket refresh');
-					},
-					onError: function(err) {
-						window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
-					}
-				};
-				servConn.init(connOptions, connCallbacks);
-				servConn.namespace = namespace;
-				servConn.setReconnectInterval(5000);
-				servConn.setReloadTimeout(300);
-				console.log("Inited socket.io");
-			} catch {
-				//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
-				console.log("Error initing socket.io - Fallback");
-				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-				goOnAfterSocketIsConnectedOrAfterSocketInitError();
+					};
+					servConn.init(connOptions, connCallbacks);
+					servConn.namespace = namespace;
+					servConn.setReconnectInterval(5000);
+					servConn.setReloadTimeout(300);
+					console.log("Inited socket.io");
+				} catch {
+					//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
+					console.log("Error initing socket.io - Fallback");
+					alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+					goOnAfterSocketIsConnectedOrAfterSocketInitError();
+				}
 			}
 		} else {
-			alert("Error on receiving extendable Instances");
+			alert(_("Error: No web-adapter found!"));
 		}
 	});
 	

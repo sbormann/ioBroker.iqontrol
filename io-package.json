@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "news": {
+            "0.1.4": {
+                "en": "Optimized fading of tiles, Added toggle-button to blind, if no up/down button is defined, Added detection of protocol for socket in admin, Added confirm-flag inside custom datapoint configuration dialog to enable asking user to confirm before changing values, Added Toggle-Button to Garage-Door.",
+                "de": "Optimiertes Ausblenden von Kacheln, Hinzufügen eines Umschalters zum Blinden, wenn kein Auf- / Ab-Knopf definiert ist, Hinzufügen einer Erkennung des Protokolls für den Socket im Administrator, Hinzufügen eines Bestätigungskennzeichens im Konfigurationsdialog für benutzerdefinierte Datenpunkte, um den Benutzer aufzufordern, vor dem Ändern von Werten zu bestätigen, Hinzufügen ",
+                "ru": "Оптимизировано замирание плиток, добавлена ​​кнопка-переключатель для слепых, если не определена кнопка вверх / вниз, добавлено определение протокола для сокета в админке, добавлен флаг подтверждения в диалоговом окне конфигурации пользовательского назначения данных, чтобы пользователь мог запросить подтверждение перед изменением значений, добавлено ",
+                "pt": "Desvanecimento otimizado de telhas, botão de alternância Adicionado para cego, se nenhum botão para cima / baixo estiver definido, detecção adicional de protocolo para soquete em admin, sinalizador de confirmação adicionado dentro da caixa de diálogo de configuração de ponto de dados personalizado para permitir que o usuário solicite confirmação antes de alterar valores ",
+                "nl": "Geoptimaliseerde fading van tegels, Toggle-knop toegevoegd aan blind, als er geen up / down-knop is gedefinieerd, Detectie van protocol voor socket in admin toegevoegd, Bevestiging-vlag toegevoegd in aangepast dialoogvenster voor datapuntconfiguratie om de gebruiker te vragen om te bevestigen voordat waarden worden gewijzigd, Toegevoegd ",
+                "fr": "Évanouissement optimisé des tuiles, Ajout d'un bouton bascule à l'aveugle, si aucun bouton haut / bas n'est défini, Ajout de la détection du protocole pour le socket dans l'admin, Ajout d'un indicateur de confirmation dans la boîte de dialogue de configuration de point de données personnalisée pour permettre à l'utilisateur de confirmer avant de modifier les valeurs, Ajouté ",
+                "it": "Dissolvenza ottimizzata dei riquadri, aggiunto il pulsante di attivazione / disattivazione per accecare, se non viene definito alcun pulsante su / giù, Aggiunto rilevamento del protocollo per socket in admin, Aggiunto flag di conferma all'interno della finestra di dialogo di configurazione del punto dati personalizzato per consentire all'utente di confermare prima di modificare i valori, Aggiunto ",
+                "es": "Desvanecimiento optimizado de mosaicos, botón de alternar agregado para cegar, si no se define un botón arriba / abajo, detección de protocolo agregada para socket en administrador, indicador de confirmación agregado dentro del cuadro de diálogo de configuración de punto de datos personalizado para permitir que el usuario confirme antes de cambiar valores, agregado ",
+                "pl": "Zoptymalizowane zanikanie kafelków, Dodano przycisk przełączający do zaślepienia, jeśli nie zdefiniowano przycisku góra / dół, Dodano wykrywanie protokołu dla gniazda w admin, Dodano flagę potwierdzenia w niestandardowym oknie dialogowym konfiguracji punktu danych, aby umożliwić użytkownikowi potwierdzenie przed zmianą wartości, Dodano ",
+                "zh-cn": "优化了图块的淡入淡出，如果没有定义上/下按钮，则添加切换按钮到盲区，在管理员中添加了套接字协议检测，在自定义数据点配置对话框中添加了confirm-flag，以便在更改值之前要求用户确认，添加"
+            },
             "0.1.3": {
                 "en": "Added seperate background image for active devices, Fixed background-options (color and opacity) for active and inactive device tiles, Added more space to views bottom, Fixed invert level for blinds, Organized options in collapsible layout.",
                 "de": "Separates Hintergrundbild für aktive Geräte hinzugefügt. Feste Hintergrundoptionen (Farbe und Deckkraft) für aktive und inaktive Gerätekacheln. Mehr Platz für Ansichten unten hinzugefügt. Feste Umkehrstufe für Jalousien. Organisierte Optionen im reduzierbaren Layout.",

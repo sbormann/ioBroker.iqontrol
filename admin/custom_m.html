@@ -24,6 +24,16 @@
 		<div class="col s4">
 		</div>
 		<div class="input-field col s8">
+			<input type="checkbox" class="enableOnChange" data-field="confirm">
+			<span class="translate">Confirm</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(before sending a state a confirmation-box is showed)</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
 			<input type="text" class="enableOnChange" data-field="unit">
 			<span class="translate">Unit</span>
 		</div>
@@ -122,6 +132,7 @@
 				enabled:        false,
 				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
 				invert:			false,
+				confirm:		false,
 				unit:			(obj && obj.common && obj.common.unit) || "",
 				type:			(obj && obj.common && obj.common.type) || "",
 				role:			(obj && obj.common && obj.common.role) || "",

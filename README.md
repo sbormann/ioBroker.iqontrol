@@ -80,9 +80,9 @@ This will only work for known devices. For unknown devices, and to give devices 
 To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
 
 ### Modifying Datapoint Configuration
-You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the objects-tab of iobroker. Here you can:
+You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the device-configuration dialog or in objects-tab of iobroker. Here you can:
 * Set Readonly-Flag
-* Set Invert-Flat
+* Set Invert-Flag
 * Set a datapoint id, where target values are written to (if you have different data points for the actual and the target value)
 * Modify unit of datapoint
 * Modify type of datapoint
@@ -125,8 +125,8 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
-* **STATE**: *boolean* - display and set on/off-state
-* **LEVEL**: *number* - display and set the level of the light
+* **STATE**: *boolean* - show and set on/off-state
+* **LEVEL**: *number* - show and set the level of the light
 
 Optional you can define the following states:
 * For coloured LEDs (HSB-color-space):
@@ -185,16 +185,22 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - display if motion is detected or not
 * The **linked-view-property** is opened directly
 
-### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/garagedoor_closed.png" width="32"> Garage Door, <img src="img/icons/window_closed.png" width="32"> Window:
+### <img src="img/icons/door_closed.png" width="32"> Door, <img src="img/icons/window_closed.png" width="32"> Window:
 * **STATE**: *boolean* - display if the door or window is opened or closed. 
     * Alternatively you can assign a *value-list*, to display additional states like 'tilted'.
     * You can also assign a *string* to display any text like "3 windows open" or "all closed".
 * Respect the **linked-view-property**
 
+### <img src="img/icons/garagedoor_closed.png" width="32"> Garage Door:
+* **STATE**: *boolean* - display if the door is opened or closed. 
+    * Alternatively you can assign a *value-list*, to display additional states like 'tilted'.
+    * You can also assign a *string* to display any text like "3 doors open" or "all closed".
+* **TOGGLE**: *boolean* - displays a 'Toggle'-Button and is set to true, if pressed. 
+
 ### <img src="img/icons/door_locked.png" width="32"> Door with lock:
 * **STATE**: *boolean* - display if the door is opened or closed. 
 * **LOCK_STATE**: *boolean* - display if the door is locked or unlocked
-* **LOCK_STATE_UNCERTAIN**: *boolean* - the STATE will be displayed in italic-font, if true to represent that the exact position of the lock is unknown
+* **LOCK_STATE_UNCERTAIN**: *boolean* - if true, the STATE will be displayed in italic-font to represent that the exact position of the lock is unknown
 * **LOCK_OPEN**: *boolean* - if set to true, the door will open completely
 
 ### <img src="img/icons/blind_middle.png" width="32"> Blind:
@@ -243,12 +249,28 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 
+## Troubleshooting
+* Make shure you fulfilled the 'You need' section at top of this page
+* If something doesn't work like expected after update please try the following steps:
+    * Start upload of adapter
+	* Clear browser cache
+	* Restart ioBroker
+* Start iQonrol with opened debugging-console of your browser (mostly you need to press F12 to open it) and look for messages in the console-window
+
+
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
 ****
 
 # Changelog
+
+### 0.1.4 (2019-08-04)
+* (Sebastian Bormann) Optimized fading of tiles.
+* (Sebastian Bormann) Added toggle-button to blind, if no up/down button is defined.
+* (Sebastian Bormann) Added detection of protocol for socket in admin.
+* (Sebastian Bormann) Added confirm-flag inside custom datapoint configuration dialog to enable asking user to confirm before changing values.
+* (Sebastian Bormann) Added Toggle-Button to Garage-Door.
 
 ### 0.1.3 (2019-08-01)
 * (Sebastian Bormann) Added seperate background image for active devices.

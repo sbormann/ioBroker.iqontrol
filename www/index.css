@@ -208,11 +208,17 @@ body {
 .iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active) {
 	pointer-events:none !important;
 	opacity: 0 !important;
+	-webkit-transition: opacity 2s ease-in;
+	   -moz-transition: opacity 2s ease-in;
+			transition: opacity 2s ease-in;
 }
 
 .iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
 	pointer-events:none !important;
 	opacity: 0 !important;
+	-webkit-transition: opacity 2s ease-in;
+	   -moz-transition: opacity 2s ease-in;
+			transition: opacity 2s ease-in;
 }
 
 .iQontrolDeviceBackgroundImage:not(.active) {
