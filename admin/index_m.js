@@ -195,8 +195,10 @@ var iQontrolRoles = {
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
+											icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
+											icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
+											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
+											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -283,6 +285,8 @@ var iQontrolRoles = {
 
 //Delcarations
 const udef = 'undefined';
+var link;
+var connectionLink;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -395,10 +399,12 @@ function load(settings, onChange) {
 	//Add function to inputClear-Buttons
 	$('.inputClear').on('click', function(){
 		if($(this).data('default')){
-			$(this).prevAll('input').val($(this).data('default')).trigger('change');
+			$(this).prevAll('input').val($(this).data('default'));
 		} else {
-			$(this).prevAll('input').val('').trigger('change');
+			$(this).prevAll('input').val('').removeClass('valid invalid');
 		}
+		M.validate_field($(this).prevAll('input'));
+		M.updateTextFields();
 	});
 
 	//Select elements with id=key and class=value and insert value
@@ -437,7 +443,6 @@ function load(settings, onChange) {
 	initImageUpload();
 
 	//Get Link of best fitting web-adapter
-	var link = "";
 	console.log("getLink of best fitting web-adapter");
 	getExtendableInstances(function (result) {
 		if (result) {
@@ -470,7 +475,14 @@ function load(settings, onChange) {
 			if (!(goalSocketFound && goalForceWebSocketsFound)) alert(_("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
 
 			//Create Link from best fitting web-adapter
-			link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
+			if (location.hostname.toLowerCase() == "iobroker.net" || location.hostname.toLowerCase() == "iobroker.pro"){ //Connection over iobroker.net or iobroker.pro - connect without ports!
+				console.log("Connection over iobroker.net or iobroker.pro detected...")
+				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + "/iqontrol";
+				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname;				
+			} else { //Direct connection
+				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
+				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
+			}
 			console.log("Got Link: " + link);
 			$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
 
@@ -489,13 +501,14 @@ function load(settings, onChange) {
 			} else {
 				try {
 					console.log("Try to init socket.io");
-					var connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
-					var connOptions = {
-						name:          namespace,  			// optional - default 'vis.0'
-						connLink:      connectionLink,  	// optional URL of the socket.io adapter
+					var _connectionLink = connectionLink;
+					var _namespace = namespace;
+					var _connOptions = {
+						name:          _namespace,  			// optional - default 'vis.0'
+						connLink:      _connectionLink,  	// optional URL of the socket.io adapter
 						socketSession: ''           		// optional - used by authentication
 					};
-					var connCallbacks = {
+					var _connCallbacks = {
 						onConnChange: function(isConnected) {
 							if(isConnected) {
 								console.log('Socket connected');
@@ -511,8 +524,8 @@ function load(settings, onChange) {
 							window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
 						}
 					};
-					servConn.init(connOptions, connCallbacks);
-					servConn.namespace = namespace;
+					servConn.init(_connOptions, _connCallbacks);
+					servConn.namespace = _namespace;
 					servConn.setReconnectInterval(5000);
 					servConn.setReloadTimeout(300);
 					console.log("Inited socket.io");
@@ -879,7 +892,7 @@ function load(settings, onChange) {
 					case "text":
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
-					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + name + "</label>";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
 
@@ -895,7 +908,7 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
-					dialogDeviceEditOptionsContent += "    <span class='translate'>" + name + "</span>";
+					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
 					
@@ -945,7 +958,7 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption icons' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
-					dialogDeviceEditOptionsContent += "    <span class='translate'>" + name + "</span>";
+					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "</div>";					
 					break;
 				}

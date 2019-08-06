@@ -38,7 +38,8 @@ It's fully customizable.
 
 ## You need...
 * Nodejs 8 or higher
-* socket.IO has to be set to 'integrated' and 'Force Web-Sockets' has to be disabled in web-adapter
+* Web-Adapter with one instance running the same protocol (http or https) as the admin-adapter, socket.IO set to 'integrated' and 'Force Web-Sockets' disabled
+    * It this stands in conflict to other adapters, simply add another instance with the above settings. iQontrol will search the besst fitting web-adapter-instance and use it for communication.
 
 
 ## How to use
@@ -220,6 +221,8 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
     * Alternatively you can assign a *value-list*, to display additional states like 'tampered'.
     * You can also assign a *string* to display any text like "fire in upper floor".
+* **CONTROL_MODE**: *value-list* - select operation mode like "Armed" and "Disarmed"
+    * In device options you can define the value that represents disarmed, so the representing icon can be shown
 
 ### <img src="img/icons/battery_full.png" width="32"> Battery:
 * **STATE**: *number* - battery level in percentage
@@ -265,12 +268,18 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.5 (2019-08-06)
+* (Sebastian Bormann) Added validation to options.
+* (Sebastian Bormann) Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered. 
+* (Sebastian Bormann) To save memory, only used states are saved in local memory (before all used AND all updated states were saved).
+* (Sebastian Bormann) Optimized socket-connectionLink to try to connect via iobroker.pro.
+
 ### 0.1.4 (2019-08-04)
 * (Sebastian Bormann) Optimized fading of tiles.
 * (Sebastian Bormann) Added toggle-button to blind, if no up/down button is defined.
 * (Sebastian Bormann) Added detection of protocol for socket in admin.
 * (Sebastian Bormann) Added confirm-flag inside custom datapoint configuration dialog to enable asking user to confirm before changing values.
-* (Sebastian Bormann) Added Toggle-Button to Garage-Door.
+* (Sebastian Bormann) Added toggle-button to garage door.
 
 ### 0.1.3 (2019-08-01)
 * (Sebastian Bormann) Added seperate background image for active devices.

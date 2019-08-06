@@ -194,8 +194,10 @@ var iQontrolRoles = {
 										states: ["STATE", "CONTROL_MODE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
+											icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
+											icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
+											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
+											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
@@ -387,8 +389,10 @@ connCallbacks = {
 	onUpdate: function(stateId, state) {
 		setTimeout(function() {
 			//console.log('NEW VALUE of ' + id + ': ' + JSON.stringify(state));
-			states[stateId] = state;
-			updateState(stateId);
+			if(states[stateId]){
+				states[stateId] = state;
+				updateState(stateId);
+			}
 			$('.loader').hide();
 		}, 0);
 	},
@@ -942,7 +946,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 						}
 						result.readonly = true;
 						break;
-
+						
 						case "DANGER.STATE":
 						if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
 						if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
@@ -953,6 +957,22 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 						}
 						result.readonly = true;
 						break;
+
+						case "SWITCH.STATE":
+						if(result.val) result.plainText = _("on"); else result.plainText = _("off");
+						if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+							result.valueList = {"true": _("on"), "false": _("off")};
+							result.type = "valueList";
+						} else { //If not bool set type to string
+							result.type = "string";
+						}
+						break;
+						
+						//Weitere mögliche - aber noch nicht implementierte - Werte:
+						//RHS.STATE (Rotary Handle Transceiver)
+						//CLIMATECONTROL_FLOOR_TRANSCEIVER.STATE
+						//GENERIC_INPUT_TRANSMITTER.STATE
+						//SWITCH_TRANSMITTER.STATE
 					}
 				}
 				break;
@@ -2167,7 +2187,8 @@ function renderView(id, updateOnly, callback){
 							break;
 
 							case "iQontrolAlarm":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/alarm_on.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/alarm_on_triggered.png") + "' />";
+							if (icons["armed"] !== "none") iconContent += "<image class='iQontrolDeviceIcon armed' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["armed"] || "./images/icons/alarm_on.png") + "' />";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/alarm_off.png") + "' />";
 							break;
 
@@ -2729,6 +2750,51 @@ function renderView(id, updateOnly, callback){
 									})(); //<--End Closure
 								}
 								break;
+								
+								case "iQontrolAlarm":
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["CONTROL_MODE"]){
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _deviceId = deviceId;
+										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
+										var updateFunction = function(){
+											var state = getStateObject(_linkedStateId);
+											var controlMode = getStateObject(_linkedControlModeId);
+											var controlModeDisarmedValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisarmedValue != udef && usedObjects[_deviceId].native.controlModeDisarmedValue) || 0;
+											var resultText = "";
+											if(state && typeof state.val !== udef && state.val != 0){ //Triggered
+												resultText = state.plainText;
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.armed").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");											
+											} else { //Not triggered (or STATE not defined)
+												if(controlMode && typeof controlMode.val != udef && controlMode.val != controlModeDisarmedValue){ //Armed
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.armed").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");											
+												} else { //Disarmed (or CONTROL_MODE not defined)
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.armed").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");											
+												}
+											}
+											if(controlMode && controlMode.plainText){
+												if(resultText == ""){
+													resultText = controlMode.plainText;
+												} else {
+													resultText += ", " + controlMode.plainText;
+												}
+											}
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
+										};
+										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
+									})(); //<--End Closure
+								}
+								break;
 
 								case "iQontrolBattery":
 								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING']){
@@ -3226,6 +3292,7 @@ function renderDialog(deviceId){
 					case "switch":
 					var type = "Switch";
 					if (usedObjects[deviceId].common.role == "iQontrolMotion") type = "Motion";
+					if (usedObjects[deviceId].common.role == "iQontrolAlarm") type = "Alarm";
 					dialogContent += "<label for='DialogStateSwitch' ><image src='./images/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 						dialogContent += "<option value='false'>0</option>";
@@ -3304,6 +3371,7 @@ function renderDialog(deviceId){
 					case "valueList":
 					var type = "Selection";
 					if (usedObjects[deviceId].common.role == "iQontrolMotion") type = "Motion";
+					if (usedObjects[deviceId].common.role == "iQontrolAlarm") type = "Alarm";
 					dialogContent += "<label for='DialogStateValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 					for(val in dialogStates["STATE"].valueList){
@@ -3949,6 +4017,39 @@ function renderDialog(deviceId){
 						if(!dialogUpdateFunctions[_element.value]) dialogUpdateFunctions[_element.value] = [];
 						dialogUpdateFunctions[_element.value].push(updateFunction);
 					});
+				})(); //<--End Closure
+			}
+			break;
+			
+			case "iQontrolAlarm":
+			if(dialogStates["CONTROL_MODE"]){
+				dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Operation Mode") + ":</label>";
+				dialogContent += "<select  class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
+				for(val in dialogStates["CONTROL_MODE"].valueList){
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
+					}
+				dialogContent += "</select>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceId = deviceId;
+					var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
+					var updateFunction = function(){
+						if (states[_linkedControlModeId]){
+							if(typeof states[_linkedControlModeId].val != udef) {
+								var val = states[_linkedControlModeId].val.toString();
+								$("#DialogControlModeValueList").val(val);
+							}
+							$("#DialogControlModeValueList").selectmenu('refresh');
+							dialogUpdateTimestamp(states[_linkedControlModeId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
+					var bindingFunction = function(){
+						$('.DialogControlModeValueList').on('change', function(e) {
+							setState(_linkedControlModeId, _deviceId, $("#DialogControlModeValueList option:selected").val());
+							dialogUpdateTimestamp(states[_linkedControlModeId]);
+						});
+					};
+					dialogBindingFunctions.push(bindingFunction);
 				})(); //<--End Closure
 			}
 			break;

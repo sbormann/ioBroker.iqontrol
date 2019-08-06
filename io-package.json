@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.4",
+        "version": "0.1.5",
         "news": {
+            "0.1.5": {
+                "en": "Added validation to options, Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered, To save memory, only used states are saved in local memory (before all used AND all updated states were saved), Optimized socket-connectionLink to try to connect via iobroker_pro.",
+                "de": "Validierung zu Optionen hinzugefügt, Erweiterter Alarm mit CONTROL_MODE-Datenpunkt und Symbolen für Unscharf, Scharf und Ausgelöst. Um Speicherplatz zu sparen, werden nur verwendete Zustände im lokalen Speicher gespeichert (bevor alle verwendeten UND alle aktualisierten Zustände gespeichert wurden). Optimierte Socket-Verbindung ",
+                "ru": "Добавлена ​​проверка параметров, расширенный аварийный сигнал с CONTROL_MODE-datapoint и значки для снятия с охраны, постановки на охрану и запуска. Для сохранения памяти в локальной памяти сохраняются только использованные состояния (до сохранения всех использованных И все обновленные состояния), Оптимизированное соединение сокетовСвязать, чтобы попробовать ",
+                "pt": "Adicionada validação às opções Alarme estendido com CONTROL_MODE-datapoint e ícones para desarmado, armado e acionado, Para economizar memória, somente os estados usados ​​são salvos na memória local (antes de todos os estados usados ​​e todos os atualizados foram salvos), Otimizado socket-connectionLink para tentar ",
+                "nl": "Bevestiging toegevoegd aan opties, uitgebreid alarm met CONTROL_MODE-datapunt en pictogrammen voor uitgeschakeld, ingeschakeld en geactiveerd, om geheugen te besparen, worden alleen gebruikte statussen opgeslagen in lokaal geheugen (voordat alle gebruikte EN alle bijgewerkte statussen werden opgeslagen), geoptimaliseerde socket-verbindingLink om te proberen ",
+                "fr": "Validation ajoutée aux options, Alarme étendue avec CONTROL_MODE-datapoint et icônes pour désarmé, armé et déclenché, Pour économiser de la mémoire, seuls les états utilisés sont enregistrés dans la mémoire locale (avant que tous les états utilisés ET mis à jour aient été enregistrés), Prise de connexion optimisée à essayer ",
+                "it": "Aggiunta convalida alle opzioni, Allarme esteso con CONTROL_MODE-datapoint e icone per disinserito, inserito e attivato, Per salvare la memoria, solo gli stati utilizzati vengono salvati nella memoria locale (prima di salvare tutti gli stati utilizzati E tutti gli stati aggiornati), Connessione socket ottimizzataLink per provare ",
+                "es": "Se agregó validación a las opciones, alarma extendida con CONTROL_MODE-datapoint e íconos para desarmado, armado y activado, para guardar la memoria, solo los estados usados ​​se guardan en la memoria local (antes de que todos los estados usados ​​y todos los estados actualizados fueran guardados), conexión de socket optimizada ",
+                "pl": "Dodano sprawdzanie poprawności opcji, Rozszerzony alarm z punktem danych CONTROL_MODE i ikonami dla rozbrojonych, uzbrojonych i wyzwolonych, Aby zaoszczędzić pamięć, tylko używane stany są zapisywane w pamięci lokalnej (zanim wszystkie używane ORAZ wszystkie zaktualizowane stany zostały zapisane), Zoptymalizowane połączenie z gniazdem Link, aby spróbować ",
+                "zh-cn": "添加了对选项的验证，带有CONTROL_MODE-datapoint的扩展警报以及用于撤防，布防和触发的图标，为了节省内存，只有使用的状态保存在本地内存中（在所有使用和保存所有更新状态之前），优化socket-connectionLink以尝试"
+            },
             "0.1.4": {
                 "en": "Optimized fading of tiles, Added toggle-button to blind, if no up/down button is defined, Added detection of protocol for socket in admin, Added confirm-flag inside custom datapoint configuration dialog to enable asking user to confirm before changing values, Added Toggle-Button to Garage-Door.",
                 "de": "Optimiertes Ausblenden von Kacheln, Hinzufügen eines Umschalters zum Blinden, wenn kein Auf- / Ab-Knopf definiert ist, Hinzufügen einer Erkennung des Protokolls für den Socket im Administrator, Hinzufügen eines Bestätigungskennzeichens im Konfigurationsdialog für benutzerdefinierte Datenpunkte, um den Benutzer aufzufordern, vor dem Ändern von Werten zu bestätigen, Hinzufügen ",
@@ -685,7 +697,8 @@
             "name": "iQontrol",
             "img": "iqontrol.admin/iqontrol.png",
             "color": "gray",
-            "order": 1
+            "order": 1,
+            "localLink": false
         },
         "noIntro": false,
         "adminTab": {
