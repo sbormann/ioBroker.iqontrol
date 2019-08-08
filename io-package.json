@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.5",
+        "version": "0.1.6",
         "news": {
+            "0.1.6": {
+                "en": "Next try to connect via iobroker.pro",
+                "de": "Versuchen Sie als nächstes, eine Verbindung über iobroker.pro herzustellen",
+                "ru": "Далее попробуйте подключиться через iobroker.pro",
+                "pt": "Em seguida, tente se conectar via iobroker.pro",
+                "nl": "Probeer vervolgens verbinding te maken via iobroker.pro",
+                "fr": "Ensuite, essayez de vous connecter via iobroker.pro",
+                "it": "Quindi provare a connettersi tramite iobroker.pro",
+                "es": "Luego intente conectarse a través de iobroker.pro",
+                "pl": "Następnie spróbuj połączyć się przez iobroker.pro",
+                "zh-cn": "接下来尝试通过iobroker.pro进行连接"
+            },
             "0.1.5": {
                 "en": "Added validation to options, Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered, To save memory, only used states are saved in local memory (before all used AND all updated states were saved), Optimized socket-connectionLink to try to connect via iobroker_pro.",
                 "de": "Validierung zu Optionen hinzugefügt, Erweiterter Alarm mit CONTROL_MODE-Datenpunkt und Symbolen für Unscharf, Scharf und Ausgelöst. Um Speicherplatz zu sparen, werden nur verwendete Zustände im lokalen Speicher gespeichert (bevor alle verwendeten UND alle aktualisierten Zustände gespeichert wurden). Optimierte Socket-Verbindung ",

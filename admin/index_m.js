@@ -287,6 +287,7 @@ var iQontrolRoles = {
 const udef = 'undefined';
 var link;
 var connectionLink;
+var socketWasConnected = false;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -381,7 +382,7 @@ function load(settings, onChange) {
 	var loading = true;
 
 	//Hide Settings
-	console.log("Loading Settings");
+	console.log("Loading iQontrol Settings");
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
 
@@ -475,10 +476,12 @@ function load(settings, onChange) {
 			if (!(goalSocketFound && goalForceWebSocketsFound)) alert(_("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
 
 			//Create Link from best fitting web-adapter
+			var isIobrokerPro = false;
 			if (location.hostname.toLowerCase() == "iobroker.net" || location.hostname.toLowerCase() == "iobroker.pro"){ //Connection over iobroker.net or iobroker.pro - connect without ports!
-				console.log("Connection over iobroker.net or iobroker.pro detected...")
-				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + "/iqontrol";
-				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname;				
+				console.log("Connection over iobroker.net or iobroker.pro detected...");
+				isIobrokerPro = true;
+				link = location.protocol + "//" + location.hostname + "/iqontrol";
+				connectionLink = location.protocol + "//"  + location.hostname;			
 			} else { //Direct connection
 				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
 				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
@@ -492,11 +495,11 @@ function load(settings, onChange) {
 			$('select').select();
 
 			//Try to init socket.io via conn.js and servConn-Object
-			if(location.protocol == 'https:' && !result[bestInstance].native.secure){
-				alert(_("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter."));
+			if(location.protocol == 'https:' && !result[bestInstance].native.secure && !isIobrokerPro){
+				alert(_("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
 				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
-			} else if (location.protocol == 'http:' && result[bestInstance].native.secure){
-				alert(_("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter."));
+			} else if (location.protocol == 'http:' && result[bestInstance].native.secure && !isIobrokerPro){
+				alert(_("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
 				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
 			} else {
 				try {
@@ -512,7 +515,10 @@ function load(settings, onChange) {
 						onConnChange: function(isConnected) {
 							if(isConnected) {
 								console.log('Socket connected');
-								goOnAfterSocketIsConnectedOrAfterSocketInitError();
+								if (!socketWasConnected){
+									socketWasConnected = true;
+									goOnAfterSocketIsConnectedOrAfterSocketInitError();
+								}
 							} else {
 								console.log('Socket disconnected');
 							}

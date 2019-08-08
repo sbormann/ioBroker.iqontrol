@@ -268,6 +268,9 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.6 (2019-08-08)
+* (Sebastian Bormann) Next try to connect via iobroker.pro
+
 ### 0.1.5 (2019-08-06)
 * (Sebastian Bormann) Added validation to options.
 * (Sebastian Bormann) Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered. 
