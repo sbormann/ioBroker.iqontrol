@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.6",
+        "version": "0.1.7",
         "news": {
+            "0.1.7": {
+                "en": "Added font-family, -size, -weight and -style to options for toolbar, headers, device-name, device-state and device-info-text, Added icon-size, icon-background-size and icon-background-corner-size to options for toolbar.",
+                "de": "Optionen für Symbolleiste, Überschriften, Gerätenamen, Gerätestatus und Geräteinformationstext wurden um Schriftfamilie, -größe, -stärke und -stil erweitert. Hinzugefügte Symbolgröße, Symbolhintergrundgröße und Symbolhintergrundecke ",
+                "ru": "Добавлены font-family, -size, -weight и -style для опций панели инструментов, заголовков, имени устройства, состояния устройства и info-text-устройства, добавлен размер значка, размер значка фона и угол фона значка ",
+                "pt": "Adicionado font-family, -size, -weight e -style às opções de barra de ferramentas, cabeçalhos, nome do dispositivo, estado do dispositivo e texto da informação do dispositivo, tamanho do ícone Adicionado, ícone-fundo-tamanho e ícone-fundo-canto ",
+                "nl": "Lettertype-familie, -grootte, -gewicht en -stijl toegevoegd aan opties voor werkbalk, kopteksten, apparaatnaam, apparaatstatus en apparaat-info-tekst, pictogramgrootte, pictogram-achtergrondgrootte en pictogram-achtergrond-hoek toegevoegd ",
+                "fr": "Ajout de font-family, -size, -weight et -style aux options pour la barre d'outils, les en-têtes, le nom du périphérique, l'état du périphérique et le texte de l'information du périphérique, Ajout de la taille de l'icône, de la taille de l'arrière-plan et du coin de l'arrière-plan ",
+                "it": "Aggiunta famiglia di caratteri, dimensioni, peso e stile alle opzioni per barra degli strumenti, intestazioni, nome dispositivo, stato dispositivo e testo informazioni dispositivo, dimensione icona aggiunta, dimensione sfondo icona e angolo sfondo icona ",
+                "es": "Se agregó la familia de fuentes, el tamaño, el peso y el estilo a las opciones para la barra de herramientas, encabezados, nombre del dispositivo, estado del dispositivo y texto de información del dispositivo, tamaño de icono agregado, tamaño de fondo de icono e esquina de fondo de icono ",
+                "pl": "Dodano rodzinę czcionek, rozmiar, wagę i styl do opcji paska narzędzi, nagłówków, nazwy urządzenia, stanu urządzenia i informacji o urządzeniu, dodano rozmiar ikony, rozmiar tła i narożnik ikony ",
+                "zh-cn": "为工具栏，标题，设备名称，设备状态和设备信息文本添加了font-family，-size，-weight和-style，添加了图标大小，图标背景大小和图标背景角"
+            },
             "0.1.6": {
                 "en": "Next try to connect via iobroker.pro",
                 "de": "Versuchen Sie als nächstes, eine Verbindung über iobroker.pro herzustellen",

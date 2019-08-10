@@ -268,6 +268,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.7 development
+* (Sebastian Bormann) Added font-family, -size, -weight and -style to options for toolbar, headers, device-name, device-state and device-info-text.
+* (Sebastian Bormann) Added icon-size, icon-background-size and icon-background-corner-size to options for toolbar.
+
 ### 0.1.6 (2019-08-08)
 * (Sebastian Bormann) Next try to connect via iobroker.pro
 

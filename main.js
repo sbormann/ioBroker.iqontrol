@@ -202,14 +202,29 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutToolbarSelectedTextColor) obj.native.LayoutToolbarSelectedTextColor = this.config.optionsLayoutToolbarSelectedTextColor;
 		if (this.config.optionsLayoutToolbarSelectedHoverColor) obj.native.LayoutToolbarSelectedHoverColor = this.config.optionsLayoutToolbarSelectedHoverColor;
 		if (this.config.optionsLayoutToolbarSelectedHoverTextColor) obj.native.LayoutToolbarSelectedHoverTextColor = this.config.optionsLayoutToolbarSelectedHoverTextColor;
+		if (this.config.optionsLayoutToolbarFontSize) obj.native.LayoutToolbarFontSize = this.config.optionsLayoutToolbarFontSize;
+		if (this.config.optionsLayoutToolbarFontFamily) obj.native.LayoutToolbarFontFamily = this.config.optionsLayoutToolbarFontFamily;
+		if (this.config.optionsLayoutToolbarFontWeight) obj.native.LayoutToolbarFontWeight = this.config.optionsLayoutToolbarFontWeight;
+		if (this.config.optionsLayoutToolbarFontStyle) obj.native.LayoutToolbarFontStyle = this.config.optionsLayoutToolbarFontStyle;
 		if (this.config.optionsLayoutToolbarIconPosition) obj.native.LayoutToolbarIconPosition = this.config.optionsLayoutToolbarIconPosition;
+		if (this.config.optionsLayoutToolbarIconSize) obj.native.LayoutToolbarIconSize = this.config.optionsLayoutToolbarIconSize;
 		if (this.config.optionsLayoutToolbarIconColor) obj.native.LayoutToolbarIconColor = this.config.optionsLayoutToolbarIconColor;
 		if (this.config.optionsLayoutToolbarIconBackgroundColor) obj.native.LayoutToolbarIconBackgroundColor = this.config.optionsLayoutToolbarIconBackgroundColor;
+		if (this.config.optionsLayoutToolbarIconBackgroundSize) obj.native.LayoutToolbarIconBackgroundSize = this.config.optionsLayoutToolbarIconBackgroundSize;
+		if (this.config.optionsLayoutToolbarIconBackgroundCornerSize) obj.native.LayoutToolbarIconBackgroundCornerSize = this.config.optionsLayoutToolbarIconBackgroundCornerSize;
 		//Headers
 		if (this.config.optionsLayoutViewMainHeaderColor) obj.native.LayoutViewMainHeaderColor = this.config.optionsLayoutViewMainHeaderColor;
 		if (this.config.optionsLayoutViewMainHeaderTextColor) obj.native.LayoutViewMainHeaderTextColor = this.config.optionsLayoutViewMainHeaderTextColor;
+		if (this.config.optionsLayoutViewMainHeaderFontSize) obj.native.LayoutViewMainHeaderFontSize = this.config.optionsLayoutViewMainHeaderFontSize;
+		if (this.config.optionsLayoutViewMainHeaderFontFamily) obj.native.LayoutViewMainHeaderFontFamily = this.config.optionsLayoutViewMainHeaderFontFamily;
+		if (this.config.optionsLayoutViewMainHeaderFontWeight) obj.native.LayoutViewMainHeaderFontWeight = this.config.optionsLayoutViewMainHeaderFontWeight;
+		if (this.config.optionsLayoutViewMainHeaderFontStyle) obj.native.LayoutViewMainHeaderFontStyle = this.config.optionsLayoutViewMainHeaderFontStyle;
 		if (this.config.optionsLayoutViewSubHeaderColor) obj.native.LayoutViewSubHeaderColor = this.config.optionsLayoutViewSubHeaderColor;
 		if (this.config.optionsLayoutViewSubHeaderTextColor) obj.native.LayoutViewSubHeaderTextColor = this.config.optionsLayoutViewSubHeaderTextColor;
+		if (this.config.optionsLayoutViewSubHeaderFontSize) obj.native.LayoutViewSubHeaderFontSize = this.config.optionsLayoutViewSubHeaderFontSize;
+		if (this.config.optionsLayoutViewSubHeaderFontFamily) obj.native.LayoutViewSubHeaderFontFamily = this.config.optionsLayoutViewSubHeaderFontFamily;
+		if (this.config.optionsLayoutViewSubHeaderFontWeight) obj.native.LayoutViewSubHeaderFontWeight = this.config.optionsLayoutViewSubHeaderFontWeight;
+		if (this.config.optionsLayoutViewSubHeaderFontStyle) obj.native.LayoutViewSubHeaderFontStyle = this.config.optionsLayoutViewSubHeaderFontStyle;
 		//Inactive Devices - Background
 		if (this.config.optionsLayoutViewDeviceColor) obj.native.LayoutViewDeviceColor = this.config.optionsLayoutViewDeviceColor;
 		if (this.config.optionsLayoutViewDeviceOpacity) obj.native.LayoutViewDeviceOpacity = this.config.optionsLayoutViewDeviceOpacity;
@@ -235,16 +250,25 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewDeviceNameInactiveHoverTextColor) obj.native.LayoutViewDeviceNameInactiveHoverTextColor = this.config.optionsLayoutViewDeviceNameInactiveHoverTextColor;
 		if (this.config.optionsLayoutViewDeviceNameActiveTextColor) obj.native.LayoutViewDeviceNameActiveTextColor = this.config.optionsLayoutViewDeviceNameActiveTextColor;
 		if (this.config.optionsLayoutViewDeviceNameActiveHoverTextColor) obj.native.LayoutViewDeviceNameActiveHoverTextColor = this.config.optionsLayoutViewDeviceNameActiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceNameFontFamily) obj.native.LayoutViewDeviceNameFontFamily = this.config.optionsLayoutViewDeviceNameFontFamily;
+		if (this.config.optionsLayoutViewDeviceNameFontWeight) obj.native.LayoutViewDeviceNameFontWeight = this.config.optionsLayoutViewDeviceNameFontWeight;
+		if (this.config.optionsLayoutViewDeviceNameFontStyle) obj.native.LayoutViewDeviceNameFontStyle = this.config.optionsLayoutViewDeviceNameFontStyle;
 		//State
 		if (this.config.optionsLayoutViewDeviceStateInactiveTextColor) obj.native.LayoutViewDeviceStateInactiveTextColor = this.config.optionsLayoutViewDeviceStateInactiveTextColor;
 		if (this.config.optionsLayoutViewDeviceStateInactiveHoverTextColor) obj.native.LayoutViewDeviceStateInactiveHoverTextColor = this.config.optionsLayoutViewDeviceStateInactiveHoverTextColor;
 		if (this.config.optionsLayoutViewDeviceStateActiveTextColor) obj.native.LayoutViewDeviceStateActiveTextColor = this.config.optionsLayoutViewDeviceStateActiveTextColor;
 		if (this.config.optionsLayoutViewDeviceStateActiveHoverTextColor) obj.native.LayoutViewDeviceStateActiveHoverTextColor = this.config.optionsLayoutViewDeviceStateActiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceStateFontFamily) obj.native.LayoutViewDeviceStateFontFamily = this.config.optionsLayoutViewDeviceStateFontFamily;
+		if (this.config.optionsLayoutViewDeviceStateFontWeight) obj.native.LayoutViewDeviceStateFontWeight = this.config.optionsLayoutViewDeviceStateFontWeight;
+		if (this.config.optionsLayoutViewDeviceStateFontStyle) obj.native.LayoutViewDeviceStateFontStyle = this.config.optionsLayoutViewDeviceStateFontStyle;
 		//Info
 		if (this.config.optionsLayoutViewDeviceInfoInactiveTextColor) obj.native.LayoutViewDeviceInfoInactiveTextColor = this.config.optionsLayoutViewDeviceInfoInactiveTextColor;
 		if (this.config.optionsLayoutViewDeviceInfoInactiveHoverTextColor) obj.native.LayoutViewDeviceInfoInactiveHoverTextColor = this.config.optionsLayoutViewDeviceInfoInactiveHoverTextColor;
 		if (this.config.optionsLayoutViewDeviceInfoActiveTextColor) obj.native.LayoutViewDeviceInfoActiveTextColor = this.config.optionsLayoutViewDeviceInfoActiveTextColor;
 		if (this.config.optionsLayoutViewDeviceInfoActiveHoverTextColor) obj.native.LayoutViewDeviceInfoActiveHoverTextColor = this.config.optionsLayoutViewDeviceInfoActiveHoverTextColor;
+		if (this.config.optionsLayoutViewDeviceInfoFontFamily) obj.native.LayoutViewDeviceInfoFontFamily = this.config.optionsLayoutViewDeviceInfoFontFamily;
+		if (this.config.optionsLayoutViewDeviceInfoFontWeight) obj.native.LayoutViewDeviceInfoFontWeight = this.config.optionsLayoutViewDeviceInfoFontWeight;
+		if (this.config.optionsLayoutViewDeviceInfoFontStyle) obj.native.LayoutViewDeviceInfoFontStyle = this.config.optionsLayoutViewDeviceInfoFontStyle;
 		//Marquee
 		if (this.config.optionsLayoutViewMarqueeDisabled) obj.native.LayoutViewMarqueeDisabled = this.config.optionsLayoutViewMarqueeDisabled;
 		if (this.config.optionsLayoutViewMarqueeNamesEnabled) obj.native.LayoutViewMarqueeNamesEnabled = this.config.optionsLayoutViewMarqueeNamesEnabled;

@@ -397,7 +397,7 @@ function load(settings, onChange) {
 		}
 	});
 
-	//Add function to inputClear-Buttons
+	//Add function to inputClear-Buttons and selectClear-Buttons
 	$('.inputClear').on('click', function(){
 		if($(this).data('default')){
 			$(this).prevAll('input').val($(this).data('default'));
@@ -407,6 +407,15 @@ function load(settings, onChange) {
 		M.validate_field($(this).prevAll('input'));
 		M.updateTextFields();
 	});
+	$('.selectClear').on('click', function(){
+		if($(this).data('default')){
+			$(this).prevAll('.select-wrapper').children('select').val($(this).data('default'));
+		} else {
+			$(this).prevAll('.select-wrapper').children('select').val('');
+		}
+		$('select').select();
+	});
+
 
 	//Select elements with id=key and class=value and insert value
 	if (!settings) return;

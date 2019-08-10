@@ -1039,10 +1039,6 @@ function removeDuplicates(array) { //Removes duplicates from an array
 
 function addCustomCSS(customCSS, customID){
 	customID = customID || "default";
-	//This is how to change CSS:
-	//customCSS = "#ViewMain { font-size: 50px; }";
-	//This is how to remove all the changes:
-	//$('.customID').remove();
 	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
 }
 
@@ -1555,9 +1551,53 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutToolbarFontSize) {
+			customCSS = ".iQontrolToolbarLink.ui-btn{";
+			customCSS += "	font-size: " + options.LayoutToolbarFontSize + "px !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarFontFamily) {
+			customCSS = ".iQontrolToolbarLink.ui-btn{";
+			customCSS += "	font-family: " + options.LayoutToolbarFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarFontWeight) {
+			customCSS = ".iQontrolToolbarLink.ui-btn{";
+			customCSS += "	font-weight: " + options.LayoutToolbarFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarFontStyle) {
+			customCSS = ".iQontrolToolbarLink.ui-btn{";
+			customCSS += "	font-style: " + options.LayoutToolbarFontStyle + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarIconSize) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	background-size: " + options.LayoutToolbarIconSize + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		if(options.LayoutToolbarIconBackgroundColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
 			customCSS += "	background-color: " + options.LayoutToolbarIconBackgroundColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarIconBackgroundSize) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	width: " + options.LayoutToolbarIconBackgroundSize + "px;";
+			customCSS += "	height: " + options.LayoutToolbarIconBackgroundSize + "px;";
+			customCSS += "	margin-left: " + (options.LayoutToolbarIconBackgroundSize / -2) + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarIconBackgroundCornerSize) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	border-radius: " + (options.LayoutToolbarIconBackgroundCornerSize / 2) + "%;";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -1574,6 +1614,30 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutViewMainHeaderFontSize) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	font-size: " + options.LayoutViewMainHeaderFontSize + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderFontFamily) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	font-family: " + options.LayoutViewMainHeaderFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderFontWeight) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	font-weight: " + options.LayoutViewMainHeaderFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderFontStyle) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	font-style: " + options.LayoutViewMainHeaderFontStyle + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		if(options.LayoutViewSubHeaderColor) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	background-color: " + options.LayoutViewSubHeaderColor + ";";
@@ -1583,6 +1647,30 @@ function handleOptions(){
 		if(options.LayoutViewSubHeaderTextColor) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	color: " + options.LayoutViewSubHeaderTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderFontSize) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	font-size: " + options.LayoutViewSubHeaderFontSize + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderFontFamily) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	font-family: " + options.LayoutViewSubHeaderFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderFontWeight) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	font-weight: " + options.LayoutViewSubHeaderFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderFontStyle) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	font-style: " + options.LayoutViewSubHeaderFontStyle + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -1711,6 +1799,24 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutViewDeviceNameFontFamily) {
+			customCSS = ".iQontrolDeviceName{";
+			customCSS += "	font-family: " + options.LayoutViewDeviceNameFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceNameFontWeight) {
+			customCSS = ".iQontrolDeviceName{";
+			customCSS += "	font-weight: " + options.LayoutViewDeviceNameFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceNameFontStyle) {
+			customCSS = ".iQontrolDeviceName{";
+			customCSS += "	font-style: " + options.LayoutViewDeviceNameFontStyle + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		//State
 		if(options.LayoutViewDeviceStateInactiveTextColor) {
 			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceState{";
@@ -1736,6 +1842,24 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutViewDeviceStateFontFamily) {
+			customCSS = ".iQontrolDeviceState{";
+			customCSS += "	font-family: " + options.LayoutViewDeviceStateFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceStateFontWeight) {
+			customCSS = ".iQontrolDeviceState{";
+			customCSS += "	font-weight: " + options.LayoutViewDeviceStateFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceStateFontStyle) {
+			customCSS = ".iQontrolDeviceState{";
+			customCSS += "	font-style: " + options.LayoutViewDeviceStateFontStyle + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		//Info
 		if(options.LayoutViewDeviceInfoInactiveTextColor) {
 			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
@@ -1758,6 +1882,24 @@ function handleOptions(){
 		if(options.LayoutViewDeviceInfoActiveHoverTextColor) {
 			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
 			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoFontFamily) {
+			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+			customCSS += "	font-family: " + options.LayoutViewDeviceInfoFontFamily + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoFontWeight) {
+			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+			customCSS += "	font-weight: " + options.LayoutViewDeviceInfoFontWeight + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceInfoFontStyle) {
+			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+			customCSS += "	font-style: " + options.LayoutViewDeviceInfoFontStyle + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};

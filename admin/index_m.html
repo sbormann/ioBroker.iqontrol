@@ -34,7 +34,7 @@
 		#tableViews .dropdown-content {width: auto !important;}
 		#tableDevices .dropdown-content {width: auto !important;}
 		.validateOnlyError.valid { border-bottom: 1px solid #9e9e9e !important; box-shadow: none !important;}
-		.inputClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
+		.inputClear, .selectClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
 	</style>
 </head>
 
@@ -363,6 +363,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarFooterColor" />
 									<label for="optionsLayoutToolbarFooterColor" class="translate">Overall Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -374,6 +375,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarBorderColor" />
 									<label for="optionsLayoutToolbarBorderColor" class="translate">Border-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
@@ -386,21 +388,25 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarColor" />
 									<label for="optionsLayoutToolbarColor" class="translate">Unselected Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarTextColor" />
 									<label for="optionsLayoutToolbarTextColor" class="translate">Unselected Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarHoverColor" />
 									<label for="optionsLayoutToolbarHoverColor" class="translate">Unselected Hover Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarHoverTextColor" />
 									<label for="optionsLayoutToolbarHoverTextColor" class="translate">Unselected Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
@@ -413,22 +419,89 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedColor" />
 									<label for="optionsLayoutToolbarSelectedColor" class="translate">Selected Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedTextColor" />
 									<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedHoverColor" />
 									<label for="optionsLayoutToolbarSelectedHoverColor" class="translate">Selected Hover Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedHoverTextColor" />
 									<label for="optionsLayoutToolbarSelectedHoverTextColor" class="translate">Selected Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Caption:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutToolbarFontSize" />
+									<label for="optionsLayoutToolbarFontSize" class="translate">Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontFamily' id='optionsLayoutToolbarFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutToolbarFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontWeight' id='optionsLayoutToolbarFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutToolbarFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontStyle' id='optionsLayoutToolbarFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutToolbarFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
 							<div class="row">
@@ -446,6 +519,8 @@
 										<option value="top" class="translate">top</option>
 									</select>
 									<label for="options.layout.toolbarIconPosition" class="translate">Icon Position:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" id="optionsLayoutToolbarIconColor">
@@ -454,10 +529,31 @@
 										<option value="black" class="translate">black</option>
 									</select>
 									<label for="options.layout.toolbarIconPosition" class="translate">Icon Color:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="200" id="optionsLayoutToolbarIconSize" />
+									<label for="optionsLayoutToolbarIconSize" class="translate">Icon Size:</label>
+									<span class="helper-text" data-error="0 - 200 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarIconBackgroundColor" />
 									<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Icon Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="200" id="optionsLayoutToolbarIconBackgroundSize" />
+									<label for="optionsLayoutToolbarIconBackgroundSize" class="translate">Icon Background Size:</label>
+									<span class="helper-text" data-error="0 - 200 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="100" id="optionsLayoutToolbarIconBackgroundCornerSize" />
+									<label for="optionsLayoutToolbarIconBackgroundCornerSize" class="translate">Icon Background Corner-Size:</label>
+									<span class="helper-text" data-error="0 - 100 [%]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
@@ -469,25 +565,153 @@
 						</div>
 						<div class="collapsible-body">
 							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Main-Header:</p>
+								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewMainHeaderColor" />
 									<label for="optionsLayoutViewMainHeaderColor" class="translate">Main-Header Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewMainHeaderTextColor" />
 									<label for="optionsLayoutViewMainHeaderTextColor" class="translate">Main-Header Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewMainHeaderFontSize" />
+									<label for="optionsLayoutViewMainHeaderFontSize" class="translate">Main-Header Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontFamily' id='optionsLayoutViewMainHeaderFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontFamily' class="translate">Main-Header Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontWeight' id='optionsLayoutViewMainHeaderFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontWeight' class="translate">Main-Header Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontStyle' id='optionsLayoutViewMainHeaderFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontStyle' class="translate">Main-Header Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Sub-Headers:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewSubHeaderColor" />
 									<label for="optionsLayoutViewSubHeaderColor" class="translate">Sub-Headers Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewSubHeaderTextColor" />
 									<label for="optionsLayoutViewSubHeaderTextColor" class="translate">Sub-Headers Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewSubHeaderFontSize" />
+									<label for="optionsLayoutViewSubHeaderFontSize" class="translate">Sub-Header Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontFamily' id='optionsLayoutViewSubHeaderFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontFamily' class="translate">Sub-Header Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontWeight' id='optionsLayoutViewSubHeaderFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontWeight' class="translate">Sub-Header Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontStyle' id='optionsLayoutViewSubHeaderFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontStyle' class="translate">Sub-Header Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
 						</div>
@@ -506,6 +730,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceColor" />
 									<label for="optionsLayoutViewDeviceColor" class="translate">Inactive Devices - Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -517,6 +742,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceHoverColor" />
 									<label for="optionsLayoutViewDeviceHoverColor" class="translate">Inactive Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -535,6 +761,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInactiveColor" />
 									<label for="optionsLayoutViewDeviceInactiveColor" class="translate">Inactive Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -546,6 +773,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInactiveHoverColor" />
 									<label for="optionsLayoutViewDeviceInactiveHoverColor" class="translate">Inactive Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -564,6 +792,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewActiveDeviceColor" />
 									<label for="optionsLayoutViewActiveDeviceColor" class="translate">Active Devices - Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -575,6 +804,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewActiveDeviceHoverColor" />
 									<label for="optionsLayoutViewActiveDeviceHoverColor" class="translate">Active Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -593,6 +823,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceActiveColor" />
 									<label for="optionsLayoutViewDeviceActiveColor" class="translate">Active Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -604,6 +835,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceActiveHoverColor" />
 									<label for="optionsLayoutViewDeviceActiveHoverColor" class="translate">Active Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -629,22 +861,76 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameInactiveTextColor" />
 									<label for="optionsLayoutViewDeviceNameInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameInactiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceNameInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveTextColor" />
 									<label for="optionsLayoutViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceNameActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontFamily' id='optionsLayoutViewDeviceNameFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontWeight' id='optionsLayoutViewDeviceNameFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontStyle' id='optionsLayoutViewDeviceNameFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
 							<div class="row">
@@ -656,22 +942,76 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateInactiveTextColor" />
 									<label for="optionsLayoutViewDeviceStateInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateInactiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceStateInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveTextColor" />
 									<label for="optionsLayoutViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceStateActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontFamily' id='optionsLayoutViewDeviceStateFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontWeight' id='optionsLayoutViewDeviceStateFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontStyle' id='optionsLayoutViewDeviceStateFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
 							<div class="row">
@@ -683,22 +1023,76 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoInactiveTextColor" />
 									<label for="optionsLayoutViewDeviceInfoInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveTextColor" />
 									<label for="optionsLayoutViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveHoverTextColor" />
 									<label for="optionsLayoutViewDeviceInfoActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontFamily' id='optionsLayoutViewDeviceInfoFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georia:</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact:</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontWeight' id='optionsLayoutViewDeviceInfoFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontStyle' id='optionsLayoutViewDeviceInfoFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
 							<div class="row">
@@ -710,10 +1104,12 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeDisabled" />
 									<label for="optionsLayoutViewMarqueeDisabled" class="translate">Marquee disabled</label>
+									<span class="helper-text"></span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeNamesEnabled" />
 									<label for="optionsLayoutViewMarqueeNamesEnabled" class="translate">Marquee for device-names enabled</label>
+									<span class="helper-text"></span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="1" max="1000" id="optionsLayoutViewMarqueeSpeed" />
@@ -738,6 +1134,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenDisabled" />
 									<label for="optionsLayoutViewResizeDevicesToFitScreenDisabled" class="translate">Resize disabled</label>
+									<span class="helper-text"></span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="1" max="5000" value="600" id="optionsLayoutViewResizeDevicesToFitScreenTreshold" />
@@ -748,6 +1145,7 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" checked />
 									<label for="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" class="translate">Resize even when screen is big</label>
+									<span class="helper-text"></span>
 								</div>
 							</div>
 						</div>
