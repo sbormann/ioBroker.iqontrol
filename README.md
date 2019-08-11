@@ -145,10 +145,10 @@ Optional you can define the following states:
 * For coloured LEDs (HSB-color-space):
     * **HUE**: *number* - color of the light from 0-360° (hue format)
     * **SATURATION**: *number* - saturation of the light (from white to pure color)
-    * **COLOR_BRIGHTNESS**: *number* - the brightness of the colored LEDs (this is only respected, if the light has both, coloured and white LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+    * **COLOR_BRIGHTNESS**: *number* - the brightness of the colored LEDs (if you have a LEVEL-State and no white LEDs, this is ignored, because brightness is controled completely by LEVEL)
 * For white LEDs:
     * **CT**: *number* - color-temperature of the light, if it has two shades of white
-    * **WHITE_BRIGHTNESS**: *number* - the brightness of the white LEDs (this is only respected, if the light has both, white and coloured LEDs. If you have only one kind of LEDs the brightness is controlled by the LEVEL-State)
+    * **WHITE_BRIGHTNESS**: *number* - the brightness of the white LEDs (if you have a LEVEL-State and no coloured LEDs, this is ignored, because brightness is controled completely by LEVEL)
 * Alternative color-spaces:
     * **ALTERNATIVE_COLORSPACE_VALUE**: *string* or *number* (depending on the chosed colorspace) - the value of the alternative colorspace
     If your device does not support using HUE, SATURATION and COLOR_BRIGHTNESS (HSB/HSV-color-space) you can use a variety of alternative colorspaces. In the device-options you can chose one of the following colorspaces:	
