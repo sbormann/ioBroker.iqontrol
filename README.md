@@ -39,7 +39,17 @@ It's fully customizable.
 ## You need...
 * Nodejs 8 or higher
 * Web-Adapter with one instance running the same protocol (http or https) as the admin-adapter, socket.IO set to 'integrated' and 'Force Web-Sockets' disabled
-    * It this stands in conflict to other adapters, simply add another instance with the above settings. iQontrol will search the besst fitting web-adapter-instance and use it for communication.
+    * If this stands in conflict to other adapters, simply add another instance with the above settings - iQontrol will search the besst fitting web-adapter-instance and use it for communication
+
+
+## Troubleshooting
+* Make shure you fulfilled the 'You need...' section at top of this page
+* If something doesn't work like expected after update please try the following steps:
+    * Start upload of adapter:
+        ![Upload](img/adapter_upload.png)
+	* Clear browser cache
+	* Restart ioBroker
+* Start iQonrol with opened debugging-console of your browser (mostly you need to press F12 to open it) and look for messages in the console-window
 
 
 ## How to use
@@ -252,21 +262,17 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 
-## Troubleshooting
-* Make shure you fulfilled the 'You need' section at top of this page
-* If something doesn't work like expected after update please try the following steps:
-    * Start upload of adapter
-	* Clear browser cache
-	* Restart ioBroker
-* Start iQonrol with opened debugging-console of your browser (mostly you need to press F12 to open it) and look for messages in the console-window
-
-
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
 ****
 
 # Changelog
+
+### 0.1.8 (2019-08-11)
+* (Sebastian Bormann) Further improvements on connecting over iobroker.pro.
+* (Sebastian Bormann) COLOR_BRIGHTNESS and WHITE_BRIGHTNESS are now displayed, if LEVEL is not defined on hue lights.
+* (Sebastian Bormann) Added thumbnail-previews of fonts.
 
 ### 0.1.7 (2019-08-11)
 * (Sebastian Bormann) Added font-family, -size, -weight and -style to options for toolbar, headers, device-name, device-state and device-info-text.
