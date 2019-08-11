@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.7",
+        "version": "0.1.8",
         "news": {
+            "0.1.8": {
+                "en": "Further improvements on connecting over iobroker.pro, COLOR_BRIGHTNESS and WHITE_BRIGHTNESS are now displayed, if LEVEL is not defined on hue lights, Added thumbnail-previews of fonts, Added clickOnIconOpensDialog and clickOnTileToggles to device options.",
+                "de": "Weitere Verbesserungen bei der Verbindung über iobroker.pro, COLOR_BRIGHTNESS und WHITE_BRIGHTNESS werden jetzt angezeigt, wenn LEVEL für Farbtonlichter nicht definiert ist. Hinzugefügte Miniaturansichten von Schriftarten, hinzugefügte clickOnIconOpensDialog und clickOnTileToggles für Geräteoptionen.",
+                "ru": "Дальнейшие улучшения при подключении через iobroker.pro, COLOR_BRIGHTNESS и WHITE_BRIGHTNESS теперь отображаются, если LEVEL не определен для подсветки оттенка, Добавлены миниатюры-предварительный просмотр шрифтов, Добавлены clickOnIconOpensDialog и clickOnTileToggles для параметров устройства.",
+                "pt": "Melhorias adicionais na conexão através de iobroker.pro, COLOR_BRIGHTNESS e WHITE_BRIGHTNESS agora são exibidas, se LEVEL não estiver definido em luzes de matiz, Visualizações de miniaturas de fontes adicionadas, Adicionado clickOnIconOpensDialog e clickOnTileToggles às opções do dispositivo.",
+                "nl": "Verdere verbeteringen bij het verbinden via iobroker.pro, COLOR_BRIGHTNESS en WHITE_BRIGHTNESS worden nu weergegeven, als LEVEL niet is gedefinieerd voor tintlichten, miniatuurvoorbeelden van lettertypen toegevoegd, clickOnIconOpensDialog en clickOnTileToggles toegevoegd aan apparaatopties.",
+                "fr": "Des améliorations supplémentaires concernant la connexion via iobroker.pro, COLOR_BRIGHTNESS et WHITE_BRIGHTNESS sont maintenant affichées. Si LEVEL n'est pas défini sur les voyants de nuance, les vignettes-aperçus des polices, ClickOnIconOpensDialog et clickOnTileToggles sont ajoutés aux options de l'appareil.",
+                "it": "Ulteriori miglioramenti sulla connessione tramite iobroker.pro, COLOR_BRIGHTNESS e WHITE_BRIGHTNESS sono ora visualizzati, se LEVEL non è definito sulle luci tonalità, Aggiunte anteprime dei caratteri aggiunte, clickOnIconOpensDialog e clickOnTileToggles alle opzioni del dispositivo.",
+                "es": "Ahora se muestran mejoras adicionales en la conexión a través de iobroker.pro, COLOR_BRIGHTNESS y WHITE_BRIGHTNESS, si LEVEL no está definido en las luces de tono, se agregaron vistas previas en miniatura de las fuentes, se agregó clickOnIconOpensDialog y clickOnTileToggles a las opciones del dispositivo.",
+                "pl": "Wyświetlane są teraz dalsze ulepszenia w łączeniu za pomocą iobroker.pro, COLOR_BRIGHTNESS i WHITE_BRIGHTNESS, jeśli POZIOM nie jest zdefiniowany w światłach barwy, Dodano podgląd miniatur czcionek, Dodano clickOnIconOpensDialog i clickOnTileToggles do opcji urządzenia.",
+                "zh-cn": "如果未在色调灯上定义LEVEL，则添加了对iobroker.pro，COLOR_BRIGHTNESS和WHITE_BRIGHTNESS连接的进一步改进，添加了字体的缩略图预览，添加了clickOnIconOpensDialog和clickOnTileToggles到设备选项。"
+            },
             "0.1.7": {
                 "en": "Added font-family, -size, -weight and -style to options for toolbar, headers, device-name, device-state and device-info-text, Added icon-size, icon-background-size and icon-background-corner-size to options for toolbar.",
                 "de": "Optionen für Symbolleiste, Überschriften, Gerätenamen, Gerätestatus und Geräteinformationstext wurden um Schriftfamilie, -größe, -stärke und -stil erweitert. Hinzugefügte Symbolgröße, Symbolhintergrundgröße und Symbolhintergrundecke ",
@@ -28,7 +40,7 @@
                 "zh-cn": "接下来尝试通过iobroker.pro进行连接"
             },
             "0.1.5": {
-                "en": "Added validation to options, Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered, To save memory, only used states are saved in local memory (before all used AND all updated states were saved), Optimized socket-connectionLink to try to connect via iobroker_pro.",
+                "en": "Added validation to options, Extended alarm with CONTROL_MODE-datapoint and icons for disarmed, armed and triggered, To save memory, only used states are saved in local memory (before all used AND all updated states were saved), Optimized socket-connectionLink to try to connect via iobroker.pro.",
                 "de": "Validierung zu Optionen hinzugefügt, Erweiterter Alarm mit CONTROL_MODE-Datenpunkt und Symbolen für Unscharf, Scharf und Ausgelöst. Um Speicherplatz zu sparen, werden nur verwendete Zustände im lokalen Speicher gespeichert (bevor alle verwendeten UND alle aktualisierten Zustände gespeichert wurden). Optimierte Socket-Verbindung ",
                 "ru": "Добавлена ​​проверка параметров, расширенный аварийный сигнал с CONTROL_MODE-datapoint и значки для снятия с охраны, постановки на охрану и запуска. Для сохранения памяти в локальной памяти сохраняются только использованные состояния (до сохранения всех использованных И все обновленные состояния), Оптимизированное соединение сокетовСвязать, чтобы попробовать ",
                 "pt": "Adicionada validação às opções Alarme estendido com CONTROL_MODE-datapoint e ícones para desarmado, armado e acionado, Para economizar memória, somente os estados usados ​​são salvos na memória local (antes de todos os estados usados ​​e todos os atualizados foram salvos), Otimizado socket-connectionLink para tentar ",

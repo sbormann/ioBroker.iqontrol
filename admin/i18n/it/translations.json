@@ -45,6 +45,8 @@
     "Change filename from %s to:": "Modificare il nome file da %s a:",
     "Check the device after creation and edit it to correct role and states.": "Controllare il dispositivo dopo la creazione e modificarlo per correggere il ruolo e gli stati.",
     "Choose:": "Scegliere:",
+    "Click on icon opens dialog (instead of toggling)": "Fare clic sull'icona per aprire la finestra di dialogo (anziché attivare / disattivare)",
+    "Click on tile toggles (instead of opening dialog)": "Fai clic sui pulsanti a levetta (invece di aprire la finestra di dialogo)",
     "Copy Device:": "Copia Del Dispositivo:",
     "Copy Existing Device to this view": "Copia Esistente del Dispositivo questo punto di vista",
     "Copy this device": "Copia questo dispositivo",

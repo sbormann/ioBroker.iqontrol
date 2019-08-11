@@ -79,6 +79,8 @@
     "Change filename from %s to:": "Изменить имя файла из %S в:",
     "Check the device after creation and edit it to correct role and states.": "Проверьте устройство после создания и отредактируйте его, чтобы исправить роль и состояния.",
     "Choose:": "Выберите:",
+    "Click on icon opens dialog (instead of toggling)": "Нажмите на иконку, чтобы открыть диалоговое окно (вместо переключения)",
+    "Click on tile toggles (instead of opening dialog)": "Нажмите на переключатель плитки (вместо открытия диалога)",
     "Color": "Цвет",
     "Color-Temperature": "Цветовая температура",
     "Content not available": "Контент недоступен",

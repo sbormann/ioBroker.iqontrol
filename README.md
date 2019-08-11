@@ -40,12 +40,14 @@ It's fully customizable.
 * Nodejs 8 or higher
 * Web-Adapter with one instance running the same protocol (http or https) as the admin-adapter, socket.IO set to 'integrated' and 'Force Web-Sockets' disabled
     * If this stands in conflict to other adapters, simply add another instance with the above settings - iQontrol will search the besst fitting web-adapter-instance and use it for communication
+	* For connecting over *iobroker.pro-Cloud* both, admin- and web-adapter should be set to http (not https)
 
 
 ## Troubleshooting
 * Make shure you fulfilled the 'You need...' section at top of this page
 * If something doesn't work like expected after update please try the following steps:
     * Start upload of adapter:
+    \
         ![Upload](img/adapter_upload.png)
 	* Clear browser cache
 	* Restart ioBroker
@@ -273,6 +275,7 @@ In addition to normal thermostat you can define:
 * (Sebastian Bormann) Further improvements on connecting over iobroker.pro.
 * (Sebastian Bormann) COLOR_BRIGHTNESS and WHITE_BRIGHTNESS are now displayed, if LEVEL is not defined on hue lights.
 * (Sebastian Bormann) Added thumbnail-previews of fonts.
+* (Sebastian Bormann) Added clickOnIconOpensDialog and clickOnTileToggles to device options.
 
 ### 0.1.7 (2019-08-11)
 * (Sebastian Bormann) Added font-family, -size, -weight and -style to options for toolbar, headers, device-name, device-state and device-info-text.

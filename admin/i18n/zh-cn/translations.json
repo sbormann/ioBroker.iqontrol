@@ -45,6 +45,8 @@
     "Change filename from %s to:": "重命名%s文件为:",
     "Check the device after creation and edit it to correct role and states.": "创建后检查设备并对其进行编辑以更正角色和状态。",
     "Choose:": "选择：",
+    "Click on icon opens dialog (instead of toggling)": "单击图标打开对话框（而不是切换）",
+    "Click on tile toggles (instead of opening dialog)": "单击切换切换（而不是打开对话框）",
     "Copy Device:": "复制设备：",
     "Copy Existing Device to this view": "复制已有的设备到当前显示页面",
     "Copy this device": "复制该设备",

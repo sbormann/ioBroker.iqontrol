@@ -23,6 +23,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -34,6 +36,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
@@ -47,6 +51,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -171,6 +177,8 @@ var iQontrolRoles = {
 											icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png", default: ""},
 											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
@@ -227,6 +235,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -237,6 +247,8 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -248,6 +260,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -258,6 +272,8 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -288,6 +304,7 @@ const udef = 'undefined';
 var link;
 var connectionLink;
 var socketWasConnected = false;
+var socketConnectionErrorMessages = "";
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -456,6 +473,13 @@ function load(settings, onChange) {
 	console.log("getLink of best fitting web-adapter");
 	getExtendableInstances(function (result) {
 		if (result) {
+			//Detect connection over iobroker.net or iobroker.pro
+			var isIobrokerPro = false;
+			if (location.hostname.toLowerCase() == "iobroker.net" || location.hostname.toLowerCase() == "iobroker.pro"){ //Connection over iobroker.net or iobroker.pro
+				console.log("Connection over iobroker.net or iobroker.pro detected...");
+				isIobrokerPro = true;
+			}
+
 			//Find best fitting web-Adapter
 			var bestInstance = 0;
 			var goalSecure = (location.protocol == 'https:');
@@ -482,13 +506,13 @@ function load(settings, onChange) {
 					}
 				}
 			}
-			if (!(goalSocketFound && goalForceWebSocketsFound)) alert(_("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+			if (!(goalSocketFound && goalForceWebSocketsFound) && !isIobrokerPro){
+				console.log("Could not find any web-adapter with integrated socketIO and disabled Force Web-Sockets");
+				socketConnectionErrorMessages += "\n" + _("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!");
+			}
 
 			//Create Link from best fitting web-adapter
-			var isIobrokerPro = false;
-			if (location.hostname.toLowerCase() == "iobroker.net" || location.hostname.toLowerCase() == "iobroker.pro"){ //Connection over iobroker.net or iobroker.pro - connect without ports!
-				console.log("Connection over iobroker.net or iobroker.pro detected...");
-				isIobrokerPro = true;
+			if (isIobrokerPro){ //Connection over iobroker.net or iobroker.pro - connect without ports!
 				link = location.protocol + "//" + location.hostname + "/iqontrol";
 				connectionLink = location.protocol + "//"  + location.hostname;			
 			} else { //Direct connection
@@ -505,10 +529,12 @@ function load(settings, onChange) {
 
 			//Try to init socket.io via conn.js and servConn-Object
 			if(location.protocol == 'https:' && !result[bestInstance].native.secure && !isIobrokerPro){
-				alert(_("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+				console.log("Admin runs in https, but web-adpater in http");
+				socketConnectionErrorMessages = _("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.");
 				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
 			} else if (location.protocol == 'http:' && result[bestInstance].native.secure && !isIobrokerPro){
-				alert(_("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+				console.log("Admin runs in http, but web-adapter in https");
+				socketConnectionErrorMessages = _("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.");
 				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
 			} else {
 				try {
@@ -526,6 +552,7 @@ function load(settings, onChange) {
 								console.log('Socket connected');
 								if (!socketWasConnected){
 									socketWasConnected = true;
+									socketConnectionErrorMessages = "";
 									goOnAfterSocketIsConnectedOrAfterSocketInitError();
 								}
 							} else {
@@ -536,7 +563,13 @@ function load(settings, onChange) {
 							console.log('Socket refresh');
 						},
 						onError: function(err) {
-							window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
+							console.log('Socket connection error:' + err.command + " - " + err.arg);
+							if (!socketWasConnected){
+								socketConnectionErrorMessages += "\n" + _('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg);
+								goOnAfterSocketIsConnectedOrAfterSocketInitError();
+							} else {
+								alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg));
+							}
 						}
 					};
 					servConn.init(_connOptions, _connCallbacks);
@@ -546,8 +579,8 @@ function load(settings, onChange) {
 					console.log("Inited socket.io");
 				} catch {
 					//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
-					console.log("Error initing socket.io - Fallback");
-					alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!") + " " + _("Trying to use fallback. Some functions and file-operations may not work."));
+					console.log("Error initing socket.io");
+					socketConnectionErrorMessages += "\n" + _("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!");
 					goOnAfterSocketIsConnectedOrAfterSocketInitError();
 				}
 			}
@@ -557,6 +590,11 @@ function load(settings, onChange) {
 	});
 	
 	function goOnAfterSocketIsConnectedOrAfterSocketInitError(){
+		//Error?
+		if (socketConnectionErrorMessages != ""){
+			socketConnectionErrorMessages += "\n\n\n" + _("Trying to use fallback. Some functions and file-operations may not work.");
+			alert(socketConnectionErrorMessages);
+		}
 		//Get images
 		console.log("getImages");
 		getImages(async function(){
@@ -565,6 +603,7 @@ function load(settings, onChange) {
 			var oldImagePath = "/" + adapter + "/userimages";
 			var err = await renameFileAsync(oldImagePath + "/", userfilesImagePath + "/");
 			if(typeof err == udef) {
+				console.log("...userfiles moved.")
 				alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
 			} else console.log("...nothing to move.");
 			

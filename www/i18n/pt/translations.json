@@ -79,6 +79,8 @@
     "Change filename from %s to:": "Alterar o nome do arquivo de %s para:",
     "Check the device after creation and edit it to correct role and states.": "Verifique o dispositivo após a criação e edite-o para corrigir a função e os estados.",
     "Choose:": "Escolher:",
+    "Click on icon opens dialog (instead of toggling)": "Clique no ícone abre o diálogo (em vez de alternar)",
+    "Click on tile toggles (instead of opening dialog)": "Clique no botão para alternar (em vez de abrir o diálogo)",
     "Color": "Cor",
     "Color-Temperature": "Temperatura de cor",
     "Content not available": "Conteúdo não disponível",
