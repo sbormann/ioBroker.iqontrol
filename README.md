@@ -54,6 +54,10 @@ It's fully customizable.
 * Start iQonrol with opened debugging-console of your browser (mostly you need to press F12 to open it) and look for messages in the console-window
 
 
+## Forum
+Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
+
+
 ## How to use
 * Start creating views.
 	You can consider views as something like a page.
@@ -69,10 +73,6 @@ It's fully customizable.
 	You can use your images as background-images for views, or for devices.
 	Images in the folder '/usericons' can be used as icons for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
-
-
-## Forum
-Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
 
 
 ## URL-Parameters
