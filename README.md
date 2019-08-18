@@ -136,6 +136,11 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 * **STATE**: *boolean* - display and set on/off-state
 * **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
+### <img src="img/icons/button.png" width="32"> Button:
+* **STATE**: *any* - any desired type of state
+* **SET_VALUE**: CONSTANT *string* - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the button is pressed
+* **OFF_SET_VALUE**: CONSTANT *string* - this is a constant (not a linked io-broker-state!). If defined, STATE will be resetted to this value after the in options defined time or 100ms
+
 ### <img src="img/icons/light_on.png" width="32"> Light:
 Every light may have one or both of the following states:
 * **STATE**: *boolean* - show and set on/off-state
@@ -249,10 +254,6 @@ In addition to normal thermostat you can define:
 
 ### <img src="img/icons/play.png" width="32"> Scene:
 * **STATE**: *boolean* - displays, if the scene is active. If set to true, the scene will be started
-
-### <img src="img/icons/button.png" width="32"> Button:
-* **STATE**: *any* - any desired type of state
-* **SET_VALUE**: CONSTANT *string* - this is a constant (not a linked io-broker-state!) that will be assigned to the STATE if the button is pressed
 
 ### <img src="img/icons/popup.png" width="32"> Popup:
 * **STATE**: *any* - can be used to display further information
