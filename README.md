@@ -272,7 +272,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.1.9 development
+### 0.1.9 (2019-08-18)
 * (Sebastian Bormann) Modified cache manifest to remove EISDIR-errors from log.
 * (Sebastian Bormann) Fixed toggle-entry in pressure menu.
 * (Sebastian Bormann) Added multiple file upload to images tab.
