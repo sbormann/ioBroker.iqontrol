@@ -1,15 +1,37 @@
 CACHE MANIFEST
 
 # iQontrol
-# Version 0.1.1
+# Version 0.1.8
 
 
 CACHE:
-./jquery
+./favicon.png
+./favicon_big.png	
+./images/startup-images/iphone5_splash.png
+./images/startup-images/iphone6_splash.png
+./images/startup-images/iphoneplus_splash.png
+./images/startup-images/iphonex_splash.png
+./images/startup-images/iphonexr_splash.png
+./images/startup-images/iphonexsmax_splash.png
+./images/startup-images/ipad_splash.png
+./images/startup-images/ipadpro1_splash.png
+./images/startup-images/ipadpro3_splash.png
+./images/startup-images/ipadpro2_splash.png
+./index.css
 ./jquery/jquery.mobile-1.4.5.min.css
-./jquery/jquery.mobile-1.4.5.min.js
+./jquery/plugins/ptrLight.min.css
 ./jquery/jquery-1.11.3.min.js
-./images
+./jquery/jquery.mobile-1.4.5.min.js
+./jquery/plugins/jquery.backstretch.min.js
+./jquery/plugins/ptrLight.modified.js
+./jquery/plugins/jquery.marquee.min.js
+./jquery/plugins/jquery.pressure.min.js
+./../../lib/js/socket.io.js
+./../../lib/js/translate.js
+./words.js
+./conn.js
+#./index.js
+#./index.html
 
 NETWORK:
 *

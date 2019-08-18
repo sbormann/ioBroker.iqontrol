@@ -271,6 +271,15 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.9 development
+* (Sebastian Bormann) Modified cache manifest to remove EISDIR-errors from log.
+* (Sebastian Bormann) Fixed toggle-entry in pressure menu.
+* (Sebastian Bormann) Added multiple file upload to images tab.
+* (Sebastian Bormann) Added check for dead links to other views when saving settings.
+* (Sebastian Bormann) You can now assign external urls to background images and icons (for example to add a weather-live-map).
+* (Sebastian Bormann) Removed options clickOnIconOpensDialog and clickOnTileToggles for Values and Programs as they are not switchable.
+* (Sebastian Bormann) Added OFF_SET_VALUE and the option 'Return to OFF_SET_VALUE after [ms]' to button.
+
 ### 0.1.8 (2019-08-11)
 * (Sebastian Bormann) Further improvements on connecting over iobroker.pro.
 * (Sebastian Bormann) COLOR_BRIGHTNESS and WHITE_BRIGHTNESS are now displayed, if LEVEL is not defined on hue lights.

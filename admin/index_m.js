@@ -28,6 +28,19 @@ var iQontrolRoles = {
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
+	"iQontrolButton": 				{
+										name: "Button", 
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/button.png",
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+										}
+									},
 	"iQontrolLight": 				{
 										name: "Light",
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
@@ -235,8 +248,6 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -247,8 +258,6 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									},
@@ -260,18 +269,6 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
-										}
-									},
-	"iQontrolButton": 				{
-										name: "Button", 
-										states: ["STATE", "SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
-										icon: "/images/icons/button.png",
-										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
@@ -305,6 +302,10 @@ var link;
 var connectionLink;
 var socketWasConnected = false;
 var socketConnectionErrorMessages = "";
+var iobrokerObjects;
+var iobrokerObjectsReady = false;
+var iobrokerObjectsReadyFunctions = [];
+
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -385,9 +386,72 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     return false;
 };
 
-var iobrokerObjects;
-var iobrokerObjectsReady = false;
-var iobrokerObjectsReadyFunctions = [];
+var $enhanceTextInputToComboboxActualTarget;
+function enhanceTextInputToCombobox(targetInput, options, icons){
+	//targetInput - string - selector for text-input-field to enhance
+	//options - string - "value1/caption1;value2/caption2;[optgroup-caption];value3/caption3;..."
+	//icons - boolean - if true, the values will be used to generate links to icons (\ will be replaced by /)
+	$(targetInput).on('blur', function(){
+		var that = this;
+		setTimeout(function(){var _that = that; _that.scrollLeft = 100000;}, 10);
+	});
+	$(targetInput).trigger('blur');
+	var lastTargetInput;
+	$(targetInput).each(function(){
+		$(this).add('label').wrap("<div class='combobox'></div>");
+		$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
+		lastTargetInput = this;
+	});
+	options = options || $(lastTargetInput).data('options') || "";
+	options = options.split(";");
+	var comboboxContent = "<ul id='dropdown_" + targetInput + "' class='dropdown-content' style='min-width: 100%; right: 0px; left: unset;'>";
+	options.forEach(function(option){
+		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){
+			var caption = _(option.substring(1, option.length - 1));
+			comboboxContent += "	<li style='padding: 14px 4px; color:grey;'>";
+			comboboxContent += "		" + caption + "&nbsp;";
+			comboboxContent += "	</li>";				
+		} else {
+			var value = encodeURIComponent(option.split("/")[0]);
+			var caption = option.split("/")[option.split("/").length - 1];
+			comboboxContent += "	<li data-value='" + value + "'>";
+			comboboxContent += "		<a onclick=\"enhanceTextInputToComboboxEntryToInput('" + value + "');\">";
+			if (icons){
+				var icon = option.split("/")[0].replace(/\\/g, "/").substring(1) || "";
+				if (icon != "") icon = link + icon;
+				comboboxContent += "		<img src='" + icon + "' style='display: block; margin-bottom: 5px; min-width: 40px; max-width: 40px; max-height: 40px; width: auto; height: auto;'>";
+			}
+			comboboxContent += "			" + caption + "&nbsp;";
+			comboboxContent += "		</a>";
+			comboboxContent += "	</li>";				
+		}
+	});
+	comboboxContent += "</ul>";
+	$(lastTargetInput).after(comboboxContent);
+	$('.comboboxDropdownTrigger').dropdown({alignment: 'right'});
+}
+function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
+	var $dropdownlist = $("ul[id='" + dropdownlist + "']");
+	setTimeout(function(){
+		var _$dropdownlist = $dropdownlist;
+		_$dropdownlist.scrollTop(0);
+	}, 10);
+	setTimeout(function(){
+		var _dropdownlist = dropdownlist;
+		var _$dropdownlist = $dropdownlist;
+		$("ul[id='" + _dropdownlist + "'] li").each(function(){
+			$(this).removeClass('grey lighten-3');
+			if ($(this).data('value') == encodeURIComponent(value)){
+				$(this).addClass('grey lighten-3');
+				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top); 
+			}
+		});
+	}, 20);
+}
+function enhanceTextInputToComboboxEntryToInput(value){
+	$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value)).trigger('blur');
+}
+
 
 
 /************** LOAD ********************************************************
@@ -680,14 +744,13 @@ function load(settings, onChange) {
 	//++++++++++ VIEWS ++++++++++
 	//Load Views
 	function loadViews(){
+		//Fill Table
+		values2table('tableViews', views, onChange, onTableViewsReady);
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
 		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
-		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
-		$('select').select();
-		//Fill Table
-		values2table('tableViews', views, onChange, onTableViewsReady);
+		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', ";" + imagenames.join(";"), true);
 	}
 
 	//Enhance TableViews with functions
@@ -716,20 +779,7 @@ function load(settings, onChange) {
 				if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
 			});
 		}
-		//Add Thumbs to SelectBox
-		$lines.find('select[data-name]').each(function() {
-			var name = $(this).data('name');
-			if (name === 'nativeBackgroundImage') {
-				var index = $(this).data('index');
-				$(this).addClass('icons');
-				$(this).find('option').each(function() {
-					var icon = $(this).val().replace(/\\/g, "/").substring(1) || "";
-					if (icon != "") $(this).attr('data-icon', link + icon);
-					$(this).addClass('left');
-				});
-			}
-		});
-		$('select').select();
+		//Check for duplicates
 		viewsCheckDuplicates();
 	}
 
@@ -762,12 +812,6 @@ function load(settings, onChange) {
 		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 		$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-		//Add Images to Selectbox for BackgroundImage
-		var imagenames = [];
-		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
-		imagenames.sort();
-		$('*[data-name="nativeBackgroundImage"]').data("options", ";" + imagenames.join(";"));
-		$('*[data-name="nativeBackgroundImageActive"]').data("options", ";" + imagenames.join(";"));
 		$('select').select();
 		//Reset devicesSelecteView
 		devicesSelectedView = -1;
@@ -787,6 +831,11 @@ function load(settings, onChange) {
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 			$('.divDevicesNothingSelected').hide();
 			$('.divDevices').show();
+			//Add Images to Selectbox for BackgroundImage
+			var imagenames = [];
+			images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
+			imagenames.sort();
+			enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', ";" + imagenames.join(";"), true);
 		} else {
 			$('.divDevicesNothingSelected').show();
 			$('.divDevices').hide();
@@ -912,7 +961,7 @@ function load(settings, onChange) {
 							}
 							value = JSON.stringify(valueArray);
 						}
-					} else if(entry == "SET_VALUE"  || entry == "UP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "HTML" || entry == "URL"){
+					} else if(entry == "SET_VALUE"  || entry == "OFF_SET_VALUE"  ||  entry == "UP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "HTML" || entry == "URL"){
 						commonRole = "const";
 					} else {
 						commonRole = "linkedState";
@@ -937,6 +986,7 @@ function load(settings, onChange) {
 			}
 		});
 		if(dialogDeviceEditCommonRole){ //build option content
+			var dialogDeviceEditOptionsComboboxes = [];
 			var dialogDeviceEditOptionsContent = "";
 			for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //push all corresponding options for the selected role into the table
 				var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;				
@@ -947,6 +997,16 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+
+					case "number":
+					var min = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].min || 0;
+					var max = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].max || 100;
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
+					dialogDeviceEditOptionsContent += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
 
@@ -976,23 +1036,17 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    </label></p>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
-					
+
 					case "icon":
 					//Default Icons
 					var defaultIconsString = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].defaultIcons;
 					var defaultIcons = defaultIconsString.split(';');
-					var selectOptionsContent = "<option disabled selected value>" + _("Select Icon") + "</option>";
-					selectOptionsContent += "<optgroup label='" + _("Default Icons") + ":'>";
-					var icon = "./images/icons/blank.png"
-					selectOptionsContent += "        <option value='none' " + (('none' == value)?'selected':'') + "  class='translate'>No Icon</option>";
+					var options = ";[" + _("Default Icons") + ":]";
 					defaultIcons.forEach(function(option){
 						if (option != "") {
-							var icon = "./images/icons/" + option; 
-							var iconThumb = link + "/images/icons/" + option; 
-							selectOptionsContent += "        <option value='" + icon + "' " + ((icon == value)?'selected':'') + " data-icon='" + iconThumb + "' class='left translate'>" + option + "</option>";
+							options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
 						}
 					});
-					selectOptionsContent += "</optgroup>";
 					//User Icons
 					var userIcons = [];
 					images.forEach(function(element){ 
@@ -1000,20 +1054,17 @@ function load(settings, onChange) {
 					});
 					userIcons.sort();
 					if (userIcons.length > 0){
-						selectOptionsContent += "<optgroup label='" + _("User Icons") + ":'>";
+						options += ";[" + _("User Icons") + ":]";
 						userIcons.forEach(function(option){
-							var icon = "./.." + userfilesImagePath + "/usericons/" + option;
-							var iconThumb = link + "./.." + userfilesImagePath + "/usericons/" + option;
-							selectOptionsContent += "        <option value='" + icon + "' " + ((icon == value)?'selected':'') + " data-icon='" + iconThumb + "' class='left translate'>" + option + "</option>";
+							options += ";" + ("./.." + userfilesImagePath + "/usericons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
 						});
-						selectOptionsContent += "</optgroup>";
 					}
-					//Icons Selectbox
+					//Icons Combobox
+					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options});
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
-					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption icons' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
-					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
-					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
-					dialogDeviceEditOptionsContent += "</div>";					
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
+					dialogDeviceEditOptionsContent += "</div>";
 					break;
 				}
 			}
@@ -1023,6 +1074,9 @@ function load(settings, onChange) {
 				$('#dialogDeviceEditOptionsContent').html(dialogDeviceEditOptionsContent);
 			}
 			$('select').select();
+			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
+				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);	
+			});
 			if (M) M.updateTextFields();
 		}
 	});
@@ -1040,6 +1094,7 @@ function load(settings, onChange) {
 				$(this).prop('readonly', true);
 				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID"}, ...]</span>');
 				if ($(this).val() == "SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "OFF_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 				if ($(this).val() == "UP_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 				if ($(this).val() == "DOWN_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 				if ($(this).val() == "FAVORITE_POSITION_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
@@ -1345,7 +1400,7 @@ function load(settings, onChange) {
 					resultStatesObj['LOCK_OPEN'] = id;
 					break;
 
-					case ".LOWBAT":
+					case ".LOWBAT": case ".percent":
 					resultStatesObj['BATTERY'] = id;
 					break;
 
@@ -1570,29 +1625,49 @@ function load(settings, onChange) {
 		$('#imagesUploadFileSubmit').addClass('disabled');
 		var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
 		if (!files.length) return;
-		var file = files[0];
-		if (file.size > 10 * 1024 * 1024) {
-			alert(_('File %s is too big. Maximum 10MB', escape(file.name)));
-			$('#imagesUploadFile').val('');
-			return;
+		for (i=0; i<files.length; i++){
+			var file = files[i];
+			if (file.type == "") {
+				alert(_("%s is directory. Only file upload allowed.", escape(file.name)));
+				return;
+			}
+			if (file.size > 10 * 1024 * 1024) {
+				alert(_("File %s is too big. Maximum 10MB", escape(file.name)));
+				return;
+			}
+			if ($('#imagesUploadFile').prop('accept') &&  $('#imagesUploadFile').prop('accept').indexOf(file.type) == -1){
+				alert(_("File %s has wrong filetype. Allowed file types: ", escape(file.name)) + $('#imagesUploadFile').prop('accept'));
+				return;
+			}
+			$('#imagesUploadFileSubmit').removeClass('disabled');
 		}
-		$('#imagesUploadFileSubmit').removeClass('disabled');
 	}
+	var imagesUploadFileHandleCount = 0;
 	function imagesUploadHandleSubmit() {
 		var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
 		if (!files.length) return;
-		var file = files[0];
-		uploadFile(file, userfilesImagePath + $('#imagesSelectedDir').val(), function (name) {
-			$('#imagesUploadFileForm')[0].reset();
-			$('#imagesUploadFileSubmit').addClass('disabled');
-			getImages(function(){
-				values2table('tableImages', images, onChange, onTableImagesReady);
-				var dummy = $('#imagesSelectedDir').val();
-				imagesSelectedDirFillSelectbox();
-				$('#imagesSelectedDir').val(dummy).trigger('change');
-				$('select').select();
-			});
-		});
+		$('#imagesUploadFileSubmit').addClass('disabled');
+		$('#imagesUploadFileFormProgress').show();
+		for (i=0; i<files.length; i++){
+			var file = files[i];
+			imagesUploadFileHandleCount++;
+			uploadFile(file, userfilesImagePath + $('#imagesSelectedDir').val(), function (name) {
+				$('#imagesUploadFileForm')[0].reset();
+				$('#imagesUploadFileSubmit').addClass('disabled');
+				imagesUploadFileHandleCount--;
+				if (imagesUploadFileHandleCount == 0) {
+					getImages(function(){
+						values2table('tableImages', images, onChange, onTableImagesReady);
+						var dummy = $('#imagesSelectedDir').val();
+						imagesSelectedDirFillSelectbox();
+						$('#imagesSelectedDir').val(dummy).trigger('change');
+						$('select').select();
+						$('#imagesUploadFileSubmit').removeClass('disabled');
+						$('#imagesUploadFileFormProgress').hide();
+					});
+				}
+			});	
+		}
 	}
 
 	//getImages
@@ -2011,6 +2086,20 @@ function load(settings, onChange) {
 *** This will be called by the admin adapter when the user presses the save button ***
 *************************************************************************************/
 function save(callback) {
+	//Check for linkedViews that don't exist anymore and delete them
+	var existingViews = [];
+	if (typeof views != udef) views.forEach(function(view){
+		existingViews.push(view.commonName);
+	});
+	if (typeof views != udef && existingViews.length > 0) views.forEach(function(view){
+		if (typeof view.devices != udef) view.devices.forEach(function(device){
+			if(typeof device.nativeLinkedView != udef && device.nativeLinkedView != "" && existingViews.indexOf(device.nativeLinkedView) == -1){
+				console.log("Removed dead link to " + device.nativeLinkedView);
+				device.nativeLinkedView = "";
+			}
+		});
+	});
+	
 	//Select elements with class=value and build settings object
 	var obj = {};
 	$('.value').each(function () {

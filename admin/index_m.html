@@ -35,6 +35,8 @@
 		#tableDevices .dropdown-content {width: auto !important;}
 		.validateOnlyError.valid { border-bottom: 1px solid #9e9e9e !important; box-shadow: none !important;}
 		.inputClear, .selectClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
+		.combobox{ position: relative; }
+		.comboboxDropdownTrigger{ display: block !important; position: absolute !important; right: 0px !important; top: 0px !important; margin: 0px !important; padding: 0px !important; }
 	</style>
 </head>
 
@@ -134,7 +136,7 @@
 							<thead>
 								<tr>
 									<th data-name="commonName" class="translate">Name</th>
-									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
+									<th data-name="nativeBackgroundImage" xdata-type="select" class="translate">Background Image</th>
 									<th data-buttons="up down delete" style="width:150px;"></th>
 								</tr>
 							</thead>
@@ -199,8 +201,8 @@
 									<th data-name="commonName" class="translate">Name</th>
 									<th data-name="nativeHeading" class="translate">Heading</th>
 									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
-									<th data-name="nativeBackgroundImage" data-type="select" class="translate">Background Image</th>
-									<th data-name="nativeBackgroundImageActive" data-type="select" class="translate">Background Image Active</th>
+									<th data-name="nativeBackgroundImage" class="translate">Background Image</th>
+									<th data-name="nativeBackgroundImageActive" class="translate">Background Image Active</th>
 									<th data-buttons="edit up down delete" style="width:150px;"></th>
 								</tr>
 							</thead>
@@ -283,22 +285,25 @@
 				<div class = "row hideOnLoad">
 					<div class="col s8 m6">
 						<form id="imagesUploadFileForm">
-							<label class="translate">Select file to upload</label>
+							<label class="translate">Select or drop file(s) to upload here:</label>
 							<div class="file-field input-field">
-								<div class="btn-small waves-effect waves-light">
+								<div class="btn">
 									<span class="translate">Browse</span>
-									<input type = "file" accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
+									<input type="file" multiple accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
 								</div>
-								<div class = "file-path-wrapper">
-									<input class = "file-path validate translate" type = "text" placeholder = "Drop file here" />
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" />
 								</div>
+							</div>
+							<div class="progress" id="imagesUploadFileFormProgress" style="display:none;">
+								<div class="indeterminate"></div>
 							</div>
 						</form>
 					</div>
 				</div>
 				<div class = "row hideOnLoad">
 					<div class="col s12">
-						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file here</span></a>
+						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file(s) here</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
 						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
