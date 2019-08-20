@@ -13,6 +13,8 @@ var iQontrolRoles = {
 										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -25,7 +27,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolButton": 				{
@@ -38,7 +42,9 @@ var iQontrolRoles = {
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolLight": 				{
@@ -52,6 +58,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
 										}
@@ -66,7 +74,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -76,7 +86,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -86,7 +98,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -97,7 +111,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -108,7 +124,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBrightness": 			{
@@ -119,7 +137,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolMotion": 				{
@@ -130,7 +150,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolDoor": 				{
@@ -141,7 +163,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -152,7 +176,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -165,7 +191,9 @@ var iQontrolRoles = {
 											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolWindow": 				{
@@ -176,7 +204,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBlind": 				{
@@ -193,6 +223,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
@@ -208,7 +240,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -221,7 +255,9 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
 											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBattery": 				{
@@ -237,7 +273,9 @@ var iQontrolRoles = {
 											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolValue": 				{
@@ -248,7 +286,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolProgram": 				{
@@ -258,7 +298,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolScene": 				{
@@ -271,7 +313,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolPopup": 				{
@@ -281,7 +325,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -291,7 +337,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									}
 };
@@ -622,11 +670,13 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 				break;
 
 				case "number":
+				if (newValue.toString().toLowerCase() == "true") newValue = true;
+				if (newValue.toString().toLowerCase() == "false") newValue = false;
 				newValue = Number(newValue);
 				break;
 
 				case "boolean":
-				if(newValue == false || newValue == "false" || newValue < 1){
+				if(newValue == false || newValue.toString().toLowerCase() == "false" || newValue < 1){
 					newValue = false;
 				} else {
 					newValue = true;
@@ -823,6 +873,19 @@ function getUnit(linkedStateId){
 		} else if(usedObjects[linkedStateId].common.unit) {
 			unit = _(usedObjects[linkedStateId].common.unit);
 		}
+		if(states[linkedStateId] && typeof states[linkedStateId].val != udef){
+			var val = states[linkedStateId].val;
+			if(val * 1 == 0){
+				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_zero !== udef){
+					unit = usedObjects[linkedStateId].common.custom[namespace].unit_zero;
+				}
+			}
+			if(val * 1 == 1){
+				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_one !== udef){
+					unit = usedObjects[linkedStateId].common.custom[namespace].unit_one;
+				}
+			}
+		}
 	}
 	if(!(unit == "°C" || unit == "°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
 	return unit;
@@ -887,7 +950,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			
 			case "boolean":
 			if (typeof result.val !== 'boolean'){
-				if (result.val == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "") result.val = false; else result.val = true;
+				if (result.val.toString().toLowerCase() == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "") result.val = false; else result.val = true;
 			}
 			break;
 		}
@@ -902,7 +965,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
 				if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
-				if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 					result.valueList = {"true": _("opened"), "false": _("closed")};
 					result.type = "valueList";
 				} else { //If not bool set type to string
@@ -913,7 +976,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "sensor.alarm":
 				if(result.val) result.plainText = _("OK"); else result.plainText = _("alarm");
-				if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 					result.valueList = {"true": _("OK"), "false": _("alarm")};
 					result.type = "valueList";
 				} else { //If not bool and there is no value list, set type to string
@@ -924,7 +987,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 				case "sensor.alarm.fire":
 				if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
-				if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 					result.valueList = {"true": _("triggered"), "false": _("OK")};
 					result.type = "valueList";
 				} else { //If not bool and there is no value list, set type to string
@@ -952,7 +1015,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 					switch(usedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
 						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
-						if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+						if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 							result.valueList = {"true": _("opened"), "false": _("closed")};
 							result.type = "valueList";
 						} else { //If not bool set type to string
@@ -963,7 +1026,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 						
 						case "DANGER.STATE":
 						if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
-						if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+						if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 							result.valueList = {"true": _("triggered"), "false": _("OK")};
 							result.type = "valueList";
 						} else { //If not bool set type to string
@@ -974,7 +1037,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 
 						case "SWITCH.STATE":
 						if(result.val) result.plainText = _("on"); else result.plainText = _("off");
-						if (typeof result.val == 'boolean' || result.val == true || result.val == "true" || result.val == false || result.val == "false"){ //If bool, add a value list with boolean values
+						if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 							result.valueList = {"true": _("on"), "false": _("off")};
 							result.type = "valueList";
 						} else { //If not bool set type to string
@@ -1006,7 +1069,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		}
 		if(statesSet){
 			var val = result.val;
-			if (typeof val == 'boolean' || val == "true" || val == "false"){ //Convert valueList-Keys to boolean, if they are numbers
+			if (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false"){ //Convert valueList-Keys to boolean, if they are numbers
 				for (var key in result.valueList){
 					var newKey = null;
 					if (key == -1 || key == 0 || key == false) newKey = "false";
@@ -1141,7 +1204,7 @@ function toggleState(linkedStateId, deviceId, callback){
 			if(typeof oldVal == 'number'){
 				if(oldVal) newVal = 0; else newVal = 1;
 			} else {
-				if(oldVal.toString() == "true") newVal = false; else newVal = true;
+				if(oldVal.toString().toLowerCase() == "true") newVal = false; else newVal = true;
 			}
 			break;
 
@@ -1157,8 +1220,8 @@ function toggleState(linkedStateId, deviceId, callback){
 
 			case "valueList":
 			var oldVal = state.val;
-			if(oldVal == true || oldVal == "true") oldVal = 1;
-			if(oldVal == false || oldVal == "false") oldVal = 0;
+			if(oldVal == true || oldVal.toString().toLowerCase() == "true") oldVal = 1;
+			if(oldVal == false || oldVal.toString().toLowerCase() == "false") oldVal = 0;
 			var min = 0;
 			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
 			if(typeof state.valueList !== udef && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
@@ -1626,7 +1689,7 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		//Headers
+		//Main-Header
 		if(options.LayoutViewMainHeaderColor) {
 			customCSS = "#ViewHeaderTitle{";
 			customCSS += "	background-color: " + options.LayoutViewMainHeaderColor + ";";
@@ -1663,6 +1726,49 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutViewMainHeaderPaddingTop) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	padding-top: " + options.LayoutViewMainHeaderPaddingTop + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderPaddingBottom) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	padding-bottom: " + options.LayoutViewMainHeaderPaddingBottom + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderPaddingLeft) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	padding-left: " + options.LayoutViewMainHeaderPaddingLeft + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderMarginTop) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	margin-top: " + options.LayoutViewMainHeaderMarginTop + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderMarginRight) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	margin-right: " + options.LayoutViewMainHeaderMarginRight + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderMarginBottom) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	margin-bottom: " + options.LayoutViewMainHeaderMarginBottom + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewMainHeaderMarginLeft) {
+			customCSS = "#ViewHeaderTitle{";
+			customCSS += "	margin-left: " + options.LayoutViewMainHeaderMarginLeft + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Sub-Header
 		if(options.LayoutViewSubHeaderColor) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	background-color: " + options.LayoutViewSubHeaderColor + ";";
@@ -1696,6 +1802,48 @@ function handleOptions(){
 		if(options.LayoutViewSubHeaderFontStyle) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	font-style: " + options.LayoutViewSubHeaderFontStyle + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderPaddingTop) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	padding-top: " + options.LayoutViewSubHeaderPaddingTop + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderPaddingBottom) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	padding-bottom: " + options.LayoutViewSubHeaderPaddingBottom + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderPaddingLeft) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	padding-left: " + options.LayoutViewSubHeaderPaddingLeft + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderMarginTop) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	margin-top: " + options.LayoutViewSubHeaderMarginTop + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderMarginRight) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	margin-right: " + options.LayoutViewSubHeaderMarginRight + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderMarginBottom) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	margin-bottom: " + options.LayoutViewSubHeaderMarginBottom + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewSubHeaderMarginLeft) {
+			customCSS = "#ViewContent h4{";
+			customCSS += "	margin-left: " + options.LayoutViewSubHeaderMarginLeft + "px;";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -2160,7 +2308,7 @@ function renderView(id, updateOnly, callback){
 		viewSorted.sort();
 		//Change Background
 		if(!updateOnly)	if (usedObjects[id] && typeof usedObjects[id].native != udef && usedObjects[id].native.backgroundImage) {
-			changeViewBackground(usedObjects[id].native.backgroundImage);
+			changeViewBackground(encodeURI(usedObjects[id].native.backgroundImage));
 			window.scrollTo(0, 0);
 		} else {
 			changeViewBackground("");
@@ -2240,16 +2388,20 @@ function renderView(id, updateOnly, callback){
 					}
 						//--BackgroundImage
 						var url = "";
-						if(usedObjects[deviceId].native.backgroundImage) url = usedObjects[deviceId].native.backgroundImage;
+						if(usedObjects[deviceId].native.backgroundImage) url = encodeURI(usedObjects[deviceId].native.backgroundImage);
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
-							//--Background
-							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+							//--Background (Overlay)
+							if (!(typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.noOverlayInactive != udef && usedObjects[deviceId].native.noOverlayInactive == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+							}
 						deviceContent += "</div>";
 						//--BackgroundImageActive
-						if(usedObjects[deviceId].native.backgroundImageActive) url = usedObjects[deviceId].native.backgroundImageActive;
+						if(usedObjects[deviceId].native.backgroundImageActive) url = encodeURI(usedObjects[deviceId].native.backgroundImageActive);
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceId + "' style='background-image:url(" + url + ");'>";
-							//--Background
-							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+							//--BackgroundActive (Overlay)
+							if (!(typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.noOverlayActive != udef && usedObjects[deviceId].native.noOverlayActive == "true")){
+								deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+							}
 						deviceContent += "</div>";
 						//--Icon with Link to Switch
 						var linkContent = "";
@@ -2261,7 +2413,7 @@ function renderView(id, updateOnly, callback){
 							for (element in usedObjects[deviceId].native) {
 								if (element.substring(0, 5).toLowerCase() == "icon_"){
 									var iconClass = element.substring(5);
-									if (iconClass) icons[iconClass] = usedObjects[deviceId].native[element];
+									if (iconClass) icons[iconClass] = encodeURI(usedObjects[deviceId].native[element]);
 								}
 							}
 						} 
@@ -3486,7 +3638,7 @@ function renderDialog(deviceId){
 						var updateFunction = function(){
 							if (states[_linkedStateId]){
 								var index = 0;
-								if(typeof states[_linkedStateId].val != udef && (states[_linkedStateId].val.toString() == "true" || states[_linkedStateId].val.toString() > 0)) index = 1; else index = 0;
+								if(typeof states[_linkedStateId].val != udef && (states[_linkedStateId].val.toString().toLowerCase() == "true" || states[_linkedStateId].val.toString() > 0)) index = 1; else index = 0;
 								$("#DialogStateSwitch")[0].selectedIndex = index;
 								$("#DialogStateSwitch").flipswitch('refresh');
 								dialogUpdateTimestamp(states[_linkedStateId]);
@@ -3800,7 +3952,7 @@ function renderDialog(deviceId){
 					var _linkedLockStateId = dialogLinkedStateIds["LOCK_STATE"];
 					var updateFunction = function(){
 						if (states[_linkedLockStateId]){
-							if(states[_linkedLockStateId].val == false || states[_linkedLockStateId].val == "false" || states[_linkedLockStateId].val == 0){ //Locked
+							if(states[_linkedLockStateId].val == false || states[_linkedLockStateId].val.toString().toLowerCase() == "false" || states[_linkedLockStateId].val == 0){ //Locked
 								$("#DialogLockStateCheckboxradio_false").prop("checked", true);
 							} else { //Unlocked
 								$("#DialogLockStateCheckboxradio_true").prop("checked", true);
@@ -3823,7 +3975,7 @@ function renderDialog(deviceId){
 						var _linkedLockStateUncertainId = dialogLinkedStateIds["LOCK_STATE_UNCERTAIN"];
 						var updateFunction = function(){
 							if (states[_linkedLockStateUncertainId]){
-								if(states[_linkedLockStateUncertainId].val == false || states[_linkedLockStateUncertainId].val == "false" || states[_linkedLockStateUncertainId].val == 0){ //State certain
+								if(states[_linkedLockStateUncertainId].val == false || states[_linkedLockStateUncertainId].val.toString().toLowerCase() == "false" || states[_linkedLockStateUncertainId].val == 0){ //State certain
 									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogLockStateUncertainText").html("");
 								} else { //State Uncertain
 									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogLockStateUncertainText").html("<span class='small'>" + _("Exact position uncertain") + "</span>");

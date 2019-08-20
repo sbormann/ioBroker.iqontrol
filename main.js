@@ -212,19 +212,34 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutToolbarIconBackgroundColor) obj.native.LayoutToolbarIconBackgroundColor = this.config.optionsLayoutToolbarIconBackgroundColor;
 		if (this.config.optionsLayoutToolbarIconBackgroundSize) obj.native.LayoutToolbarIconBackgroundSize = this.config.optionsLayoutToolbarIconBackgroundSize;
 		if (this.config.optionsLayoutToolbarIconBackgroundCornerSize) obj.native.LayoutToolbarIconBackgroundCornerSize = this.config.optionsLayoutToolbarIconBackgroundCornerSize;
-		//Headers
+		//Main-Header
 		if (this.config.optionsLayoutViewMainHeaderColor) obj.native.LayoutViewMainHeaderColor = this.config.optionsLayoutViewMainHeaderColor;
 		if (this.config.optionsLayoutViewMainHeaderTextColor) obj.native.LayoutViewMainHeaderTextColor = this.config.optionsLayoutViewMainHeaderTextColor;
 		if (this.config.optionsLayoutViewMainHeaderFontSize) obj.native.LayoutViewMainHeaderFontSize = this.config.optionsLayoutViewMainHeaderFontSize;
 		if (this.config.optionsLayoutViewMainHeaderFontFamily) obj.native.LayoutViewMainHeaderFontFamily = this.config.optionsLayoutViewMainHeaderFontFamily;
 		if (this.config.optionsLayoutViewMainHeaderFontWeight) obj.native.LayoutViewMainHeaderFontWeight = this.config.optionsLayoutViewMainHeaderFontWeight;
 		if (this.config.optionsLayoutViewMainHeaderFontStyle) obj.native.LayoutViewMainHeaderFontStyle = this.config.optionsLayoutViewMainHeaderFontStyle;
+		if (this.config.optionsLayoutViewMainHeaderPaddingTop) obj.native.LayoutViewMainHeaderPaddingTop = this.config.optionsLayoutViewMainHeaderPaddingTop;
+		if (this.config.optionsLayoutViewMainHeaderPaddingBottom) obj.native.LayoutViewMainHeaderPaddingBottom = this.config.optionsLayoutViewMainHeaderPaddingBottom;
+		if (this.config.optionsLayoutViewMainHeaderPaddingLeft) obj.native.LayoutViewMainHeaderPaddingLeft = this.config.optionsLayoutViewMainHeaderPaddingLeft;
+		if (this.config.optionsLayoutViewMainHeaderMarginTop) obj.native.LayoutViewMainHeaderMarginTop = this.config.optionsLayoutViewMainHeaderMarginTop;
+		if (this.config.optionsLayoutViewMainHeaderMarginRight) obj.native.LayoutViewMainHeaderMarginRight = this.config.optionsLayoutViewMainHeaderMarginRight;
+		if (this.config.optionsLayoutViewMainHeaderMarginBottom) obj.native.LayoutViewMainHeaderMarginBottom = this.config.optionsLayoutViewMainHeaderMarginBottom;
+		if (this.config.optionsLayoutViewMainHeaderMarginLeft) obj.native.LayoutViewMainHeaderMarginLeft = this.config.optionsLayoutViewMainHeaderMarginLeft;
+		//Sub-Header
 		if (this.config.optionsLayoutViewSubHeaderColor) obj.native.LayoutViewSubHeaderColor = this.config.optionsLayoutViewSubHeaderColor;
 		if (this.config.optionsLayoutViewSubHeaderTextColor) obj.native.LayoutViewSubHeaderTextColor = this.config.optionsLayoutViewSubHeaderTextColor;
 		if (this.config.optionsLayoutViewSubHeaderFontSize) obj.native.LayoutViewSubHeaderFontSize = this.config.optionsLayoutViewSubHeaderFontSize;
 		if (this.config.optionsLayoutViewSubHeaderFontFamily) obj.native.LayoutViewSubHeaderFontFamily = this.config.optionsLayoutViewSubHeaderFontFamily;
 		if (this.config.optionsLayoutViewSubHeaderFontWeight) obj.native.LayoutViewSubHeaderFontWeight = this.config.optionsLayoutViewSubHeaderFontWeight;
 		if (this.config.optionsLayoutViewSubHeaderFontStyle) obj.native.LayoutViewSubHeaderFontStyle = this.config.optionsLayoutViewSubHeaderFontStyle;
+		if (this.config.optionsLayoutViewSubHeaderPaddingTop) obj.native.LayoutViewSubHeaderPaddingTop = this.config.optionsLayoutViewSubHeaderPaddingTop;
+		if (this.config.optionsLayoutViewSubHeaderPaddingBottom) obj.native.LayoutViewSubHeaderPaddingBottom = this.config.optionsLayoutViewSubHeaderPaddingBottom;
+		if (this.config.optionsLayoutViewSubHeaderPaddingLeft) obj.native.LayoutViewSubHeaderPaddingLeft = this.config.optionsLayoutViewSubHeaderPaddingLeft;
+		if (this.config.optionsLayoutViewSubHeaderMarginTop) obj.native.LayoutViewSubHeaderMarginTop = this.config.optionsLayoutViewSubHeaderMarginTop;
+		if (this.config.optionsLayoutViewSubHeaderMarginRight) obj.native.LayoutViewSubHeaderMarginRight = this.config.optionsLayoutViewSubHeaderMarginRight;
+		if (this.config.optionsLayoutViewSubHeaderMarginBottom) obj.native.LayoutViewSubHeaderMarginBottom = this.config.optionsLayoutViewSubHeaderMarginBottom;
+		if (this.config.optionsLayoutViewSubHeaderMarginLeft) obj.native.LayoutViewSubHeaderMarginLeft = this.config.optionsLayoutViewSubHeaderMarginLeft;
 		//Inactive Devices - Background
 		if (this.config.optionsLayoutViewDeviceColor) obj.native.LayoutViewDeviceColor = this.config.optionsLayoutViewDeviceColor;
 		if (this.config.optionsLayoutViewDeviceOpacity) obj.native.LayoutViewDeviceOpacity = this.config.optionsLayoutViewDeviceOpacity;

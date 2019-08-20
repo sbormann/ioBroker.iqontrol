@@ -272,6 +272,14 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.10 (2019-08-20)
+* (Sebastian Bormann) You can now define different units if value is zero or if value is one in custom dialog.
+* (Sebastian Bormann) When changing an image via the new drop-down, save button will be activated now.
+* (Sebastian Boramnn) Added option, to remove overlay of tile, if device is active or inactive.
+* (Sebastian Bormann) Enhanced conversion function when converting booelan to number.
+* (Sebastian Bormann) Fixed renaming of image files (links to used images are now also correctly renamed).
+* (Sebastian Bormann) Fixed handling of spaces in image filenames.
+
 ### 0.1.9 (2019-08-18)
 * (Sebastian Bormann) Modified cache manifest to remove EISDIR-errors from log.
 * (Sebastian Bormann) Fixed toggle-entry in pressure menu.

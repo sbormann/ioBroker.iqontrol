@@ -42,6 +42,26 @@
 		<div class="col s4">
 		</div>
 		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="unit_zero">
+			<span class="translate">Unit (if value is 0)</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="unit_one">
+			<span class="translate">Unit (if value is 1)</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
 			<input type="text" class="enableOnChange" data-field="targetValueId">
 			<span class="translate">Write target values to this Datapoint ID</span>
 			<br>
@@ -134,6 +154,8 @@
 				invert:			false,
 				confirm:		false,
 				unit:			(obj && obj.common && obj.common.unit) || "",
+				unit_zero:		(obj && obj.common && obj.common.unit) || "",
+				unit_one:		(obj && obj.common && obj.common.unit) || "",
 				type:			(obj && obj.common && obj.common.type) || "",
 				role:			(obj && obj.common && obj.common.role) || "",
 				targetValueId:	"",

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.9",
+        "version": "0.1.10",
         "news": {
+            "0.1.10": {
+                "en": "You can now define different units if value is zero or if value is one in custom dialog, When changing an image via the new drop-down, save button will be activated now, Added option, to remove overlay of tile, if device is active or inactive, Enhanced conversion function when converting booelan to number, Fixed renaming of image files (links to used images are now also correctly renamed), Fixed handling of spaces in image filenames.",
+                "de": "Sie können jetzt im benutzerdefinierten Dialogfeld verschiedene Einheiten definieren, wenn der Wert Null oder der Wert Eins ist. Wenn Sie ein Bild über das neue Dropdown-Menü ändern, wird jetzt die Schaltfläche Speichern (Option Hinzugefügt) aktiviert, um die Überlagerung der Kacheln zu entfernen, wenn das Gerät aktiv ist ",
+                "ru": "Теперь вы можете определять различные единицы измерения, если значение равно нулю или если оно равно единице в настраиваемом диалоговом окне. При изменении изображения с помощью нового раскрывающегося меню теперь будет активирована кнопка сохранения, добавлена ​​опция удаления наложения плитки, если устройство активно. ",
+                "pt": "Agora você pode definir unidades diferentes se o valor for zero ou se o valor for um na caixa de diálogo personalizada, Ao alterar uma imagem através da nova lista suspensa, o botão Salvar será ativado agora, opção Adicionado, para remover a sobreposição de bloco, se o dispositivo estiver ativo ",
+                "nl": "U kunt nu verschillende eenheden definiëren als de waarde nul is of als de waarde één is in het aangepaste dialoogvenster. Wanneer u een afbeelding wijzigt via de nieuwe vervolgkeuzelijst, wordt de knop Opslaan nu geactiveerd, optie Toegevoegd, om de overlay van de tegel te verwijderen, als het apparaat actief is ",
+                "fr": "Vous pouvez maintenant définir différentes unités si la valeur est zéro ou si la valeur en est une dans la boîte de dialogue personnalisée. Lorsque vous modifiez une image via le nouveau menu déroulant, le bouton d’enregistrement est activé, option ajoutée pour supprimer la superposition de la mosaïque, si le périphérique est actif. ",
+                "it": "Ora puoi definire diverse unità se il valore è zero o se il valore è uno nella finestra di dialogo personalizzata, quando si cambia un'immagine tramite il nuovo menu a discesa, il pulsante Salva verrà ora attivato, opzione aggiunta, per rimuovere la sovrapposizione di riquadri, se il dispositivo è attivo ",
+                "es": "Ahora puede definir diferentes unidades si el valor es cero o si el valor es uno en el cuadro de diálogo personalizado. Al cambiar una imagen a través del nuevo menú desplegable, el botón Guardar se activará ahora, opción agregada, para eliminar la superposición de mosaico, si el dispositivo está activo ",
+                "pl": "Możesz teraz zdefiniować różne jednostki, jeśli wartość wynosi zero lub jeśli wartość jest równa jedności w niestandardowym oknie dialogowym, Podczas zmiany obrazu za pomocą nowego menu rozwijanego zostanie teraz aktywowany przycisk Zapisz, Dodano opcję, aby usunąć nakładkę kafelka, jeśli urządzenie jest aktywne ",
+                "zh-cn": "如果值为零或者自定义对话框中的值为1，您现在可以定义不同的单位。当通过新的下拉列表更改图像时，现在将激活保存按钮，添加选项，以删除图块的叠加，如果设备处于活动状态"
+            },
             "0.1.9": {
                 "en": "Modified cache manifest to remove EISDIR-errors from log, Fixed toggle-entry in pressure menu, Added multiple file upload to images tab, Added check for dead links to other views when saving settings, You can now assign external urls to background images and icons (for example to add a weather-live-map), Removed options clickOnIconOpensDialog and clickOnTileToggles for Values and Programs as they are not switchable, Added OFF_SET_VALUE and the option 'Return to OFF_SET_VALUE after [ms]' to button.",
                 "de": "Geändertes Cache-Manifest, um EISDIR-Fehler aus dem Protokoll zu entfernen. Behobener Wechseleintrag im Druckmenü. Hinzufügen mehrerer Dateien zur Registerkarte Bilder. Überprüfung auf tote Links zu anderen Ansichten beim Speichern von Einstellungen. Sie können jetzt Hintergrundbildern und Symbolen externe URLs zuweisen ",

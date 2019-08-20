@@ -13,6 +13,8 @@ var iQontrolRoles = {
 										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -25,7 +27,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolButton": 				{
@@ -38,7 +42,9 @@ var iQontrolRoles = {
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolLight": 				{
@@ -52,6 +58,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
 										}
@@ -66,7 +74,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -76,7 +86,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -86,7 +98,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -97,7 +111,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -108,7 +124,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBrightness": 			{
@@ -119,7 +137,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolMotion": 				{
@@ -130,7 +150,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolDoor": 				{
@@ -141,7 +163,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -152,7 +176,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -165,7 +191,9 @@ var iQontrolRoles = {
 											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolWindow": 				{
@@ -176,7 +204,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBlind": 				{
@@ -193,6 +223,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
@@ -208,7 +240,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -221,7 +255,9 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
 											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolBattery": 				{
@@ -237,7 +273,9 @@ var iQontrolRoles = {
 											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolValue": 				{
@@ -248,7 +286,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolProgram": 				{
@@ -258,7 +298,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolScene": 				{
@@ -271,7 +313,9 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolPopup": 				{
@@ -281,7 +325,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -291,7 +337,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
 										}
 									}
 };
@@ -435,21 +483,21 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	setTimeout(function(){
 		var _$dropdownlist = $dropdownlist;
 		_$dropdownlist.scrollTop(0);
-	}, 10);
+	}, 15);
 	setTimeout(function(){
 		var _dropdownlist = dropdownlist;
 		var _$dropdownlist = $dropdownlist;
 		$("ul[id='" + _dropdownlist + "'] li").each(function(){
 			$(this).removeClass('grey lighten-3');
-			if ($(this).data('value') == encodeURIComponent(value)){
+			if ($(this).data('value') == encodeURIComponent(value.replace(/\//g, "\\"))){
 				$(this).addClass('grey lighten-3');
 				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top); 
 			}
 		});
-	}, 20);
+	}, 300);
 }
 function enhanceTextInputToComboboxEntryToInput(value){
-	$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value)).trigger('blur');
+	$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value).replace(/\\/g, "/")).trigger('change').trigger('blur');
 }
 
 
@@ -1942,15 +1990,15 @@ function load(settings, onChange) {
 	
 	//Change ImageNames in views and devices and options
 	function changeImageName(oldName, newName){
-		oldName = "." + oldName.replace(/\//g, "\\");
-		newName = "." + newName.replace(/\//g, "\\");
+		oldName = "./.." + oldName.replace(/\\/g, "/");
+		newName = "./.." + newName.replace(/\\/g, "/");
 		views.forEach(function(view){
-			if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.substring(oldName.length);
+			if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
 			view.devices.forEach(function(device){
-				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.substring(oldName.length);
-				if(typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.indexOf(oldName) == 0 && device.nativeBackgroundImageActive.length >= oldName.length) device.nativeBackgroundImageActive = newName + device.nativeBackgroundImageActive.substring(oldName.length);
+				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
+				if(typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImageActive.length >= oldName.length) device.nativeBackgroundImageActive = newName + device.nativeBackgroundImageActive.replace(/\\/g, "/").substring(oldName.length);
 				if (device.options) device.options.forEach(function(option){
-					if(option.type == "icon" && option.value.indexOf(oldName) == 0 && option.value.length >= oldName.length) option.value = newName + option.value.substring(oldName.length);
+					if(option.type == "icon" && option.value.replace(/\\/g, "/").indexOf(oldName) == 0 && option.value.length >= oldName.length) option.value = newName + option.value.replace(/\\/g, "/").substring(oldName.length);
 				});
 			});
 		});
