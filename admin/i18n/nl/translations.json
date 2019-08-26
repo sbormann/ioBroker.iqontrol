@@ -1,5 +1,7 @@
 {
     "%s is directory. Only file upload allowed.": "% s is een map. ",
+    "(Default)": "(Standaard)",
+    "(None)": "(Geen)",
     "(before sending a state a confirmation-box is showed)": "(voordat een status wordt verzonden, wordt een bevestigingsvenster getoond)",
     "(if you have different data points for the actual and the target value)": "(als u verschillende gegevenspunten hebt voor de werkelijke en de doelwaarde)",
     "(overwrites common.role property)": "(overschrijft de eigenschap common.role)",
@@ -100,6 +102,7 @@
     "General:": "Algemeen:",
     "Headers:": "headers:",
     "Heading": "Omschrijving",
+    "Hide device name": "Apparaatnaam verbergen",
     "Homematic-Thermostat": "Homematic-Thermostaat",
     "Homepage": "Homepage",
     "Humidity-Sensor": "Luchtvochtigheid-Sensor",
@@ -200,6 +203,7 @@
     "Never": "Nooit",
     "New Device": "Nieuwe Apparaat",
     "No": "Nee",
+    "No Icon": "Geen pictogram",
     "No duplicates allowed! View Names must be unique.": "Geen duplicaten toegestaan! ",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Geen socket.io-instantie gevonden. ",
     "Normal": "normaal",

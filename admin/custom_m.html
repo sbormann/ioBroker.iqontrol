@@ -62,10 +62,20 @@
 		<div class="col s4">
 		</div>
 		<div class="input-field col s8">
-			<input type="text" class="enableOnChange" data-field="targetValueId">
-			<span class="translate">Write target values to this Datapoint ID</span>
+			<input type="number" class="enableOnChange" data-field="min">
+			<span class="translate">Minimum</span>
 			<br>
-			<span class="translate" style="font-size: 75%;">(if you have different data points for the actual and the target value)</span>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="number" class="enableOnChange" data-field="max">
+			<span class="translate">Maximum</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
 		</div>
 	</div>
 	<div class="row">
@@ -104,6 +114,16 @@
 			<br>
 			<span class="translate" style="font-size: 75%;">(overwrites common.role property)</span>
         </div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="targetValueId">
+			<span class="translate">Write target values to this Datapoint ID</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(if you have different data points for the actual and the target value)</span>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col s12 tableStates">
@@ -156,6 +176,8 @@
 				unit:			(obj && obj.common && obj.common.unit) || "",
 				unit_zero:		(obj && obj.common && obj.common.unit) || "",
 				unit_one:		(obj && obj.common && obj.common.unit) || "",
+				min:			(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
+				max:			(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
 				type:			(obj && obj.common && obj.common.type) || "",
 				role:			(obj && obj.common && obj.common.role) || "",
 				targetValueId:	"",

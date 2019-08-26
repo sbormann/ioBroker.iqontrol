@@ -1,5 +1,7 @@
 {
     "%s is directory. Only file upload allowed.": "%s is directory. Only file upload allowed.",
+    "(Default)": "(Default)",
+    "(None)": "(None)",
     "(before sending a state a confirmation-box is showed)": "(before sending a state a confirmation-box is showed)",
     "(if you have different data points for the actual and the target value)": "(if you have different data points for the actual and the target value)",
     "(overwrites common.role property)": "(overwrites common.role property)",
@@ -100,6 +102,7 @@
     "General:": "General:",
     "Headers:": "Headers:",
     "Heading": "Heading",
+    "Hide device name": "Hide device name",
     "Homematic-Thermostat": "Homematic-Thermostat",
     "Homepage": "Homepage",
     "Humidity-Sensor": "Humidity-Sensor",
@@ -200,6 +203,7 @@
     "Never": "Never",
     "New Device": "New Device",
     "No": "No",
+    "No Icon": "No Icon",
     "No duplicates allowed! View Names must be unique.": "No duplicates allowed! View Names must be unique.",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!",
     "Normal": "Normal",

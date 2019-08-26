@@ -14,7 +14,8 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -29,7 +30,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolButton": 				{
@@ -44,7 +46,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolLight": 				{
@@ -59,7 +62,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
 										}
@@ -76,7 +80,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -88,7 +93,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -100,7 +106,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -113,7 +120,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -126,7 +134,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolBrightness": 			{
@@ -139,7 +148,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolMotion": 				{
@@ -152,7 +162,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolDoor": 				{
@@ -165,7 +176,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -178,7 +190,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -193,7 +206,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolWindow": 				{
@@ -206,7 +220,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolBlind": 				{
@@ -224,7 +239,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
@@ -242,7 +258,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -257,7 +274,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolBattery": 				{
@@ -275,7 +293,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolValue": 				{
@@ -288,7 +307,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolProgram": 				{
@@ -300,7 +320,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolScene": 				{
@@ -315,7 +336,8 @@ var iQontrolRoles = {
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolPopup": 				{
@@ -327,7 +349,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -339,7 +362,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}										
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
 										}
 									}
 };
@@ -435,10 +459,10 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
 };
 
 var $enhanceTextInputToComboboxActualTarget;
-function enhanceTextInputToCombobox(targetInput, options, icons){
+function enhanceTextInputToCombobox(targetInput, options, iconsFromOption){
 	//targetInput - string - selector for text-input-field to enhance
-	//options - string - "value1/caption1;value2/caption2;[optgroup-caption];value3/caption3;..."
-	//icons - boolean - if true, the values will be used to generate links to icons (\ will be replaced by /)
+	//options - string - "value1/caption1/icon1;value2/caption2/icon2;[optgroup-caption];value3/caption3/icon3;..."
+	//iconsFromOption - boolean - if true, the values will be used to generate links to icons (\ will be replaced by / an link will be preceded), if no icon is given in options
 	$(targetInput).on('blur', function(){
 		var that = this;
 		setTimeout(function(){var _that = that; _that.scrollLeft = 100000;}, 10);
@@ -448,25 +472,36 @@ function enhanceTextInputToCombobox(targetInput, options, icons){
 	$(targetInput).each(function(){
 		$(this).add('label').wrap("<div class='combobox'></div>");
 		$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
-		lastTargetInput = this;
+		lastTargetInput = this; 
 	});
 	options = options || $(lastTargetInput).data('options') || "";
 	options = options.split(";");
 	var comboboxContent = "<ul id='dropdown_" + targetInput + "' class='dropdown-content' style='min-width: 100%; right: 0px; left: unset;'>";
 	options.forEach(function(option){
-		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){
+		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){ //Optgroup
 			var caption = _(option.substring(1, option.length - 1));
 			comboboxContent += "	<li style='padding: 14px 4px; color:grey;'>";
 			comboboxContent += "		" + caption + "&nbsp;";
 			comboboxContent += "	</li>";				
-		} else {
-			var value = encodeURIComponent(option.split("/")[0]);
-			var caption = option.split("/")[option.split("/").length - 1];
+		} else { //Normal option
+			var optionParts = option.split("/");
+			var value = encodeURIComponent(optionParts[0]);
+			var caption = "";
+			if (optionParts.length > 1){
+				caption = optionParts[1];				
+			} else {
+				caption = optionParts[0];
+			}
+			var icon = "";
+			if (optionParts.length > 2){
+				icon = optionParts[2];
+			} else if (iconsFromOption){
+				icon = option.split("/")[0].replace(/\\/g, "/").substring(1) || "";
+				if (icon != "") icon = link + icon;
+			}
 			comboboxContent += "	<li data-value='" + value + "'>";
 			comboboxContent += "		<a onclick=\"enhanceTextInputToComboboxEntryToInput('" + value + "');\">";
-			if (icons){
-				var icon = option.split("/")[0].replace(/\\/g, "/").substring(1) || "";
-				if (icon != "") icon = link + icon;
+			if (icon != ""){
 				comboboxContent += "		<img src='" + icon + "' style='display: block; margin-bottom: 5px; min-width: 40px; max-width: 40px; max-height: 40px; width: auto; height: auto;'>";
 			}
 			comboboxContent += "			" + caption + "&nbsp;";
@@ -505,7 +540,7 @@ function enhanceTextInputToComboboxEntryToInput(value){
 /************** LOAD ********************************************************
 *** This will be called by the admin adapter when the settings page loads ***
 ****************************************************************************/
-function load(settings, onChange) {
+function load(settings, onChange) { 
 //++++++++++ START ++++++++++
 	//Loading begins
 	var loading = true;
@@ -529,9 +564,9 @@ function load(settings, onChange) {
 	//Add function to inputClear-Buttons and selectClear-Buttons
 	$('.inputClear').on('click', function(){
 		if($(this).data('default')){
-			$(this).prevAll('input').val($(this).data('default'));
+			$(this).prevAll('input').val($(this).data('default')).trigger('change');
 		} else {
-			$(this).prevAll('input').val('').removeClass('valid invalid');
+			$(this).prevAll('input').val('').removeClass('valid invalid').trigger('change');
 		}
 		M.validate_field($(this).prevAll('input'));
 		M.updateTextFields();
@@ -798,7 +833,7 @@ function load(settings, onChange) {
 		var imagenames = [];
 		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
-		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', ";" + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 	}
 
 	//Enhance TableViews with functions
@@ -883,7 +918,7 @@ function load(settings, onChange) {
 			var imagenames = [];
 			images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 			imagenames.sort();
-			enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', ";" + imagenames.join(";"), true);
+			enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 		} else {
 			$('.divDevicesNothingSelected').show();
 			$('.divDevices').hide();
@@ -1090,11 +1125,18 @@ function load(settings, onChange) {
 					var defaultIconsString = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].defaultIcons;
 					var defaultIcons = defaultIconsString.split(';');
 					var options = ";[" + _("Default Icons") + ":]";
-					defaultIcons.forEach(function(option){
+					defaultIcons.forEach(function(option, index){
 						if (option != "") {
-							options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
+							if (index == 0){ //First Default Icon
+								options += ";/" + option.replace(/\//g, "\\") + " " + _("(Default)") + "/" + (link + "/images/icons/" + option).replace(/\//g, "\\");
+							} else { //Alternative Default Icon
+								options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");	
+							}
 						}
 					});
+					//Blank Icon
+					options += ";[" + _("No Icon") + ":]";
+					options += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (link + "/images/icons/checkboard.png").replace(/\//g, "\\");
 					//User Icons
 					var userIcons = [];
 					images.forEach(function(element){ 
@@ -1110,7 +1152,7 @@ function load(settings, onChange) {
 					//Icons Combobox
 					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options});
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='" + _("(Default)") + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;

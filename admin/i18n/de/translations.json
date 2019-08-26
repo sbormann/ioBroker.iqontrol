@@ -1,5 +1,7 @@
 {
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",
+    "(Default)": "(Standard)",
+    "(None)": "(Nichts)",
     "(before sending a state a confirmation-box is showed)": "(bevor ein Zustand geändert wird, muss eine Abfrage bestätigt werden)",
     "(if you have different data points for the actual and the target value)": "(falls es verschiedene Datenpunkte für den aktuellen, und den Ziel-Wert gibt)",
     "(overwrites common.role property)": "(Überschreibt die common.role-Eigenschaft)",
@@ -100,6 +102,7 @@
     "General:": "Allgemein:",
     "Headers:": "Überschriften:",
     "Heading": "Überschrift",
+    "Hide device name": "Gerätenamen ausblenden",
     "Homematic-Thermostat": "Homematic-Thermostat",
     "Homepage": "Homepage",
     "Humidity-Sensor": "Feuchtigkeits-Sensor",
@@ -200,6 +203,7 @@
     "Never": "Nie",
     "New Device": "Neues Gerät",
     "No": "Nein",
+    "No Icon": "Kein Icon",
     "No duplicates allowed! View Names must be unique.": "Doppelte Namen sind nicht erlaubt! Ansichts-Namen müssen eindeutig sein.",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Keine socket.io-Instanz gefunden. Bitte stellen Sie socket.io auf integriert und deaktivieren Sie 'Nur Web-Sockets' im web-Adapter!",
     "Normal": "Normal",
