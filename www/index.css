@@ -493,7 +493,8 @@ body {
 	max-height: 100%;
 	width: 85vw;
 	max-width: 100%;
-	margin: 0px;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 0px;
 	border: 2px inset #eee;
 	scrolling: auto;

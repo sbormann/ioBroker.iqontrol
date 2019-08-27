@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.11",
+        "version": "0.1.12",
         "news": {
+            "0.1.12": {
+                "en": "Added width and height to options for popup, Added option to define free CSS-code to modify frontend, Infotext-values are now displayed as plain text or rounded if numbers, Added 'Close dialog after execution' to device options for scenes, programs and buttons.",
+                "de": "Breite und Höhe zu Optionen für Popup hinzugefügt, Option zum Definieren von freiem CSS-Code zum Ändern des Frontends hinzugefügt, Infotext-Werte werden jetzt als Klartext oder gerundet angezeigt, wenn Zahlen verwendet werden ",
+                "ru": "Добавлены ширина и высота к опциям для всплывающего окна, Добавлена ​​опция для определения свободного CSS-кода для изменения внешнего интерфейса, Значения Infotext теперь отображаются в виде обычного текста или округлены, если числа, Добавлен «Закрыть диалоговое окно после выполнения» для параметров устройства для сцен, программ и ",
+                "pt": "Adicionado largura e altura para opções de pop-up, Adicionado opção para definir livre CSS-código para modificar frontend, Infotext-valores agora são exibidos como texto simples ou arredondados se números, Adicionado 'Fechar diálogo após a execução' para opções de dispositivo para cenas, programas e ",
+                "nl": "Breedte en hoogte toegevoegd aan opties voor pop-up, Optie toegevoegd om gratis CSS-code te definiëren om frontend te wijzigen, Infotext-waarden worden nu weergegeven als tekst zonder opmaak of afgerond als getallen, 'Dialoogvenster sluiten na uitvoering' toegevoegd aan apparaatopties voor scènes, programma's en ",
+                "fr": "Ajout de la largeur et de la hauteur aux options de popup, Ajout de l’option permettant de définir du code CSS libre pour modifier le frontal, Les valeurs Infotext sont maintenant affichées sous forme de texte brut ou arrondi si des chiffres, Ajout de 'Fermer la boîte de dialogue après exécution' aux options de l’appareil pour les scènes, les programmes et les ",
+                "it": "Aggiunta larghezza e altezza alle opzioni per il popup, aggiunta opzione per definire il codice CSS gratuito per modificare il frontend, i valori Infotext sono ora visualizzati come testo normale o arrotondati se numeri, aggiunta 'Chiudi finestra di dialogo dopo l'esecuzione' alle opzioni del dispositivo per scene, programmi e ",
+                "es": "Ancho y alto agregados a las opciones para la ventana emergente, opción agregada para definir código CSS libre para modificar la interfaz, los valores de infotexto ahora se muestran como texto plano o redondeados si los números, 'Diálogo de cierre después de la ejecución' agregado a las opciones del dispositivo para escenas, programas y ",
+                "pl": "Dodano szerokość i wysokość do opcji wyskakujących okienek, Dodano opcję definiowania darmowego kodu CSS do modyfikacji interfejsu, wartości infotekstu są teraz wyświetlane jako zwykły tekst lub zaokrąglone, jeśli liczby, Dodano opcję „Zamknij okno dialogowe po wykonaniu” do opcji urządzeń dla scen, programów i ",
+                "zh-cn": "为弹出选项添加宽度和高度，添加选项以定义用于修改前端的自由CSS代码，Infotext值现在显示为纯文本或舍入为数字，添加'执行后关闭对话框'到场景，程序和设备选项"
+            },
             "0.1.11": {
                 "en": "Bugfix for chrome opacity transition bug, Added placeholder for default values for text inputs on options page, Added placeholder for default icon and blank icon to device options, Extended thermostat CONTROL_MODE by type switch, Fixed crash when using thermostat with setpoint an non homematic-devices, Added min and max to custom dialog, Now you can set none as a devices background image for active devices (formerly this was copied from inactive devices for backward-compatibility-reasons).",
                 "de": "Bugfix für Chrome Opacity Transition Bug, Platzhalter für Standardwerte für Texteingaben auf Optionsseite hinzugefügt, Platzhalter für Standardsymbol und leeres Symbol für Geräteoptionen hinzugefügt, Erweiterter Thermostat CONTROL_MODE nach Typenschalter, Absturz bei Verwendung von Thermostat mit Sollwert und nicht homematischen Geräten behoben ",

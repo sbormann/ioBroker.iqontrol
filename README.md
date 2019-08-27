@@ -272,6 +272,12 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.12 (2019-08-28)
+* (Sebastian Bormann) Added width and height to options for popup.
+* (Sebastian Bormann) Added option to define free CSS-code to modify frontend.
+* (Sebastian Bormann) Infotext-values are now displayed as plain text or rounded if numbers.
+* (Sebastian Bormann) Added 'Close dialog after execution' to device options for scenes, programs and buttons.
+
 ### 0.1.11 (2019-08-26)
 * (Sebastian Bormann) Bugfix for chrome opacity transition bug.
 * (Sebastian Bormann) Added placeholder for default values for text inputs on options page.

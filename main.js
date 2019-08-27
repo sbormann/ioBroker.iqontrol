@@ -292,6 +292,8 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled) obj.native.LayoutViewResizeDevicesToFitScreenDisabled = this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled;
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold) obj.native.LayoutViewResizeDevicesToFitScreeTreshold = this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold;
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens) obj.native.LayoutViewResizeDevicesToFitScreenOnBigScreens = this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens;
+		//Own CSS:
+		if (this.config.optionsLayoutCSS) obj.native.LayoutCSS = this.config.optionsLayoutCSS;
 		//Options ready
 		createdObjects.push("Options");
 		this.setObjectAsync("Options", obj, this.logbook("created: Options"));

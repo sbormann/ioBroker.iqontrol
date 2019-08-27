@@ -7,7 +7,7 @@ var connectionLink = location.origin;
 var useCache = true;
 var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-var iQontrolRoles = {
+var ivar iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
 										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
@@ -44,6 +44,7 @@ var iQontrolRoles = {
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
@@ -89,7 +90,9 @@ var iQontrolRoles = {
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
 										options: {
-											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
+											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""},
+											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -102,7 +105,8 @@ var iQontrolRoles = {
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
 										options: {
-											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png", default: ""},
+											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -318,6 +322,9 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
@@ -334,11 +341,12 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
-										}
+										} 
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
@@ -348,6 +356,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											popupWidth: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
@@ -722,7 +732,9 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 				case "number":
 				console.log("Inverting number value for state " + stateId + " from " + newValue + "...");
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") result.min = usedObjects[stateId].common.custom[namespace].min;
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") result.max = usedObjects[stateId].common.custom[namespace].max;
 				if(typeof min !== udef && typeof max !== udef){
 					newValue = max - (newValue - min);
 					states[stateId].isInverted = false;
@@ -1179,7 +1191,9 @@ function updateState(stateId, ignorePreventUpdate){
 			case "number":
 			console.log("Inverting number state " + stateId + " from " + states[stateId].val + "...");
 			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") result.min = usedObjects[stateId].common.custom[namespace].min;
 			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") result.max = usedObjects[stateId].common.custom[namespace].max;
 			if(typeof min !== udef && typeof max !== udef){
 				states[stateId].val = max - (states[stateId].val - min);
 				states[stateId].isInverted = true;
@@ -1236,10 +1250,8 @@ function toggleState(linkedStateId, deviceId, callback){
 
 			case "level":
 			var oldVal = state.val;
-			var min = 0;
-			var max = 100;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
+			var min = state.min || 0;
+			var max = state.max || 100;
 			var newVal;
 			if(oldVal > min) newVal = min; else newVal = max;
 			break;
@@ -1248,8 +1260,7 @@ function toggleState(linkedStateId, deviceId, callback){
 			var oldVal = state.val;
 			if(oldVal == true || oldVal.toString().toLowerCase() == "true") oldVal = 1;
 			if(oldVal == false || oldVal.toString().toLowerCase() == "false") oldVal = 0;
-			var min = 0;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
+			var min = state.min || 0;
 			if(typeof state.valueList !== udef && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
 			break;
 		}
@@ -1273,10 +1284,8 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 			if (stop) setState(linkedStopId, deviceId, true, true, callback);
 		} else { //standing still
 			var oldVal = state.val;
-			var min = 0;
-			var max = 100;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.min !== udef) min = usedObjects[linkedStateId].common.min;
-			if(typeof usedObjects[linkedStateId] !== udef && typeof usedObjects[linkedStateId].common.max !== udef) max = usedObjects[linkedStateId].common.max;
+			var min = state.min || 0;
+			var max = state.max || 100;
 			var newVal;
 			if(oldVal > min) newVal = min; else newVal = max;
 			if(up && up.type && down && down.type) {
@@ -1347,34 +1356,39 @@ function convertToAlternativeColorspace(deviceId, linkedHueId, linkedSaturationI
 	var alternativeColorspace = (typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.alternativeColorspace != udef && usedObjects[deviceId].native.alternativeColorspace) || "";
 	var alternativeColorspaceResult = convertFromAlternativeColorspace(deviceId, linkedAlternativeColorspaceValueId, linkedHueId, linkedSaturationId, linkedColorBrightnessId, linkedCtId, linkedWhiteBrightnessId);
 	var hue = null;
-	if (states[linkedHueId] && typeof states[linkedHueId].val != udef) {
-		var hueMin = (typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.min !== udef && usedObjects[linkedHueId].common.min) || 0;
-		var hueMax = (typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.max !== udef && usedObjects[linkedHueId].common.max) || 359;
-		hue = ((states[linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
+	var stateHue = getStateObject[linkedHueId];
+	if (stateHue && typeof stateHue.val != udef) {
+		var hueMin = stateHue.min || 0;
+		var hueMax = stateHue.max || 359;
+		hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 	} else if (alternativeColorspaceResult.hue !== null) hue = alternativeColorspaceResult.hue;
 	var	saturation = null;
-	if (states[linkedSaturationId] && typeof states[linkedSaturationId].val != udef) {
-		var saturationMin = (typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.min !== udef && usedObjects[linkedSaturationId].common.min) || 0;
-		var saturationMax = (typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.max !== udef && usedObjects[linkedSaturationId].common.max) || 100;
-		saturation = ((states[linkedSaturationId].val - saturationMin) / (saturationMax - saturationMin)) * 100;
+	var stateSaturation = getStateObject[linkedSaturationId];
+	if (stateSaturation && typeof stateSaturation.val != udef) {
+		var saturationMin = stateSaturation.min || 0;
+		var saturationMax = stateSaturation.max || 100;
+		saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
 	} else if (alternativeColorspaceResult.saturation !== null) saturation = alternativeColorspaceResult.saturation;
 	var	colorBrightness = null;
-	if (states[linkedColorBrightnessId] && typeof states[linkedColorBrightnessId].val != udef) {
-		var colorBrightnessMin = (typeof usedObjects[linkedColorBrightnessId] !== udef && typeof usedObjects[linkedColorBrightnessId].common.min !== udef && usedObjects[linkedColorBrightnessId].common.min) || 0;
-		var colorBrightnessMax = (typeof usedObjects[linkedColorBrightnessId] !== udef && typeof usedObjects[linkedColorBrightnessId].common.max !== udef && usedObjects[linkedColorBrightnessId].common.max) || 100;
-		colorBrightness = ((states[linkedColorBrightnessId].val - colorBrightnessMin) / (colorBrightnessMax - colorBrightnessMin)) * 100;
+	var stateColorBrightness = getStateObject[linkedColorBrightnessId];
+	if (stateColorBrightness && typeof stateColorBrightness.val != udef) {
+		var colorBrightnessMin = stateColorBrightness.min || 0;
+		var colorBrightnessMax = stateColorBrightness.max || 100;
+		colorBrightness = ((stateColorBrightness.val - colorBrightnessMin) / (colorBrightnessMax - colorBrightnessMin)) * 100;
 	} else if (alternativeColorspaceResult.colorBrightness !== null) colorBrightness = alternativeColorspaceResult.colorBrightness;
 	var	ct = null;
-	if (states[linkedCtId] && typeof states[linkedCtId].val != udef) {
-		var ctMin = (typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.min !== udef && usedObjects[linkedCtId].common.min) || 0;
-		var ctMax = (typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.max !== udef && usedObjects[linkedCtId].common.max) || 100;
-		ct = ((states[linkedCtId].val - ctMin) / (ctMax - ctMin)) * 100;
+	var stateCt = getStateObject[linkedCtId];
+	if (stateCt && typeof stateCt.val != udef) {
+		var ctMin = stateCt.min || 0;
+		var ctMax = stateCt.max || 100;
+		ct = ((stateCt.val - ctMin) / (ctMax - ctMin)) * 100;
 	} else if (alternativeColorspaceResult.ct !== null) ct = alternativeColorspaceResult.ct;
 	var	whiteBrightness = null;
-	if (states[linkedWhiteBrightnessId] && typeof states[linkedWhiteBrightnessId].val != udef) {
-		var whiteBrightnessMin = (typeof usedObjects[linkedWhiteBrightnessId] !== udef && typeof usedObjects[linkedWhiteBrightnessId].common.min !== udef && usedObjects[linkedWhiteBrightnessId].common.min) || 0;
-		var whiteBrightnessMax = (typeof usedObjects[linkedWhiteBrightnessId] !== udef && typeof usedObjects[linkedWhiteBrightnessId].common.max !== udef && usedObjects[linkedWhiteBrightnessId].common.max) || 100;
-		whiteBrightness = ((states[linkedWhiteBrightnessId].val - whiteBrightnessMin) / (whiteBrightnessMax - whiteBrightnessMin)) * 100;
+	var stateWhiteBrightness = getStateObject[linkedWhiteBrightnessId];
+	if (stateWhiteBrightness && typeof stateWhiteBrightness.val != udef) {
+		var whiteBrightnessMin = stateWhiteBrightness.min || 0;
+		var whiteBrightnessMax = stateWhiteBrightness.max || 100;
+		whiteBrightness = ((stateWhiteBrightness.val - whiteBrightnessMin) / (whiteBrightnessMax - whiteBrightnessMin)) * 100;
 	} else if (alternativeColorspaceResult.whiteBrightness !== null) whiteBrightness = alternativeColorspaceResult.whiteBrightness;
 	if (overwrite && Array.isArray(overwrite)) overwrite.forEach(function(element){
 		if (typeof element.type !== udef && element.val !== udef) switch(element.type){
@@ -1509,28 +1523,33 @@ function convertFromAlternativeColorspace(deviceId, linkedAlternativeColorspaceV
 		break;				
 	}
 	if(result.hue != null){
-		var hueMin = (typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.min !== udef && usedObjects[linkedHueId].common.min) || 0;
-		var hueMax = (typeof usedObjects[linkedHueId] !== udef && typeof usedObjects[linkedHueId].common.max !== udef && usedObjects[linkedHueId].common.max) || 359;
+		var stateHue = getStateObject[linkedHueId];
+		var hueMin = stateHue && stateHue.min || 0;
+		var hueMax = stateHue && stateHue.max || 359;
 		result.hue = Math.round((result.hue/359 * (hueMax - hueMin)) + hueMin);
 	} 
 	if(result.saturation != null){
-		var saturationMin = (typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.min !== udef && usedObjects[linkedSaturationId].common.min) || 0;
-		var saturationMax = (typeof usedObjects[linkedSaturationId] !== udef && typeof usedObjects[linkedSaturationId].common.max !== udef && usedObjects[linkedSaturationId].common.max) || 100;
+		var stateSaturation = getStateObject[linkedSaturationId];
+		var saturationMin = stateSaturation && stateSaturation.min || 0;
+		var saturationMax = stateSaturation && stateSaturation.max || 100;
 		result.saturation = Math.round((result.saturation/100 * (saturationMax - saturationMin)) + saturationMin);
 	} 
 	if(result.colorBrightness != null){
-		var colorBrightnessMin = (typeof usedObjects[linkedColorBrightnessId] !== udef && typeof usedObjects[linkedColorBrightnessId].common.min !== udef && usedObjects[linkedColorBrightnessId].common.min) || 0;
-		var colorBrightnessMax = (typeof usedObjects[linkedColorBrightnessId] !== udef && typeof usedObjects[linkedColorBrightnessId].common.max !== udef && usedObjects[linkedColorBrightnessId].common.max) || 100;
+		var stateColorBrightness = getStateObject[linkedColorBrightnessId];
+		var colorBrightnessMin = stateColorBrightness && stateColorBrightness.min || 0;
+		var colorBrightnessMax = stateColorBrightness && stateColorBrightness.max || 100;
 		result.colorBrightness = Math.round((result.colorBrightness/100 * (colorBrightnessMax - colorBrightnessMin)) + colorBrightnessMin);
 	} 
 	if(result.ct != null){
-		var ctMin = (typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.min !== udef && usedObjects[linkedCtId].common.min) || 0;
-		var ctMax = (typeof usedObjects[linkedCtId] !== udef && typeof usedObjects[linkedCtId].common.max !== udef && usedObjects[linkedCtId].common.max) || 100;
+		var stateCt = getStateObject[linkedCtId];
+		var ctMin = stateCt && stateCt.min || 0;
+		var ctMax = stateCt && stateCt.max || 100;
 		result.ct = Math.round((result.ct/100 * (ctMax - ctMin)) + ctMin);
 	} 
 	if(result.whiteBrightness != null){
-		var whiteBrightnessMin = (typeof usedObjects[linkedWhiteBrightnessId] !== udef && typeof usedObjects[linkedWhiteBrightnessId].common.min !== udef && usedObjects[linkedWhiteBrightnessId].common.min) || 0;
-		var whiteBrightnessMax = (typeof usedObjects[linkedWhiteBrightnessId] !== udef && typeof usedObjects[linkedWhiteBrightnessId].common.max !== udef && usedObjects[linkedWhiteBrightnessId].common.max) || 100;
+		var stateWhiteBrightness = getStateObject[linkedWhiteBrightnessId];
+		var whiteBrightnessMin = stateWhiteBrightness && stateWhiteBrightness.min || 0;
+		var whiteBrightnessMax = stateWhiteBrightness && stateWhiteBrightness.max || 100;
 		result.whiteBrightness = Math.round((result.whiteBrightness/100 * (whiteBrightnessMax - whiteBrightnessMin)) + whiteBrightnessMin);
 	} 
 	console.log("...result is " + result.hue + "|" + result.saturation + "|" + result.colorBrightness + "/" + result.ct + "|" + result.whiteBrightness);
@@ -2102,6 +2121,11 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		//Own CSS:
+		if(options.LayoutCSS) {
+			customCSS = options.LayoutCSS;
+			addCustomCSS(customCSS);
+		};
 	}
 }
 
@@ -2566,8 +2590,8 @@ function renderView(id, updateOnly, callback){
 							break;
 
 							case "iQontrolProgram":
-							//if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
-							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
+							if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceId + "\");";
+							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/play_on.png") + "' />";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/play.png") + "' />";
 							break;
@@ -2645,11 +2669,11 @@ function renderView(id, updateOnly, callback){
 								var _deviceId = deviceId;
 								var _linkedBatteryId = deviceLinkedStateIds["BATTERY"];
 								viewUpdateFunctions[_linkedBatteryId].push(function(){
-									var stateBattery = getStateObject(_linkedBatteryId)
+									var stateBattery = getStateObject(_linkedBatteryId);
 									if (typeof stateBattery !== udef){
 										if (stateBattery.type == "level") {
-											var min =  stateBattery.min || 0;
-											var max =  stateBattery.max || 100;
+											var min = stateBattery.min || 0;
+											var max = stateBattery.max || 100;
 											if(typeof stateBattery.val !== udef && stateBattery.val <= (min + ((max-min) * 0.10))){ //<10%
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceBattery").addClass("active");
 											} else {
@@ -2674,8 +2698,17 @@ function renderView(id, updateOnly, callback){
 									var _deviceId = deviceId;
 									var _linkedTemperatureId = deviceLinkedStateIds["TEMPERATURE"];
 									viewUpdateFunctions[_linkedTemperatureId].push(function(){
-										var unit = getUnit(_linkedTemperatureId);
-										if (states[_linkedTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedTemperatureId].val + unit);
+										var stateTemperature = getStateObject(_linkedTemperatureId);
+										if (stateTemperature && typeof stateTemperature.val !== udef){
+											var val = stateTemperature.plainText;
+											var unit = stateTemperature.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (stateTemperature.plainText == stateTemperature.val) val = val + unit;
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").hide();
+										}
 									});
 								})(); //<--End Closure
 							}
@@ -2689,8 +2722,17 @@ function renderView(id, updateOnly, callback){
 									var _deviceId = deviceId;
 									var _linkedBrightnessId = deviceLinkedStateIds["BRIGHTNESS"];
 									viewUpdateFunctions[_linkedBrightnessId].push(function(){
-										var unit = getUnit(_linkedBrightnessId);
-										if (states[_linkedBrightnessId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(states[_linkedBrightnessId].val + unit);
+										var stateBrightness = getStateObject(_linkedBrightnessId);
+										if (stateBrightness && typeof stateBrightness.val !== udef){
+											var val = stateBrightness.plainText;
+											var unit = stateBrightness.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (stateBrightness.plainText == stateBrightness.val) val = val + unit;
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").hide();
+										}
 									});
 								})(); //<--End Closure
 							}
@@ -2742,15 +2784,17 @@ function renderView(id, updateOnly, callback){
 									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
 									if (deviceLinkedStateIds["HUE"]){
 										var updateFunction = function(){
-											if (states[_linkedHueId] && typeof states[_linkedHueId].val !== udef && states[_linkedHueId].val != ""){
-												var hueMin = (typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.min !== udef && usedObjects[_linkedHueId].common.min) || 0;
-												var hueMax = (typeof usedObjects[_linkedHueId] !== udef && typeof usedObjects[_linkedHueId].common.max !== udef && usedObjects[_linkedHueId].common.max) || 359;
-												var hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
+											var stateHue = getStateObject(_linkedHueId);
+											if (stateHue && stateHue.val !== ""){
+												var hueMin = stateHue.min || 0;
+												var hueMax = stateHue.max || 359;
+												var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 												var	saturation = 100;
-												if (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val != udef) {
-													var saturationMin = (typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.min !== udef && usedObjects[_linkedSaturationId].common.min) || 0;
-													var saturationMax = (typeof usedObjects[_linkedSaturationId] !== udef && typeof usedObjects[_linkedSaturationId].common.max !== udef && usedObjects[_linkedSaturationId].common.max) || 100;
-													saturation = ((states[_linkedSaturationId].val - saturationMin) / (saturationMax - saturationMin)) * 100;
+												var stateSaturation = getStateObject(_linkedSaturationId);
+												if (stateSaturation && typeof stateSaturation.val != udef) {
+													var saturationMin = stateSaturation.min || 0;
+													var saturationMax = stateSaturation.max || 100;
+													saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
 												}
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").show()
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
@@ -2761,11 +2805,11 @@ function renderView(id, updateOnly, callback){
 									}
 									if (deviceLinkedStateIds["CT"]){
 										var updateFunction = function(){
-											if (states[_linkedCtId]  && typeof states[_linkedCtId].val !== udef){
-												var ctMin = (typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.min !== udef && usedObjects[_linkedCtId].common.min) || 0;
-												var ctMax = (typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.max !== udef && usedObjects[_linkedCtId].common.max) || 100;
-												var ct = states[_linkedCtId].val;
-												if(typeof usedObjects[_linkedCtId] !== udef && typeof usedObjects[_linkedCtId].common.max !== udef) max = usedObjects[_linkedCtId].common.max;
+											var stateCt = getStateObject(_linkedCtId);
+											if (stateCt  && typeof stateCt.val !== udef){
+												var ctMin = stateCt.min || 0;
+												var ctMax = stateCt.max || 100;
+												var ct = stateCt.val;
 												var invertCt = false;
 												if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertCt != udef && usedObjects[_deviceId].native.invertCt == "true") invertCt = !invertCt;
 												var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
@@ -2831,10 +2875,14 @@ function renderView(id, updateOnly, callback){
 									var _deviceId = deviceId;
 									var _linkedHumidityId = deviceLinkedStateIds["HUMIDITY"];
 									viewUpdateFunctions[_linkedHumidityId].push(function(){
-										var unit = getUnit(_linkedHumidityId);
-										if (states[_linkedHumidityId] && typeof states[_linkedHumidityId].val !== udef){
+										var stateHumidity = getStateObject(_linkedHumidityId);
+										if (stateHumidity && typeof stateHumidity.val !== udef){
+											var val = stateHumidity.plainText;
+											var unit = stateHumidity.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (stateHumidity.plainText == stateHumidity.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(states[_linkedHumidityId].val + unit);
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(val);
 										} else {
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 										}
@@ -2851,10 +2899,14 @@ function renderView(id, updateOnly, callback){
 									var _deviceId = deviceId;
 									var _linkedPowerId = deviceLinkedStateIds["POWER"];
 									viewUpdateFunctions[_linkedPowerId].push(function(){
-										var unit = getUnit(_linkedPowerId);
-										if (states[_linkedPowerId] && typeof states[_linkedPowerId].val !== udef){
+										var statePower = getStateObject(_linkedPowerId);
+										if (statePower && typeof statePower.val !== udef){
+											var val = statePower.plainText;
+											var unit = statePower.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (statePower.plainText == statePower.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").show();
-											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(states[_linkedPowerId].val + unit);
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(val);
 										} else {
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").hide();
 										}
@@ -2917,7 +2969,7 @@ function renderView(id, updateOnly, callback){
 								break;
 
 								case "iQontrolThermostat": case "iQontrolHomematicThermostat":
-								if (deviceLinkedStateIds["SET_TEMPERATURE"]){
+								if (deviceLinkedStateIds["SET_TEMPERATURE"] || deviceLinkedStateIds["CONTROL_MODE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedSetTemperatureId = deviceLinkedStateIds["SET_TEMPERATURE"];
@@ -2925,20 +2977,26 @@ function renderView(id, updateOnly, callback){
 										var _linkedPartyTemperatureId = deviceLinkedStateIds["PARTY_TEMPERATURE"];
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
 										var updateFunction = function(){
-											var unit = getUnit(_linkedSetTemperatureId);
-											var min = 0;
-											var max = 100;
-											if(typeof usedObjects[_linkedSetTemperatureId] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.min !== udef) min = usedObjects[_linkedSetTemperatureId].common.min;
-											if(typeof usedObjects[_linkedSetTemperatureId] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.max !== udef) max = usedObjects[_linkedSetTemperatureId].common.max;
+											var stateSetTemperature = getStateObject(_linkedSetTemperatureId); 
+											var min = stateSetTemperature && stateSetTemperature.min || 0;
+											var max = stateSetTemperature && stateSetTemperature.max || 100;
+											var val = stateSetTemperature && stateSetTemperature.val || "";
+											var unit = stateSetTemperature && stateSetTemperature.unit || "";
 											var mode = "";
-											if (typeof _linkedControlModeId !== udef) mode = "&nbsp;" + getPlainText(_linkedControlModeId);
-											if (states[_linkedSetTemperatureId]) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(states[_linkedSetTemperatureId].val + unit + "<span class='small'>" + mode + "</span>");
+											var modeText = "";
+											var controlModeDisabledValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisabledValue != udef && usedObjects[_deviceId].native.controlModeDisabledValue) || "";
+											if (typeof _linkedControlModeId !== udef) {
+												mode = states[_linkedControlModeId].val;
+												modeText = getPlainText(_linkedControlModeId);
+											}
+											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(val + unit + modeText);
 											if (typeof _linkedPartyTemperatureId !== udef && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
 											if (typeof _linkedWindowOpenReportingId !== udef && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
-											if (typeof states[_linkedSetTemperatureId] !== udef && typeof states[_linkedSetTemperatureId].val !== udef && states[_linkedSetTemperatureId].val > min) {
-												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
-											} else {
+											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (val !== "" && (val <= min || val >= max))) {
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 											}
 										};
 										viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
@@ -3043,10 +3101,8 @@ function renderView(id, updateOnly, callback){
 										var _linkedDirectionId = deviceLinkedStateIds["DIRECTION"];
 										var updateFunction = function(){
 											var level = getStateObject(_linkedLevelId);
-											var min = 0;
-											var max = 100;
-											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.min !== udef) min = usedObjects[_linkedLevelId].common.min;
-											if(typeof usedObjects[_linkedLevelId] !== udef && typeof usedObjects[_linkedLevelId].common.max !== udef) max = usedObjects[_linkedLevelId].common.max;
+											var min = level.min || 0;
+											var max = level.max || 100;
 											var val = level.val;
 											var invertActuatorLevel = false;
 											if(_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.invertActuatorLevel != udef && usedObjects[_deviceId].native.invertActuatorLevel == "true") invertActuatorLevel = !invertActuatorLevel;
@@ -3164,10 +3220,8 @@ function renderView(id, updateOnly, callback){
 											var charging = getStateObject(_linkedChargingId);
 											var result;
 											var resultText;
-											var min = 0;
-											var max = 100;
-											if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.min !== udef) min = usedObjects[_linkedStateId].common.min;
-											if(typeof usedObjects[_linkedStateId] !== udef && typeof usedObjects[_linkedStateId].common.max !== udef) max = usedObjects[_linkedStateId].common.max;
+											var min =  state.min || 0;
+											var max =  state.max || 100;
 											if(state && typeof state.val !== udef && state.val == min){ //Empty
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.full").removeClass("active");
@@ -3613,10 +3667,12 @@ function renderDialog(deviceId){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedStateId = dialogLinkedStateIds["STATE"];
+					var _closeDialogAfterExecution = (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.closeDialogAfterExecution != udef && usedObjects[deviceId].native.closeDialogAfterExecution) || "false";
 					var bindingFunction = function(){
 						$('#DialogStateButton').on('click', function(e) {
 							startProgram(_linkedStateId, _deviceId);
 							dialogUpdateTimestamp(states[_linkedStateId]);
+							if (_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
@@ -3635,10 +3691,12 @@ function renderDialog(deviceId){
 					var _linkedSetValueId = dialogLinkedStateIds["SET_VALUE"] || "";
 					var _linkedOffSetValueId = dialogLinkedStateIds["OFF_SET_VALUE"] || "";
 					var _returnToOffSetValueAfter = (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.returnToOffSetValueAfter != udef && usedObjects[deviceId].native.returnToOffSetValueAfter) || "100";
+					var _closeDialogAfterExecution = (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.closeDialogAfterExecution != udef && usedObjects[deviceId].native.closeDialogAfterExecution) || "false";
 					var bindingFunction = function(){
 						$('#DialogStateButton').on('click', function(e) {
 							startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceId);
 							dialogUpdateTimestamp(states[_linkedStateId]);
+							if (_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);
@@ -4458,7 +4516,10 @@ function renderDialog(deviceId){
 			case "iQontrolPopup":
 			//----Popup with url or html
 			if (dialogStates["URL"] || dialogStates["HTML"]){
-				dialogContent += "<div class='iQontrolDialogIframeWrapper'>";
+				var style = "";
+				if (typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.popupWidth != udef && usedObjects[deviceId].native.popupWidth) style += "width: " + usedObjects[deviceId].native.popupWidth + "px !important; ";
+				if (typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.popupHeight != udef && usedObjects[deviceId].native.popupHeight) style += "height: " + usedObjects[deviceId].native.popupHeight + "px !important; ";
+				dialogContent += "<div class='iQontrolDialogIframeWrapper' style='" + style + "'>";
 				dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceId + "' id='DialogPopupIframe' scrolling='no'>" + _("Content not available") + "</iframe>";
 				dialogContent += "</div>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
