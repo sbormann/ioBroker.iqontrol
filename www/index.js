@@ -7,7 +7,7 @@ var connectionLink = location.origin;
 var useCache = true;
 var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-var ivar iQontrolRoles = {
+var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
 										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],

@@ -272,6 +272,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.13 (2019-08-28)
+* (Sebastian Bormann) Fixed crash of frontend.
+* (Sebastian Bormann) Security updates.
+
 ### 0.1.12 (2019-08-28)
 * (Sebastian Bormann) Added width and height to options for popup.
 * (Sebastian Bormann) Added option to define free CSS-code to modify frontend.

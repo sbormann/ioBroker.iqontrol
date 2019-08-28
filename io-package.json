@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.12",
+        "version": "0.1.13",
         "news": {
+            "0.1.13": {
+                "en": "Fixed crash of frontend, Security updates."
+            },
             "0.1.12": {
                 "en": "Added width and height to options for popup, Added option to define free CSS-code to modify frontend, Infotext-values are now displayed as plain text or rounded if numbers, Added 'Close dialog after execution' to device options for scenes, programs and buttons.",
                 "de": "Breite und Höhe zu Optionen für Popup hinzugefügt, Option zum Definieren von freiem CSS-Code zum Ändern des Frontends hinzugefügt, Infotext-Werte werden jetzt als Klartext oder gerundet angezeigt, wenn Zahlen verwendet werden ",
