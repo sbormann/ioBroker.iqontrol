@@ -839,11 +839,6 @@ function load(settings, onChange) {
 	function loadViews(){
 		//Fill Table
 		values2table('tableViews', views, onChange, onTableViewsReady);
-		//Add Images to Selectbox for BackgroundImage
-		var imagenames = [];
-		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
-		imagenames.sort();
-		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 	}
 
 	//Enhance TableViews with functions
@@ -851,6 +846,11 @@ function load(settings, onChange) {
 		var $div = $('#tableViews');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
+		//Add Images to Selectbox for BackgroundImage
+		var imagenames = [];
+		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		imagenames.sort();
+		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 		//CommonName changed
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -924,11 +924,6 @@ function load(settings, onChange) {
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 			$('.divDevicesNothingSelected').hide();
 			$('.divDevices').show();
-			//Add Images to Selectbox for BackgroundImage
-			var imagenames = [];
-			images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
-			imagenames.sort();
-			enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 		} else {
 			$('.divDevicesNothingSelected').show();
 			$('.divDevices').hide();
@@ -941,6 +936,12 @@ function load(settings, onChange) {
 		var $div = $('#tableDevices');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
+		//Add Images to Selectbox for BackgroundImage
+		var imagenames = [];
+		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
+		imagenames.sort();
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
+		//Add role as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonName') {
@@ -1872,7 +1873,7 @@ function load(settings, onChange) {
 			//Replace photo-button with thumbnail
 			if (command === 'photo') {
 				var imageIndex = $(this).data('index');
-				$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
+				$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + images[imageIndex].filename + "' data-filename='./.." + userfilesImagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
 			}
 			//Rename file
 			if (command === 'edit') {
@@ -1928,8 +1929,25 @@ function load(settings, onChange) {
 		$('.thumbnail').on('click', function(){
 			initDialog('dialogImagePopup', function(){});
 			var imageLink = $(this).attr('src');
+			//Check, if images is used
+			var imageName = $(this).data('filename');
+			var imageUsedIn = [];
+			views.forEach(function(view){
+				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + " " + _("as backgroundimage"));
+				view.devices.forEach(function(device){
+					if((typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/") == imageName) || (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/") == imageName)) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as backgroundimage"));
+					if (device.options) device.options.forEach(function(option){
+						if(option.type == "icon" && option.value.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as icon"));
+					});
+				});
+			});
 			$("#dialogImagePopupImageName").text(imageLink);
 			$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>");
+			if (imageUsedIn.length > 0){
+				$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is used in:") + "</p><ul><li>" + imageUsedIn.join("</li><li>") + "</ul>");
+			} else {
+				$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is not used at the moment") + "</p>");
+			}
 			$("#dialogImagePopup").modal('open');
 		});
 		imagesSelectedDirFilterList();

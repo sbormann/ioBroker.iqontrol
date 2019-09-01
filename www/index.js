@@ -973,7 +973,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			}
 		}
 		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
-		if(typeof result.val == udef){
+		if(typeof result.val == udef || result.val == null){
 			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
 		}
 		//--Modify typeof val to match to common.type
@@ -1107,7 +1107,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		}
 		if(statesSet){
 			var val = result.val;
-			if (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false"){ //Convert valueList-Keys to boolean, if they are numbers
+			if (typeof val !== udef && val !== null && (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false")){ //Convert valueList-Keys to boolean, if they are numbers
 				for (var key in result.valueList){
 					var newKey = null;
 					if (key == -1 || key == 0 || key == false) newKey = "false";
@@ -3149,7 +3149,7 @@ function renderView(id, updateOnly, callback){
 											} else { //Middle with no movement
 												if(level && typeof level.val !== udef) resultText = level.val + level.unit;
 												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
-												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.middle").addClass("active");
@@ -3545,7 +3545,10 @@ function openViewPressureMenu(deviceId, positionToElement){
 
 function changeViewBackground(url){
 	if(!url || url == "") url = "./images/background.png";
-	$.backstretch(url, {fade: 300});
+	var isVideo = false;
+	var extention = url.substring(url.lastIndexOf('.'));
+	if(extention == ".avi" || extention == ".mov" || extention == ".mp4") isVideo = true;
+	$.backstretch({url: url, isVideo: isVideo, loop: true, mute: true}, {fade: 300});
 }
 
 function viewSwipe(direction){
@@ -3605,8 +3608,9 @@ function renderDialog(deviceId){
 					var _confirm = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
 					var DialogStateSliderReadoutTimer;
 					var updateFunction = function(){
-						if (states[_linkedSetTemperatureId]){
-							$("#DialogStateSlider").val(states[_linkedSetTemperatureId].val);
+						var stateSetTemperature = getStateObject(_linkedSetTemperatureId);
+						if (stateSetTemperature){
+							$("#DialogStateSlider").val(stateSetTemperature.val);
 							$("#DialogStateSlider").slider('refresh');
 							dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
 						}
@@ -3641,8 +3645,9 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedStateId = dialogLinkedStateIds["STATE"];
 					var updateFunction = function(){
-						if (states[_linkedStateId]){
-							if(states[_linkedStateId].val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
+						var state = getStateObject(_linkedStateId);			
+						if (state){
+							if(state.val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
 							$("#DialogStateValue").button('refresh');
 							dialogUpdateTimestamp(states[_linkedStateId]);
 						}
@@ -3721,9 +3726,10 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
-							if (states[_linkedStateId]){
+							var state = getStateObject(_linkedStateId);
+							if (state){
 								var index = 0;
-								if(typeof states[_linkedStateId].val != udef && (states[_linkedStateId].val.toString().toLowerCase() == "true" || states[_linkedStateId].val.toString() > 0)) index = 1; else index = 0;
+								if(typeof state.val != udef && (state.val.toString().toLowerCase() == "true" || state.val.toString() > 0)) index = 1; else index = 0;
 								$("#DialogStateSwitch")[0].selectedIndex = index;
 								$("#DialogStateSwitch").flipswitch('refresh');
 								dialogUpdateTimestamp(states[_linkedStateId]);
@@ -3733,7 +3739,8 @@ function renderDialog(deviceId){
 						var bindingFunction = function(){
 							$('#DialogStateSwitch').on('change', function(e) {
 								var newVal = $("#DialogStateSwitch option:selected").val();
-								if(typeof states[_linkedStateId].val == 'number'){
+								var state = getStateObject(_linkedStateId);
+								if(typeof state.val == 'number'){
 									if(newVal == true) newVal = 1; else newVal = 0;
 								}
 								setState(_linkedStateId, _deviceId, newVal);
@@ -3747,19 +3754,24 @@ function renderDialog(deviceId){
 					case "level":
 					var min = dialogStates["STATE"].min || 0;
 					var max = dialogStates["STATE"].max || 100;
+					var step = "1";
+					if (max - min < 100) step = "0.1";
+					if (max - min < 10) step = "0.01";
+					if (max - min < 1) step = "0.001";
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
 					dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var _confirm = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && usedObjects[_linkedStateId].common.custom[namespace].confirm == true);
 						var DialogStateSliderReadoutTimer;
 						var updateFunction = function(){
-							if (states[_linkedStateId]){
-								$("#DialogStateSlider").val(states[_linkedStateId].val);
+							var state = getStateObject(_linkedStateId);
+							if (state){
+								$("#DialogStateSlider").val(state.val);
 								$("#DialogStateSlider").slider('refresh');
 								dialogUpdateTimestamp(states[_linkedStateId]);
 							}
@@ -3801,9 +3813,10 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
-							if (states[_linkedStateId]){
-								if(typeof states[_linkedStateId].val != udef) {
-									var val = states[_linkedStateId].val.toString();
+							var state = getStateObject(_linkedStateId);
+							if (state){
+								if(typeof state.val != udef) {
+									var val = state.val.toString();
 									$("#DialogStateValueList").val(val);
 								}
 								$("#DialogStateValueList").selectmenu('refresh');
@@ -3831,8 +3844,9 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
-							if (states[_linkedStateId]){
-								$("#DialogStateString").val(states[_linkedStateId].val);
+							var state = getStateObject(_linkedStateId);
+							if (state){
+								$("#DialogStateString").val(state.val);
 								$("#DialogStateString").textinput('refresh');
 								dialogUpdateTimestamp(states[_linkedStateId]);
 							}
@@ -3854,19 +3868,24 @@ function renderDialog(deviceId){
 				if(dialogStates["LEVEL"].type == "level"){
 					var min = dialogStates["LEVEL"].min || 0;
 					var max = dialogStates["LEVEL"].max || 100;
+					var step = "1";
+					if (max - min < 100) step = "0.1";
+					if (max - min < 10) step = "0.01";
+					if (max - min < 1) step = "0.001";
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
 					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='1'/>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 						var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
 						var DialogLevelSliderReadoutTimer;
 						var updateFunction = function(){
-							if (states[_linkedLevelId]){
-								$("#DialogLevelSlider").val(states[_linkedLevelId].val);
+							var stateLevel = getStateObject(_linkedLevelId);
+							if (stateLevel){
+								$("#DialogLevelSlider").val(stateLevel.val);
 								$("#DialogLevelSlider").slider('refresh');
 								dialogUpdateTimestamp(states[_linkedLevelId]);
 							}
@@ -4020,8 +4039,9 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var updateFunction = function(){
-							if (states[_linkedStateId]){
-								if(states[_linkedStateId].val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Door opened - deactivate Doorlock
+							var state = getStateObject(_linkedStateId);
+							if (state){
+								if(state.val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Door opened - deactivate Doorlock
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", true);
 								} else {
 									$("input[name=DialogLockStateCheckboxradio]").attr("disabled", false);
@@ -4036,8 +4056,9 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedLockStateId = dialogLinkedStateIds["LOCK_STATE"];
 					var updateFunction = function(){
-						if (states[_linkedLockStateId]){
-							if(states[_linkedLockStateId].val == false || states[_linkedLockStateId].val.toString().toLowerCase() == "false" || states[_linkedLockStateId].val == 0){ //Locked
+						var stateLockState = getStateObject(_linkedLockStateId);
+						if (stateLockState){
+							if(stateLockState.val == false || stateLockState.val.toString().toLowerCase() == "false" || stateLockState.val == 0 || stateLockState.val == "0"){ //Locked
 								$("#DialogLockStateCheckboxradio_false").prop("checked", true);
 							} else { //Unlocked
 								$("#DialogLockStateCheckboxradio_true").prop("checked", true);
@@ -4059,8 +4080,9 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedLockStateUncertainId = dialogLinkedStateIds["LOCK_STATE_UNCERTAIN"];
 						var updateFunction = function(){
-							if (states[_linkedLockStateUncertainId]){
-								if(states[_linkedLockStateUncertainId].val == false || states[_linkedLockStateUncertainId].val.toString().toLowerCase() == "false" || states[_linkedLockStateUncertainId].val == 0){ //State certain
+						var stateLockStateUncertain = getStateObject(_linkedLockStateUncertainId);
+							if (stateLockStateUncertain){
+								if(stateLockStateUncertain.val == false || stateLockStateUncertain.val.toString().toLowerCase() == "false" || stateLockStateUncertain.val == 0 || stateLockStateUncertain == "0"){ //State certain
 									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogLockStateUncertainText").html("");
 								} else { //State Uncertain
 									$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogLockStateUncertainText").html("<span class='small'>" + _("Exact position uncertain") + "</span>");
@@ -4088,9 +4110,10 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 						var updateFunction = function(){
-							if (states[_linkedControlModeId]){
+							var stateControlMode = getStateObject(_linkedControlModeId);
+							if (stateControlMode){
 								var index = 0;
-								if(typeof states[_linkedControlModeId].val != udef && (states[_linkedControlModeId].val.toString().toLowerCase() == "true" || states[_linkedControlModeId].val.toString() > 0)) index = 1; else index = 0;
+								if(typeof stateControlMode.val != udef && (stateControlMode.val.toString().toLowerCase() == "true" || stateControlMode.val.toString() > 0)) index = 1; else index = 0;
 								$("#DialogThermostatControlModeSwitch")[0].selectedIndex = index;
 								$("#DialogThermostatControlModeSwitch").flipswitch('refresh');
 							}
@@ -4099,7 +4122,8 @@ function renderDialog(deviceId){
 						var bindingFunction = function(){
 							$('#DialogThermostatControlModeSwitch').on('change', function(e) {
 								var newVal = $("#DialogThermostatControlModeSwitch option:selected").val();
-								if(typeof states[_linkedControlModeId].val == 'number'){
+								var stateControlMode = getStateObject(_linkedControlModeId);
+								if(typeof stateControlMode.val == 'number'){
 									if(newVal == true) newVal = 1; else newVal = 0;
 								}
 								setState(_linkedControlModeId, _deviceId, newVal);
@@ -4122,8 +4146,9 @@ function renderDialog(deviceId){
 						var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 						var updateFunction = function(){
 							if (states[_linkedControlModeId]){
-								if(typeof states[_linkedControlModeId].val != udef) {
-									var val = states[_linkedControlModeId].val.toString();
+								var stateControlMode = getStateObject(_linkedControlModeId);
+								if(typeof stateControlMode.val != udef) {
+									var val = stateControlMode.val.toString();
 									$("#DialogThermostatControlModeValueList").val(val);
 								}
 								$("#DialogThermostatControlModeValueList").selectmenu('refresh');
@@ -4187,8 +4212,9 @@ function renderDialog(deviceId){
 					var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
 					var _valueList = dialogStates["CONTROL_MODE"].valueList;
 					var updateFunction = function(){
-						if (states[_linkedControlModeId]){
-							$("#DialogThermostatControlModeCheckboxradio_" + states[_linkedControlModeId].val).prop("checked", true);
+						var stateControlMode = getStateObject(_linkedControlModeId);
+						if (stateControlMode){
+							$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
 							$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 						}
 					};
@@ -4492,9 +4518,10 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 					var updateFunction = function(){
-						if (states[_linkedControlModeId]){
-							if(typeof states[_linkedControlModeId].val != udef) {
-								var val = states[_linkedControlModeId].val.toString();
+						var stateControlMode = getStateObject(_linkedControlModeId);
+						if (stateControlMode){
+							if(typeof stateControlMode.val != udef) {
+								var val = stateControlMode.val.toString();
 								$("#DialogControlModeValueList").val(val);
 							}
 							$("#DialogControlModeValueList").selectmenu('refresh');
@@ -4557,8 +4584,9 @@ function renderDialog(deviceId){
 					var DialogHueSliderReadoutTimer;
 					var DialogHueSliderReadoutTimer2;
 					var updateFunction = function(){
-						if (states[_linkedHueId] && typeof states[_linkedHueId].val !== udef){
-							$("#DialogHueSlider").val(states[_linkedHueId].val);
+						var stateHue = getStateObject(_linkedHueId);
+						if (stateHue && typeof stateHue.val !== udef){
+							$("#DialogHueSlider").val(stateHue.val);
 							$("#DialogHueSlider").slider('refresh');
 						} 
 					};
@@ -4608,17 +4636,19 @@ function renderDialog(deviceId){
 					var _confirm = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].confirm == true);
 					var DialogSaturationSliderReadoutTimer;
 					var updateFunction = function(){
-						if (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val !== udef){
-							$("#DialogSaturationSlider").val(states[_linkedSaturationId].val);
+						var stateSaturation = getStateObject(_linkedSaturationId);
+						if (stateSaturation && typeof stateSaturation.val !== udef){
+							$("#DialogSaturationSlider").val(stateSaturation.val);
 							$("#DialogSaturationSlider").slider('refresh');
 						}
 					};
 					if (_linkedSaturationId) dialogUpdateFunctions[_linkedSaturationId].push(updateFunction);
 					var updateHueFunction = function(){
-						var hueMin = dialogStates["HUE"] && dialogStates["HUE"].min || 0;
-						var hueMax = dialogStates["HUE"] && dialogStates["HUE"].max || 359;
-						if (states[_linkedHueId] && typeof states[_linkedHueId].val !== udef){
-							var hue = ((states[_linkedHueId].val - hueMin) / (hueMax - hueMin)) * 359;
+						var stateHue = getStateObject(_linkedHueId);
+						var hueMin = stateHue && stateHue.min || 0;
+						var hueMax = stateHue && stateHue.max || 359;
+						if (stateHue && typeof stateHue.val !== udef){
+							var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 							$("#DialogSaturationSlider + .ui-slider-track").attr('style', 'background-image: linear-gradient(to right, white, hsl(' + parseInt(hue) + ', 100%, 50%)) !important;');
 						} else {
 							$("#DialogSaturationSlider + .ui-slider-track").attr('style', '');
@@ -4660,8 +4690,9 @@ function renderDialog(deviceId){
 					var _confirm = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm == true);
 					var DialogColorBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
-						if (states[_linkedColorBrightnessId] && typeof states[_linkedColorBrightnessId].val !== udef){
-							$("#DialogColorBrightnessSlider").val(states[_linkedColorBrightnessId].val);
+						var stateColorBrightness = getStateObject(_linkedColorBrightnessId);
+						if (stateColorBrightness && typeof stateColorBrightness.val !== udef){
+							$("#DialogColorBrightnessSlider").val(stateColorBrightness.val);
 							$("#DialogColorBrightnessSlider").slider('refresh');
 						}
 					};
@@ -4704,8 +4735,9 @@ function renderDialog(deviceId){
 					var _confirm = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace].confirm !== udef && usedObjects[_linkedCtId].common.custom[namespace].confirm == true);
 					var DialogCtSliderReadoutTimer;
 					var updateFunction = function(){
-						if (states[_linkedCtId] && typeof states[_linkedCtId].val !== udef){
-							$("#DialogCtSlider").val(states[_linkedCtId].val);
+						var stateCt = getStateObject(_linkedCtId);
+						if (stateCt && typeof stateCt.val !== udef){
+							$("#DialogCtSlider").val(stateCt.val);
 							$("#DialogCtSlider").slider('refresh');
 						} 
 					};
@@ -4734,7 +4766,7 @@ function renderDialog(deviceId){
 				})(); //<--End Closure
 			}
 			//----WhiteBrightness
-			if(dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef  && ((dialogStates["COLOR_BRIGHTNESS"] && typeof dialogStates["COLOR_BRIGHTNESS"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white brightness or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
+			if(dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef  && ((dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
 				var min = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].min || 0;
 				var max = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].max || 100;
 				dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
@@ -4745,8 +4777,9 @@ function renderDialog(deviceId){
 					var _confirm = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm == true);
 					var DialogWhiteBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
-						if (states[_linkedWhiteBrightnessId] && typeof states[_linkedWhiteBrightnessId].val !== udef){
-							$("#DialogWhiteBrightnessSlider").val(states[_linkedWhiteBrightnessId].val);
+						var stateWhiteBrightness = getStateObject(_linkedWhiteBrightnessId);
+						if (stateWhiteBrightness && typeof stateWhiteBrightness.val !== udef){
+							$("#DialogWhiteBrightnessSlider").val(stateWhiteBrightness.val);
 							$("#DialogWhiteBrightnessSlider").slider('refresh');
 						}
 					};
@@ -4787,8 +4820,9 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedEffectId = dialogLinkedStateIds["EFFECT"];
 					var updateFunction = function(){
-						if (states[_linkedEffectId]){
-							if(typeof states[_linkedEffectId].val != udef) $("#DialogEffectValueList").val(states[_linkedEffectId].val.toString());
+						var stateEffectId = getStateObject(_linkedEffectId);
+						if (stateEffectId){
+							$("#DialogEffectValueList").val(stateEffectId.val.toString());
 							$("#DialogEffectValueList").selectmenu('refresh');
 						}
 					};

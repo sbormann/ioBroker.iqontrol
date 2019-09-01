@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.13",
+        "version": "0.1.14",
         "news": {
+            "0.1.14": {
+                "en": "Fixed missing dropdown-menus for images after sorting or adding items to tables, Level-Sliders will have a higher resolution for datapoints with small value ranges.",
+                "de": "Fehlende Dropdown-Menüs für Bilder nach dem Sortieren oder Hinzufügen von Elementen zu Tabellen behoben. Level-Sliders haben eine höhere Auflösung für Datenpunkte mit kleinen Wertebereichen.",
+                "ru": "Исправлено отсутствие выпадающих меню для изображений после сортировки или добавления элементов в таблицы. У ползунков уровней будет более высокое разрешение для точек данных с небольшими диапазонами значений.",
+                "pt": "Corrigidos menus suspensos ausentes para imagens após classificar ou adicionar itens às tabelas, os Level-Sliders terão uma resolução mais alta para pontos de dados com pequenos intervalos de valores.",
+                "nl": "Ontbrekende vervolgkeuzemenu's voor afbeeldingen na het sorteren of toevoegen van items aan tabellen opgelost, Niveau-schuifregelaars hebben een hogere resolutie voor datapunten met kleine waardebereiken.",
+                "fr": "Correction des menus déroulants manquants pour les images après le tri ou l'ajout d'éléments aux tableaux, les curseurs de niveau auront une résolution plus élevée pour les points de données avec de petites plages de valeurs.",
+                "it": "Risolti i menu a discesa mancanti per le immagini dopo l'ordinamento o l'aggiunta di elementi alle tabelle, i cursori di livello avranno una risoluzione più elevata per i punti dati con intervalli di valori ridotti.",
+                "es": "Se corrigieron los menús desplegables que faltaban para las imágenes después de ordenar o agregar elementos a las tablas, los controles deslizantes de nivel tendrán una resolución más alta para puntos de datos con rangos de valores pequeños.",
+                "pl": "Naprawiono brakujące menu rozwijane dla obrazów po posortowaniu lub dodaniu elementów do tabel. Suwaki poziomu będą miały wyższą rozdzielczość dla punktów danych o małych zakresach wartości.",
+                "zh-cn": "修复了在对表格进行排序或添加项目后图像丢失的下拉菜单，对于具有较小值范围的数据点，Level-Sliders具有更高的分辨率。"
+            },
             "0.1.13": {
-                "en": "Fixed crash of frontend, Security updates."
+                "en": "Fixed crash of frontend, Security updates.",
+                "de": "Absturz des Frontends, Sicherheitsupdates behoben.",
+                "ru": "Исправлено падение интерфейса, обновления безопасности.",
+                "pt": "Corrigida falha no frontend, atualizações de segurança.",
+                "nl": "Crash van frontend opgelost, beveiligingsupdates.",
+                "fr": "Correction du crash de l'interface, mises à jour de sécurité.",
+                "it": "Risolto crash del frontend, aggiornamenti di sicurezza.",
+                "es": "Se corrigió el bloqueo de la interfaz, actualizaciones de seguridad.",
+                "pl": "Naprawiono awarię interfejsu użytkownika, aktualizacje zabezpieczeń.",
+                "zh-cn": "修复了前端崩溃，安全更新。"
             },
             "0.1.12": {
                 "en": "Added width and height to options for popup, Added option to define free CSS-code to modify frontend, Infotext-values are now displayed as plain text or rounded if numbers, Added 'Close dialog after execution' to device options for scenes, programs and buttons.",

@@ -97,7 +97,8 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 * Set Readonly-Flag
 * Set Invert-Flag
 * Set a datapoint id, where target values are written to (if you have different data points for the actual and the target value)
-* Modify unit of datapoint
+* Modify unit of datapoint, seperate for zero, singular and plural values
+* Modify min and max of datapoint
 * Modify type of datapoint
 * Modify role of datapoint
 * Set or modify a Value-List
@@ -271,6 +272,10 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.1.14 (2019-09-01)
+* (Sebastian Bormann) Fixed missing dropdown-menus for images after sorting or adding items to tables.
+* (Sebastian Bormann) Level-Sliders will have a higher resolution for datapoints with small value ranges.
 
 ### 0.1.13 (2019-08-28)
 * (Sebastian Bormann) Fixed crash of frontend.

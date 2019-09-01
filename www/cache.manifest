@@ -1,7 +1,7 @@
 CACHE MANIFEST
 
 # iQontrol
-# Version 0.1.8
+# Version 0.1.14
 
 
 CACHE:
@@ -17,7 +17,7 @@ CACHE:
 ./images/startup-images/ipadpro1_splash.png
 ./images/startup-images/ipadpro3_splash.png
 ./images/startup-images/ipadpro2_splash.png
-./index.css
+#./index.css
 ./jquery/jquery.mobile-1.4.5.min.css
 ./jquery/plugins/ptrLight.min.css
 ./jquery/jquery-1.11.3.min.js
@@ -28,7 +28,7 @@ CACHE:
 ./jquery/plugins/jquery.pressure.min.js
 ./../../lib/js/socket.io.js
 ./../../lib/js/translate.js
-./words.js
+#./words.js
 ./conn.js
 #./index.js
 #./index.html
