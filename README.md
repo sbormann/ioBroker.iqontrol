@@ -273,6 +273,11 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.1.15 (2019-09-05)
+* (Sebastian Bormann) Added step to custom dialog, wich allowes to define the resolution of value-sliders.
+* (Sebastian Bormann) Values with unit % and a range from min to max of 0-1 are now scaled to 0-100.
+* (Sebastian Bormann) Fixed conversion to alternative colorspace for hue lights.
+
 ### 0.1.14 (2019-09-01)
 * (Sebastian Bormann) Fixed missing dropdown-menus for images after sorting or adding items to tables.
 * (Sebastian Bormann) Level-Sliders will have a higher resolution for datapoints with small value ranges.

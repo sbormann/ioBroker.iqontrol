@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.14",
+        "version": "0.1.15",
         "news": {
+            "0.1.15": {
+                "en": "Added step to custom dialog, wich allowes to define the resolution of value-sliders, Values with unit % and a range from min to max of 0-1 are now scaled to 0-100, Fixed conversion to alternative colorspace for hue lights.",
+                "de": "Schritt zum benutzerdefinierten Dialogfeld hinzugefügt, mit dem die Auflösung von Wertereglern definiert werden kann. Werte mit der Einheit% und einem Bereich von min bis max von 0-1 werden jetzt auf 0-100 skaliert. Die Umwandlung in einen alternativen Farbraum für Farbtonlichter wurde korrigiert.",
+                "ru": "Добавлен шаг в пользовательский диалог, который позволяет определять разрешение ползунков значений, Значения с единицей измерения% и диапазоном от мин. До макс. 0-1 теперь масштабируются до 0-100, Исправлено преобразование в альтернативное цветовое пространство для подсветки оттенка.",
+                "pt": "Adicionada etapa à caixa de diálogo personalizada, que permite definir a resolução dos controles deslizantes de valor, valores com% unitário e um intervalo de min a max de 0-1 agora são redimensionados para 0-100, conversão fixa em espaço de cores alternativo para luzes de matiz.",
+                "nl": "Stap toegevoegd aan aangepast dialoogvenster, waarmee de resolutie van waardeschuifregelaars kan worden gedefinieerd, waarden met eenheids% en een bereik van min tot max van 0-1 worden nu geschaald naar 0-100, vaste conversie naar alternatieve kleurruimte voor tintlichten.",
+                "fr": "Ajout d’une étape à la boîte de dialogue personnalisée, qui permet de définir la résolution des curseurs de valeur, les valeurs avec% unité et une plage de min à max de 0-1 sont maintenant redimensionnées à 0-100, conversion fixe en espace colorimétrique alternatif pour les éclairages de teinte.",
+                "it": "Aggiunto passaggio alla finestra di dialogo personalizzata, che consente di definire la risoluzione dei cursori di valore, i valori con% unità e un intervallo da min a max 0-1 sono ora ridimensionati a 0-100, conversione fissa in spazio colore alternativo per le luci tonalità.",
+                "es": "Se agregó un paso al diálogo personalizado, que permite definir la resolución de los controles deslizantes de valores, los valores con% de unidad y un rango de mínimo a máximo de 0-1 ahora se escalan a 0-100, conversión fija a espacio de color alternativo para luces de tono.",
+                "pl": "Dodano krok do niestandardowego okna dialogowego, które pozwala zdefiniować rozdzielczość suwaków wartości, Wartości z jednostką% i zakresem od min do maks. 0-1 są teraz skalowane do 0-100, Naprawiono konwersję do alternatywnej przestrzeni kolorów dla świateł odcienia.",
+                "zh-cn": "添加了自定义对话框的步骤，允许定义值滑块的分辨率，单位为％的值和最小值为0到1的范围现在缩放为0-100，固定转换为色调灯的替代色彩空间。"
+            },
             "0.1.14": {
                 "en": "Fixed missing dropdown-menus for images after sorting or adding items to tables, Level-Sliders will have a higher resolution for datapoints with small value ranges.",
                 "de": "Fehlende Dropdown-Menüs für Bilder nach dem Sortieren oder Hinzufügen von Elementen zu Tabellen behoben. Level-Sliders haben eine höhere Auflösung für Datenpunkte mit kleinen Wertebereichen.",

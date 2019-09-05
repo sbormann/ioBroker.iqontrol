@@ -723,33 +723,51 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
 			switch(typeof newValue){
 				case "boolean":
-					console.log("Inverting boolean value for state " + stateId + " from " + newValue + "...");
+					console.log("       Inverting boolean value for state " + stateId + " from " + newValue + "...");
 					newValue = !newValue;
 					states[stateId].isInverted = false;
-					console.log("...to " + newValue);
+					console.log("       ...to " + newValue);
 					break;
 					
 				case "number":
-				console.log("Inverting number value for state " + stateId + " from " + newValue + "...");
+				console.log("       Inverting number value for state " + stateId + " from " + newValue + "...");
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") result.min = usedObjects[stateId].common.custom[namespace].min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") var min = usedObjects[stateId].common.custom[namespace].min;
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") result.max = usedObjects[stateId].common.custom[namespace].max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") var max = usedObjects[stateId].common.custom[namespace].max;
 				if(typeof min !== udef && typeof max !== udef){
 					newValue = max - (newValue - min);
 					states[stateId].isInverted = false;
-					console.log("...to " + newValue);
+					console.log("       ...to " + newValue);
 				} else {
-					console.log("...aborted inverting, because min or max is missing");
+					console.log("       ...aborted inverting, because min or max is missing");
 				}
 				break;
 				
 				case "string":
-				console.log("Inverting string value for state " + stateId + " is not supported!");
+				console.log("       Inverting string value for state " + stateId + " is not supported!");
 				break;	
 
 				default:
-				console.log("Inverting value for state " + stateId + " is impossible - type not known: " + typeof newValue);
+				console.log("       Inverting value for state " + stateId + " is impossible - type not known: " + typeof newValue);
+			}
+		}
+		//----Scale % from 0-100 if min-max=0-1
+		if(typeof newValue == "number") {
+			var unit = "";
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
+			if (unit == "%") {
+				var min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) min = usedObjects[stateId].common.min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
+				var max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) max = usedObjects[stateId].common.max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
+				if (min == 0 && max == 1){
+					newValue = newValue / 100;
+					console.log("       Scaled %-Value to: " + newValue);
+				}
 			}
 		}
 		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
@@ -984,7 +1002,12 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			
 			case "number":
 			if (typeof result.val !== 'number' && !isNaN(result.val)) result.val = parseFloat(result.val);
-			break;
+			//----Scale % to 0-100 if min-max=0-1
+ 			if (typeof result.unit !== udef && result.unit == "%" && typeof result.min !== udef && result.min == 0 && typeof result.max !== udef && result.max ==1) {
+				result.val = result.val * 100;
+				result.max = 100;
+			}
+ 			break;
 			
 			case "boolean":
 			if (typeof result.val !== 'boolean'){
@@ -1356,35 +1379,35 @@ function convertToAlternativeColorspace(deviceId, linkedHueId, linkedSaturationI
 	var alternativeColorspace = (typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.alternativeColorspace != udef && usedObjects[deviceId].native.alternativeColorspace) || "";
 	var alternativeColorspaceResult = convertFromAlternativeColorspace(deviceId, linkedAlternativeColorspaceValueId, linkedHueId, linkedSaturationId, linkedColorBrightnessId, linkedCtId, linkedWhiteBrightnessId);
 	var hue = null;
-	var stateHue = getStateObject[linkedHueId];
+	var stateHue = getStateObject(linkedHueId);
 	if (stateHue && typeof stateHue.val != udef) {
 		var hueMin = stateHue.min || 0;
 		var hueMax = stateHue.max || 359;
 		hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 	} else if (alternativeColorspaceResult.hue !== null) hue = alternativeColorspaceResult.hue;
 	var	saturation = null;
-	var stateSaturation = getStateObject[linkedSaturationId];
+	var stateSaturation = getStateObject(linkedSaturationId);
 	if (stateSaturation && typeof stateSaturation.val != udef) {
 		var saturationMin = stateSaturation.min || 0;
 		var saturationMax = stateSaturation.max || 100;
 		saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
 	} else if (alternativeColorspaceResult.saturation !== null) saturation = alternativeColorspaceResult.saturation;
 	var	colorBrightness = null;
-	var stateColorBrightness = getStateObject[linkedColorBrightnessId];
+	var stateColorBrightness = getStateObject(linkedColorBrightnessId);
 	if (stateColorBrightness && typeof stateColorBrightness.val != udef) {
 		var colorBrightnessMin = stateColorBrightness.min || 0;
 		var colorBrightnessMax = stateColorBrightness.max || 100;
 		colorBrightness = ((stateColorBrightness.val - colorBrightnessMin) / (colorBrightnessMax - colorBrightnessMin)) * 100;
 	} else if (alternativeColorspaceResult.colorBrightness !== null) colorBrightness = alternativeColorspaceResult.colorBrightness;
 	var	ct = null;
-	var stateCt = getStateObject[linkedCtId];
+	var stateCt = getStateObject(linkedCtId);
 	if (stateCt && typeof stateCt.val != udef) {
 		var ctMin = stateCt.min || 0;
 		var ctMax = stateCt.max || 100;
 		ct = ((stateCt.val - ctMin) / (ctMax - ctMin)) * 100;
 	} else if (alternativeColorspaceResult.ct !== null) ct = alternativeColorspaceResult.ct;
 	var	whiteBrightness = null;
-	var stateWhiteBrightness = getStateObject[linkedWhiteBrightnessId];
+	var stateWhiteBrightness = getStateObject(linkedWhiteBrightnessId);
 	if (stateWhiteBrightness && typeof stateWhiteBrightness.val != udef) {
 		var whiteBrightnessMin = stateWhiteBrightness.min || 0;
 		var whiteBrightnessMax = stateWhiteBrightness.max || 100;
@@ -1523,31 +1546,31 @@ function convertFromAlternativeColorspace(deviceId, linkedAlternativeColorspaceV
 		break;				
 	}
 	if(result.hue != null){
-		var stateHue = getStateObject[linkedHueId];
+		var stateHue = getStateObject(linkedHueId);
 		var hueMin = stateHue && stateHue.min || 0;
 		var hueMax = stateHue && stateHue.max || 359;
 		result.hue = Math.round((result.hue/359 * (hueMax - hueMin)) + hueMin);
 	} 
 	if(result.saturation != null){
-		var stateSaturation = getStateObject[linkedSaturationId];
+		var stateSaturation = getStateObject(linkedSaturationId);
 		var saturationMin = stateSaturation && stateSaturation.min || 0;
 		var saturationMax = stateSaturation && stateSaturation.max || 100;
 		result.saturation = Math.round((result.saturation/100 * (saturationMax - saturationMin)) + saturationMin);
 	} 
 	if(result.colorBrightness != null){
-		var stateColorBrightness = getStateObject[linkedColorBrightnessId];
+		var stateColorBrightness = getStateObject(linkedColorBrightnessId);
 		var colorBrightnessMin = stateColorBrightness && stateColorBrightness.min || 0;
 		var colorBrightnessMax = stateColorBrightness && stateColorBrightness.max || 100;
 		result.colorBrightness = Math.round((result.colorBrightness/100 * (colorBrightnessMax - colorBrightnessMin)) + colorBrightnessMin);
 	} 
 	if(result.ct != null){
-		var stateCt = getStateObject[linkedCtId];
+		var stateCt = getStateObject(linkedCtId);
 		var ctMin = stateCt && stateCt.min || 0;
 		var ctMax = stateCt && stateCt.max || 100;
 		result.ct = Math.round((result.ct/100 * (ctMax - ctMin)) + ctMin);
 	} 
 	if(result.whiteBrightness != null){
-		var stateWhiteBrightness = getStateObject[linkedWhiteBrightnessId];
+		var stateWhiteBrightness = getStateObject(linkedWhiteBrightnessId);
 		var whiteBrightnessMin = stateWhiteBrightness && stateWhiteBrightness.min || 0;
 		var whiteBrightnessMax = stateWhiteBrightness && stateWhiteBrightness.max || 100;
 		result.whiteBrightness = Math.round((result.whiteBrightness/100 * (whiteBrightnessMax - whiteBrightnessMin)) + whiteBrightnessMin);
@@ -3758,6 +3781,7 @@ function renderDialog(deviceId){
 					if (max - min < 100) step = "0.1";
 					if (max - min < 10) step = "0.01";
 					if (max - min < 1) step = "0.001";
+					if(usedObjects[dialogLinkedStateIds["STATE"]] && typeof usedObjects[dialogLinkedStateIds["STATE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step.toString();
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
@@ -3872,6 +3896,7 @@ function renderDialog(deviceId){
 					if (max - min < 100) step = "0.1";
 					if (max - min < 10) step = "0.01";
 					if (max - min < 1) step = "0.001";
+					if(usedObjects[dialogLinkedStateIds["LEVEL"]] && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step.toString();
 					var type = "Level";
 					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
 					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
@@ -4574,9 +4599,14 @@ function renderDialog(deviceId){
 			if(dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef){
 				var min = dialogStates["HUE"] && dialogStates["HUE"].min || 0;
 				var max = dialogStates["HUE"] && dialogStates["HUE"].max || 359;
+				var step = "1";
+				if (max - min < 100) step = "0.1";
+				if (max - min < 10) step = "0.01";
+				if (max - min < 1) step = "0.001";
+				if(usedObjects[dialogLinkedStateIds["HUE"]] && typeof usedObjects[dialogLinkedStateIds["HUE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step.toString();
 				dialogContent += "<hr>";
 				dialogContent += "<label for='DialogHueSlider' ><image src='./images/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
-				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + ((dialogStates["HUE"] && dialogStates["HUE"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='1'/>";
+				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + ((dialogStates["HUE"] && dialogStates["HUE"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedHueId = dialogLinkedStateIds["HUE"];
@@ -4627,6 +4657,11 @@ function renderDialog(deviceId){
 			if(dialogStates["SATURATION"] && typeof dialogStates["SATURATION"].val !== udef && dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef){
 				var min = dialogStates["SATURATION"] && dialogStates["SATURATION"].min || 0;
 				var max = dialogStates["SATURATION"] && dialogStates["SATURATION"].max || 100;
+				var step = "1";
+				if (max - min < 100) step = "0.1";
+				if (max - min < 10) step = "0.01";
+				if (max - min < 1) step = "0.001";
+				if(usedObjects[dialogLinkedStateIds["SATURATION"]] && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step.toString();
 				dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
 				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + ((dialogStates["SATURATION"] && dialogStates["SATURATION"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -4682,6 +4717,11 @@ function renderDialog(deviceId){
 			if(dialogStates["COLOR_BRIGHTNESS"] && typeof dialogStates["COLOR_BRIGHTNESS"].val !== udef  && ((dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white brightness or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
 				var min = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].min || 0;
 				var max = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].max || 100;
+				var step = "1";
+				if (max - min < 100) step = "0.1";
+				if (max - min < 10) step = "0.01";
+				if (max - min < 1) step = "0.001";
+				if(usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]] && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step.toString();
 				dialogContent += "<label for='DialogColorBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of color") + ":</label>";
 				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + ((dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -4724,6 +4764,11 @@ function renderDialog(deviceId){
 			if(dialogStates["CT"]  && typeof dialogStates["CT"].val !== udef){
 				var min = dialogStates["CT"] && dialogStates["CT"].min || 0;
 				var max = dialogStates["CT"] && dialogStates["CT"].max || 100;
+				var step = "1";
+				if (max - min < 100) step = "0.1";
+				if (max - min < 10) step = "0.01";
+				if (max - min < 1) step = "0.001";
+				if(usedObjects[dialogLinkedStateIds["CT"]] && typeof usedObjects[dialogLinkedStateIds["CT"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step.toString();
 				var invertCt = false;
 				if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.invertCt != udef && usedObjects[deviceId].native.invertCt == "true") invertCt = !invertCt;
 				dialogContent += "<hr>";
@@ -4769,6 +4814,11 @@ function renderDialog(deviceId){
 			if(dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef  && ((dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
 				var min = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].min || 0;
 				var max = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].max || 100;
+				var step = "1";
+				if (max - min < 100) step = "0.1";
+				if (max - min < 10) step = "0.01";
+				if (max - min < 1) step = "0.001";
+				if(usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]] && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step.toString();
 				dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
 				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + ((dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
