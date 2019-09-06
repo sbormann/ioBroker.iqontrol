@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.1.15",
+        "version": "0.2.0",
         "news": {
+            "0.2.0": {
+                "en": "Added slats level to blind.",
+                "de": "Lamellenhöhe für Blinde hinzugefügt.",
+                "ru": "Добавлен уровень планок для слепых.",
+                "pt": "Adicionado nível de ripas para cegar.",
+                "nl": "Lattenniveau toegevoegd aan blind.",
+                "fr": "Ajout du niveau des lamelles à aveugle.",
+                "it": "Aggiunto livello di stecche per non vedenti.",
+                "es": "Nivel de listones agregado a ciego.",
+                "pl": "Dodano poziom listew do blindów.",
+                "zh-cn": "增加了盲板级别。"
+            },
             "0.1.15": {
                 "en": "Added step to custom dialog, wich allowes to define the resolution of value-sliders, Values with unit % and a range from min to max of 0-1 are now scaled to 0-100, Fixed conversion to alternative colorspace for hue lights.",
                 "de": "Schritt zum benutzerdefinierten Dialogfeld hinzugefügt, mit dem die Auflösung von Wertereglern definiert werden kann. Werte mit der Einheit% und einem Bereich von min bis max von 0-1 werden jetzt auf 0-100 skaliert. Die Umwandlung in einen alternativen Farbraum für Farbtonlichter wurde korrigiert.",

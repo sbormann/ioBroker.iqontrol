@@ -230,7 +230,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png", default: ""},
@@ -2761,6 +2761,30 @@ function renderView(id, updateOnly, callback){
 							}
 							break;
 
+							case "iQontrolBlind": 
+							if (deviceLinkedStateIds["SLATS_LEVEL"]){
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/slats.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
+									var _linkedSlatsLevelId = deviceLinkedStateIds["SLATS_LEVEL"];
+									viewUpdateFunctions[_linkedSlatsLevelId].push(function(){
+										var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
+										if (stateSlatsLevel && typeof stateSlatsLevel.val !== udef){
+											var val = stateSlatsLevel.plainText;
+											var unit = stateSlatsLevel.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (stateSlatsLevel.plainText == stateSlatsLevel.val) val = val + unit;
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").hide();
+										}
+									});
+								})(); //<--End Closure
+							}
+							break;
+
 							case "iQontrolLight":
 							if (deviceLinkedStateIds["HUE"] || deviceLinkedStateIds["CT"] || deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' style='display:none;' src='./images/color.png'>";
@@ -4016,6 +4040,55 @@ function renderDialog(deviceId){
 				}
 				dialogContent += "</div></center>";
 			}
+			//----Slats
+			if(dialogStates["SLATS_LEVEL"]){
+				if(dialogStates["SLATS_LEVEL"].type == "level"){
+					var min = dialogStates["SLATS_LEVEL"].min || 0;
+					var max = dialogStates["SLATS_LEVEL"].max || 100;
+					var step = "1";
+					if (max - min < 100) step = "0.1";
+					if (max - min < 10) step = "0.01";
+					if (max - min < 1) step = "0.001";
+					if(usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]] && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step.toString();
+					var type = "Slats";
+					dialogContent += "<label for='DialogSlatsLevelSlider' ><image src='./images/slats.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["SLATS_LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogSlatsLevelSlider' id='DialogSlatsLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceId = deviceId;
+						var _linkedSlatsLevelId = dialogLinkedStateIds["SLATS_LEVEL"];
+						var _confirm = (usedObjects[_linkedSlatsLevelId] && typeof usedObjects[_linkedSlatsLevelId].common !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm == true);
+						var DialogSlatsLevelSliderReadoutTimer;
+						var updateFunction = function(){
+							var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
+							if (stateSlatsLevel){
+								$("#DialogSlatsLevelSlider").val(stateSlatsLevel.val);
+								$("#DialogSlatsLevelSlider").slider('refresh');
+								dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+							}
+						};
+						dialogUpdateFunctions[_linkedSlatsLevelId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogSlatsLevelSlider').slider({
+								start: function(event, ui){
+									clearInterval(DialogSlatsLevelSliderReadoutTimer);
+									if (!_confirm) {
+										DialogSlatsLevelSliderReadoutTimer = setInterval(function(){
+											setState(_linkedSlatsLevelId, _deviceId, $("#DialogSlatsLevelSlider").val());
+											dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+										}, 500);
+									}
+								},
+								stop: function(event, ui) {
+									clearInterval(DialogSlatsLevelSliderReadoutTimer);
+									setState(_linkedSlatsLevelId, _deviceId, $("#DialogSlatsLevelSlider").val());
+									dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+								}
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}			
 			break;
 			
 			case "iQontrolGarageDoor":
