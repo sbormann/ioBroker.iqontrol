@@ -273,6 +273,8 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+### 0.2.1 (2019-09-07)
+* (Sebastian Bormann) Fixed crash of Backend (interchanged index_m.html and custom_m.html).
 
 ### 0.2.0 (2019-09-06)
 * (Sebastian Bormann) Added slats level to blind.

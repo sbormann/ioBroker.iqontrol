@@ -57,7 +57,7 @@
 			<br>
 			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
 		</div>
-	</div>
+	</div> 
 	<div class="row">
 		<div class="col s4">
 		</div>
@@ -74,6 +74,16 @@
 		<div class="input-field col s8">
 			<input type="number" class="enableOnChange" data-field="max">
 			<span class="translate">Maximum</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
+			<input type="number" class="enableOnChange" min="0" max="100000" step="0.0001" data-field="step">
+			<span class="translate">Step</span>
 			<br>
 			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
 		</div>
@@ -178,6 +188,7 @@
 				unit_one:		(obj && obj.common && obj.common.unit) || "",
 				min:			(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
 				max:			(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
+				step:			"",
 				type:			(obj && obj.common && obj.common.type) || "",
 				role:			(obj && obj.common && obj.common.role) || "",
 				targetValueId:	"",

@@ -1,276 +1,1509 @@
-<script type="text/x-iobroker" data-template-name="iqontrol">
-	<div class="row">
-		<div class="input-field col s4">
-			<input type="checkbox" data-field="enabled" data-default="false"/>
-			<!-- this field is mandatory, just to find out if to include this settings or not</span-->
-			<span class="translate">enabled</span>
-		</div>
-		<div class="input-field col s8">
-			<input type="checkbox" class="enableOnChange" data-field="readonly">
-			<span class="translate">Readonly</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="checkbox" class="enableOnChange" data-field="invert">
-			<span class="translate">Invert</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for booleans and for numbers with defined min and max)</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="checkbox" class="enableOnChange" data-field="confirm">
-			<span class="translate">Confirm</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(before sending a state a confirmation-box is showed)</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="text" class="enableOnChange" data-field="unit">
-			<span class="translate">Unit</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="text" class="enableOnChange" data-field="unit_zero">
-			<span class="translate">Unit (if value is 0)</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="text" class="enableOnChange" data-field="unit_one">
-			<span class="translate">Unit (if value is 1)</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
-		</div>
-	</div> 
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="number" class="enableOnChange" data-field="min">
-			<span class="translate">Minimum</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="number" class="enableOnChange" data-field="max">
-			<span class="translate">Maximum</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="number" class="enableOnChange" min="0" max="100000" step="0.0001" data-field="step">
-			<span class="translate">Step</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-        <div class="input-field col s8">
-            <select data-field="type" class="enableOnChange" >
-                <option value=""          		class="translate"></option>
-                <option value="string"          class="translate">String</option>
-                <option value="number"    		class="translate">Number</option>
-                <option value="boolean"    		class="translate">Boolean</option>
-                <!--option value="object"    	class="translate">Object</option-->
-                <!--option value="array"    	class="translate">Array</option-->
-                <!--option value="mixed"    	class="translate">Mixed</option-->
-            </select>
-            <span class="translate">Type</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(overwrites common.type property)</span>
-        </div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-        <div class="input-field col s8">  
-            <select data-field="role" class="enableOnChange">
-                <option value=""          				class="translate"></option>
-                <option value="state"    				class="translate">State (state)</option>
-                <option value="level"    				class="translate">Level (level)</option>
-                <option value="switch"    				class="translate">Switch (switch)</option>
-				<option value="sensor.window"    		class="translate">Window/Door sensor (sensor.window)</option>
-                <option value="sensor.alarm"    		class="translate">Alarmsensor (sensor.alarm)</option>
-                <option value="sensor.alarm.fire" 		class="translate">Firesensor (sensor.alarm.fire)</option>
-                <!--option value="indicator.state"      class="translate">Indicator (indicator.state)</option-->
-            </select>
-            <span class="translate">Role</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(overwrites common.role property)</span>
-        </div>
-	</div>
-	<div class="row">
-		<div class="col s4">
-		</div>
-		<div class="input-field col s8">
-			<input type="text" class="enableOnChange" data-field="targetValueId">
-			<span class="translate">Write target values to this Datapoint ID</span>
-			<br>
-			<span class="translate" style="font-size: 75%;">(if you have different data points for the actual and the target value)</span>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s12 tableStates">
-			<div class="row">
-				<h6 class="translate">Value-List:</h6>
+<html>
+<head>
+	<!-- iQontrol - Copyright (c) by Sebatian Bormann -->
+	<!-- Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information -->
+
+	<!-- Load ioBroker scripts and styles-->
+	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/fancytree/ui.fancytree.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../../lib/js/jquery.fancytree-all.min.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/selectID.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+	<!-- Load own files -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="./materialize-colorpicker/css/materialize-colorpicker.min.css" />
+	<script type="text/javascript" src="./materialize-colorpicker/js/materialize-colorpicker.min.js"></script>
+	<script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="conn.js"></script>
+	<script type="text/javascript" src="index_m.js"></script>
+
+	<style>
+		.modal { max-height:85% !important; max-width:95% !important; width:80% !important; height:80% !important; overflow: visible !important;}
+		.dialog-select-container {max-height: 90% !important;}
+		.m .page {height: auto !important; min-height:75% !important;}
+		#tableViews .dropdown-content {width: auto !important;}
+		#tableDevices .dropdown-content {width: auto !important;}
+		.validateOnlyError.valid { border-bottom: 1px solid #9e9e9e !important; box-shadow: none !important;}
+		.inputClear, .selectClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
+		.combobox{ position: relative; }
+		.comboboxDropdownTrigger{ display: block !important; position: absolute !important; right: 0px !important; top: 0px !important; margin: 0px !important; padding: 0px !important; }
+	</style>
+</head>
+
+<body>
+	<!-- ++++++++++ TABS ++++++++++ -->
+	<div class="m adapter-container">
+		<div class="row">
+			<div class="col s12 m4 l2">
+				<img src="iqontrol.png" class="logo">
 			</div>
-			<div class="row">
-				<div class="col s2 m1 l1 center">
-					<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-						<i class="material-icons">add</i>
-					</button>
+		</div>
+
+		<div class="row">
+			<div class="col s12">
+				<ul class="tabs hideOnLoad" id="QontrolTabs" style="display: none;">
+					<li class="tab col s2"><a href="#tabMain" class="translate active">Start</a></li>
+					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
+					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
+					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
+					<li class="tab col s2"><a href="#tabImages" class="translate">Images</a></li>
+					<li class="tab col s2"><a href="#tabOptions" class="translate">Options</a></li>
+				</ul>
+			</div>
+
+			<!-- ++++++++++ TAB: Main ++++++++++ -->
+			<div id="tabMain"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Start</h6>
+					</div>
+				</div>
+				<div class="row showOnLoad">
+					<div class="col s12">
+						<p class="translate">Loading settings...</p>
+					</div>
+				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<p>
+							<span class="translate">Start setting up your interface by:</span>
+							<ol>
+								<li><span class="translate">Start creating views.</span><br>
+											<span class="translate">You can consider views as something like a page.</span></li>
+									<li><span class="translate">Then create devices on these views.</span><br>
+											<span class="translate">Devices have a role, that determines the function of the device, which icons are used and so on.</span><br>
+											<span class="translate">Depending on that role you can link several states to the device. These will give the device its functionality.</span><br>
+											<span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span><br>
+											<span class="translate">You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</span></li>
+									<li><span class="translate">Afterwards you can create a toolbar, which is displayed as footer.</span><br>
+											<span class="translate">Toolbar-Entrys are links to views.</span><br>
+											<span class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</span></li>
+									<li><span class="translate">To give everything a fancy style, you can upload your own images.</span><br>
+											<span class="translate">You can use your images as background-images for views, or for devices.</span><br>
+											<span class="translate">Images in the folder '/usericons' can be used as icons for devices.</span><br>
+											<span class="translate">The free builtin demo-wallpapers are from www.pexels.com.</span></li>
+							</ol>
+						</p>
+					</div>
+				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<br><br>
+						<a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i><span class="translate">Open iQontrol</span></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<br><br>
+						<p><i class="material-icons left">error</i><span class="translate">You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!</span></p>
+					</div>
+				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<br>
+						<p style="font-size: small;">(C) Sebastian Bormann</p>
+					</div>
 				</div>
 			</div>
-			<div class="col s12 m12 l12">
-				<table class="table-values" style="width: 90%;">
-					<thead>
-						<tr>
-							<th data-name="key" class="translate">Key</th>
-							<th data-name="value" class="translate">Value</th>
-							<th data-buttons="up down delete" style="width:150px;"></th>
-						</tr>
-					</thead>
-				</table>
+
+			<!-- ++++++++++ TAB: Views ++++++++++ -->
+			<div id="tabViews"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Views</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableViews">
+					<div class="row">
+						<div class="col s2 m1 l1 center">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="commonName" class="translate">Name</th>
+									<th data-name="nativeBackgroundImage" xdata-type="select" class="translate">Background Image</th>
+									<th data-buttons="up down delete" style="width:150px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 center">
+						<h5 id="viewsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! View Names must be unique.</h5>
+					</div>
+				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Devices ++++++++++ -->
+			<div id="tabDevices"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select View to edit</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s10 m6 l4">
+						<select class="value" id="devicesSelectedView">
+						</select>
+						<label for="devicesSelectedView" class="translate"></label>
+						<span class="translate">View to edit</span>
+					</div>
+				</div>
+				<div class="row divDevicesNothingSelected" style="min-height: 500px;">
+					<div class="col s12">
+						<h6 class="translate sub-title" style="display: none;">Please select a device to edit</h6><!-- Placeholder - needed to fix issue with unscrollable selectbox -->
+					</div>
+				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s12">
+						<h6 class="translate sub-title">Operations</h6>
+					</div>
+				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s12">
+						<a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
+						<a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
+					</div>
+				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s12">
+						<h6 class="translate sub-title">Devices of selected View</h6>
+					</div>
+				</div>
+				<div class="col s12 divDevices" id="tableDevices">
+					<div class="row">
+						<div class="col s2 m1 l1 center">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="commonName" class="translate">Name</th>
+									<th data-name="nativeHeading" class="translate">Heading</th>
+									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
+									<th data-name="nativeBackgroundImage" class="translate">Background Image</th>
+									<th data-name="nativeBackgroundImageActive" class="translate">Background Image Active</th>
+									<th data-buttons="edit up down delete" style="width:150px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row divDevices" style="display:none;">
+					<div class="col s11" style="font-size: small;">
+						<p><br></p>
+						<span class="translate">A 'Linked View' can be opened by a simple click at the following roles</span>:  
+						<span class="translate">Link to other view</span>, 
+						<span class="translate">Window</span>, 
+						<span class="translate">Door</span>, 
+						<span class="translate">Fire-Sensor</span>, 
+						<span class="translate">Temperature-Sensor</span>, 
+						<span class="translate">Humidity-Sensor</span>,  
+						<span class="translate">Brightness-Sensor</span> 
+						<span class="translate">and</span> 
+						<span class="translate">Motion-Sensor</span> 
+					</div>
+				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->
+			<div id="tabToolbar"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Toolbar</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12" id="tableToolbar">
+						<div class="row">
+							<div class="col s2 m1 l1 center">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<div class="col s12 m12 l12">
+							<table class="table-values" style="width: 90%;">
+								<thead>
+									<tr>
+										<th data-name="commonName" class="translate">Name</th>
+										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
+										<th data-name="nativeIcon" data-type="select" class="translate" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
+										<th data-buttons="up down delete" style="width:150px;"></th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate">Homepage</h6>
+						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate">Icons</h6>
+						<img src='jQueryIcons.jpg' alt='jQuery Icons'>
+					</div>
+				</div>
+			</div>
+
+			<!-- ++++++++++ TAB: Images ++++++++++ -->
+			<div id="tabImages"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Images</h6>
+					</div>
+				</div>
+				<div class="row showOnLoad">
+					<div class="col s12">
+						<p class="translate">Loading images...</p>
+					</div>
+				</div>
+				<div class = "row hideOnLoad">
+					<div class="col s8 m6">
+						<form id="imagesUploadFileForm">
+							<label class="translate">Select or drop file(s) to upload here:</label>
+							<div class="file-field input-field">
+								<div class="btn">
+									<span class="translate">Browse</span>
+									<input type="file" multiple accept="image/png, image/jpeg, image/jpg, image/gif" id="imagesUploadFile" name="imagesUploadFile" />
+								</div>
+								<div class="file-path-wrapper">
+									<input class="file-path validate" type="text" />
+								</div>
+							</div>
+							<div class="progress" id="imagesUploadFileFormProgress" style="display:none;">
+								<div class="indeterminate"></div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class = "row hideOnLoad">
+					<div class="col s12">
+						<a class="waves-effect waves-light btn disabled" id="imagesUploadFileSubmit"><i class="material-icons left">cloud_upload</i><span class="translate">Upload file(s) here</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadCreateDir"><i class="material-icons left">add_box</i><span class="translate">Create Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadRenameDir"><i class="material-icons left">edit</i><span class="translate">Rename Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadDeleteDir"><i class="material-icons left">delete_sweep</i><span class="translate">Delete Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadRefresh"><i class="material-icons left">refresh</i><span class="translate">Refresh</span></a>
+						<br><br>
+					</div>
+				</div>
+				<div class="row hideOnLoad">
+					<div class="input-field col s12">
+						<select class="value" id="imagesSelectedDir">
+						</select>
+						<label for="imagesSelectedDir" class="translate"></label>
+						<span class="translate">Actual Directory</span>
+					</div>
+				</div>
+				<div class="col s12 hideOnLoad" id="tableImages">
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-buttons="photo" class="translate">Thumbnail</th>
+									<th data-name="filename" class="translate">Filename</th>
+									<th data-buttons="edit delete_forever" style="width:150px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<br><br>
+						<p class="translate">Images in the folder '/usericons' can be used as icons for devices.</p>
+					</div>
+				</div>
+				<!--div class = "row hideOnLoad">
+					<div class="col s12">
+						<br><br><br>
+						<a class="waves-effect waves-light btn" id="imagesUploadDownloadDirAsZip"><i class="material-icons left" id="imagesUploadDownloadDirAsZipIcon">cloud_download</i><span class="translate">Download Directory</span></a>
+					</div>
+				</div-->
+			</div>
+
+			<!-- ++++++++++ TAB: Options ++++++++++ -->
+			<div id="tabOptions"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Options</h6>
+					</div>
+				</div>
+				<ul class="collapsible">
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Toolbar-Layout:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">General:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarFooterColor" placeholder="rgba(0,0,0,0)" />
+									<label for="optionsLayoutToolbarFooterColor" class="translate">Overall Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="number" min="0" max="1" step="0.05" id="optionsLayoutToolbarFooterOpacity" placeholder="0.9" />
+									<label for="optionsLayoutToolbarFooterOpacity validate validateOnlyError" class="translate">Overall Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarBorderColor" placeholder="rgb(31,31,31)" />
+									<label for="optionsLayoutToolbarBorderColor" class="translate">Border-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Unselected Elements:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarColor" placeholder="rgb(51,51,51)" />
+									<label for="optionsLayoutToolbarColor" class="translate">Unselected Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutToolbarTextColor" class="translate">Unselected Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarHoverColor" placeholder="rgb(55,55,55)" />
+									<label for="optionsLayoutToolbarHoverColor" class="translate">Unselected Hover Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarHoverTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutToolbarHoverTextColor" class="translate">Unselected Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Selected Element:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedColor" placeholder="rgb(12,80,136)" />
+									<label for="optionsLayoutToolbarSelectedColor" class="translate">Selected Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedHoverColor" placeholder="rgb(12,80,136)" />
+									<label for="optionsLayoutToolbarSelectedHoverColor" class="translate">Selected Hover Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedHoverTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutToolbarSelectedHoverTextColor" class="translate">Selected Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Caption:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutToolbarFontSize" placeholder="12.5px" />
+									<label for="optionsLayoutToolbarFontSize" class="translate">Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontFamily' id='optionsLayoutToolbarFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutToolbarFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontWeight' id='optionsLayoutToolbarFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutToolbarFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutToolbarFontStyle' id='optionsLayoutToolbarFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutToolbarFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Icons:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<select class="value" id="optionsLayoutToolbarIconPosition">
+										<option value=""  class="translate"></option>
+										<option value="bottom" class="translate">bottom</option>
+										<option value="left" class="translate">left</option>
+										<option value="right" class="translate">right</option>
+										<option value="top" class="translate">top</option>
+									</select>
+									<label for="options.layout.toolbarIconPosition" class="translate">Icon Position:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" id="optionsLayoutToolbarIconColor">
+										<option value=""  class="translate"></option>
+										<option value="white" class="translate">white</option>
+										<option value="black" class="translate">black</option>
+									</select>
+									<label for="options.layout.toolbarIconPosition" class="translate">Icon Color:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="200" id="optionsLayoutToolbarIconSize" placeholder="14px"/>
+									<label for="optionsLayoutToolbarIconSize" class="translate">Icon Size:</label>
+									<span class="helper-text" data-error="0 - 200 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarIconBackgroundColor" placeholder="rgba(0,0,0,0)" />
+									<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Icon Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="200" id="optionsLayoutToolbarIconBackgroundSize" placeholder="22px"/>
+									<label for="optionsLayoutToolbarIconBackgroundSize" class="translate">Icon Background Size:</label>
+									<span class="helper-text" data-error="0 - 200 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="100" id="optionsLayoutToolbarIconBackgroundCornerSize" placeholder="25px" />
+									<label for="optionsLayoutToolbarIconBackgroundCornerSize" class="translate">Icon Background Corner-Size:</label>
+									<span class="helper-text" data-error="0 - 100 [%]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Headers:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Main-Header:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewMainHeaderColor" placeholder="rgba(0,0,0,0.15)" />
+									<label for="optionsLayoutViewMainHeaderColor" class="translate">Main-Header Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewMainHeaderTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutViewMainHeaderTextColor" class="translate">Main-Header Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewMainHeaderFontSize" placeholder="29px"/>
+									<label for="optionsLayoutViewMainHeaderFontSize" class="translate">Main-Header Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontFamily' id='optionsLayoutViewMainHeaderFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontFamily' class="translate">Main-Header Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontWeight' id='optionsLayoutViewMainHeaderFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontWeight' class="translate">Main-Header Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewMainHeaderFontStyle' id='optionsLayoutViewMainHeaderFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewMainHeaderFontStyle' class="translate">Main-Header Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewMainHeaderPaddingTop" placeholder="0px" />
+									<label for="optionsLayoutViewMainHeaderPaddingTop" class="translate">Main-Header Padding Top:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewMainHeaderPaddingBottom" placeholder="0px" />
+									<label for="optionsLayoutViewMainHeaderPaddingBottom" class="translate">Main-Header Padding Bottom:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewMainHeaderPaddingLeft" placeholder="7px" />
+									<label for="optionsLayoutViewMainHeaderPaddingLeft" class="translate">Main-Header Padding Left:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewMainHeaderMarginTop" placeholder="20px" />
+									<label for="optionsLayoutViewMainHeaderMarginTop" class="translate">Main-Header Margin Top:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewMainHeaderMarginRight" placeholder="-5px" />
+									<label for="optionsLayoutViewMainHeaderMarginRight" class="translate">Main-Header Margin Right:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewMainHeaderMarginBottom" placeholder="20px" />
+									<label for="optionsLayoutViewMainHeaderMarginBottom" class="translate">Main-Header Margin Bottom:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewMainHeaderMarginLeft" placeholder="-5px" />
+									<label for="optionsLayoutViewMainHeaderMarginLeft" class="translate">Main-Header Margin Left:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Sub-Headers:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewSubHeaderColor" placeholder="rgba(0,0,0,0.15)" />
+									<label for="optionsLayoutViewSubHeaderColor" class="translate">Sub-Headers Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewSubHeaderTextColor" placeholder="rgb(255,255,255,0)" />
+									<label for="optionsLayoutViewSubHeaderTextColor" class="translate">Sub-Headers Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewSubHeaderFontSize" placeholder="15px" />
+									<label for="optionsLayoutViewSubHeaderFontSize" class="translate">Sub-Header Font-Size:</label>
+									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontFamily' id='optionsLayoutViewSubHeaderFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontFamily' class="translate">Sub-Header Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontWeight' id='optionsLayoutViewSubHeaderFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontWeight' class="translate">Sub-Header Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewSubHeaderFontStyle' id='optionsLayoutViewSubHeaderFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewSubHeaderFontStyle' class="translate">Sub-Header Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewSubHeaderPaddingTop" placeholder="0px" />
+									<label for="optionsLayoutViewSubHeaderPaddingTop" class="translate">Sub-Header Padding Top:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewSubHeaderPaddingBottom" placeholder="0px" />
+									<label for="optionsLayoutViewSubHeaderPaddingBottom" class="translate">Sub-Header Padding Bottom:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewSubHeaderPaddingLeft" placeholder="7px" />
+									<label for="optionsLayoutViewSubHeaderPaddingLeft" class="translate">Sub-Header Padding Left:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginTop" placeholder="30px" />
+									<label for="optionsLayoutViewSubHeaderMarginTop" class="translate">Sub-Header Margin Top:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginRight" placeholder="-5px" />
+									<label for="optionsLayoutViewSubHeaderMarginRight" class="translate">Sub-Header Margin Right:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginBottom" placeholder="0px" />
+									<label for="optionsLayoutViewSubHeaderMarginBottom" class="translate">Sub-Header Margin Bottom:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginLeft" placeholder="-5px" />
+									<label for="optionsLayoutViewSubHeaderMarginLeft" class="translate">Sub-Header Margin Left:</label>
+									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Device-Tiles:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceColor" placeholder="rgba(255,255,255,0.6)" />
+									<label for="optionsLayoutViewDeviceColor" class="translate">Inactive Devices - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewDeviceOpacity" class="translate">Inactive Devices - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceHoverColor" placeholder="rgba(255,255,255,0.6)" />
+									<label for="optionsLayoutViewDeviceHoverColor" class="translate">Inactive Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceHoverOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewDeviceHoverOpacity" class="translate">Inactive Devices, Hover - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInactiveColor" placeholder="rgba(180,180,180)" />
+									<label for="optionsLayoutViewDeviceInactiveColor" class="translate">Inactive Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveOpacity" placeholder="0.5" />
+									<label for="optionsLayoutViewDeviceInactiveOpacity" class="translate">Inactive Devices - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInactiveHoverColor" placeholder="rgba(190,190,190)" />
+									<label for="optionsLayoutViewDeviceInactiveHoverColor" class="translate">Inactive Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveHoverOpacity" placeholder="0.9" />
+									<label for="optionsLayoutViewDeviceInactiveHoverOpacity" class="translate">Inactive Devices, Hover - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewActiveDeviceColor" placeholder="rgba(255,255,255,0.6)" />
+									<label for="optionsLayoutViewActiveDeviceColor" class="translate">Active Devices - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewActiveDeviceOpacity" class="translate">Active Devices - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewActiveDeviceHoverColor" placeholder="rgba(255,255,255,0.6)" />
+									<label for="optionsLayoutViewActiveDeviceHoverColor" class="translate">Active Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceHoverOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewActiveDeviceHoverOpacity" class="translate">Active Devices, Hover - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceActiveColor" placeholder="rgba(255,255,255)" />
+									<label for="optionsLayoutViewDeviceActiveColor" class="translate">Active Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveOpacity" placeholder="0.82" />
+									<label for="optionsLayoutViewDeviceActiveOpacity" class="translate">Active Devices - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceActiveHoverColor" placeholder="rgba(255,255,255)" />
+									<label for="optionsLayoutViewDeviceActiveHoverColor" class="translate">Active Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveHoverOpacity" placeholder="0.95" />
+									<label for="optionsLayoutViewDeviceActiveHoverOpacity" class="translate">Active Devices, Hover - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Device-Text:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Device-Name:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameInactiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceNameInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceNameInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceNameActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontFamily' id='optionsLayoutViewDeviceNameFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontWeight' id='optionsLayoutViewDeviceNameFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceNameFontStyle' id='optionsLayoutViewDeviceNameFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceNameFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">State:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateInactiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceStateInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceStateInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceStateActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontFamily' id='optionsLayoutViewDeviceStateFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontWeight' id='optionsLayoutViewDeviceStateFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceStateFontStyle' id='optionsLayoutViewDeviceStateFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceStateFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Info-Text:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoInactiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceInfoInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceInfoActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontFamily' id='optionsLayoutViewDeviceInfoFontFamily'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<optgroup label="Sans-Serif">
+											<option value='Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>
+											<option value='Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>
+											<option value='"Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>
+										</optgroup>
+										<optgroup label="Serif">
+											<option value='Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>
+											<option value='Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>
+											<option value='"Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>
+										</optgroup>
+										<optgroup label="Fantasy">
+											<option value='Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>
+										</optgroup>
+										<optgroup label="Cursive">
+											<option value='"Comic Sans MS", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>
+										</optgroup>
+										<optgroup label="Monospace">
+											<option value='Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>
+										</optgroup>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontFamily' class="translate">Font-Family:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontWeight' id='optionsLayoutViewDeviceInfoFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceInfoFontStyle' id='optionsLayoutViewDeviceInfoFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceInfoFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Marquee (Scrolling of long text):</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeDisabled" />
+									<label for="optionsLayoutViewMarqueeDisabled" class="translate">Marquee disabled</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewMarqueeNamesEnabled" />
+									<label for="optionsLayoutViewMarqueeNamesEnabled" class="translate">Marquee for device-names enabled</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="1000" id="optionsLayoutViewMarqueeSpeed" placeholder="40" />
+									<label for="optionsLayoutViewMarqueeSpeed" class="translate">Marquee Speed:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Miscellaneous:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Resize Devices To Fit Screen:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenDisabled" />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenDisabled" class="translate">Resize disabled</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="1" max="5000" id="optionsLayoutViewResizeDevicesToFitScreenTreshold" placeholder="600" />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenTreshold" class="translate">Treshold in pixel (resize is disabled, if screen is bigger than this):</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" checked />
+									<label for="optionsLayoutViewResizeDevicesToFitScreenOnBigScreens" class="translate">Resize even when screen is big</label>
+									<span class="helper-text"></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">CSS (Experts only):</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<textarea class="value" id="optionsLayoutCSS" style="height: 400px; min-height: 40px; min-width: 100%; scrolling: yes; background-color: #FBFBFB;"></textarea>
+									<label for="optionsLayoutCSS" class="translate">Add your own CSS Code here:</label>
+								</div>
+							</div>
+						</div>
+
+
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
-</script>
 
-<script type="text/javascript">
-	console.log("iQontrol start");
+	<!-- ++++++++++ DIALOGS ++++++++++ -->
+    <div class="m material-dialogs">
+		<!-- DIALOG: DeviceEdit -->
+        <div id="dialogDeviceEdit" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditViewIndex" />
+                <input type="hidden" id="dialogDeviceEditDeviceIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Device:</span> <span id="dialogDeviceEditCommonName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<a class="btn-floating btn-small waves-effect waves-light" href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#description-of-roles-and-associated-states" target="_blank"><i class="material-icons">live_help</i></a>
+							<span class="translate">Select Role</span>
+						</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value icons" name='dialogDeviceEditCommonRole' id='dialogDeviceEditCommonRole'></select>
+						<label for='dialogDeviceEditCommonRole' class="translate"></label>
+						<span class="translate">Role</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Set Corresponding States</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogDeviceEditStates">
+					<div class="col s12 m12 l12">
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="state" class="translate">State</th>
+									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit openCustom" style="width:100px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<br><br>
+				<div class="divider"></div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Options</h6>
+					</div>
+				</div>
+				<div class="row" id="dialogDeviceEditOptionsContent">
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
 
-	//Declarations
-	var states = {};
+		<!-- DIALOG: DeviceEditStateConstant -->
+        <div id="dialogDeviceEditStateConstant" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditStateConstantIndex" />
+                <div class="row" style="height: 100%; overflow: hidden; margin: 0px;">
+                    <div class="col s12">
+						<h6 class="title"><span class="translate">Edit Constant:</span> <span id="dialogDeviceEditStateConstantName"></span></h6>
+					</div>
+                    <div class="input-field col s12">
+						<textarea id="dialogDeviceEditStateConstantTextarea" class="materialize-textarea" style="min-height: 85% !important; max-height: 85% !important; overflow-y: scroll; margin: 0px;"></textarea>
+						<label for="dialogDeviceEditStateConstantTextarea"></label>						
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
 
-	//Translations
-	$.get("adapter/iqontrol/words.js", function(script) {
-		let translation = script.substring(script.indexOf('{'), script.length);
-		translation = translation.substring(0, translation.lastIndexOf(';'));
-		$.extend(systemDictionary, JSON.parse(translation));
-	});
+		<!-- DIALOG: DeviceEditStateArray -->
+        <div id="dialogDeviceEditStateArray" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditStateArrayIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Array:</span> <span id="dialogDeviceEditStateArrayName"></span></h6>
+                    </div>
+                </div>
+				<div class="col s12" id="tableDialogDeviceEditStateArray">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1 center">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit delete" style="width:50px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
 
-	//Default Settings
-	if (typeof defaults !== 'undefined') {
-		defaults["iqontrol"] = function (obj, instanceObj) {
-			return {
-				enabled:        false,
-				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
-				invert:			false,
-				confirm:		false,
-				unit:			(obj && obj.common && obj.common.unit) || "",
-				unit_zero:		(obj && obj.common && obj.common.unit) || "",
-				unit_one:		(obj && obj.common && obj.common.unit) || "",
-				min:			(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
-				max:			(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
-				step:			"",
-				type:			(obj && obj.common && obj.common.type) || "",
-				role:			(obj && obj.common && obj.common.role) || "",
-				targetValueId:	"",
-				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
-			};
-		}
-	}
-	
-    //Init
-    if (typeof customPostInits !== 'undefined') {
-       customPostInits.iqontrol = function ($div, values, instanceObj, type, role) {
-			var adapter =  $div.data('adapter');
-			console.log("iQontrol init");
-			//Add States to tableStates
-			if(values.states){
-				for (key in values.states){ 
-					if(typeof key != 'undefined') tableStatesAdd(adapter, key, values.states[key]);
-				}
-				changeTableStates(adapter);
-			}
-			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-add').on('click', function(){
-				tableStatesAdd(adapter);
-			});
-			$('.enableOnChange').on('change', function(){
-				$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true);			
-			});
-			$('#dialog-customs .btn-save').on('click', function(){ 
-				if($('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').is(":checked")){
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _currentId = gMain.navigateGetParams();
-						var _currentObj = gMain.objects[_currentId];
-						var _adapter = adapter;
-						var _states = states[_adapter];
-						setTimeout(function(){
-							if (typeof _currentObj.common.custom == 'undefined') _currentObj.common.custom = {};
-							if (typeof _currentObj.common.custom[_adapter] == 'undefined') _currentObj.common.custom[_adapter] = {};
-							_currentObj.common.custom[_adapter].states = _states;
-							gMain.socket.emit('setObject', _currentId, _currentObj, function(err){
-								if(err) alert("Errir saving Object");
-							});
-						}, 100);	
-					})(); //<--End Closure
-				}
-			}); 
-        }
-    }
-	function tableStatesAdd(adapter, key, value){
-		key = key || "";
-		value = value || "";
-		var $table = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-values');
-		var line = $table.data('lines') || 0;
-		var tableLine = "<tr class='table-line'  data-instance='" + adapter + "' data-line='" + line + "'>";
-		tableLine += "		<td><input type='text' class='table-input key' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_key' id='" + adapter + "_tableStates_line" + line + "_key' value='" + key + "' /></td>";
-		tableLine += "		<td><input type='text' class='table-input value' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_value' id='" + adapter + "_tableStates_line" + line + "_value' value='" + value + "' /></td>";
-		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableStates_line" + line + "_delete'><i class='material-icons'>delete</i></button></td>";		
-		tableLine += "</tr>";
-		$table.append(tableLine);
-		$table.data('lines', line + 1);
-		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-delete').off('click').on('click', function(){
-			var line = $(this).data('line');
-			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-line[data-line="' + line + '"').remove();
-			changeTableStates(adapter);
-		});
-		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input').off('focusout').on('focusout', function(){changeTableStates(adapter);});
-	}
-	function changeTableStates(adapter){
-		var $lines = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-line');
-		states[adapter] = {};
-		$lines.each(function(index){
-			var line = $(this).data('line');
-			var key = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input.key[data-line="' + line + '"]').val();
-			var value = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-input.value[data-line="' + line + '"]').val();
-			if(key != "") states[adapter][key] = value;
-		});
-		console.log("changeTableStates: " + JSON.stringify(states[adapter]));
-		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true).trigger('change');  //to enable Save-Button
-	}
+		<!-- DIALOG: DeviceAutocreate  -->
+        <div id="dialogDeviceAutocreate" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Autocreate Device:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select device ID from ioBroker-Object-Tree:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s10">
+                        <input class="value" type="text" id="dialogDeviceAutocreateSourceId" />
+                        <label for="dialogDeviceAutocreateSourceId" class="translate">ID:</label>
+						<span class="helper-text" id="dialogDeviceAutocreateSourceIdCommonName"></span>
+					</div>
+                    <div class="col s1">
+                        <a id="dialogDeviceAutocreateSourceIdSelectIdButton" class="btn"><i class="material-icons">edit</i><span></span></a>
+                    </div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+                        <a class="waves-effect waves-light btn" id="dialogDeviceAutocreateCreatePreviewButton"><i class="material-icons left">check_circle</i><span class="translate">Try to create preview</span></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Preview:</h6>
+						<p class="translate">This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s6">
+						<p id="dialogDeviceAutocreatePreview" style="min-height: 300px;"></p>
+					</div>
+					<div class="col s6">
+						<p id="dialogDeviceAutocreatePreviewStates" style="min-height: 300px;"></p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Create Device</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
 
-	//OnSave - For future use with newer admin-versions
-	//if (typeof customPostOnSave !== 'undefined') {
-	//	customPostOnSave.iqontrol = function ($div, instance) {
-	//		var adapter =  $div.data('adapter');
-	//	};
-	//}
-</script>
+		<!-- DIALOG: DeviceCopyFrom  -->
+        <div id="dialogDeviceCopyFrom" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Copy Device:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Select Source</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" name='dialogDeviceCopyFromSourceView' id='dialogDeviceCopyFromSourceView'></select>
+						<label for='dialogDeviceCopyFromSourceView' class="translate"></label>
+						<span class="translate">Source-View</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value" name='dialogDeviceCopyFromSourceDevice' id='dialogDeviceCopyFromSourceDevice'></select>
+						<label for='dialogDeviceCopyFromSourceDevice' class="translate"></label>
+						<span class="translate">Source-Device</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title"><span class="translate">The selected Device will be copied to View </span><i><span id="dialogDeviceCopyFromDestinationView"></span></i></h6>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Copy this device</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: SelectID -->
+        <div id="dialogSelectId" class="modal modal-fixed-footer" style="z-index:9995 !important;">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 title"></div>
+                </div>
+                <div class="row">
+                    <div class="col s12 dialog-content" style="max-height: 80%;">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Select</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ImagePopup -->
+        <div id="dialogImagePopup" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Image:</span> <span id="dialogImagePopupImageName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogImagePopupImage"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogImagePopupImageDescription"></div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+            </div>
+        </div>		
+    </div>
+</body>
+</html>

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.0",
+        "version": "0.2.1",
         "news": {
+            "0.2.1": {
+                "en": "Fixed crash of Backend (interchanged index_m and custom_m).",
+                "de": "Absturz des Backends behoben (index_m und custom_m vertauscht).",
+                "ru": "Исправлен сбой Backend (поменялся местами index_m и custom_m).",
+                "pt": "Corrigida falha no back-end (index_m e custom_m intercambiados).",
+                "nl": "Crash van Backend opgelost (verwisseld index_m en custom_m).",
+                "fr": "Correction du crash de Backend (interchanged index_m et custom_m).",
+                "it": "Risolto crash del backend (intercambiato index_m e custom_m).",
+                "es": "Se corrigió el bloqueo de Backend (intercambiado index_m y custom_m).",
+                "pl": "Naprawiono awarię Backend (zmienione index_m i custom_m).",
+                "zh-cn": "修复了后端崩溃（互换的index_m和custom_m）。"
+            },
             "0.2.0": {
                 "en": "Added slats level to blind.",
                 "de": "Lamellenhöhe für Blinde hinzugefügt.",
