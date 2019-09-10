@@ -1,6 +1,8 @@
 ![Logo](admin/iqontrol.png)
 # ioBroker.iqontrol
 
+![Number of Installations](http://iobroker.live/badges/iqontrol-installed.svg) 
+![Stable version](http://iobroker.live/badges/iqontrol-stable.svg) 
 [![NPM version](http://img.shields.io/npm/v/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Dependency Status](https://img.shields.io/david/sbormann/iobroker.iqontrol.svg)](https://david-dm.org/sbormann/iobroker.iqontrol)
