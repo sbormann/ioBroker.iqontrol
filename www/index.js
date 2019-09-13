@@ -3033,8 +3033,9 @@ function renderView(id, updateOnly, callback){
 											var modeText = "";
 											var controlModeDisabledValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisabledValue != udef && usedObjects[_deviceId].native.controlModeDisabledValue) || "";
 											if (typeof _linkedControlModeId !== udef) {
-												mode = states[_linkedControlModeId].val;
-												modeText = getPlainText(_linkedControlModeId);
+												var state = getStateObject(_linkedControlModeId);
+												mode = state.val;
+												modeText = state.plainText;
 											}
 											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(val + unit + modeText);
@@ -3670,7 +3671,7 @@ function renderDialog(deviceId){
 								if (!_confirm){
 									DialogStateSliderReadoutTimer = setInterval(function(){
 										setState(_linkedSetTemperatureId, _deviceId, $("#DialogStateSlider").val() * 1);
-									}, 500);
+									}, 5000);
 								}
 							},
 							stop: function(event, ui) {
@@ -3807,13 +3808,20 @@ function renderDialog(deviceId){
 					if (max - min < 1) step = "0.001";
 					if(usedObjects[dialogLinkedStateIds["STATE"]] && typeof usedObjects[dialogLinkedStateIds["STATE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step.toString();
 					var type = "Level";
-					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
-					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
+					var sliderSendRate = 500;
+					if (usedObjects[deviceId].common.role == "iQontrolLight") {
+						type = "Dimmer";
+					}
+					if (usedObjects[deviceId].common.role == "iQontrolBlind") {
+						type = "Height"; 
+						sliderSendRate = 5000;
+					}
 					dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
+						var _sliderSendRate = sliderSendRate;
 						var _confirm = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && usedObjects[_linkedStateId].common.custom[namespace].confirm == true);
 						var DialogStateSliderReadoutTimer;
 						var updateFunction = function(){
@@ -3833,7 +3841,7 @@ function renderDialog(deviceId){
 										DialogStateSliderReadoutTimer = setInterval(function(){
 											setState(_linkedStateId, _deviceId, $("#DialogStateSlider").val());
 											dialogUpdateTimestamp(states[_linkedStateId]);
-										}, 500);
+										}, _sliderSendRate);
 									}
 								},
 								stop: function(event, ui) {
@@ -3922,13 +3930,20 @@ function renderDialog(deviceId){
 					if (max - min < 1) step = "0.001";
 					if(usedObjects[dialogLinkedStateIds["LEVEL"]] && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace] !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step.toString();
 					var type = "Level";
-					if (usedObjects[deviceId].common.role == "iQontrolLight") type = "Dimmer";
-					if (usedObjects[deviceId].common.role == "iQontrolBlind") type = "Height";
+					var sliderSendRate = 500;
+					if (usedObjects[deviceId].common.role == "iQontrolLight") { 
+						type = "Dimmer";
+					}
+					if (usedObjects[deviceId].common.role == "iQontrolBlind") {
+						type = "Height";
+						sliderSendRate = 5000;
+					}
 					dialogContent += "<label for='DialogLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
+						var _sliderSendRate = sliderSendRate;
 						var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
 						var DialogLevelSliderReadoutTimer;
 						var updateFunction = function(){
@@ -3948,7 +3963,7 @@ function renderDialog(deviceId){
 										DialogLevelSliderReadoutTimer = setInterval(function(){
 											setState(_linkedLevelId, _deviceId, $("#DialogLevelSlider").val());
 											dialogUpdateTimestamp(states[_linkedLevelId]);
-										}, 500);
+										}, _sliderSendRate);
 									}
 								},
 								stop: function(event, ui) {
@@ -4319,7 +4334,7 @@ function renderDialog(deviceId){
 					dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
 					var updateFunction = function(){
 						var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
-						if (_valueList[value] == "BOOST-MODE"){
+						if (_valueList && typeof _valueList[value] !== udef && _valueList[value] == "BOOST-MODE"){
 							var unit = getUnit(_linkedBoostStateId);
 							if (states[_linkedBoostStateId] && typeof states[_linkedBoostStateId].val != udef){
 								$("[data-iQontrol-Device-ID='" + _deviceId + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + states[_linkedBoostStateId].val + unit + "</span>");
@@ -4339,6 +4354,7 @@ function renderDialog(deviceId){
 							if (_valueList[value] == "MANU-MODE") { modeStateId = ".MANU_MODE"; setValue = SET_TEMPERATURE; }
 							if (_valueList[value] == "AUTO-MODE") modeStateId = ".AUTO_MODE";
 							if (_valueList[value] == "BOOST-MODE") modeStateId = ".BOOST_MODE";
+							if (typeof states[linkedParentId + modeStateId] == udef) { modeStateId = ".CONTROL_MODE"; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
 							setState(linkedParentId + modeStateId, _deviceId, setValue, true);
 						});
 					};
@@ -4432,7 +4448,6 @@ function renderDialog(deviceId){
 							}
 						dialogContent += "</div>";
 					dialogContent += "</div>";
-
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceId = deviceId;
 						var _linkedStateId = dialogLinkedStateIds["PARTY_TEMPERATURE"];
