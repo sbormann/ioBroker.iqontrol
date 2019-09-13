@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "news": {
+            "0.2.2": {
+                "en": "Enhanced handling of control-mode for homematic-thermostat for more compatibility, Reduced rate of sending when moving slider for blinds and thermostats. ",
+                "de": "Verbesserte Handhabung des Steuermodus für den Homematic-Thermostat für mehr Kompatibilität. Reduzierte Sendegeschwindigkeit beim Bewegen des Schiebers für Jalousien und Thermostate.",
+                "ru": "Улучшенная обработка режима управления для термостата homematic для большей совместимости, Сниженная скорость отправки при перемещении слайдера для жалюзи и термостатов.",
+                "pt": "Manipulação aprimorada do modo de controle para termostato doméstico para maior compatibilidade, Taxa reduzida de envio ao mover o controle deslizante para persianas e termostatos.",
+                "nl": "Verbeterde afhandeling van regelmodus voor homematische thermostaat voor meer compatibiliteit, lagere zendsnelheid bij het verplaatsen van schuifregelaar voor jaloezieën en thermostaten.",
+                "fr": "Gestion améliorée du mode de contrôle pour homematic-thermostat pour plus de compatibilité, cadence d'envoi réduite lors du déplacement du curseur pour stores et thermostats.",
+                "it": "Gestione avanzata della modalità di controllo per termostato omematico per una maggiore compatibilità, Velocità di invio ridotta quando si sposta il cursore per tapparelle e termostati.",
+                "es": "Manejo mejorado del modo de control para termostato homemático para mayor compatibilidad, tasa de envío reducida al mover el control deslizante para persianas y termostatos.",
+                "pl": "Ulepszone sterowanie trybem sterowania dla termostatu homematic dla większej kompatybilności, Zmniejszona szybkość wysyłania podczas przesuwania suwaka dla żaluzji i termostatów.",
+                "zh-cn": "增强了家庭恒温控制模式的处理功能，提高了兼容性，降低了百叶窗和恒温器滑块的发送速度。"
+            },
             "0.2.1": {
                 "en": "Fixed crash of Backend (interchanged index_m and custom_m).",
                 "de": "Absturz des Backends behoben (index_m und custom_m vertauscht).",
