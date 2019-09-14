@@ -1118,17 +1118,35 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		}
 		//--Add valueList
 		var statesSet = false;
+		var valueListString;
 		if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace].states){
-				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.custom[namespace].states);
+				valueListString = usedObjects[linkedStateId].common.custom[namespace].states;
 				statesSet = true;
 		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states){
-				result.valueList = Object.assign({}, usedObjects[linkedStateId].native.states);
+				valueListString = usedObjects[linkedStateId].native.states;
 				statesSet = true;
 		} else if (usedObjects[linkedStateId] && usedObjects[linkedStateId].common.states){
-				result.valueList = Object.assign({}, usedObjects[linkedStateId].common.states);
+				valueListString = usedObjects[linkedStateId].common.states;
 				statesSet = true;
 		}
 		if(statesSet){
+			//----Check format of valueList
+			if (typeof valueListString !== "object"){
+				if (tryParseJSON(valueListString) == false){
+					valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+					if (tryParseJSON(valueListString) == false) {
+						statesSet = false;	
+					} else {
+						valueListString = tryParseJSON(valueListString);	
+					}		
+				} else {
+					valueListString = tryParseJSON(valueListString);	
+				}
+			}
+		}
+		if(statesSet){
+			result.valueList = Object.assign({}, valueListString);
+			//----Further modifications of valueList
 			var val = result.val;
 			if (typeof val !== udef && val !== null && (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false")){ //Convert valueList-Keys to boolean, if they are numbers
 				for (var key in result.valueList){
@@ -4350,11 +4368,12 @@ function renderDialog(deviceId){
 							var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
 							var linkedParentId = _linkedControlModeId.substring(0, _linkedControlModeId.lastIndexOf("."));
 							var setValue = true;
+							var modeStateId = ".";
 							var SET_TEMPERATURE = $("#DialogStateSlider").val() * 1;
 							if (_valueList[value] == "MANU-MODE") { modeStateId = ".MANU_MODE"; setValue = SET_TEMPERATURE; }
 							if (_valueList[value] == "AUTO-MODE") modeStateId = ".AUTO_MODE";
 							if (_valueList[value] == "BOOST-MODE") modeStateId = ".BOOST_MODE";
-							if (typeof states[linkedParentId + modeStateId] == udef) { modeStateId = ".CONTROL_MODE"; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
+							if (typeof usedObjects[linkedParentId + modeStateId] == udef) { modeStateId = ".CONTROL_MODE"; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
 							setState(linkedParentId + modeStateId, _deviceId, setValue, true);
 						});
 					};

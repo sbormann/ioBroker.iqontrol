@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "news": {
+            "0.2.3": {
+                "en": "Further enhancement of control-mode handling for homematic-thermostat, Added handling of alternative states-property-syntax.",
+                "de": "Weitere Verbesserung der Handhabung des Steuermodus für den Homematic-Thermostat. Behandlung der Syntax alternativer Zustände-Eigenschaften hinzugefügt.",
+                "ru": "Дальнейшее улучшение обработки в режиме управления для homematic-термостата, Добавлена ​​обработка альтернативных состояний-свойства-синтаксиса.",
+                "pt": "Aprimoramento adicional da manipulação do modo de controle para termostato doméstico, manipulação adicionada de estados-propriedade-sintaxe alternativa.",
+                "nl": "Verdere verbetering van de bediening van de regelmodus voor de homematische thermostaat, toegevoegde verwerking van alternatieve toestanden-eigenschap-syntaxis.",
+                "fr": "Amélioration de la gestion en mode contrôle pour homematic-thermostat, Ajout de la gestion de la syntaxe alternative propriété-propriété.",
+                "it": "Ulteriore miglioramento della gestione della modalità di controllo per il termostato omematico, aggiunta gestione della sintassi degli stati-proprietà-alternativa.",
+                "es": "Mejora adicional del manejo del modo de control para termostato homemático, manejo agregado de sintaxis de propiedad de estado alternativa.",
+                "pl": "Dalsze udoskonalenie obsługi trybu sterowania dla termostatu homematycznego, Dodano obsługę alternatywnej składni stanów-właściwości.",
+                "zh-cn": "进一步增强了homematic-thermostat的控制模式处理，增加了替代状态的处理 - 属性 - 语法。"
+            },
             "0.2.2": {
                 "en": "Enhanced handling of control-mode for homematic-thermostat for more compatibility, Reduced rate of sending when moving slider for blinds and thermostats. ",
                 "de": "Verbesserte Handhabung des Steuermodus für den Homematic-Thermostat für mehr Kompatibilität. Reduzierte Sendegeschwindigkeit beim Bewegen des Schiebers für Jalousien und Thermostate.",

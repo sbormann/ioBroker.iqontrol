@@ -276,6 +276,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.2.3 (2019-09-15)
+* (Sebastian Bormann) Further enhancement of control-mode handling for homematic-thermostat.
+* (Sebastian Bormann) Added handling of alternative states-property-syntax.
+
 ### 0.2.2 (2019-09-14)
 * (Sebastian Bormann) Enhanced handling of control-mode for homematic-thermostat for more compatibility.
 * (Sebastian Bormann) Reduced rate of sending when moving slider for blinds and thermostats. 

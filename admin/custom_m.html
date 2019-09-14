@@ -204,6 +204,20 @@
 			console.log("iQontrol init");
 			//Add States to tableStates
 			if(values.states){
+				//--Check format of valueList
+				var valueListString = values.states;
+				if (typeof valueListString !== "object"){
+					if (tryParseJSON(valueListString) == false){
+						valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+						if (tryParseJSON(valueListString) == false) {
+							values.states = {};
+						} else {
+							values.states = tryParseJSON(valueListString);	
+						}		
+					} else {
+						values.states = tryParseJSON(valueListString);	
+					}
+				}
 				for (key in values.states){ 
 					if(typeof key != 'undefined') tableStatesAdd(adapter, key, values.states[key]);
 				}
@@ -266,6 +280,21 @@
 		console.log("changeTableStates: " + JSON.stringify(states[adapter]));
 		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true).trigger('change');  //to enable Save-Button
 	}
+
+	function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+		try {
+			var o = JSON.parse(jsonString);
+			// Handle non-exception-throwing cases:
+			// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+			// but... JSON.parse(null) returns null, and typeof null === "object",
+			// so we must check for that, too. Thankfully, null is falsey, so this suffices:
+			if (o && typeof o === "object") {
+				return o;
+			}
+		}
+		catch (e) { }
+		return false;
+	};
 
 	//OnSave - For future use with newer admin-versions
 	//if (typeof customPostOnSave !== 'undefined') {

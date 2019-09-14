@@ -388,6 +388,21 @@ var iobrokerObjects;
 var iobrokerObjectsReady = false;
 var iobrokerObjectsReadyFunctions = [];
 
+//ChannelDetector
+/* const detector = new ChannelDetector();
+const keys = Object.keys(iobrokerObjects);		// For optimization
+const usedIds = [];                 			// To not allow using of same ID in more than one device
+const ignoreIndicators = [];    				// Ignore indicators by name
+const supportedTypes = [];						// Supported types. Leave it null if you want to get ALL devices.
+var options = {
+	objects:            iobrokerObjects,
+	id:                 'milight-smart-light.1.Feuerstelle.fullColor-1',
+	_keysOptional:      keys,
+	_usedIdsOptional:   usedIds,
+	ignoreIndicators:   ignoreIndicators
+};
+var controls = detector.detect(options); */
+
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -449,7 +464,7 @@ function initSelectId(callback) {
 	if (iobrokerObjectsReady) {
 		toDo();
 	} else {
-		iobrokerObjectsReadyFunctions.push(toDo);
+		iobrokerObjectsReadyFunctions.push(toDo); 
 	}
 }
 
