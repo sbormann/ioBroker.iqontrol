@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.3",
+        "version": "0.2.4",
         "news": {
+            "0.2.4": {
+                "en": "Further enhancement of control-mode handling for homematic-thermostat, Minor bugfixes.",
+                "de": "Weitere Verbesserung der Handhabung im Steuermodus für Homematic-Thermostat, Kleinere Bugfixes.",
+                "ru": "Дальнейшее улучшение режима управления для homematic-термостата, мелкие исправления.",
+                "pt": "Melhoria adicional do manuseio no modo de controle para termostato doméstico, pequenas correções de bugs.",
+                "nl": "Verdere verbetering van de bediening van de regelmodus voor homematic-thermostaat, kleine bugfixes.",
+                "fr": "Amélioration supplémentaire de la gestion en mode de contrôle pour homematic-thermostat, corrections de bugs mineurs.",
+                "it": "Ulteriore miglioramento della gestione della modalità di controllo per termostato omematico, correzioni di bug minori.",
+                "es": "Mejora adicional del manejo en modo de control para termostato homemático, correcciones de errores menores.",
+                "pl": "Dalsze udoskonalenie obsługi trybu sterowania dla termostatu homematic, drobne poprawki błędów.",
+                "zh-cn": "进一步增强了家庭恒温器的控制模式处理，小错误修正。"
+            },
             "0.2.3": {
                 "en": "Further enhancement of control-mode handling for homematic-thermostat, Added handling of alternative states-property-syntax.",
                 "de": "Weitere Verbesserung der Handhabung des Steuermodus für den Homematic-Thermostat. Behandlung der Syntax alternativer Zustände-Eigenschaften hinzugefügt.",

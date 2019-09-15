@@ -1220,7 +1220,7 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
 
 function updateState(stateId, ignorePreventUpdate){
 	//Invert (ioBroker -> iQontrol - the opposite way is inside setState-Function)
-	if(usedObjects[stateId]  && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
+	if(usedObjects[stateId]  && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
 		if(states[stateId] && typeof states[stateId].val !== udef && !states[stateId].isInverted) switch(typeof states[stateId].val){
 			case "boolean":
 			console.log("Inverting boolean state " + stateId + " from " + states[stateId].val + "...");
@@ -1354,7 +1354,7 @@ function startButton(linkedStateId, linkedSetValueId, linkedOffSetValueId, retur
 	var newValue = states[linkedSetValueId].val || "";
 	console.log("Button " + linkedStateId + " --> " + newValue);
 	setState(linkedStateId, deviceId, newValue, true, callback);
-	if (linkedOffSetValueId != udef) {
+	if (states[linkedOffSetValueId] && states[linkedOffSetValueId].val && states[linkedOffSetValueId].val != "") {
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _linkedStateId = linkedStateId;
 			var _deviceId = deviceId;
@@ -4367,14 +4367,14 @@ function renderDialog(deviceId){
 						$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
 							var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
 							var linkedParentId = _linkedControlModeId.substring(0, _linkedControlModeId.lastIndexOf("."));
-							var setValue = true;
-							var modeStateId = ".";
+							var setValue = "";
+							var modeStateId = "";
 							var SET_TEMPERATURE = $("#DialogStateSlider").val() * 1;
-							if (_valueList[value] == "MANU-MODE") { modeStateId = ".MANU_MODE"; setValue = SET_TEMPERATURE; }
-							if (_valueList[value] == "AUTO-MODE") modeStateId = ".AUTO_MODE";
-							if (_valueList[value] == "BOOST-MODE") modeStateId = ".BOOST_MODE";
-							if (typeof usedObjects[linkedParentId + modeStateId] == udef) { modeStateId = ".CONTROL_MODE"; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
-							setState(linkedParentId + modeStateId, _deviceId, setValue, true);
+							if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
+							if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
+							if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+							if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
+							setState(modeStateId, _deviceId, setValue, true);
 						});
 					};
 					dialogBindingFunctions.push(bindingFunction);

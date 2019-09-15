@@ -276,6 +276,10 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
+### 0.2.4 (2019-09-15)
+* (Sebastian Bormann) Further enhancement of control-mode handling for homematic-thermostat.
+* (Sebastian Bormann) Minor bugfixes.
+
 ### 0.2.3 (2019-09-15)
 * (Sebastian Bormann) Further enhancement of control-mode handling for homematic-thermostat.
 * (Sebastian Bormann) Added handling of alternative states-property-syntax.
