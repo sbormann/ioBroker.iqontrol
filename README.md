@@ -34,8 +34,11 @@ Fast Web-App for Visualization.
 ![Example](img/screenshot3.jpg)
 
 Runs in any Browser.
-You can save it as Web-App on iOS-Homescreen and it looks and feels like a native app.
 It's fully customizable.
+
+## Add to Homescreen
+You can save it as Web-App on Homescreen and it looks and feels like a native app:
+![Add to Homescreeen](img/add_to_homescreen.png)
 
 
 ## You need...
@@ -277,6 +280,9 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.2.6 development
+* (Sebastian Bormann) Processing the plain text of values is now done after rounding a number value.
 
 ### 0.2.5 (2019-09-22)
 * (Sebastian Bormann) Adjusted handling of pressure menu for iOS 13.
