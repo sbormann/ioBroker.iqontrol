@@ -284,7 +284,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
 											icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png", default: ""},

@@ -284,7 +284,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
 											icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png", default: ""},
@@ -399,6 +399,8 @@ var toolbarPressureMenuFallbackTimer = false;	//Used as Fallback for some device
 var toolbarPressureMenuFallbackForce = 0;		//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
 var toolbarPressureMenuLinksToOtherViews = [];	//Will become History when clicking on a PressureMenu Link
 var toolbarPressureMenuChangeTimer = false;		//Limits execution of bluring-effect
+var createToolbarPressureMenusRunning = false;	//Is set to true, while creating toolbarPressureMenu
+var createToolbarPressureMenusBufferRenderView = {} //Used to buffer renderView, if called while createToolbarPressureMenusRunning (because while running fetching a view is impossible)
 
 var views = {}; 								//Contains all views (extracted from <namespace + '.Views'>) in the form of {ID:[ChildIDs]}
 var actualViewId;								//Contains the ID of the actual View
@@ -547,6 +549,10 @@ function getStarted(){
 			renderView(actualViewId || homeId, false, function(){
 				createToolbarPressureMenus(function(){
 					console.log("Toolbar Pressuremenus created");
+					if (createToolbarPressureMenusBufferRenderView.id) {
+						renderView(createToolbarPressureMenusBufferRenderView.id, createToolbarPressureMenusBufferRenderView.updateOnly, createToolbarPressureMenusBufferRenderView.callback);
+						createToolbarPressureMenusBufferRenderView = {};
+					}
 				});			
 			});
 			if(actualViewId == homeId){
@@ -640,7 +646,7 @@ function fetchObject(id, callback){
 		console.log("Already waiting for object: " + id);
 		if(callback) callback(error = "alreadyWaitingForObject");	//Do nothing - there is already a task running that trys to retrieve the object
 	} else {
-		waitingForObject[id] = true;
+		waitingForObject[id] = [];
 		console.log("Fetch object: " + id);
 		servConn.getObject(id, useCache, function(err, _object) {
 			if(_object) {
@@ -755,8 +761,8 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 		//----Scale % from 0-100 if min-max=0-1
 		if(typeof newValue == "number") {
 			var unit = "";
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
 			if (unit == "%") {
 				var min;
 				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) min = usedObjects[stateId].common.min;
@@ -872,7 +878,7 @@ function getLinkedStateId(stateId){
 			if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 			if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 			if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
-				fetchObject(linkedStateId, function(error){});
+				fetchObject(linkedStateId);
 			}
 			return linkedStateId;
 		}
@@ -2206,28 +2212,9 @@ function applyToolbarPressureMenu(){
 			//-- do nothing --
 		},
 		end: function(){ // this is called on force end
-			console.log("PRESSURE end");
-			$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-			//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
-			if (toolbarPressureMenuFallbackTimer) {
-				clearInterval(toolbarPressureMenuFallbackTimer);
-				toolbarPressureMenuFallbackTimer = false;
-				toolbarPressureMenuFallbackForce = 0;
-			}
-			setTimeout(function(){
-				console.log("Find active Toolbar Index");
-				var toolbarIndex = -1;
-				for (var i = 0; i < toolbar.length; i++){
-					if(usedObjects[ toolbar[i] ].native.linkedView == actualViewId) {
-						toolbarIndex = i;
-						break;
-					}
-				}
-				if(toolbarIndex >= 0) {
-					$(".iQontrolToolbarLink").removeClass("ui-btn-active");
-					$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
-				}
-			}, 1);
+			//console.log("PRESSURE end");
+			//-- do nothing --
+			//(This event is handeled via touchend-event seperately, because since iOS 13 the pressure end event is not called properly any more)
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = toolbarPressureMenuForceOld[this] || 0;
@@ -2279,6 +2266,34 @@ function applyToolbarPressureMenu(){
 		preventSelect: true,
 		only: null
 	});
+	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
+		toolbarPressureMenuIgnorePressure = true;
+		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
+		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
+		//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
+		if (toolbarPressureMenuFallbackTimer) {
+			clearInterval(toolbarPressureMenuFallbackTimer);
+			toolbarPressureMenuFallbackTimer = false;
+			toolbarPressureMenuFallbackForce = 0;
+		}
+		setTimeout(function(){
+			console.log("Find active Toolbar Index");
+			var toolbarIndex = -1;
+			for (var i = 0; i < toolbar.length; i++){
+				if(usedObjects[ toolbar[i] ].native.linkedView == actualViewId) {
+					toolbarIndex = i;
+					break;
+				}
+			}
+			if(toolbarIndex >= 0) {
+				$(".iQontrolToolbarLink").removeClass("ui-btn-active");
+				$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
+			}
+		}, 1);
+		setTimeout(function(){
+			toolbarPressureMenuIgnorePressure = false;
+		}, 100);
+	});	
 }
 
 function toolbarPressureMenuChange(force, event, that){
@@ -2332,11 +2347,10 @@ function createToolbarPressureMenu(toolbarIndex, callback){
 			var viewSorted = [];
 			for (var i = 0; i < views[linkedViewId].length; i++){
 				var _id = views[linkedViewId][i];
-				var sortPrefix = "";
-				if (usedObjects[_id].native.sortPrefix) sortPrefix = usedObjects[_id].native.sortPrefix;
-				var sortPostfix = "";
-				if (usedObjects[_id].native.sortPostfix) sortPostfix = usedObjects[_id].native.sortPostfix;
-				viewSorted.push([sortPrefix + usedObjects[_id].common.name + sortPostfix, _id]);
+				var sortPrefix = usedObjects[_id] && typeof usedObjects[_id].native !== udef && usedObjects[_id].native.sortPrefix || "";
+				var sortPostfix = usedObjects[_id] && typeof usedObjects[_id].native !== udef && usedObjects[_id].native.sortPostfix || "";
+				var commonName = usedObjects[_id] && typeof usedObjects[_id].common !== udef && usedObjects[_id].common.name || "";
+				viewSorted.push([sortPrefix + commonName + sortPostfix, _id]);
 			}
 			viewSorted.sort();
 			for (var i = 0; i < viewSorted.length; i++){
@@ -2357,16 +2371,22 @@ function createToolbarPressureMenu(toolbarIndex, callback){
 }
 
 function createToolbarPressureMenus(callback, index){
+	createToolbarPressureMenusRunning = true;
 	index = index || 0;
 	if (index < toolbar.length){
 		createToolbarPressureMenu(index, function(){ createToolbarPressureMenus(callback, index + 1); });
 	} else {
+		createToolbarPressureMenusRunning = false;
 		if (callback) callback();
 	}
 }
 
 //++++++++++ VIEW ++++++++++
 function renderView(id, updateOnly, callback){
+	if(createToolbarPressureMenusRunning && !updateOnly) {
+		createToolbarPressureMenusBufferRenderView = {id: id, updateOnly: updateOnly, callback: callback};
+		return;
+	}
 	console.log("renderView " + id + ", updateOnly: " + updateOnly);
 	if(!id) id = homeId;
 	actualViewId = id;
@@ -2390,11 +2410,10 @@ function renderView(id, updateOnly, callback){
 		viewSorted = [];
 		for (var i = 0; i < views[id].length; i++){
 			var _id = views[id][i];
-			var sortPrefix = "";
-			if (usedObjects[_id].native.sortPrefix) sortPrefix = usedObjects[_id].native.sortPrefix;
-			var sortPostfix = "";
-			if (usedObjects[_id].native.sortPostfix) sortPostfix = usedObjects[_id].native.sortPostfix;
-			viewSorted.push([sortPrefix + usedObjects[_id].common.name + sortPostfix, _id]);
+			var sortPrefix = usedObjects[_id] && typeof usedObjects[_id].native !== udef && usedObjects[_id].native.sortPrefix || "";
+			var sortPostfix = usedObjects[_id] && typeof usedObjects[_id].native !== udef && usedObjects[_id].native.sortPostfix || "";
+			var commonName = usedObjects[_id] && typeof usedObjects[_id].common !== udef && usedObjects[_id].common.name || "";
+			viewSorted.push([sortPrefix + commonName + sortPostfix, _id]);
 		}
 		viewSorted.sort();
 		//Change Background
@@ -2409,7 +2428,7 @@ function renderView(id, updateOnly, callback){
 		for (var i = 0; i < viewSorted.length; i++){
 			var deviceId = viewSorted[i][1];
 			//Render Heading
-			if (usedObjects[deviceId].native.heading && usedObjects[deviceId].native.heading !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.heading + "</h4>";
+			if (usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && usedObjects[deviceId].native.heading && usedObjects[deviceId].native.heading !== "") viewContent += "<br><h4>" + usedObjects[deviceId].native.heading + "</h4>";
 			//Render Device
 			var deviceContent = "";
 			//--Get linked States
@@ -2432,7 +2451,7 @@ function renderView(id, updateOnly, callback){
 			viewPressureMenu[deviceId] = {};
 			viewPressureMenu[deviceId].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick:'$("#ViewPressureMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceId + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
 			//--Get viewLinksToOtherViews
-			if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
+			if (usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
 				var linkedView = usedObjects[deviceId].native.linkedView;
 				var linkedViewName = linkedView.substring(linkedView.lastIndexOf('.') + 1);
 				viewLinksToOtherViews.push(linkedView);
@@ -2803,6 +2822,30 @@ function renderView(id, updateOnly, callback){
 							}
 							break;
 
+							case "iQontrolBattery":
+							if (deviceLinkedStateIds["VOLTAGE"]) {
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/power.png' style='display:none;'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
+									var _linkedVoltageId = deviceLinkedStateIds["VOLTAGE"];
+									viewUpdateFunctions[_linkedVoltageId].push(function(){
+										var stateVoltage = getStateObject(_linkedVoltageId);
+										if (stateVoltage && typeof stateVoltage.val !== udef){
+											var val = stateVoltage.plainText;
+											var unit = stateVoltage.unit;
+											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (stateVoltage.plainText == stateVoltage.val) val = val + unit;
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoAIcon").hide();
+										}
+									});
+								})(); //<--End Closure
+							}
+							break;
+
 							case "iQontrolLight":
 							if (deviceLinkedStateIds["HUE"] || deviceLinkedStateIds["CT"] || deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceId + "' style='display:none;' src='./images/color.png'>";
@@ -2956,7 +2999,7 @@ function renderView(id, updateOnly, callback){
 							}
 							break;
 
-							case "iQontrolSwitch": case "iQontrolFan": case "iQontrolLight":
+							case "iQontrolSwitch": case "iQontrolFan": case "iQontrolLight": case "iQontrolBattery":
 							if (deviceLinkedStateIds["POWER"]) {
 								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceId + "' src='./images/power.png' style='display:none;'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceId + "'></div>";
@@ -3052,8 +3095,10 @@ function renderView(id, updateOnly, callback){
 											var controlModeDisabledValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisabledValue != udef && usedObjects[_deviceId].native.controlModeDisabledValue) || "";
 											if (typeof _linkedControlModeId !== udef) {
 												var state = getStateObject(_linkedControlModeId);
-												mode = state.val;
-												modeText = state.plainText;
+												if(typeof state.val !== udef) {
+													mode = state.val;
+													modeText = state.plainText;
+												}
 											}
 											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(val + unit + modeText);
@@ -3519,13 +3564,9 @@ function applyViewPressureMenu(){
 			//-- do nothing --
 		},
 		end: function(){ // this is called on force end
-			console.log("PRESSURE end");
-			$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			if (viewPressureMenuFallbackTimer) {
-				clearInterval(viewPressureMenuFallbackTimer);
-				viewPressureMenuFallbackTimer = false;
-				viewPressureMenuFallbackForce = 0;
-			}
+			//console.log("PRESSURE end");
+			//-- do nothing --
+			//(This event is handeled via touchend-event seperately, because since iOS 13 the pressure end event is not called properly any more)
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = viewPressureMenuForceOld[this] || 0;
@@ -3576,6 +3617,19 @@ function applyViewPressureMenu(){
 		polyfillSpeedDown: 50,
 		preventSelect: true,
 		only: null
+	});
+	$('.iQontrolDeviceLink').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
+		viewPressureMenuIgnorePressure = true;
+		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
+		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+		if (viewPressureMenuFallbackTimer) {
+			clearInterval(viewPressureMenuFallbackTimer);
+			viewPressureMenuFallbackTimer = false;
+			viewPressureMenuFallbackForce = 0;
+		}
+		setTimeout(function(){
+			viewPressureMenuIgnorePressure = false;
+		}, 100);
 	});
 }
 

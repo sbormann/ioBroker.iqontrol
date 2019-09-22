@@ -248,6 +248,8 @@ In addition to normal thermostat you can define:
 ### <img src="img/icons/battery_full.png" width="32"> Battery:
 * **STATE**: *number* - battery level in percentage
 * **CHARGING**: *boolean* - if true, a charging-icon is displayed
+* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
+* **VOLTAGE**: *number* - voltage that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/value_on.png" width="32"> Value:
 * **STATE**: *any* - any valid state to be displayed (have a look at general states-section)
@@ -275,6 +277,11 @@ In addition to normal thermostat you can define:
 ****
 
 # Changelog
+
+### 0.2.5 (2019-09-22)
+* (Sebastian Bormann) Adjusted handling of pressure menu for iOS 13.
+* (Sebastian Bormann) Added Buffer for rendering a view while pressureMenue is beeing created.
+* (Sebastian Bormann) Added POWER and VOLTAGE to battery.
 
 ### 0.2.4 (2019-09-15)
 * (Sebastian Bormann) Further enhancement of control-mode handling for homematic-thermostat.

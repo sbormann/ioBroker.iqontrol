@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.4",
+        "version": "0.2.5",
         "news": {
+            "0.2.5": {
+                "en": "Adjusted handling of pressure menu for iOS 13, Added Buffer for rendering a view while pressureMenue is beeing created, Added POWER and VOLTAGE to battery.",
+                "de": "Angepasste Handhabung des Druckmenüs für iOS 13, Puffer zum Rendern einer Ansicht hinzugefügt, während pressureMenue erstellt wird, STROM und SPANNUNG zur Batterie hinzugefügt.",
+                "ru": "Исправлена ​​обработка меню давления для iOS 13, добавлен буфер для рендеринга вида во время создания давления, добавлено ПИТАНИЕ и НАПРЯЖЕНИЕ к батарее.",
+                "pt": "Manuseio ajustado do menu de pressão para o iOS 13, buffer adicionado para renderizar uma exibição enquanto o pressureMenue está sendo criado, adicionado POWER e VOLTAGE à bateria.",
+                "nl": "Aangepaste afhandeling van het drukmenu voor iOS 13, toegevoegde buffer voor weergave van een weergave terwijl het drukmenu wordt aangemaakt, kracht en spanning toegevoegd aan de batterij.",
+                "fr": "Gestion ajustée du menu de pression pour iOS 13, Tampon ajouté pour le rendu d'une vue pendant la création de pressureMenue, Ajout de PUISSANCE et TENSION à la batterie.",
+                "it": "Gestione adattata del menu della pressione per iOS 13, Buffer aggiunto per il rendering di una vista durante la creazione di PressureMenue, POWER e VOLTAGE aggiunti alla batteria.",
+                "es": "Se ajustó el manejo del menú de presión para iOS 13, búfer agregado para renderizar una vista mientras se crea presión en el menú, se agregó POTENCIA y VOLTAJE a la batería.",
+                "pl": "Poprawiono obsługę menu ciśnienia dla iOS 13, Dodano bufor do renderowania widoku podczas tworzenia ciśnienia, dodawano ZASILANIE i NAPIĘCIE do akumulatora.",
+                "zh-cn": "调整了iOS 13的压力菜单处理，添加了用于在创建pressureMenue时渲染视图的缓冲区，向电池添加了电源和电压。"
+            },
             "0.2.4": {
                 "en": "Further enhancement of control-mode handling for homematic-thermostat, Minor bugfixes.",
                 "de": "Weitere Verbesserung der Handhabung im Steuermodus für Homematic-Thermostat, Kleinere Bugfixes.",
