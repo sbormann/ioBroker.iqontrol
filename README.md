@@ -279,7 +279,10 @@ In addition to normal thermostat you can define:
 
 ****
 
-# Changelog
+## Changelog
+
+### 0.2.7 development
+* (Sebastian Bormann) Fixed popup_width and popup_height.
 
 ### 0.2.6 (2019-09-24)
 * (Sebastian Bormann) Processing the plain text of values is now done after rounding a number value.
