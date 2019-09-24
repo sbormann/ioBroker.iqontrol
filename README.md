@@ -281,7 +281,7 @@ In addition to normal thermostat you can define:
 
 # Changelog
 
-### 0.2.6 development
+### 0.2.6 (2019-09-24)
 * (Sebastian Bormann) Processing the plain text of values is now done after rounding a number value.
 * (Sebastian Bormann) Removed Icon_on for Button.
 * (Sebastian Bormann) Modified main.js for controler 2.0 compatibility.
