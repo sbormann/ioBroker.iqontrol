@@ -37,16 +37,13 @@ class Iqontrol extends utils.Adapter {
 
 	//----------------------------------------------------------------------------
 
-	async logbook(entry){
-		this.log.debug(entry)
-	}
-
 	async createToolbar(){
 		if(typeof this.config.toolbar != 'undefined'){
 			for(var index = 0; index < this.config.toolbar.length; index++){
-				var objName = this.config.toolbar[index].commonName;
-				var objId = "Toolbar." + ('000' + index).slice(-4) + "__" + idEncode(objName);
-				var obj = {
+				let that = this;
+				let objName = this.config.toolbar[index].commonName;
+				let objId = "Toolbar." + ('000' + index).slice(-4) + "__" + idEncode(objName);
+				let obj = {
 					"type": "device",
 					"common": {
 						"name": objName,
@@ -60,9 +57,12 @@ class Iqontrol extends utils.Adapter {
 						"icon": (typeof this.config.toolbar[index].nativeIcon != udef && this.config.toolbar[index].nativeIcon || "")
 					}
 				};
-				this.log.debug(">>>createToolbar " + index + ": " + objName);
 				createdObjects.push(objId);
-				this.setObjectAsync(objId, obj, this.logbook("created: " + objId));
+				await this.setObjectAsync(objId, obj, true).then(function(){ 
+					that.log.debug("created: " + objId); 
+				}, function(err){
+					that.log.debug("ERROR creating " + objId + ": " + err);
+				});
 			}
 		}
 	}
@@ -70,10 +70,11 @@ class Iqontrol extends utils.Adapter {
 	async createViews(){
 		if(typeof this.config.views != 'undefined'){
 			for(var index = 0; index < this.config.views.length; index++){
-				var objName = this.config.views[index].commonName;
-				var objId = "Views." + idEncode(objName);
-				var nativeBackgroundImage = this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/") || "";
-				var obj = {
+				let that = this;
+				let objName = this.config.views[index].commonName;
+				let objId = "Views." + idEncode(objName);
+				let nativeBackgroundImage = this.config.views[index].nativeBackgroundImage.replace(/\\/g, "/") || "";
+				let obj = {
 					"type": "device",
 					"common": {
 						"name": objName,
@@ -86,9 +87,13 @@ class Iqontrol extends utils.Adapter {
 						"backgroundImage": (typeof this.config.views[index].nativeBackgroundImage != udef && this.config.views[index].nativeBackgroundImage || "").replace(/\\/g, "/")
 					}
 				};
-				this.createDevices(index);
+				await this.createDevices(index);
 				createdObjects.push(objId);
-				this.setObjectAsync(objId, obj, this.logbook("created: " + objId));
+				await this.setObjectAsync(objId, obj, true).then(function(){ 
+					that.log.debug("created: " + objId); 
+				}, function(err){
+					that.log.debug("ERROR creating " + objId + ": " + err);
+				});
 			}
 		}
 	}
@@ -96,9 +101,10 @@ class Iqontrol extends utils.Adapter {
 	async createDevices(viewIndex){
 		if(typeof this.config.views[viewIndex].devices != 'undefined'){
 			for(var index = 0; index < this.config.views[viewIndex].devices.length; index++){
-				var objName = this.config.views[viewIndex].devices[index].commonName;
-				var objId = "Views." + idEncode(this.config.views[viewIndex].commonName) + "." + ('000' + index).slice(-4) + "__" + idEncode(objName);
-				var obj = {
+				let that = this;
+				let objName = this.config.views[viewIndex].devices[index].commonName;
+				let objId = "Views." + idEncode(this.config.views[viewIndex].commonName) + "." + ('000' + index).slice(-4) + "__" + idEncode(objName);
+				let obj = {
 					"type": "channel",
 					"common": {
 						"name": objName,
@@ -116,14 +122,18 @@ class Iqontrol extends utils.Adapter {
 				};
 				if(typeof this.config.views[viewIndex].devices[index].options != 'undefined'){
 					for(var i = 0; i < this.config.views[viewIndex].devices[index].options.length; i++){
-						var option = this.config.views[viewIndex].devices[index].options[i].option;
-						var value = this.config.views[viewIndex].devices[index].options[i].value || "";
+						let option = this.config.views[viewIndex].devices[index].options[i].option;
+						let value = this.config.views[viewIndex].devices[index].options[i].value || "";
 						obj.native[option] = value;
 					}
 				}
-				this.createStates(viewIndex, index);
+				await this.createStates(viewIndex, index);
 				createdObjects.push(objId);
-				this.setObjectAsync(objId, obj, this.logbook("created: " + objId));
+				await this.setObjectAsync(objId, obj, true).then(function(){ 
+					that.log.debug("created: " + objId); 
+				}, function(err){
+					that.log.debug("ERROR creating " + objId + ": " + err);
+				});
 			}
 		}
 	}
@@ -131,9 +141,10 @@ class Iqontrol extends utils.Adapter {
 	async createStates(viewIndex, deviceIndex){
 		if(typeof this.config.views[viewIndex].devices[deviceIndex].states != 'undefined'){
 			for(var index = 0; index < this.config.views[viewIndex].devices[deviceIndex].states.length; index++){
-				var objName = this.config.views[viewIndex].devices[deviceIndex].states[index].state;
-				var objId = "Views." + idEncode(this.config.views[viewIndex].commonName) + "." + ('000' + deviceIndex).slice(-4) + "__" + idEncode(this.config.views[viewIndex].devices[deviceIndex].commonName) + "." + objName;
-				var objCommonRole = (typeof this.config.views[viewIndex].devices[deviceIndex].states[index].commonRole != udef && this.config.views[viewIndex].devices[deviceIndex].states[index].commonRole || "")
+				let that = this;
+				let objName = this.config.views[viewIndex].devices[deviceIndex].states[index].state;
+				let objId = "Views." + idEncode(this.config.views[viewIndex].commonName) + "." + ('000' + deviceIndex).slice(-4) + "__" + idEncode(this.config.views[viewIndex].devices[deviceIndex].commonName) + "." + objName;
+				let objCommonRole = (typeof this.config.views[viewIndex].devices[deviceIndex].states[index].commonRole != udef && this.config.views[viewIndex].devices[deviceIndex].states[index].commonRole || "")
 				//For Backward-compatibility: Set role of VALVE_STATES to 'array' and of 'SET_VALUE' to 'const'
 				if (objCommonRole == "") {
 					if (objName == "VALVE_STATES") {
@@ -144,7 +155,7 @@ class Iqontrol extends utils.Adapter {
 						objCommonRole = "linkedState";
 					}
 				} 
-				var obj = {
+				let obj = {
 					"type": "state",
 					"common": {
 						"name": objName,
@@ -158,7 +169,7 @@ class Iqontrol extends utils.Adapter {
 					},
 					"native": {}
 				};
-				var stateValue = this.config.views[viewIndex].devices[deviceIndex].states[index].value || "";
+				let stateValue = this.config.views[viewIndex].devices[deviceIndex].states[index].value || "";
 				if (objCommonRole == 'const') {
 					stateValue = stateValue.replace(/\\n/g, '\n');
 					stateValue = "CONST:" + stateValue;
@@ -166,19 +177,30 @@ class Iqontrol extends utils.Adapter {
 					stateValue = "ARRAY:" + stateValue;
 				}					
 				createdObjects.push(objId);
-				this.setObjectAsync(objId, obj, this.setStateValue(objId, stateValue));
+				await this.setObjectAsync(objId, obj, true).then(async function(){ 
+					that.log.debug("created: " + objId); 
+					await that.setStateValue(objId, stateValue);
+				}, function(err){
+					that.log.debug("ERROR creating " + objId + ": " + err);
+				});
 			}
 		}
 	}
 
 	async setStateValue(id, value){
-		this.setStateAsync(id, value, this.logbook("created: " + id + " --> " + value)); 
+		let that = this;
+		await this.setStateAsync(id, value).then(function(){ 
+			that.log.debug("set state: " + id + " --> " + value); 
+		}, function(err){
+			that.log.debug("ERROR setting state " + id + " --> " + value + ": " + err); 
+		});
 	}
 
 	async createOptions(){
-		var objName = "Options";
-		var objId = objName;
-		var obj = {
+		let that = this;
+		let objName = "Options";
+		let objId = objName;
+		let obj = {
 			"type": "device",
 			"common": {
 				"name": objName,
@@ -296,29 +318,34 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutCSS) obj.native.LayoutCSS = this.config.optionsLayoutCSS;
 		//Options ready
 		createdObjects.push("Options");
-		this.setObjectAsync("Options", obj, this.logbook("created: Options"));
+		await this.setObjectAsync("Options", obj, true).then(function(){ 
+			that.log.debug("created: Options"); 
+		}, function(err){
+			that.log.debug("ERROR creating Options: " + err); 
+		});
 	}
 
 	async deleteUnusedObjects(){
-		this.log.debug("deleteUnusedObjects()");
-		var that = this;
+		let that = this;
 		this.getAdapterObjectsAsync(function(obj, err){
-			that.log.debug("Got Objects");
+			that.log.debug("Got Adapter Objects");
 			var ids = []
 			for (var key in obj) {
 				if (!obj.hasOwnProperty(key)) continue;
 				ids.push(key);
 			}
-			that.log.debug("These are all Objects: " + ids.toString());
+			that.log.debug("Adapter Object IDs: " + ids.length + " (" + ids.toString() + ")");
 			for(var i = 0; i < ids.length; i++){
-				var filter = ["Images"];
-				var name = ids[i].substr(that.namespace.length + 1);
+				let filter = ["Images"];
+				let name = ids[i].substr(that.namespace.length + 1);
 				if(createdObjects.indexOf(name) >= 0 || filter.indexOf(name) >= 0){
 					that.log.debug("DeviceObject " + name + " ist still in use - not deleting.")
 				} else {
 					that.log.debug("<<<deleteObject " + name);
-					that.delObjectAsync(name, function(err){
-						if(err) that.log.debug("Error while deleting: " + err); else that.log.debug("...deleted.");
+					that.delObjectAsync(name).then(function(){ 
+						that.log.debug("deleted Object " + name);
+					}, function(err){
+						that.log.debug("ERROR deleting Object " + name + ": " + err); 
 					});
 				}
 			}
@@ -340,10 +367,10 @@ class Iqontrol extends utils.Adapter {
 		this.log.info("Creating Options...");
 		await this.createOptions();
 		
-		this.log.info("Created Devices: " + createdObjects.length + " (" + createdObjects.toString() + ")");
+		this.log.debug("Created Objects: " + createdObjects.length + " (" + createdObjects.toString() + ")");
+
 		this.log.info("Deleting unused Objects...");
-		await this.deleteUnusedObjects();
-		
+		this.deleteUnusedObjects();
 		
 		
 		//--------------------------------- HELP ------------------------------------

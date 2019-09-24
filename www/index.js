@@ -39,8 +39,7 @@ var iQontrolRoles = {
 										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/button.png",
 										options: {
-											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_off: {name: "Icon", type: "icon", defaultIcons: "button.png", default: ""},
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -1175,7 +1174,6 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		}
 		//--Try to set a plainText, if it has not been set before
 		if(result.plainText == "") {
-			result.plainText = result.val;
 			if(typeof result.val == 'string') {
 				var number = result.val * 1;
 				if (number.toString() == result.val) result.val = number;
@@ -1187,6 +1185,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			} else {
 				result.type = "string";
 			}
+			result.plainText = result.val;
 		}
 	}
 	return result;
@@ -2545,7 +2544,7 @@ function renderView(id, updateOnly, callback){
 								onclick = "startButton(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceLinkedStateIds["SET_VALUE"] + "\", \"" + deviceLinkedStateIds["OFF_SET_VALUE"] + "\", \"" + returnToOffSetValueAfter + "\", \"" + deviceId + "\");";
 							}
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/button.png") + "' />";
 							break;
 

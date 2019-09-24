@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.5",
+        "version": "0.2.6",
         "news": {
+            "0.2.6": {
+                "en": "Processing the plain text of values is now done after rounding a number value, Removed Icon_on for Button, Modified main.js for controler 2.0 compatibility.",
+                "de": "Die Verarbeitung des Klartextes von Werten erfolgt nun nach dem Runden eines Zahlenwertes. Icon_on für Button entfernt, main.js geändert, um die Kompatibilität mit Controler 2.0 zu gewährleisten.",
+                "ru": "Обработка простого текста значений теперь выполняется после округления числового значения, удален Icon_on для кнопки, изменен main.js для совместимости с контроллером 2.0.",
+                "pt": "O processamento do texto sem formatação dos valores agora é feito após o arredondamento de um valor numérico, Icon_on removido para Button, main.js modificado para compatibilidade com o controler 2.0.",
+                "nl": "Het verwerken van de platte tekst van waarden wordt nu gedaan na het afronden van een getalswaarde, Icon_on for Button verwijderd, Modified main.js voor controler 2.0-compatibiliteit.",
+                "fr": "Le traitement du texte brut des valeurs est maintenant terminé après l’arrondissement du nombre, valeur Icon_on supprimée pour Button, main.js modifiée pour compatibilité avec le contrôleur 2.0.",
+                "it": "L'elaborazione del testo semplice dei valori ora viene eseguita dopo aver arrotondato un valore numerico, Icon_on rimosso per Button, main.js modificato per la compatibilità con controler 2.0.",
+                "es": "El procesamiento del texto plano de los valores ahora se realiza después de redondear un valor numérico, Icon_on eliminado para Button, Main.js modificado para compatibilidad con controler 2.0.",
+                "pl": "Przetwarzanie zwykłego tekstu wartości jest teraz wykonywane po zaokrągleniu wartości liczbowej, Usunięto Icon_on dla przycisku, Zmodyfikowano main.js dla zgodności z kontrolerem 2.0.",
+                "zh-cn": "现在，在四舍五入一个数字值之后，就可以完成对值的纯文本的处理了，删除了Button的Icon_on，修改了main.js以实现对控件2.0的兼容性。"
+            },
             "0.2.5": {
                 "en": "Adjusted handling of pressure menu for iOS 13, Added Buffer for rendering a view while pressureMenue is beeing created, Added POWER and VOLTAGE to battery.",
                 "de": "Angepasste Handhabung des Druckmenüs für iOS 13, Puffer zum Rendern einer Ansicht hinzugefügt, während pressureMenue erstellt wird, STROM und SPANNUNG zur Batterie hinzugefügt.",

@@ -283,6 +283,8 @@ In addition to normal thermostat you can define:
 
 ### 0.2.6 development
 * (Sebastian Bormann) Processing the plain text of values is now done after rounding a number value.
+* (Sebastian Bormann) Removed Icon_on for Button.
+* (Sebastian Bormann) Modified main.js for controler 2.0 compatibility.
 
 ### 0.2.5 (2019-09-22)
 * (Sebastian Bormann) Adjusted handling of pressure menu for iOS 13.
