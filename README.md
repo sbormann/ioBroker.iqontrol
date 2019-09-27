@@ -281,6 +281,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.2.8 (2019-09-27)
+* (Sebastian Bormann) Further improvement of index.js for controller 2.0 compatibility.
+
 ### 0.2.7 (2019-09-27)
 * (Sebastian Bormann) Fixed popup_width and popup_height.
 * (Sebastian Bormann) Further improvement of main.js and index.js for controller 2.0 compatibility.

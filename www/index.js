@@ -3127,8 +3127,8 @@ function renderView(id, updateOnly, callback){
 											}
 											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(val + unit + modeText);
-											if (typeof _linkedPartyTemperatureId !== udef && typeof states[_linkedPartyTemperatureId] !== udef && states[_linkedPartyTemperatureId] !== null && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
-											if (typeof _linkedWindowOpenReportingId !== udef && typeof states[_linkedWindowOpenReportingId] !== udef && states[_linkedWindowOpenReportingId] !== null && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
+											if (_linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
+											if (_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
 											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (val !== "" && (val <= min || val >= max))) {
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 											} else {
