@@ -39,7 +39,9 @@ var iQontrolRoles = {
 										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/button.png",
 										options: {
-											icon_off: {name: "Icon", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											showState: {name: "Show State", type: "checkbox", default: "false"}, 
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -321,6 +323,7 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											showState: {name: "Show State", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
@@ -356,7 +359,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Popup Height [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
@@ -376,7 +379,7 @@ var iQontrolRoles = {
 										}
 									}
 };
-
+ 
 //Delcarations
 const udef = 'undefined';
 var link;

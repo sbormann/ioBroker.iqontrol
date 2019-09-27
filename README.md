@@ -281,8 +281,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 0.2.7 development
+### 0.2.7 (2019-09-27)
 * (Sebastian Bormann) Fixed popup_width and popup_height.
+* (Sebastian Bormann) Further improvement of main.js and index.js for controller 2.0 compatibility.
+* (Sebastian Bormann) Added option showState for Button and Program.
 
 ### 0.2.6 (2019-09-24)
 * (Sebastian Bormann) Processing the plain text of values is now done after rounding a number value.

@@ -327,7 +327,7 @@ class Iqontrol extends utils.Adapter {
 
 	async deleteUnusedObjects(){
 		let that = this;
-		this.getAdapterObjectsAsync(function(obj, err){
+		this.getAdapterObjectsAsync().then(function(obj){
 			that.log.debug("Got Adapter Objects");
 			var ids = []
 			for (var key in obj) {

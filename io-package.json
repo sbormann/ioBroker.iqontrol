@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.6",
+        "version": "0.2.7",
         "news": {
+            "0.2.7": {
+                "en": "Fixed popup_width and popup_height, Further improvement of main.js and index.js for controller 2.0 compatibility, Added option showState for Button and Program.",
+                "de": "Behoben: popup_width und popup_height. Weitere Verbesserung von main.js und index.js für die Controller 2.0-Kompatibilität. Option showState für Button und Programm hinzugefügt.",
+                "ru": "Исправлены popup_width и popup_height, дальнейшее улучшение main.js и index.js для совместимости с контроллером 2.0, добавлена ​​опция showState для кнопки и программы.",
+                "pt": "Corrigido popup_width e popup_height, Melhoria adicional de main.js e index.js para compatibilidade com o controlador 2.0, opção adicionada showState para Button e Program.",
+                "nl": "Vaste popup_width en popup_height, Verdere verbetering van main.js en index.js voor compatibiliteit met controller 2.0, Optie showState toegevoegd voor knop en programma.",
+                "fr": "Popup_width et popup_height fixes, nouvelle amélioration de main.js et index.js pour la compatibilité avec le contrôleur 2.0, option ajoutée showState pour Button et Program.",
+                "it": "Risolto popup_width e popup_height, ulteriore miglioramento di main.js e index.js per la compatibilità del controller 2.0, aggiunta opzione showState per Button e Program.",
+                "es": "Se corrigió popup_width y popup_height, Mejora adicional de main.js e index.js para la compatibilidad del controlador 2.0, Se agregó la opción showState para Button y Program.",
+                "pl": "Naprawiono popup_width i popup_height, Dalsza poprawa main.js i index.js dla kompatybilności kontrolera 2.0, Dodano opcję showState dla przycisku i programu.",
+                "zh-cn": "修复了popup_width和popup_height，进一步改进了main.js和index.js以实现控制器2.0兼容性，并为Button和Program添加了选项showState。"
+            },
             "0.2.6": {
                 "en": "Processing the plain text of values is now done after rounding a number value, Removed Icon_on for Button, Modified main.js for controler 2.0 compatibility.",
                 "de": "Die Verarbeitung des Klartextes von Werten erfolgt nun nach dem Runden eines Zahlenwertes. Icon_on für Button entfernt, main.js geändert, um die Kompatibilität mit Controler 2.0 zu gewährleisten.",

@@ -39,7 +39,9 @@ var iQontrolRoles = {
 										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/button.png",
 										options: {
-											icon_off: {name: "Icon", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											showState: {name: "Show State", type: "checkbox", default: "false"}, 
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -321,6 +323,7 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											showState: {name: "Show State", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
@@ -356,7 +359,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Popup Height [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
@@ -2511,7 +2514,7 @@ function renderView(id, updateOnly, callback){
 						if (!(typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.noOverlayActive != udef && usedObjects[deviceId].native.noOverlayActive == "true")){
 							deviceContent += "<div class='iQontrolDeviceBackground active' data-iQontrol-Device-ID='" + deviceId + "'></div>";
 						}
-						//--Icon with Link to Switch
+						//--Icon with Link to Switch 
 						var linkContent = "";
 						var iconContent = "";
 						var onclick = "";
@@ -2544,7 +2547,7 @@ function renderView(id, updateOnly, callback){
 								onclick = "startButton(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceLinkedStateIds["SET_VALUE"] + "\", \"" + deviceLinkedStateIds["OFF_SET_VALUE"] + "\", \"" + returnToOffSetValueAfter + "\", \"" + deviceId + "\");";
 							}
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceId + "' onclick='" + onclick + "'>";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceId + "' src='" + (icons["off"] || "./images/icons/button.png") + "' />";
 							break;
 
@@ -3035,17 +3038,40 @@ function renderView(id, updateOnly, callback){
 						//--State
 						deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceId + "'>";
 							switch(usedObjects[deviceId].common.role){
-								case "iQontrolView": case "iQontrolButton":
+								case "iQontrolView": 
 								//Do nothing
 								break;
 
-								case "iQontrolProgram":
+								case "iQontrolButton": case "iQontrolProgram":
 								if (deviceLinkedStateIds["STATE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceId = deviceId;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var showState = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.showState != udef && usedObjects[_deviceId].native.showState == "true") || false;
+											if(showState && state && typeof state.val !== udef ){
+												if(typeof state.plainText == 'number'){	//STATE = number (= level)
+													result = state.val;
+													resultText = result + state.unit;
+												} else { 								//STATE = bool or text
+													result = state.val;
+													resultText = state.plainText;
+												}
+												if(resultText == "0%") resultText = _("off");
+												resultText = unescape(resultText);
+												if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(resultText);
+												if(state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").removeClass("active");
+												} else {
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.off").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceIcon.on").removeClass("active");
+												}
+											}
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
 									})(); //<--End Closure
@@ -3094,15 +3120,15 @@ function renderView(id, updateOnly, callback){
 											var controlModeDisabledValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisabledValue != udef && usedObjects[_deviceId].native.controlModeDisabledValue) || "";
 											if (typeof _linkedControlModeId !== udef) {
 												var state = getStateObject(_linkedControlModeId);
-												if(typeof state.val !== udef) {
+												if(state && typeof state.val !== udef) {
 													mode = state.val;
 													modeText = state.plainText;
 												}
 											}
 											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").html(val + unit + modeText);
-											if (typeof _linkedPartyTemperatureId !== udef && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
-											if (typeof _linkedWindowOpenReportingId !== udef && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
+											if (typeof _linkedPartyTemperatureId !== udef && typeof states[_linkedPartyTemperatureId] !== udef && states[_linkedPartyTemperatureId] !== null && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
+											if (typeof _linkedWindowOpenReportingId !== udef && typeof states[_linkedWindowOpenReportingId] !== udef && states[_linkedWindowOpenReportingId] !== null && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
 											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (val !== "" && (val <= min || val >= max))) {
 												$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDevice").removeClass("active");
 											} else {
