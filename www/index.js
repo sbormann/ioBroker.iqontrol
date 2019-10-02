@@ -390,6 +390,7 @@ var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, 
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
 var options = {};								//Contains the options (extracted form <namespace + '.Options'>'.native')
+var returnAfterTimeTimer = false;				//If the option ReturnAfterTime is active, this is the running timer ID for the setted treshold
 
 var toolbar = [];								//Contains the toolbar (extracted form <namespace + '.Toolbar'>) in the form of [ID]
 var toolbarLinksToOtherViews = [];				//Will become History when clicking on a link to other view on actual view
@@ -697,6 +698,16 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 				return;
 			}
 		}
+		//PIN-Code
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].pincode !== udef && usedObjects[stateId].common.custom[namespace].pincode !== "") {
+			var pincode = usedObjects[stateId].common.custom[namespace].pincode;
+			if (prompt(_("Please enter Code")) != pincode) {
+				alert(_("Wrong Code"));
+				updateState(stateId, "ignorePreventUpdateForDialog");
+				if (callback) callback();
+				return;
+			}
+		}
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
 		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
 		var convertTo = "";
@@ -963,10 +974,10 @@ function getPlainText(linkedStateId){ //Gets plain text from a state that is a v
 function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
 	if(!linkedStateId || linkedStateId == "") return;
 	var result = {};
-	if(typeof states[linkedStateId] !== udef) {
+	if(typeof states[linkedStateId] !== udef && states[linkedStateId] !== null) {
 		result = Object.assign(result, states[linkedStateId]);
 	}
-	if(typeof usedObjects[linkedStateId] !== udef) {
+	if(typeof usedObjects[linkedStateId] !== udef && usedObjects[linkedStateId] !== null) {
 		//--Declare plainText
 		result.plainText = "";
 		//--Add custom
@@ -2170,6 +2181,21 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		//Return after time
+		if(options.LayoutViewReturnAfterTimeEnabled) {
+			let treshold = options.LayoutViewReturnAfterTimeTreshold || "600";
+			if(!isNaN(treshold)) treshold = treshold * 1; else treshold = 600;
+			$(document).on("touchstart mousedown keydown", function(){
+				let destinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
+				console.log("Return after time - timer started (treshold: " + treshold + ", destinationView: " + destinationView + ")");
+				if (returnAfterTimeTimer) clearTimeout(returnAfterTimeTimer);
+				returnAfterTimeTimer = setTimeout(function(){
+					console.log("Return after time to: " + destinationView);
+					returnAfterTimeTimer = false;
+					renderView(destinationView);
+				}, (treshold * 1000));
+			}).trigger("keydown");
+		}
 		//Own CSS:
 		if(options.LayoutCSS) {
 			customCSS = options.LayoutCSS;
@@ -3751,6 +3777,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
 					var _confirm = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== "");
 					var DialogStateSliderReadoutTimer;
 					var updateFunction = function(){
 						var stateSetTemperature = getStateObject(_linkedSetTemperatureId);
@@ -3765,7 +3792,7 @@ function renderDialog(deviceId){
 						$('#DialogStateSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogStateSliderReadoutTimer);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogStateSliderReadoutTimer = setInterval(function(){
 										setState(_linkedSetTemperatureId, _deviceId, $("#DialogStateSlider").val() * 1);
 									}, 5000);
@@ -3920,6 +3947,7 @@ function renderDialog(deviceId){
 						var _linkedStateId = dialogLinkedStateIds["STATE"];
 						var _sliderSendRate = sliderSendRate;
 						var _confirm = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && usedObjects[_linkedStateId].common.custom[namespace].confirm == true);
+						var _pincodeSet = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[_linkedStateId].common.custom[namespace].pincode !== udef && usedObjects[_linkedStateId].common.custom[namespace].pincode !== "");
 						var DialogStateSliderReadoutTimer;
 						var updateFunction = function(){
 							var state = getStateObject(_linkedStateId);
@@ -3934,7 +3962,7 @@ function renderDialog(deviceId){
 							$('#DialogStateSlider').slider({
 								start: function(event, ui){
 									clearInterval(DialogStateSliderReadoutTimer);
-									if (!_confirm){
+									if (!_confirm && !_pincodeSet){
 										DialogStateSliderReadoutTimer = setInterval(function(){
 											setState(_linkedStateId, _deviceId, $("#DialogStateSlider").val());
 											dialogUpdateTimestamp(states[_linkedStateId]);
@@ -4042,6 +4070,7 @@ function renderDialog(deviceId){
 						var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 						var _sliderSendRate = sliderSendRate;
 						var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
+						var _pincodeSet = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedLevelId].common.custom[namespace].pincode !== "");
 						var DialogLevelSliderReadoutTimer;
 						var updateFunction = function(){
 							var stateLevel = getStateObject(_linkedLevelId);
@@ -4056,7 +4085,7 @@ function renderDialog(deviceId){
 							$('#DialogLevelSlider').slider({
 								start: function(event, ui){
 									clearInterval(DialogLevelSliderReadoutTimer);
-									if (!_confirm) {
+									if (!_confirm && !_pincodeSet) {
 										DialogLevelSliderReadoutTimer = setInterval(function(){
 											setState(_linkedLevelId, _deviceId, $("#DialogLevelSlider").val());
 											dialogUpdateTimestamp(states[_linkedLevelId]);
@@ -4169,6 +4198,7 @@ function renderDialog(deviceId){
 						var _deviceId = deviceId;
 						var _linkedSlatsLevelId = dialogLinkedStateIds["SLATS_LEVEL"];
 						var _confirm = (usedObjects[_linkedSlatsLevelId] && typeof usedObjects[_linkedSlatsLevelId].common !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm == true);
+						var _pincodeSet = (usedObjects[_linkedSlatsLevelId] && typeof usedObjects[_linkedSlatsLevelId].common !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== "");
 						var DialogSlatsLevelSliderReadoutTimer;
 						var updateFunction = function(){
 							var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
@@ -4183,7 +4213,7 @@ function renderDialog(deviceId){
 							$('#DialogSlatsLevelSlider').slider({
 								start: function(event, ui){
 									clearInterval(DialogSlatsLevelSliderReadoutTimer);
-									if (!_confirm) {
+									if (!_confirm && !_pincodeSet) {
 										DialogSlatsLevelSliderReadoutTimer = setInterval(function(){
 											setState(_linkedSlatsLevelId, _deviceId, $("#DialogSlatsLevelSlider").val());
 											dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
@@ -4797,6 +4827,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedHueId = dialogLinkedStateIds["HUE"];
 					var _confirm = (usedObjects[_linkedHueId] && typeof usedObjects[_linkedHueId].common !== udef && typeof usedObjects[_linkedHueId].common.custom !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace].confirm !== udef && usedObjects[_linkedHueId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedHueId] && typeof usedObjects[_linkedHueId].common !== udef && typeof usedObjects[_linkedHueId].common.custom !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace].pincode !== udef && usedObjects[_linkedHueId].common.custom[namespace].pincode !== "");
 					var DialogHueSliderReadoutTimer;
 					var DialogHueSliderReadoutTimer2;
 					var updateFunction = function(){
@@ -4812,7 +4843,7 @@ function renderDialog(deviceId){
 							start: function(event, ui){
 								clearInterval(DialogHueSliderReadoutTimer);
 								clearInterval(DialogHueSliderReadoutTimer2);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogHueSliderReadoutTimer = setInterval(function(){
 										if(_linkedHueId && _linkedHueId != ""){
 											setState(_linkedHueId, _deviceId, $("#DialogHueSlider").val());
@@ -4855,6 +4886,7 @@ function renderDialog(deviceId){
 					var _linkedHueId = dialogLinkedStateIds["HUE"];
 					var _linkedSaturationId = dialogLinkedStateIds["SATURATION"];
 					var _confirm = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && typeof usedObjects[_linkedSaturationId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].pincode !== "");
 					var DialogSaturationSliderReadoutTimer;
 					var updateFunction = function(){
 						var stateSaturation = getStateObject(_linkedSaturationId);
@@ -4880,7 +4912,7 @@ function renderDialog(deviceId){
 						$('#DialogSaturationSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogSaturationSliderReadoutTimer);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogSaturationSliderReadoutTimer = setInterval(function(){
 										if(_linkedSaturationId && _linkedSaturationId != ""){
 											setState(_linkedSaturationId, _deviceId, $("#DialogSaturationSlider").val());
@@ -4914,6 +4946,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedColorBrightnessId = dialogLinkedStateIds["COLOR_BRIGHTNESS"];
 					var _confirm = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== "");
 					var DialogColorBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
 						var stateColorBrightness = getStateObject(_linkedColorBrightnessId);
@@ -4927,7 +4960,7 @@ function renderDialog(deviceId){
 						$('#DialogColorBrightnessSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogColorBrightnessSliderReadoutTimer);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogColorBrightnessSliderReadoutTimer = setInterval(function(){
 										if(_linkedColorBrightnessId && _linkedColorBrightnessId != ""){
 											setState(_linkedColorBrightnessId, _deviceId, $("#DialogColorBrightnessSlider").val());
@@ -4964,6 +4997,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedCtId = dialogLinkedStateIds["CT"];
 					var _confirm = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace].confirm !== udef && usedObjects[_linkedCtId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && typeof usedObjects[_linkedCtId].common.custom[namespace].pincode !== udef && usedObjects[_linkedCtId].common.custom[namespace].pincode !== "");
 					var DialogCtSliderReadoutTimer;
 					var updateFunction = function(){
 						var stateCt = getStateObject(_linkedCtId);
@@ -4977,7 +5011,7 @@ function renderDialog(deviceId){
 						$('#DialogCtSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogCtSliderReadoutTimer);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogCtSliderReadoutTimer = setInterval(function(){
 										if(_linkedCtId && _linkedCtId != ""){
 											setState(_linkedCtId, _deviceId, $("#DialogCtSlider").val());
@@ -5011,6 +5045,7 @@ function renderDialog(deviceId){
 					var _deviceId = deviceId;
 					var _linkedWhiteBrightnessId = dialogLinkedStateIds["WHITE_BRIGHTNESS"];
 					var _confirm = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm == true);
+					var _pincodeSet = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== "");
 					var DialogWhiteBrightnessSliderReadoutTimer;
 					var updateFunction = function(){
 						var stateWhiteBrightness = getStateObject(_linkedWhiteBrightnessId);
@@ -5024,7 +5059,7 @@ function renderDialog(deviceId){
 						$('#DialogWhiteBrightnessSlider').slider({
 							start: function(event, ui){
 								clearInterval(DialogWhiteBrightnessSliderReadoutTimer);
-								if (!_confirm){
+								if (!_confirm && !_pincodeSet){
 									DialogWhiteBrightnessSliderReadoutTimer = setInterval(function(){
 										if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId != ""){
 											setState(_linkedWhiteBrightnessId, _deviceId, $("#DialogWhiteBrightnessSlider").val());

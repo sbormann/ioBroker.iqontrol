@@ -1240,6 +1240,30 @@
 							</div>
 							<div class="row">
 								<div class="col s12">
+									<p class="translate sub-title">Return after time:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutViewReturnAfterTimeEnabled" />
+									<label for="optionsLayoutViewReturnAfterTimeEnabled" class="translate">Enable return after time</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="60" max="86400" id="optionsLayoutViewReturnAfterTimeTreshold" placeholder="600" />
+									<label for="optionsLayoutViewReturnAfterTimeTreshold" class="translate">Time in seconds (return is triggered after this time of inactivity):</label>
+									<span class="helper-text" data-error="60 - 86400" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="text" id="optionsLayoutViewReturnAfterTimeDestinationView" placeholder="" />
+									<label for="optionsLayoutViewReturnAfterTimeDestinationView" class="translate">Return to this view (if empty the first toolbar-entry is used):</label>
+									<span class="helper-text translate">Example: iqontrol.0.Views.Home</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
 									<p class="translate sub-title">CSS (Experts only):</p>
 								</div>
 							</div>

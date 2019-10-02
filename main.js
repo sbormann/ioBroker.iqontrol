@@ -314,6 +314,10 @@ class Iqontrol extends utils.Adapter {
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled) obj.native.LayoutViewResizeDevicesToFitScreenDisabled = this.config.optionsLayoutViewResizeDevicesToFitScreenDisabled;
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold) obj.native.LayoutViewResizeDevicesToFitScreeTreshold = this.config.optionsLayoutViewResizeDevicesToFitScreenTreshold;
 		if (this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens) obj.native.LayoutViewResizeDevicesToFitScreenOnBigScreens = this.config.optionsLayoutViewResizeDevicesToFitScreenOnBigScreens;
+		//Return after time
+		if (this.config.optionsLayoutViewReturnAfterTimeEnabled) obj.native.LayoutViewReturnAfterTimeEnabled = this.config.optionsLayoutViewReturnAfterTimeEnabled;
+		if (this.config.optionsLayoutViewReturnAfterTimeTreshold) obj.native.LayoutViewReturnAfterTimeTreshold = this.config.optionsLayoutViewReturnAfterTimeTreshold;
+		if (this.config.optionsLayoutViewReturnAfterTimeDestinationView) obj.native.LayoutViewReturnAfterTimeDestinationView = this.config.optionsLayoutViewReturnAfterTimeDestinationView;
 		//Own CSS:
 		if (this.config.optionsLayoutCSS) obj.native.LayoutCSS = this.config.optionsLayoutCSS;
 		//Options ready

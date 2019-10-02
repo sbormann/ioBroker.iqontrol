@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.8",
+        "version": "0.2.9",
         "news": {
+            "0.2.9": {
+                "en": "Added optional PIN-Code to custom datapoint-configuration dialog (wrench icon), Added option to return to a view after a settable time of inactivity to settings.",
+                "de": "Optionaler PIN-Code zum benutzerdefinierten Datenpunkt-Konfigurationsdialog hinzugefügt (Schraubenschlüsselsymbol). Option hinzugefügt, um nach einer einstellbaren Zeit der Inaktivität zu Einstellungen zu einer Ansicht zurückzukehren.",
+                "ru": "Добавлен необязательный PIN-код в настраиваемое диалоговое окно конфигурации datapoint (значок гаечного ключа), Добавлена ​​возможность возврата к представлению после установленного времени бездействия для настроек.",
+                "pt": "Adicionado código PIN opcional à caixa de diálogo de configuração de ponto de dados personalizada (ícone de chave inglesa), opção adicionada para retornar a uma exibição após um tempo de inatividade configurável nas configurações.",
+                "nl": "Optionele PIN-code toegevoegd aan aangepast datapunt-configuratiedialoog (moersleutelpictogram), optie toegevoegd om terug te keren naar een weergave na een instelbare tijd van inactiviteit naar instellingen.",
+                "fr": "Ajout du code PIN facultatif à la boîte de dialogue de configuration de point de données personnalisée (icône de clé), option ajoutée pour revenir à une vue après une durée d'inactivité paramétrable.",
+                "it": "Aggiunto il codice PIN opzionale alla finestra di dialogo di configurazione personalizzata del punto dati (icona della chiave inglese), aggiunta l'opzione per tornare a una vista dopo un periodo di inattività impostabile alle impostazioni.",
+                "es": "Se agregó un código PIN opcional al cuadro de diálogo de configuración de punto de datos personalizado (icono de llave inglesa), se agregó la opción para volver a una vista después de un tiempo configurable de inactividad a la configuración.",
+                "pl": "Dodano opcjonalny kod PIN do niestandardowego okna dialogowego konfiguracji punktu danych (ikona klucza), Dodano opcję powrotu do widoku po ustawionym czasie braku aktywności w ustawieniach.",
+                "zh-cn": "在自定义数据点配置对话框（扳手图标）中添加了可选的PIN码，并添加了选项，以在可设置的无设置时间后返回视图。"
+            },
             "0.2.8": {
                 "en": "Further improvement of index.js for controller 2.0 compatibility",
                 "de": "Weitere Verbesserung von index.js für die Controller 2.0-Kompatibilität",

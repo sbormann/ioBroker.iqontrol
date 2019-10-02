@@ -34,6 +34,16 @@
 		<div class="col s4">
 		</div>
 		<div class="input-field col s8">
+			<input type="text" class="enableOnChange" data-field="pincode">
+			<span class="translate">PIN-Code</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(before sending a state you have to enter this code)</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s8">
 			<input type="text" class="enableOnChange" data-field="unit">
 			<span class="translate">Unit</span>
 		</div>
@@ -183,6 +193,7 @@
 				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
 				invert:			false,
 				confirm:		false,
+				pincode:		"",
 				unit:			(obj && obj.common && obj.common.unit) || "",
 				unit_zero:		(obj && obj.common && obj.common.unit) || "",
 				unit_one:		(obj && obj.common && obj.common.unit) || "",
