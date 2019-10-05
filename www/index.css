@@ -29,6 +29,99 @@ body {
 	100% { transform: rotate(360deg); }
 }
 
+
+#pincode {
+	display: none;
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color: rgba(0,0,0,0.3);
+	-webkit-backdrop-filter: blur(5px);
+	   -moz-backdrop-filter: blur(5px);
+		    backdrop-filter: blur(5px);
+	z-index: 9990;
+}
+.pincodeForm {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	width: 280px; 
+	height: 445px;
+	position: fixed;
+	top: 45%;
+	left: 50%;
+	padding: 0px;
+	margin-left: -140px;
+	margin-top: -215px;
+	background: transparent;
+	border: 0px solid rgba(0,0,0,0.3);
+	border-radius: 15px;	
+	xoverflow: hidden;
+}
+.pincodePin {
+	background: transparent;
+	color: white;
+	margin: 10px;
+	padding: 0px;
+	width: 260px;
+	font-size: 3em;
+	text-align: center;
+	letter-spacing: 0.1em;
+	border: none;
+	outline: none;
+	overflow: hidden;
+}
+.pincodeButton {
+	background-color: rgba(255,255,255,0.4);
+	display: inline-block;
+	color: #eee;
+	border: none;
+	border-radius: 50%;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+	width: 70px;
+	height: 70px;
+	line-height: 70px;
+	margin: 7px 10px;
+	padding: 0px;
+	overflow: hidden;
+}
+.pincodeButton:hover {
+ 	box-shadow: #506CE8 0 0 1px 1px;
+}
+.pincodeButton:active {
+ 	background: #506CE8;
+	color: #fff;
+}
+.pincodeButton.clear, .pincodeButton.enter {
+	font-size: 1em;
+	font-weight: normal;
+}
+.pincodeButton.clear:hover {
+ 	box-shadow: #ff3c41 0 0 1px 1px;
+}
+.pincodeButton.clear:active {
+ 	background: #ff3c41;
+	color: #fff;
+}
+.pincodeButton.enter:hover {
+ 	box-shadow: #47cf73 0 0 1px 1px;
+}
+.pincodeButton.enter:active {
+ 	background: #47cf73;
+	color: #fff;
+}
+
 #Toolbar{
 	border-width: 0px !important;
 	background: transparent !important;

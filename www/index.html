@@ -53,6 +53,29 @@
 </head>
 <body>
 	<div class="loader"></div>
+	
+	<div id="pincode">
+		<form class="pincodeForm" name="pincodeForm" id="pincodeForm" action="" method="" autocomplete="off" draggable="true">
+			<input type="password" class="pincodePin" name="pincodePin" id="pincodePin" value="" disabled />
+			<br>
+			<div class="pincodeButton" onclick="pincodeAddNumber(1);" ondblclick="">1</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(2);" ondblclick="">2</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(3);" ondblclick="">3</div>
+			<br>
+			<div class="pincodeButton" onclick="pincodeAddNumber(4);" ondblclick="">4</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(5);" ondblclick="">5</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(6);" ondblclick="">6</div>
+			<br>
+			<div class="pincodeButton" onclick="pincodeAddNumber(7);" ondblclick="">7</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(8);" ondblclick="">8</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(9);" ondblclick="">9</div>
+			<br>
+			<div class="pincodeButton clear" onclick="pincodeClear();">clear</div>
+			<div class="pincodeButton" onclick="pincodeAddNumber(0);" ondblclick="">0</div>
+			<div class="pincodeButton enter" onclick="pincodeEnter();">enter</div>
+			<br>
+		</form>
+	</div>
 
 	<div data-role="page" id="View" class="swipePage">
 		<!-- <div data-role="header"> -->

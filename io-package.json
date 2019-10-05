@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.9",
+        "version": "0.2.10",
         "news": {
+            "0.2.10": {
+                "en": "Enhanced PIN-Code to view a num-pad when using an alphanumeric PIN.",
+                "de": "Verbesserter PIN-Code zur Anzeige eines Nummernblocks bei Verwendung einer alphanumerischen PIN.",
+                "ru": "Улучшенный PIN-код для просмотра цифровой клавиатуры при использовании буквенно-цифрового PIN.",
+                "pt": "Código PIN aprimorado para exibir um teclado numérico ao usar um PIN alfanumérico.",
+                "nl": "Verbeterde pincode om een ​​numeriek toetsenblok te bekijken bij gebruik van een alfanumerieke pincode.",
+                "fr": "Code PIN amélioré pour afficher un pavé numérique lors de l'utilisation d'un code PIN alphanumérique.",
+                "it": "Codice PIN avanzato per visualizzare un tastierino numerico quando si utilizza un PIN alfanumerico.",
+                "es": "Código PIN mejorado para ver un teclado numérico cuando se usa un PIN alfanumérico.",
+                "pl": "Ulepszony kod PIN, aby wyświetlić klawiaturę numeryczną podczas korzystania z alfanumerycznego kodu PIN.",
+                "zh-cn": "增强的PIN码，用于在使用字母数字PIN时查看数字键盘。"
+            },
             "0.2.9": {
                 "en": "Added optional PIN-Code to custom datapoint-configuration dialog (wrench icon), Added option to return to a view after a settable time of inactivity to settings.",
                 "de": "Optionaler PIN-Code zum benutzerdefinierten Datenpunkt-Konfigurationsdialog hinzugefügt (Schraubenschlüsselsymbol). Option hinzugefügt, um nach einer einstellbaren Zeit der Inaktivität zu Einstellungen zu einer Ansicht zurückzukehren.",

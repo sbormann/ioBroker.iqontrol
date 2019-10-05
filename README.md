@@ -283,6 +283,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.2.10 (2019-10-05)
+* (Sebatian Bormann) Enhanced PIN-Code to view a num-pad when using an alphanumeric PIN.
+
 ### 0.2.9 (2019-10-02)
 * (Sebastian Bormann) Added optional PIN-Code to custom datapoint-configuration dialog (wrench icon).
 * (Sebastian Bormann) Added option to return to a view after a settable time of inactivity to settings.

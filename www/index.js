@@ -685,7 +685,7 @@ function fetchStates(ids, callback){
 	}
 }
 
-function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
+async function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
 	if (!preventUpdateTime) preventUpdateTime = 5000;
 	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
@@ -700,8 +700,14 @@ function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdat
 		}
 		//PIN-Code
 		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].pincode !== udef && usedObjects[stateId].common.custom[namespace].pincode !== "") {
-			var pincode = usedObjects[stateId].common.custom[namespace].pincode;
-			if (prompt(_("Please enter Code")) != pincode) {
+			var givenPincode = usedObjects[stateId].common.custom[namespace].pincode;
+			var enteredPincode = "";
+			if (isNaN(givenPincode)){
+				enteredPincode = prompt(_("Please enter Code"));
+			} else {
+				enteredPincode = await pincode();
+			}
+			if (enteredPincode != givenPincode) {
 				alert(_("Wrong Code"));
 				updateState(stateId, "ignorePreventUpdateForDialog");
 				if (callback) callback();
@@ -1662,6 +1668,49 @@ function rgbToHsv(r, g, b){
 
 function modulo(n, m){
 	return ((n % m) + m) %m;
+}
+
+async function pincode(){
+	pincodeClear();
+	$('#pincode').show(150);
+	var pincodeEnter;
+	$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	await pincodeWaitForPincode();
+	$('#pincode').hide(150);
+	setTimeout(function(){$(document).trigger("keydown");}, 200);
+	return $('#pincodePin').val();
+}
+
+function pincodeWaitForPincode(){
+	return new Promise(function(resolve, reject) { 
+		pincodeEnter = resolve; 
+	});
+}
+
+function pincodeKeydown(which){
+	if($('#pincode').css('display') != "none"){
+		console.log("pincode Keydown: " + which);
+		if (which == 13) {
+			pincodeEnter();
+		} else if(which == 8){
+			$("#pincodePin").val($("#pincodePin").val().slice(0, -1));			
+		} else if(48 <= which && which <= 57){
+			pincodeAddNumber(which - 48);
+		} else if(96 <= which && which <= 105){
+			pincodeAddNumber(which - 96);
+		}
+		$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	} else {
+		console.log("pincode Keydown end listening");		
+	}
+}
+
+function pincodeAddNumber(number){
+	$("#pincodePin").val($("#pincodePin").val() + number);
+}
+
+function pincodeClear(){
+	$("#pincodePin").val("");	
 }
 
 function getUrlParameter(name) {
