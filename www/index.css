@@ -6,6 +6,9 @@ body {
 	background-size: cover;
 	-webkit-touch-callout: none !important;
 }
+.small {
+	font-size: 70%;
+}
 
 .loader {
 	-webkit-user-select: none !important;
@@ -29,7 +32,6 @@ body {
 	100% { transform: rotate(360deg); }
 }
 
-
 #pincode {
 	display: none;
 	-webkit-user-select: none !important;
@@ -43,7 +45,7 @@ body {
 	left: 0px;
 	margin: 0px;
 	padding: 0px;
-	background-color: rgba(0,0,0,0.3);
+	background-color: rgba(0,0,0,0.4);
 	-webkit-backdrop-filter: blur(5px);
 	   -moz-backdrop-filter: blur(5px);
 		    backdrop-filter: blur(5px);
@@ -122,11 +124,40 @@ body {
 	color: #fff;
 }
 
+#ToolbarPressureMenu{
+	background-color: #ffffffbf;
+	max-height: 80vh;
+	padding: 1px;
+	overflow-y: auto;
+}
+#ToolbarPressureMenu a{
+	min-width: 200px;
+	background-color: #d8d8d899;
+	border-top: 1px solid #9e9b9b82;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #9e9b9b82;
+	margin: -1px;
+	padding: 20px 40px 20px 10px;
+}
+#ViewPressureMenu{
+	background-color: #ffffffbf;
+}
+#ViewPressureMenu a{
+	min-width: 200px;
+	background-color: #d8d8d899;
+	border-top: 1px solid #9e9b9b82;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #9e9b9b82;
+	margin: -1px;
+	padding: 20px 40px 20px 10px;
+}
+
 #Toolbar{
 	border-width: 0px !important;
 	background: transparent !important;
 }
-
 .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){
 	max-width: 100%;
 	background-color: #333333 !important;
@@ -134,12 +165,10 @@ body {
 	color: #ffffff !important;
     text-shadow: 0 1px 0 #111111 !important;
 }
-
 .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{
 	background-color: #373737 !important;
 	color: #ffffff !important;
 }
-
 .iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{
 	max-width: 100%;
 	z-index: 20;
@@ -149,7 +178,6 @@ body {
     box-shadow: 0 0 12px 1px #0c5088 !important;
     text-shadow: 0 1px 0 0 #111111 !important;
 }
-
 .iQontrolToolbarLink.ui-btn:after{
 	background-color: transparent !important;
 }
@@ -157,7 +185,6 @@ body {
 #View{
 	background-color: transparent;
 }
-
 #ViewMain {
 	overflow-y:hidden;
 	margin: 0px;
@@ -177,7 +204,6 @@ body {
 	margin-right: -5px;
 	padding-left: 7px;
 }
-
 #ViewContent {
 	transform-origin: left top;
 	padding-bottom: 300px;
@@ -189,7 +215,6 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-
 #ViewContent h4 {
 	background-color: rgba(0,0,0,0.15);
 	margin-left: -5px;
@@ -220,7 +245,6 @@ body {
 	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 }
-
 .iQontrolDevice{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -249,28 +273,24 @@ body {
 	text-align: left;
 	overflow: hidden;
 }
-
 .iQontrolDevice:hover{
 	border: 0px solid rgba(255, 255, 255, 0.8);
 	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 }
-
 .iQontrolDeviceLink{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: default !important;
 }
-
 .iQontrolDeviceLinkToToggle {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 }
-
 .iQontrolDeviceBackgroundImage {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -291,13 +311,11 @@ body {
 			transition: all 1s;
 	overflow: hidden;
 }
-
 .iQontrolDeviceBackgroundImage:hover {
 	-webkit-transform: scale3d(1.05,1.05,1);
 	   -moz-transform: scale3d(1.05,1.05,1);
 			transform: scale3d(1.05,1.05,1);
 }
-
 .iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active) {
 	pointer-events:none !important;
 	opacity: 0 !important;
@@ -305,7 +323,6 @@ body {
 	   -moz-transition: opacity 1.25s ease-in;
 			transition: opacity 1.25s ease-in;
 }
-
 .iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
 	pointer-events:none !important;
 	opacity: 0 !important;
@@ -313,27 +330,22 @@ body {
 	   -moz-transition: opacity 1.25s ease-in;
 			transition: opacity 1.25s ease-in;
 }
-
 .iQontrolDeviceBackgroundImage:not(.active) {
 	background-color: rgba(255, 255, 255, 0.6);
 	opacity: 0.99;
 }
-
 .iQontrolDeviceBackgroundImage:not(.active):hover {
 	background-color: rgba(255, 255, 255, 0.6);
 	opacity: 0.99;
 }
-
 .iQontrolDeviceBackgroundImage.active {
 	background-color: rgba(255, 255, 255, 0.6);
 	opacity: 0.99;
 }
-
 .iQontrolDeviceBackgroundImage.active:hover {
 	background-color: rgba(255, 255, 255, 0.6);
 	opacity: 0.99;
 }
-
 .iQontrolDeviceBackground {
 	pointer-events: none !important;	
 	-webkit-user-select: none !important;
@@ -354,35 +366,28 @@ body {
 			transition: all 1s;
 	overflow: hidden;
 }
-
 .iQontrolDevice.active .iQontrolDeviceBackground:not(.active) {
 	opacity: 0 !important;
 }
-
 .iQontrolDevice:not(.active) .iQontrolDeviceBackground.active {
 	opacity: 0 !important;
 }
-
 .iQontrolDeviceBackground:not(.active) {
 	background-color: rgb(180, 180, 180);
 	opacity: 0.5;
 }
-
 .iQontrolDevice:hover .iQontrolDeviceBackground:not(.active) {
 	background-color: rgb(190, 190, 190);
 	opacity: 0.9;
 }
-
 .iQontrolDeviceBackground.active {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.82;
 }
-
 .iQontrolDevice:hover .iQontrolDeviceBackground.active {
 	background-color: rgb(255, 255, 255);
 	opacity: 0.95;
 }
-
 .iQontrolDeviceIcon {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 5px; width: 38px; height: 38px;
@@ -396,22 +401,18 @@ body {
 			transition: all 0.5s;
 	opacity: 0;
 }
-
 .iQontrolDeviceIcon.active {
 	pointer-events:auto !important;
 	opacity: 1;
 }
-
 .iQontrolDeviceIcon.overlay {
 	pointer-events:none !important;
 }
-
 .iQontrolDeviceIcon:hover {
 	-webkit-transform: scale3d(1.2,1.2,1);
 	   -moz-transform: scale3d(1.2,1.2,1);
 			transform: scale3d(1.2,1.2,1);
 }
-
 .iQontrolDeviceLoading {
 	pointer-events:none !important;
 	position:absolute; left: 15px; top: 15px; width: 24px; height: 24px;
@@ -422,50 +423,41 @@ body {
 	   -moz-transition: all 0.2s ease 0.25s;
 			transition: all 0.2s ease 0.25s;
 }
-
 .iQontrolDeviceLoading.active {
 	opacity: 0.9;
 }
-
 .iQontrolDeviceError {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
 }
-
 .iQontrolDeviceError.active {
 	opacity: 1;
 }
-
 .iQontrolDeviceUnreach {
 	pointer-events:none !important;
 	position:absolute; left: 71px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
 }
-
 .iQontrolDeviceUnreach.active {
 	opacity: 1;
 }
-
 .iQontrolDeviceBattery {
 	pointer-events:none !important;
 	position:absolute; left: 90px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
 }
-
 .iQontrolDeviceBattery.active {
 	opacity: 1;
 }
-
 .iQontrolDeviceInfoAIcon {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 20px; width: 12px; height: 12px;
 	overflow: hidden;
 }
-
 .iQontrolDeviceInfoAText {
 	pointer-events:none !important;
 	position:absolute; left: 66px; top: 18px; width: 42px; height: 16px;
@@ -480,18 +472,15 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-
 .iQontrolDeviceInfoATextHue, .iQontrolDeviceInfoATextCt { 
 	border: none;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.15);
 }
-
 .iQontrolDeviceInfoBIcon {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 39px; width: 12px; height: 12px;
 	overflow: hidden;
 }
-
 .iQontrolDeviceInfoBText {
 	pointer-events:none !important;
 	position:absolute; left: 66px; top: 37px; width: 42px; height: 16px;
@@ -506,7 +495,6 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-
 .iQontrolDeviceName  {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 58px; width: 103px; height: 30px;
@@ -520,7 +508,6 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-
 .iQontrolDeviceState  {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 90px; width: 103px; height: 17px;
@@ -535,43 +522,9 @@ body {
 			transition: all 1s;
 }
 
-#ToolbarPressureMenu{
-	background-color: #ffffffbf;
-	max-height: 90vh;
-	padding: 1px;
-	overflow-y: auto;
-}
-
-#ToolbarPressureMenu a{
-	min-width: 200px;
-	background-color: #d8d8d899;
-	border-top: 1px solid #9e9b9b82;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px solid #9e9b9b82;
-	margin: -1px;
-	padding: 20px 40px 20px 10px;
-}
-
-#ViewPressureMenu{
-	background-color: #ffffffbf;
-}
-
-#ViewPressureMenu a{
-	min-width: 200px;
-	background-color: #d8d8d899;
-	border-top: 1px solid #9e9b9b82;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px solid #9e9b9b82;
-	margin: -1px;
-	padding: 20px 40px 20px 10px;
-}
-
 #Dialog{
 	min-width: 300px;
 }
-
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
 	right: 3px;
@@ -579,7 +532,6 @@ body {
 	width: 16px;	
 	cursor: pointer;
 }
-
 .iQontrolDialogIframeWrapper{
 	-webkit-overflow-scrolling: touch;
 	height: 85vh;
@@ -593,7 +545,6 @@ body {
 	scrolling: auto;
 	overflow: scroll;
 }
-
 .iQontrolDialogIframe{
 	scrolling: none;
 	overflow: visible;
@@ -601,83 +552,63 @@ body {
 	height: 100%;
 	border: none;
 }
-
 .iQontrolDialogAdditionalInfoList{
 	list-style-position: outside;
 	padding-left: 10px;
 }
-
-.small {
-	font-size: 70%;
-}
-
 .colorPicker + .ui-slider-track {
 	background-image: url(./images/hue.png) !important;
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
-
 .colorTemperaturePicker + .ui-slider-track {
 	background-image: url(./images/ct.png) !important;
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
-
 .colorTemperaturePicker.invert + .ui-slider-track {
 	background-image: url(./images/ct_invert.png) !important;
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
-
 .colorSaturationPicker + .ui-slider-track {
 	background-image: linear-gradient(to right, white, black) !important;
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
-
 .fullWidthSlider .ui-slider-input{
 	display: none;
 }
-
 .fullWidthSlider .ui-slider-track{
 	margin-left: 15px !important;
 }
-
 .ui-slider-track .ui-btn.ui-slider-handle {
     font-size: .7em !important;
 }
-
 .ui-slider-popup {
     font-size: 29px !important;
 }
-
 .ui-slider-popup.longText {
     font-size: 20px !important;
 }
-
 .ui-slider-popup.extraLongText {
     font-size: 16px !important;
 }
-
 .ui-listview a {  
 /* Link-Listview nicht fett und ohne Umbruch */
 	font-weight: normal !important;
 	white-space: normal !important;
 }
-
 .ui-listview > .ui-li-static, .ui-listview > .ui-li-divider, .ui-listview > li > a.ui-btn {
 /* Listview ohne Umbruch */
 	white-space: normal !important;
 }
-
 .ui-state-disabled {
 	opacity: 0.75 !important;
 }
-
 .ui-state-disabled.ui-btn.ui-btn-icon-right::after{
 	display: none !important;
 }
-
 .ui-state-disabled.ui-slider-track .ui-btn.ui-slider-handle {
 	border: none;
 	background: none;
@@ -694,11 +625,9 @@ body {
 	#ViewMain {
 		font-size: 22pt;
 	}
-
 	#ViewHeaderTitle {
 		font-size: 22pt;
 	}
-
 	#ViewContent h4 {
 		font-size: 15pt;
 	}
@@ -709,7 +638,6 @@ body {
 		   -moz-border-radius: 22px;
 				border-radius: 22px;
 	}
-
 	.iQontrolDevice{
 		width: 156px; max-width: 156px;
 		height: 156px; max-height: 156px;
@@ -721,25 +649,21 @@ body {
 		   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 				box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 	}
-
 	.iQontrolDevice:hover{
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 		   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 				box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 	}
-
 	.iQontrolDeviceBackgroundImage {
 		-webkit-transform: scale3d(1.0,1.0,1);
 		   -moz-transform: scale3d(1.0,1.0,1);
 				transform: scale3d(1.0,1.0,1);
 	}
-
 	.iQontrolDeviceBackgroundImage:hover {
 		-webkit-transform: scale3d(1.05,1.05,1);
 		   -moz-transform: scale3d(1.05,1.05,1);
 				transform: scale3d(1.05,1.05,1);
 	}
-
 	.iQontrolDeviceIcon {
 		position:absolute; left: 5px; top: 5px; width: 57px; height: 57px;
 		margin: 3px;
@@ -747,52 +671,41 @@ body {
 		   -moz-transform: scale3d(1.0,1.0,1);
 				transform: scale3d(1.0,1.0,1);
 	}
-
 	.iQontrolDeviceIcon:hover {
 		-webkit-transform: scale3d(1.2,1.2,1);
 		   -moz-transform: scale3d(1.2,1.2,1);
 				transform: scale3d(1.2,1.2,1);
 	}
-
 	.iQontrolDeviceLoading {
 		position:absolute; left: 18px; top: 18px; width: 36px; height: 36px;
 	}
-
 	.iQontrolDeviceError {
 		position:absolute; left: 72px; top: 4px; width: 24px; height: 24px;
 	}
-
 	.iQontrolDeviceUnreach {
 		position:absolute; left: 100px; top: 4px; width: 24px; height: 24px;
 	}
-
 	.iQontrolDeviceBattery {
 		position:absolute; left: 129px; top: 4px; width: 24px; height: 24px;
 	}
-
 	.iQontrolDeviceInfoAIcon {
 		position:absolute; left: 72px; top: 30px; width: 18px; height: 18px;
 	}
-
 	.iQontrolDeviceInfoAText {
 		position:absolute; left: 90px; top: 30px; width: 70px; height: 22px;
 		font-size: 11pt;
 	}
-
 	.iQontrolDeviceInfoBIcon {
 		position:absolute; left: 72px; top: 58px; width: 18px; height: 18px;
 	}
-
 	.iQontrolDeviceInfoBText {
 		position:absolute; left: 90px; top: 58px; width: 70px; height: 22px;
 		font-size: 11pt;
 	}
-
 	.iQontrolDeviceName  {
 		position:absolute; left: 10px; top: 84px; width: 150px; height: 45px;
 		font-size: 13pt;
 	}
-
 	.iQontrolDeviceState  {
 		position:absolute; left: 10px; top: 132px; width: 150px; height: 25px;
 		font-size: 13pt;

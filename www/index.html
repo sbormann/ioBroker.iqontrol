@@ -55,7 +55,7 @@
 	<div class="loader"></div>
 	
 	<div id="pincode">
-		<form class="pincodeForm" name="pincodeForm" id="pincodeForm" action="" method="" autocomplete="off" draggable="true">
+		<div class="pincodeForm" id="pincodeForm">
 			<input type="password" class="pincodePin" name="pincodePin" id="pincodePin" value="" disabled />
 			<br>
 			<div class="pincodeButton" onclick="pincodeAddNumber(1);" ondblclick="">1</div>
@@ -72,9 +72,9 @@
 			<br>
 			<div class="pincodeButton clear" onclick="pincodeClear();">clear</div>
 			<div class="pincodeButton" onclick="pincodeAddNumber(0);" ondblclick="">0</div>
-			<div class="pincodeButton enter" onclick="pincodeEnter();">enter</div>
+			<div class="pincodeButton enter" id="pincodeEnter">enter</div>
 			<br>
-		</form>
+		</div>
 	</div>
 
 	<div data-role="page" id="View" class="swipePage">
@@ -104,7 +104,7 @@
 	<div data-role="footer" data-fullscreen="true" data-position="fixed" data-tap-toggle="false" data-theme="a" id="Toolbar">
 		<div id="ToolbarContent">...</div>
 		<div data-role="popup" data-theme="a" data-overlay-theme="b" data-dismissible="true" id="ToolbarPressureMenu">
-			<ul id="ToolbarPressureMenuList" data-role="listview" data-inset="true"></ul>
+			<ul id="ToolbarPressureMenuList" data-role="listview" data-inset="false"></ul>
 		</div>
 	</div>
 </body>

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.10",
+        "version": "0.2.11",
         "news": {
+            "0.2.11": {
+                "en": "Rewritten pincode-section to work with older browsers, Pincode now works for buttons as well, Modified the return after time function to work with older browsers, Fixed missing entrys in long pressure menus in iOS 13.",
+                "de": "Der Pincode-Bereich wurde überarbeitet, um mit älteren Browsern zu funktionieren. Pincode funktioniert jetzt auch für Schaltflächen. Die Funktion zum Zurückkehren nach der Zeit wurde geändert, um mit älteren Browsern zu funktionieren. Fehlende Einträge in Menüs mit langem Druck in iOS 13 wurden behoben.",
+                "ru": "Переписан раздел пин-кода для работы со старыми браузерами, теперь пин-код работает и для кнопок, Изменена функция возврата после времени для работы со старыми браузерами, Исправлены пропущенные записи в меню длинного нажатия в iOS 13.",
+                "pt": "Seção de código PIN reescrita para trabalhar com navegadores mais antigos, o Pincode agora também funciona para botões, modificou a função de retorno após o horário para trabalhar com navegadores mais antigos, Corrigida a entrada de entradas ausentes em menus de pressão longa no iOS 13.",
+                "nl": "Pincode-sectie herschreven om met oudere browsers te werken, Pincode werkt nu ook voor knoppen, de terugkeer na tijd-functie aangepast om met oudere browsers te werken, ontbrekende vermeldingen in lange-drukmenu's in iOS 13 opgelost.",
+                "fr": "Section de code secret réécrite pour fonctionner avec les anciens navigateurs, Pincode fonctionne désormais aussi pour les boutons, Modification de la fonction de renvoi après coup pour fonctionner avec les anciens navigateurs, Correction des entrées manquantes dans les menus de pression longs dans iOS 13.",
+                "it": "Riscritta sezione codice PIN per lavorare con i browser più vecchi, Pincode ora funziona anche con i pulsanti, Modificata la funzione di ritorno dopo tempo per lavorare con i browser più vecchi, Risolto il problema con gli ingressi mancanti nei menu a lunga pressione in iOS 13.",
+                "es": "Se reescribió la sección de código PIN para que funcione con navegadores más antiguos, Pincode ahora también funciona para botones, se modificó la función de devolución después del tiempo para trabajar con navegadores más antiguos, se corrigieron entradas faltantes en menús de larga presión en iOS 13.",
+                "pl": "Przepisano sekcję kodu PIN do pracy ze starszymi przeglądarkami, Kod PIN działa teraz również dla przycisków, Zmodyfikowano funkcję powrotu po czasie do pracy ze starszymi przeglądarkami, Naprawiono brakujące wpisy w menu długiego ciśnienia w iOS 13.",
+                "zh-cn": "重写了pincode部分以与较旧的浏览器一起使用，Pincode现在也适用于按钮，修改了时间返回功能以与较旧的浏览器一起使用，修复了iOS 13长压力菜单中缺少的条目。"
+            },
             "0.2.10": {
                 "en": "Enhanced PIN-Code to view a num-pad when using an alphanumeric PIN.",
                 "de": "Verbesserter PIN-Code zur Anzeige eines Nummernblocks bei Verwendung einer alphanumerischen PIN.",

@@ -464,6 +464,7 @@ connOptions = {
 	connLink:      connectionLink,  	// optional URL of the socket.io adapter
 	socketSession: ''           		// optional - used by authentication
 };
+
 connCallbacks = {
 	onConnChange: function(isConnected) {
 		if(isConnected) {
@@ -502,7 +503,6 @@ connCallbacks = {
 	}
 };
 
-//Websocket Help-Functions
 function getStarted(){
 	$('.loader').show();
 	toolbar = {};
@@ -685,180 +685,21 @@ function fetchStates(ids, callback){
 	}
 }
 
-async function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
-	var oldValue = "";
-	if (!preventUpdateTime) preventUpdateTime = 5000;
-	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
-	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
-		//Confirm
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].confirm !== udef && usedObjects[stateId].common.custom[namespace].confirm == true) {
-			if (!confirm(_("Please confirm change"))) {
-				updateState(stateId, "ignorePreventUpdateForDialog");
-				if (callback) callback();
-				return;
-			}
-		}
-		//PIN-Code
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].pincode !== udef && usedObjects[stateId].common.custom[namespace].pincode !== "") {
-			var givenPincode = usedObjects[stateId].common.custom[namespace].pincode;
-			var enteredPincode = "";
-			if (isNaN(givenPincode)){
-				enteredPincode = prompt(_("Please enter Code"));
-			} else {
-				enteredPincode = await pincode();
-			}
-			if (enteredPincode != givenPincode) {
-				alert(_("Wrong Code"));
-				updateState(stateId, "ignorePreventUpdateForDialog");
-				if (callback) callback();
-				return;
-			}
-		}
-		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
-		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
-		var convertTo = "";
-		if (stateType == "string" || stateType == "number" || stateType == "boolean"){
-			if (typeof newValue != stateType) convertTo = stateType;
-		} else if (oldValue != null && (typeof oldValue == "string" || typeof oldValue == "number" || typeof oldValue == "boolean")){
-			if (typeof newValue != typeof oldValue) convertTo = typeof oldValue;
-		}
-		if(convertTo != ""){
-			switch(convertTo){
-				case "string":
-				newValue = String(newValue);
-				break;
-
-				case "number":
-				if (newValue.toString().toLowerCase() == "true") newValue = true;
-				if (newValue.toString().toLowerCase() == "false") newValue = false;
-				newValue = Number(newValue);
-				break;
-
-				case "boolean":
-				if(newValue == false || newValue.toString().toLowerCase() == "false" || newValue < 1){
-					newValue = false;
-				} else {
-					newValue = true;
-				}
-				break;
-			}
-			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
-		}
-		//Invert (iQontrol -> ioBroker - the opposite way is inside updateState-Function)
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
-			switch(typeof newValue){
-				case "boolean":
-					console.log("       Inverting boolean value for state " + stateId + " from " + newValue + "...");
-					newValue = !newValue;
-					states[stateId].isInverted = false;
-					console.log("       ...to " + newValue);
-					break;
-					
-				case "number":
-				console.log("       Inverting number value for state " + stateId + " from " + newValue + "...");
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") var min = usedObjects[stateId].common.custom[namespace].min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") var max = usedObjects[stateId].common.custom[namespace].max;
-				if(typeof min !== udef && typeof max !== udef){
-					newValue = max - (newValue - min);
-					states[stateId].isInverted = false;
-					console.log("       ...to " + newValue);
-				} else {
-					console.log("       ...aborted inverting, because min or max is missing");
-				}
-				break;
-				
-				case "string":
-				console.log("       Inverting string value for state " + stateId + " is not supported!");
-				break;	
-
-				default:
-				console.log("       Inverting value for state " + stateId + " is impossible - type not known: " + typeof newValue);
-			}
-		}
-		//----Scale % from 0-100 if min-max=0-1
-		if(typeof newValue == "number") {
-			var unit = "";
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
-			if (unit == "%") {
-				var min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) min = usedObjects[stateId].common.min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
-				var max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) max = usedObjects[stateId].common.max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
-				if (min == 0 && max == 1){
-					newValue = newValue / 100;
-					console.log("       Scaled %-Value to: " + newValue);
-				}
-			}
-		}
-		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
-		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			var _stateId = stateId;
-			var _deviceId = deviceId;
-			var _preventUpdateTime = preventUpdateTime;
-			$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").addClass("active");
-			preventUpdate[_stateId] = {};
-			preventUpdate[_stateId].stateId = _stateId;
-			preventUpdate[_stateId].deviceId = deviceId;
-			preventUpdate[_stateId].newVal = newValue;
-			preventUpdate[_stateId].timerId = setTimeout(function(){
-				console.log("<< preventUpdate dexpired.")
-				$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").removeClass("active");
-				delete preventUpdate[_stateId];
-				updateState(_stateId);
-			}, _preventUpdateTime);
-			//Do not send (only treat locally), if state is CONST, ARRAY or TEMP:
-			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') {
-				console.log("       setState only local, because state ist CONST, ARRAY or TEMP");
-				states[_stateId].val = newValue;
-				states[_stateId].ack = false;
-				if (_stateId.substring(0, 5) == 'TEMP:'){ //Save TEMP Value in parent DeviceObject
-					var _tempStateId = _stateId.substring(5);
-					var _parentDeviceId = _tempStateId.substring(0, _tempStateId.lastIndexOf('.'));
-					setTimeout(function(){
-						var parentDeviceObject = usedObjects[_parentDeviceId];
-						if (typeof parentDeviceObject.native == udef) parentDeviceObject.native = {};
-						if (typeof parentDeviceObject.native.tempValues == udef) parentDeviceObject.native.tempValues = {};
-						parentDeviceObject.native.tempValues[_tempStateId] = newValue;
-						setObject(_parentDeviceId, parentDeviceObject, null);
-					}, 200);
-				}
-				setTimeout(function(){
-					updateState(_stateId, "ignorePreventUpdate");
-				}, 200);
-				if(callback) callback(error);			
-			} else {
-				//TargetValueId
-				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && typeof usedObjects[_stateId].common.custom[namespace] !== udef && typeof usedObjects[_stateId].common.custom[namespace].targetValueId !== udef && usedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
-					var _targetValueId = usedObjects[_stateId].common.custom[namespace].targetValueId;
-				} else {
-					var _targetValueId = _stateId;
-				}
-				servConn.setState(_targetValueId, {val: newValue, ack: false} , function(error){
-					setTimeout(function(){
-						updateState(_stateId, "ignorePreventUpdate");
-					}, 200);
-					if(callback) callback(error);
-				});
-			}
-		})(); //<--End Closure
-	} else {
-		console.log("<<<<<< setState aborted (old Value = new Value = " + newValue.toString() + ")");
-	}
-}
-
-function setObject(objId, obj, callback){
-	servConn.addObject(objId, obj, function(error){
-		console.log("setObject ready");
+function deliverState(stateId, stateObj, callback){
+	servConn.setState(stateId, stateObj, function(error){
+		console.log("deliverState done");
 		if(callback) callback(error);
 	});
 }
 
-//++++++++++ HELPERS ++++++++++
+function deliverObject(objId, obj, callback){
+	servConn.addObject(objId, obj, function(error){
+		console.log("deliverObject done");
+		if(callback) callback(error);
+	});
+}
+
+//++++++++++ HELPERS: OBJECT AND STATES-FUNCTIONS ++++++++++
 function getLinkedStateId(stateId){
 	if (states[stateId]){
 		if(typeof states[stateId].val != udef && (states[stateId].val.substring(0, 6) == 'CONST:' || states[stateId].val.substring(0, 6) == 'ARRAY:')) { //role of stateId is 'const' or 'array'
@@ -942,39 +783,6 @@ function createTempLinkedState(stateId, type, value){
 		if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 		return linkedStateId;
 	}	
-}
-
-function getUnit(linkedStateId){
-	var unit = "";
-	if(usedObjects[linkedStateId]){
-		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit !== udef){
-			unit = _(usedObjects[linkedStateId].common.custom[namespace].unit);
-		} else if(usedObjects[linkedStateId].common.unit) {
-			unit = _(usedObjects[linkedStateId].common.unit);
-		}
-		if(states[linkedStateId] && typeof states[linkedStateId].val != udef){
-			var val = states[linkedStateId].val;
-			if(val * 1 == 0){
-				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_zero !== udef){
-					unit = usedObjects[linkedStateId].common.custom[namespace].unit_zero;
-				}
-			}
-			if(val * 1 == 1){
-				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_one !== udef){
-					unit = usedObjects[linkedStateId].common.custom[namespace].unit_one;
-				}
-			}
-		}
-	}
-	if(!(unit == "°C" || unit == "°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
-	return unit;
-}
-
-function getPlainText(linkedStateId){ //Gets plain text from a state that is a value-list
-	var plainText = "";
-	var state = getStateObject(linkedStateId);
-	if(state) plainText = state.plainText;
-	return plainText;
 }
 
 function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
@@ -1211,37 +1019,210 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 	return result;
 }
 
-function removeDuplicates(array) { //Removes duplicates from an array
-    var seen = {};
-    return array.filter(function(item) {
-        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-    });
+function getUnit(linkedStateId){
+	var unit = "";
+	if(usedObjects[linkedStateId]){
+		if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit !== udef){
+			unit = _(usedObjects[linkedStateId].common.custom[namespace].unit);
+		} else if(usedObjects[linkedStateId].common.unit) {
+			unit = _(usedObjects[linkedStateId].common.unit);
+		}
+		if(states[linkedStateId] && typeof states[linkedStateId].val != udef){
+			var val = states[linkedStateId].val;
+			if(val * 1 == 0){
+				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_zero !== udef){
+					unit = usedObjects[linkedStateId].common.custom[namespace].unit_zero;
+				}
+			}
+			if(val * 1 == 1){
+				if(typeof usedObjects[linkedStateId].common.custom !== udef && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && typeof usedObjects[linkedStateId].common.custom[namespace].unit_one !== udef){
+					unit = usedObjects[linkedStateId].common.custom[namespace].unit_one;
+				}
+			}
+		}
+	}
+	if(!(unit == "°C" || unit == "°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
+	return unit;
 }
 
-function addCustomCSS(customCSS, customID){
-	customID = customID || "default";
-	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
+function setState(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
+	var oldValue = "";
+	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
+	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
+		//Confirm
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].confirm !== udef && usedObjects[stateId].common.custom[namespace].confirm == true) {
+			if (!confirm(_("Please confirm change"))) {
+				updateState(stateId, "ignorePreventUpdateForDialog");
+				if (callback) callback();
+				return;
+			}
+		}
+		//PIN-Code
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].pincode !== udef && usedObjects[stateId].common.custom[namespace].pincode !== "") {
+			var givenPincode = usedObjects[stateId].common.custom[namespace].pincode;
+			if (isNaN(givenPincode)){ //Alphanumeric PIN
+				if (prompt(_("Please enter Code")) != givenPincode) {
+					alert(_("Wrong Code"));
+					updateState(stateId, "ignorePreventUpdateForDialog");
+					if (callback) callback();
+					return;
+				}
+			} else { //Numeric PIN
+				pincode(givenPincode, function(){ //Right PIN callback
+					setStateWithoutVerification(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime);
+				}, function(){ //Wrong PIN callback
+					alert(_("Wrong Code"));
+					updateState(stateId, "ignorePreventUpdateForDialog");
+					if (callback) callback();
+				});
+				return;
+			}
+		}
+		setStateWithoutVerification(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime);
+	}
 }
 
-function removeCustomCSS(customID){
-	customID = customID || "default";
-	$('.customCSS_' + customID).remove();
-}
+function setStateWithoutVerification(stateId, deviceId, newValue, forceSend, callback, preventUpdateTime){
+	var oldValue = "";
+	if (!preventUpdateTime) preventUpdateTime = 5000;
+	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
+	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
+		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
+		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
+		var convertTo = "";
+		if (stateType == "string" || stateType == "number" || stateType == "boolean"){
+			if (typeof newValue != stateType) convertTo = stateType;
+		} else if (oldValue != null && (typeof oldValue == "string" || typeof oldValue == "number" || typeof oldValue == "boolean")){
+			if (typeof newValue != typeof oldValue) convertTo = typeof oldValue;
+		}
+		if(convertTo != ""){
+			switch(convertTo){
+				case "string":
+				newValue = String(newValue);
+				break;
 
-function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
-    try {
-        var o = JSON.parse(jsonString);
-        // Handle non-exception-throwing cases:
-        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-        // but... JSON.parse(null) returns null, and typeof null === "object",
-        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
-        if (o && typeof o === "object") {
-            return o;
-        }
-    }
-    catch (e) { }
-    return false;
-};
+				case "number":
+				if (newValue.toString().toLowerCase() == "true") newValue = true;
+				if (newValue.toString().toLowerCase() == "false") newValue = false;
+				newValue = Number(newValue);
+				break;
+
+				case "boolean":
+				if(newValue == false || newValue.toString().toLowerCase() == "false" || newValue < 1){
+					newValue = false;
+				} else {
+					newValue = true;
+				}
+				break;
+			}
+			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
+		}
+		//Invert (iQontrol -> ioBroker - the opposite way is inside updateState-Function)
+		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
+			switch(typeof newValue){
+				case "boolean":
+					console.log("       Inverting boolean value for state " + stateId + " from " + newValue + "...");
+					newValue = !newValue;
+					states[stateId].isInverted = false;
+					console.log("       ...to " + newValue);
+					break;
+					
+				case "number":
+				console.log("       Inverting number value for state " + stateId + " from " + newValue + "...");
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") var min = usedObjects[stateId].common.custom[namespace].min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") var max = usedObjects[stateId].common.custom[namespace].max;
+				if(typeof min !== udef && typeof max !== udef){
+					newValue = max - (newValue - min);
+					states[stateId].isInverted = false;
+					console.log("       ...to " + newValue);
+				} else {
+					console.log("       ...aborted inverting, because min or max is missing");
+				}
+				break;
+				
+				case "string":
+				console.log("       Inverting string value for state " + stateId + " is not supported!");
+				break;	
+
+				default:
+				console.log("       Inverting value for state " + stateId + " is impossible - type not known: " + typeof newValue);
+			}
+		}
+		//----Scale % from 0-100 if min-max=0-1
+		if(typeof newValue == "number") {
+			var unit = "";
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
+			if (unit == "%") {
+				var min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) min = usedObjects[stateId].common.min;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
+				var max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) max = usedObjects[stateId].common.max;
+				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
+				if (min == 0 && max == 1){
+					newValue = newValue / 100;
+					console.log("       Scaled %-Value to: " + newValue);
+				}
+			}
+		}
+		if(preventUpdate[stateId]) clearTimeout(preventUpdate[stateId].timerId);
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _stateId = stateId;
+			var _deviceId = deviceId;
+			var _preventUpdateTime = preventUpdateTime;
+			$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").addClass("active");
+			preventUpdate[_stateId] = {};
+			preventUpdate[_stateId].stateId = _stateId;
+			preventUpdate[_stateId].deviceId = deviceId;
+			preventUpdate[_stateId].newVal = newValue;
+			preventUpdate[_stateId].timerId = setTimeout(function(){
+				console.log("<< preventUpdate dexpired.")
+				$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceLoading").removeClass("active");
+				delete preventUpdate[_stateId];
+				updateState(_stateId);
+			}, _preventUpdateTime);
+			//Do not send (only treat locally), if state is CONST, ARRAY or TEMP:
+			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') {
+				console.log("       setState only local, because state ist CONST, ARRAY or TEMP");
+				states[_stateId].val = newValue;
+				states[_stateId].ack = false;
+				if (_stateId.substring(0, 5) == 'TEMP:'){ //Save TEMP Value in parent DeviceObject
+					var _tempStateId = _stateId.substring(5);
+					var _parentDeviceId = _tempStateId.substring(0, _tempStateId.lastIndexOf('.'));
+					setTimeout(function(){
+						var parentDeviceObject = usedObjects[_parentDeviceId];
+						if (typeof parentDeviceObject.native == udef) parentDeviceObject.native = {};
+						if (typeof parentDeviceObject.native.tempValues == udef) parentDeviceObject.native.tempValues = {};
+						parentDeviceObject.native.tempValues[_tempStateId] = newValue;
+						deliverObject(_parentDeviceId, parentDeviceObject, null);
+					}, 200);
+				}
+				setTimeout(function(){
+					updateState(_stateId, "ignorePreventUpdate");
+				}, 200);
+				if(callback) callback(error);			
+			} else {
+				//TargetValueId
+				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && typeof usedObjects[_stateId].common.custom[namespace] !== udef && typeof usedObjects[_stateId].common.custom[namespace].targetValueId !== udef && usedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
+					var _targetValueId = usedObjects[_stateId].common.custom[namespace].targetValueId;
+				} else {
+					var _targetValueId = _stateId;
+				}
+				deliverState(_targetValueId, {val: newValue, ack: false} , function(error){
+					setTimeout(function(){
+						updateState(_stateId, "ignorePreventUpdate");
+					}, 200);
+					if(callback) callback(error);
+				});
+			}
+		})(); //<--End Closure
+	} else {
+		console.log("<<<<<< setState aborted (old Value = new Value = " + newValue.toString() + ")");
+	}
+}
 
 function updateState(stateId, ignorePreventUpdate){
 	//Invert (ioBroker -> iQontrol - the opposite way is inside setState-Function)
@@ -1378,19 +1359,104 @@ function startProgram(linkedStateId, deviceId, callback){
 function startButton(linkedStateId, linkedSetValueId, linkedOffSetValueId, returnToOffSetValueAfter, deviceId, callback){
 	var newValue = states[linkedSetValueId].val || "";
 	console.log("Button " + linkedStateId + " --> " + newValue);
-	setState(linkedStateId, deviceId, newValue, true, callback);
-	if (states[linkedOffSetValueId] && states[linkedOffSetValueId].val && states[linkedOffSetValueId].val != "") {
-		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			var _linkedStateId = linkedStateId;
-			var _deviceId = deviceId;
-			var _newValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
-			setTimeout(function(){
-				console.log("Button " + _linkedStateId + " return --> " + _newValue);
-				setState(_linkedStateId, _deviceId, _newValue, true);		
-			}, (returnToOffSetValueAfter || 100) * 1);
-		})(); //<--End Closure		
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _linkedStateId = linkedStateId;
+		var _deviceId = deviceId;
+		var _linkedOffSetValueId = linkedOffSetValueId;
+		var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
+		var _returnToOffSetValueAfter = returnToOffSetValueAfter;
+		setState(linkedStateId, deviceId, newValue, true, function(){
+			if (states[_linkedOffSetValueId] && states[_linkedOffSetValueId].val && states[_linkedOffSetValueId].val != "") {
+				setTimeout(function(){
+					console.log("Button " + _linkedStateId + " return --> " + _newOffSetValue);
+					setStateWithoutVerification(_linkedStateId, _deviceId, _newOffSetValue, false);		
+				}, (_returnToOffSetValueAfter || 100) * 1);
+			}
+			
+		});
+	})(); //<--End Closure		
+}
+
+//++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
+function pincode(givenPincode, rightPinCallback, wrongPinCallback){
+	pincodeClear();
+	$('#pincode').show(150);
+	$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	$('#pincodeEnter').off("click").on("click", function(){
+		if($('#pincodePin').val() == givenPincode){
+			if(rightPinCallback) rightPinCallback();
+		} else {
+			if(wrongPinCallback) wrongPinCallback();
+		}
+		$('#pincode').hide(150);
+		setTimeout(function(){$(document).trigger("keydown");}, 200);
+	});
+}
+
+function pincodeKeydown(which){
+	if($('#pincode').css('display') != "none"){
+		console.log("pincode Keydown: " + which);
+		if (which == 13) {
+			$('#pincodeEnter').trigger("click");
+		} else if(which == 8){
+			$("#pincodePin").val($("#pincodePin").val().slice(0, -1));			
+		} else if(48 <= which && which <= 57){
+			pincodeAddNumber(which - 48);
+		} else if(96 <= which && which <= 105){
+			pincodeAddNumber(which - 96);
+		}
+		$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	} else {
+		console.log("pincode Keydown end listening");		
 	}
 }
+
+function pincodeAddNumber(number){
+	$("#pincodePin").val($("#pincodePin").val() + number);
+}
+
+function pincodeClear(){
+	$("#pincodePin").val("");	
+}
+
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+function addCustomCSS(customCSS, customID){
+	customID = customID || "default";
+	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
+}
+
+function removeCustomCSS(customID){
+	customID = customID || "default";
+	$('.customCSS_' + customID).remove();
+}
+
+function removeDuplicates(array) { //Removes duplicates from an array
+    var seen = {};
+    return array.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}
+
+function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+    try {
+        var o = JSON.parse(jsonString);
+        // Handle non-exception-throwing cases:
+        // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+        // but... JSON.parse(null) returns null, and typeof null === "object",
+        // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+    return false;
+};
 
 function getTimeFromHMTimeCode(HMTimeCode){
 	if(typeof HMTimeCode == udef) return udef;
@@ -1669,56 +1735,6 @@ function rgbToHsv(r, g, b){
 function modulo(n, m){
 	return ((n % m) + m) %m;
 }
-
-async function pincode(){
-	pincodeClear();
-	$('#pincode').show(150);
-	var pincodeEnter;
-	$(document).one("keydown", function(event){pincodeKeydown(event.which);});
-	await pincodeWaitForPincode();
-	$('#pincode').hide(150);
-	setTimeout(function(){$(document).trigger("keydown");}, 200);
-	return $('#pincodePin').val();
-}
-
-function pincodeWaitForPincode(){
-	return new Promise(function(resolve, reject) { 
-		pincodeEnter = resolve; 
-	});
-}
-
-function pincodeKeydown(which){
-	if($('#pincode').css('display') != "none"){
-		console.log("pincode Keydown: " + which);
-		if (which == 13) {
-			pincodeEnter();
-		} else if(which == 8){
-			$("#pincodePin").val($("#pincodePin").val().slice(0, -1));			
-		} else if(48 <= which && which <= 57){
-			pincodeAddNumber(which - 48);
-		} else if(96 <= which && which <= 105){
-			pincodeAddNumber(which - 96);
-		}
-		$(document).one("keydown", function(event){pincodeKeydown(event.which);});
-	} else {
-		console.log("pincode Keydown end listening");		
-	}
-}
-
-function pincodeAddNumber(number){
-	$("#pincodePin").val($("#pincodePin").val() + number);
-}
-
-function pincodeClear(){
-	$("#pincodePin").val("");	
-}
-
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
 
 //++++++++++ OPTIONS ++++++++++
 function handleOptions(){
@@ -2232,10 +2248,10 @@ function handleOptions(){
 		};
 		//Return after time
 		if(options.LayoutViewReturnAfterTimeEnabled) {
-			let treshold = options.LayoutViewReturnAfterTimeTreshold || "600";
+			var treshold = options.LayoutViewReturnAfterTimeTreshold || "600";
 			if(!isNaN(treshold)) treshold = treshold * 1; else treshold = 600;
 			$(document).on("touchstart mousedown keydown", function(){
-				let destinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
+				var destinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
 				console.log("Return after time - timer started (treshold: " + treshold + ", destinationView: " + destinationView + ")");
 				if (returnAfterTimeTimer) clearTimeout(returnAfterTimeTimer);
 				returnAfterTimeTimer = setTimeout(function(){

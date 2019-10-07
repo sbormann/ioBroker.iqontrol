@@ -283,6 +283,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.2.11 (2019-10-07)
+* (Sebastian Bormann) Rewritten pincode-section to work with older browsers.
+* (Sebastian Bormann) Pincode now works for buttons as well.
+* (Sebastian Bormann) Modified the return after time function to work with older browsers.
+* (Sebastian Bormann) Fixed missing entrys in long pressure menus in iOS 13.
+
 ### 0.2.10 (2019-10-05)
 * (Sebatian Bormann) Enhanced PIN-Code to view a num-pad when using an alphanumeric PIN.
 
