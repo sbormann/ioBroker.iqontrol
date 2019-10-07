@@ -102,7 +102,7 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 * Set Readonly-Flag
 * Set Invert-Flag
 * Set Confirm-Flag (forces the user to confirm before a change is written to a datapoint)
-* Set PIN-Code (forces the user to enter this PIN-Code before a change is written to a datapoint - but take care: this is only of low security, because the pin is checked in frontend!)
+* Set PIN-Code (forces the user to enter this PIN-Code before a change is written to a datapoint - but take care: this is only of low security, because the pin is checked in frontend! Use a number to display a fullscreen-pin-pad if asked for code)
 * Set a datapoint id, where target values are written to (if you have different data points for the actual and the target value)
 * Modify unit of datapoint, seperate for zero, singular and plural values
 * Modify min and max of datapoint
