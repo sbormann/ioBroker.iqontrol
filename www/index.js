@@ -3209,7 +3209,7 @@ function renderView(id, updateOnly, callback){
 											var mode = "";
 											var modeText = "";
 											var controlModeDisabledValue = (_deviceId && usedObjects[_deviceId] && typeof usedObjects[_deviceId].native != udef && typeof usedObjects[_deviceId].native.controlModeDisabledValue != udef && usedObjects[_deviceId].native.controlModeDisabledValue) || "";
-											if (typeof _linkedControlModeId !== udef) {
+											if (_linkedControlModeId) {
 												var state = getStateObject(_linkedControlModeId);
 												if(state && typeof state.val !== udef) {
 													mode = state.val;
@@ -3227,9 +3227,9 @@ function renderView(id, updateOnly, callback){
 											}
 										};
 										viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
-										if (typeof _linkedControlModeId !== udef) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
-										if (typeof _linkedPartyTemperatureId !== udef) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
-										if (typeof _linkedWindowOpenReportingId !== udef) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
+										if (_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
+										if (_linkedPartyTemperatureId) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
+										if (_linkedWindowOpenReportingId) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
