@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.11",
+        "version": "0.2.12",
         "news": {
+            "0.2.12": {
+                "en": "Improvement of homematic-thermostat for controler 2.0 compatiility.",
+                "de": "Verbesserung des Homematic-Thermostats für die Kompatibilität mit Controler 2.0.",
+                "ru": "Улучшение совместимости с homematic-термостатом для контроллера 2.0.",
+                "pt": "Melhoria do termostato homeático para compatibilidade do controler 2.0.",
+                "nl": "Verbetering van de homematische thermostaat voor compatibiliteit met controler 2.0.",
+                "fr": "Amélioration du thermostat homematic pour la compatibilité du contrôleur 2.0.",
+                "it": "Miglioramento del termostato omematico per la compatibilità con controler 2.0.",
+                "es": "Mejora del termostato homemático para la compatibilidad del controlador 2.0.",
+                "pl": "Poprawa termostatu homematic dla zgodności kontrolera 2.0.",
+                "zh-cn": "改进了用于控制器2.0兼容性的恒温器。"
+            },
             "0.2.11": {
                 "en": "Rewritten pincode-section to work with older browsers, Pincode now works for buttons as well, Modified the return after time function to work with older browsers, Fixed missing entrys in long pressure menus in iOS 13.",
                 "de": "Der Pincode-Bereich wurde überarbeitet, um mit älteren Browsern zu funktionieren. Pincode funktioniert jetzt auch für Schaltflächen. Die Funktion zum Zurückkehren nach der Zeit wurde geändert, um mit älteren Browsern zu funktionieren. Fehlende Einträge in Menüs mit langem Druck in iOS 13 wurden behoben.",
