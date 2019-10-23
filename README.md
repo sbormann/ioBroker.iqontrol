@@ -282,7 +282,7 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
-### 0.2.13 (2019-10-12)
+### 0.2.13 (2019-10-23)
 * (Sebastian Bormann) Improved the return after time method.
 * (Bluefox) Fixed translations in custom-dialog.
 
