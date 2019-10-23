@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.12",
+        "version": "0.2.13",
         "news": {
+            "0.2.13": {
+                "en": "Improved the return after time method, Fixed translations in custom-dialog.",
+                "de": "Verbesserte die Return-After-Time-Methode. Übersetzungen im benutzerdefinierten Dialog wurden korrigiert.",
+                "ru": "Улучшен метод возврата после времени, Исправлены переводы в custom-диалоге.",
+                "pt": "Melhorado o método de retorno após o tempo, traduções fixas na caixa de diálogo personalizada.",
+                "nl": "Verbeterde methode voor terugkeer na tijd, vertalingen in aangepast dialoogvenster verbeterd.",
+                "fr": "Amélioration de la méthode de retour après l'heure, Correction des traductions dans la boîte de dialogue personnalisée.",
+                "it": "Migliorato il metodo return after time, Correzione delle traduzioni nella finestra di dialogo personalizzata.",
+                "es": "Se mejoró el método de devolución después del tiempo, se corrigieron las traducciones en el diálogo personalizado.",
+                "pl": "Poprawiona metoda powrotu po czasie, Naprawione tłumaczenia w niestandardowym oknie dialogowym.",
+                "zh-cn": "改进了按时间返回的方法，修复了自定义对话框中的翻译。"
+            },
             "0.2.12": {
                 "en": "Improvement of homematic-thermostat for controler 2.0 compatiility.",
                 "de": "Verbesserung des Homematic-Thermostats für die Kompatibilität mit Controler 2.0.",
@@ -249,7 +261,8 @@
             {
                 "web": ">=1.7.1"
             }
-        ]
+        ],
+        "installedFrom": "./iobroker.iqontrol"
     },
     "native": {
         "demotoolbar": [

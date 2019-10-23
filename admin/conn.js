@@ -1,19 +1,20 @@
 ////// ----------------------- Connection "class" ---------------------- ////////////
-/* jshint browser:true */
-/* global document*/
-/* global console*/
-/* global session*/
-/* global window*/
-/* global location*/
-/* global setTimeout*/
-/* global clearTimeout*/
-/* global io*/
-/* global $*/
+/* jshint browser: true */
+/* global document */
+/* global console */
+/* global session */
+/* global window */
+/* global location */
+/* global setTimeout */
+/* global clearTimeout */
+/* global io */
+/* global $ */
 /* global socketNamespace */
 /* global socketUrl */
 /* global socketSession */
 /* global storage */
-/* jshint -W097 */// jshint strict:false
+/* jshint -W097 */
+/* jshint strict: false */
 
 'use strict';
 
@@ -158,6 +159,14 @@ var servConn = {
             }, 1000);
         }
     },
+													  
+													  
+													  
+								  
+				
+									 
+		 
+	  
     init:             function (connOptions, connCallbacks, objectsRequired) {
         var that = this; // support of old safary
         // init namespace

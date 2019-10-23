@@ -390,7 +390,10 @@ var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, 
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
 var options = {};								//Contains the options (extracted form <namespace + '.Options'>'.native')
-var returnAfterTimeTimer = false;				//If the option ReturnAfterTime is active, this is the running timer ID for the setted treshold
+
+var returnAfterTimeTimestamp = false;			//If the option ReturnAfterTime is active, this ist the timestamp of the last use of iQontrol, or null, if the treshold has been reached and the view has been switched to destinationView or false, if the eventListeners to set the timestamp have not been bound to document yet
+var returnAfterTimeDestinationView = "";		//If the option ReturnAfterTime is active, this ist the destinationView wich will be shown after the time expired
+var returnAfterTimeTreshold = 0;				//If the option ReturnAfterTime is active, this ist the treshold, after wich the destinationView will be loaded
 
 var toolbar = [];								//Contains the toolbar (extracted form <namespace + '.Toolbar'>) in the form of [ID]
 var toolbarLinksToOtherViews = [];				//Will become History when clicking on a link to other view on actual view
@@ -496,6 +499,18 @@ connCallbacks = {
 				updateState(stateId);
 			}
 			$('.loader').hide();
+			//ReturnAfterTime - check if treshold has reached
+			if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){
+				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) {
+					console.log("Return after time - render destinationView (" + returnAfterTimeDestinationView + ")");	
+					returnAfterTimeTimestamp = null;
+					$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
+					$('#pincode').hide(150);
+					setTimeout(function(){
+						renderView(returnAfterTimeDestinationView);
+					}, 100);
+				}
+			}
 		}, 0);
 	},
 	onError: function(err) {
@@ -504,7 +519,10 @@ connCallbacks = {
 };
 
 function getStarted(){
+	console.log("* Get started...");
 	$('.loader').show();
+	$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
+	$('#pincode').hide(150);
 	toolbar = {};
 	views = {};
 	states = {};
@@ -516,19 +534,23 @@ function getStarted(){
 	waitingForObject = {};
 	preventUpdate = {};
 	servConn.clearCache();
-	//Get Config
+	//Fetch Config
+	console.log("* Fetch config...");
 	fetchConfig(function(){
+		console.log("* Config received.");
 		systemLang = config.language || systemLang;
 		translateAll();
 	});
 	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
-	//Get Options
+	//Fetch Options
+	console.log("* Fetch options...");
 	fetchOptions(function(){
-		console.log("Options received.");
+		console.log("* Options received.");
 		handleOptions();
 		//Get Toolbar (and according objects)
+		console.log("* Fetch toolbar...");
 		fetchToolbar(function(){
-			console.log("Toolbar received.");
+			console.log("* Toolbar received.");
 			if (toolbar.length > 0){
 				toolbarSorted = [];
 				for (var i = 0; i < toolbar.length; i++){
@@ -545,13 +567,15 @@ function getStarted(){
 					toolbar.push(toolbarSorted[i][1]);
 				}
 			}
-			console.log("Toolbar sorted.");
+			console.log("* Toolbar sorted.");
 			renderToolbar();
-			console.log("Toolbar rendered.");
+			console.log("* Toolbar rendered.");
+			console.log("* Render actual|home view....");
 			//Get Views (and according objects)
 			renderView(actualViewId || homeId, false, function(){
+				console.log("* Create toolbar pressuremenus...");
 				createToolbarPressureMenus(function(){
-					console.log("Toolbar Pressuremenus created");
+					console.log("* Toolbar pressuremenus created.");
 					if (createToolbarPressureMenusBufferRenderView.id) {
 						renderView(createToolbarPressureMenusBufferRenderView.id, createToolbarPressureMenusBufferRenderView.updateOnly, createToolbarPressureMenusBufferRenderView.callback);
 						createToolbarPressureMenusBufferRenderView = {};
@@ -561,9 +585,9 @@ function getStarted(){
 			if(actualViewId == homeId){
 				viewHistory = toolbarLinksToOtherViews;
 				viewHistoryPosition = 0;
-				console.log("Home rendered.");
+				console.log("* Home rendered.");
 			} else {
-				console.log("Rendered actual view.");
+				console.log("* Rendered actual view.");
 			}
 			$('.loader').hide();
 			$.mobile.loading('hide');
@@ -2248,18 +2272,20 @@ function handleOptions(){
 		};
 		//Return after time
 		if(options.LayoutViewReturnAfterTimeEnabled) {
-			var treshold = options.LayoutViewReturnAfterTimeTreshold || "600";
-			if(!isNaN(treshold)) treshold = treshold * 1; else treshold = 600;
-			$(document).on("touchstart mousedown keydown", function(){
-				var destinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
-				console.log("Return after time - timer started (treshold: " + treshold + ", destinationView: " + destinationView + ")");
-				if (returnAfterTimeTimer) clearTimeout(returnAfterTimeTimer);
-				returnAfterTimeTimer = setTimeout(function(){
-					console.log("Return after time to: " + destinationView);
-					returnAfterTimeTimer = false;
-					renderView(destinationView);
-				}, (treshold * 1000));
-			}).trigger("keydown");
+			returnAfterTimeDestinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
+			returnAfterTimeTreshold = options.LayoutViewReturnAfterTimeTreshold || "600";
+			if(!isNaN(returnAfterTimeTreshold)) returnAfterTimeTreshold = returnAfterTimeTreshold * 1; else returnAfterTimeTreshold = 600;
+			if(returnAfterTimeTimestamp == false){ //Timestamp was not set before - add Eventlisteners to document
+				$(document).on("touchstart mousedown keydown", function(){
+					console.log("Return after time - timer started (treshold: " + returnAfterTimeTreshold + "s, destinationView: " + returnAfterTimeDestinationView + ")");
+					returnAfterTimeTimestamp = new Date();
+					//The check, if the treshold has been reached, is made in the onUpdate-Function of the WebSockets connCallbacks
+				}).trigger("keydown");
+			} else if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){ //Timer was set before and is over
+				console.log("Return after time - time is over while running getStarted() - set actualView to destinationView");
+				returnAfterTimeTimestamp = null;
+				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) actualViewId = returnAfterTimeDestinationView;
+			}
 		}
 		//Own CSS:
 		if(options.LayoutCSS) {
