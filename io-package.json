@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.13",
+        "version": "0.2.14",
         "news": {
+            "0.2.14": {
+                "en": "Fixed icon-switching for thermostats",
+                "de": "Icon-Umschaltung für Thermostate behoben",
+                "ru": "Исправлено переключение иконок для термостатов",
+                "pt": "Troca de ícones fixa para termostatos",
+                "nl": "Vaste pictogramwisseling voor thermostaten",
+                "fr": "Correction de la commutation des icônes pour les thermostats",
+                "it": "Risolto il problema con l'icona di commutazione per termostati",
+                "es": "Cambio de icono fijo para termostatos",
+                "pl": "Naprawiono przełączanie ikon dla termostatów",
+                "zh-cn": "修复了恒温器的图标切换"
+            },
             "0.2.13": {
                 "en": "Improved the return after time method, Fixed translations in custom-dialog.",
                 "de": "Verbesserte die Return-After-Time-Methode. Übersetzungen im benutzerdefinierten Dialog wurden korrigiert.",
