@@ -344,7 +344,7 @@
     "You can create this device now if you want.": "如果您需要，您可以创建这个设备。",
     "You can upload your own icons to the folder '/usericons'": "您可以将自己的图标上传到'/ usericons'文件夹",
     "You can use your images as background-images for views, or for devices.": "您可以使用自己的图片作为显示页面和设备的背景图。",
-    "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!": "要工作，您需要在web-adapter-settings中激活socket.IO！",
+    "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!": "要工作，您需要在web-adapter-settings中激活socket.IO！",
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "您的管理适配器在http模式下运行，但在https中运行Web适配器。",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "您的管理适配器在https模式下运行，但在http中运行Web适配器。",
     "add": "加",
