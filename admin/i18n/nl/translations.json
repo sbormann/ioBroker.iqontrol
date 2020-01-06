@@ -344,7 +344,7 @@
     "You can create this device now if you want.": "Kunt u dit apparaat nu als je wilt.",
     "You can upload your own icons to the folder '/usericons'": "U kunt uw eigen pictogrammen uploaden naar de map '/ usericons'",
     "You can use your images as background-images for views, or for devices.": "U kunt uw foto ' s als achtergrond-afbeeldingen voor het uitzicht, of voor apparaten.",
-    "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!": "Om te werken moet je socket.IO activeren in web-adapter-instellingen!",
+    "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!": "Om te werken moet je socket.IO activeren in web-adapter-instellingen!",
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "Uw admin-adapter werkt in http-modus, maar web-adapter in https. ",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "Uw admin-adapter werkt in https-modus, maar web-adapter in http. ",
     "add": "toevoegen",
