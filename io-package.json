@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.14",
+        "version": "0.2.15",
         "news": {
+            "0.2.15": {
+                "en": "Added svg as possible image to upload, Made URL and HTML universal for nearly all devices, Fixed disabled custom values with admin 3.7.6+ and js-controller <2.2.",
+                "de": "SVG als mögliches Bild zum Hochladen hinzugefügt. URL und HTML für fast alle Geräte universell gemacht. Behoben: Deaktivierte benutzerdefinierte Werte mit admin 3.7.6+ und js-controller <2.2.",
+                "ru": "Добавлен svg как возможное изображение для загрузки, Сделано URL и HTML универсальным для почти всех устройств, Исправлено отключение пользовательских значений с помощью admin 3.7.6+ и js-controller <2.2.",
+                "pt": "Adicionado svg como imagem possível para upload, URL e HTML universalizados para quase todos os dispositivos, Valores personalizados desabilitados corrigidos com admin 3.7.6+ e js-controller <2.2.",
+                "nl": "SVG toegevoegd als mogelijke afbeelding om te uploaden, URL en HTML universeel gemaakt voor bijna alle apparaten, aangepaste waarden met admin 3.7.6+ en js-controller <2.2 uitgeschakeld.",
+                "fr": "Ajout de svg comme image possible à télécharger, URL et HTML universels pour presque tous les appareils, Correction des valeurs personnalisées désactivées avec admin 3.7.6+ et js-controller <2.2.",
+                "it": "Aggiunta l'immagine svg possibile per il caricamento, URL reso e HTML universali per quasi tutti i dispositivi, Correzione dei valori personalizzati disabilitati con admin 3.7.6+ e js-controller <2.2.",
+                "es": "Se agregó svg como posible imagen para cargar, URL hecha y HTML universal para casi todos los dispositivos, Se corrigieron los valores personalizados deshabilitados con admin 3.7.6+ y js-controller <2.2.",
+                "pl": "Dodano obraz svg jako możliwy do przesłania, Wykonano URL i HTML uniwersalny dla prawie wszystkich urządzeń, Naprawiono wyłączone wartości niestandardowe z adminem 3.7.6+ i kontrolerem js <2.2.",
+                "zh-cn": "添加了svg作为可能的图像进行上传，使几乎所有设备都通用了URL和HTML，修复了使用admin 3.7.6+和js-controller <2.2禁用的自定义值。"
+            },
             "0.2.14": {
                 "en": "Fixed icon-switching for thermostats",
                 "de": "Icon-Umschaltung für Thermostate behoben",
