@@ -1,4 +1,5 @@
 {
+"Click on tile opend dialog": "Klick auf die Kachel öffnet den Dialog",
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",
     "(Default)": "(Standard)",
     "(None)": "(Nichts)",
@@ -167,7 +168,7 @@
     "Indicator (indicator.state)": "Zustandsanzeige (indicator.state)",
     "Info-Text:": "Info-Text:",
     "Invalid Name": "Ungültiger Name",
-    "Invert": "Ivertieren",
+    "Invert": "Invertieren",
     "Invert CT (use Kelvin instead of Mired)": "Invertiere Farbtemperatur (Benutze Kelvin statt der Mired Skala)",
     "Invert LEVEL (0 = open)": "Invertiere LEVEL (0 = offen)",
     "Invert selection": "Auswahl umkehren",
