@@ -2625,10 +2625,14 @@ function renderView(id, updateOnly, callback){
 					//--Link (to Dialog / Popup / External Link / Other View)
 					switch(usedObjects[deviceId].common.role){
 						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
-						if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
-							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(\"" + usedObjects[deviceId].native.linkedView + "\");'>";
-						} else { //No link
-							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick=''>";
+						if(typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.clickOnTileOpensDialog != udef && usedObjects[deviceId].native.clickOnTileOpensDialog == "true"){ //clickOnTileOpensDialog
+							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='renderDialog(\"" + deviceId + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
+						} else {
+							if (typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.linkedView != udef && usedObjects[deviceId].native.linkedView != "") { //Link to other view
+								deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(\"" + usedObjects[deviceId].native.linkedView + "\");'>";
+							} else { //No Link to other view
+								deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick=''>";
+							}
 						}
 						break;
 
@@ -2651,7 +2655,6 @@ function renderView(id, updateOnly, callback){
 
 						default: //Link to Dialog
 						if(typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.clickOnTileToggles != udef && usedObjects[deviceId].native.clickOnTileToggles == "true"){ //clickOnTileToggles
-							//deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='$(that).children(\".iQontrolDeviceLinkToToggle\").click()'>";
 							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='if(viewPressureMenu[\"" + deviceId + "\"] && viewPressureMenu[\"" + deviceId + "\"].toggle && viewPressureMenu[\"" + deviceId + "\"].toggle.onclick){new Function(viewPressureMenu[\"" + deviceId + "\"].toggle.onclick)();}'>";
 						} else { //Normal Link to Dialog
 							deviceContent += "<div class='iQontrolDeviceLink' data-iQontrol-Device-ID='" + deviceId + "' data-onclick='renderDialog(\"" + deviceId + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
@@ -3932,8 +3935,10 @@ function renderDialog(deviceId){
 			if(dialogStates["SET_TEMPERATURE"]){
 				var min = dialogStates["SET_TEMPERATURE"].min || 6;
 				var max = dialogStates["SET_TEMPERATURE"].max || 30;
+				var step = "0.5";
+				if(usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
 				dialogContent += "<label for='DialogStateSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Goal-Temperature") + ":</label>";
-				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='0.5'/>";
+				dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceId + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceId = deviceId;
 					var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
@@ -5285,7 +5290,7 @@ function renderDialog(deviceId){
 		//--Universal additional Content
 		//----Popup with url or html
 		if ((dialogStates["URL"] || dialogStates["HTML"]) && usedObjects[deviceId].common.role !== "iQontrolExternalLink"){
-			var style = "";
+			var style = "display: none; ";
 			if (typeof usedObjects[deviceId] !== udef && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.popupWidth != udef && usedObjects[deviceId].native.popupWidth){
 				style += "width: " + usedObjects[deviceId].native.popupWidth + "px !important; ";
 			} else if (usedObjects[deviceId].common.role !== "iQontrolPopup") {
@@ -5295,7 +5300,7 @@ function renderDialog(deviceId){
 				style += "height: " + usedObjects[deviceId].native.popupHeight + "px !important; ";
 			} else if (usedObjects[deviceId].common.role !== "iQontrolPopup") {
 				style += "height: unset !important; "
-			}				
+			}
 			dialogContent += "<div class='iQontrolDialogIframeWrapper' style='" + style + "'>";
 			dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceId + "' id='DialogPopupIframe' scrolling='auto'>" + _("Content not available") + "</iframe>";
 			dialogContent += "</div>";
@@ -5307,9 +5312,13 @@ function renderDialog(deviceId){
 					var iframe = document.getElementById('DialogPopupIframe');
 					if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
 						iframe.src = states[_linkedUrlId].val;
+						$('.iQontrolDialogIframeWrapper').show();
 					} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
 						var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 						iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+						$('.iQontrolDialogIframeWrapper').show();
+					} else {
+						$('.iQontrolDialogIframeWrapper').hide();						
 					}
 				}
 				if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
