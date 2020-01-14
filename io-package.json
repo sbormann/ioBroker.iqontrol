@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.15",
+        "version": "0.2.16",
         "news": {
+            "0.2.16": {
+                "en": "Fixed custom step for heating control, Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Fixed universal popup wich was displayed, even when empty.",
+                "de": "Benutzerdefinierter Schritt für die Heizungssteuerung korrigiert. Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Universelles Popup korrigiert, das angezeigt wurde, auch wenn leer.",
+                "ru": "Исправлен пользовательский шаг для управления обогревом, Добавлена ​​возможность открывать диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Исправлено универсальное всплывающее окно, которое отображалось, даже когда пусто.",
+                "pt": "Corrigido passo personalizado para controle de aquecimento, opção adicionada para abrir a caixa de diálogo clicando no ladrilho para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e movimento, Pop-up universal fixo que era exibido, mesmo quando vazio.",
+                "nl": "Vaste aangepaste stap voor verwarmingsregeling, optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatuur, Vochtigheid, Helderheid en Beweging, Vaste universele pop-up die werd weergegeven, zelfs als deze leeg was.",
+                "fr": "Correction d'une étape personnalisée pour le contrôle du chauffage, Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement, popup universel fixe qui était affiché, même lorsqu'il était vide.",
+                "it": "Risolto il problema con il passaggio personalizzato per il controllo del riscaldamento. Aggiunta l'opzione per aprire la finestra di dialogo facendo clic su un riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Risolto popup universale che veniva visualizzato, anche se vuoto.",
+                "es": "Se corrigió el paso personalizado para el control de calefacción, se agregó la opción para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Ventana emergente universal fija que se mostró, incluso cuando estaba vacía.",
+                "pl": "Naprawiono niestandardowy krok do sterowania ogrzewaniem, Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i ruch, Naprawiono uniwersalne okienko wyskakujące, które było wyświetlane, nawet gdy jest puste.",
+                "zh-cn": "固定了加热控制的自定义步骤，添加了通过单击“视图”，“窗口”，“门”，“火”，“温度”，“湿度”，“亮度”和“运动”的图块来打开对话框的选项，显示了固定的通用弹出窗口，即使是空的也是如此。"
+            },
             "0.2.15": {
                 "en": "Added svg as possible image to upload, Made URL and HTML universal for nearly all devices, Fixed disabled custom values with admin 3.7.6+ and js-controller <2.2.",
                 "de": "SVG als mögliches Bild zum Hochladen hinzugefügt. URL und HTML für fast alle Geräte universell gemacht. Behoben: Deaktivierte benutzerdefinierte Werte mit admin 3.7.6+ und js-controller <2.2.",

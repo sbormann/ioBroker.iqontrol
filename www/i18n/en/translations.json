@@ -93,6 +93,7 @@
     "Check the device after creation and edit it to correct role and states.": "Check the device after creation and edit it to correct role and states.",
     "Choose:": "Choose:",
     "Click on icon opens dialog (instead of toggling)": "Click on icon opens dialog (instead of toggling)",
+    "Click on tile opend dialog": "",
     "Click on tile toggles (instead of opening dialog)": "Click on tile toggles (instead of opening dialog)",
     "Close dialog after execution": "Close dialog after execution",
     "Color": "Color",

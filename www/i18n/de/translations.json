@@ -93,6 +93,7 @@
     "Check the device after creation and edit it to correct role and states.": "Überprüfen Sie das Gerät nach dem Anlegen und bearbeiten sie es, um den richtigen Typ und die Datenpunkte festzulgen.",
     "Choose:": "Auswahl:",
     "Click on icon opens dialog (instead of toggling)": "Klick auf das Icon öffnet den Dialog (statt zu schalten)",
+    "Click on tile opend dialog": "Klick auf die Kachel öffnet den Dialog",
     "Click on tile toggles (instead of opening dialog)": "Klick auf die Kachel schaltet (statt den Dialog zu öffnen)",
     "Close dialog after execution": "Schließe Dialog nach dem Ausführen",
     "Color": "Farbe",

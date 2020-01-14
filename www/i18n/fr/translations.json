@@ -93,6 +93,7 @@
     "Check the device after creation and edit it to correct role and states.": "Vérifiez le périphérique après sa création et modifiez-le pour corriger le rôle et les états.",
     "Choose:": "Choisir:",
     "Click on icon opens dialog (instead of toggling)": "Cliquez sur l'icône ouvre la boîte de dialogue (au lieu de basculer)",
+    "Click on tile opend dialog": "",
     "Click on tile toggles (instead of opening dialog)": "Cliquez sur les bascules de tuiles (au lieu d'ouvrir le dialogue)",
     "Close dialog after execution": "Fermer le dialogue après exécution",
     "Color": "Couleur",

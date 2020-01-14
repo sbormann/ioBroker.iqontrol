@@ -93,6 +93,7 @@
     "Check the device after creation and edit it to correct role and states.": "Controleer het apparaat na het maken en bewerk het om de rol en statussen te corrigeren.",
     "Choose:": "Kiezen:",
     "Click on icon opens dialog (instead of toggling)": "Klik op het pictogram opent het dialoogvenster (in plaats van te schakelen)",
+    "Click on tile opend dialog": "",
     "Click on tile toggles (instead of opening dialog)": "Klik op tegelwissels (in plaats van het dialoogvenster te openen)",
     "Close dialog after execution": "Dialoogvenster sluiten na uitvoering",
     "Color": "Kleur",

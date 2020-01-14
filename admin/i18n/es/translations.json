@@ -59,6 +59,7 @@
     "Check the device after creation and edit it to correct role and states.": "Verifique el dispositivo después de la creación y edítelo para corregir el rol y los estados.",
     "Choose:": "Escoger:",
     "Click on icon opens dialog (instead of toggling)": "Haga clic en el icono abre el cuadro de diálogo (en lugar de alternar)",
+    "Click on tile opend dialog": "",
     "Click on tile toggles (instead of opening dialog)": "Haga clic en el mosaico alterna (en lugar de abrir el diálogo)",
     "Close dialog after execution": "Cerrar diálogo después de la ejecución",
     "Colorspace for ALTERNATIVE_COLORSPACE_VALUE": "Espacio de color para ALTERNATIVE_COLORSPACE_VALUE",

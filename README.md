@@ -283,9 +283,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 0.2.16 (dev)
+### 0.2.16 (2020-01-14)
 * (Sebastian Bormann) Fixed custom step for heating control.
-* (Sebastian Bormann) Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion
+* (Sebastian Bormann) Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion.
+* (Sebastian Bormann) Fixed universal popup wich was displayed, even when empty.
 
 ### 0.2.15 (2020-01-07)
 * (Sebastian Bormann) Added svg as possible image to upload.
