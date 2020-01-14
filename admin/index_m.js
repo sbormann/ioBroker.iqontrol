@@ -724,7 +724,7 @@ function load(settings, onChange) {
 			}
 			if (!(goalSocketFound && goalForceWebSocketsFound) && !isIobrokerPro){
 				console.log("Could not find any web-adapter with integrated socketIO and disabled Force Web-Sockets");
-				socketConnectionErrorMessages += "\n" + _("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adaptor-settings!");
+				socketConnectionErrorMessages += "\n" + _("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!");
 			}
 
 			//Create Link from best fitting web-adapter
