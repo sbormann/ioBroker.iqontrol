@@ -1,20 +1,10 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.18",
+        "version": "0.2.19",
         "news": {
-            "0.2.18": {
-                "en": "Updated dependencies",
-                "de": "Aktualisierte Abhängigkeiten",
-                "ru": "Обновленные зависимости",
-                "pt": "Dependências atualizadas",
-                "nl": "Bijgewerkte afhankelijkheden",
-                "fr": "Dépendances mises à jour",
-                "it": "Dipendenze aggiornate",
-                "es": "Dependencias actualizadas",
-                "pl": "Zaktualizowano zależności",
-                "zh-cn": "更新了依赖性"
-            },
+		"0.2.19": {"en": "Updated dependencies"},
+		"0.2.18": {"en": "Updated dependencies"},
             "0.2.17": {
                 "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
                 "de": "Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Option zum Ausblenden des Geräts hinzugefügt, wenn es inaktiv ist (vorsichtig behandeln, da Sie es möglicherweise nicht wechseln können ",
