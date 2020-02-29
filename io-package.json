@@ -3,6 +3,18 @@
         "name": "iqontrol",
         "version": "0.2.16",
         "news": {
+            "0.2.17": {
+                "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
+                "de": "Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Option zum Ausblenden des Geräts hinzugefügt, wenn es inaktiv ist (vorsichtig behandeln, da Sie es möglicherweise nicht wechseln können ",
+                "ru": "Добавлена ​​возможность открыть диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Добавлена ​​возможность скрыть устройство, если оно неактивно (обращайтесь с осторожностью, так как вы не сможете его переключить ",
+                "pt": "Foi adicionada a opção para abrir a caixa de diálogo clicando no bloco para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e Movimento, Opção adicionada para ocultar o dispositivo, se estiver inativo (manuseie com cuidado, pois pode não ser possível alterná-lo ",
+                "nl": "Optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatur, Vochtigheid, Helderheid en Beweging, Optie toegevoegd om apparaat te verbergen, als het inactief is (voorzichtig behandelen, omdat u het misschien niet kunt schakelen ",
+                "fr": "Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement. ",
+                "it": "Aggiunta opzione per aprire la finestra di dialogo facendo clic su riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Aggiunta opzione per nascondere il dispositivo, se è inattivo (maneggiare con cura, poiché potrebbe non essere possibile cambiarlo ",
+                "es": "Opción agregada para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Opción agregada para ocultar el dispositivo, si está inactivo (maneje con cuidado, ya que es posible que no pueda cambiarlo ",
+                "pl": "Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i Ruch, Dodano opcję ukrywania urządzenia, jeśli jest nieaktywne (obchodź się ostrożnie, ponieważ możesz nie być w stanie go zmienić ",
+                "zh-cn": "添加选项以通过单击视图，窗口，门，火，温度，湿度，亮度和运动的图块来打开对话框，添加选项以隐藏设备（如果其处于非活动状态）（请谨慎处理，因为您可能无法切换它）"
+            },
             "0.2.16": {
                 "en": "Fixed custom step for heating control, Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Fixed universal popup wich was displayed, even when empty.",
                 "de": "Benutzerdefinierter Schritt für die Heizungssteuerung korrigiert. Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Universelles Popup korrigiert, das angezeigt wurde, auch wenn leer.",

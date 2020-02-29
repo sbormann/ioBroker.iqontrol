@@ -5,14 +5,13 @@ nbproject/
 .vs*/
 Thumbs.db
 gulpfile.js
-
+tsconfig.json
 test/
 travis/
 .travis.yml
 appveyor.yml
 .travis.yaml
 appveyor.yaml
-
 .eslintrc.json
 
 # npm package files

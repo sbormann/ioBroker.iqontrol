@@ -245,6 +245,9 @@ body {
 	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 }
+.iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active){
+	display: none;
+}
 .iQontrolDevice{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
