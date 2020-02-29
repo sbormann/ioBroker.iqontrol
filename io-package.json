@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.16",
+        "version": "0.2.17",
         "news": {
             "0.2.17": {
                 "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
