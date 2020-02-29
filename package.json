@@ -1,6 +1,6 @@
 {
   "name": "iobroker.iqontrol",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "Fast Web-App for Visualization",
   "author": {
     "name": "Sebastian Bormann",
@@ -16,7 +16,7 @@
     "url": "https://github.com/sbormann/ioBroker.iqontrol"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^1.0.3"
+    "@iobroker/adapter-core": "^2.2.1"
   },
   "devDependencies": {
     "@iobroker/testing": "^1.2.0",

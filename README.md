@@ -281,7 +281,10 @@ In addition to normal thermostat you can define:
 
 ****
 
-## Changelog
+## Changelo8
+
+### 0.2.17 (2020-02-29)
+* (Sebastian Bormann) Updated dependencies.
 
 ### 0.2.17 (2020-02-29)
 * (Sebastian Bormann) Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion.
