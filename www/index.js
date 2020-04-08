@@ -606,7 +606,7 @@ function getStarted(){
 	usedObjects = {};
 	waitingForObject = {};
 	preventUpdate = {};
-	servConn.clearCache();
+//	servConn.clearCache();
 	//Fetch Config
 	console.log("* Fetch config...");
 	fetchConfig(function(){
@@ -614,57 +614,57 @@ function getStarted(){
 		systemLang = config.language || systemLang;
 		translateAll();
 	});
-	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
 	//Fetch Options
 	console.log("* Fetch options...");
 	fetchOptions(function(){
 		console.log("* Options received.");
 		handleOptions();
-		//Get Toolbar (and according objects)
-		console.log("* Fetch toolbar...");
-		fetchToolbar(function(){
-			console.log("* Toolbar received.");
-			if (toolbar.length > 0){
-				toolbarSorted = [];
-				for (var i = 0; i < toolbar.length; i++){
-					var id = toolbar[i];
-					var sortPrefix = "";
-					if (usedObjects[id].native.sortPrefix) sortPrefix = usedObjects[id].native.sortPrefix;
-					var sortPostfix = "";
-					if (usedObjects[id].native.sortPostfix) sortPostfix = usedObjects[id].native.sortPostfix;
-					toolbarSorted.push([sortPrefix + usedObjects[id].common.name + sortPostfix, id]);
-				}
-				toolbarSorted.sort();
-				toolbar = [];
-				for (var i = 0; i < toolbarSorted.length; i++){
-					toolbar.push(toolbarSorted[i][1]);
-				}
+	});
+	//Fetch functions are synchronous, but before rendering the page the first all necessary information needs to be complete. This is why everything is stacked via callback functions.
+	//Get Toolbar (and according objects)
+	console.log("* Fetch toolbar...");
+	fetchToolbar(function(){
+		console.log("* Toolbar received.");
+		if (toolbar.length > 0){
+			toolbarSorted = [];
+			for (var i = 0; i < toolbar.length; i++){
+				var id = toolbar[i];
+				var sortPrefix = "";
+				if (usedObjects[id].native.sortPrefix) sortPrefix = usedObjects[id].native.sortPrefix;
+				var sortPostfix = "";
+				if (usedObjects[id].native.sortPostfix) sortPostfix = usedObjects[id].native.sortPostfix;
+				toolbarSorted.push([sortPrefix + usedObjects[id].common.name + sortPostfix, id]);
 			}
-			console.log("* Toolbar sorted.");
-			renderToolbar();
-			console.log("* Toolbar rendered.");
-			console.log("* Render actual|home view....");
-			//Get Views (and according objects)
-			renderView(actualViewId || homeId, false, function(){
-				console.log("* Create toolbar pressuremenus...");
-				createToolbarPressureMenus(function(){
-					console.log("* Toolbar pressuremenus created.");
-					if (createToolbarPressureMenusBufferRenderView.id) {
-						renderView(createToolbarPressureMenusBufferRenderView.id, createToolbarPressureMenusBufferRenderView.updateOnly, createToolbarPressureMenusBufferRenderView.callback);
-						createToolbarPressureMenusBufferRenderView = {};
-					}
-				});			
-			});
-			if(actualViewId == homeId){
-				viewHistory = toolbarLinksToOtherViews;
-				viewHistoryPosition = 0;
-				console.log("* Home rendered.");
-			} else {
-				console.log("* Rendered actual view.");
+			toolbarSorted.sort();
+			toolbar = [];
+			for (var i = 0; i < toolbarSorted.length; i++){
+				toolbar.push(toolbarSorted[i][1]);
 			}
-			$('.loader').hide();
-			$.mobile.loading('hide');
+		}
+		console.log("* Toolbar sorted.");
+		renderToolbar();
+		console.log("* Toolbar rendered.");
+		console.log("* Render actual|home view....");
+		//Get Views (and according objects)
+		renderView(actualViewId || homeId, false, function(){
+			console.log("* Create toolbar pressuremenus...");
+			createToolbarPressureMenus(function(){
+				console.log("* Toolbar pressuremenus created.");
+				if (createToolbarPressureMenusBufferRenderView.id) {
+					renderView(createToolbarPressureMenusBufferRenderView.id, createToolbarPressureMenusBufferRenderView.updateOnly, createToolbarPressureMenusBufferRenderView.callback);
+					createToolbarPressureMenusBufferRenderView = {};
+				}
+			});			
 		});
+		if(actualViewId == homeId){
+			viewHistory = toolbarLinksToOtherViews;
+			viewHistoryPosition = 0;
+			console.log("* Home rendered.");
+		} else {
+			console.log("* Rendered actual view.");
+		}
+		$('.loader').hide();
+		$.mobile.loading('hide');
 	});
 }
 
@@ -1337,9 +1337,9 @@ function updateState(stateId, ignorePreventUpdate){
 			case "number":
 			console.log("Inverting number state " + stateId + " from " + states[stateId].val + "...");
 			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") result.min = usedObjects[stateId].common.custom[namespace].min;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
 			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") result.max = usedObjects[stateId].common.custom[namespace].max;
+			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
 			if(typeof min !== udef && typeof max !== udef){
 				states[stateId].val = max - (states[stateId].val - min);
 				states[stateId].isInverted = true;
@@ -1488,7 +1488,7 @@ function pincode(givenPincode, rightPinCallback, wrongPinCallback){
 			if(wrongPinCallback) wrongPinCallback();
 		}
 		$('#pincode').hide(150);
-		setTimeout(function(){$(document).trigger("keydown");}, 200);
+		//setTimeout(function(){$(document).trigger("keydown");}, 250);
 	});
 }
 
@@ -3208,7 +3208,9 @@ function renderView(id, updateOnly, callback){
 										if (statePower && typeof statePower.val !== udef){
 											var val = statePower.plainText;
 											var unit = statePower.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											if (!isNaN(val)) {
+												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+											} 
 											if (statePower.plainText == statePower.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceInfoBText").html(val);

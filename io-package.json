@@ -1,10 +1,44 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.19",
+        "version": "0.2.20",
         "news": {
-		"0.2.19": {"en": "Updated dependencies"},
-		"0.2.18": {"en": "Updated dependencies"},
+            "0.2.20": {
+                "en": "If value for POWER is greater than 100, it is rounded withour decimal places, Bugfixed invert-function with custom min and max, Added reload-link to loading page, Updated dependencies.",
+                "de": "Wenn der Wert für POWER größer als 100 ist, wird er mit unseren Dezimalstellen gerundet. Bugfixed Invert-Funktion mit benutzerdefinierten Min und Max. Reload-Link zur Ladeseite hinzugefügt. Aktualisierte Abhängigkeiten.",
+                "ru": "Если значение для POWER больше 100, оно округляется с нашими десятичными разрядами, исправлена ​​обратная функция с пользовательскими минимальными и максимальными значениями, добавлена ​​ссылка для перезагрузки страницы загрузки, обновлены зависимости.",
+                "pt": "Se o valor de POWER for maior que 100, ele será arredondado com nossas casas decimais, função invertida corrigida com bug com mínimo e máximo personalizados, link de recarregamento adicionado à página de carregamento, dependências atualizadas.",
+                "nl": "Als de waarde voor POWER groter is dan 100, wordt deze afgerond met onze decimalen, Bugfixed invert-functie met aangepaste min en max, toegevoegde reload-link naar laadpagina, bijgewerkte afhankelijkheden.",
+                "fr": "Si la valeur de POWER est supérieure à 100, elle est arrondie avec nos décimales, fonction inversée corrigée des bogues avec min et max personnalisés, lien de rechargement ajouté à la page de chargement, dépendances mises à jour.",
+                "it": "Se il valore di POWER è maggiore di 100, viene arrotondato con le nostre posizioni decimali, funzione di inversione corretta con min e max personalizzati, collegamento di ricarica aggiunto alla pagina di caricamento, dipendenze aggiornate.",
+                "es": "Si el valor de POWER es mayor que 100, se redondea con nuestros decimales, función invertida arreglada con errores con min y max personalizados, enlace de recarga agregado a la página de carga, dependencias actualizadas.",
+                "pl": "Jeśli wartość MOCY jest większa niż 100, jest ona zaokrąglana z naszymi miejscami po przecinku, Poprawiona funkcja odwracania z niestandardowymi wartościami minimalnymi i maksymalnymi, Dodany link reload do strony ładowania, Zaktualizowane zależności.",
+                "zh-cn": "如果POWER的值大于100，则将其四舍五入到小数点后，修正具有自定义最小值和最大值的反转函数，将重新加载链接添加到加载页面，更新了相关性。"
+            },
+            "0.2.19": {
+                "en": "Updated dependencies.",
+                "de": "Aktualisierte Abhängigkeiten.",
+                "ru": "Обновлены зависимости.",
+                "pt": "Dependências atualizadas.",
+                "nl": "Bijgewerkte afhankelijkheden.",
+                "fr": "Dépendances mises à jour.",
+                "it": "Dipendenze aggiornate.",
+                "es": "Dependencias actualizadas.",
+                "pl": "Zaktualizowano zależności.",
+                "zh-cn": "更新了依赖性。"
+            },
+            "0.2.18": {
+                "en": "Updated dependencies.",
+                "de": "Aktualisierte Abhängigkeiten.",
+                "ru": "Обновлены зависимости.",
+                "pt": "Dependências atualizadas.",
+                "nl": "Bijgewerkte afhankelijkheden.",
+                "fr": "Dépendances mises à jour.",
+                "it": "Dipendenze aggiornate.",
+                "es": "Dependencias actualizadas.",
+                "pl": "Zaktualizowano zależności.",
+                "zh-cn": "更新了依赖性。"
+            },
             "0.2.17": {
                 "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
                 "de": "Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Option zum Ausblenden des Geräts hinzugefügt, wenn es inaktiv ist (vorsichtig behandeln, da Sie es möglicherweise nicht wechseln können ",
