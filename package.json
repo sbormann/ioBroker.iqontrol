@@ -19,7 +19,8 @@
     "@iobroker/adapter-core": "^2.2.1"
   },
   "devDependencies": {
-    "gulp": "^4.0.1"
+    "gulp": "^4.0.1",
+    "mocha": "^4.1.0"
   },
   "main": "main.js",
   "scripts": {
