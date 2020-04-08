@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@iobroker/testing": "^1.2.0",
+    "chai": "^4.2.0",
     "gulp": "^4.0.1",
     "mocha": "^4.1.0"
   },
