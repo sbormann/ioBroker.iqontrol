@@ -19,7 +19,7 @@
     "@iobroker/adapter-core": "^2.2.1"
   },
   "devDependencies": {
-	"@iobroker/testing": "^1.2.0",
+    "@iobroker/testing": "^1.2.0",
     "gulp": "^4.0.1",
     "mocha": "^4.1.0"
   },
