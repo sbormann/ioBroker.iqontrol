@@ -283,6 +283,11 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.3.0 development
+* (Sebastian Bormann) Breaking change: The complete configuration is no longer stored in ioBroker channels and states, but is fetched as one complete object, thus saving the configuration is much much faster than before.
+* (Sebastian Bormann) Views, devices and toolbar entries are now sortable via drag- and drop in the configuration dialog.
+* (Sebastian Bormann) After saving the configuration the instance ist now yellow until the configuration is completely written.
+
 ### 0.2.20 (2020-04-08)
 * (Sebastian Bormann) If value for POWER is greater than 100, it is rounded withour decimal places.
 * (Sebastian Bormann) Bugfixed invert-function with custom min and max.

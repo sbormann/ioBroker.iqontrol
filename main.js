@@ -362,19 +362,24 @@ class Iqontrol extends utils.Adapter {
 	 */
 	async onReady() {
 		// Initialize your adapter here
-		this.log.info("Creating Toolbar...");
-		await this.createToolbar();
+		this.setState('info.connection', { val: false, ack: true });
+		//this.log.info("Creating Toolbar...");
+		//await this.createToolbar();
 		
-		this.log.info("Creating Views...");
-		await this.createViews();
+		//this.log.info("Creating Views...");
+		//await this.createViews();
 		
-		this.log.info("Creating Options...");
-		await this.createOptions();
+		//this.log.info("Creating Options...");
+		//await this.createOptions();
 		
-		this.log.debug("Created Objects: " + createdObjects.length + " (" + createdObjects.toString() + ")");
+		//this.log.debug("Created Objects: " + createdObjects.length + " (" + createdObjects.toString() + ")");
 
 		this.log.info("Deleting unused Objects...");
 		this.deleteUnusedObjects();
+		
+		//this.subscribeStates("*");
+		this.setState('info.connection', { val: true, ack: true });
+		this.log.info("iQontrol ready.");
 		
 		
 		//--------------------------------- HELP ------------------------------------

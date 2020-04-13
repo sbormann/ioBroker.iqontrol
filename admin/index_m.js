@@ -680,7 +680,6 @@ function load(settings, onChange) {
 		$('select').select();
 	});
 
-
 	//Select elements with id=key and class=value and insert value
 	if (!settings) return;
 	$('.value').each(function () {
@@ -941,6 +940,15 @@ function load(settings, onChange) {
 		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
 		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+			}
+		});
 		//CommonName changed
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -964,6 +972,26 @@ function load(settings, onChange) {
 		}
 		//Check for duplicates
 		viewsCheckDuplicates();
+		//Make table sortable
+		$("#tableViews tbody").sortable({
+			stop: function( event, ui ) { 
+				console.log("Drag ended, start resorting...");
+				$("#tableViews tbody").sortable('disable');
+				var sequence = [];
+				$('#tableViews').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(views[sequence[i]]);
+				}
+				views = tableResorted;
+				onChange();
+				values2table('tableViews', views, onChange, onTableViewsReady);
+				$("#tableViews tbody").sortable('enable');
+				console.log("resorted.");
+			}
+		});	
 	}
 
 	//Check for duplicates
@@ -1085,6 +1113,11 @@ function load(settings, onChange) {
 					$('#dialogDeviceEdit').modal('open');
 				});
 			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+			}
 		});
 		$lines.find('select[data-name]').each(function() {
 			var name = $(this).data('name');
@@ -1113,6 +1146,27 @@ function load(settings, onChange) {
 			} */
 		});
 		$('select').select();
+
+		//Make table sortable
+		$("#tableDevices tbody").sortable({
+			stop: function( event, ui ) { 
+				console.log("Drag ended, start resorting...");
+				$("#tableDevices tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDevices').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(views[devicesSelectedView].devices[sequence[i]]);
+				}
+				views[devicesSelectedView].devices = tableResorted;
+				onChange();
+				values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+				$("#tableDevices tbody").sortable('enable');
+				console.log("resorted.");
+			}
+		});	
 	}
 
 	//Enhance dialogDeviceEditCommonRole-Selectbox with functions
@@ -1794,7 +1848,43 @@ function load(settings, onChange) {
 		views.forEach(function(element){ viewIds.push(element.commonName); });
 		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 		//Fill Table
-		values2table('tableToolbar', toolbar, onChange);
+		values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
+	}
+
+	//Enhance tableToolbar with functions
+	function onTableToolbarReady(){
+		var $div = $('#tableToolbar');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableToolbar tbody").sortable({
+			stop: function( event, ui ) { 
+				console.log("Drag ended, start resorting...");
+				$("#tableToolbar tbody").sortable('disable');
+				var sequence = [];
+				$('#tableToolbar').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(toolbar[sequence[i]]);
+				}
+				toolbar = tableResorted;
+				onChange();
+				values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
+				$("#tableToolbar tbody").sortable('enable');
+				console.log("resorted.");
+			}
+		});	
 	}
 
 
@@ -2268,9 +2358,7 @@ function load(settings, onChange) {
 						var parts = path.split('/');
 						var adapter = parts[1];
 						parts.splice(0, 2);
-						//socket.emit('mkdir', adapter, pathSubdir, function(err){
-						//	createDir(_path, _callback, _index + 1);
-						//});
+						// socket.emit('mkdir', adapter, pathSubdir, function(err){	createDir(_path, _callback, _index + 1); });
 					}
 				})(); //<--End Closure
 			} else { //Subdir exists - iterate to next subdir
