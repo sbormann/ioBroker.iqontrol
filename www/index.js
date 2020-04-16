@@ -16,7 +16,8 @@ var iQontrolRoles = {
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"} 
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -35,7 +36,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolButton": 				{
@@ -56,7 +58,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolLight": 				{
@@ -76,6 +79,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
 										}
@@ -96,7 +100,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -114,7 +119,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -131,7 +137,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -149,7 +156,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -167,8 +175,9 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
-										}
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+									}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
@@ -185,7 +194,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolMotion": 				{
@@ -203,7 +213,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoor": 				{
@@ -221,7 +232,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -238,7 +250,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -257,7 +270,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolWindow": 				{
@@ -275,7 +289,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBlind": 				{
@@ -298,6 +313,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
@@ -320,7 +336,27 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+										}
+									},
+	"iQontrolFlood": 				{
+										name: "Flood-Sensor",
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/flood_on.png",
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -339,7 +375,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBattery": 				{
@@ -361,7 +398,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolValue": 				{
@@ -378,7 +416,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolProgram": 				{
@@ -398,7 +437,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolScene": 				{
@@ -418,7 +458,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										} 
 									},
 	"iQontrolPopup": 				{
@@ -434,7 +475,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -448,7 +490,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									}
 };
@@ -456,6 +499,7 @@ var iQontrolRoles = {
 //Delcarations
 var systemConfig = {};							//Contains the system config (like system language)
 var systemLang = "en";							//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
+
 var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
 var usedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
@@ -464,7 +508,6 @@ var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, 
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
 var options = {};								//Contains the options (extracted form <namespace + '.Options'>'.native')
-
 var returnAfterTimeTimestamp = false;			//If the option ReturnAfterTime is active, this ist the timestamp of the last use of iQontrol, or null, if the treshold has been reached and the view has been switched to destinationView or false, if the eventListeners to set the timestamp have not been bound to document yet
 var returnAfterTimeDestinationView = "";		//If the option ReturnAfterTime is active, this ist the destinationView wich will be shown after the time expired
 var returnAfterTimeTreshold = 0;				//If the option ReturnAfterTime is active, this ist the treshold, after wich the destinationView will be loaded
@@ -2967,7 +3010,7 @@ function renderView(id, updateOnly, callback){
 								var _deviceId = deviceId;
 								var _linkedErrorId = deviceLinkedStateIds["ERROR"];
 								viewUpdateFunctions[_linkedErrorId].push(function(){
-									var stateError = getStateObject(_linkedErrorId)
+									var stateError = getStateObject(_linkedErrorId);
 									if (typeof stateError !== udef && stateError.val) {
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceError").addClass("active");
 									} else {
@@ -2981,10 +3024,13 @@ function renderView(id, updateOnly, callback){
 						if (deviceLinkedStateIds["UNREACH"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceId = deviceId;
+								var _device = device;
 								var _linkedUnreachId = deviceLinkedStateIds["UNREACH"];
 								viewUpdateFunctions[_linkedUnreachId].push(function(){
-									var stateUnreach = getStateObject(_linkedUnreachId)
-									if (typeof stateUnreach !== udef && stateUnreach.val) {
+									var invertUnreach = false;
+									if(getDeviceOptionValue(_device, "invertUnreach") == "true") invertUnreach = !invertUnreach;
+									var stateUnreach = getStateObject(_linkedUnreachId);
+									if (typeof stateUnreach !== udef && ((!invertUnreach && stateUnreach.val) || (invertUnreach && !stateUnreach.val))) {
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceUnreach").addClass("active");
 									} else {
 										$("[data-iQontrol-Device-ID='" + _deviceId + "'].iQontrolDeviceUnreach").removeClass("active");
@@ -3202,8 +3248,16 @@ function renderView(id, updateOnly, callback){
 										var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
 											if (states[_linkedAlternativeColorspaceValueId] && states[callingStateId] && typeof states[callingStateId].val !== udef && states[callingStateId].val !== ""){
 												var ack = states[callingStateId].ack;
+												var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
 												var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
-												if(alternativeColorspaceValue) setState(_linkedAlternativeColorspaceValueId, _deviceId, alternativeColorspaceValue, ack);
+												if(alternativeColorspaceValue) {
+													if ((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
+														console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
+													} else {
+														if (typeof states[_linkedAlternativeColorspaceValueId].val == "string" && states[_linkedAlternativeColorspaceValueId].val == states[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
+														setState(_linkedAlternativeColorspaceValueId, _deviceId, alternativeColorspaceValue, ack);													
+													}
+												}
 											}
 										};
 										if (_linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
@@ -5673,6 +5727,7 @@ $(document).ready(function(){
 	});
 
 	//Init socket.io
+	servConn._useStorage = true;
 	servConn.init(connOptions, connCallbacks);
 	servConn.namespace = namespace;
 	servConn.setReconnectInterval(500);

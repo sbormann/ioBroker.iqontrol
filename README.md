@@ -243,6 +243,12 @@ In addition to normal thermostat you can define:
     * You can also assign a *string* to display any text like "fire in upper floor"
 * The **linked-view-property** is opened directly
 
+### <img src="img/icons/flood_on.png" width="32"> Flood-Sensor:
+* **STATE**: *boolean* - if true the sensor will be displayed as triggered
+    * Alternatively you can assign a *value-list*, to display additional states like 'tampered'
+    * You can also assign a *string* to display any text like "flood in upper floor"
+* The **linked-view-property** is opened directly
+
 ### <img src="img/icons/alarm_on.png" width="32"> Alarm:
 * **STATE**: *boolean* - if true the sensor will be displayed as triggered
     * Alternatively you can assign a *value-list*, to display additional states like 'tampered'
@@ -287,9 +293,14 @@ In addition to normal thermostat you can define:
 * (Sebastian Bormann) Breaking change: The complete configuration is no longer stored in ioBroker channels and states, but is fetched as one complete object, thus saving the configuration is much much faster than before.
 * (Sebastian Bormann) Views, devices and toolbar entries are now sortable via drag- and drop in the configuration dialog.
 * (Sebastian Bormann) After saving the configuration the instance ist now yellow until the configuration is completely written.
+* (Sebastian Bormann) Added invert UNREACH to device options.
+* (Sebastian Bormann) Added Flood-Sensor.
+* (Sebastian Bormann) Enhanced autocreation-feature by using ioBroker-Type-Detector by bluefox.
+* (Sebastian Bormann) Enhanced hue-lights when using alternative colorspace without white-values and changing ct.
+* (Sebastian Bormann) Enhanced hue-lights when using alternative colorspace to keep uppercase if needed.
 
 ### 0.2.20 (2020-04-08)
-* (Sebastian Bormann) If value for POWER is greater than 100, it is rounded withour decimal places.
+* (Sebastian Bormann) If value for POWER is greater than 100, it is rounded without decimal places.
 * (Sebastian Bormann) Bugfixed invert-function with custom min and max.
 * (Sebastian Bormann) Added reload-link to loading page.
 * (Sebastian Bormann) Updated dependencies.

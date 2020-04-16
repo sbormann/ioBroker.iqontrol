@@ -16,7 +16,8 @@ var iQontrolRoles = {
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"} 
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -35,7 +36,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolButton": 				{
@@ -56,7 +58,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolLight": 				{
@@ -76,6 +79,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
 										}
@@ -96,7 +100,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -114,7 +119,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -131,7 +137,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -149,7 +156,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -167,8 +175,9 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
-										}
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+									}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
@@ -185,7 +194,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolMotion": 				{
@@ -203,7 +213,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoor": 				{
@@ -221,7 +232,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -238,7 +250,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -257,7 +270,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolWindow": 				{
@@ -275,7 +289,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBlind": 				{
@@ -298,6 +313,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
@@ -320,7 +336,27 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+										}
+									},
+	"iQontrolFlood": 				{
+										name: "Flood-Sensor",
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/flood_on.png",
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -339,7 +375,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBattery": 				{
@@ -361,7 +398,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolValue": 				{
@@ -378,7 +416,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolProgram": 				{
@@ -398,7 +437,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolScene": 				{
@@ -418,7 +458,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										} 
 									},
 	"iQontrolPopup": 				{
@@ -434,7 +475,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -448,10 +490,382 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									}
 };
+var channelDetectorMatchTable = {
+    "unknown": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "blind": 			{
+							matchingRole: "iQontrolBlind",
+							matchingStates: {
+								"SET": "LEVEL",
+								"STOP": "STOP",
+								"DIRECTION": "DIRECTION",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "button": 			{
+							matchingRole: "iQontrolButton",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "camera": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "url": 				{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "image": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "dimmer": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "LEVEL",
+								"ON_SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "door": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "fireAlarm": 		{
+							matchingRole: "iQontrolFire",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "floodAlarm": 		{
+							matchingRole: "iQontrolFlood",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "gate": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "humidity": 		{
+							matchingRole: "iQontrolHumidity",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "info": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "instance": 		{
+							matchingRole: null,
+							matchingStates:  {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "light": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "lock": 			{
+							matchingRole: "iQontrolDoorWithLock",
+							matchingStates: {
+								"SET": "LOCK_STATE",
+								"OPEN": "LOCK_OPEN",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "location": 		{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "media": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "motion": 			{
+							matchingRole: "iQontrolMotion",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "BRIGHTNESS",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgb": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "ct": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"TEMPERATURE": "CT",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgbSingle": 		{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"RGB": "ALTERNATIVE_COLORSPACE_VALUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "hue": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"HUE": "HUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "slider": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "socket": 			{
+							matchingRole: "iQontrolSwitch",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "temperature": 		{
+							matchingRole: "iQontrolTemperature",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "HUMIDITY",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "thermostat": 		{
+							matchingRole: "iQontrolThermostat",
+							matchingStates: {
+								"SET": "STATE",
+								"ACTUAL": "TEMPERATURE",
+								"HUMIDITY": "HUMIDITY",
+								"BOOST": "BOOST_STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "valve": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volume": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volumeGroup": 		{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "window": 			{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "windowTilt": 		{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherCurrent": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherForecast": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "warning": 			{
+							matchingRole: null,
+							matchingStates:{
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						}
+}
 
 //Delcarations
 const udef = 'undefined';
@@ -649,6 +1063,14 @@ function load(settings, onChange) {
 	console.log("Loading iQontrol Settings");
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
+	
+	// Create a helper for sortable tables with preserved width of cells  
+	var fixHelper = function(e, ui){
+		ui.children().each(function(){  
+			$(this).width($(this).width()).css({"background-color":"rgba(180,180,180,0.75)", "box-shadow":"-5px 5px 5px 0px rgba(180,180,180,0.75)"}); 			
+		});  
+		return ui;  
+	};
 
 	//Init Colorpickers
 	$('.MaterializeColorPicker').colorpicker().on('changeColor', function(event){
@@ -714,6 +1136,9 @@ function load(settings, onChange) {
 
 	//Init imageUpload
 	initImageUpload();
+
+	//Init ChannelDetector
+	var channelDetector = new ChannelDetector();
 
 	//Get Link of best fitting web-adapter
 	console.log("getLink of best fitting web-adapter");
@@ -881,7 +1306,7 @@ function load(settings, onChange) {
 
 			//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
-
+			
 			//Get iobrokerObjects
 			socket.emit('getObjects', function (err, objs) {
 				iobrokerObjects = objs;
@@ -974,6 +1399,7 @@ function load(settings, onChange) {
 		viewsCheckDuplicates();
 		//Make table sortable
 		$("#tableViews tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableViews tbody").sortable('disable');
@@ -1149,6 +1575,7 @@ function load(settings, onChange) {
 
 		//Make table sortable
 		$("#tableDevices tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableDevices tbody").sortable('disable');
@@ -1542,270 +1969,344 @@ function load(settings, onChange) {
 		}
 	});
 	function deviceAutocreate(sourceId, objects){
-		var resultObject = {};
-		var resultText = "";
-		var resultValid = false;
+		var result = {
+			resultObject: {
+				states: [],
+				options: []
+			},
+			resultText: "",
+			resultStatesText: "",
+			resultValid: false
+		}
+		resultStatesObj = {};
 		if(!objects[sourceId]){
-			resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
+			result.resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
 		} else {
 			//Find out Name
 			if (typeof objects[sourceId].common.name != udef) {
-				resultObject.commonName = objects[sourceId].common.name;
-				resultText += "<u>" + _("Name") + ":</u> " + objects[sourceId].common.name + "<br><br>";
-				resultValid = true;
+				result.resultObject.commonName = objects[sourceId].common.name;
+				if (typeof result.resultObject.commonName == "object"){
+					if (typeof result.resultObject.commonName[systemLang] != udef) {
+						result.resultObject.commonName = result.resultObject.commonName[systemLang];
+					} else if (typeof resultObject.commonName["en"] != udef) {
+						result.resultObject.commonName = result.resultObject.commonName["en"];
+					} else {
+						result.resultObject.commonName[Object.keys(result.resultObject.commonName)[0]];
+					}
+				}
+				result.resultText += "<u>" + _("Name") + ":</u> " + result.resultObject.commonName + "<br><br>";
+				result.resultValid = true;
 			} else {
-				resultObject.commonName = _("New Device");
-				resultText += "<blockquote>" + _("The name of the device could not be determined and was set to") + " \'" + _("New Device") + "\'</blockquote><br><br>";
+				result.resultObject.commonName = _("New Device");
+				result.resultText += "<blockquote>" + _("The name of the device could not be determined and was set to") + " \'" + _("New Device") + "\'</blockquote><br><br>";
 			}
-			//Get childStates
+			//Use ChannelDetector to find out role and matching states
+			var channelDetectorUsedDeviceTypeForCommonRole;
+			var channelDetectorResult = channelDetector.detect({
+				objects: objects, 
+				id: sourceId,
+				ignoreIndicators: ["STICKY_UNREACH"]
+			});
+			if (channelDetectorResult) {
+				channelDetectorResult.forEach(function (device){ //Iterate through all all found device-types
+					console.log("Detected channel type " + device.type + ":");
+					if (channelDetectorMatchTable[device.type] && channelDetectorMatchTable[device.type].matchingRole){ //Fitting role found
+						console.log("   This is matched to " + channelDetectorMatchTable[device.type].matchingRole);
+						if (!result.resultObject.commonRole){ //Role was not matched before
+							console.log("   Set this as role for the new device.");
+							result.resultObject.commonRole = channelDetectorMatchTable[device.type].matchingRole;
+							channelDetectorUsedDeviceTypeForCommonRole = device.type;
+						}
+						device.states.forEach(function(state){ //Iterate through all found states
+							if (state.id) { //This is a state with an id
+								if (channelDetectorMatchTable[device.type].matchingStates[state.name]){
+									if(!resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]]){ //Was not matched before
+										console.log("      " + state.name + " (" + state.id + ") ====> " + channelDetectorMatchTable[device.type].matchingStates[state.name]);
+										resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]] = state.id;
+										result.resultValid = true;
+										if (state.name == "CONNECTED") {
+											console.log("      Set Option invertUnreach because CONNECTED is used instead of UNREACH");
+											result.resultObject.options.push({option: "invertUnreach", type: "checkbox", value: "true"});
+										}
+									} else {
+										console.log("      " + state.name + " (" + state.id + ") fits to " + channelDetectorMatchTable[device.type].matchingStates[state.name] + " but this was already matched before.");
+									}
+								} else {
+									console.log("      " + state.name + " (" + state.id + ") no match.");								
+								}
+							}
+						});
+					}
+				});	
+			} else {
+				console.log("No Device detected.");
+			}
+			//Get childStates to match states, that were not assigned by ChannelDetector
 			var childStates = [];
 			for(id in objects){
 				if(id.indexOf(sourceId) == 0 && objects[id].type == 'state') childStates.push(id);
 			}
 			childStates.sort().reverse(); //reverse order, so that the top channel of multi-channel-devices wins
-			//Try to match childStates
-			resultStatesObj = {};
-			for(i = 0; i < childStates.length; i++){
+			for(i = 0; i < childStates.length; i++){ //Try to match childStates
 				var id = childStates[i];
 				var stateName = id.substring(id.lastIndexOf("."), id.length);
 				switch(stateName){
-					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE":
+					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE": case ".SET":
 					if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
-						resultStatesObj['LOCK_STATE'] = id;
+						if (!resultStatesObj['LOCK_STATE']) resultStatesObj['LOCK_STATE'] = id;
 					} else {
-						resultStatesObj['STATE'] = id;
+						if (!resultStatesObj['STATE']) resultStatesObj['STATE'] = id;
 					}
 					break;
 
-					case ".LEVEL": case ".level": case ".bri":
-					resultStatesObj['LEVEL'] = id;
+					case ".LEVEL": case ".level": case ".bri": case ".ACTUAL":
+					if (!resultStatesObj['LEVEL']) resultStatesObj['LEVEL'] = id;
 					break;
 
 					case ".DIRECTION":
-					resultStatesObj['DIRECTION'] = id;
+					if (!resultStatesObj['DIRECTION']) resultStatesObj['DIRECTION'] = id;
 					break;
 
 					case ".STOP":
-					resultStatesObj['STOP'] = id;
+					if (!resultStatesObj['STOP']) resultStatesObj['STOP'] = id;
 					break;
 
 					case ".HUE": case ".hue":
-					resultStatesObj['HUE'] = id;
+					if (!resultStatesObj['HUE']) resultStatesObj['HUE'] = id;
 					break;
 
 					case ".CT": case ".ct":
-					resultStatesObj['CT'] = id;
+					if (!resultStatesObj['CT']) resultStatesObj['CT'] = id;
 					break;
 
 					case ".SATURATION": case ".saturation": case ".sat":
-					resultStatesObj['SATURATION'] = id;
+					if (!resultStatesObj['SATURATION']) resultStatesObj['SATURATION'] = id;
+					break;
+					
+					case ".RGB":
+					if (!resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE']) resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE'] = id;
 					break;
 
 					case ".SET_TEMPERATURE":
-					resultStatesObj['SET_TEMPERATURE'] = id;
+					if (!resultStatesObj['SET_TEMPERATURE']) resultStatesObj['SET_TEMPERATURE'] = id;
 					break;
 
 					case ".HUMIDITY": case ".ACTUAL_HUMIDITY": case ".humidity":
-					resultStatesObj['HUMIDITY'] = id;
+					if (!resultStatesObj['HUMIDITY']) resultStatesObj['HUMIDITY'] = id;
 					break;
 
 					case ".TEMPERATURE": case ".ACTUAL_TEMPERATURE": case ".temperature":
-					resultStatesObj['TEMPERATURE'] = id;
+					if (!resultStatesObj['TEMPERATURE']) resultStatesObj['TEMPERATURE'] = id;
 					break;
 
 					case ".BRIGHTNESS": case ".LUX":
-					resultStatesObj['BRIGHTNESS'] = id;
+					if (!resultStatesObj['BRIGHTNESS']) resultStatesObj['BRIGHTNESS'] = id;
 					break;
 
 					case ".POWER": case ".Power": case ".power":
-					resultStatesObj['POWER'] = id;
+					if (!resultStatesObj['POWER']) resultStatesObj['POWER'] = id;
 					break;
 
 					case ".CONTROL_MODE":
-					resultStatesObj['CONTROL_MODE'] = id;
+					if (!resultStatesObj['CONTROL_MODE']) resultStatesObj['CONTROL_MODE'] = id;
 					break;
 
 					case ".BOOST_STATE":
-					resultStatesObj['BOOSST_STATE'] = id;
+					if (!resultStatesObj['BOOST_STATE']) resultStatesObj['BOOST_STATE'] = id;
 					break;
 
 					case ".PARTY_TEMPERATURE":
-					resultStatesObj['PARTY_TEMPERATURE'] = id;
+					if (!resultStatesObj['PARTY_TEMPERATURE']) resultStatesObj['PARTY_TEMPERATURE'] = id;
 					break;
 
 					case ".WINDOW_OPEN_REPORTING":
-					resultStatesObj['WINDOW_OPEN_REPORTING'] = id;
+					if (!resultStatesObj['WINDOW_OPEN_REPORTING']) resultStatesObj['WINDOW_OPEN_REPORTING'] = id;
 					break;
 
 					case ".STATE_UNCERTAIN":
-					resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
+					if (!resultStatesObj['LOCK_STATE_UNCERTAIN']) resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
 					break;
 
 					case ".OPEN":
-					resultStatesObj['LOCK_OPEN'] = id;
+					if (!resultStatesObj['LOCK_OPEN']) resultStatesObj['LOCK_OPEN'] = id;
+					break;
+
+					case ".URL":
+					if (!resultStatesObj['URL']) resultStatesObj['URL'] = id;
 					break;
 
 					case ".LOWBAT": case ".percent":
-					resultStatesObj['BATTERY'] = id;
+					if (!resultStatesObj['BATTERY']) resultStatesObj['BATTERY'] = id;
 					break;
 
 					case ".UNREACH":
-					resultStatesObj['UNREACH'] = id;
+					if (!resultStatesObj['UNREACH']) resultStatesObj['UNREACH'] = id;
+					break;
+
+					case ".online": case ":CONNECTED":
+					if (!resultStatesObj['UNREACH']) {
+						resultStatesObj['UNREACH'] = id;
+						console.log("Set Option invertUnreach because CONNECTED is used instead of UNREACH");
+						result.resultObject.options.push({option: "invertUnreach", type: "checkbox", value: "true"});
+					}
 					break;
 
 					case ".ERROR": case ".FAULT_REPORTING":
-					resultStatesObj['ERROR'] = id;
+					if (!resultStatesObj['ERROR']) resultStatesObj['ERROR'] = id;
 					break;
 				}
 			}
-			//Try to find out the role
-			//--iQontrolView
-			var role = null;
-			if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
-				role = "iQontrolView";
-			}
-			//--all the others
-			//----find out the role of sources main state (priority in ascending order!)
-			var sourceRole = null;
-			if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
-				sourceRole = objects[resultStatesObj['STATE']].common.role;
-				if(sourceRole == 'state') { //special - check the parent channel's role
-					var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
-					if(resultStateParent.length > 0){
-						if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+			//If the role was not found by DeviceDetector, try to find out the role now
+			if (!result.resultObject.commonRole || channelDetectorUsedDeviceTypeForCommonRole == "info"){ //Role was not matched before
+				//--iQontrolView
+				if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
+					result.resultObject.commonRole = "iQontrolView";
+				}
+				//--all the others
+				//----find out the role of sources main state (priority in ascending order!)
+				var sourceRole = null;
+				if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
+					sourceRole = objects[resultStatesObj['STATE']].common.role;
+					if(sourceRole == 'state') { //special - check the parent channel's role
+						var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
+						if(resultStateParent.length > 0){
+							if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+						}
+					} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
+						sourceRole = "sensor.motion";
 					}
-				} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
-					sourceRole = "sensor.motion";
+				}
+				if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
+				if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
+				if(resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
+				if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
+				if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
+				if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
+				//----try to match this to destination role
+				switch(sourceRole){
+					case "switch": case "switch.power": case "switch.enable":
+					result.resultObject.commonRole = 'iQontrolSwitch';
+					break;
+
+					case "switch.light": case "level.dimmer":
+					result.resultObject.commonRole = 'iQontrolLight';
+					break;
+
+					case "---missing---":
+					result.resultObject.commonRole = 'iQontrolFan';
+					break;
+
+					case "level.temperature":
+					if (resultStatesObj['PARTY_TEMPERATURE']) {
+						result.resultObject.commonRole = 'iQontrolHomematicThermostat';
+					} else {
+						result.resultObject.commonRole = 'iQontrolThermostat';
+					}
+					break;
+
+					case "value.temperature":
+					result.resultObject.commonRole = 'iQontrolTemperature';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['TEMPERATURE'];
+						delete resultStatesObj['TEMPERATURE'];
+					}
+					break;
+
+					case "value.humidity":
+					result.resultObject.commonRole = 'iQontrolHumidity';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['HUMIDITY'];
+						delete resultStatesObj['HUMIDITY'];
+					}
+					break;
+
+					case "value.brightness":
+					result.resultObject.commonRole = 'iQontrolBrightness';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
+						delete resultStatesObj['BRIGHTNESS'];
+					}
+					break;
+
+					case "sensor.motion":
+					result.resultObject.commonRole = 'iQontrolMotion';
+					break;
+
+					case "sensor.door":
+					result.resultObject.commonRole = 'iQontrolDoor';
+					break;
+
+					case "switch.lock":
+					result.resultObject.commonRole = 'iQontrolDoorWithLock';
+					break;
+
+					case "sensor": case "sensor.window":
+					result.resultObject.commonRole = 'iQontrolWindow';
+					break;
+
+					case "level.blind":
+					result.resultObject.commonRole = 'iQontrolBlind';
+					break;
+
+					case "state":
+					result.resultObject.commonRole = 'iQontrolValue';
+					break;
+
+					case "sensor.alarm.fire":
+					result.resultObject.commonRole = 'iQontrolFire';
+					break;
+
+					case "action.execute":
+					result.resultObject.commonRole = 'iQontrolProgram';
+					break;
+
+					case "scene.state":
+					result.resultObject.commonRole = 'iQontrolScene';
+					break;
 				}
 			}
-			if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
-			if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
-			if(resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
-			if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
-			if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
-			if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
-			//----try to match this to destination role
-			switch(sourceRole){
-				case "switch": case "switch.power": case "switch.enable":
-				role = 'iQontrolSwitch';
-				break;
-
-				case "switch.light": case "level.dimmer":
-				role = 'iQontrolLight';
-				break;
-
-				case "---missing---":
-				role = 'iQontrolFan';
-				break;
-
-				case "level.temperature":
-				if (resultStatesObj['PARTY_TEMPERATURE']) {
-					role = 'iQontrolHomematicThermostat';
-				} else {
-					role = 'iQontrolThermostat';
-				}
-				break;
-
-				case "value.temperature":
-				role = 'iQontrolTemperature';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['TEMPERATURE'];
-					delete resultStatesObj['TEMPERATURE'];
-				}
-				break;
-
-				case "value.humidity":
-				role = 'iQontrolHumidity';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['HUMIDITY'];
-					delete resultStatesObj['HUMIDITY'];
-				}
-				break;
-
-				case "value.brightness":
-				role = 'iQontrolBrightness';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
-					delete resultStatesObj['BRIGHTNESS'];
-				}
-				break;
-
-				case "sensor.motion":
-				role = 'iQontrolMotion';
-				break;
-
-				case "sensor.door":
-				role = 'iQontrolDoor';
-				break;
-
-				case "switch.lock":
-				role = 'iQontrolDoorWithLock';
-				break;
-
-				case "sensor": case "sensor.window":
-				role = 'iQontrolWindow';
-				break;
-
-				case "level.blind":
-				role = 'iQontrolBlind';
-				break;
-
-				case "state":
-				role = 'iQontrolValue';
-				break;
-
-				case "sensor.alarm.fire":
-				role = 'iQontrolFire';
-				break;
-
-				case "action.execute":
-				role = 'iQontrolProgram';
-				break;
-
-				case "scene.state":
-				role = 'iQontrolScene';
-				break;
+			//Further modification for some special cases
+			if (result.resultObject.commonRole == 'iQontrolThermostat' && resultStatesObj['PARTY_TEMPERATURE']) {
+				console.log("Modifying role to HomematicThermostat because PARTY_TEMPERATURE is present.");
+				result.resultObject.commonRole = 'iQontrolHomematicThermostat';
 			}
 			//Got role?
-			if (role) {
-				resultObject.commonRole = role;
-				if (typeof iQontrolRoles[role] != udef && typeof iQontrolRoles[role].name != udef) {
-					resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[role].name) + "<br><br>";
+			if (result.resultObject.commonRole) {
+				if (typeof iQontrolRoles[result.resultObject.commonRole] != udef && typeof iQontrolRoles[result.resultObject.commonRole].name != udef) {
+					result.resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[result.resultObject.commonRole].name) + "<br><br>";
 				} else {
-					resultText += _("Role") + ": " + role + "<br><br>";
+					result.resultText += _("Role") + ": " + result.resultObject.commonRole + "<br><br>";
 				}
-				resultValid = true;
+				result.resultValid = true;
 			} else {
-				resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
+				result.resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
 			}
 			//Got states?
-			resultStates = [];
 			for(state in resultStatesObj){
-				resultStates.push({state: state, value: resultStatesObj[state]});
+				if(!result.resultObject.states[state]) result.resultObject.states.push({state: state, value: resultStatesObj[state]});
 			}
-			var resultStatesText = "";
-			if(resultStates.length > 0 ){
-				resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
-				for(i = 0; i < resultStates.length; i++){
-					resultStatesText += resultStates[i].state + ": " + resultStates[i].value + "<br>";
+			if(result.resultObject.states.length > 0 ){
+				result.resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
+				for(i = 0; i < result.resultObject.states.length; i++){
+					result.resultStatesText += result.resultObject.states[i].state + ": " + result.resultObject.states[i].value + "<br>";
 				}
-				resultObject.states = resultStates;
-				resultValid = true;
+				if (result.resultObject.options.length > 0){
+					result.resultStatesText += "<br><u>" + _("Options:") + "</u><br>";
+					result.resultObject.options.forEach(function(option){
+						result.resultStatesText += _(option.option) + ": " + _(option.value) + "<br>";
+					});
+				}
+				result.resultValid = true;
 			} else {
-				resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
+				result.resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
 			}
 			//Result valid?
-			if(resultValid) {
-				resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
+			if(result.resultValid) {
+				result.resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
 			} else {
-				resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
+				result.resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
 			}
 		}
-		var result = {};
-		result.resultObject = resultObject;
-		result.resultText = resultText;
-		result.resultStatesText = resultStatesText;
-		result.resultValid = resultValid;
 		return result;
 	}
 
@@ -1867,6 +2368,7 @@ function load(settings, onChange) {
 		});
 		//Make table sortable
 		$("#tableToolbar tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableToolbar tbody").sortable('disable');

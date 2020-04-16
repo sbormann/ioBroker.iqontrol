@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.20",
+        "version": "0.3.0",
         "news": {
+            "0.3.0": {
+                "en": "Breaking change - The complete configuration is no longer stored in ioBroker channels and states, but is fetched as one complete object, thus saving the configuration is much much faster than before, Views, devices and toolbar entries are now sortable via drag- and drop in the configuration dialog, After saving the configuration the instance ist now yellow until the configuration is completely written, Added invert UNREACH to device options, Added Flood-Sensor, Enhanced autocreation-feature by using ioBroker-Type-Detector by bluefox, Enhanced hue-lights when using alternative colorspace without white-values and changing ct, Enhanced hue-lights when using alternative colorspace to keep uppercase if needed.",
+                "de": "Breaking Change - Die vollständige Konfiguration wird nicht mehr in ioBroker-Kanälen und -Zuständen gespeichert, sondern als ein vollständiges Objekt abgerufen. Das Speichern der Konfiguration ist also viel schneller als zuvor. Ansichten, Geräte und Symbolleisteneinträge können jetzt per Drag & Drop sortiert werden ",
+                "ru": "Прерывистое изменение - полная конфигурация больше не сохраняется в каналах и состояниях ioBroker, но выбирается как один законченный объект, поэтому сохранение конфигурации выполняется намного быстрее, чем раньше, представления, устройства и записи панели инструментов теперь можно сортировать с помощью перетаскивания. ",
+                "pt": "Mudança de última hora - A configuração completa não é mais armazenada nos canais e estados do ioBroker, mas é buscada como um objeto completo, portanto, salvar a configuração é muito mais rápido do que antes, exibições, dispositivos e entradas da barra de ferramentas agora podem ser classificadas por meio de arrastar e soltar ",
+                "nl": "Breaking change - De volledige configuratie wordt niet langer opgeslagen in ioBroker-kanalen en -statussen, maar wordt opgehaald als één compleet object, waardoor het opslaan van de configuratie veel veel sneller is dan voorheen. Weergaven, apparaten en werkbalkitems zijn nu sorteerbaar via slepen en neerzetten in ",
+                "fr": "Changement de rupture - La configuration complète n'est plus stockée dans les canaux et les états ioBroker, mais est récupérée comme un objet complet, enregistrant ainsi la configuration est beaucoup plus rapide qu'auparavant, les vues, les appareils et les entrées de la barre d'outils sont désormais triables par glisser-déposer ",
+                "it": "Ultime modifiche: la configurazione completa non viene più memorizzata nei canali e negli stati di ioBroker, ma viene recuperata come un oggetto completo, pertanto il salvataggio della configurazione è molto più rapido rispetto a prima, viste, dispositivi e voci della barra degli strumenti sono ora ordinabili tramite trascinamento della selezione ",
+                "es": "Cambio de última hora: la configuración completa ya no se almacena en los canales y estados de ioBroker, sino que se recupera como un objeto completo, por lo que guardar la configuración es mucho más rápido que antes, las vistas, dispositivos y entradas de la barra de herramientas ahora se pueden ordenar mediante arrastrar y soltar ",
+                "pl": "Przełomowa zmiana - pełna konfiguracja nie jest już przechowywana w kanałach i stanach ioBroker, ale jest pobierana jako jeden kompletny obiekt, dzięki czemu zapisywanie konfiguracji jest znacznie szybsze niż wcześniej, Widoki, urządzenia i pozycje paska narzędzi można teraz sortować poprzez przeciąganie i upuszczanie ",
+                "zh-cn": "重大更改-完整的配置不再存储在ioBroker通道和状态中，而是作为一个完整的对象获取，因此保存配置的速度比以前快得多，现在可以通过拖放操作对视图，设备和工具栏条目进行排序"
+            },
             "0.2.20": {
                 "en": "If value for POWER is greater than 100, it is rounded withour decimal places, Bugfixed invert-function with custom min and max, Added reload-link to loading page, Updated dependencies.",
                 "de": "Wenn der Wert für POWER größer als 100 ist, wird er mit unseren Dezimalstellen gerundet. Bugfixed Invert-Funktion mit benutzerdefinierten Min und Max. Reload-Link zur Ladeseite hinzugefügt. Aktualisierte Abhängigkeiten.",
@@ -153,8 +165,7 @@
             {
                 "web": ">=1.7.1"
             }
-        ],
-        "installedFrom": "./iobroker.iqontrol"
+        ]
     },
     "native": {
         "demotoolbar": [

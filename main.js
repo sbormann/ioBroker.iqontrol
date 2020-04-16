@@ -363,6 +363,7 @@ class Iqontrol extends utils.Adapter {
 	async onReady() {
 		// Initialize your adapter here
 		this.setState('info.connection', { val: false, ack: true });
+		
 		//this.log.info("Creating Toolbar...");
 		//await this.createToolbar();
 		
@@ -378,6 +379,7 @@ class Iqontrol extends utils.Adapter {
 		this.deleteUnusedObjects();
 		
 		//this.subscribeStates("*");
+		
 		this.setState('info.connection', { val: true, ack: true });
 		this.log.info("iQontrol ready.");
 		
