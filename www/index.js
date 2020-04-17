@@ -2544,9 +2544,10 @@ function renderToolbar(){
 		//Create toolbarPressureMenu
 		toolbarPressureMenu[toolbarIndex] = {};
 		toolbarPressureMenuLinksToOtherViews[toolbarIndex] = [];
-		for (var deviceIndex = 0; deviceIndex < getView(linkedViewId).devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
-			if (typeof getView(linkedViewId).devices[deviceIndex].nativeLinkedView != udef && getView(linkedViewId).devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
-				var deviceLinkedViewId = addNamespaceToViewId(getView(linkedViewId).devices[deviceIndex].nativeLinkedView);
+		var view = getView(linkedViewId);
+		if (view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
+			if (typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
+				var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 				var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
 				toolbarPressureMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarPressureMenu").popup("close"); renderView("' + deviceLinkedViewId + '"); viewHistory = toolbarPressureMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarPressureMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
 				toolbarPressureMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
