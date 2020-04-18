@@ -289,8 +289,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 0.3.1-dev
-* (Sebastian Bormann) Fixed loading toolbar if no entries on linked view
+### 0.3.2 (2020-04-19)
+* (Sebastian Bormann) Fixed loading toolbar with no entries on linked view.
+* (Sebastian Bormann) Fixed views with quotes in name.
+* (Sebastian Bormann) Fixed Flood-Sensor.
 
 ### 0.3.1 (2020-04-16)
 * (Sebastian Bormann) Breaking change: The complete configuration is no longer stored in ioBroker channels and states, but is fetched as one complete object, thus saving the configuration is much much faster than before.

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.1",
+        "version": "0.3.2",
         "news": {
+            "0.3.2": {
+                "en": "Fixed loading toolbar with no entries on linked view, Fixed views with quotes in name, Fixed Flood-Sensor.",
+                "de": "Problem beim Laden der Symbolleiste ohne Einträge in der verknüpften Ansicht behoben, Feste Ansichten mit Anführungszeichen im Namen, Feste Flutsensor behoben.",
+                "ru": "Исправлена ​​загрузка панели инструментов без записей в связанном виде, Исправлены виды с кавычками в имени, Исправлен датчик наводнения.",
+                "pt": "Barra de ferramentas de carregamento fixa, sem entradas na exibição vinculada, Exibições fixas com aspas no nome, Sensor de inundação fixo.",
+                "nl": "Vaste laadwerkbalk zonder invoer in gekoppelde weergave, Vaste weergaven met aanhalingstekens in naam, Vaste overstromingssensor.",
+                "fr": "Barre d'outils de chargement fixe sans aucune entrée sur la vue liée, vues fixes avec des citations dans le nom, capteur d'inondation fixe.",
+                "it": "Barra degli strumenti di caricamento fissa senza voci sulla vista collegata, viste fisse con virgolette nel nome, sensore di inondazione fisso.",
+                "es": "Barra de herramientas de carga fija sin entradas en la vista vinculada, Vistas fijas con comillas en el nombre, Sensor de inundación fijo.",
+                "pl": "Naprawiono ładowanie paska narzędzi bez wpisów w połączonym widoku, Naprawiono widoki z cytatami w nazwie, Naprawiono czujnik zalania.",
+                "zh-cn": "修复了链接视图中没有条目的加载工具栏，修复了名称中带引号的视图，修复了Flood-Sensor。"
+            },
             "0.3.1": {
                 "en": "Breaking change - The complete configuration is no longer stored in ioBroker channels and states, but is fetched as one complete object, thus saving the configuration is much much faster than before, Views, devices and toolbar entries are now sortable via drag- and drop in the configuration dialog, After saving the configuration the instance ist now yellow until the configuration is completely written, Added invert UNREACH to device options, Added Flood-Sensor, Enhanced autocreation-feature by using ioBroker-Type-Detector by bluefox, Enhanced hue-lights when using alternative colorspace without white-values and changing ct, Enhanced hue-lights when using alternative colorspace to keep uppercase if needed.",
                 "de": "Breaking Change - Die vollständige Konfiguration wird nicht mehr in ioBroker-Kanälen und -Zuständen gespeichert, sondern als ein vollständiges Objekt abgerufen. Das Speichern der Konfiguration ist also viel schneller als zuvor. Ansichten, Geräte und Symbolleisteneinträge können jetzt per Drag & Drop sortiert werden ",

@@ -1392,7 +1392,7 @@ function load(settings, onChange) {
 		});
 		function changeViewsCommonName(index, oldVal, newVal){
 			toolbar.forEach(function(element){
-				if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
+				if(element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
 			});
 		}
 		//Check for duplicates
