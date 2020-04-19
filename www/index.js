@@ -819,11 +819,12 @@ function fetchObject(id, callback){
 function fetchStates(ids, callback){
 	var _ids = [];
 	if(ids.constructor === Array) _ids = Object.assign([], ids); else _ids.push(ids);
-	for(i = 0; i < _ids.length; i++){
+	for(i = _ids.length -1; i > 0; i--){
 		if(!_ids[i] || states[_ids[i]]) _ids.splice(i, 1);
 	}
 	if(_ids.length > 0){
 		console.debug("[servConn] getStates " + _ids);
+		for(i=0; i < _ids.length; i++){ console.debug(">" + i + ": " + _ids[i]) }; // ***********************************
 		servConn.getStates(_ids, function (err, _states) {
 			if(_states){
 				states = Object.assign(_states, states);
