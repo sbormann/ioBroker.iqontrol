@@ -504,7 +504,7 @@ var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
 var usedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
 var waitingForObject = {};						//Contains all IDs where actual tasks to retreive the object are running
-var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, stateId, deviceId, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
+var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, stateId, deviceIdEscaped, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
 var options = {};								//Contains the options (extracted form <namespace + '.Options'>'.native')
@@ -527,11 +527,10 @@ var actualViewId;								//Contains the ID of the actual View
 var viewLinksToOtherViews = [];					//Will become History when clicking on a link to other view on actual view
 var viewHistory = [];							//History for navigation between views via swipe
 var viewHistoryPosition = 0;					//Position in history
-var viewStateIdsToFetch = [];					//Contains all missing stateIds after rendering a view - they will be fetched and if ready, the view ist rendered again
 var deviceLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a view, where updateFunctions were created - the corresponding updateFunctions are called after rendering the view
 var viewUpdateFunctions = {};					//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
 var marqueeObserver;							//Contains MutationObserver for marquee-enabled elements
-var viewPressureMenu = {};						//Contains Items for Pressure Menu in the form of viewPressureMenu[deviceId] = {linkedView, externalLink, ...} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
+var viewPressureMenu = {};						//Contains Items for Pressure Menu in the form of viewPressureMenu[deviceIdEscaped] = {linkedView, externalLink, ...} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
 var viewPressureMenuIgnorePressure = false;		//Set to true, if the ViewPressureMenu-function is temporarily disabled, for example because a click function has been called
 var viewPressureMenuIgnoreClick = false;		//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
 var viewPressureMenuForceOld = [];				//Array of objectQueries that stores the last pressure force of the corresponding objects
@@ -684,7 +683,6 @@ function getStarted(){
 	$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
 	$('#pincode').hide(150);
 	states = {};
-	viewStateIdsToFetch = [];
 	dialogStateIdsToFetch = [];
 	deviceLinkedStateIdsToUpdate = [];
 	dialogLinkedStateIdsToUpdate = [];
@@ -709,7 +707,7 @@ function getStarted(){
 				renderToolbar();
 				console.log("* Toolbar rendered.");
 				console.log("* Render actual|home view...");
-				renderView(actualViewId || homeId, false);
+				renderView(actualViewId || homeId);
 				if(actualViewId == homeId){
 					viewHistory = toolbarLinksToOtherViews;
 					viewHistoryPosition = 0;
@@ -724,6 +722,7 @@ function getStarted(){
 }
 
 function fetchSystemConfig(callback){
+	console.debug("[servConn] getConfig");
 	servConn.getConfig(true, function(err, _config){
 		if(_config){
 			systemConfig = _config;
@@ -741,6 +740,7 @@ function fetchConfig(_namespace, callback){
 		_namespace = null;
 	}
 	if (_namespace == null) _namespace = namespace;
+	console.debug("[servConn] getObject system.adapter." + _namespace);
 	servConn.getObject("system.adapter." + _namespace, useCache, function(err, _object) {
 		if(_object) {
 			config[_namespace] = _object.native;
@@ -770,6 +770,7 @@ function fetchView(viewId, callback){
 
 function fetchChildren(id, destination, callback){
 	fetchObject(id, function(){ //Get Parent-Object
+		console.debug("[servConn] getChildren " + id);
 		servConn.getChildren(id, false, function(err, childs){
 			var parentId = id;
 			if(childs.length > 0){
@@ -798,6 +799,7 @@ function fetchObject(id, callback){
 	} else {
 		waitingForObject[id] = [];
 		console.log("Fetch object: " + id);
+		console.debug("[servConn] getObject " + id);
 		servConn.getObject(id, useCache, function(err, _object) {
 			if(_object) {
 				var _id = _object._id;
@@ -821,6 +823,7 @@ function fetchStates(ids, callback){
 		if(!_ids[i] || states[_ids[i]]) _ids.splice(i, 1);
 	}
 	if(_ids.length > 0){
+		console.debug("[servConn] getStates " + _ids);
 		servConn.getStates(_ids, function (err, _states) {
 			if(_states){
 				states = Object.assign(_states, states);
@@ -833,6 +836,7 @@ function fetchStates(ids, callback){
 }
 
 function deliverState(stateId, stateObj, callback){
+	console.debug("[servConn] setState " + stateId);
 	servConn.setState(stateId, stateObj, function(error){
 		console.log("deliverState done");
 		if(callback) callback(error);
@@ -840,6 +844,7 @@ function deliverState(stateId, stateObj, callback){
 }
 
 function deliverObject(objId, obj, callback){
+	console.debug("[servConn] addObject " + objId);
 	servConn.addObject(objId, obj, function(error){
 		console.log("deliverObject done");
 		if(!error) usedObjects[objId] = obj;
@@ -882,15 +887,14 @@ function getViewIndex(id){
 }
 
 function getDevice(deviceId){
-	deviceId = unescape(deviceId);
-	//iqontrol.n.Views.VIEW_X.devices.DEVICE_Y.STATE_Z
+	//iqontrol.n.Views.VIEW_X.devices.DEVICEINDEX.STATE_Z
 	var _namespace = getNamespace(deviceId); //iqontrol.n
-	var viewName = deviceId.substring(_namespace.length + 7); //VIEW_X.devices.DEVICE_Y.STATE_Z
+	var viewName = deviceId.substring(_namespace.length + 7); //VIEW_X.devices.DEVICEINDEX.STATE_Z
 	if(viewName.indexOf(".") > -1) viewName = viewName.substring(0, viewName.indexOf(".")); //VIEW_X
 	var viewIndex = getViewIndex(deviceId);
-	var deviceName = deviceId.substring(_namespace.length + 7 + viewName.length + 9); //DEVICE_Y.STATE_Z
-	if(deviceName.indexOf(".") > -1) deviceName = deviceName.substring(0, deviceName.indexOf(".")); //DEVICE_Y
-	var deviceIndex = config[_namespace].views[viewIndex].devices.findIndex(function(element){ return (element.commonName == deviceName); })
+	var deviceIdentifier = deviceId.substring(_namespace.length + 7 + viewName.length + 9); //DEVICEINDEX.STATE_Z
+	if(deviceIdentifier.indexOf(".") > -1) deviceIdentifier = deviceIdentifier.substring(0, deviceIdentifier.indexOf(".")); //DEVICEINDEX
+	var deviceIndex = parseInt(deviceIdentifier);
 	return config[_namespace].views[viewIndex].devices[deviceIndex];
 }
 
@@ -1541,10 +1545,9 @@ function updateState(stateId, ignorePreventUpdate){
 }
 
 function toggleState(linkedStateId, deviceIdEscaped, callback){
-	var deviceId = unescape(deviceIdEscaped);
 	var state = getStateObject(linkedStateId);
 	var deviceReadonly = false;
-	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.readonly != udef && usedObjects[deviceId].native.readonly == "true") deviceReadonly = true;
+	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
 	if(state && state.readonly == false && deviceReadonly == false){
 		switch(state.type){
 			case "switch":
@@ -1578,7 +1581,6 @@ function toggleState(linkedStateId, deviceIdEscaped, callback){
 }
 
 function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUpId, linkedUpSetValueId, linkedDownId, linkedDownSetValueId, linkedFavoritePosition, deviceIdEscaped, callback){
-	var deviceId = unescape(deviceIdEscaped);
 	var state = getStateObject(linkedStateId);
 	var direction = getStateObject(linkedDirectionId);
 	var stop = getStateObject(linkedStopId);
@@ -1588,7 +1590,7 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 	var downSetValue = getStateObject(linkedDownSetValueId);
 	var favoritePosition = getStateObject(linkedFavoritePosition);
 	var deviceReadonly = false;
-	if(deviceId && usedObjects[deviceId] && typeof usedObjects[deviceId].native != udef && typeof usedObjects[deviceId].native.readonly != udef && usedObjects[deviceId].native.readonly == "true") deviceReadonly = true;
+	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
 	if(state && state.type == "level" && deviceReadonly == false){
 		if(direction && direction.val > 0) { //working
 			if (stop) setState(linkedStopId, deviceIdEscaped, true, true, callback);
@@ -2648,8 +2650,8 @@ function applyToolbarPressureMenu(){
 		setTimeout(function(){
 			console.log("Find active Toolbar Index");
 			var toolbarIndex = -1;
-			for (var i = 0; i < toolbar.length; i++){
-				if(usedObjects[ toolbar[i] ].native.linkedView == actualViewId) {
+			for (var i = 0; i < config[namespace].toolbar.length; i++){
+				if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedView) == actualViewId) {
 					toolbarIndex = i;
 					break;
 				}
@@ -2706,8 +2708,8 @@ function openToolbarPressureMenu(toolbarIndex, callingElement){
 }
 
 //++++++++++ VIEW ++++++++++
-function renderView(viewId, updateOnly, callback){
-	console.log("renderView " + viewId + ", updateOnly: " + updateOnly);
+function renderView(viewId){
+	console.log("renderView " + viewId);
 	if(!viewId) viewId = homeId;
 	actualViewId = addNamespaceToViewId(viewId);
 	//Mark actual view on toolbar
@@ -2724,21 +2726,18 @@ function renderView(viewId, updateOnly, callback){
 	}
 	fetchView(actualViewId, function(){
 		actualView = getView(actualViewId);
-		viewStateIdsToFetch = [];
 		viewUpdateFunctions = {};
 		deviceLinkedStateIdsToUpdate = [];
 		viewLinksToOtherViews = [];
 		//Change Background
-		if(!updateOnly)	if (actualView.nativeBackgroundImage) {
+		if (actualView.nativeBackgroundImage) {
 			changeViewBackground(encodeURI(actualView.nativeBackgroundImage));
 			window.scrollTo(0, 0);
-		} else {
-			changeViewBackground("");
 		}
 		//Render View
 		var viewContent = "";
 		for (var deviceIndex = 0; deviceIndex < actualView.devices.length; deviceIndex++){
-			var deviceId = actualViewId + ".devices." + actualView.devices[deviceIndex].commonName;
+			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
 			//Render Heading
@@ -2747,15 +2746,12 @@ function renderView(viewId, updateOnly, callback){
 			var deviceContent = "";
 			//--Get linked States
 			//  While getting the LinkedStateId the correspondig usedObject is also fetched
-			//  If the linked State is not fetched yet, write it in to viewStateIdsToFetch-Array - they will be fetched alltogether after rendering the view. Then the view is rendered again.
 			var deviceLinkedStateIds = {};
 			if(device.commonRole && typeof iQontrolRoles[device.commonRole].states != udef){
 				iQontrolRoles[device.commonRole].states.forEach(function(elementState){
 					var stateId = deviceId + "." + elementState;
 					var linkedStateId = getLinkedStateId(device, elementState, stateId);
-					if (linkedStateId == null) { //Is not fetched yet
-						//viewStateIdsToFetch.push(stateId);
-					} else { //Is fetched - call updateFunction after rendering View
+					if (linkedStateId) { //Call updateFunction after rendering View
 						deviceLinkedStateIdsToUpdate.push(linkedStateId);
 					}
 					deviceLinkedStateIds[elementState] = linkedStateId;
@@ -3848,38 +3844,25 @@ function renderView(viewId, updateOnly, callback){
 					} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
 						deviceContent += "</div>";
 					}
-					if(updateOnly) $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDevice").html(deviceContent);
 				viewContent += deviceContent + "</div>";
 			viewContent += "</div>";
 			if(device.nativeNextLine) viewContent += "<br>";
 		}
-		if(!updateOnly){
-			$("#ViewHeaderTitle").html(actualView.commonName);
-			$("#ViewContent").html(viewContent + "<br><br>");
-			resizeDevicesToFitScreen();
-			removeDuplicates(viewStateIdsToFetch);
-			if(viewStateIdsToFetch.length > 0) fetchStates(viewStateIdsToFetch, function(error){
-				if(!error) {
-					console.log(viewStateIdsToFetch.length + " states fetched while rendering view. Updating view.");
-					renderView(actualViewId, "updateOnlyAfterFetchingStatesWhileRenderingView");
-				} else {
-					console.log("ERROR fetching states while rendering view.");
-				}
-			});
-		}
+		
+		
+		$("#ViewHeaderTitle").html(actualView.commonName);
+		$("#ViewContent").html(viewContent + "<br><br>");
+		resizeDevicesToFitScreen();
 		deviceLinkedStateIdsToUpdate = removeDuplicates(deviceLinkedStateIdsToUpdate);
-		if(updateOnly || (!updateOnly && viewStateIdsToFetch.length == 0)) { //Do this only one time - when there where no states to fetch, or when they have been fetched and therefore the "updateOnly"-flag is set
-			fetchStates(deviceLinkedStateIdsToUpdate, function(){
-				for (var i = 0; i < deviceLinkedStateIdsToUpdate.length; i++){
-					updateState(deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
-				}
-				deviceLinkedStateIdsToUpdate = [];
-				applyMarqueeObserver();
-				applyViewPressureMenu();
-				setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
-			});
-		}
-		if (callback) callback();
+		fetchStates(deviceLinkedStateIdsToUpdate, function(){
+			for (var i = 0; i < deviceLinkedStateIdsToUpdate.length; i++){
+				updateState(deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
+			}
+			deviceLinkedStateIdsToUpdate = [];
+			applyMarqueeObserver();
+			applyViewPressureMenu();
+			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
+		});
 	});
 }
 
@@ -5764,6 +5747,7 @@ if (typeof document.addEventListener === "undefined" || typeof document[hidden] 
 }
 function handleVisibilityChange() {
 	if (!document[hidden]) { //Page gets visible
+		console.debug("[servConn] getIsConnected");
 		var connected = servConn.getIsConnected() || false;
 		if (connected) {
 			console.log("Page visible-event - socket is connected");

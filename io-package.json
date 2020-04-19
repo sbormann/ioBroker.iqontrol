@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.2",
+        "version": "0.3.3",
         "news": {
+            "0.3.3": {
+                "en": "Fixed device readonly for toggle state, Fixed devices with same name, Removed some old code",
+                "de": "Gerät schreibgeschützt für Umschaltstatus behoben, Geräte mit demselben Namen behoben, alter Code entfernt",
+                "ru": "Исправлено устройство, доступное только для переключения, Исправлено устройство с тем же именем, Удален старый код.",
+                "pt": "Dispositivo fixo somente leitura para o estado de alternância, Dispositivos fixos com o mesmo nome, Removido algum código antigo",
+                "nl": "Vaste apparaten die alleen kunnen worden gelezen om te wisselen, Vaste apparaten met dezelfde naam, Enkele oude code verwijderd",
+                "fr": "Appareil fixe en lecture seule pour basculer, Appareils fixes du même nom, Suppression d'un ancien code",
+                "it": "Risolto il problema del dispositivo di sola lettura per lo stato di attivazione / disattivazione, i dispositivi fissi con lo stesso nome, rimossi alcuni vecchi codici",
+                "es": "Dispositivo fijo de solo lectura para alternar estado, Dispositivos fijos con el mismo nombre, Se eliminó algún código antiguo",
+                "pl": "Naprawiono urządzenie tylko do odczytu stanu przełączania, Naprawiono urządzenia o tej samej nazwie, Usunięto trochę starego kodu",
+                "zh-cn": "固定设备为切换状态只读，固定设备同名，删除了一些旧代码"
+            },
             "0.3.2": {
                 "en": "Fixed loading toolbar with no entries on linked view, Fixed views with quotes in name, Fixed Flood-Sensor.",
                 "de": "Problem beim Laden der Symbolleiste ohne Einträge in der verknüpften Ansicht behoben, Feste Ansichten mit Anführungszeichen im Namen, Feste Flutsensor behoben.",

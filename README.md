@@ -289,6 +289,11 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.3.3 (2020-04-19)
+* (Sebastian Bormann) Fixed device readonly for toggle state.
+* (Sebastian Boramnn) Fixed devices with same name.
+* (Sebastian Bormann) Removed some old code from version <0.3.0.
+
 ### 0.3.2 (2020-04-19)
 * (Sebastian Bormann) Fixed loading toolbar with no entries on linked view.
 * (Sebastian Bormann) Fixed views with quotes in name.
