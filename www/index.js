@@ -824,7 +824,7 @@ function fetchStates(ids, callback){
 	}
 	if(_ids.length > 0){
 		console.debug("[servConn] getStates " + _ids);
-		for(i=0; i < _ids.length; i++){ console.debug(">" + i + ": " + _ids[i]) }; // ***********************************
+		for(i=0; i < _ids.length; i++){ console.debug(">" + i + ": " + _ids[i] + " - " + typeof _ids[i]) }; // ***********************************
 		servConn.getStates(_ids, function (err, _states) {
 			if(_states){
 				states = Object.assign(_states, states);
