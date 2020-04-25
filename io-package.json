@@ -3,6 +3,7 @@
         "name": "iqontrol",
         "version": "0.3.3",
         "news": {
+		"0.3.4": {"en": "Added variables to icons and backgroundimages (see readme), It is now possible to remove toolbar (the first view is then the home view)."},
             "0.3.3": {
                 "en": "Fixed device readonly for toggle state, Fixed devices with same name, Removed some old code",
                 "de": "Gerät schreibgeschützt für Umschaltstatus behoben, Geräte mit demselben Namen behoben, alter Code entfernt",

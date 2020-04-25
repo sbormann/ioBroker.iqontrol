@@ -2538,7 +2538,10 @@ function handleOptions(){
 
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
-	if (config[namespace].toolbar.length < 1) return;
+	if (config[namespace].toolbar.length < 1) {
+		if (homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
+		return;
+	}
 	if (homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];
@@ -2812,16 +2815,24 @@ function renderView(viewId){
 					}
 						//--BackgroundImage
 						var url = "";
-						if(device.nativeBackgroundImage) url = encodeURI(device.nativeBackgroundImage);
-						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='background-image:url(" + url + ");'></div>";
+						var variableurl = null;
+						if(device.nativeBackgroundImage){
+							url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
+							variableurl= encodeURI(device.nativeBackgroundImage.split('|')[1]);
+						}
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--Background (Overlay)
 						if (!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
 							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
 						}
 						//--BackgroundImageActive
 						url = "";
-						if(device.nativeBackgroundImageActive) url = encodeURI(device.nativeBackgroundImageActive);
-						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='background-image:url(" + url + ");'></div>";
+						variableurl = null;
+						if(device.nativeBackgroundImageActive){ 
+							url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
+							variableurl= encodeURI(device.nativeBackgroundImageActive.split('|')[1]);
+						}
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--BackgroundActive (OverlayActive)
 						if (!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
 							deviceContent += "<div class='iQontrolDeviceBackground active' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
@@ -2832,26 +2843,31 @@ function renderView(viewId){
 						var onclick = "";
 						var clickOnIconOpensDialog = (getDeviceOptionValue(device, "clickOnIconOpensDialog") == "true");
 						var icons = {};
+						var variableSrc = {};
 						if(typeof device.options != udef){
 							for (var optionIndex = 0; optionIndex < device.options.length; optionIndex++) {
 								var option = device.options[optionIndex];
 								if (option.option.substring(0, 5).toLowerCase() == "icon_"){
 									var iconClass = option.option.substring(5);
-									if (iconClass && typeof device.options[optionIndex].value != udef && device.options[optionIndex].value != null) icons[iconClass] = encodeURI(device.options[optionIndex].value);
+									if (iconClass && typeof device.options[optionIndex].value != udef && device.options[optionIndex].value != null) {
+										var src = device.options[optionIndex].value;
+										icons[iconClass] = encodeURI(src.split('|')[0]);
+										variableSrc[iconClass] = encodeURI(src.split('|')[1]);
+									}
 								}
 							}
 						} 
 						switch(device.commonRole){
 							case "iQontrolView": case "":
-							if (icons["on"] && icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blank.png") + "' />";
-							if (icons["on"] && icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blank.png") + "' />";
+							if (icons["on"] && icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blank.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["on"] && icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blank.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolSwitch":
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolButton":
@@ -2860,144 +2876,144 @@ function renderView(viewId){
 								onclick = "startButton(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceLinkedStateIds["SET_VALUE"] + "\", \"" + deviceLinkedStateIds["OFF_SET_VALUE"] + "\", \"" + returnToOffSetValueAfter + "\", \"" + deviceIdEscaped + "\");";
 							}
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/button.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/button.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/button.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/button.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolLight":
 							if(deviceLinkedStateIds["LEVEL"]) onclick = "toggleState(\"" + deviceLinkedStateIds["LEVEL"] + "\", \"" + deviceIdEscaped + "\");";
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/light_on.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/light_off.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/light_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/light_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolFan":
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/fan_on.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/fan_off.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/fan_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/fan_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolThermostat": case "iQontrolHomematicThermostat":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/radiator.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/radiator.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/radiator.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/radiator.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolTemperature":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/temperature.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/temperature.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/temperature.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/temperature.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolHumidity":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/humidity.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/humidity.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/humidity.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/humidity.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolBrightness":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/brightness_light.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/brightness_dark.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/brightness_light.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/brightness_dark.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolMotion":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/motion_on.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/motion_off.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/motion_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/motion_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolDoor":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolGarageDoor":
 							//if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 							
 							case "iQontrolDoorWithLock":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' />";
-							if (icons["locked"] !== "none") iconContent += "<image class='iQontrolDeviceIcon locked' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["locked"] || "./images/icons/door_locked.png") + "' />";
-							if (icons["unlocked"] !== "none") iconContent += "<image class='iQontrolDeviceIcon unlocked' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["unlocked"] || "./images/icons/door_unlocked.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							if (icons["locked"] !== "none") iconContent += "<image class='iQontrolDeviceIcon locked' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["locked"] || "./images/icons/door_locked.png") + "' " + (variableSrc["locked"] ? "data-variablesrc='" + variableSrc["locked"] + "' " : "") + "/>";
+							if (icons["unlocked"] !== "none") iconContent += "<image class='iQontrolDeviceIcon unlocked' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["unlocked"] || "./images/icons/door_unlocked.png") + "' " + (variableSrc["unlocked"] ? "data-variablesrc='" + variableSrc["unlocked"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolWindow":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/window_opened.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/window_closed.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/window_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/window_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolBlind":
 							if(deviceLinkedStateIds["LEVEL"] || (deviceLinkedStateIds["UP"] && deviceLinkedStateIds["DOWN"])) onclick = "toggleActuator(\"" + (deviceLinkedStateIds["LEVEL"] || "") + "\", \"" + (deviceLinkedStateIds["DIRECTION"] || "") + "\", \"" + (deviceLinkedStateIds["STOP"] || "") + "\", \"" + (deviceLinkedStateIds["UP"] || "") + "\", \"" + (deviceLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blind_opened.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/blind_closed.png") + "' />";
-								if (icons["middle"] !== "none") iconContent += "<image class='iQontrolDeviceIcon middle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["middle"] || "./images/icons/blind_middle.png") + "' />";
-								if (icons["closing"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closing' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["closing"] || "./images/icons/blind_closing.png") + "' />";
-								if (icons["opening"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opening' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["opening"] || "./images/icons/blind_opening.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blind_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/blind_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+								if (icons["middle"] !== "none") iconContent += "<image class='iQontrolDeviceIcon middle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["middle"] || "./images/icons/blind_middle.png") + "' " + (variableSrc["middle"] ? "data-variablesrc='" + variableSrc["middle"] + "' " : "") + "/>";
+								if (icons["closing"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closing' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["closing"] || "./images/icons/blind_closing.png") + "' " + (variableSrc["closing"] ? "data-variablesrc='" + variableSrc["closing"] + "' " : "") + "/>";
+								if (icons["opening"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opening' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["opening"] || "./images/icons/blind_opening.png") + "' " + (variableSrc["opening"] ? "data-variablesrc='" + variableSrc["opening"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolFire":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/fire_on.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/fire_off.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/fire_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/fire_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolFlood":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/flood_on.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/flood_off.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/flood_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/flood_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolAlarm":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/alarm_on_triggered.png") + "' />";
-							if (icons["armed"] !== "none") iconContent += "<image class='iQontrolDeviceIcon armed' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["armed"] || "./images/icons/alarm_on.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/alarm_off.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/alarm_on_triggered.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["armed"] !== "none") iconContent += "<image class='iQontrolDeviceIcon armed' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["armed"] || "./images/icons/alarm_on.png") + "' " + (variableSrc["armed"] ? "data-variablesrc='" + variableSrc["armed"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/alarm_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolBattery":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon full on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/battery_full.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon empty off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/battery_empty.png") + "' />";
-							if (icons["75"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged75' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged75"] || "./images/icons/battery_75.png") + "' />";
-							if (icons["50"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged50' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged50"] || "./images/icons/battery_50.png") + "' />";
-							if (icons["25"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged25' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged25"] || "./images/icons/battery_25.png") + "' />";
-							if (icons["10"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged10' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged10"] || "./images/icons/battery_10.png") + "' />";
-							if (icons["charging"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charging overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charging"] || "./images/icons/battery_charging_overlay.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon full on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/battery_full.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon empty off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/battery_empty.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							if (icons["75"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged75' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged75"] || "./images/icons/battery_75.png") + "' " + (variableSrc["charged75"] ? "data-variablesrc='" + variableSrc["charged75"] + "' " : "") + "/>";
+							if (icons["50"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged50' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged50"] || "./images/icons/battery_50.png") + "' " + (variableSrc["charged50"] ? "data-variablesrc='" + variableSrc["charged50"] + "' " : "") + "/>";
+							if (icons["25"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged25' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged25"] || "./images/icons/battery_25.png") + "' " + (variableSrc["charged25"] ? "data-variablesrc='" + variableSrc["charged25"] + "' " : "") + "/>";
+							if (icons["10"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged10' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged10"] || "./images/icons/battery_10.png") + "' " + (variableSrc["charged10"] ? "data-variablesrc='" + variableSrc["charged10"] + "' " : "") + "/>";
+							if (icons["charging"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charging overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charging"] || "./images/icons/battery_charging_overlay.png") + "' " + (variableSrc["charging"] ? "data-variablesrc='" + variableSrc["charging"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolValue":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/value_on.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/value_off.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/value_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/value_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolProgram":
 							if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/play_on.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/play_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 							
 							case "iQontrolScene":
 							if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/play.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/play.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolPopup":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/popup.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/popup.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/popup.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/popup.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolExternalLink":
-							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/link.png") + "' />";
-							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/link.png") + "' />";
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/link.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/link.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							default:
 							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
-								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' />";
-								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' />";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 						}
 						if(clickOnIconOpensDialog) { //Overwrite linkContent with linkToDialog
 							linkContent = "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
@@ -3849,11 +3865,97 @@ function renderView(viewId){
 			viewContent += "</div>";
 			if(device.nativeNextLine) viewContent += "<br>";
 		}
-		
-		
+		//Place content
 		$("#ViewHeaderTitle").html(actualView.commonName);
 		$("#ViewContent").html(viewContent + "<br><br>");
 		resizeDevicesToFitScreen();
+		//Find variablesrc in images
+		$("img[data-variablesrc]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
+			var that = $(this);
+			var variableSrc = that.data('variablesrc');
+			var a = variableSrc.indexOf('%7B'), b = variableSrc.lastIndexOf('%7D');
+			if (a > -1 && a < b) {
+				var variable = variableSrc.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+				var linkedStateId = variable[0];
+				var placeholder = null;
+				if (variable.length > 1) placeholder = variable[1];				
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _that = that;
+					var _variableSrc = variableSrc;
+					var _a = a;
+					var _b = b;
+					var _linkedStateId = linkedStateId;
+					var _placeholder = placeholder;
+					var updateFunction = function(){
+						var state = getStateObject(_linkedStateId);
+						var replacement = null;
+						if(state && typeof state.val !== udef) {
+							//Replace by value
+							replacement = state.val;
+						} else if (placeholder) {
+							//Replace by placeholder
+							replacement = placeholder;
+						}
+						if(replacement){
+							var newSrc = _variableSrc.substring(_variableSrc.indexOf('?') + 1, a) + replacement + _variableSrc.substring(b + 3);
+							if($(_that).attr('src') != newSrc){
+								$(_that).fadeTo(0,0);
+								setTimeout(function(){ 
+									$(_that).attr('src', newSrc).on('load', function(){
+										$(_that).fadeTo(0,1);
+									});
+								}, 250);
+							}
+						}
+					};
+					if(!viewUpdateFunctions[_linkedStateId]) viewUpdateFunctions[_linkedStateId] = [];
+					viewUpdateFunctions[_linkedStateId].push(updateFunction);
+				})(); //<--End Closure
+				deviceLinkedStateIdsToUpdate.push(linkedStateId);
+			}
+		});
+		//Find variablebackgroundimage in Divs
+		$("div[data-variablebackgroundimage]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
+			var that = $(this);
+			var variablebackgroundimage = that.data('variablebackgroundimage');
+			var a = variablebackgroundimage.indexOf('%7B'), b = variablebackgroundimage.lastIndexOf('%7D');
+			if (a > -1 && a < b) {
+				var variable = variablebackgroundimage.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+				var linkedStateId = variable[0];
+				var placeholder = null;
+				if (variable.length > 1) placeholder = variable[1];				
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _that = that;
+					var _variablebackgroundimage = variablebackgroundimage;
+					var _a = a;
+					var _b = b;
+					var _linkedStateId = linkedStateId;
+					var _placeholder = placeholder;
+					var updateFunction = function(){
+						var state = getStateObject(_linkedStateId);
+						var replacement = null;
+						if(state && typeof state.val !== udef) {
+							//Replace by value
+							replacement = state.val;
+						} else if (placeholder) {
+							//Replace by placeholder
+							replacement = placeholder;
+						}
+						if(replacement){
+							var newSrc = _variablebackgroundimage.substring(_variablebackgroundimage.indexOf('?') + 1, a) + replacement + _variablebackgroundimage.substring(b + 3);
+							var newBackgroundimage = "url(\"" + newSrc + "\")";
+							if($(_that).css('background-image') != newBackgroundimage){
+								$(_that).css('background-image', newBackgroundimage);
+							}
+						}
+					};
+					if(!viewUpdateFunctions[_linkedStateId]) viewUpdateFunctions[_linkedStateId] = [];
+					viewUpdateFunctions[_linkedStateId].push(updateFunction);
+				})(); //<--End Closure
+				deviceLinkedStateIdsToUpdate.push(linkedStateId);
+			}
+		});
+		//Fetch and update States
 		deviceLinkedStateIdsToUpdate = removeDuplicates(deviceLinkedStateIdsToUpdate);
 		fetchStates(deviceLinkedStateIdsToUpdate, function(){
 			for (var i = 0; i < deviceLinkedStateIdsToUpdate.length; i++){

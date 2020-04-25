@@ -282,12 +282,26 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 
+## Icons and Background-Images
+* You can use the inbuilt images or the images uploaded under the images tab or any free url you like
+* You can also use a variable inside the image-url. This may be useful for example for weather-forecasts. Use this pattern:
+    * ``path/to/firstloaded.png|anotherpath/to/{iobrokerstate|fallback}.png``
+    * Example: ``./../iqontrol.meta/userimages/demo/bottle.jpg|./../iqontrol.meta/userimages/demo/{javascript.0.myimage|whitestone}.jpg`` 
+	* This loads ``./../iqontrol.meta/userimages/demo/bottle.jpg`` when you open the view
+	* As soon as the state of ``javascript.0.myimage`` is fetched from the server, the image will be replaced with ``./../iqontrol.meta/userimages/demo/XXX.jpg`` where ``XXX`` is the value of ``javascript.0.myimage``
+	* If ``javascript.0.myimage`` has no value the fallback ``whitestone`` will be used
+
+
 ## Developing
 * Have a look at [Operating Principle of Frontend](Operating%20Principle%20of%20Frontend.md)
 
 ****
 
 ## Changelog
+
+### 0.3.4 (2020-04-26)
+* (Sebastian Bormann) Added variables to icons and backgroundimages (see readme)
+* (Sebastian Bormann) It is now possible to remove toolbar (the first view is then the home view)
 
 ### 0.3.3 (2020-04-19)
 * (Sebastian Bormann) Fixed device readonly for toggle state.
