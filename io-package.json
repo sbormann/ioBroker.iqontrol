@@ -1,9 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.3",
+        "version": "0.3.4",
         "news": {
-		"0.3.4": {"en": "Added variables to icons and backgroundimages (see readme), It is now possible to remove toolbar (the first view is then the home view)."},
+            "0.3.4": {
+                "en": "Added variables to icons and backgroundimages (see readme), It is now possible to remove toolbar (the first view is then the home view).",
+                "de": "Es wurden Variablen zu Symbolen und Hintergrundbildern hinzugefügt (siehe Readme-Datei). Es ist jetzt möglich, die Symbolleiste zu entfernen (die erste Ansicht ist dann die Startansicht).",
+                "ru": "Добавлены переменные к иконкам и фоновым изображениям (см. Readme), теперь можно удалить панель инструментов (первый вид - это домашний вид).",
+                "pt": "Adicionadas variáveis ​​aos ícones e imagens de fundo (consulte o leia-me). Agora é possível remover a barra de ferramentas (a primeira visualização é a visualização inicial).",
+                "nl": "Variabelen toegevoegd aan pictogrammen en achtergrondafbeeldingen (zie leesmij). Het is nu mogelijk om de werkbalk te verwijderen (de eerste weergave is dan de startweergave).",
+                "fr": "Ajout de variables aux icônes et images d'arrière-plan (voir le fichier Lisezmoi), il est désormais possible de supprimer la barre d'outils (la première vue est alors la vue d'accueil).",
+                "it": "Aggiunte variabili alle icone e alle immagini di sfondo (vedi il file Leggimi), è ora possibile rimuovere la barra degli strumenti (la prima vista è quindi la vista principale).",
+                "es": "Se agregaron variables a los iconos y las imágenes de fondo (consulte el archivo Léame). Ahora es posible eliminar la barra de herramientas (la primera vista es la vista de inicio).",
+                "pl": "Dodano zmienne do ikon i obrazów w tle (patrz plik Readme). Można teraz usunąć pasek narzędzi (pierwszy widok to widok główny).",
+                "zh-cn": "在图标和背景图像中添加了变量（请参阅自述文件），现在可以删除工具栏（第一个视图是主视图）。"
+            },
             "0.3.3": {
                 "en": "Fixed device readonly for toggle state, Fixed devices with same name, Removed some old code",
                 "de": "Gerät schreibgeschützt für Umschaltstatus behoben, Geräte mit demselben Namen behoben, alter Code entfernt",
