@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.4",
+        "version": "0.3.5",
         "news": {
-            "0.3.4": {
+            "0.3.5": {
                 "en": "Added variables to icons and backgroundimages (see readme), It is now possible to remove toolbar (the first view is then the home view).",
                 "de": "Es wurden Variablen zu Symbolen und Hintergrundbildern hinzugefügt (siehe Readme-Datei). Es ist jetzt möglich, die Symbolleiste zu entfernen (die erste Ansicht ist dann die Startansicht).",
                 "ru": "Добавлены переменные к иконкам и фоновым изображениям (см. Readme), теперь можно удалить панель инструментов (первый вид - это домашний вид).",
