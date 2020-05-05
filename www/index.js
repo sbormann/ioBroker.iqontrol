@@ -30,7 +30,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -52,7 +53,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -72,7 +74,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -94,7 +97,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -113,7 +117,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""},
 											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -131,7 +136,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -150,7 +156,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -169,7 +176,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -188,7 +196,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -207,7 +216,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: "SE"},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -226,7 +236,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -244,7 +255,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -264,7 +276,8 @@ var iQontrolRoles = {
 											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -283,7 +296,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -306,7 +320,8 @@ var iQontrolRoles = {
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -330,7 +345,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -349,7 +365,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -369,7 +386,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
 											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -392,7 +410,8 @@ var iQontrolRoles = {
 											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -410,7 +429,8 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -431,7 +451,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -452,7 +473,8 @@ var iQontrolRoles = {
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -469,7 +491,8 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Popup Height [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
@@ -486,7 +509,8 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;ST/State + Timestamp;SE/State + Elapsed;SE./State + Elapsed (since);Se/State + Elapsed (short);STE/State + Timestamp + Elapsed;STE./State + Timestamp + Elapsed (since);STe/State + Timestamp + Elapsed (short);T/Timestamp only;TE/Timestamp + Elapsed;TE./Timestamp + Elapsed (since);Te/Timestamp + Elapsed (short);E/Elapsed only;E./Elapsed (since) only;e/Elapsed (short) only;N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
@@ -499,6 +523,7 @@ var iQontrolRoles = {
 //Delcarations
 var systemConfig = {};							//Contains the system config (like system language)
 var systemLang = "en";							//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
+var timeshift = 0;								//Contains time difference betwen browswe and server for correcting timestamps
 
 var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
@@ -536,6 +561,8 @@ var viewPressureMenuIgnoreClick = false;		//Set to true, if the Click-function i
 var viewPressureMenuForceOld = [];				//Array of objectQueries that stores the last pressure force of the corresponding objects
 var viewPressureMenuFallbackTimer = false;		//Used as Fallback for some devices - contains a setInterval-Id if fallback is running
 var viewPressureMenuFallbackForce = 0;			//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
+var viewTimestampElapsedTimer = false; 			//Containes the timer that updates timestamps with elapsed time
+var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
 
 var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
@@ -2733,6 +2760,11 @@ function renderView(viewId){
 		viewUpdateFunctions = {};
 		deviceLinkedStateIdsToUpdate = [];
 		viewLinksToOtherViews = [];
+		if (viewTimestampElapsedTimer){
+			clearInterval(viewTimestampElapsedTimer);
+			viewTimestampElapsedTimer = false;
+		}
+		viewTimestampElapsedTimerStates = [];
 		//Change Background
 		if (actualView.nativeBackgroundImage) {
 			changeViewBackground(encodeURI(actualView.nativeBackgroundImage));
@@ -2818,7 +2850,7 @@ function renderView(viewId){
 						var variableurl = null;
 						if(device.nativeBackgroundImage){
 							url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
-							variableurl= encodeURI(device.nativeBackgroundImage.split('|')[1]);
+							variableurl= encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--Background (Overlay)
@@ -2830,7 +2862,7 @@ function renderView(viewId){
 						variableurl = null;
 						if(device.nativeBackgroundImageActive){ 
 							url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
-							variableurl= encodeURI(device.nativeBackgroundImageActive.split('|')[1]);
+							variableurl= encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--BackgroundActive (OverlayActive)
@@ -2852,7 +2884,7 @@ function renderView(viewId){
 									if (iconClass && typeof device.options[optionIndex].value != udef && device.options[optionIndex].value != null) {
 										var src = device.options[optionIndex].value;
 										icons[iconClass] = encodeURI(src.split('|')[0]);
-										variableSrc[iconClass] = encodeURI(src.split('|')[1]);
+										variableSrc[iconClass] = encodeURI(src.split('|').slice(1).join('|'));
 									}
 								}
 							}
@@ -3399,6 +3431,8 @@ function renderView(viewId){
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var showState = (getDeviceOptionValue(_device, "showState") == "true") || false;
+											var result;
+											var resultText = "";
 											if(showState && state && typeof state.val !== udef ){
 												if(typeof state.plainText == 'number'){	//STATE = number (= level)
 													result = state.val;
@@ -3409,6 +3443,7 @@ function renderView(viewId){
 												}
 												if(resultText == "0%") resultText = _("off");
 												resultText = unescape(resultText);
+												resultText = addTimestamp(resultText, [state], [_linkedStateId], _device);
 												if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 												if(state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
@@ -3431,13 +3466,17 @@ function renderView(viewId){
 								case "iQontrolScene":
 								if (deviceLinkedStateIds["STATE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var resultText = "";
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device);
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											if(state && typeof state.val !== udef && state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											} else {
@@ -3455,30 +3494,32 @@ function renderView(viewId){
 								case "iQontrolThermostat": case "iQontrolHomematicThermostat":
 								if (deviceLinkedStateIds["SET_TEMPERATURE"] || deviceLinkedStateIds["CONTROL_MODE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
+										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedSetTemperatureId = deviceLinkedStateIds["SET_TEMPERATURE"];
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
 										var _linkedPartyTemperatureId = deviceLinkedStateIds["PARTY_TEMPERATURE"];
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
 										var updateFunction = function(){
-											var stateSetTemperature = getStateObject(_linkedSetTemperatureId); 
-											var min = stateSetTemperature && stateSetTemperature.min || 0;
-											var max = stateSetTemperature && stateSetTemperature.max || 100;
-											var val = stateSetTemperature && stateSetTemperature.val || "";
-											var unit = stateSetTemperature && stateSetTemperature.unit || "";
+											var setTemperature = getStateObject(_linkedSetTemperatureId); 
+											var controlMode = getStateObject(_linkedControlModeId);
+											var min = setTemperature && setTemperature.min || 0;
+											var max = setTemperature && setTemperature.max || 100;
+											var val = setTemperature && setTemperature.val || "";
+											var unit = setTemperature && setTemperature.unit || "";
 											var mode = "";
 											var modeText = "";
 											var controlModeDisabledValue = getDeviceOptionValue(_device, "controlModeDisabledValue") || "";
 											if (_linkedControlModeId) {
-												var state = getStateObject(_linkedControlModeId);
-												if(state && typeof state.val !== udef) {
-													mode = state.val;
-													modeText = state.plainText;
+												if(controlMode && typeof controlMode.val !== udef) {
+													mode = controlMode.val;
+													modeText = controlMode.plainText;
 												}
 											}
 											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(val + unit + modeText);
+											var resultText = val + unit + modeText;
+											resultText = addTimestamp(resultText, [setTemperature, controlMode], [_linkedSetTemperatureId, _linkedControlModeId], _device);
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											if (_linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
 											if (_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
 											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (val !== "" && (val <= min || val >= max))) {
@@ -3504,6 +3545,7 @@ function renderView(viewId){
 								case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolWindow":
 								if (deviceLinkedStateIds["STATE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var updateFunction = function(){
@@ -3525,6 +3567,7 @@ function renderView(viewId){
 												}
 											}
 											resultText = unescape(resultText);
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device);
 											if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											if (typeof result == udef || result == 0) {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
@@ -3546,6 +3589,7 @@ function renderView(viewId){
 								case "iQontrolDoorWithLock":
 								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LOCK_STATE"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedLockStateId = deviceLinkedStateIds["LOCK_STATE"];
@@ -3555,6 +3599,7 @@ function renderView(viewId){
 											var state = getStateObject(_linkedStateId);
 											var lockState = getStateObject(_linkedLockStateId);
 											var lockStateUncertain = getStateObject(_linkedLockStateUncertainId);
+											var lockOpen = getStateObject(_linkedLockOpenId);
 											var resultText = "";
 											if(state && typeof state.val !== udef && state.val){ //Opened
 												resultText = _("opened");
@@ -3583,6 +3628,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
 											}
+											resultText = addTimestamp(resultText, [state, lockState, lockStateUncertain, lockOpen], [_linkedStateId, _linkedLockStateId, _linkedLockStateUncertainId, _linkedLockOpenId], _device);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -3595,8 +3641,8 @@ function renderView(viewId){
 								case "iQontrolBlind":
 								if (deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["DIRECTION"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
+										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedLevelId = deviceLinkedStateIds["LEVEL"];
 										var _linkedDirectionId = deviceLinkedStateIds["DIRECTION"];
 										var updateFunction = function(){
@@ -3661,6 +3707,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											}
+											resultText = addTimestamp(resultText, [level, direction], [_linkedLevelId, _linkedDirectionId], _device);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 										};
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
@@ -3710,6 +3757,7 @@ function renderView(viewId){
 													resultText += ", " + controlMode.plainText;
 												}
 											}
+											resultText = addTimestamp(resultText, [state, controlMode], [_linkedStateId, _linkedControlModeId], _device);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -3721,6 +3769,7 @@ function renderView(viewId){
 								case "iQontrolBattery":
 								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING']){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedChargingId = deviceLinkedStateIds["CHARGING"];
@@ -3793,6 +3842,7 @@ function renderView(viewId){
 												result = state.val;
 												resultText = state.plainText;
 											}
+											resultText = addTimestamp(resultText, [state, charging], [_linkedStateId, _linkedChargingId], _device);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											if(charging && typeof charging.val !== udef && charging.val){ //Empty
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charging").addClass("active");
@@ -3807,9 +3857,9 @@ function renderView(viewId){
 								break;
 
 								default:
-								var stateId = deviceIdEscaped + ".STATE";
 								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedLevelId = deviceLinkedStateIds["LEVEL"];
@@ -3837,6 +3887,7 @@ function renderView(viewId){
 											}
 											if(resultText == "0%") resultText = _("off");
 											resultText = unescape(resultText);
+											resultText = addTimestamp(resultText, [state, level], [_linkedStateId, _linkedLevelId], _device);
 											if (typeof result !== udef) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											if (result == 0) {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
@@ -3945,6 +3996,7 @@ function renderView(viewId){
 							var newSrc = _variablebackgroundimage.substring(_variablebackgroundimage.indexOf('?') + 1, a) + replacement + _variablebackgroundimage.substring(b + 3);
 							var newBackgroundimage = "url(\"" + newSrc + "\")";
 							if($(_that).css('background-image') != newBackgroundimage){
+								console.log("Set new Background-image: " + newBackgroundimage);
 								$(_that).css('background-image', newBackgroundimage);
 							}
 						}
@@ -3966,7 +4018,141 @@ function renderView(viewId){
 			applyViewPressureMenu();
 			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 		});
+		//Start timer that updates timestamps with elapsed time
+		viewTimestampElapsedTimer = setInterval(function(){
+			viewTimestampElapsedTimerStates.forEach(function(state){ 
+				updateState(state); 
+			})
+		}, 60000);
 	});
+}
+
+function addTimestamp(stateString, states, linkedStates, device){
+	var addTimestampToState = getDeviceOptionValue(device, "addTimestampToState");
+	if (addTimestampToState == null || addTimestampToState == "" || addTimestampToState == "S") return stateString;
+	var now = new Date();
+	var lc = 0;
+	var lcString = "";
+	var elapsedString = "";
+	var elapsedStringSince = "";
+	var elapsedStringShort = "";
+	var linkedStateIdToUpdateViewTimestampElapsedTimer;
+	states.forEach(function(state, index){
+		if (state && state.lc > lc) {
+			lc = state.lc;
+			linkedStateIdToUpdateViewTimestampElapsedTimer = linkedStates[index];
+		}
+	});
+	if (lc > 0) {
+		lc = new Date(lc + timeshift);
+		if(now.getFullYear() != lc.getFullYear() || now.getMonth() != lc.getMonth() || now.getDate() != lc.getDate()){
+			lcString = ('0' + lc.getDate()).slice(-2) + "." + ('0' + lc.getMonth()).slice(-2) + "." + lc.getFullYear();
+		} else {
+			lcString = ('0' + lc.getHours()).slice(-2) + ":" + ('0' + lc.getMinutes()).slice(-2);
+		}
+		var difference = now - lc;
+		if (difference < 1000 * 60) {
+			//elapsedString = _("%s seconds ago", Math.floor(difference/1000));
+			elapsedString = _("<1 minute ago");
+			elapsedStringSince = _("since <1 minute");
+			elapsedStringShort = _("<1 m");
+		} else if (difference < 1000 * 60 * 60) {
+			if (Math.floor(difference/(1000 * 60)) == 1) {
+				elapsedString = _("1 minute ago");
+				elapsedStringSince = _("since 1 minute");
+			} else {
+				elapsedString = _("%s minutes ago", Math.floor(difference/(1000 * 60)));
+				elapsedStringSince = _("since %s minutes", Math.floor(difference/(1000 * 60)));
+			}
+			elapsedStringShort = _("%s m", Math.floor(difference/(1000 * 60)));
+		} else if (difference < 1000 * 60 * 60 * 24) {
+			if (Math.floor(difference/(1000 * 60 * 60)) == 1){
+				elapsedString = _("1 hour ago");
+				elapsedStringSince = _("since 1 hour");
+			} else {
+				elapsedString = _("%s hours ago", Math.floor(difference/(1000 * 60 * 60)));
+				elapsedStringSince = _("since %s hours", Math.floor(difference/(1000 * 60 * 60)));
+			}
+			elapsedStringShort = _("%s h", Math.floor(difference/(1000 * 60 * 60)));
+		} else {
+			if (Math.floor(difference/(1000 * 60 * 60 * 24)) == 1){
+				elapsedString = _("1 day ago");
+				elapsedStringSince = _("sinde 1 day");
+			} else {
+				elapsedString = _("%s days ago", Math.floor(difference/(1000 * 60 * 60 * 24)));
+				elapsedStringSince = _("sinde %s days", Math.floor(difference/(1000 * 60 * 60 * 24)));
+			}
+			elapsedStringShort = _("%s d", Math.floor(difference/(1000 * 60 * 60 * 24)));
+		}		
+	}
+	switch (addTimestampToState){
+		case "ST":
+		stateString = stateString + " (" + lcString + ")";
+		linkedStateIdToUpdateViewTimestampElapsedTimer = null;
+		break;
+
+		case "SE":
+		stateString = stateString + " (" + elapsedString + ")";
+		break;
+
+		case "SE.":
+		stateString = stateString + " (" + elapsedStringSince + ")";
+		break;
+
+		case "Se":
+		stateString = stateString + " (" + elapsedStringShort + ")";
+		break;
+
+		case "STE":
+		stateString = stateString + " (" + lcString + " - " + elapsedString + ")";
+		break;
+
+		case "STE.":
+		stateString = stateString + " (" + lcString + " - " + elapsedStringSince + ")";
+		break;
+
+		case "STe":
+		stateString = stateString + " (" + lcString + " - " + elapsedStringShort + ")";
+		break;
+
+		case "T":
+		stateString = lcString;
+		linkedStateIdToUpdateViewTimestampElapsedTimer = null;
+		break;
+
+		case "TE":
+		stateString = lcString + " - " + elapsedString;
+		break;
+
+		case "TE.":
+		stateString = lcString + " - " + elapsedStringSince;
+		break;
+
+		case "Te":
+		stateString = lcString + " - " + elapsedStringShort;
+		break;
+
+		case "E":
+		stateString = elapsedString;
+		break;
+		
+		case "E.":
+		stateString = elapsedStringSince;
+		break;
+
+		case "e":
+		stateString = elapsedStringShort;
+		break;
+
+		case "N":
+		stateString = "";
+		linkedStateIdToUpdateViewTimestampElapsedTimer = null;
+		break;
+	}
+	if (linkedStateIdToUpdateViewTimestampElapsedTimer){
+		viewTimestampElapsedTimerStates.push(linkedStateIdToUpdateViewTimestampElapsedTimer);
+	}
+	return stateString;
 }
 
 function applyMarqueeObserver(){
@@ -5747,7 +5933,7 @@ function dialogUpdateTimestamp(state){
 	if(typeof state != udef && state !== null && typeof state.lc != udef && state.lc != ""){
 		if(state.lc > parseInt($('#DialogTimestamp').data('timestamp') || 0)){
 			$('#DialogTimestamp').data('timestamp', state.lc);
-			var timestamp = new Date(state.lc);
+			var timestamp = new Date(state.lc + timeshift) ;
 			var timestampText = ('0' + timestamp.getHours()).slice(-2) + ":" + ('0' + timestamp.getMinutes()).slice(-2);
 			var now = new Date();
 			if(now.getFullYear() != timestamp.getFullYear() || now.getMonth() != timestamp.getMonth() || now.getDate() != timestamp.getDate()){

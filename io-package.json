@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.5",
+        "version": "0.3.6",
         "news": {
+            "0.3.6": {
+                "en": "Added failback to variables, Added option to add timestamp to state.",
+                "de": "Failback zu Variablen hinzugefügt, Option hinzugefügt, um dem Status einen Zeitstempel hinzuzufügen.",
+                "ru": "Добавлен возврат к переменным, добавлена ​​опция для добавления отметки времени в состояние.",
+                "pt": "Adicionado failback nas variáveis, opção adicionada para adicionar o registro de data e hora ao estado.",
+                "nl": "Failback toegevoegd aan variabelen, Optie toegevoegd om tijdstempel toe te voegen aan de staat.",
+                "fr": "Ajout d'un rétablissement aux variables, ajout d'une option pour ajouter un horodatage à l'état.",
+                "it": "Aggiunto failback alle variabili, aggiunta opzione per aggiungere timestamp allo stato.",
+                "es": "Se agregó la recuperación de fallas a las variables, se agregó la opción para agregar una marca de tiempo al estado.",
+                "pl": "Dodano powrót po awarii do zmiennych, Dodano opcję dodawania znacznika czasu do stanu.",
+                "zh-cn": "将故障回复添加到变量，添加选项以将时间戳添加到状态。"
+            },
             "0.3.5": {
                 "en": "Added variables to icons and backgroundimages (see readme), It is now possible to remove toolbar (the first view is then the home view).",
                 "de": "Es wurden Variablen zu Symbolen und Hintergrundbildern hinzugefügt (siehe Readme-Datei). Es ist jetzt möglich, die Symbolleiste zu entfernen (die erste Ansicht ist dann die Startansicht).",
