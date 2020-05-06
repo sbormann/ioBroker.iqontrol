@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.6",
+        "version": "0.3.7",
         "news": {
+            "0.3.7": {
+                "en": "Added more options to timestamp."
+            },
             "0.3.6": {
                 "en": "Added failback to variables, Added option to add timestamp to state.",
                 "de": "Failback zu Variablen hinzugefügt, Option hinzugefügt, um dem Status einen Zeitstempel hinzuzufügen.",
