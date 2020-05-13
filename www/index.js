@@ -521,6 +521,7 @@ var iQontrolRoles = {
 };
 
 //Delcarations
+var socket;
 var systemConfig = {};							//Contains the system config (like system language)
 var systemLang = "en";							//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
 var timeshift = 0;								//Contains time difference betwen browswe and server for correcting timestamps
@@ -647,63 +648,8 @@ if (!Array.prototype.findIndex) {
   });
 }
 
-//++++++++++ WEBSOCKET ++++++++++
-connOptions = {
-	name:          namespace,  			// optional - default 'vis.0'
-	connLink:      connectionLink,  	// optional URL of the socket.io adapter
-	socketSession: ''           		// optional - used by authentication
-};
-
-connCallbacks = {
-	onConnChange: function(isConnected) {
-		if(isConnected) {
-			//Connected -> Starting point
-			if(!reconnectedShortly){
-				console.log('Socket connected - getStarted');
-				getStarted();
-			} else {
-				console.log('Socket connected - But it connected shortly before, so this event will be ignored');
-				clearTimeout(reconnectedShortly);
-			}
-			reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
-		} else {
-			console.log('Socket disconnected');
-			$('.loader').show();
-		}
-	},
-	onRefresh: function() { 
-		console.log('Socket refresh');
-		alert('Socket refresh');
-		$('.loader').show();
-		getStarted();
-	},
-	onUpdate: function(stateId, state) {
-		setTimeout(function() {
-			//console.log('NEW VALUE of ' + id + ': ' + JSON.stringify(state));
-			if(states[stateId]){
-				states[stateId] = state;
-				updateState(stateId);
-			}
-			$('.loader').hide();
-			//ReturnAfterTime - check if treshold has reached
-			if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){
-				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) {
-					console.log("Return after time - render destinationView (" + returnAfterTimeDestinationView + ")");	
-					returnAfterTimeTimestamp = null;
-					$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
-					$('#pincode').hide(150);
-					setTimeout(function(){
-						renderView(returnAfterTimeDestinationView);
-					}, 100);
-				}
-			}
-		}, 0);
-	},
-	onError: function(err) {
-		window.alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg), _('Insufficient permissions'), 'alert', 600);
-	}
-};
-
+//++++++++++ SOCKET  FUNCTIONS ++++++++++
+/*Initialization of socket is done at the end of the document in the $(document).ready-section*/
 function getStarted(){
 	console.log("* Get started...");
 	$('.loader').show();
@@ -716,7 +662,6 @@ function getStarted(){
 	usedObjects = {};
 	waitingForObject = {};
 	preventUpdate = {};
-//	servConn.clearCache();
 	//Fetch systemConfig
 	console.log("* Fetch system config...");
 	fetchSystemConfig(function(){
@@ -742,6 +687,7 @@ function getStarted(){
 				} else {
 					console.log("* Actuel view rendered.");
 				}
+				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
 			});
@@ -749,10 +695,10 @@ function getStarted(){
 }
 
 function fetchSystemConfig(callback){
-	console.debug("[servConn] getConfig");
-	servConn.getConfig(true, function(err, _config){
-		if(_config){
-			systemConfig = _config;
+	console.debug("[Socket] getConfig");
+	socket.emit('getObject', 'system.config', function (err, _config) {
+		if(_config && _config.common){
+			systemConfig = _config.common;
 			if(callback) callback();
 		} else {
 			console.log("System config could not be loaded")
@@ -767,8 +713,8 @@ function fetchConfig(_namespace, callback){
 		_namespace = null;
 	}
 	if (_namespace == null) _namespace = namespace;
-	console.debug("[servConn] getObject system.adapter." + _namespace);
-	servConn.getObject("system.adapter." + _namespace, useCache, function(err, _object) {
+	console.debug("[Socket] getObject system.adapter." + _namespace);
+	socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
 		if(_object) {
 			config[_namespace] = _object.native;
 			if (_namespace == namespace){
@@ -795,27 +741,6 @@ function fetchView(viewId, callback){
 	}
 }
 
-function fetchChildren(id, destination, callback){
-	fetchObject(id, function(){ //Get Parent-Object
-		console.debug("[servConn] getChildren " + id);
-		servConn.getChildren(id, false, function(err, childs){
-			var parentId = id;
-			if(childs.length > 0){
-				destination[parentId] = childs;
-				var j = 0;
-				fetchObject(childs[j], _callback = function(){ //Get Child-Object
-					if(++j < childs.length) fetchObject(childs[j], _callback); else {		//Iterating through all childs
-						if(callback) callback();
-					}
-				});
-			} else {
-				destination[parentId] = [];
-				if(callback) callback();
-			}
-		});
-	});
-}
-
 function fetchObject(id, callback){
 	if (usedObjects[id]) {
 		console.log("Object was already Received: " + id);
@@ -826,8 +751,8 @@ function fetchObject(id, callback){
 	} else {
 		waitingForObject[id] = [];
 		console.log("Fetch object: " + id);
-		console.debug("[servConn] getObject " + id);
-		servConn.getObject(id, useCache, function(err, _object) {
+		console.debug("[Socket] getObject " + id);
+		socket.emit('getObject', id, function (err, _object) {
 			if(_object) {
 				var _id = _object._id;
 				delete waitingForObject._id;
@@ -850,9 +775,9 @@ function fetchStates(ids, callback){
 		if(!_ids[i] || states[_ids[i]]) _ids.splice(i, 1);
 	}
 	if(_ids.length > 0){
-		console.debug("[servConn] getStates " + _ids);
-		for(i=0; i < _ids.length; i++){ console.debug(">" + i + ": " + _ids[i] + " - " + typeof _ids[i]) }; // ***********************************
-		servConn.getStates(_ids, function (err, _states) {
+		console.debug("[Socket] getStates " + _ids);
+		socket.emit('subscribe', _ids);
+		socket.emit('getStates', _ids, function (err, _states) {
 			if(_states){
 				states = Object.assign(_states, states);
 			}
@@ -864,16 +789,17 @@ function fetchStates(ids, callback){
 }
 
 function deliverState(stateId, stateObj, callback){
-	console.debug("[servConn] setState " + stateId);
-	servConn.setState(stateId, stateObj, function(error){
+	console.debug("[Socket] setState " + stateId);
+	socket.emit('subscribe', stateId);
+	socket.emit('setState', stateId, stateObj, function(error){
 		console.log("deliverState done");
 		if(callback) callback(error);
 	});
 }
 
 function deliverObject(objId, obj, callback){
-	console.debug("[servConn] addObject " + objId);
-	servConn.addObject(objId, obj, function(error){
+	console.debug("[Socket] addObject " + objId);
+	socket.emit('setObject', objId, obj, function(error){
 		console.log("deliverObject done");
 		if(!error) usedObjects[objId] = obj;
 		if(callback) callback(error);
@@ -5806,7 +5732,7 @@ function renderDialog(deviceIdEscaped){
 		//--Universal additional Content
 		//----Popup with url or html
 		if ((dialogStates["URL"] || dialogStates["HTML"]) && device.commonRole !== "iQontrolExternalLink"){
-			var style = "display: none; ";
+			var style = "display: none; overflow: hidden; ";
 			if (getDeviceOptionValue(device, "popupWidth")){
 				style += "width: " + getDeviceOptionValue(device, "popupWidth") + "px !important; ";
 			} else if (device.commonRole !== "iQontrolPopup") {
@@ -5825,17 +5751,25 @@ function renderDialog(deviceIdEscaped){
 				var _linkedUrlId = dialogLinkedStateIds["URL"];
 				var _linkedHtmlId = dialogLinkedStateIds["HTML"];
 				var updateFunction = function(){
-					var iframe = document.getElementById('DialogPopupIframe');
-					if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
-						iframe.src = states[_linkedUrlId].val;
-						$('.iQontrolDialogIframeWrapper').show();
-					} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
-						var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-						iframedoc.body.innerHTML = states[_linkedHtmlId].val;
-						$('.iQontrolDialogIframeWrapper').show();
-					} else {
-						$('.iQontrolDialogIframeWrapper').hide();						
-					}
+					setTimeout(function(){
+						var iframe = document.getElementById('DialogPopupIframe');
+						if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
+							iframe.src = states[_linkedUrlId].val;
+							setTimeout(function(){
+								$('.iQontrolDialogIframeWrapper').show();
+								$('#Dialog').popup('reposition', {positionTo: 'window'});
+							}, 500);
+						} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
+							var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+							iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+							setTimeout(function(){
+								$('.iQontrolDialogIframeWrapper').show();
+								$('#Dialog').popup('reposition', {positionTo: 'window'});
+							}, 500);
+						} else {
+							$('.iQontrolDialogIframeWrapper').hide();						
+						}
+					}, (isFirefox?100:0));
 				}
 				if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
 				if (_linkedHtmlId) dialogUpdateFunctions[_linkedHtmlId].push(updateFunction);
@@ -6002,7 +5936,7 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
 }
 
-//++++++++++ GENERAL ++++++++++
+//++++++++++ GENERAL AND INITIALIZATION ++++++++++
 //Enable swiping
 $(document).one("pagecreate", ".swipePage", function(){
 	$(document).on("swiperight", ".ui-page", function(event){
@@ -6016,73 +5950,6 @@ $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable sw
 	event.stopPropagation();
 	event.preventDefault();
 });
-
-//Document ready - start connection
-$(document).ready(function(){
-	//Init Toolbar
-	$("[data-role='header'], [data-role='footer']").toolbar();
-
-	//Init Dialog
-	$('#Dialog').on('popupbeforeposition', function(){$('#Toolbar').toolbar('hide');});
-	$('#Dialog').on('popupafterclose', function(){
-		actualDialogId = "";
-		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
-	});
-
-	//PullToRefresh
-	$('#ViewMain').ptrLight({
-		'refresh': function() {
-			if(homeId != "" && actualViewId != "" && actualViewId != homeId) {
-				getStarted();
-			} else {
-				window.location.reload();
-			}
-		},
-		ignoreThreshold: 20,
-		pullThreshold: $(window).height() / 2,
-		maxPullThreshold: $(window).height(),
-		spinnerTimeout: 100,
-		allowPtrWhenStartedWhileScrolled: false,
-		scrollingDom: $('#View')
-	});
-
-	//Init socket.io
-	servConn._useStorage = true;
-	servConn.init(connOptions, connCallbacks);
-	servConn.namespace = namespace;
-	servConn.setReconnectInterval(500);
-	servConn.setReloadTimeout(30);
-});
-
-//Check Connection when opening page
-var hidden, visibilityChange;
-if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
-	hidden = "hidden";
-	visibilityChange = "visibilitychange";
-} else if (typeof document.msHidden !== "undefined") {
-	hidden = "msHidden";
-	visibilityChange = "msvisibilitychange";
-} else if (typeof document.webkitHidden !== "undefined") {
-	hidden = "webkitHidden";
-	visibilityChange = "webkitvisibilitychange";
-}
-if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
-	console.log("This browser doesn' support the Page Visibility API.");
-} else {
-	document.addEventListener(visibilityChange, handleVisibilityChange, false);
-}
-function handleVisibilityChange() {
-	if (!document[hidden]) { //Page gets visible
-		console.debug("[servConn] getIsConnected");
-		var connected = servConn.getIsConnected() || false;
-		if (connected) {
-			console.log("Page visible-event - socket is connected");
-		} else {
-			console.log("Page visible-event - socket is disconnected");
-			$('.loader').show();
-		}
-	}
-}
 
 //Refresh Background on resize and orientationchange
 var resizeTimeout = false;
@@ -6113,3 +5980,134 @@ function resizeDevicesToFitScreen(){
 		}
 	}
 }
+
+//Check Connection when opening page
+var hidden, visibilityChange;
+if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+	hidden = "hidden";
+	visibilityChange = "visibilitychange";
+} else if (typeof document.msHidden !== "undefined") {
+	hidden = "msHidden";
+	visibilityChange = "msvisibilitychange";
+} else if (typeof document.webkitHidden !== "undefined") {
+	hidden = "webkitHidden";
+	visibilityChange = "webkitvisibilitychange";
+}
+if (typeof document.addEventListener === "undefined" || typeof document[hidden] === "undefined") {
+	console.log("This browser doesn' support the Page Visibility API.");
+} else {
+	document.addEventListener(visibilityChange, handleVisibilityChange, false);
+}
+function handleVisibilityChange() {
+	if (!document[hidden]) { //Page gets visible
+		console.debug("[Socket] getIsConnected");
+		var connected = socket.connected || false;
+		if (connected) {
+			console.log("Page visible-event - socket is connected");
+		} else {
+			console.log("Page visible-event - socket is disconnected");
+			$('.loader').show();
+		}
+	}
+}
+
+//Document ready - initialization - start connection
+$(document).ready(function(){
+	//Init Toolbar
+	$("[data-role='header'], [data-role='footer']").toolbar();
+
+	//Init Dialog
+	$('#Dialog').on('popupbeforeposition', function(){$('#Toolbar').toolbar('hide');});
+	$('#Dialog').on('popupafterclose', function(){
+		actualDialogId = "";
+		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
+	});
+
+	//PullToRefresh
+	$('#ViewMain').ptrLight({
+		'refresh': function() {
+			if(homeId != "" && actualViewId != "" && actualViewId != homeId) {
+				getStarted();
+			} else {
+				window.location.reload();
+			}
+		},
+		ignoreThreshold: 20,
+		pullThreshold: $(window).height() / 2,
+		maxPullThreshold: $(window).height(),
+		spinnerTimeout: 100,
+		allowPtrWhenStartedWhileScrolled: false,
+		scrollingDom: $('#View')
+	});
+
+	//Init socket.io
+	socket = io.connect(socketUrl, {
+		query: {key: socketSession},
+		reconnectionDelay: 500,
+		reconnectionAttempts: Infinity,
+		upgrade: typeof socketForceWebSockets !== 'undefined' ? !socketForceWebSockets : undefined,
+		rememberUpgrade: typeof socketForceWebSockets !== 'undefined' ? socketForceWebSockets : undefined,
+		transports: typeof socketForceWebSockets !== 'undefined' ? (socketForceWebSockets ? ['websocket'] : undefined) : undefined
+	});
+	socket.on('connect', function() {
+		console.debug('[Socket] connected');
+		setTimeout(function () {
+			socket.emit('name', namespace);
+		}, 50);
+		setTimeout(function () {
+			//Connected -> Starting point
+			if(!reconnectedShortly){
+				console.log('Socket connected - getStarted');
+				getStarted();
+			} else {
+				console.log('Socket connected - But it connected shortly before, so this event will be ignored');
+				clearTimeout(reconnectedShortly);
+			}
+			reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
+		}, 100);
+	});
+	socket.on('disconnect', function () {
+		console.debug('[Socket] disconnected');
+		$('.loader').show();
+	});
+	socket.on('objectChange', function (objectId, obj) {
+		//console.debug('[Socket] Object Change: ' + objectId);
+	});
+	socket.on('stateChange', function (stateId, state) {
+		//console.debug('[Socket] State Change: ' + stateId);
+		setTimeout(function() {
+			if(states[stateId] && states[stateId] != state){
+				states[stateId] = state;
+				updateState(stateId);
+			}
+			$('.loader').hide();
+			//ReturnAfterTime - check if treshold has reached
+			if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){
+				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) {
+					console.log("Return after time - render destinationView (" + returnAfterTimeDestinationView + ")");	
+					returnAfterTimeTimestamp = null;
+					$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
+					$('#pincode').hide(150);
+					setTimeout(function(){
+						renderView(returnAfterTimeDestinationView);
+					}, 100);
+				}
+			}
+		}, 0);
+	});
+	socket.on('reconnect', function () {
+		console.debug('[Socket] reconnect');
+	});
+	socket.on('reauthenticate', function () {
+		console.debug('[Socket] reauthenticate');
+	});
+	socket.on('error', function (e) {
+		console.error('[Socket] error: ' + e);;
+	});
+	socket.on('connect_error', function (e) {
+		console.error('[Socket] connect error: ' + e);
+	});
+	socket.on('permissionError', function (e) {
+		console.error('[Socket] permission error: ' + e);
+	});
+});

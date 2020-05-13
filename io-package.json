@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.3.7",
+        "version": "0.4.0",
         "news": {
+            "0.4.0": {
+                "en": "Major change using socket.io without conn.js wich leads to a much faster initial connection, Improved loading and scrolling for popups.",
+                "de": "Wesentliche Änderungen bei Verwendung von socket.io ohne conn.js, die zu einer viel schnelleren Erstverbindung führen. Verbessertes Laden und Scrollen für Popups.",
+                "ru": "Основные изменения с использованием socket.io без conn.js, которые приводят к гораздо более быстрому начальному соединению, улучшенной загрузке и прокрутке всплывающих окон.",
+                "pt": "Alterações importantes usando socket.io sem conn.js, o que leva a uma conexão inicial muito mais rápida, Carregamento e rolagem aprimorados para pop-ups.",
+                "nl": "Grote verandering met socket.io zonder conn.js, wat leidt tot een veel snellere eerste verbinding, verbeterd laden en scrollen voor pop-ups.",
+                "fr": "Changement majeur en utilisant socket.io sans conn.js qui conduit à une connexion initiale beaucoup plus rapide, Amélioration du chargement et du défilement des popups.",
+                "it": "Importanti modifiche utilizzando socket.io senza conn.js che porta a una connessione iniziale molto più veloce, caricamento e scorrimento migliorati per i popup.",
+                "es": "Cambio importante usando socket.io sin conn.js, lo que conduce a una conexión inicial mucho más rápida, carga y desplazamiento mejorados para ventanas emergentes.",
+                "pl": "Główna zmiana przy użyciu socket.io bez conn.js, która prowadzi do znacznie szybszego początkowego połączenia, Poprawione ładowanie i przewijanie wyskakujących okienek.",
+                "zh-cn": "在不使用conn.js的情况下使用socket.io进行的重大更改可以使初始连接更快，改善了弹出窗口的加载和滚动。"
+            },
             "0.3.7": {
-                "en": "Added more options to timestamp."
+                "en": "Added more options to timestamp.",
+                "de": "Weitere Optionen zum Zeitstempel hinzugefügt.",
+                "ru": "Добавлены дополнительные параметры для отметки времени.",
+                "pt": "Adicionadas mais opções ao registro de data e hora.",
+                "nl": "Meer opties toegevoegd aan tijdstempel.",
+                "fr": "Ajout de plus d'options à l'horodatage.",
+                "it": "Aggiunte ulteriori opzioni al timestamp.",
+                "es": "Se agregaron más opciones a la marca de tiempo.",
+                "pl": "Dodano więcej opcji do znacznika czasu.",
+                "zh-cn": "为时间戳添加了更多选项。"
             },
             "0.3.6": {
                 "en": "Added failback to variables, Added option to add timestamp to state.",

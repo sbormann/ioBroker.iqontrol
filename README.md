@@ -299,6 +299,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.4.0 (2020-05-13)
+* (Sebastian Bormann) Major change using socket.io without conn.js wich leads to a much faster initial connection.
+* (Sebastian Bormann) Improved loading and scrolling for popups.
+
 ### 0.3.7 (2020-05-06)
 * (Sebastian Bormann) Added more options to timestamp.
 
