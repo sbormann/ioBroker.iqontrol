@@ -299,6 +299,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 0.4.1-development
+* (Sebastian Bormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position
+
 ### 0.4.0 (2020-05-13)
 * (Sebastian Bormann) Major change using socket.io without conn.js wich leads to a much faster initial connection.
 * (Sebastian Bormann) Improved loading and scrolling for popups.

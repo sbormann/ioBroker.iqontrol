@@ -247,7 +247,7 @@ var iQontrolRoles = {
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
-	"iQontrolGarageDoor": 				{
+	"iQontrolGarageDoor": 			{
 										name: "Garage Door", 
 										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
@@ -292,8 +292,9 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/window_closed.png",
 										options: {
-											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png", default: ""},
-											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png;window_toplight_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png", default: ""},
+											icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
@@ -304,7 +305,10 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
-											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""}, 
+											stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""}, 
+											stateTiltedValue: {name: "Value of STATE for 'tilted'", type: "text", default: ""}
 										}
 									},
 	"iQontrolBlind": 				{
@@ -2900,6 +2904,7 @@ function renderView(viewId){
 							case "iQontrolWindow":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/window_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/window_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							if (icons["tilted"] !== "none") iconContent += "<image class='iQontrolDeviceIcon tilted' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["tilted"] || "./images/icons/window_tilted.png") + "' " + (variableSrc["tilted"] ? "data-variablesrc='" + variableSrc["tilted"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolBlind":
@@ -3486,14 +3491,18 @@ function renderView(viewId){
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || _("closed");
+											var stateTiltedValue = getDeviceOptionValue(_device, "stateTiltedValue") || _("tilted");
+											var stateOpenedValue = getDeviceOptionValue(_device, "stateOpenedValue") || _("opened");
 											var resultText;
+											var tilted = false;
 											var active;
 											if(state && typeof state.plainText == 'number'){		//STATE = number
 												result = state.val;
 												resultText = result + state.unit;
 											} else if(state){ 										//STATE = bool or text
 												result = state.val;
-												if(typeof state.val == 'boolean') {					//STATE = bool -> force to opened or closed
+												if(typeof result == 'boolean') {					//STATE = bool -> force to opened or closed
 													if (result) {
 														resultText = _("opened");
 													} else {
@@ -3501,20 +3510,43 @@ function renderView(viewId){
 													}
 												} else {											//STATE = text
 													resultText = state.plainText;
+													switch (resultText) {
+														case stateClosedValue:
+														result = false;
+														break;
+														
+														case stateTiltedValue:
+														result = true;
+														tilted = true;
+														break;
+														
+														case stateOpenedValue:
+														result = true;
+														break;
+													}
 												}
 											}
-											if (typeof result == udef || result == 0) {
+											if (typeof result == udef || result == 0 || result == false) {
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+											} else if (tilted) {
+												active = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").addClass("active");
 											} else {
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
 											}
 											resultText = unescape(resultText);
 											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
