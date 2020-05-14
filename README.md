@@ -300,7 +300,9 @@ In addition to normal thermostat you can define:
 ## Changelog
 
 ### 0.4.1-development
-* (Sebastian Bormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position
+* (Sebastian Bormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position.
+* (Sebastian Bormann) Fixed crash when using some thermostats.
+* (Sebastian Bormann) New gulpfile and fixed translations.
 
 ### 0.4.0 (2020-05-13)
 * (Sebastian Bormann) Major change using socket.io without conn.js wich leads to a much faster initial connection.

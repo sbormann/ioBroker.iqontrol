@@ -3475,7 +3475,7 @@ function renderView(viewId){
 											if (_linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />");
 											if (_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").append("&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />");
 										};
-										viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
+										if (_linkedSetTemperatureId) viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
 										if (_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
 										if (_linkedPartyTemperatureId) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
 										if (_linkedWindowOpenReportingId) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
@@ -3511,16 +3511,16 @@ function renderView(viewId){
 												} else {											//STATE = text
 													resultText = state.plainText;
 													switch (resultText) {
-														case stateClosedValue:
+														case stateClosedValue: case _(stateClosedValue):
 														result = false;
 														break;
 														
-														case stateTiltedValue:
+														case stateTiltedValue: case _(stateTiltedValue):
 														result = true;
 														tilted = true;
 														break;
 														
-														case stateOpenedValue:
+														case stateOpenedValue: case _(stateOpenedValue):
 														result = true;
 														break;
 													}
