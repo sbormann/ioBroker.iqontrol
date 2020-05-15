@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.4.0",
+        "version": "0.4.1",
         "news": {
+            "0.4.1": {
+                "en": "Added icons for toplight and tilted to window and enhanced window to recognize tilted position, Fixed crash when using some thermostats, New gulpfile and fixed translations, Further improvement of connection speed, Disabled context-menu on long/right-click, Revised pressure/forced touch and added option to always use time instead of pressure.",
+                "de": "Es wurden Symbole für toplight und zum Fenster geneigt hinzugefügt und das Fenster zum Erkennen der geneigten Position erweitert. Absturz bei Verwendung einiger Thermostate behoben. Neues Gulpfile und feste Übersetzungen. Weitere Verbesserung der Verbindungsgeschwindigkeit. Deaktiviertes Kontextmenü bei langem / Rechtsklick. Überarbeiteter Druck / Erzwungen ",
+                "ru": "Добавлены значки для подсветки и наклона к окну и расширенного окна для распознавания наклонной позиции, Исправлено падение при использовании некоторых термостатов, Новый gulpfile и фиксированные переводы, Дальнейшее улучшение скорости соединения, Отключено контекстное меню при длительном / щелчке правой кнопкой мыши, Пересмотренное давление / принудительное нажатие ",
+                "pt": "Foram adicionados ícones para destaque e inclinação para janela e janela aprimorada para reconhecer a posição inclinada, Corrigida falha ao usar alguns termostatos, Novo arquivo de gulp e traduções fixas, Melhoria adicional da velocidade da conexão, Menu de contexto desativado com clique longo / botão direito do mouse, Pressão revisada / forçada ",
+                "nl": "Pictogrammen toegevoegd voor bovenlicht en naar venster gekanteld en verbeterd venster om gekantelde positie te herkennen, Vaste crash bij gebruik van sommige thermostaten, Nieuwe slokdossier en vaste vertalingen, Verdere verbetering van verbindingssnelheid, Uitgeschakeld contextmenu bij lang / rechtsklikken, Herziene druk / geforceerd ",
+                "fr": "Icônes ajoutées pour toplight et incliné vers la fenêtre et fenêtre améliorée pour reconnaître la position inclinée, Correction d'un crash lors de l'utilisation de certains thermostats, Nouveau fichier gulp et traductions fixes, Amélioration supplémentaire de la vitesse de connexion, Menu contextuel désactivé lors d'un clic long / droit, Pression révisée / forcée ",
+                "it": "Aggiunte icone per toplight e inclinate alla finestra e finestra migliorata per riconoscere la posizione inclinata, Risolto crash durante l'utilizzo di alcuni termostati, Nuovo file gulpfile e traduzioni fisse, Ulteriore miglioramento della velocità di connessione, Menu contestuale disabilitato su lungo / clic destro, Pressione modificata / forzata ",
+                "es": "Se agregaron iconos para iluminar hacia arriba e inclinarse hacia la ventana y mejorar la ventana para reconocer la posición inclinada, se corrigió el bloqueo al usar algunos termostatos, nuevo archivo de tragos y traducciones fijas, mejora adicional de la velocidad de conexión, menú contextual deshabilitado al hacer clic largo / derecho, presión revisada / forzada ",
+                "pl": "Dodano ikony podświetlenia i pochylenia do okna oraz ulepszone okno do rozpoznawania pozycji pochylenia, Naprawiono awarię podczas korzystania z niektórych termostatów, Nowy plik gulp i naprawiono tłumaczenia, Dalsza poprawa prędkości połączenia, Wyłączone menu kontekstowe przy długim / prawym kliknięciu, Zmienione ciśnienie / wymuszone ",
+                "zh-cn": "添加了用于顶灯和倾斜到窗口的图标以及增强的窗口以识别倾斜位置的图标，使用某些恒温器时的固定崩溃，新的gulpfile和固定的平移，连接速度的进一步改善，长按/右键单击禁用的上下文菜单，修改的压力/强制"
+            },
             "0.4.0": {
                 "en": "Major change using socket.io without conn.js wich leads to a much faster initial connection, Improved loading and scrolling for popups.",
                 "de": "Wesentliche Änderungen bei Verwendung von socket.io ohne conn.js, die zu einer viel schnelleren Erstverbindung führen. Verbessertes Laden und Scrollen für Popups.",

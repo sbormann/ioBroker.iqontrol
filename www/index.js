@@ -2506,7 +2506,7 @@ function renderToolbar(){
 	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
 		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarPressureMenuIgnoreClick){ toolbarPressureMenuIgnorePressure = true; viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarPressureMenuIgnoreClick){ toolbarPressureMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
 		//Create toolbarPressureMenu
 		toolbarPressureMenu[toolbarIndex] = {};
 		toolbarPressureMenuLinksToOtherViews[toolbarIndex] = [];
@@ -2529,11 +2529,8 @@ function renderToolbar(){
 function applyToolbarPressureMenu(){
 	$('.iQontrolToolbarLink.ui-btn').pressure({
 		start: function(event){	// this is called on force start
-			console.log("PRESSURE start");
-			$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-			toolbarPressureMenuForceOld[this] = 0;
-			toolbarPressureMenuIgnorePressure = false;
-			toolbarPressureMenuIgnoreClick = false;
+			//-- do nothing --
+			//(This event is handeled via touchstart-event seperately, because since iOS 13 the pressure start event is not called properly any more)
 		},
 		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
 			//console.log("PRESSURE startDeepPress");
@@ -2550,15 +2547,15 @@ function applyToolbarPressureMenu(){
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = toolbarPressureMenuForceOld[this] || 0;
-			console.log("	PRESSURE change " + force + "|" + forceOld);
+			console.debug("	PRESSURE change " + force + "|" + forceOld);
 			if (toolbarPressureMenuIgnorePressure || toolbarPressureMenuFallbackTimer) {
-				console.log("	PRESSURE change ignore");
+				console.debug("	PRESSURE change ignore");
 				return;
 			}
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
-			} else if (force >= 1 && forceOld == 0){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
+			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				console.log("PRESSURE change start FALLBACK");
 				if (toolbarPressureMenuFallbackTimer) {
 					clearInterval(toolbarPressureMenuFallbackTimer);
@@ -2570,19 +2567,19 @@ function applyToolbarPressureMenu(){
 					var _that = that;
 					var _event = event;
 					toolbarPressureMenuFallbackTimer = setInterval(function(){
-						console.log("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
+						console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
 						if (toolbarPressureMenuIgnorePressure) {
 							console.log("	PRESSURE Fallback change ignore");
 						} else {
 							if (toolbarPressureMenuFallbackForce >= 1){
 								toolbarPressureMenuFallbackForce = 1;
 							} else {
-								toolbarPressureMenuFallbackForce += 0.1;
+								toolbarPressureMenuFallbackForce += 0.05;
 							}
 							toolbarPressureMenuChange(toolbarPressureMenuFallbackForce, _event, _that);
 						}
 						toolbarPressureMenuForceOld[_that] = toolbarPressureMenuFallbackForce;
-					}, 50);
+					}, 25);
 				})(); //<--End Closure
 			} else { //Pressure change
 				toolbarPressureMenuChange(force, event, this);
@@ -2599,41 +2596,34 @@ function applyToolbarPressureMenu(){
 		only: null
 	});
 	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		toolbarPressureMenuIgnorePressure = true;
+		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
+		toolbarPressureMenuStart();
+	});	
+	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
 		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
-		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-		//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
-		if (toolbarPressureMenuFallbackTimer) {
-			clearInterval(toolbarPressureMenuFallbackTimer);
-			toolbarPressureMenuFallbackTimer = false;
-			toolbarPressureMenuFallbackForce = 0;
-		}
-		setTimeout(function(){
-			console.log("Find active Toolbar Index");
-			var toolbarIndex = -1;
-			for (var i = 0; i < config[namespace].toolbar.length; i++){
-				if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedView) == actualViewId) {
-					toolbarIndex = i;
-					break;
-				}
-			}
-			if(toolbarIndex >= 0) {
-				$(".iQontrolToolbarLink").removeClass("ui-btn-active");
-				$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
-			}
-		}, 1);
-		setTimeout(function(){
-			toolbarPressureMenuIgnorePressure = false;
-		}, 100);
+		toolbarPressureMenuEnd();
 	});	
 }
 
+function toolbarPressureMenuStart(){
+	console.log("PRESSURE start function");
+	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
+	toolbarPressureMenuForceOld[this] = 0;
+	toolbarPressureMenuIgnorePressure = false;
+	setTimeout(function(){
+		toolbarPressureMenuIgnoreClick = false;
+	}, 100);
+}
+
 function toolbarPressureMenuChange(force, event, that){
+	force = (force - 0.2) * 1.25; //Ignore forece <0.2
+	forceOld = (toolbarPressureMenuForceOld[that] - 0.2) * 1.25;
+	if (toolbarPressureMenuIgnorePressure) return;
 	if (force > 0.5 && !toolbarPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
 		console.log("PRESSURE changeFunction startDeepPress");
 		toolbarPressureMenuIgnoreClick = true;
 	}
-	if (force >= 1 && toolbarPressureMenuForceOld[that] < 1){ //Pressure changeFunction Maximum reached
+	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
 		console.log("PRESSURE changeFunction Maximum reached");
 		toolbarPressureMenuIgnorePressure = true;
 		event.preventDefault();
@@ -2650,8 +2640,37 @@ function toolbarPressureMenuChange(force, event, that){
 	}
 }
 
+function toolbarPressureMenuEnd(){
+	console.log("PRESSURE end function");
+	toolbarPressureMenuIgnorePressure = true;
+	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
+	//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
+	if (toolbarPressureMenuFallbackTimer) {
+		clearInterval(toolbarPressureMenuFallbackTimer);
+		toolbarPressureMenuFallbackTimer = false;
+		toolbarPressureMenuFallbackForce = 0;
+	}
+	setTimeout(function(){
+		console.log("Find active Toolbar Index");
+		var toolbarIndex = -1;
+		for (var i = 0; i < config[namespace].toolbar.length; i++){
+			if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedView) == actualViewId) {
+				toolbarIndex = i;
+				break;
+			}
+		}
+		if(toolbarIndex >= 0) {
+			$(".iQontrolToolbarLink").removeClass("ui-btn-active");
+			$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
+		}
+	}, 1);
+	setTimeout(function(){
+		toolbarPressureMenuIgnorePressure = false;
+	}, 500);
+}
+
 function openToolbarPressureMenu(toolbarIndex, callingElement){
-	console.log("OpenToolbarPressureMenu");
+	console.log("PRESSURE openToolbarPressureMenu");
 	if (toolbarPressureMenu[toolbarIndex] && Object.keys(toolbarPressureMenu[toolbarIndex]).length > 0){
 		$('#ToolbarPressureMenuList').empty();
 		for (key in toolbarPressureMenu[toolbarIndex]){
@@ -2660,7 +2679,7 @@ function openToolbarPressureMenu(toolbarIndex, callingElement){
 		};
 		$('#ToolbarPressureMenuList').listview('refresh');
 		$("#ToolbarPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
-		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
+		toolbarPressureMenuEnd();
 	} else { //callingElement has no pressureMenu
 		toolbarPressureMenuIgnoreClick = false;
 		$(callingElement).click();
@@ -4194,7 +4213,7 @@ function applyViewPressureMenu(){
 	$('.iQontrolDeviceLink').off('click').on('click', function(event){
 		console.log("CLICK");
 		if (!viewPressureMenuIgnoreClick){
-			viewPressureMenuIgnorePressure = true;
+			viewPressureMenuEnd();
 			var onclick = $(this).data('onclick');
 			var that = this;
 			if (onclick) new Function('that', onclick)(that);
@@ -4209,11 +4228,9 @@ function applyViewPressureMenu(){
 	});
 	$('.iQontrolDeviceLink').pressure({
 		start: function(event){	// this is called on force start
-			console.log("PRESSURE start");
-			$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-			viewPressureMenuForceOld[this] = 0;
-			viewPressureMenuIgnorePressure = false;
-			viewPressureMenuIgnoreClick = false;
+			//console.log("PRESSURE start");
+			//-- do nothing --
+			//(This event is handeled via touchstart-event seperately, because since iOS 13 the pressure start event is not called properly any more)
 		},
 		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
 			//console.log("PRESSURE startDeepPress");
@@ -4230,7 +4247,7 @@ function applyViewPressureMenu(){
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = viewPressureMenuForceOld[this] || 0;
-			console.log("	PRESSURE change " + force + "|" + forceOld);
+			console.debug("	PRESSURE change " + force + "|" + forceOld);
 			if (viewPressureMenuIgnorePressure || viewPressureMenuFallbackTimer) {
 				console.log("	PRESSURE change ignore");
 				return;
@@ -4238,7 +4255,7 @@ function applyViewPressureMenu(){
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
-			} else if (force >= 1 && forceOld == 0){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
+			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				console.log("PRESSURE change start FALLBACK");
 				if (viewPressureMenuFallbackTimer) {
 					clearInterval(viewPressureMenuFallbackTimer);
@@ -4250,19 +4267,19 @@ function applyViewPressureMenu(){
 					var _that = that;
 					var _event = event;
 					viewPressureMenuFallbackTimer = setInterval(function(){
-						console.log("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
+						console.debug("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
 						if (viewPressureMenuIgnorePressure) {
 							console.log("	PRESSURE Fallback change ignore");
 						} else {
 							if (viewPressureMenuFallbackForce >= 1){
 								viewPressureMenuFallbackForce = 1;
 							} else {
-								viewPressureMenuFallbackForce += 0.1;
+								viewPressureMenuFallbackForce += 0.05;
 							}
 							viewPressureMenuChange(viewPressureMenuFallbackForce, _event, _that);
 						}
 						viewPressureMenuForceOld[_that] = viewPressureMenuFallbackForce;
-					}, 50);
+					}, 25);
 				})(); //<--End Closure
 			} else { //Pressure change
 				viewPressureMenuChange(force, event, this);
@@ -4278,27 +4295,34 @@ function applyViewPressureMenu(){
 		preventSelect: true,
 		only: null
 	});
+	$('.iQontrolDeviceLink').on('touchstart mousedown', function(){ //Fallback for iOS 13: pressure start-event is not called properly
+		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
+		viewPressureMenuStart();
+	});
 	$('.iQontrolDeviceLink').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		viewPressureMenuIgnorePressure = true;
 		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
-		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-		if (viewPressureMenuFallbackTimer) {
-			clearInterval(viewPressureMenuFallbackTimer);
-			viewPressureMenuFallbackTimer = false;
-			viewPressureMenuFallbackForce = 0;
-		}
-		setTimeout(function(){
-			viewPressureMenuIgnorePressure = false;
-		}, 100);
+		viewPressureMenuEnd();
 	});
 }
 
+function viewPressureMenuStart(){
+	console.log("PRESSURE start function");
+	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	viewPressureMenuForceOld[this] = 0;
+	viewPressureMenuIgnorePressure = false;
+	setTimeout(function(){
+		viewPressureMenuIgnoreClick = false;
+	}, 100);
+}
+
 function viewPressureMenuChange(force, event, that){
+	force = (force - 0.2) * 1.25; //Ignore forece <0.2
+	forceOld = (viewPressureMenuForceOld[that] - 0.2) * 1.25;
 	if (force > 0.5 && !viewPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
 		console.log("PRESSURE changeFunction startDeepPress");
 		viewPressureMenuIgnoreClick = true;
 	}
-	if (force >= 1 && viewPressureMenuForceOld[that] < 1){ //Pressure changeFunction Maximum reached
+	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
 		console.log("PRESSURE changeFunction Maximum reached");
 		viewPressureMenuIgnorePressure = true;
 		event.preventDefault();
@@ -4310,8 +4334,22 @@ function viewPressureMenuChange(force, event, that){
 	}
 }
 
+function viewPressureMenuEnd(){
+		console.log("PRESSURE end function");
+		viewPressureMenuIgnorePressure = true;
+		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+		if (viewPressureMenuFallbackTimer) {
+			clearInterval(viewPressureMenuFallbackTimer);
+			viewPressureMenuFallbackTimer = false;
+			viewPressureMenuFallbackForce = 0;
+		}
+		setTimeout(function(){
+			viewPressureMenuIgnorePressure = false;
+		}, 500);
+}
+
 function openViewPressureMenu(deviceIdEscaped, positionToElement){
-	console.log("OpenViewPressureMenu");
+	console.log("PRESSURE openViewPressureMenu");
 	if (viewPressureMenu[deviceIdEscaped]){
 		$('#ViewPressureMenuList').empty();
 		for (key in viewPressureMenu[deviceIdEscaped]){
@@ -4320,6 +4358,7 @@ function openViewPressureMenu(deviceIdEscaped, positionToElement){
 		};
 		$('#ViewPressureMenuList').listview('refresh');
 		$("#ViewPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(positionToElement)});
+		viewPressureMenuEnd();
 	}
 }
 
@@ -6071,6 +6110,13 @@ $(document).ready(function(){
 		allowPtrWhenStartedWhileScrolled: false,
 		scrollingDom: $('#View')
 	});
+	
+	//Disable context-Menu
+	window.oncontextmenu = function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		return false;
+	};
 
 	//Init socket.io
 	socket = io.connect(socketUrl, {
@@ -6083,20 +6129,16 @@ $(document).ready(function(){
 	});
 	socket.on('connect', function() {
 		console.debug('[Socket] connected');
-		setTimeout(function () {
-			socket.emit('name', namespace);
-		}, 50);
-		setTimeout(function () {
-			//Connected -> Starting point
-			if(!reconnectedShortly){
-				console.log('Socket connected - getStarted');
-				getStarted();
-			} else {
-				console.log('Socket connected - But it connected shortly before, so this event will be ignored');
-				clearTimeout(reconnectedShortly);
-			}
-			reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
-		}, 100);
+		socket.emit('name', namespace);
+		//Connected -> Starting point
+		if(!reconnectedShortly){
+			console.log('Socket connected - getStarted');
+			getStarted();
+		} else {
+			console.log('Socket connected - But it connected shortly before, so this event will be ignored');
+			clearTimeout(reconnectedShortly);
+		}
+		reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
 	});
 	socket.on('disconnect', function () {
 		console.debug('[Socket] disconnected');
