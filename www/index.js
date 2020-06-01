@@ -762,7 +762,7 @@ function fetchObject(id, callback){
 				delete waitingForObject._id;
 				usedObjects[_id] = _object;
 				console.log("Fetched Object: " + _id);
-				updateState(_id);
+				if (states[_id]) updateState(_id);
 				if(callback) callback();
 			} else {
 				console.log("Object not found");
@@ -2599,7 +2599,7 @@ function applyToolbarPressureMenu(){
 		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		toolbarPressureMenuStart();
 	});	
-	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
+	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
 		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
 		toolbarPressureMenuEnd();
 	});	
@@ -2640,7 +2640,7 @@ function toolbarPressureMenuChange(force, event, that){
 	}
 }
 
-function toolbarPressureMenuEnd(){
+function toolbarPressureMenuEnd(ignorePressure){
 	console.log("PRESSURE end function");
 	toolbarPressureMenuIgnorePressure = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
@@ -2664,7 +2664,7 @@ function toolbarPressureMenuEnd(){
 			$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
 		}
 	}, 1);
-	setTimeout(function(){
+	if (!ignorePressure) setTimeout(function(){
 		toolbarPressureMenuIgnorePressure = false;
 	}, 500);
 }
@@ -2679,7 +2679,7 @@ function openToolbarPressureMenu(toolbarIndex, callingElement){
 		};
 		$('#ToolbarPressureMenuList').listview('refresh');
 		$("#ToolbarPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
-		toolbarPressureMenuEnd();
+		toolbarPressureMenuEnd(true);
 	} else { //callingElement has no pressureMenu
 		toolbarPressureMenuIgnoreClick = false;
 		$(callingElement).click();
@@ -4078,7 +4078,7 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 		} else if (difference < 1000 * 60 * 60) {
 			if (Math.floor(difference/(1000 * 60)) == 1) {
 				elapsedString = _("1 minute ago");
-				elapsedStringSince = _("since 1 minute");
+				elapsedStringSince = _("since %s minute", 1);
 			} else {
 				elapsedString = _("%s minutes ago", Math.floor(difference/(1000 * 60)));
 				elapsedStringSince = _("since %s minutes", Math.floor(difference/(1000 * 60)));
@@ -4087,7 +4087,7 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 		} else if (difference < 1000 * 60 * 60 * 24) {
 			if (Math.floor(difference/(1000 * 60 * 60)) == 1){
 				elapsedString = _("1 hour ago");
-				elapsedStringSince = _("since 1 hour");
+				elapsedStringSince = _("since %s hour", 1);
 			} else {
 				elapsedString = _("%s hours ago", Math.floor(difference/(1000 * 60 * 60)));
 				elapsedStringSince = _("since %s hours", Math.floor(difference/(1000 * 60 * 60)));
@@ -4096,7 +4096,7 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 		} else {
 			if (Math.floor(difference/(1000 * 60 * 60 * 24)) == 1){
 				elapsedString = _("1 day ago");
-				elapsedStringSince = _("since 1 day");
+				elapsedStringSince = _("since %s day", 1);
 			} else {
 				elapsedString = _("%s days ago", Math.floor(difference/(1000 * 60 * 60 * 24)));
 				elapsedStringSince = _("since %s days", Math.floor(difference/(1000 * 60 * 60 * 24)));
@@ -4299,9 +4299,15 @@ function applyViewPressureMenu(){
 		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		viewPressureMenuStart();
 	});
-	$('.iQontrolDeviceLink').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
+	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
 		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
 		viewPressureMenuEnd();
+	});
+	$(window).scroll(function(){
+		if(!viewPressureMenuIgnorePressure){
+			console.log("PRESSURE end via SCROLL");
+			viewPressureMenuEnd();		
+		}
 	});
 }
 
@@ -4334,7 +4340,7 @@ function viewPressureMenuChange(force, event, that){
 	}
 }
 
-function viewPressureMenuEnd(){
+function viewPressureMenuEnd(ignorePressure){
 		console.log("PRESSURE end function");
 		viewPressureMenuIgnorePressure = true;
 		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
@@ -4343,7 +4349,7 @@ function viewPressureMenuEnd(){
 			viewPressureMenuFallbackTimer = false;
 			viewPressureMenuFallbackForce = 0;
 		}
-		setTimeout(function(){
+		if (!ignorePressure) setTimeout(function(){
 			viewPressureMenuIgnorePressure = false;
 		}, 500);
 }
@@ -4358,7 +4364,7 @@ function openViewPressureMenu(deviceIdEscaped, positionToElement){
 		};
 		$('#ViewPressureMenuList').listview('refresh');
 		$("#ViewPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(positionToElement)});
-		viewPressureMenuEnd();
+		viewPressureMenuEnd(true);
 	}
 }
 

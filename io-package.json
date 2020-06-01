@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.4.1",
+        "version": "1.0.0",
         "news": {
+            "1.0.0": {
+                "en": "Added a few captions to admin, Prevent pressure menu when scrolling and after opening menu, Corrected a few translations.",
+                "de": "Einige Untertitel zu admin hinzugefügt, Druckmenü beim Scrollen verhindern und nach dem Öffnen des Menüs einige Übersetzungen korrigiert.",
+                "ru": "Добавлено несколько подписей к админке, Предотвращение нажатия меню при прокрутке и после открытия меню, Исправлено несколько переводов.",
+                "pt": "Adicionadas algumas legendas ao administrador, Evitar pressão no menu ao rolar e, após abrir o menu, Corrigidas algumas traduções.",
+                "nl": "Enkele bijschriften toegevoegd aan admin, Voorkom drukmenu bij scrollen en na openen van menu, Enkele vertalingen gecorrigeerd.",
+                "fr": "Ajout de quelques légendes à l'administrateur, Empêcher le menu de pression lors du défilement et après l'ouverture du menu, Correction de quelques traductions.",
+                "it": "Aggiunte alcune didascalie all'amministratore, Impedisci menu pressione durante lo scorrimento e dopo l'apertura del menu, Correzione di alcune traduzioni.",
+                "es": "Se agregaron algunos subtítulos al administrador, Prevenir el menú de presión al desplazarse y después de abrir el menú, Se corrigieron algunas traducciones.",
+                "pl": "Dodano kilka podpisów do administratora, Zapobiegaj menu ciśnienia podczas przewijania i po otwarciu menu, Poprawiono kilka tłumaczeń.",
+                "zh-cn": "为管理员添加了一些标题，滚动时和打开菜单后阻止了压力菜单，更正了一些翻译。"
+            },
             "0.4.1": {
                 "en": "Added icons for toplight and tilted to window and enhanced window to recognize tilted position, Fixed crash when using some thermostats, New gulpfile and fixed translations, Further improvement of connection speed, Disabled context-menu on long/right-click, Revised pressure/forced touch and added option to always use time instead of pressure.",
                 "de": "Es wurden Symbole für toplight und zum Fenster geneigt hinzugefügt und das Fenster zum Erkennen der geneigten Position erweitert. Absturz bei Verwendung einiger Thermostate behoben. Neues Gulpfile und feste Übersetzungen. Weitere Verbesserung der Verbindungsgeschwindigkeit. Deaktiviertes Kontextmenü bei langem / Rechtsklick. Überarbeiteter Druck / Erzwungen ",
@@ -98,66 +110,6 @@
                 "es": "Cambio de última hora: la configuración completa ya no se almacena en los canales y estados de ioBroker, sino que se recupera como un objeto completo, por lo que guardar la configuración es mucho más rápido que antes, las vistas, dispositivos y entradas de la barra de herramientas ahora se pueden ordenar mediante arrastrar y soltar ",
                 "pl": "Przełomowa zmiana - pełna konfiguracja nie jest już przechowywana w kanałach i stanach ioBroker, ale jest pobierana jako jeden kompletny obiekt, dzięki czemu zapisywanie konfiguracji jest znacznie szybsze niż wcześniej, Widoki, urządzenia i pozycje paska narzędzi można teraz sortować poprzez przeciąganie i upuszczanie ",
                 "zh-cn": "重大更改-完整的配置不再存储在ioBroker通道和状态中，而是作为一个完整的对象获取，因此保存配置的速度比以前快得多，现在可以通过拖放操作对视图，设备和工具栏条目进行排序"
-            },
-            "0.2.20": {
-                "en": "If value for POWER is greater than 100, it is rounded withour decimal places, Bugfixed invert-function with custom min and max, Added reload-link to loading page, Updated dependencies.",
-                "de": "Wenn der Wert für POWER größer als 100 ist, wird er mit unseren Dezimalstellen gerundet. Bugfixed Invert-Funktion mit benutzerdefinierten Min und Max. Reload-Link zur Ladeseite hinzugefügt. Aktualisierte Abhängigkeiten.",
-                "ru": "Если значение для POWER больше 100, оно округляется с нашими десятичными разрядами, исправлена ​​обратная функция с пользовательскими минимальными и максимальными значениями, добавлена ​​ссылка для перезагрузки страницы загрузки, обновлены зависимости.",
-                "pt": "Se o valor de POWER for maior que 100, ele será arredondado com nossas casas decimais, função invertida corrigida com bug com mínimo e máximo personalizados, link de recarregamento adicionado à página de carregamento, dependências atualizadas.",
-                "nl": "Als de waarde voor POWER groter is dan 100, wordt deze afgerond met onze decimalen, Bugfixed invert-functie met aangepaste min en max, toegevoegde reload-link naar laadpagina, bijgewerkte afhankelijkheden.",
-                "fr": "Si la valeur de POWER est supérieure à 100, elle est arrondie avec nos décimales, fonction inversée corrigée des bogues avec min et max personnalisés, lien de rechargement ajouté à la page de chargement, dépendances mises à jour.",
-                "it": "Se il valore di POWER è maggiore di 100, viene arrotondato con le nostre posizioni decimali, funzione di inversione corretta con min e max personalizzati, collegamento di ricarica aggiunto alla pagina di caricamento, dipendenze aggiornate.",
-                "es": "Si el valor de POWER es mayor que 100, se redondea con nuestros decimales, función invertida arreglada con errores con min y max personalizados, enlace de recarga agregado a la página de carga, dependencias actualizadas.",
-                "pl": "Jeśli wartość MOCY jest większa niż 100, jest ona zaokrąglana z naszymi miejscami po przecinku, Poprawiona funkcja odwracania z niestandardowymi wartościami minimalnymi i maksymalnymi, Dodany link reload do strony ładowania, Zaktualizowane zależności.",
-                "zh-cn": "如果POWER的值大于100，则将其四舍五入到小数点后，修正具有自定义最小值和最大值的反转函数，将重新加载链接添加到加载页面，更新了相关性。"
-            },
-            "0.2.19": {
-                "en": "Updated dependencies.",
-                "de": "Aktualisierte Abhängigkeiten.",
-                "ru": "Обновлены зависимости.",
-                "pt": "Dependências atualizadas.",
-                "nl": "Bijgewerkte afhankelijkheden.",
-                "fr": "Dépendances mises à jour.",
-                "it": "Dipendenze aggiornate.",
-                "es": "Dependencias actualizadas.",
-                "pl": "Zaktualizowano zależności.",
-                "zh-cn": "更新了依赖性。"
-            },
-            "0.2.18": {
-                "en": "Updated dependencies.",
-                "de": "Aktualisierte Abhängigkeiten.",
-                "ru": "Обновлены зависимости.",
-                "pt": "Dependências atualizadas.",
-                "nl": "Bijgewerkte afhankelijkheden.",
-                "fr": "Dépendances mises à jour.",
-                "it": "Dipendenze aggiornate.",
-                "es": "Dependencias actualizadas.",
-                "pl": "Zaktualizowano zależności.",
-                "zh-cn": "更新了依赖性。"
-            },
-            "0.2.17": {
-                "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
-                "de": "Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Option zum Ausblenden des Geräts hinzugefügt, wenn es inaktiv ist (vorsichtig behandeln, da Sie es möglicherweise nicht wechseln können ",
-                "ru": "Добавлена ​​возможность открыть диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Добавлена ​​возможность скрыть устройство, если оно неактивно (обращайтесь с осторожностью, так как вы не сможете его переключить ",
-                "pt": "Foi adicionada a opção para abrir a caixa de diálogo clicando no bloco para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e Movimento, Opção adicionada para ocultar o dispositivo, se estiver inativo (manuseie com cuidado, pois pode não ser possível alterná-lo ",
-                "nl": "Optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatur, Vochtigheid, Helderheid en Beweging, Optie toegevoegd om apparaat te verbergen, als het inactief is (voorzichtig behandelen, omdat u het misschien niet kunt schakelen ",
-                "fr": "Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement. ",
-                "it": "Aggiunta opzione per aprire la finestra di dialogo facendo clic su riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Aggiunta opzione per nascondere il dispositivo, se è inattivo (maneggiare con cura, poiché potrebbe non essere possibile cambiarlo ",
-                "es": "Opción agregada para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Opción agregada para ocultar el dispositivo, si está inactivo (maneje con cuidado, ya que es posible que no pueda cambiarlo ",
-                "pl": "Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i Ruch, Dodano opcję ukrywania urządzenia, jeśli jest nieaktywne (obchodź się ostrożnie, ponieważ możesz nie być w stanie go zmienić ",
-                "zh-cn": "添加选项以通过单击视图，窗口，门，火，温度，湿度，亮度和运动的图块来打开对话框，添加选项以隐藏设备（如果其处于非活动状态）（请谨慎处理，因为您可能无法切换它）"
-            },
-            "0.2.16": {
-                "en": "Fixed custom step for heating control, Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Fixed universal popup wich was displayed, even when empty.",
-                "de": "Benutzerdefinierter Schritt für die Heizungssteuerung korrigiert. Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Universelles Popup korrigiert, das angezeigt wurde, auch wenn leer.",
-                "ru": "Исправлен пользовательский шаг для управления обогревом, Добавлена ​​возможность открывать диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Исправлено универсальное всплывающее окно, которое отображалось, даже когда пусто.",
-                "pt": "Corrigido passo personalizado para controle de aquecimento, opção adicionada para abrir a caixa de diálogo clicando no ladrilho para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e movimento, Pop-up universal fixo que era exibido, mesmo quando vazio.",
-                "nl": "Vaste aangepaste stap voor verwarmingsregeling, optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatuur, Vochtigheid, Helderheid en Beweging, Vaste universele pop-up die werd weergegeven, zelfs als deze leeg was.",
-                "fr": "Correction d'une étape personnalisée pour le contrôle du chauffage, Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement, popup universel fixe qui était affiché, même lorsqu'il était vide.",
-                "it": "Risolto il problema con il passaggio personalizzato per il controllo del riscaldamento. Aggiunta l'opzione per aprire la finestra di dialogo facendo clic su un riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Risolto popup universale che veniva visualizzato, anche se vuoto.",
-                "es": "Se corrigió el paso personalizado para el control de calefacción, se agregó la opción para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Ventana emergente universal fija que se mostró, incluso cuando estaba vacía.",
-                "pl": "Naprawiono niestandardowy krok do sterowania ogrzewaniem, Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i ruch, Naprawiono uniwersalne okienko wyskakujące, które było wyświetlane, nawet gdy jest puste.",
-                "zh-cn": "固定了加热控制的自定义步骤，添加了通过单击“视图”，“窗口”，“门”，“火”，“温度”，“湿度”，“亮度”和“运动”的图块来打开对话框的选项，显示了固定的通用弹出窗口，即使是空的也是如此。"
             }
         },
         "title": "iQontrol",

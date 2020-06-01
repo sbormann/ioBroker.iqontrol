@@ -1,6 +1,6 @@
 /*!
  * ioBroker gulpfile
- * Date: 2019-01-28
+ * Date: 2020-05-29 - modified by s.bormann
  */
 'use strict';
 
@@ -371,6 +371,26 @@ gulp.task('adminLanguages2words', function (done) {
     done();
 });
 
+gulp.task('wwwWords2languages', function (done) {
+    words2languages('./www/');
+    done();
+});
+
+gulp.task('wwwWords2languagesFlat', function (done) {
+    words2languagesFlat('./www/');
+    done();
+});
+
+gulp.task('wwwLanguagesFlat2words', function (done) {
+    languagesFlat2words('./www/');
+    done();
+});
+
+gulp.task('wwwLanguages2words', function (done) {
+    languages2words('./www/');
+    done();
+});
+
 gulp.task('updatePackages', function (done) {
     iopackage.common.version = pkg.version;
     iopackage.common.news = iopackage.common.news || {};
@@ -466,10 +486,29 @@ gulp.task('translate', async function (done) {
             }
         }
 
+        if (fs.existsSync('./www/i18n/en/translations.json')) {
+            let enTranslations = require('./www/i18n/en/translations.json');
+            for (let l in languages) {
+                console.log('Translate Text: ' + l);
+                let existing = {};
+                if (fs.existsSync('./www/i18n/' + l + '/translations.json')) {
+                    existing = require('./www/i18n/' + l + '/translations.json');
+                }
+                for (let t in enTranslations) {
+                    if (!existing[t]) {
+                        existing[t] = await translate(enTranslations[t], l, yandex);
+                    }
+                }
+                if (!fs.existsSync('./www/i18n/' + l + '/')) {
+                    fs.mkdirSync('./www/i18n/' + l + '/');
+                }
+                fs.writeFileSync('./www/i18n/' + l + '/translations.json', JSON.stringify(existing, null, 4));
+            }
+        }
     }
     fs.writeFileSync('io-package.json', JSON.stringify(iopackage, null, 4));
 });
 
-gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages'));
+gulp.task('translateAndUpdateWordsJS', gulp.series('translate', 'adminLanguages2words', 'adminWords2languages', 'wwwLanguages2words', 'wwwWords2languages'));
 
 gulp.task('default', gulp.series('updatePackages', 'updateReadme'));
