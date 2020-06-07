@@ -4065,7 +4065,7 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 	if (lc > 0) {
 		lc = new Date(lc + timeshift);
 		if(now.getFullYear() != lc.getFullYear() || now.getMonth() != lc.getMonth() || now.getDate() != lc.getDate()){
-			lcString = ('0' + lc.getDate()).slice(-2) + "." + ('0' + lc.getMonth()).slice(-2) + "." + lc.getFullYear();
+			lcString = ('0' + lc.getDate()).slice(-2) + "." + ('0' + (lc.getMonth() + 1)).slice(-2) + "." + lc.getFullYear();
 		} else {
 			lcString = ('0' + lc.getHours()).slice(-2) + ":" + ('0' + lc.getMinutes()).slice(-2);
 		}
@@ -5985,7 +5985,7 @@ function dialogUpdateTimestamp(state){
 			var timestampText = ('0' + timestamp.getHours()).slice(-2) + ":" + ('0' + timestamp.getMinutes()).slice(-2);
 			var now = new Date();
 			if(now.getFullYear() != timestamp.getFullYear() || now.getMonth() != timestamp.getMonth() || now.getDate() != timestamp.getDate()){
-				timestampText = ('0' + timestamp.getDate()).slice(-2) + "." + ('0' + timestamp.getMonth()).slice(-2) + "." + timestamp.getFullYear() + ", " + timestampText;
+				timestampText = ('0' + timestamp.getDate()).slice(-2) + "." + ('0' + (timestamp.getMonth() + 1)).slice(-2) + "." + timestamp.getFullYear() + ", " + timestampText;
 			}
 			$('#DialogTimestampText').html(timestampText);
 		}

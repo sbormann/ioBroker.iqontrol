@@ -1793,26 +1793,34 @@ function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'state') {
 				$(this).prop('readonly', true);
-				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID"}, ...]</span>');
-				if ($(this).val() == "SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "OFF_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "UP_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "DOWN_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "FAVORITE_POSITION_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "URL") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "HTML") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "XXXSET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXOFF_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXUP_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXDOWN_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXFAVORITE_POSITION_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXURL") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "XXXHTML") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
 			}
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
 				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
 			}
 		});
-		//Hide role
+		//Role
 		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonRole') {
-				$(this).parent('div').parent('td').hide();
+				var stateIndex = $(this).data('index');
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') {
+					$(this).prop('disabled', true);
+				} else {
+					$(this).find('option[value="array"]').remove();
+				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
+				}
 			}
 		});
 		//Button-Functions
@@ -1820,10 +1828,9 @@ function load(settings, onChange) {
 			var command = $(this).data('command');
 			//Edit
 			if (command === 'edit') {
-				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
-					$(this).on('click', function () {
-						var stateIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var stateIndex = $(this).data('index');
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
 						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
@@ -1833,10 +1840,7 @@ function load(settings, onChange) {
 						$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
 						$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						$('#dialogDeviceEditStateConstant').modal('open');
-					});
-				} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
-					$(this).on('click', function () {
-						var stateIndex = $(this).data('index');
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
@@ -1846,10 +1850,7 @@ function load(settings, onChange) {
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
 						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						$('#dialogDeviceEditStateArray').modal('open');
-					});
-				} else { //linkedState - open selectID dialog
-					$(this).on('click', function(){
-						var stateIndex = $(this).data('index');
+					} else { //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 						initSelectId(function (sid) {
 							sid.selectId('show', $('#tableDialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
@@ -1858,29 +1859,43 @@ function load(settings, onChange) {
 								}
 							});
 						});
-					});
-				}
+					}
+				});
 			}
 			//OpenCustom
 			if (command === 'openCustom') {
 				var stateIndex = $(this).data('index');
-				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
-				var stateObject = parent.gMain.objects[stateId];
-				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-					$(this).find('i').addClass('indigo').html('build');
-				} else {
-					$(this).find('i').addClass('grey').html('build');
-				}
+				$(this).prop('id', 'tableDialogDeviceEditStatesOpenCustom_' + stateIndex);
 				$(this).on('click', function (e) {
 					var _stateIndex = $(this).data('index');
-					var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
-					if (_stateId != ""){
-						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
-						window.open(url);
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState - open editText dialog
+						var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
+						if (_stateId != ""){
+							var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+							window.open(url);
+						}
 					}
 				});
+				tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
 			}
 		});
+	}
+	function tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex){
+		if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
+			var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
+			var stateObject = parent.gMain.objects[stateId];
+			if (typeof stateObject != udef) {
+				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+				} else {
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+				}
+			} else {
+				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			}
+		} else {
+			$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+		}
 	}
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');

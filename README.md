@@ -296,6 +296,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 1.0.1 development
+* (Sebastian Bormann) Fixed month for timestamps.
+* (Sebastian Bormann) You can now chose if values are linked states or constants.
+
 ### 1.0.0 (2020-06-01)
 * (Sebastian Bormann) Added a few captions to admin.
 * (Sebastian Bormann) Prevent pressure menu when scrolling and after opening menu.
