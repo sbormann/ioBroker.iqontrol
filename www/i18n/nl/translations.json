@@ -584,6 +584,7 @@
     "You can consider views as something like a pages.": "U kunt overwegen uitzicht als iets als een pagina ' s.",
     "You can create this device now if you want.": "Kunt u dit apparaat nu als je wilt.",
     "You can upload your own icons to the folder '/usericons'": "U kunt uw eigen pictogrammen uploaden naar de map '/ usericons'",
+    "You can use variables in device-names and image-filenames": "U kunt variabelen gebruiken in apparaatnamen en bestandsnamen van afbeeldingen",
     "You can use variables in image-filenames": "U kunt variabelen gebruiken in bestandsnamen van afbeeldingen",
     "You can use your images as background-images for views, or for devices.": "U kunt uw foto ' s als achtergrond-afbeeldingen voor het uitzicht, of voor apparaten.",
     "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!": "Om te werken moet je socket.IO activeren in web-adapter-instellingen!",

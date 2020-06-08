@@ -2799,7 +2799,7 @@ function renderView(viewId){
 						var variableurl = null;
 						if(device.nativeBackgroundImage){
 							url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
-							variableurl= encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
+							variableurl = encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--Background (Overlay)
@@ -2811,7 +2811,7 @@ function renderView(viewId){
 						variableurl = null;
 						if(device.nativeBackgroundImageActive){ 
 							url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
-							variableurl= encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
+							variableurl = encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--BackgroundActive (OverlayActive)
@@ -3359,10 +3359,12 @@ function renderView(viewId){
 							//Do nothing
 						}
 						//--Name
-						deviceContent += "<div class='iQontrolDeviceName' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-							var hideDeviceName = (getDeviceOptionValue(device, "hideDeviceName") == "true");
+						var name = encodeURI(device.commonName.split('|')[0]);
+						var variablename = encodeURI(device.commonName.split('|').slice(1).join('|'));
+						var hideDeviceName = (getDeviceOptionValue(device, "hideDeviceName") == "true");
+						deviceContent += "<div class='iQontrolDeviceName' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + ((variablename && !hideDeviceName) ? "data-variablename='" + variablename + "' " : "") + ">";
 							if (!hideDeviceName){
-								deviceContent += device.commonName;
+								deviceContent += decodeURI(name);
 							}
 						deviceContent += "</div>";
 						//--State
@@ -3961,7 +3963,7 @@ function renderView(viewId){
 							//Replace by placeholder
 							replacement = placeholder;
 						}
-						if(replacement){
+						if(replacement != null){
 							var newSrc = _variableSrc.substring(_variableSrc.indexOf('?') + 1, a) + replacement + _variableSrc.substring(b + 3);
 							if($(_that).attr('src') != newSrc){
 								$(_that).fadeTo(0,0);
@@ -4006,12 +4008,53 @@ function renderView(viewId){
 							//Replace by placeholder
 							replacement = placeholder;
 						}
-						if(replacement){
+						if(replacement != null){
 							var newSrc = _variablebackgroundimage.substring(_variablebackgroundimage.indexOf('?') + 1, a) + replacement + _variablebackgroundimage.substring(b + 3);
 							var newBackgroundimage = "url(\"" + newSrc + "\")";
 							if($(_that).css('background-image') != newBackgroundimage){
 								console.log("Set new Background-image: " + newBackgroundimage);
 								$(_that).css('background-image', newBackgroundimage);
+							}
+						}
+					};
+					if(!viewUpdateFunctions[_linkedStateId]) viewUpdateFunctions[_linkedStateId] = [];
+					viewUpdateFunctions[_linkedStateId].push(updateFunction);
+				})(); //<--End Closure
+				deviceLinkedStateIdsToUpdate.push(linkedStateId);
+			}
+		});
+		//Find variablename in Divs
+		$("div[data-variablename]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
+			var that = $(this);
+			var variablename = that.data('variablename');
+			var a = variablename.indexOf('%7B'), b = variablename.lastIndexOf('%7D');
+			if (a > -1 && a < b) {
+				var variable = variablename.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+				var linkedStateId = variable[0];
+				var placeholder = null;
+				if (variable.length > 1) placeholder = variable[1];				
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _that = that;
+					var _variablename = variablename;
+					var _a = a;
+					var _b = b;
+					var _linkedStateId = linkedStateId;
+					var _placeholder = placeholder;
+					var updateFunction = function(){
+						var state = getStateObject(_linkedStateId);
+						var replacement = null;
+						if(state && typeof state.val !== udef) {
+							//Replace by value
+							replacement = state.val;
+						} else if (placeholder) {
+							//Replace by placeholder
+							replacement = placeholder;
+						}
+						if(replacement != null){
+							var newName = decodeURI(_variablename.substring(_variablename.indexOf('?') + 1, a) + replacement + _variablename.substring(b + 3));
+							if($(_that).html() != newName){
+								console.log("Set new Name: " + newName);
+								$(_that).html(newName);
 							}
 						}
 					};
