@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "news": {
+            "1.0.1": {
+                "en": "Fixed month for timestamps, You can now chose if values are linked states or constants, Added the ability to use variables in device-names.",
+                "de": "Fester Monat für Zeitstempel. Sie können jetzt auswählen, ob Werte verknüpfte Zustände oder Konstanten sind. Es wurde die Möglichkeit hinzugefügt, Variablen in Gerätenamen zu verwenden.",
+                "ru": "Фиксированный месяц для отметок времени. Теперь вы можете выбирать, являются ли значения связанными состояниями или константами. Добавлена ​​возможность использования переменных в именах устройств.",
+                "pt": "Mês fixo para registros de data e hora. Agora você pode escolher se os valores são estados ou constantes vinculados. Foi adicionada a capacidade de usar variáveis ​​em nomes de dispositivos.",
+                "nl": "Vaste maand voor tijdstempels, u kunt nu kiezen of waarden gekoppelde staten of constanten zijn, de mogelijkheid toegevoegd om variabelen in apparaatnamen te gebruiken.",
+                "fr": "Mois fixe pour les horodatages, Vous pouvez maintenant choisir si les valeurs sont des états liés ou des constantes, Ajout de la possibilité d'utiliser des variables dans les noms de périphériques.",
+                "it": "Mese fisso per i timestamp, ora puoi scegliere se i valori sono stati o costanti collegati, aggiunta la possibilità di usare le variabili nei nomi dei dispositivi.",
+                "es": "Se corrigió el mes para las marcas de tiempo. Ahora puede elegir si los valores son estados o constantes vinculados. Se agregó la capacidad de usar variables en los nombres de dispositivos.",
+                "pl": "Naprawiono miesiąc dla znaczników czasu, teraz możesz wybrać, czy wartości są stanami połączonymi lub stałymi, Dodano możliwość używania zmiennych w nazwach urządzeń.",
+                "zh-cn": "固定的时间戳记月份，您现在可以选择值是链接状态还是常量，增加了在设备名称中使用变量的功能。"
+            },
             "1.0.0": {
                 "en": "Added a few captions to admin, Prevent pressure menu when scrolling and after opening menu, Corrected a few translations.",
                 "de": "Einige Untertitel zu admin hinzugefügt, Druckmenü beim Scrollen verhindern und nach dem Öffnen des Menüs einige Übersetzungen korrigiert.",

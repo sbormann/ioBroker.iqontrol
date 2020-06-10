@@ -4031,11 +4031,17 @@ function renderView(viewId){
 			if (a > -1 && a < b) {
 				var variable = variablename.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
 				var linkedStateId = variable[0];
+				var noUnit = false;
+				if (linkedStateId.substr(0, 3) == "%5B" && linkedStateId.substr(-3) == "%5D"){ // [ and ] are escaped by %5B and %5D
+					linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
+					noUnit = true;
+				}
 				var placeholder = null;
 				if (variable.length > 1) placeholder = variable[1];				
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
 					var _variablename = variablename;
+					var _noUnit = noUnit;
 					var _a = a;
 					var _b = b;
 					var _linkedStateId = linkedStateId;
@@ -4043,9 +4049,13 @@ function renderView(viewId){
 					var updateFunction = function(){
 						var state = getStateObject(_linkedStateId);
 						var replacement = null;
+						//Replace by value
 						if(state && typeof state.val !== udef) {
-							//Replace by value
-							replacement = state.val;
+							if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number 
+								replacement = state.val + state.unit;
+							} else {											//STATE = bool or text
+								replacement = state.plainText;
+							}
 						} else if (placeholder) {
 							//Replace by placeholder
 							replacement = placeholder;
@@ -4068,7 +4078,13 @@ function renderView(viewId){
 		deviceLinkedStateIdsToUpdate = removeDuplicates(deviceLinkedStateIdsToUpdate);
 		fetchStates(deviceLinkedStateIdsToUpdate, function(){
 			for (var i = 0; i < deviceLinkedStateIdsToUpdate.length; i++){
-				updateState(deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");
+				if (typeof usedObjects[deviceLinkedStateIdsToUpdate[i]] == udef) {
+					fetchObject(deviceLinkedStateIdsToUpdate[i], function(){
+						updateState(deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForView");
+					});
+				} else {
+					updateState(deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForView");
+				}
 			}
 			deviceLinkedStateIdsToUpdate = [];
 			applyMarqueeObserver();
@@ -5950,8 +5966,58 @@ function renderDialog(deviceIdEscaped){
 			dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName) + "</a>";
 		}
 	dialogContent += "</form>";
-	$("#DialogHeaderTitle").html(device.commonName + ":");
 	$("#DialogContent").html(dialogContent);
+	//--Name
+	var name = encodeURI(device.commonName.split('|')[0]);
+	var variablename = encodeURI(device.commonName.split('|').slice(1).join('|'));
+	$("#DialogHeaderTitle").html(decodeURI(name) + ":");	
+	var a = variablename.indexOf('%7B'), b = variablename.lastIndexOf('%7D');
+	if (a > -1 && a < b) {
+		var variable = variablename.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+		var linkedStateId = variable[0];
+		var noUnit = false;
+		if (linkedStateId.substr(0, 3) == "%5B" && linkedStateId.substr(-3) == "%5D"){ // [ and ] are escaped by %5B and %5D
+			linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
+			noUnit = true;
+		}
+		var placeholder = null;
+		if (variable.length > 1) placeholder = variable[1];				
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _variablename = variablename;
+			var _noUnit = noUnit;
+			var _a = a;
+			var _b = b;
+			var _linkedStateId = linkedStateId;
+			var _placeholder = placeholder;
+			var updateFunction = function(){
+				var state = getStateObject(_linkedStateId);
+				var replacement = null;
+					//Replace by value
+				if(state && typeof state.val !== udef) {
+					if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number 
+						replacement = state.val + state.unit;
+					} else {											//STATE = bool or text
+						replacement = state.plainText;
+					}
+				} else if (placeholder) {
+					//Replace by placeholder
+					replacement = placeholder;
+				}
+				if(replacement != null){
+					var newName = decodeURI(_variablename.substring(_variablename.indexOf('?') + 1, a) + replacement + _variablename.substring(b + 3)) + ":";
+					if($("#DialogHeaderTitle").html() != newName){
+						console.log("Set new Name: " + newName);
+						$("#DialogHeaderTitle").html(newName);
+					}
+				}
+			};
+			if(!dialogUpdateFunctions[_linkedStateId]) dialogUpdateFunctions[_linkedStateId] = [];
+			dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+		})(); //<--End Closure
+		dialogStateIdsToFetch.push(linkedStateId);
+		dialogLinkedStateIdsToUpdate.push(linkedStateId);
+	}
+	//Enhance Dialog
 	$("#Dialog").enhanceWithin();
 	//Fit slider popup size to text-length
 	$('.iQontrolDialogSlider').on('change', function(){
@@ -5968,12 +6034,19 @@ function renderDialog(deviceIdEscaped){
 	dialogLinkedStateIdsToUpdate = removeDuplicates(dialogLinkedStateIdsToUpdate);
 	for (var i = 0; i < dialogLinkedStateIdsToUpdate.length; i++){updateState(dialogLinkedStateIdsToUpdate[i], "ignorePreventUpdateForDialog");}
 	dialogLinkedStateIdsToUpdate = [];
+	dialogStateIdsToFetch = removeDuplicates(dialogStateIdsToFetch);
 	if(dialogStateIdsToFetch.length > 0) fetchStates(dialogStateIdsToFetch, function(){
 		console.log(dialogStateIdsToFetch.length + " additional states fetched while rendering dialog.");
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _dialogStateIdsToFetch = dialogStateIdsToFetch;
 			for (var i = 0; i < _dialogStateIdsToFetch.length; i++){
-				updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog");
+				if (typeof usedObjects[_dialogStateIdsToFetch[i]] == udef) {
+					fetchObject(_dialogStateIdsToFetch[i], function(){
+						updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog");
+					});
+				} else {
+					updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog");
+				}
 			}
 		})(); //<--End Closure
 	});

@@ -293,8 +293,9 @@ In addition to normal thermostat you can define:
 
 
 ## Device-Names
-* Just like variables in image-urls you can use variables in device-names. The syntax is the same:
+* Just like variables in image-urls you can use variables in device-names. The syntax is almost the same:
     * ``Text while loading|Text after loading {iobrokerstate|fallback}``
+	* Additionally can put the iobrokerstate into square brackets, then the plain value without its unit will be used: ``Text while loading|Text after loading {[iobrokerstate]|fallback}``
     * Example: ``Weather is loading|Weather: {javascript.0.weather|No weather data found}`` 
 	* This shows ``Weather is loading`` when you open the view
 	* As soon as the state of ``javascript.0.weather`` is fetched from the server, the text will be replaced by ``Weather: XXX`` where ``XXX`` is the value of ``javascript.0.weather``
@@ -305,7 +306,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 1.0.1 development
+### 1.0.1 (2020-06-10)
 * (Sebastian Bormann) Fixed month for timestamps.
 * (Sebastian Bormann) You can now chose if values are linked states or constants.
 * (Sebastian Bormann) Added the ability to use variables in device-names.
