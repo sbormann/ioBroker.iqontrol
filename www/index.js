@@ -488,6 +488,28 @@ var iQontrolRoles = {
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										} 
 									},
+	"iQontrolMedia": 				{
+										name: "Media-Player", 	
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "EJECT", "POWER_SWITCH", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/media_on.png",
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+										} 
+									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
@@ -1680,6 +1702,18 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     catch (e) { }
     return false;
 };
+
+function secondsToHHMMSS(seconds){
+	if(isNaN(seconds)) return seconds;
+	var sec_num = parseInt(seconds, 10);
+	var hours   = Math.floor(sec_num / 3600);
+	var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+	var seconds = sec_num - (hours * 3600) - (minutes * 60);
+	if (hours   < 10) {hours   = "0"+hours;}
+	if (minutes < 10) {minutes = "0"+minutes;}
+	if (seconds < 10) {seconds = "0"+seconds;}
+	if (hours == "00") return minutes + ':' + seconds; else return hours + ':' + minutes + ':' + seconds;
+}
 
 function getTimeFromHMTimeCode(HMTimeCode){
 	if(typeof HMTimeCode == udef) return udef;
@@ -2981,6 +3015,16 @@ function renderView(viewId){
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
+							case "iQontrolMedia":
+							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
+							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
+								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/media_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/media_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+								iconContent += "<image class='iQontrolDeviceIcon play overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_play_overlay.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon pause overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_pause_overlay.png' />";
+								iconContent += "<image class='iQontrolDeviceIcon stop overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_stop_overlay.png' />";
+							break;
+
 							case "iQontrolPopup":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/popup.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/popup.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
@@ -3869,6 +3913,97 @@ function renderView(viewId){
 								}
 								break;
 
+								case "iQontrolMedia":
+								if (deviceLinkedStateIds["STATE"]){
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
+										var _deviceIdEscaped = deviceIdEscaped;
+										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedArtistId = deviceLinkedStateIds["ARTIST"];
+										var _linkedAlbumId = deviceLinkedStateIds["ALBUM"];
+										var _linkedTitleId = deviceLinkedStateIds["TITLE"];
+										var _linkedSeasonId = deviceLinkedStateIds["SEASON"];
+										var _linkedEpisodeId = deviceLinkedStateIds["EPISODE"];
+										var _linkedPlaylistId = deviceLinkedStateIds["PLAYLIST"];
+										var _linkedSourceId = deviceLinkedStateIds["SOURCE"];
+										var updateFunction = function(){
+											var state = getStateObject(_linkedStateId);
+											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+											var artist = getStateObject(_linkedArtistId);
+											var album = getStateObject(_linkedAlbumId);
+											var title = getStateObject(_linkedTitleId);
+											var season = getStateObject(_linkedSeasonId);
+											var episode = getStateObject(_linkedEpisodeId);
+											var playlist = getStateObject(_linkedPlaylistId);
+											var source = getStateObject(_linkedSourceId);
+											var resultText;
+											var active;
+											if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+												active = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
+											} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+												active = false;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
+											} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+												active = false;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").addClass("active");
+											} else { //Undefined
+												active = false;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
+											}
+											var resultTextParts = [];
+											if (artist && typeof artist.plainText !== udef && artist.plainText !== null && artist.plainText !== "") resultTextParts.push("<b>" + artist.plainText + "</b>");
+											if (album && typeof album.plainText !== udef && album.plainText !== null && album.plainText !== "") resultTextParts.push(album.plainText);
+											if (title && typeof title.plainText !== udef && title.plainText !== null && title.plainText !== "") resultTextParts.push("<i>" + title.plainText + "</i>");
+											if (season && typeof season.plainText !== udef && season.plainText !== null && season.plainText !== "") resultTextParts.push(season.plainText);
+											if (episode && typeof episode.plainText !== udef && episode.plainText !== null && episode.plainText !== "") resultTextParts.push(episode.plainText	);
+											resultText = resultTextParts.join(" - ");
+											if (resultText == "") {
+												if (playlist && typeof playlist.plainText !== udef && playlist.plainText !== null && playlist.plainText !== "") {
+													resultText = playlist.plainText;
+												} else if (source && typeof source.plainText !== udef && source.plainText !== null && source.plainText !== "") {
+													resultText = source.plainText;
+												}												
+											}
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
+										};
+										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedArtistId) viewUpdateFunctions[_linkedArtistId].push(updateFunction);
+										if(_linkedAlbumId) viewUpdateFunctions[_linkedAlbumId].push(updateFunction);
+										if(_linkedTitleId) viewUpdateFunctions[_linkedTitleId].push(updateFunction);
+										if(_linkedSeasonId) viewUpdateFunctions[_linkedSeasonId].push(updateFunction);
+										if(_linkedEpisodeId) viewUpdateFunctions[_linkedEpisodeId].push(updateFunction);
+									})(); //<--End Closure
+								}
+								break;
+
 								default:
 								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"]){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -4599,6 +4734,10 @@ function renderDialog(deviceIdEscaped){
 					dialogBindingFunctions.push(bindingFunction);
 				})(); //<--End Closure
 			}
+			break;
+
+			case "iQontrolMedia":
+			//DoNothing
 			break;
 
 			default:
@@ -5813,8 +5952,8 @@ function renderDialog(deviceIdEscaped){
 						
 			case "iQontrolAlarm":
 			if(dialogStates["CONTROL_MODE"]){
-				dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Operation Mode") + ":</label>";
-				dialogContent += "<select  class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
+				dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/variable.png' style='width:16px; height:16px;' />&nbsp;" + _("Operation Mode") + ":</label>";
+				dialogContent += "<select class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
 				for(val in dialogStates["CONTROL_MODE"].valueList){
 						dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
 					}
@@ -5842,6 +5981,764 @@ function renderDialog(deviceIdEscaped){
 					};
 					dialogBindingFunctions.push(bindingFunction);
 				})(); //<--End Closure
+			}
+			break;
+			
+			case "iQontrolMedia":
+			//----Cover
+			if(dialogStates["COVER_URL"]){
+				dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedCoverUrlId = dialogLinkedStateIds["COVER_URL"];
+					var updateFunction = function(){
+						var stateCoverUrl = getStateObject(_linkedCoverUrlId);
+						if (stateCoverUrl){
+							$("#DialogMediaCoverImage").attr('src', stateCoverUrl.val);
+							dialogUpdateTimestamp(states[_linkedCoverUrlId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedCoverUrlId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Artist
+			if(dialogStates["ARTIST"]){
+				dialogContent += "<br><span class='iQontrolDialogMediaText artist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
+					var updateFunction = function(){
+						var stateArtist = getStateObject(_linkedArtistId);
+						if (stateArtist){
+							$("#DialogMediaArtist").html(stateArtist.plainText);
+							dialogUpdateTimestamp(states[_linkedArtistId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedArtistId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Album
+			if(dialogStates["ALBUM"]){
+				dialogContent += "<br><span class='iQontrolDialogMediaText album' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedAlbumId = dialogLinkedStateIds["ALBUM"];
+					var updateFunction = function(){
+						var stateAlbum = getStateObject(_linkedAlbumId);
+						if (stateAlbum){
+							$("#DialogMediaAlbum").html(stateAlbum.plainText);
+							dialogUpdateTimestamp(states[_linkedAlbumId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedAlbumId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Title
+			if(dialogStates["TITLE"]){ 
+				dialogContent += "<br><span class='iQontrolDialogMediaText title' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedTitleId = dialogLinkedStateIds["TITLE"];
+					var updateFunction = function(){
+						var stateTitle = getStateObject(_linkedTitleId);
+						if (stateTitle){
+							$("#DialogMediaTitle").html(stateTitle.plainText);
+							dialogUpdateTimestamp(states[_linkedTitleId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedTitleId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Track
+			if(dialogStates["TRACK"]){ 
+				dialogContent += "<br><span class='iQontrolDialogMediaText track small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedTrackId = dialogLinkedStateIds["TITLE"];
+					var updateFunction = function(){
+						var stateTrack = getStateObject(_linkedTrackId);
+						if (stateTrack){
+							$("#DialogMediaTrack").html(_("Track") + "&nbsp;" + stateTrack.plainText);
+							dialogUpdateTimestamp(states[_linkedTrackId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedTitleId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Season
+			if(dialogStates["SEASON"]){ 
+				dialogContent += "<br><span class='iQontrolDialogMediaText season' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedSeasonId = dialogLinkedStateIds["SEASON"];
+					var updateFunction = function(){
+						var stateSeason = getStateObject(_linkedSeasonId);
+						if (stateSeason){
+							$("#DialogMediaSeason").html(stateSeason.plainText);
+							dialogUpdateTimestamp(states[_linkedSeasonId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedSeasonId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Episode
+			if(dialogStates["EPISODE"]){ 
+				dialogContent += "<br><span class='iQontrolDialogMediaText episode' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
+					var updateFunction = function(){
+						var stateEpisode = getStateObject(_linkedEpisodeId);
+						if (stateEpisode){
+							$("#DialogMediaEpisode").html(stateEpisode.plainText);
+							dialogUpdateTimestamp(states[_linkedEpisodeId]);
+						}
+					};
+					dialogUpdateFunctions[_linkedEpisodeId].push(updateFunction);
+				})(); //<--End Closure
+			}
+			//----Seekbar
+			if(dialogStates["ELAPSED"]){
+				if(dialogStates["ELAPSED"].type == "level"){
+					var min = dialogStates["ELAPSED"].min || 0;
+					var max = dialogStates["ELAPSED"].max || 100;
+					var step = "1";
+					if (max - min < 100) step = "0.1";
+					if (max - min < 10) step = "0.01";
+					if (max - min < 1) step = "0.001";
+					if(usedObjects[dialogLinkedStateIds["ELAPSED"]] && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step.toString();
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["ELAPSED"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='false' data-show-value='false' data-mini='true' name='DialogElapsedLevelSlider' id='DialogElapsedLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+					dialogContent += "<div class='ui-grid-a' style='margin: -11px 8px 10px 3px;'><div class='ui-block-a'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogElapsedSpan'></span></div><div class='ui-block-b' style='text-align: right;'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogDurationSpan'></span></div></div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedElapsedLevelId = dialogLinkedStateIds["ELAPSED"];
+						var _linkedDurationLevelId = dialogLinkedStateIds["DURATION"];
+						var _confirm = (usedObjects[_linkedElapsedLevelId] && typeof usedObjects[_linkedElapsedLevelId].common !== udef && typeof usedObjects[_linkedElapsedLevelId].common.custom !== udef && usedObjects[_linkedElapsedLevelId].common.custom !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm == true);
+						var _pincodeSet = (usedObjects[_linkedElapsedLevelId] && typeof usedObjects[_linkedElapsedLevelId].common !== udef && typeof usedObjects[_linkedElapsedLevelId].common.custom !== udef && usedObjects[_linkedElapsedLevelId].common.custom !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== "");
+						var DialogElapsedLevelSliderReadoutTimer;
+						var updateFunction = function(){
+							var stateElapsedLevel = getStateObject(_linkedElapsedLevelId);
+							var stateDurationLevel = getStateObject(_linkedDurationLevelId);							
+							if (stateDurationLevel){
+								$("#DialogElapsedLevelSlider").slider('option', 'max', stateDurationLevel.val);
+								$("#DialogElapsedLevelSlider").slider('refresh');
+								$("#DialogDurationSpan").html(secondsToHHMMSS(stateDurationLevel.val));
+							}
+							if (stateElapsedLevel){
+								$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val);
+								$("#DialogElapsedLevelSlider").slider('refresh');
+								$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val));
+							}
+						};
+						dialogUpdateFunctions[_linkedElapsedLevelId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogElapsedLevelSlider').slider({
+								start: function(event, ui){
+									clearInterval(DialogElapsedLevelSliderReadoutTimer);
+									if (!_confirm && !_pincodeSet) {
+										DialogElapsedLevelSliderReadoutTimer = setInterval(function(){
+											setState(_linkedElapsedLevelId, _deviceIdEscaped, $("#DialogElapsedLevelSlider").val());
+										}, 500);
+									}
+								},
+								stop: function(event, ui) {
+									clearInterval(DialogElapsedLevelSliderReadoutTimer);
+									setState(_linkedElapsedLevelId, _deviceIdEscaped, $("#DialogElapsedLevelSlider").val());
+								}
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			//----Media-Control (PREV, REWIND, PLAY, PAUSE, STOP, FORWARD, NEXT)
+			if(!dialogReadonly && ((dialogStates["PREV"] && dialogStates["PREV"].type) || (dialogStates["REWIND"] && dialogStates["REWIND"].type) || (dialogStates["PLAY"] && dialogStates["PLAY"].type) || (dialogStates["PAUSE"] && dialogStates["PAUSE"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["FORWARD"] && dialogStates["FORWARD"].type) || (dialogStates["NEXT"] && dialogStates["NEXT"].type))){
+				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
+				if(dialogStates["PREV"] && dialogStates["PREV"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPrevCheckbox' id='DialogMediaControlPrevCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlPrevCheckbox'><img src='./images/media_prev.png' alt='Previous' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["PREV"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlPrevCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlPrevCheckbox]").attr("disabled", false);
+								}
+							}
+							$("#DialogMediaControlPrevCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlPrevCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlPrevCheckbox").prop("checked", false);
+								$("#DialogMediaControlPrevCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["REWIND"] && dialogStates["REWIND"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRewindCheckbox' id='DialogMediaControlRewindCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlRewindCheckbox'><img src='./images/media_rewind.png' alt='Previous' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["REWIND"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlRewindCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlRewindCheckbox]").attr("disabled", false);
+								}
+							}
+							$("#DialogMediaControlRewindCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlRewindCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlRewindCheckbox").prop("checked", false);
+								$("#DialogMediaControlRewindCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["PLAY"] && dialogStates["PLAY"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPlayCheckbox' id='DialogMediaControlPlayCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlPlayCheckbox'><img src='./images/media_play.png' alt='Play' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["PLAY"];
+						var _linkedStateId = dialogLinkedStateIds["STATE"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							var state = getStateObject(_linkedStateId);
+							var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+							var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+							var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlPlayCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlPlayCheckbox]").attr("disabled", false);
+								}
+							}
+							if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+								$("#DialogMediaControlPlayCheckbox").prop("checked", true);
+							} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+								$("#DialogMediaControlPlayCheckbox").prop("checked", false);
+							} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+								$("#DialogMediaControlPlayCheckbox").prop("checked", false);
+							} else { //Undefined
+								$("#DialogMediaControlPlayCheckbox").prop("checked", false);
+							}
+							$("#DialogMediaControlPlayCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlPlayCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlPlayCheckbox").prop("checked", false);
+								$("#DialogMediaControlPlayCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["PAUSE"] && dialogStates["PAUSE"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPauseCheckbox' id='DialogMediaControlPauseCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlPauseCheckbox'><img src='./images/media_pause.png' alt='Pause' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["PAUSE"];
+						var _linkedStateId = dialogLinkedStateIds["STATE"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							var state = getStateObject(_linkedStateId);
+							var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+							var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+							var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlPauseCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlPauseCheckbox]").attr("disabled", false);
+								}
+							}
+							if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+								$("#DialogMediaControlPauseCheckbox").prop("checked", false);
+							} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+								$("#DialogMediaControlPauseCheckbox").prop("checked", true);
+							} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+								$("#DialogMediaControlPauseCheckbox").prop("checked", false);
+							} else { //Undefined
+								$("#DialogMediaControlPauseCheckbox").prop("checked", false);
+							}
+							$("#DialogMediaControlPauseCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlPauseCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlPauseCheckbox").prop("checked", false);
+								$("#DialogMediaControlPauseCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["STOP"] && dialogStates["STOP"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlStopCheckbox' id='DialogMediaControlStopCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlStopCheckbox'><img src='./images/media_stop.png' alt='Stop' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["STOP"];
+						var _linkedStateId = dialogLinkedStateIds["STATE"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							var state = getStateObject(_linkedStateId);
+							var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+							var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+							var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlStopCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlStopCheckbox]").attr("disabled", false);
+								}
+							}
+							if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+								$("#DialogMediaControlStopCheckbox").prop("checked", false);
+							} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+								$("#DialogMediaControlStopCheckbox").prop("checked", false);
+							} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+								$("#DialogMediaControlStopCheckbox").prop("checked", true);
+							} else { //Undefined
+								$("#DialogMediaControlStopCheckbox").prop("checked", false);
+							}
+							$("#DialogMediaControlStopCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlStopCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlStopCheckbox").prop("checked", false);
+								$("#DialogMediaControlStopCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["FORWARD"] && dialogStates["FORWARD"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlForwardCheckbox' id='DialogMediaControlForwardCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlForwardCheckbox'><img src='./images/media_forward.png' alt='Forward' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["FORWARD"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlForwardCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlForwardCheckbox]").attr("disabled", false);
+								}
+							}
+							$("#DialogMediaControlForwardCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlForwardCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlForwardCheckbox").prop("checked", false);
+								$("#DialogMediaControlForwardCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["NEXT"] && dialogStates["NEXT"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlNextCheckbox' id='DialogMediaControlNextCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlNextCheckbox'><img src='./images/media_next.png' alt='Next' style='width:18px; height:18px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["NEXT"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlNextCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlNextCheckbox]").attr("disabled", false);
+								}
+							}
+							$("#DialogMediaControlNextCheckbox").checkboxradio('refresh');
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlNextCheckbox').on('click', function(e) {
+								setState(_linkedButtonId, _deviceIdEscaped, true, true);
+								$("#DialogMediaControlNextCheckbox").prop("checked", false);
+								$("#DialogMediaControlNextCheckbox").checkboxradio('refresh');
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				dialogContent += "</fieldset>";
+			}
+			//----Media-Control (SHUFFLE, REPEAT, MUTE, EJECT, POWER_SWITCH)
+			if(!dialogReadonly && ((dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type) || (dialogStates["REPEAT"] && dialogStates["REPEAT"].type) || (dialogStates["MUTE"] && dialogStates["MUTE"].type) || (dialogStates["EJECT"] && dialogStates["EJECT"].type) || (dialogStates["POWER_SWITCH"] && dialogStates["POWER_SWITCH"].type))){
+				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
+				if(dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlShuffleCheckbox' id='DialogMediaControlShuffleCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlShuffleCheckbox'><img src='./images/media_shuffle.png' alt='Shuffle' style='width:12px; height:12px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["SHUFFLE"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
+								}
+								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
+									$("#DialogMediaControlShuffleCheckbox").prop("checked", false);
+								} else {
+									$("#DialogMediaControlShuffleCheckbox").prop("checked", true);
+								}
+								$("#DialogMediaControlShuffleCheckbox").checkboxradio('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlShuffleCheckbox').on('click', function(e) {
+								var checked = $("#DialogMediaControlShuffleCheckbox").prop("checked");
+								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["REPEAT"] && dialogStates["REPEAT"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRepeatCheckbox' id='DialogMediaControlRepeatCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlRepeatCheckbox'><img src='./images/media_repeat.png' alt='Repeat' style='width:12px; height:12px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["REPEAT"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
+								}
+								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
+									$("#DialogMediaControlRepeatCheckbox").prop("checked", false);
+								} else {
+									$("#DialogMediaControlRepeatCheckbox").prop("checked", true);
+								}
+								$("#DialogMediaControlRepeatCheckbox").checkboxradio('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlRepeatCheckbox').on('click', function(e) {
+								var checked = $("#DialogMediaControlRepeatCheckbox").prop("checked");
+								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["MUTE"] && dialogStates["MUTE"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlMuteCheckbox' id='DialogMediaControlMuteCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlMuteCheckbox'><img src='./images/media_mute.png' alt='Mute' style='width:12px; height:12px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["MUTE"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
+								}
+								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
+									$("#DialogMediaControlMuteCheckbox").prop("checked", false);
+								} else {
+									$("#DialogMediaControlMuteCheckbox").prop("checked", true);
+								}
+								$("#DialogMediaControlMuteCheckbox").checkboxradio('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlMuteCheckbox').on('click', function(e) {
+								var checked = $("#DialogMediaControlMuteCheckbox").prop("checked");
+								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["EJECT"] && dialogStates["EJECT"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlEjectCheckbox' id='DialogMediaControlEjectCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlEjectCheckbox'><img src='./images/media_eject.png' alt='Eject' style='width:12px; height:12px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["EJECT"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
+								}
+								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
+									$("#DialogMediaControlEjectCheckbox").prop("checked", false);
+								} else {
+									$("#DialogMediaControlEjectCheckbox").prop("checked", true);
+								}
+								$("#DialogMediaControlEjectCheckbox").checkboxradio('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlEjectCheckbox').on('click', function(e) {
+								var checked = $("#DialogMediaControlEjectCheckbox").prop("checked");
+								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				if(dialogStates["POWER_SWITCH"] && dialogStates["POWER_SWITCH"].type){
+					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPowerSwitchCheckbox' id='DialogMediaControlPowerSwitchCheckbox'>";
+					dialogContent += "<label for='DialogMediaControlPowerSwitchCheckbox'><img src='./images/media_power.png' alt='Power' style='width:12px; height:12px;'></label>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedButtonId = dialogLinkedStateIds["POWER_SWITCH"];
+						var updateFunction = function(){
+							var buttonState = getStateObject(_linkedButtonId);
+							if (buttonState){
+								if(buttonState.readonly || dialogReadonly){
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
+								} else {
+									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
+								}
+								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
+									$("#DialogMediaControlPowerSwitchCheckbox").prop("checked", false);
+								} else {
+									$("#DialogMediaControlPowerSwitchCheckbox").prop("checked", true);
+								}
+								$("#DialogMediaControlPowerSwitchCheckbox").checkboxradio('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogMediaControlPowerSwitchCheckbox').on('click', function(e) {
+								var checked = $("#DialogMediaControlPowerSwitchCheckbox").prop("checked");
+								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				dialogContent += "</fieldset>";
+			}
+			//----Volume
+			if(dialogStates["VOLUME"]){
+				if(dialogStates["VOLUME"].type == "level"){
+					var min = dialogStates["VOLUME"].min || 0;
+					var max = dialogStates["VOLUME"].max || 100;
+					var step = "1";
+					if (max - min < 100) step = "0.1";
+					if (max - min < 10) step = "0.01";
+					if (max - min < 1) step = "0.001";
+					if(usedObjects[dialogLinkedStateIds["VOLUME"]] && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step.toString();
+					var type = "Volume";
+					dialogContent += "<hr>";
+					dialogContent += "<label for='DialogVolumeLevelSlider' ><image src='./images/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["VOLUME"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogVolumeLevelSlider' id='DialogVolumeLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedVolumeLevelId = dialogLinkedStateIds["VOLUME"];
+						var _confirm = (usedObjects[_linkedVolumeLevelId] && typeof usedObjects[_linkedVolumeLevelId].common !== udef && typeof usedObjects[_linkedVolumeLevelId].common.custom !== udef && usedObjects[_linkedVolumeLevelId].common.custom !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm == true);
+						var _pincodeSet = (usedObjects[_linkedVolumeLevelId] && typeof usedObjects[_linkedVolumeLevelId].common !== udef && typeof usedObjects[_linkedVolumeLevelId].common.custom !== udef && usedObjects[_linkedVolumeLevelId].common.custom !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== "");
+						var DialogVolumeLevelSliderReadoutTimer;
+						var updateFunction = function(){
+							var stateVolumeLevel = getStateObject(_linkedVolumeLevelId);
+							if (stateVolumeLevel){
+								$("#DialogVolumeLevelSlider").val(stateVolumeLevel.val);
+								$("#DialogVolumeLevelSlider").slider('refresh');
+								dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+							}
+						};
+						dialogUpdateFunctions[_linkedVolumeLevelId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogVolumeLevelSlider').slider({
+								start: function(event, ui){
+									clearInterval(DialogVolumeLevelSliderReadoutTimer);
+									if (!_confirm && !_pincodeSet) {
+										DialogVolumeLevelSliderReadoutTimer = setInterval(function(){
+											setState(_linkedVolumeLevelId, _deviceIdEscaped, $("#DialogVolumeLevelSlider").val());
+											dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+										}, 500);
+									}
+								},
+								stop: function(event, ui) {
+									clearInterval(DialogVolumeLevelSliderReadoutTimer);
+									setState(_linkedVolumeLevelId, _deviceIdEscaped, $("#DialogVolumeLevelSlider").val());
+									dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+								}
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+			}
+			//----Source
+			if(dialogStates["SOURCE"]){
+				switch(dialogStates["SOURCE"].type){
+					case "valueList":
+					var type = "Source";
+					dialogContent += "<label for='DialogSourceValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<select  class='iQontrolDialogValueList DialogSourceValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceValueList' id='DialogSourceValueList' data-native-menu='false'>";
+					for(val in dialogStates["SOURCE"].valueList){
+							dialogContent += "<option value='" + val + "'>" + _(dialogStates["SOURCE"].valueList[val]) + "</option>";
+						}
+					dialogContent += "</select>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedSourceId = dialogLinkedStateIds["SOURCE"];
+						var updateFunction = function(){
+							var source = getStateObject(_linkedSourceId);
+							if (source){
+								if(typeof source.val != udef) {
+									var val = source.val.toString();
+									$("#DialogSourceValueList").val(val);
+								}
+								$("#DialogSourceValueList").selectmenu('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedSourceId].push(updateFunction);
+						var bindingFunction = function(){
+							$('.DialogSourceValueList').on('change', function(e) {
+								setState(_linkedSourceId, _deviceIdEscaped, $("#DialogSourceValueList option:selected").val());
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+					break;
+
+					case "string":
+					var type = "Source";
+					dialogContent += "<label for='DialogSourceString' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<textarea class='iQontrolDialogString Source' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceString' id='DialogSourceString'></textarea>";
+					if (!dialogStates["SOURCE"].readonly && !dialogReadonly) {
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogSourceStringSubmit' id='DialogSourceStringSubmit'>" + _("Submit") + "</a>";
+					}
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedSourceId = dialogLinkedStateIds["SOURCE"];
+						var updateFunction = function(){
+							var source = getStateObject(_linkedSourceId);
+							if (source){
+								$("#DialogSourceString").val(source.val);
+								$("#DialogSourceString").textinput('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedSourceId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogSourceStringSubmit').on('click', function(e) {
+								setState(_linkedSourceId, _deviceIdEscaped, $("#DialogSourceString").val(), true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+					break;
+				}
+			}
+			//----Playlist
+			if(dialogStates["PLAYLIST"]){
+				switch(dialogStates["PLAYLIST"].type){
+					case "valueList":
+					var type = "Playlist";
+					dialogContent += "<label for='DialogPlaylistValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<select  class='iQontrolDialogValueList DialogPlaylistValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistValueList' id='DialogPlaylistValueList' data-native-menu='false'>";
+					for(val in dialogStates["PLAYLIST"].valueList){
+							dialogContent += "<option value='" + val + "'>" + _(dialogStates["PLAYLIST"].valueList[val]) + "</option>";
+						}
+					dialogContent += "</select>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedPlaylistId = dialogLinkedStateIds["PLAYLIST"];
+						var updateFunction = function(){
+							var playlist = getStateObject(_linkedPlaylistId);
+							if (playlist){
+								if(typeof playlist.val != udef) {
+									var val = playlist.val.toString();
+									$("#DialogPlaylistValueList").val(val);
+								}
+								$("#DialogPlaylistValueList").selectmenu('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedPlaylistId].push(updateFunction);
+						var bindingFunction = function(){
+							$('.DialogPlaylistValueList').on('change', function(e) {
+								setState(_linkedPlaylistId, _deviceIdEscaped, $("#DialogPlaylistValueList option:selected").val());
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+					break;
+
+					case "string":
+					var type = "Playlist";
+					dialogContent += "<label for='DialogPlaylistString' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<textarea class='iQontrolDialogString Playlist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistString' id='DialogPlaylistString'></textarea>";
+					if (!dialogStates["PLAYLIST"].readonly && !dialogReadonly) {
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogPlaylistStringSubmit' id='DialogPlaylistStringSubmit'>" + _("Submit") + "</a>";
+					}
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedPlaylistId = dialogLinkedStateIds["PLAYLIST"];
+						var updateFunction = function(){
+							var playlist = getStateObject(_linkedPlaylistId);
+							if (playlist){
+								$("#DialogPlaylistString").val(playlist.val);
+								$("#DialogPlaylistString").textinput('refresh');
+							}
+						};
+						dialogUpdateFunctions[_linkedPlaylistId].push(updateFunction);
+						var bindingFunction = function(){
+							$('#DialogPlaylistStringSubmit').on('click', function(e) {
+								setState(_linkedPlaylistId, _deviceIdEscaped, $("#DialogPlaylistString").val(), true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+					break;
+				}
 			}
 			break;
 

@@ -527,6 +527,7 @@ body {
 
 #Dialog{
 	min-width: 300px;
+	max-width: 95%;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
@@ -554,6 +555,12 @@ body {
 	width: 100%;
 	height: 100%;
 	border: none;
+}
+.iQontrolDialogMediaText.artist{
+	font-weight: bold;
+}
+.iQontrolDialogMediaText.title{
+	font-style: italic;
 }
 .iQontrolDialogAdditionalInfoList{
 	list-style-position: outside;
@@ -584,6 +591,9 @@ body {
 }
 .fullWidthSlider .ui-slider-track{
 	margin-left: 15px !important;
+}
+.fullWidthSlider .ui-mini .ui-slider-track{
+	margin-left: 0px !important;
 }
 .ui-slider-track .ui-btn.ui-slider-handle {
     font-size: .7em !important;

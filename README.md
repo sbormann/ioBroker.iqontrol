@@ -272,6 +272,18 @@ In addition to normal thermostat you can define:
 ### <img src="img/icons/play.png" width="32"> Scene:
 * **STATE**: *boolean* - displays, if the scene is active. If set to true, the scene will be started
 
+### <img src="img/icons/media_on.png" width="32"> Media-Player:
+* **STATE**: *string* - "play", "pause" or "stop" or *boolean* - true for play, false for stop
+    * In device options you can define the value that represents play, pause and stop
+* **COVER_URL**: *string* - url to cover-image
+* **ARTIST, ALBUM, TITLE**: *string* - self explaining
+* **TRACK_NUMBER**: *number* - self explaining
+* **PREV, REWIND, PLAY, PAUSE, STOP, FORWARD, NEXT**: *boolean* - will be set to true, if the corresponding button is pressed
+* **SHUFFLE, REPEAT, MUTE**: *boolean* - state for corresponding function
+* **DURATION, ELAPSED**: *number* - duration and elapsed time of actual title - used to show a seek-bar
+* **VOLUME**: *number* - for volume-slider
+* **SOURCE, PLAYLIST**: *value-list* - show select-menu to chose a source or a title from playlist
+
 ### <img src="img/icons/popup.png" width="32"> Popup:
 * **STATE**: *any* - can be used to display further information
 * **URL**: CONSTANT *string* - this url will be opened as iframe inside popup
@@ -305,6 +317,9 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### 1.0.2 development
+* (Sebastian Bormann) Added Media-Player.
 
 ### 1.0.1 (2020-06-10)
 * (Sebastian Bormann) Fixed month for timestamps.

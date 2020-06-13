@@ -488,6 +488,31 @@ var iQontrolRoles = {
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										} 
 									},
+	"iQontrolMedia": 				{
+										name: "Media-Player", 	
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "EJECT", "POWER_SWITCH", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/media_on.png",
+										options: {
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
+											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
+											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
+											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
+										} 
+									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
@@ -697,8 +722,30 @@ var channelDetectorMatchTable = {
 							}
 						},
     "media": 			{
-							matchingRole: null,
+							matchingRole: "iQontrolMedia",
 							matchingStates: {
+								"ACTUAL": "POWER_SWITCH",
+								"STATE": "STATE",
+								"PLAY": "PLAY",
+								"PAUSE": "PAUSE",
+								"STOP": "STOP",
+								"NEXT": "NEXT",
+								"PREV": "PREV",
+								"SHUFFLE": "SHUFFLE",
+								"REPEAT": "REPEAT",
+								"ARTIST": "ARTIST",
+								"ALBUM": "ALBUM",
+								"TITLE": "TITLE",
+								"EPISODE": "EPISODE",
+								"SEASON": "SEASON",
+								"COVER": "COVER_URL",
+								"DURATION": "DURATION",
+								"ELAPSED": "ELAPSED",
+								"SEEK": "ELAPSED",
+								"TRACK": "TRACK_NUMBER",
+								"VOLUME_ACTUAL": "VOLUME",
+								"VOLUME": "VOLUME",
+								"MUTE": "MUTE",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
