@@ -3502,7 +3502,7 @@ function renderView(viewId){
 									var updateFunction = function(){
 										var stateElapsed = getStateObject(_linkedElapsedId);
 										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").hasClass("active");
-										if (active && stateElapsed && typeof stateElapsed.val !== udef){
+										if (active && stateElapsed && typeof stateElapsed.val !== udef && !isNaN(stateElapsed.val)){
 											var val = secondsToHHMMSS(stateElapsed.val);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBText").html(val);
@@ -6133,7 +6133,7 @@ function renderDialog(deviceIdEscaped){
 			break;
 			
 			case "iQontrolMedia":
-			//----Cover
+			//----Cover Image
 			if(dialogStates["COVER_URL"]){
 				dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -6151,14 +6151,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Artist
 			if(dialogStates["ARTIST"]){
-				dialogContent += "<br><span class='iQontrolDialogMediaText artist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText artist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
 					var updateFunction = function(){
 						var stateArtist = getStateObject(_linkedArtistId);
 						if (stateArtist){
-							$("#DialogMediaArtist").html(stateArtist.plainText);
+							$("#DialogMediaArtist").html("<br>" + stateArtist.plainText);
+							if(stateArtist.plainText == "") $("#DialogMediaArtist").hide(); else $("#DialogMediaArtist").show();
 							dialogUpdateTimestamp(states[_linkedArtistId]);
 						}
 					};
@@ -6167,14 +6168,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Album
 			if(dialogStates["ALBUM"]){
-				dialogContent += "<br><span class='iQontrolDialogMediaText album' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText album' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedAlbumId = dialogLinkedStateIds["ALBUM"];
 					var updateFunction = function(){
 						var stateAlbum = getStateObject(_linkedAlbumId);
 						if (stateAlbum){
-							$("#DialogMediaAlbum").html(stateAlbum.plainText);
+							$("#DialogMediaAlbum").html("<br>" + stateAlbum.plainText);
+							if(stateAlbum.plainText == "") $("#DialogMediaAlbum").hide(); else $("#DialogMediaAlbum").show();
 							dialogUpdateTimestamp(states[_linkedAlbumId]);
 						}
 					};
@@ -6183,14 +6185,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Title
 			if(dialogStates["TITLE"]){ 
-				dialogContent += "<br><span class='iQontrolDialogMediaText title' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText title' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedTitleId = dialogLinkedStateIds["TITLE"];
 					var updateFunction = function(){
 						var stateTitle = getStateObject(_linkedTitleId);
 						if (stateTitle){
-							$("#DialogMediaTitle").html(stateTitle.plainText);
+							$("#DialogMediaTitle").html("<br>" + stateTitle.plainText);
+							if(stateTitle.plainText == "") $("#DialogMediaTitle").hide(); else $("#DialogMediaTitle").show();
 							dialogUpdateTimestamp(states[_linkedTitleId]);
 						}
 					};
@@ -6199,14 +6202,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Track
 			if(dialogStates["TRACK"]){ 
-				dialogContent += "<br><span class='iQontrolDialogMediaText track small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText track small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedTrackId = dialogLinkedStateIds["TITLE"];
 					var updateFunction = function(){
 						var stateTrack = getStateObject(_linkedTrackId);
 						if (stateTrack){
-							$("#DialogMediaTrack").html(_("Track") + "&nbsp;" + stateTrack.plainText);
+							$("#DialogMediaTrack").html("<br>" + _("Track") + "&nbsp;" + stateTrack.plainText);
+							if(stateTrack.plainText == "") $("#DialogMediaTrack").hide(); else $("#DialogMediaTrack").show();
 							dialogUpdateTimestamp(states[_linkedTrackId]);
 						}
 					};
@@ -6215,14 +6219,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Season
 			if(dialogStates["SEASON"]){ 
-				dialogContent += "<br><span class='iQontrolDialogMediaText season' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText season' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedSeasonId = dialogLinkedStateIds["SEASON"];
 					var updateFunction = function(){
 						var stateSeason = getStateObject(_linkedSeasonId);
 						if (stateSeason){
-							$("#DialogMediaSeason").html(stateSeason.plainText);
+							$("#DialogMediaSeason").html("<br>" + stateSeason.plainText);
+							if(stateSeason.plainText == "") $("#DialogMediaSeason").hide(); else $("#DialogMediaSeason").show();
 							dialogUpdateTimestamp(states[_linkedSeasonId]);
 						}
 					};
@@ -6231,14 +6236,15 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Episode
 			if(dialogStates["EPISODE"]){ 
-				dialogContent += "<br><span class='iQontrolDialogMediaText episode' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
+				dialogContent += "<span class='iQontrolDialogMediaText episode' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
 					var updateFunction = function(){
 						var stateEpisode = getStateObject(_linkedEpisodeId);
 						if (stateEpisode){
-							$("#DialogMediaEpisode").html(stateEpisode.plainText);
+							$("#DialogMediaEpisode").html("<br>" + stateEpisode.plainText);
+							if(stateEpisode.plainText == "") $("#DialogMediaEpisode").hide(); else $("#DialogMediaEpisode").show();
 							dialogUpdateTimestamp(states[_linkedEpisodeId]);
 						}
 					};
@@ -6249,7 +6255,7 @@ function renderDialog(deviceIdEscaped){
 			if(dialogStates["ELAPSED"]){
 				if(dialogStates["ELAPSED"].type == "level"){
 					var min = dialogStates["ELAPSED"].min || 0;
-					var max = dialogStates["ELAPSED"].max || 100;
+					var max = dialogStates["ELAPSED"].max || 200;
 					var step = "1";
 					if (max - min < 100) step = "0.1";
 					if (max - min < 10) step = "0.01";
@@ -6267,15 +6273,24 @@ function renderDialog(deviceIdEscaped){
 						var updateFunction = function(){
 							var stateElapsedLevel = getStateObject(_linkedElapsedLevelId);
 							var stateDurationLevel = getStateObject(_linkedDurationLevelId);							
-							if (stateDurationLevel){
-								$("#DialogElapsedLevelSlider").slider('option', 'max', stateDurationLevel.val);
+							if (stateDurationLevel && stateDurationLevel.val && !isNaN(stateDurationLevel.val)){
+								$("#DialogElapsedLevelSlider").prop('max', stateDurationLevel.val);
 								$("#DialogElapsedLevelSlider").slider('refresh');
 								$("#DialogDurationSpan").html(secondsToHHMMSS(stateDurationLevel.val));
+							} else {
+								$("#DialogDurationSpan").html("");
 							}
-							if (stateElapsedLevel){
+							if (stateElapsedLevel && stateElapsedLevel.val && !isNaN(stateElapsedLevel.val)){
 								$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val);
 								$("#DialogElapsedLevelSlider").slider('refresh');
+								$("#DialogElapsedLevelSlider").parent("div").show();
 								$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val));
+								$("#DialogElapsedSpan").show();
+								$("#DialogDurationSpan").show();
+							} else {
+								$("#DialogElapsedLevelSlider").parent("div").hide();
+								$("#DialogElapsedSpan").hide();
+								$("#DialogDurationSpan").hide();
 							}
 						};
 						dialogUpdateFunctions[_linkedElapsedLevelId].push(updateFunction);
