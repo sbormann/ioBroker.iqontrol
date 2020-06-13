@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.0.1",
+        "version": "1.1.0",
         "news": {
+            "1.1.0": {
+                "en": "Added Media-Player."
+            },
             "1.0.1": {
                 "en": "Fixed month for timestamps, You can now chose if values are linked states or constants, Added the ability to use variables in device-names.",
                 "de": "Fester Monat für Zeitstempel. Sie können jetzt auswählen, ob Werte verknüpfte Zustände oder Konstanten sind. Es wurde die Möglichkeit hinzugefügt, Variablen in Gerätenamen zu verwenden.",

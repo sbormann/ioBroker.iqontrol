@@ -318,7 +318,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 1.0.2 development
+### 1.1.0 (2020-06-13)
 * (Sebastian Bormann) Added Media-Player.
 
 ### 1.0.1 (2020-06-10)

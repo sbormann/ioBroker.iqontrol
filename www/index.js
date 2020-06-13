@@ -1620,6 +1620,41 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 	} else if (callback) callback();
 }
 
+function toggleMedia(linkedStateId, deviceIdEscaped, callback){
+	var state = getStateObject(linkedStateId);
+	var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
+	var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
+	var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
+	var deviceId = unescape(deviceIdEscaped);
+	var device = getDevice(deviceId);
+	var deviceReadonly = false;
+	if(getDeviceOptionValue(device, "readonly") == "true") deviceReadonly = true;
+	if(state && deviceReadonly == false){
+		var linkedPlayId = getLinkedStateId(device, "PLAY", deviceId + ".PLAY");
+		var linkedPauseId = getLinkedStateId(device, "PAUSE", deviceId + ".PAUSE");
+		var linkedStopId = getLinkedStateId(device, "STOP", deviceId + ".STOP");
+		var statePlay = getStateObject(linkedPlayId);
+		var statePause = getStateObject(linkedPauseId);
+		var stateStop = getStateObject(linkedStopId);
+		if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+			if(statePause && statePause.type) {
+				setState(linkedPauseId, deviceIdEscaped, true, true);
+			} else if(stateStop && stateStop.type) { 
+				setState(linkedStopId, deviceIdEscaped, true, true);
+			}
+		} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+			if(statePlay && statePlay.type) {
+				setState(linkedPlayId, deviceIdEscaped, true, true);
+			}
+		} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+			if(statePlay && statePlay.type) {
+				setState(linkedPlayId, deviceIdEscaped, true, true);
+			}
+		} else { //Undefined
+		}
+	}
+}
+
 function startProgram(linkedStateId, deviceIdEscaped, callback){
 	console.log("Start");
 	console.log(linkedStateId);
@@ -3043,7 +3078,7 @@ function renderView(viewId){
 							break;
 
 							case "iQontrolMedia":
-							if(deviceLinkedStateIds["STATE"]) onclick = "toggleState(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
+							if(deviceLinkedStateIds["STATE"]) onclick = "toggleMedia(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/media_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/media_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
@@ -3378,12 +3413,10 @@ function renderView(viewId){
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
-									var _linkedStateId = deviceLinkedStateIds["STATE"];
 									var _linkedVolumeId = deviceLinkedStateIds["VOLUME"];
 									var updateFunction = function(){
 										var stateVolume = getStateObject(_linkedVolumeId);
-										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").hasClass("active");
-										if (active && stateVolume && typeof stateVolume.val !== udef){
+										if (stateVolume && typeof stateVolume.val !== udef){
 											var val = stateVolume.plainText;
 											var unit = stateVolume.unit;
 											if (!isNaN(val)) {
@@ -3398,7 +3431,6 @@ function renderView(viewId){
 										}
 									};
 									viewUpdateFunctions[_linkedVolumeId].push(updateFunction);
-									if (_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 								})(); //<--End Closure
 							}
 							break;
