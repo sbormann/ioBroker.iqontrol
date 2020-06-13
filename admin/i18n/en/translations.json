@@ -114,6 +114,7 @@
     "Heading": "Heading",
     "Hide device name": "Hide device name",
     "Hide device, if it is inactive": "Hide device, if it is inactive",
+    "Hide state, if the device is inactive": "Hide state, if the device is inactive",
     "Homematic-Thermostat": "Homematic-Thermostat",
     "Homepage": "Homepage",
     "However, this can be changed in options of the device.": "However, this can be changed in options of the device.",

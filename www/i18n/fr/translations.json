@@ -202,6 +202,7 @@
     "Helligkeitswerte": "Luminosité",
     "Hide device name": "Masquer le nom de l'appareil",
     "Hide device, if it is inactive": "Masquer l'appareil, s'il est inactif",
+    "Hide state, if the device is inactive": "Masquer l'état, si l'appareil est inactif",
     "Homematic-Thermostat": "Homematic-Thermostat",
     "Homepage": "Page d'accueil",
     "However, this can be changed in options of the device.": "Cependant, cela peut être modifié dans les options de l'appareil.",

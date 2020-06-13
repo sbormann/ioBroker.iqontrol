@@ -114,6 +114,7 @@
     "Heading": "所述标题栏",
     "Hide device name": "隐藏设备名称",
     "Hide device, if it is inactive": "隐藏设备（如果未激活）",
+    "Hide state, if the device is inactive": "隐藏状态（如果设备不活动）",
     "Homematic-Thermostat": "Homematic恒温器设备",
     "Homepage": "主页",
     "However, this can be changed in options of the device.": "但是，这可以在设备选项中更改。",

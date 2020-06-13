@@ -114,6 +114,7 @@
     "Heading": "Überschrift",
     "Hide device name": "Gerätenamen ausblenden",
     "Hide device, if it is inactive": "Gerät verstecken, wenn es inaktiv ist",
+    "Hide state, if the device is inactive": "Status ausblenden, wenn das Gerät inaktiv ist",
     "Homematic-Thermostat": "Homematic-Thermostat",
     "Homepage": "Homepage",
     "However, this can be changed in options of the device.": "Dieses Verhalten kann jedoch in den Optionen des Gerätes geändert werden.",

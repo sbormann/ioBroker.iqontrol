@@ -523,8 +523,11 @@ body {
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
+	display: block;
 }
-
+.iQontrolDeviceState.hideStateIfInactive:not(.active){
+	display: none;
+}
 #Dialog{
 	min-width: 300px;
 	max-width: 95%;

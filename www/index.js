@@ -36,6 +36,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -59,6 +60,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -80,6 +82,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
@@ -103,6 +106,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -123,6 +127,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -142,6 +147,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -162,6 +168,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -182,6 +189,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -202,6 +210,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -222,6 +231,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -242,12 +252,13 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
 										}
 									},
-	"iQontrolGarageDoor": 			{
+	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
 										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
@@ -261,6 +272,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -282,6 +294,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -303,6 +316,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -330,6 +344,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -355,6 +370,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -375,6 +391,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -396,6 +413,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -420,6 +438,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -439,6 +458,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -461,6 +481,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -483,6 +504,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -495,16 +517,19 @@ var iQontrolRoles = {
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
+											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
+											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
+											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -523,6 +548,7 @@ var iQontrolRoles = {
 											popupHeight: {name: "Popup Height [px]", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -539,6 +565,7 @@ var iQontrolRoles = {
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}
@@ -3344,6 +3371,38 @@ function renderView(viewId){
 							}
 							break;
 
+							case "iQontrolMedia":
+							if (deviceLinkedStateIds["VOLUME"]) {
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/volume.png' style='display:none;'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
+									var _linkedStateId = deviceLinkedStateIds["STATE"];
+									var _linkedVolumeId = deviceLinkedStateIds["VOLUME"];
+									var updateFunction = function(){
+										var stateVolume = getStateObject(_linkedVolumeId);
+										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").hasClass("active");
+										if (active && stateVolume && typeof stateVolume.val !== udef){
+											var val = stateVolume.plainText;
+											var unit = stateVolume.unit;
+											if (!isNaN(val)) {
+												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+											} 
+											if (stateVolume.plainText == stateVolume.val) val = val + unit;
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").hide();
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAText").html("");
+										}
+									};
+									viewUpdateFunctions[_linkedVolumeId].push(updateFunction);
+									if (_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+								})(); //<--End Closure
+							}
+							break;
+
 							default:
 							//Do nothing
 						}
@@ -3399,6 +3458,33 @@ function renderView(viewId){
 							}
 							break;
 
+							case "iQontrolMedia":
+							if (deviceLinkedStateIds["ELAPSED"]) {
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/time.png' style='display:none;'>";
+								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
+									var _linkedStateId = deviceLinkedStateIds["STATE"];
+									var _linkedElapsedId = deviceLinkedStateIds["ELAPSED"];
+									var updateFunction = function(){
+										var stateElapsed = getStateObject(_linkedElapsedId);
+										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").hasClass("active");
+										if (active && stateElapsed && typeof stateElapsed.val !== udef){
+											var val = secondsToHHMMSS(stateElapsed.val);
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBIcon").show();
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBText").html(val);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBIcon").hide();
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBText").html("");
+										}
+									};
+									viewUpdateFunctions[_linkedElapsedId].push(updateFunction);
+									if (_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+								})(); //<--End Closure
+							}
+							break;
+
 							default:
 							//Do nothing
 						}
@@ -3412,7 +3498,7 @@ function renderView(viewId){
 							}
 						deviceContent += "</div>";
 						//--State
-						deviceContent += "<div class='iQontrolDeviceState' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+						deviceContent += "<div class='iQontrolDeviceState" + ((getDeviceOptionValue(device, "hideStateIfInactive") == "true")?" hideStateIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 							switch(device.commonRole){
 								case "iQontrolView": 
 								//Do nothing
@@ -3444,12 +3530,14 @@ function renderView(viewId){
 													active = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else {
 													active = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												}
@@ -3476,12 +3564,14 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											} else {
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 											}
@@ -3526,12 +3616,14 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 											} else {
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											}
@@ -3595,6 +3687,7 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
@@ -3602,6 +3695,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").addClass("active");
@@ -3609,6 +3703,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
@@ -3643,6 +3738,7 @@ function renderView(viewId){
 												resultText = _("opened");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
@@ -3653,6 +3749,7 @@ function renderView(viewId){
 												if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "<i>";
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
@@ -3663,6 +3760,7 @@ function renderView(viewId){
 												if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").addClass("active");
@@ -3706,6 +3804,7 @@ function renderView(viewId){
 												resultText = _("closed");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -3716,6 +3815,7 @@ function renderView(viewId){
 												resultText = _("opened");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -3726,6 +3826,7 @@ function renderView(viewId){
 												resultText = _("opening");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -3736,6 +3837,7 @@ function renderView(viewId){
 												resultText = _("closing");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -3747,6 +3849,7 @@ function renderView(viewId){
 												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").addClass("active");
@@ -3780,6 +3883,7 @@ function renderView(viewId){
 												resultText = state.plainText;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");											
@@ -3788,6 +3892,7 @@ function renderView(viewId){
 													active = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");											
@@ -3795,6 +3900,7 @@ function renderView(viewId){
 													active = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");											
@@ -3835,6 +3941,7 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
@@ -3845,6 +3952,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
@@ -3855,6 +3963,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
@@ -3865,6 +3974,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").addClass("active");
@@ -3875,6 +3985,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
@@ -3885,6 +3996,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
@@ -3944,6 +4056,7 @@ function renderView(viewId){
 												active = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").addClass("active");
@@ -3953,6 +4066,7 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
@@ -3962,6 +4076,7 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
@@ -3971,6 +4086,7 @@ function renderView(viewId){
 												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");

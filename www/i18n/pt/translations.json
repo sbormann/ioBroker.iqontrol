@@ -202,6 +202,7 @@
     "Helligkeitswerte": "Brilho",
     "Hide device name": "Ocultar nome do dispositivo",
     "Hide device, if it is inactive": "Ocultar dispositivo, se estiver inativo",
+    "Hide state, if the device is inactive": "Ocultar estado, se o dispositivo estiver inativo",
     "Homematic-Thermostat": "Homematic-Termostato",
     "Homepage": "Página inicial",
     "However, this can be changed in options of the device.": "No entanto, isso pode ser alterado nas opções do dispositivo.",

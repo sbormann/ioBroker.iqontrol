@@ -202,6 +202,7 @@
     "Helligkeitswerte": "Яркость",
     "Hide device name": "Скрыть имя устройства",
     "Hide device, if it is inactive": "Скрыть устройство, если оно неактивно",
+    "Hide state, if the device is inactive": "Скрыть состояние, если устройство неактивно",
     "Homematic-Thermostat": "Homematic-Термостат",
     "Homepage": "Домашняя страница",
     "However, this can be changed in options of the device.": "Однако это можно изменить в настройках устройства.",
