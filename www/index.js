@@ -2846,9 +2846,11 @@ function renderView(viewId){
 			//--Get viewLinksToOtherViews
 			if (device.nativeLinkedView && device.nativeLinkedView != "") { //Link to other view
 				var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
-				var deviceLinkedViewName = getView(deviceLinkedViewId).commonName;
-				viewLinksToOtherViews.push(deviceLinkedViewId);
-				viewPressureMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewPressureMenu").popup("close"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = ' + (viewLinksToOtherViews.length - 1) + '; renderView(unescape("' + escape(deviceLinkedViewId) + '"));'};
+				if (deviceLinkedViewId && typeof getView(deviceLinkedViewId) !== udef && getView(deviceLinkedViewId) && typeof getView(deviceLinkedViewId).commonName !== udef){
+					var deviceLinkedViewName = getView(deviceLinkedViewId).commonName;
+					viewLinksToOtherViews.push(deviceLinkedViewId);
+					viewPressureMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewPressureMenu").popup("close"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = ' + (viewLinksToOtherViews.length - 1) + '; renderView(unescape("' + escape(deviceLinkedViewId) + '"));'};
+				}
 			}
 			//--PressureIndicator
 			viewContent += "<div class='iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
