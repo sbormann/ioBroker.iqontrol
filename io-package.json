@@ -4,7 +4,16 @@
         "version": "1.1.0",
         "news": {
             "1.1.0": {
-                "en": "Added Media-Player."
+                "en": "Added Media-Player.",
+                "de": "Media-Player hinzugefügt.",
+                "ru": "Добавлен медиа-плеер.",
+                "pt": "Adicionado Media-Player.",
+                "nl": "Mediaspeler toegevoegd.",
+                "fr": "Ajout de Media-Player.",
+                "it": "Aggiunto Media-Player.",
+                "es": "Reproductor multimedia agregado.",
+                "pl": "Dodano Media-Player.",
+                "zh-cn": "添加了媒体播放器。"
             },
             "1.0.1": {
                 "en": "Fixed month for timestamps, You can now chose if values are linked states or constants, Added the ability to use variables in device-names.",

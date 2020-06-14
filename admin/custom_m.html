@@ -170,6 +170,43 @@
 			</div>
 		</div>
 	</div>
+	<br>
+	<div class="row">
+		<div class="col s12 tableTargetValues">
+			<div class="row">
+				<h6 class="translate">Target-Value-List:</h6>
+				<span class="translate" style="font-size: 75%;">(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)</span>
+			</div>
+			<div class="row">
+				<div class="col s2 m1 l1 center">
+					<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+						<i class="material-icons">add</i>
+					</button>
+				</div>
+			</div>
+			<div class="col s12 m12 l12">
+				<table class="table-values" style="width: 90%;">
+					<thead>
+						<tr>
+							<th data-name="key" class="translate">Key</th>
+							<th data-name="value" class="translate">Target-Value</th>
+							<th data-name="value" class="translate">Target-Datapoint ID</th>
+							<th data-buttons="up down delete" style="width:150px;"></th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="input-field col s12 m12 l12">
+			<input type="checkbox" class="enableOnChange" data-field="showOnlyTargetValues">
+			<span class="translate">Show only these keys in dropdown-fiels</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(otherwise all keys from the value-list are shown in drop-downs)</span>
+		</div>
+	</div>
 </script>
 
 <script type="text/javascript">
@@ -177,6 +214,7 @@
 
 	//Declarations
 	var states = {};
+	var targetValues = {};
 
 	//Translations
 	$.get("adapter/iqontrol/words.js", function(script) {
@@ -203,7 +241,9 @@
 				type:			(obj && obj.common && obj.common.type) || "",
 				role:			(obj && obj.common && obj.common.role) || "",
 				targetValueId:	"",
-				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states)
+				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states),
+				targetValues:	"",
+				showOnlyTargetValues: false
 			};
 		}
 	}
@@ -237,6 +277,31 @@
 			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-add').on('click', function(){
 				tableStatesAdd(adapter);
 			});
+			//Add targetValues to tableTargetValues
+			if(values.targetValues){
+				//--Check format of valueList
+				var targetValuesListString = values.targetValues;
+				if (typeof targetValuesListString !== "object"){
+					if (tryParseJSON(targetValuesListString) == false){
+						targetValuesListString = '{"' + targetValuesListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+						if (tryParseJSON(targetValuesListString) == false) {
+							values.targetValues = {};
+						} else {
+							values.targetValues = tryParseJSON(targetValuesListString);	
+						}		
+					} else {
+						values.targetValues = tryParseJSON(targetValuesListString);	
+					}
+				}
+				for (key in values.targetValues){ 
+					if(typeof key != 'undefined') tableTargetValuesAdd(adapter, key, values.targetValues[key].targetValue, values.targetValues[key].targetDatapointId);
+				}
+				changeTableTargetValues(adapter);
+			}
+			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-button-add').on('click', function(){
+				tableTargetValuesAdd(adapter);
+			});
+			//Enable onChange
 			$('.enableOnChange').on('change', function(){
 				$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true);			
 			});
@@ -247,10 +312,12 @@
 						var _currentObj = gMain.objects[_currentId];
 						var _adapter = adapter;
 						var _states = states[_adapter];
+						var _targetValues = targetValues[_adapter];
 						setTimeout(function(){
 							if (typeof _currentObj.common.custom == 'undefined') _currentObj.common.custom = {};
 							if (typeof _currentObj.common.custom[_adapter] == 'undefined') _currentObj.common.custom[_adapter] = {};
 							_currentObj.common.custom[_adapter].states = _states;
+							_currentObj.common.custom[_adapter].targetValues = _targetValues;
 							gMain.socket.emit('setObject', _currentId, _currentObj, function(err){
 								if(err) alert("Errir saving Object");
 							});
@@ -260,6 +327,7 @@
 			}); 
         }
     }
+	//Table States
 	function tableStatesAdd(adapter, key, value){
 		key = key || "";
 		value = value || "";
@@ -289,6 +357,42 @@
 			if(key != "") states[adapter][key] = value;
 		});
 		console.log("changeTableStates: " + JSON.stringify(states[adapter]));
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true).trigger('change');  //to enable Save-Button
+	}
+
+	//Table TargetValues
+	function tableTargetValuesAdd(adapter, key, targetValue, targetDatapointId){
+		key = key || "";
+		targetValue = targetValue || "";
+		targetDatapointId = targetDatapointId || "";
+		var $table = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-values');
+		var line = $table.data('lines') || 0;
+		var tableLine = "<tr class='table-line'  data-instance='" + adapter + "' data-line='" + line + "'>";
+		tableLine += "		<td><input type='text' class='table-input key' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_key' id='" + adapter + "_tableTargetValues_line" + line + "_key' value='" + key + "' /></td>";
+		tableLine += "		<td><input type='text' class='table-input targetValue' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_value' id='" + adapter + "_tableTargetValues_line" + line + "_value' value='" + targetValue + "' /></td>";
+		tableLine += "		<td><input type='text' class='table-input targetDatapointId' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_value' id='" + adapter + "_tableTargetValues_line" + line + "_value' value='" + targetDatapointId + "' /></td>";
+		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableTargetValues_line" + line + "_delete'><i class='material-icons'>delete</i></button></td>";		
+		tableLine += "</tr>";
+		$table.append(tableLine);
+		$table.data('lines', line + 1);
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-button-delete').off('click').on('click', function(){
+			var line = $(this).data('line');
+			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-line[data-line="' + line + '"').remove();
+			changeTableTargetValues(adapter);
+		});
+		$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input').off('focusout').on('focusout', function(){changeTableTargetValues(adapter);});
+	}
+	function changeTableTargetValues(adapter){
+		var $lines = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-line');
+		targetValues[adapter] = {};
+		$lines.each(function(index){
+			var line = $(this).data('line');
+			var key = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.key[data-line="' + line + '"]').val();
+			var targetValue = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.targetValue[data-line="' + line + '"]').val();
+			var targetDatapointId = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.targetDatapointId[data-line="' + line + '"]').val();
+			if(key != "") targetValues[adapter][key] = {targetValue: targetValue, targetDatapointId: targetDatapointId};
+		});
+		console.log("changeTableTargetValues: " + JSON.stringify(targetValues[adapter]));
 		$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true).trigger('change');  //to enable Save-Button
 	}
 

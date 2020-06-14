@@ -1074,6 +1074,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		if(typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
 		if(typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
 		if(typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
+		if(typeof result.custom.targetValues !== udef && result.custom.targetValues !== "") result.readonly = false;
 		//--Add min and max
 		if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if(typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
@@ -1268,6 +1269,27 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			|| (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
 			|| result.type == 'string') { //If the valueList contains as many entrys as steps between min and max the type is a valueList
 					result.type = "valueList";
+			}
+		}
+		//--Add TargetValues
+		if(typeof result.custom.targetValues && result.custom.targetValues) {
+			var targetValuesSet = true;
+			var targetValues = result.custom.targetValues;
+			//Check format of targetValues
+			if (typeof targetValues !== "object"){
+				if (tryParseJSON(targetValues) == false){
+					targetValues = '{"' + targetValues.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+					if (tryParseJSON(targetValues) == false) {
+						targetValuesSet = false;	
+					} else {
+						targetValues = tryParseJSON(targetValues);	
+					}		
+				} else {
+					targetValues = tryParseJSON(targetValues);	
+				}
+			}
+			if(targetValuesSet){
+				result.targetValues = Object.assign({}, targetValues);
 			}
 		}
 		//--Try to set a plainText, if it has not been set before
@@ -1480,8 +1502,32 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 				//TargetValueId
 				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && usedObjects[_stateId].common.custom !== null && typeof usedObjects[_stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[_stateId].common.custom[namespace].targetValueId !== udef && usedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
 					var _targetValueId = usedObjects[_stateId].common.custom[namespace].targetValueId;
+					console.log("       Changed target datapoint id to " + _targetValueId + " because targetValueId was set.");
 				} else {
 					var _targetValueId = _stateId;
+				}
+				//TargetValues
+				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && usedObjects[_stateId].common.custom !== null && typeof usedObjects[_stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[_stateId].common.custom[namespace].targetValues !== udef && usedObjects[_stateId].common.custom[namespace].targetValues !== "") {
+					var targetValuesSet = true;
+					var targetValues = usedObjects[_stateId].common.custom[namespace].targetValues;
+					//Check format of targetValues
+					if (typeof targetValues !== "object"){
+						if (tryParseJSON(targetValues) == false){
+							targetValues = '{"' + targetValues.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+							if (tryParseJSON(targetValues) == false) {
+								targetValuesSet = false;	
+							} else {
+								targetValues = tryParseJSON(targetValues);	
+							}		
+						} else {
+							targetValues = tryParseJSON(targetValues);	
+						}
+					}
+					if (targetValuesSet && typeof targetValues[newValue] !== udef && typeof targetValues[newValue].targetValue !== udef && targetValues[newValue].targetValue !== "" && typeof targetValues[newValue].targetDatapointId !== udef && targetValues[newValue].targetDatapointId !== ""){						
+						_targetValueId = targetValues[newValue].targetDatapointId;
+						newValue = targetValues[newValue].targetValue;
+						console.log("       Changed target datapoint id to " + _targetValueId + " and value to " + newValue + " because key was found in targetValues List.");
+					}
 				}
 				deliverState(_targetValueId, {val: newValue, ack: false} , function(error){
 					setTimeout(function(){
@@ -5058,8 +5104,9 @@ function renderDialog(deviceIdEscaped){
 					dialogContent += "<label for='DialogStateValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 					for(val in dialogStates["STATE"].valueList){
-							dialogContent += "<option value='" + val + "'>" + _(dialogStates["STATE"].valueList[val]) + "</option>";
-						}
+						if (dialogStates["STATE"].targetValues && dialogStates["STATE"].custom.showOnlyTargetValues && !dialogStates["STATE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["STATE"].valueList[val]) + "</option>";
+					}
 					dialogContent += "</select>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -5069,9 +5116,15 @@ function renderDialog(deviceIdEscaped){
 							if (state){
 								if(typeof state.val != udef) {
 									var val = state.val.toString();
-									$("#DialogStateValueList").val(val);
+									$("#DialogStateValueList").val(val).selectmenu('refresh');
+									if($("#DialogStateValueList").val() !== val){ //val is not in option-list
+										if(state.valueList && typeof state.valueList[val] !== udef){
+											$("#DialogStateValueList").prev("span").html(state.valueList[val]); 
+										} else {
+											$("#DialogStateValueList").prev("span").html(val); 
+										}
+									}
 								}
-								$("#DialogStateValueList").selectmenu('refresh');
 								dialogUpdateTimestamp(states[_linkedStateId]);
 							}
 						};
@@ -5459,17 +5512,25 @@ function renderDialog(deviceIdEscaped){
 				dialogContent += "<label for='DialogEffectValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
 				dialogContent += "<select  class='iQontrolDialogValueList DialogEffectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["EFFECT"].readonly || dialogReadonly).toString() + "' name='DialogEffectValueList' id='DialogEffectValueList' data-native-menu='false'>";
 				for(val in dialogStates["EFFECT"].valueList){
-						dialogContent += "<option value='" + val + "'>" + _(dialogStates["EFFECT"].valueList[val]) + "</option>";
-					}
+					if (dialogStates["EFFECT"].targetValues && dialogStates["EFFECT"].custom.showOnlyTargetValues && !dialogStates["EFFECT"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+					dialogContent += "<option value='" + val + "'>" + _(dialogStates["EFFECT"].valueList[val]) + "</option>";
+				}
 				dialogContent += "</select>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedEffectId = dialogLinkedStateIds["EFFECT"];
 					var updateFunction = function(){
-						var stateEffectId = getStateObject(_linkedEffectId);
-						if (stateEffectId){
-							$("#DialogEffectValueList").val(stateEffectId.val.toString());
-							$("#DialogEffectValueList").selectmenu('refresh');
+						var stateEffect = getStateObject(_linkedEffectId);
+						if (stateEffect){
+							var val = stateEffect.val.toString();
+							$("#DialogEffectValueList").val(val).selectmenu('refresh');
+							if($("#DialogEffectValueList").val() !== val){ //val is not in option-list
+								if(stateEffect.valueList && typeof stateEffect.valueList[val] !== udef){
+									$("#DialogEffectValueList").prev("span").html(stateEffect.valueList[val]); 
+								} else {
+									$("#DialogEffectValueList").prev("span").html(val); 
+								}
+							}
 						}
 					};
 					dialogUpdateFunctions[_linkedEffectId].push(updateFunction);
@@ -5571,8 +5632,9 @@ function renderDialog(deviceIdEscaped){
 					dialogContent += "<label for='DialogThermostatControlModeValueList' ><image src='./images/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogThermostatControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeValueList' id='DialogThermostatControlModeValueList' data-native-menu='false'>";
 					for(val in dialogStates["CONTROL_MODE"].valueList){
-							dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
-						}
+						if (dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
+					}
 					dialogContent += "</select>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -5582,9 +5644,15 @@ function renderDialog(deviceIdEscaped){
 								var stateControlMode = getStateObject(_linkedControlModeId);
 								if(typeof stateControlMode.val != udef) {
 									var val = stateControlMode.val.toString();
-									$("#DialogThermostatControlModeValueList").val(val);
+									$("#DialogThermostatControlModeValueList").val(val).selectmenu('refresh');
+									if($("#DialogThermostatControlModeValueList").val() !== val){ //val is not in option-list
+										if(stateControlMode.valueList && typeof stateControlMode.valueList[val] !== udef){
+											$("#DialogThermostatControlModeValueList").prev("span").html(stateControlMode.valueList[val]); 
+										} else {
+											$("#DialogThermostatControlModeValueList").prev("span").html(val); 
+										}
+									}
 								}
-								$("#DialogThermostatControlModeValueList").selectmenu('refresh');
 							}
 						};
 						dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
@@ -6167,6 +6235,7 @@ function renderDialog(deviceIdEscaped){
 				dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/variable.png' style='width:16px; height:16px;' />&nbsp;" + _("Operation Mode") + ":</label>";
 				dialogContent += "<select class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
 				for(val in dialogStates["CONTROL_MODE"].valueList){
+						if (dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
 						dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
 					}
 				dialogContent += "</select>";
@@ -6178,9 +6247,15 @@ function renderDialog(deviceIdEscaped){
 						if (stateControlMode){
 							if(typeof stateControlMode.val != udef) {
 								var val = stateControlMode.val.toString();
-								$("#DialogControlModeValueList").val(val);
+								$("#DialogControlModeValueList").val(val).selectmenu('refresh');
+								if($("#DialogControlModeValueList").val() !== val){ //val is not in option-list
+									if(stateControlMode.valueList && typeof stateControlMode.valueList[val] !== udef){
+										$("#DialogControlModeValueList").prev("span").html(stateControlMode.valueList[val]); 
+									} else {
+										$("#DialogControlModeValueList").prev("span").html(val); 
+									}
+								}
 							}
-							$("#DialogControlModeValueList").selectmenu('refresh');
 							dialogUpdateTimestamp(states[_linkedControlModeId]);
 						}
 					};
@@ -6858,8 +6933,9 @@ function renderDialog(deviceIdEscaped){
 					dialogContent += "<label for='DialogSourceValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogSourceValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceValueList' id='DialogSourceValueList' data-native-menu='false'>";
 					for(val in dialogStates["SOURCE"].valueList){
-							dialogContent += "<option value='" + val + "'>" + _(dialogStates["SOURCE"].valueList[val]) + "</option>";
-						}
+						if (dialogStates["SOURCE"].targetValues && dialogStates["SOURCE"].custom.showOnlyTargetValues && !dialogStates["SOURCE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["SOURCE"].valueList[val]) + "</option>";
+					}
 					dialogContent += "</select>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -6869,9 +6945,15 @@ function renderDialog(deviceIdEscaped){
 							if (source){
 								if(typeof source.val != udef) {
 									var val = source.val.toString();
-									$("#DialogSourceValueList").val(val);
+									$("#DialogSourceValueList").val(val).selectmenu('refresh');
+									if($("#DialogSourceValueList").val() !== val){ //val is not in option-list
+										if(source.valueList && typeof source.valueList[val] !== udef){
+											$("#DialogSourceValueList").prev("span").html(source.valueList[val]); 
+										} else {
+											$("#DialogSourceValueList").prev("span").html(val); 
+										}
+									}
 								}
-								$("#DialogSourceValueList").selectmenu('refresh');
 							}
 						};
 						dialogUpdateFunctions[_linkedSourceId].push(updateFunction);
@@ -6920,8 +7002,9 @@ function renderDialog(deviceIdEscaped){
 					dialogContent += "<label for='DialogPlaylistValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 					dialogContent += "<select  class='iQontrolDialogValueList DialogPlaylistValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistValueList' id='DialogPlaylistValueList' data-native-menu='false'>";
 					for(val in dialogStates["PLAYLIST"].valueList){
-							dialogContent += "<option value='" + val + "'>" + _(dialogStates["PLAYLIST"].valueList[val]) + "</option>";
-						}
+						if (dialogStates["PLAYLIST"].targetValues && dialogStates["PLAYLIST"].custom.showOnlyTargetValues && !dialogStates["PLAYLIST"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["PLAYLIST"].valueList[val]) + "</option>";
+					}
 					dialogContent += "</select>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -6931,9 +7014,15 @@ function renderDialog(deviceIdEscaped){
 							if (playlist){
 								if(typeof playlist.val != udef) {
 									var val = playlist.val.toString();
-									$("#DialogPlaylistValueList").val(val);
+									$("#DialogPlaylistValueList").val(val).selectmenu('refresh');
+									if($("#DialogPlaylistValueList").val() !== val){ //val is not in option-list
+										if(playlist.valueList && typeof playlist.valueList[val] !== udef){
+											$("#DialogPlaylistValueList").prev("span").html(playlist.valueList[val]); 
+										} else {
+											$("#DialogPlaylistValueList").prev("span").html(val); 
+										}
+									}
 								}
-								$("#DialogPlaylistValueList").selectmenu('refresh');
 							}
 						};
 						dialogUpdateFunctions[_linkedPlaylistId].push(updateFunction);

@@ -530,7 +530,7 @@ body {
 }
 #Dialog{
 	min-width: 300px;
-	max-width: 95%;
+	max-width: 100%;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
