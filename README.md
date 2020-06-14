@@ -320,6 +320,7 @@ In addition to normal thermostat you can define:
 
 ### 1.1.1 development
 * (Sebastian Bormann) Some fixes, styling and enhancements for Media-Player.
+* (Sebastian Bormann) Maquee is only restarting, if the value of a state has really changed
 
 ### 1.1.0 (2020-06-13)
 * (Sebastian Bormann) Added Media-Player.
