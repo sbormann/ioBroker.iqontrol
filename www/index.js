@@ -1621,12 +1621,12 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 }
 
 function toggleMedia(linkedStateId, deviceIdEscaped, callback){
+	var deviceId = unescape(deviceIdEscaped);
+	var device = getDevice(deviceId);
 	var state = getStateObject(linkedStateId);
 	var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
 	var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
 	var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
-	var deviceId = unescape(deviceIdEscaped);
-	var device = getDevice(deviceId);
 	var deviceReadonly = false;
 	if(getDeviceOptionValue(device, "readonly") == "true") deviceReadonly = true;
 	if(state && deviceReadonly == false){
@@ -2608,7 +2608,7 @@ function renderToolbar(){
 		toolbarPressureMenuLinksToOtherViews[toolbarIndex] = [];
 		var view = getView(linkedViewId);
 		if (view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
-			if (typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
+			if (typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
 				var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 				var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
 				toolbarPressureMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarPressureMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarPressureMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarPressureMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
@@ -4063,6 +4063,7 @@ function renderView(viewId){
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedPowerSwitchId = deviceLinkedStateIds["POWER_SWITCH"];
 										var _linkedArtistId = deviceLinkedStateIds["ARTIST"];
 										var _linkedAlbumId = deviceLinkedStateIds["ALBUM"];
 										var _linkedTitleId = deviceLinkedStateIds["TITLE"];
@@ -4075,6 +4076,7 @@ function renderView(viewId){
 											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
 											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
 											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+											var statePowerSwitch = getStateObject(_linkedPowerSwitchId);
 											var artist = getStateObject(_linkedArtistId);
 											var album = getStateObject(_linkedAlbumId);
 											var title = getStateObject(_linkedTitleId);
@@ -4095,32 +4097,59 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
 											} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
-												active = false;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
+													active = true;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												} else { //Power off
+													active = false;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												}
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
 											} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
-												active = false;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
+													active = true;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												} else { //Power off
+													active = false;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												}
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").addClass("active");
 											} else { //Undefined
-												active = false;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
+													active = true;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												} else { //Power off
+													active = false;
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												}
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.play").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
@@ -4143,6 +4172,7 @@ function renderView(viewId){
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedPowerSwitchId) viewUpdateFunctions[_linkedPowerSwitchId].push(updateFunction);
 										if(_linkedArtistId) viewUpdateFunctions[_linkedArtistId].push(updateFunction);
 										if(_linkedAlbumId) viewUpdateFunctions[_linkedAlbumId].push(updateFunction);
 										if(_linkedTitleId) viewUpdateFunctions[_linkedTitleId].push(updateFunction);
@@ -6142,11 +6172,18 @@ function renderDialog(deviceIdEscaped){
 					var updateFunction = function(){
 						var stateCoverUrl = getStateObject(_linkedCoverUrlId);
 						if (stateCoverUrl){
-							$("#DialogMediaCoverImage").attr('src', stateCoverUrl.val);
+							$("#DialogMediaCoverImage").attr('src', (stateCoverUrl.val ? (stateCoverUrl.val + "?ts=" + new Date().getTime()) : ''));
 							dialogUpdateTimestamp(states[_linkedCoverUrlId]);
 						}
 					};
 					dialogUpdateFunctions[_linkedCoverUrlId].push(updateFunction);
+					//Because some devices always use the same cover-url but change the image itsself it should be reloaded when artist, album, track,... changes:
+					if (dialogLinkedStateIds["ARTIST"]) dialogUpdateFunctions[dialogLinkedStateIds["ARTIST"]].push(updateFunction);
+					if (dialogLinkedStateIds["ALBUM"]) dialogUpdateFunctions[dialogLinkedStateIds["ALBUM"]].push(updateFunction);
+					if (dialogLinkedStateIds["TITLE"]) dialogUpdateFunctions[dialogLinkedStateIds["TITLE"]].push(updateFunction);
+					if (dialogLinkedStateIds["TRACK"]) dialogUpdateFunctions[dialogLinkedStateIds["TRACK"]].push(updateFunction);
+					if (dialogLinkedStateIds["SEASON"]) dialogUpdateFunctions[dialogLinkedStateIds["SEASON"]].push(updateFunction);
+					if (dialogLinkedStateIds["EPISODE"]) dialogUpdateFunctions[dialogLinkedStateIds["EPISODE"]].push(updateFunction);
 				})(); //<--End Closure
 			}
 			//----Artist
@@ -6283,12 +6320,12 @@ function renderDialog(deviceIdEscaped){
 							if (stateElapsedLevel && stateElapsedLevel.val && !isNaN(stateElapsedLevel.val)){
 								$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val);
 								$("#DialogElapsedLevelSlider").slider('refresh');
-								$("#DialogElapsedLevelSlider").parent("div").show();
+								$("#DialogElapsedLevelSlider").parent("div").show(500);
 								$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val));
 								$("#DialogElapsedSpan").show();
 								$("#DialogDurationSpan").show();
 							} else {
-								$("#DialogElapsedLevelSlider").parent("div").hide();
+								$("#DialogElapsedLevelSlider").parent("div").hide(1000);
 								$("#DialogElapsedSpan").hide();
 								$("#DialogDurationSpan").hide();
 							}
@@ -6319,7 +6356,7 @@ function renderDialog(deviceIdEscaped){
 				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 				if(dialogStates["PREV"] && dialogStates["PREV"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPrevCheckbox' id='DialogMediaControlPrevCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlPrevCheckbox'><img src='./images/media_prev.png' alt='Previous' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlPrevCheckbox'><img src='./images/media_prev.png' alt='Previous' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["PREV"];
@@ -6347,7 +6384,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["REWIND"] && dialogStates["REWIND"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRewindCheckbox' id='DialogMediaControlRewindCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlRewindCheckbox'><img src='./images/media_rewind.png' alt='Previous' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlRewindCheckbox'><img src='./images/media_rewind.png' alt='Previous' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["REWIND"];
@@ -6375,7 +6412,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["PLAY"] && dialogStates["PLAY"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPlayCheckbox' id='DialogMediaControlPlayCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlPlayCheckbox'><img src='./images/media_play.png' alt='Play' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlPlayCheckbox'><img src='./images/media_play.png' alt='Play' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _device = device;
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -6419,7 +6456,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["PAUSE"] && dialogStates["PAUSE"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPauseCheckbox' id='DialogMediaControlPauseCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlPauseCheckbox'><img src='./images/media_pause.png' alt='Pause' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlPauseCheckbox'><img src='./images/media_pause.png' alt='Pause' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _device = device;
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -6463,7 +6500,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["STOP"] && dialogStates["STOP"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlStopCheckbox' id='DialogMediaControlStopCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlStopCheckbox'><img src='./images/media_stop.png' alt='Stop' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlStopCheckbox'><img src='./images/media_stop.png' alt='Stop' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _device = device;
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -6507,7 +6544,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["FORWARD"] && dialogStates["FORWARD"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlForwardCheckbox' id='DialogMediaControlForwardCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlForwardCheckbox'><img src='./images/media_forward.png' alt='Forward' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlForwardCheckbox'><img src='./images/media_forward.png' alt='Forward' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["FORWARD"];
@@ -6535,7 +6572,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["NEXT"] && dialogStates["NEXT"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlNextCheckbox' id='DialogMediaControlNextCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlNextCheckbox'><img src='./images/media_next.png' alt='Next' style='width:18px; height:18px;'></label>";
+					dialogContent += "<label for='DialogMediaControlNextCheckbox'><img src='./images/media_next.png' alt='Next' style='width:18px; height:18px; margin: 3px 0px -3px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["NEXT"];
@@ -6568,7 +6605,7 @@ function renderDialog(deviceIdEscaped){
 				dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 				if(dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlShuffleCheckbox' id='DialogMediaControlShuffleCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlShuffleCheckbox'><img src='./images/media_shuffle.png' alt='Shuffle' style='width:12px; height:12px;'></label>";
+					dialogContent += "<label for='DialogMediaControlShuffleCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_shuffle.png' alt='Shuffle' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["SHUFFLE"];
@@ -6600,7 +6637,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["REPEAT"] && dialogStates["REPEAT"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRepeatCheckbox' id='DialogMediaControlRepeatCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlRepeatCheckbox'><img src='./images/media_repeat.png' alt='Repeat' style='width:12px; height:12px;'></label>";
+					dialogContent += "<label for='DialogMediaControlRepeatCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_repeat.png' alt='Repeat' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["REPEAT"];
@@ -6632,7 +6669,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["MUTE"] && dialogStates["MUTE"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlMuteCheckbox' id='DialogMediaControlMuteCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlMuteCheckbox'><img src='./images/media_mute.png' alt='Mute' style='width:12px; height:12px;'></label>";
+					dialogContent += "<label for='DialogMediaControlMuteCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_mute.png' alt='Mute' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["MUTE"];
@@ -6664,7 +6701,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["EJECT"] && dialogStates["EJECT"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlEjectCheckbox' id='DialogMediaControlEjectCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlEjectCheckbox'><img src='./images/media_eject.png' alt='Eject' style='width:12px; height:12px;'></label>";
+					dialogContent += "<label for='DialogMediaControlEjectCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_eject.png' alt='Eject' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["EJECT"];
@@ -6696,7 +6733,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["POWER_SWITCH"] && dialogStates["POWER_SWITCH"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPowerSwitchCheckbox' id='DialogMediaControlPowerSwitchCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlPowerSwitchCheckbox'><img src='./images/media_power.png' alt='Power' style='width:12px; height:12px;'></label>";
+					dialogContent += "<label for='DialogMediaControlPowerSwitchCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_power.png' alt='Power' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["POWER_SWITCH"];
