@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.0",
+        "version": "1.1.1",
         "news": {
+            "1.1.1": {
+                "en": "Some fixes, styling and enhancements for Media-Player, Added option to hide play, pause and stop icon for Media-Player, Added function repeat one to Media-Player, Maquee is only restarting, if the value of a state has really changed, Fixed crash when some ids of linked views were missing, Added targetValues to custom configuration, wich allows to send changes of a state to different target-datapoints."
+            },
             "1.1.0": {
                 "en": "Added Media-Player.",
                 "de": "Media-Player hinzugefügt.",

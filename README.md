@@ -318,8 +318,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 1.1.1 development
+### 1.1.1 (2020-06-16)
 * (Sebastian Bormann) Some fixes, styling and enhancements for Media-Player.
+* (Sebastian Bormann) Added option to hide play, pause and stop icon for Media-Player.
+* (Sebastian Bormann) Added function repeat one to Media-Player.
 * (Sebastian Bormann) Maquee is only restarting, if the value of a state has really changed.
 * (Sebastian Bormann) Fixed crash when some ids of linked views were missing.
 * (Sebastian Bormann) Added targetValues to custom configuration, wich allows to send changes of a state to different target-datapoints.

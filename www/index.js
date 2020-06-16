@@ -520,6 +520,11 @@ var iQontrolRoles = {
 											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
 											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
 											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"}, 
+											hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"}, 
+											hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}, 
+											repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"}, 
+											repeatAllValue: {name: "Value of REPEAT for 'repeat all'", type: "text", default: "true"}, 
+											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -1089,9 +1094,9 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
 		if(result.role == "state" && usedObjects[linkedParentId] && typeof usedObjects[linkedParentId].common.role != udef && usedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
 			switch(parentRole = usedObjects[linkedParentId].common.role){
-					case "switch": case "sensor.alarm": case "sensor.alarm.fire":
-					result.role = parentRole;
-					break;
+				case "switch": case "sensor.alarm": case "sensor.alarm.fire":
+				result.role = parentRole;
+				break;
 			}
 		}
 		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
@@ -1264,7 +1269,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 					}
 				};
 			}
-			if(result.valueList[val]) result.plainText = _(result.valueList[val]); //Modify plainText if val matchs a valueList-Entry
+			if(typeof val !== udef && val !== null && result.valueList[val.toString()]) result.plainText = _(result.valueList[val]); //Modify plainText if val matchs a valueList-Entry
 			if (((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1)
 			|| (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
 			|| result.type == 'string') { //If the valueList contains as many entrys as steps between min and max the type is a valueList
@@ -1523,7 +1528,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 							targetValues = tryParseJSON(targetValues);	
 						}
 					}
-					if (targetValuesSet && typeof targetValues[newValue] !== udef && typeof targetValues[newValue].targetValue !== udef && targetValues[newValue].targetValue !== "" && typeof targetValues[newValue].targetDatapointId !== udef && targetValues[newValue].targetDatapointId !== ""){						
+					if (targetValuesSet && typeof newValue !== udef && newValue !== null && typeof targetValues[newValue.toString()] !== udef && typeof targetValues[newValue.toString()].targetValue !== udef && targetValues[newValue.toString()].targetValue !== "" && typeof targetValues[newValue.toString()].targetDatapointId !== udef && targetValues[newValue.toString()].targetDatapointId !== ""){						
 						_targetValueId = targetValues[newValue].targetDatapointId;
 						newValue = targetValues[newValue].targetValue;
 						console.log("       Changed target datapoint id to " + _targetValueId + " and value to " + newValue + " because key was found in targetValues List.");
@@ -2691,16 +2696,16 @@ function applyToolbarPressureMenu(){
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = toolbarPressureMenuForceOld[this] || 0;
-			console.debug("	PRESSURE change " + force + "|" + forceOld);
+			//console.debug("	PRESSURE change " + force + "|" + forceOld);
 			if (toolbarPressureMenuIgnorePressure || toolbarPressureMenuFallbackTimer) {
-				console.debug("	PRESSURE change ignore");
+				//console.debug("	PRESSURE change ignore");
 				return;
 			}
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
 			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
-				console.log("PRESSURE change start FALLBACK");
+				//console.log("PRESSURE change start FALLBACK");
 				if (toolbarPressureMenuFallbackTimer) {
 					clearInterval(toolbarPressureMenuFallbackTimer);
 					toolbarPressureMenuFallbackTimer = false;
@@ -2711,9 +2716,9 @@ function applyToolbarPressureMenu(){
 					var _that = that;
 					var _event = event;
 					toolbarPressureMenuFallbackTimer = setInterval(function(){
-						console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
+						//console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
 						if (toolbarPressureMenuIgnorePressure) {
-							console.log("	PRESSURE Fallback change ignore");
+							//console.log("	PRESSURE Fallback change ignore");
 						} else {
 							if (toolbarPressureMenuFallbackForce >= 1){
 								toolbarPressureMenuFallbackForce = 1;
@@ -2740,17 +2745,17 @@ function applyToolbarPressureMenu(){
 		only: null
 	});
 	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
+		//console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		toolbarPressureMenuStart();
 	});	
 	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
+		//console.log("PRESSURE end via TOUCHEND/MOUSEUP");
 		toolbarPressureMenuEnd();
 	});	
 }
 
 function toolbarPressureMenuStart(){
-	console.log("PRESSURE start function");
+	//console.log("PRESSURE start function");
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	toolbarPressureMenuForceOld[this] = 0;
 	toolbarPressureMenuIgnorePressure = false;
@@ -2764,11 +2769,11 @@ function toolbarPressureMenuChange(force, event, that){
 	forceOld = (toolbarPressureMenuForceOld[that] - 0.2) * 1.25;
 	if (toolbarPressureMenuIgnorePressure) return;
 	if (force > 0.5 && !toolbarPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
-		console.log("PRESSURE changeFunction startDeepPress");
+		//console.log("PRESSURE changeFunction startDeepPress");
 		toolbarPressureMenuIgnoreClick = true;
 	}
 	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
-		console.log("PRESSURE changeFunction Maximum reached");
+		//console.log("PRESSURE changeFunction Maximum reached");
 		toolbarPressureMenuIgnorePressure = true;
 		event.preventDefault();
 		event.stopPropagation();
@@ -2785,7 +2790,7 @@ function toolbarPressureMenuChange(force, event, that){
 }
 
 function toolbarPressureMenuEnd(ignorePressure){
-	console.log("PRESSURE end function");
+	//console.log("PRESSURE end function");
 	toolbarPressureMenuIgnorePressure = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
@@ -3132,9 +3137,9 @@ function renderView(viewId){
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/media_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/media_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
-								iconContent += "<image class='iQontrolDeviceIcon play overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_play_overlay.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon pause overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_pause_overlay.png' />";
-								iconContent += "<image class='iQontrolDeviceIcon stop overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_stop_overlay.png' />";
+								if(getDeviceOptionValue(device, "hidePlayOverlay") !== "true") iconContent += "<image class='iQontrolDeviceIcon play overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_play_overlay.png' />";
+								if(getDeviceOptionValue(device, "hidePauseAndStopOverlay") !== "true") iconContent += "<image class='iQontrolDeviceIcon pause overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_pause_overlay.png' />";
+								if(getDeviceOptionValue(device, "hidePauseAndStopOverlay") !== "true") iconContent += "<image class='iQontrolDeviceIcon stop overlay' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/media_stop_overlay.png' />";
 							break;
 
 							case "iQontrolPopup":
@@ -4699,16 +4704,16 @@ function applyViewPressureMenu(){
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = viewPressureMenuForceOld[this] || 0;
-			console.debug("	PRESSURE change " + force + "|" + forceOld);
+			//console.debug("	PRESSURE change " + force + "|" + forceOld);
 			if (viewPressureMenuIgnorePressure || viewPressureMenuFallbackTimer) {
-				console.log("	PRESSURE change ignore");
+				//console.log("	PRESSURE change ignore");
 				return;
 			}
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
 			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
-				console.log("PRESSURE change start FALLBACK");
+				//console.log("PRESSURE change start FALLBACK");
 				if (viewPressureMenuFallbackTimer) {
 					clearInterval(viewPressureMenuFallbackTimer);
 					viewPressureMenuFallbackTimer = false;
@@ -4719,9 +4724,9 @@ function applyViewPressureMenu(){
 					var _that = that;
 					var _event = event;
 					viewPressureMenuFallbackTimer = setInterval(function(){
-						console.debug("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
+						//console.debug("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
 						if (viewPressureMenuIgnorePressure) {
-							console.log("	PRESSURE Fallback change ignore");
+							//console.log("	PRESSURE Fallback change ignore");
 						} else {
 							if (viewPressureMenuFallbackForce >= 1){
 								viewPressureMenuFallbackForce = 1;
@@ -4748,23 +4753,23 @@ function applyViewPressureMenu(){
 		only: null
 	});
 	$('.iQontrolDeviceLink').on('touchstart mousedown', function(){ //Fallback for iOS 13: pressure start-event is not called properly
-		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
+		//console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		viewPressureMenuStart();
 	});
 	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
+		//console.log("PRESSURE end via TOUCHEND/MOUSEUP");
 		viewPressureMenuEnd();
 	});
 	$(window).scroll(function(){
 		if(!viewPressureMenuIgnorePressure){
-			console.log("PRESSURE end via SCROLL");
+			//console.log("PRESSURE end via SCROLL");
 			viewPressureMenuEnd();		
 		}
 	});
 }
 
 function viewPressureMenuStart(){
-	console.log("PRESSURE start function");
+	//console.log("PRESSURE start function");
 	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 	viewPressureMenuForceOld[this] = 0;
 	viewPressureMenuIgnorePressure = false;
@@ -4777,11 +4782,11 @@ function viewPressureMenuChange(force, event, that){
 	force = (force - 0.2) * 1.25; //Ignore forece <0.2
 	forceOld = (viewPressureMenuForceOld[that] - 0.2) * 1.25;
 	if (force > 0.5 && !viewPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
-		console.log("PRESSURE changeFunction startDeepPress");
+		//console.log("PRESSURE changeFunction startDeepPress");
 		viewPressureMenuIgnoreClick = true;
 	}
 	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
-		console.log("PRESSURE changeFunction Maximum reached");
+		//console.log("PRESSURE changeFunction Maximum reached");
 		viewPressureMenuIgnorePressure = true;
 		event.preventDefault();
 		event.stopPropagation();
@@ -4793,7 +4798,7 @@ function viewPressureMenuChange(force, event, that){
 }
 
 function viewPressureMenuEnd(ignorePressure){
-		console.log("PRESSURE end function");
+		//console.log("PRESSURE end function");
 		viewPressureMenuIgnorePressure = true;
 		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 		if (viewPressureMenuFallbackTimer) {
@@ -6746,22 +6751,43 @@ function renderDialog(deviceIdEscaped){
 				}
 				if(dialogStates["REPEAT"] && dialogStates["REPEAT"].type){
 					dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlRepeatCheckbox' id='DialogMediaControlRepeatCheckbox'>";
-					dialogContent += "<label for='DialogMediaControlRepeatCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_repeat.png' alt='Repeat' style='width:15px; height:15px; margin:0px 0px -4px 0px;'></label>";
+					dialogContent += "<label for='DialogMediaControlRepeatCheckbox' style='padding:7px 9px 7px 9px;'><img src='./images/media_repeat.png' alt='Repeat' style='width:15px; height:15px; margin:0px 0px -4px 0px;' id='DialogMediaControlRepeatCheckboxRepeatAllImage'><img src='./images/media_repeat_one.png' alt='Repeat 1' style='display:none; width:15px; height:15px; margin:0px 0px -4px 0px;' id='DialogMediaControlRepeatCheckboxRepeatOneImage'></label>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedButtonId = dialogLinkedStateIds["REPEAT"];
 						var updateFunction = function(){
 							var buttonState = getStateObject(_linkedButtonId);
+							var repeatAllValue = getDeviceOptionValue(_device, "repeatAllValue") || "true";
+							var repeatOneValue = getDeviceOptionValue(_device, "repeatOneValue") || "2";
 							if (buttonState){
 								if(buttonState.readonly || dialogReadonly){
 									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
 								} else {
 									$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", false);
 								}
-								if(buttonState.val == false || buttonState.val.toString().toLowerCase() == "false" || buttonState.val == 0 || buttonState.val == "0"){ 
-									$("#DialogMediaControlRepeatCheckbox").prop("checked", false);
-								} else {
+								if (buttonState.val.toString() == repeatAllValue){
 									$("#DialogMediaControlRepeatCheckbox").prop("checked", true);
+									$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "false");
+									$("#DialogMediaControlRepeatCheckboxRepeatAllImage").show();
+									$("#DialogMediaControlRepeatCheckboxRepeatOneImage").hide();
+								} else if (buttonState.val.toString() == repeatOneValue){
+									$("#DialogMediaControlRepeatCheckbox").prop("checked", true);
+									$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "true");
+									$("#DialogMediaControlRepeatCheckboxRepeatAllImage").hide();
+									$("#DialogMediaControlRepeatCheckboxRepeatOneImage").show();
+								} else {							
+									if(buttonState.val == true || buttonState.val.toString().toLowerCase() == "true" || buttonState.val == 1 || buttonState.val == "1"){ 
+										$("#DialogMediaControlRepeatCheckbox").prop("checked", true);
+										$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "false");
+										$("#DialogMediaControlRepeatCheckboxRepeatAllImage").show();
+										$("#DialogMediaControlRepeatCheckboxRepeatOneImage").hide();
+									} else {
+										$("#DialogMediaControlRepeatCheckbox").prop("checked", false);
+										$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "false");
+										$("#DialogMediaControlRepeatCheckboxRepeatAllImage").show();
+										$("#DialogMediaControlRepeatCheckboxRepeatOneImage").hide();
+									}
 								}
 								$("#DialogMediaControlRepeatCheckbox").checkboxradio('refresh');
 							}
@@ -6769,8 +6795,31 @@ function renderDialog(deviceIdEscaped){
 						dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
 						var bindingFunction = function(){
 							$('#DialogMediaControlRepeatCheckbox').on('click', function(e) {
+								var buttonState = getStateObject(_linkedButtonId);
+								var repeatOffValue = getDeviceOptionValue(_device, "repeatOffValue") || "false";
+								var repeatAllValue = getDeviceOptionValue(_device, "repeatAllValue") || "true";
+								var repeatOneValue = getDeviceOptionValue(_device, "repeatOneValue") || "2";
 								var checked = $("#DialogMediaControlRepeatCheckbox").prop("checked");
-								setState(_linkedButtonId, _deviceIdEscaped, checked, true);
+								var repeatOne = $("#DialogMediaControlRepeatCheckbox").data("repeat-one") || "false";
+								var result = false;
+								if(!checked && repeatOne == "false" && (buttonState.type == "valueList" || buttonState.type == "string")){
+									result = repeatOneValue;
+									$("#DialogMediaControlRepeatCheckbox").prop("checked", true);
+									$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "true");
+									$("#DialogMediaControlRepeatCheckboxRepeatAllImage").hide();
+									$("#DialogMediaControlRepeatCheckboxRepeatOneImage").show();
+								} else if (!checked) {
+									result = repeatOffValue;
+									$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "false");
+									$("#DialogMediaControlRepeatCheckboxRepeatAllImage").show();
+									$("#DialogMediaControlRepeatCheckboxRepeatOneImage").hide();
+								} else {
+									result = repeatAllValue;
+									$("#DialogMediaControlRepeatCheckbox").data("repeat-one", "false");
+									$("#DialogMediaControlRepeatCheckboxRepeatAllImage").show();
+									$("#DialogMediaControlRepeatCheckboxRepeatOneImage").hide();
+								}
+								setState(_linkedButtonId, _deviceIdEscaped, result, true);
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
