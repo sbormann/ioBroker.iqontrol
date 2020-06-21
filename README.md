@@ -319,7 +319,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 1.1.2 (2020-0621)
+### 1.1.2 (2020-06-21)
 * (Sebastian Bormann) Compatibility enhancements for repeat function of Media-Player.
 * (Sebastian Bormann) Made value-list and target-value-list sortable.
 * (Sebastian Bormann) Made sortable lists only draggable in y-axis.
