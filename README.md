@@ -224,8 +224,8 @@ In addition to normal thermostat you can define:
 * **TOGGLE**: *boolean* - displays a 'Toggle'-Button and is set to true, if pressed
 
 ### <img src="img/icons/door_locked.png" width="32"> Door with lock:
-* **STATE**: *boolean* - display if the door is opened or closed
-* **LOCK_STATE**: *boolean* - display if the door is locked or unlocked
+* **STATE**: *boolean* - display if the door is opened or closed (door/window-contact)
+* **LOCK_STATE**: *boolean* - display and control if the door is locked or unlocked (control is disabled, if STATE is true - because you can't lock a door, that is opened)
 * **LOCK_STATE_UNCERTAIN**: *boolean* - if true, the STATE will be displayed in italic-font to represent that the exact position of the lock is unknown
 * **LOCK_OPEN**: *boolean* - if set to true, the door will open completely
 
@@ -279,7 +279,8 @@ In addition to normal thermostat you can define:
 * **ARTIST, ALBUM, TITLE**: *string* - self explaining
 * **TRACK_NUMBER**: *number* - self explaining
 * **PREV, REWIND, PLAY, PAUSE, STOP, FORWARD, NEXT**: *boolean* - will be set to true, if the corresponding button is pressed
-* **SHUFFLE, REPEAT, MUTE**: *boolean* - state for corresponding function
+* **SHUFFLE, MUTE, PLAY_EVERYWHERE, EJECT, POWER_SWITCH**: *boolean* - state for corresponding function
+* **REPEAT**: *boolean* - state for repeat function or *string* - 3 states can be definded via the coressponding options: value for off, repeat-all and repeat-one
 * **DURATION, ELAPSED**: *number* - duration and elapsed time of actual title - used to show a seek-bar
 * **VOLUME**: *number* - for volume-slider
 * **SOURCE, PLAYLIST**: *value-list* - show select-menu to chose a source or a title from playlist
@@ -317,6 +318,13 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### 1.1.2 (2020-0621)
+* (Sebastian Bormann) Compatibility enhancements for repeat function of Media-Player.
+* (Sebastian Bormann) Made value-list and target-value-list sortable.
+* (Sebastian Bormann) Made sortable lists only draggable in y-axis.
+* (Sebastian Bormann) Add option to enter own value for value-lists.
+* (Sebastian Bormann) Addes PLAY_EVERYWHERE to Media-Player.
 
 ### 1.1.1 (2020-06-16)
 * (Sebastian Bormann) Some fixes, styling and enhancements for Media-Player.

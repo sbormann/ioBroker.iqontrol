@@ -1,10 +1,22 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "news": {
+            "1.1.2": {
+                "en": "Compatibility enhancements for repeat function of Media-Player, Made value-list and target-value-list sortable, Made sortable lists only draggable in y-axis, Add option to enter own value for value-lists, Addes PLAY_EVERYWHERE to Media-Player."
+            },
             "1.1.1": {
-                "en": "Some fixes, styling and enhancements for Media-Player, Added option to hide play, pause and stop icon for Media-Player, Added function repeat one to Media-Player, Maquee is only restarting, if the value of a state has really changed, Fixed crash when some ids of linked views were missing, Added targetValues to custom configuration, wich allows to send changes of a state to different target-datapoints."
+                "en": "Some fixes, styling and enhancements for Media-Player, Added option to hide play, pause and stop icon for Media-Player, Added function repeat one to Media-Player, Maquee is only restarting, if the value of a state has really changed, Fixed crash when some ids of linked views were missing, Added targetValues to custom configuration, wich allows to send changes of a state to different target-datapoints.",
+                "de": "Einige Korrekturen, Stile und Verbesserungen für Media-Player, Option zum Ausblenden des Symbols für Wiedergabe, Pause und Stopp für Media-Player hinzugefügt, Funktion für Media-Player hinzugefügt, Maquee wird nur neu gestartet, wenn sich der Wert eines Status wirklich geändert hat. ",
+                "ru": "Некоторые исправления, стили и улучшения для Media-Player, Добавлена ​​опция, чтобы скрыть значок воспроизведения, паузы и остановки для Media-Player, Добавлена ​​функция повторения одного в Media-Player, Maquee перезапускается, только если значение состояния действительно изменилось, ",
+                "pt": "Algumas correções, estilos e aprimoramentos para o Media-Player, opção Adicionado para ocultar o ícone de reprodução, pausa e parada do Media-Player, Função adicionada repita uma para o Media-Player, o Maquee será reiniciado apenas se o valor de um estado realmente tiver sido alterado, ",
+                "nl": "Enkele fixes, styling en verbeteringen voor Media-Player, Optie toegevoegd om het afspelen, pauzeren en stoppen van het pictogram voor Media-Player te verbergen, Toegevoegde functie herhaalt één aan Media-Player, Maquee herstart alleen als de waarde van een staat echt is veranderd, ",
+                "fr": "Quelques corrections, style et améliorations pour Media-Player, Ajout d'une option pour masquer l'icône de lecture, de pause et d'arrêt pour Media-Player, Ajout de la fonction de répétition sur Media-Player, Maquee ne redémarre que si la valeur d'un état a vraiment changé, ",
+                "it": "Alcune correzioni, stile e miglioramenti per Media-Player, aggiunta opzione per nascondere la riproduzione, mettere in pausa e interrompere l'icona per Media-Player, aggiunta funzione ripeti uno su Media-Player, Maquee si riavvia solo se il valore di uno stato è davvero cambiato, ",
+                "es": "Algunas correcciones, estilos y mejoras para Media-Player, opción agregada para ocultar la reproducción, pausar y detener el ícono para Media-Player, función agregada, repetir una en Media-Player, Maquee solo se reinicia si el valor de un estado realmente ha cambiado, ",
+                "pl": "Niektóre poprawki, styl i ulepszenia dla Media-Player, Dodano opcję ukrywania ikony odtwarzania, pauzy i zatrzymania dla Media-Player, Dodano funkcję powtarzania jednej do Media-Player, Maquee uruchamia się ponownie, tylko jeśli wartość stanu naprawdę się zmieniła, ",
+                "zh-cn": "Media-Player的一些修复，样式和增强功能，添加选项以隐藏Media-Player的播放，暂停和停止图标，添加功能对Media-Player重复一遍，Maquee仅在状态值确实发生更改时才重新启动，"
             },
             "1.1.0": {
                 "en": "Added Media-Player.",

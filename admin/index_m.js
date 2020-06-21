@@ -512,7 +512,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "EJECT", "POWER_SWITCH", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
@@ -1521,7 +1521,8 @@ function load(settings, onChange) {
 				values2table('tableViews', views, onChange, onTableViewsReady);
 				$("#tableViews tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 
@@ -1697,7 +1698,8 @@ function load(settings, onChange) {
 				values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 				$("#tableDevices tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 
@@ -2505,7 +2507,8 @@ function load(settings, onChange) {
 				values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
 				$("#tableToolbar tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 

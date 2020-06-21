@@ -166,8 +166,22 @@
 							<th data-buttons="up down delete" style="width:150px;"></th>
 						</tr>
 					</thead>
+					<tbody style="overflow: auto;"></tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="input-field col s12 m12 l12">
+			<input type="checkbox" class="enableOnChange" data-field="statesAddInput">
+			<span class="translate">Add option to enter free text</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12 m12 l12">
+			<input type="text" class="enableOnChange" data-field="statesAddInputCaption">
+			<span class="translate">Name of this option</span>
 		</div>
 	</div>
 	<br>
@@ -189,11 +203,12 @@
 					<thead>
 						<tr>
 							<th data-name="key" class="translate">Key</th>
-							<th data-name="value" class="translate">Target-Value</th>
 							<th data-name="value" class="translate">Target-Datapoint ID</th>
+							<th data-name="value" class="translate">Target-Value</th>
 							<th data-buttons="up down delete" style="width:150px;"></th>
 						</tr>
 					</thead>
+					<tbody style="overflow: auto;"></tbody>
 				</table>
 			</div>
 		</div>
@@ -227,28 +242,37 @@
 	if (typeof defaults !== 'undefined') {
 		defaults["iqontrol"] = function (obj, instanceObj) {
 			return {
-				enabled:        false,
-				readonly:    	(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
-				invert:			false,
-				confirm:		false,
-				pincode:		"",
-				unit:			(obj && obj.common && obj.common.unit) || "",
-				unit_zero:		(obj && obj.common && obj.common.unit) || "",
-				unit_one:		(obj && obj.common && obj.common.unit) || "",
-				min:			(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
-				max:			(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
-				step:			"",
-				type:			(obj && obj.common && obj.common.type) || "",
-				role:			(obj && obj.common && obj.common.role) || "",
-				targetValueId:	"",
-				states:			(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states),
-				targetValues:	"",
-				showOnlyTargetValues: false
+				enabled:     		   	false,
+				readonly:    			(obj && obj.native && obj.native.write == false) || (obj && obj.common && obj.common.write == false) || false,
+				invert:					false,
+				confirm:				false,
+				pincode:				"",
+				unit:					(obj && obj.common && obj.common.unit) || "",
+				unit_zero:				(obj && obj.common && obj.common.unit) || "",
+				unit_one:				(obj && obj.common && obj.common.unit) || "",
+				min:					(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
+				max:					(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
+				step:					"",
+				type:					(obj && obj.common && obj.common.type) || "",
+				role:					(obj && obj.common && obj.common.role) || "",
+				targetValueId:			"",
+				states:					(obj && obj.native && obj.native.states) || (obj && obj.common && obj.common.states),
+				statesAddInput:			false,
+				statesAddInputCaption:	_("Enter other value..."),
+				targetValues:			"",
+				showOnlyTargetValues: 	false
 			};
 		}
 	}
 	
     //Init
+	// Create a helper for sortable tables with preserved width of cells  
+	var fixHelper = function(e, ui){
+		ui.children().each(function(){  
+			$(this).width($(this).width()); 			
+		});  
+		return ui;  
+	};
     if (typeof customPostInits !== 'undefined') {
        customPostInits.iqontrol = function ($div, values, instanceObj, type, role) {
 			var adapter =  $div.data('adapter');
@@ -272,6 +296,17 @@
 				for (key in values.states){ 
 					if(typeof key != 'undefined') tableStatesAdd(adapter, key, values.states[key]);
 				}
+				//Make table sortable
+				console.log("Make tableStates sortable");
+				$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates tbody').sortable({
+					helper: fixHelper,
+					stop: function( event, ui ) { 
+						console.log("Drag ended, start resorting...");
+						changeTableStates(adapter); 
+						console.log("resorted.");
+					},
+					axis: "y"
+				});
 				changeTableStates(adapter);
 			}
 			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-button-add').on('click', function(){
@@ -296,6 +331,17 @@
 				for (key in values.targetValues){ 
 					if(typeof key != 'undefined') tableTargetValuesAdd(adapter, key, values.targetValues[key].targetValue, values.targetValues[key].targetDatapointId);
 				}
+				//Make table sortable
+				console.log("Make tableTargetValues sortable");
+				$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues tbody').sortable({
+					helper: fixHelper,
+					stop: function( event, ui ) { 
+						console.log("Drag ended, start resorting...");
+						changeTableTargetValues(adapter); 
+						console.log("resorted.");
+					},
+					axis: "y"
+				});	
 				changeTableTargetValues(adapter);
 			}
 			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-button-add').on('click', function(){
@@ -331,12 +377,12 @@
 	function tableStatesAdd(adapter, key, value){
 		key = key || "";
 		value = value || "";
-		var $table = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-values');
+		var $table = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableStates .table-values tbody');
 		var line = $table.data('lines') || 0;
 		var tableLine = "<tr class='table-line'  data-instance='" + adapter + "' data-line='" + line + "'>";
 		tableLine += "		<td><input type='text' class='table-input key' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_key' id='" + adapter + "_tableStates_line" + line + "_key' value='" + key + "' /></td>";
 		tableLine += "		<td><input type='text' class='table-input value' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableStates_line" + line + "_value' id='" + adapter + "_tableStates_line" + line + "_value' value='" + value + "' /></td>";
-		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableStates_line" + line + "_delete'><i class='material-icons'>delete</i></button></td>";		
+		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableStates_line" + line + "_delete'><i class='material-icons'>delete</i></button><button title='Sort' class='waves-effect waves-light btn-small btn-flat disabled'><i class='material-icons'>drag_handle</i></button></td>";		
 		tableLine += "</tr>";
 		$table.append(tableLine);
 		$table.data('lines', line + 1);
@@ -369,9 +415,9 @@
 		var line = $table.data('lines') || 0;
 		var tableLine = "<tr class='table-line'  data-instance='" + adapter + "' data-line='" + line + "'>";
 		tableLine += "		<td><input type='text' class='table-input key' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_key' id='" + adapter + "_tableTargetValues_line" + line + "_key' value='" + key + "' /></td>";
-		tableLine += "		<td><input type='text' class='table-input targetValue' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_value' id='" + adapter + "_tableTargetValues_line" + line + "_value' value='" + targetValue + "' /></td>";
 		tableLine += "		<td><input type='text' class='table-input targetDatapointId' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_value' id='" + adapter + "_tableTargetValues_line" + line + "_value' value='" + targetDatapointId + "' /></td>";
-		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableTargetValues_line" + line + "_delete'><i class='material-icons'>delete</i></button></td>";		
+		tableLine += "		<td><input type='text' class='table-input targetValue' data-instance='" + adapter + "' data-line='" + line + "' name='" + adapter + "_tableTargetValues_line" + line + "_value' id='" + adapter + "_tableTargetValues_line" + line + "_value' value='" + targetValue + "' /></td>";
+		tableLine += "		<td><button title='Delete' data-line='" + line + "' class='translateT table-button-delete btn-floating waves-effect waves-light btn-small red' id='" + adapter + "_tableTargetValues_line" + line + "_delete'><i class='material-icons'>delete</i></button><button title='Sort' class='waves-effect waves-light btn-small btn-flat disabled'><i class='material-icons'>drag_handle</i></button></td>";		
 		tableLine += "</tr>";
 		$table.append(tableLine);
 		$table.data('lines', line + 1);
@@ -388,8 +434,8 @@
 		$lines.each(function(index){
 			var line = $(this).data('line');
 			var key = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.key[data-line="' + line + '"]').val();
-			var targetValue = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.targetValue[data-line="' + line + '"]').val();
 			var targetDatapointId = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.targetDatapointId[data-line="' + line + '"]').val();
+			var targetValue = $('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-input.targetValue[data-line="' + line + '"]').val();
 			if(key != "") targetValues[adapter][key] = {targetValue: targetValue, targetDatapointId: targetDatapointId};
 		});
 		console.log("changeTableTargetValues: " + JSON.stringify(targetValues[adapter]));
