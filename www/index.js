@@ -2666,7 +2666,7 @@ function handleOptions(){
 
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
-	if (config[namespace].toolbar.length < 1) {
+	if (config[namespace] && typeof config[namespace].toolbar !== udef && config[namespace].toolbar.length < 1) {
 		if (homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
 		return;
 	}
@@ -4886,6 +4886,7 @@ function renderDialog(deviceIdEscaped){
 	dialogUpdateFunctions = {};
 	dialogStateIdsToFetch = [];
 	dialogLinkedStateIdsToUpdate = [];
+	thisIsAnError();
 	var dialogReadonly = false;
 	if(getDeviceOptionValue(device, "readonly") == "true") dialogReadonly = true;
 	//Render Dialog
