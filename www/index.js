@@ -4886,7 +4886,6 @@ function renderDialog(deviceIdEscaped){
 	dialogUpdateFunctions = {};
 	dialogStateIdsToFetch = [];
 	dialogLinkedStateIdsToUpdate = [];
-	thisIsAnError();
 	var dialogReadonly = false;
 	if(getDeviceOptionValue(device, "readonly") == "true") dialogReadonly = true;
 	//Render Dialog
