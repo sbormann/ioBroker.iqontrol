@@ -31,12 +31,54 @@ class Iqontrol extends utils.Adapter {
 		this.on("ready", this.onReady.bind(this));
 		this.on("objectChange", this.onObjectChange.bind(this));
 		this.on("stateChange", this.onStateChange.bind(this));
-		// this.on("message", this.onMessage.bind(this));
+		this.on("message", this.onMessage.bind(this));
 		this.on("unload", this.onUnload.bind(this));
 	}
 
 	//----------------------------------------------------------------------------
-
+	
+	async createPopup(){
+		let that = this;
+		let objName = "Message";
+		let objId = "Popup.Message";
+		let obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Message to be displayed",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Display Duration";
+		objId = "Popup.Duration";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Display duration of message in ms (0 = until clicked)",
+				"type": "number",
+				"role": "timer",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+	}
+	
 	async createToolbar(){
 		if(typeof this.config.toolbar != 'undefined'){
 			for(var index = 0; index < this.config.toolbar.length; index++){
@@ -364,6 +406,9 @@ class Iqontrol extends utils.Adapter {
 		// Initialize your adapter here
 		this.setState('info.connection', { val: false, ack: true });
 		
+		this.log.info("Creating Popup States...");
+		await this.createPopup();
+		
 		//this.log.info("Creating Toolbar...");
 		//await this.createToolbar();
 		
@@ -476,23 +521,31 @@ class Iqontrol extends utils.Adapter {
 		}
 	}
 		 
-	// /**
-	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	//  * Using this method requires "common.message" property to be set to true in io-package.json
-	//  * @param {ioBroker.Message} obj
-	//  */
-	// onMessage(obj) {
-	// 	if (typeof obj === "object" && obj.message) {
-	// 		if (obj.command === "send") {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info("send command");
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
-	// 		}
-	// 	}
-	// }
-
+	/**
+	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+	 * Using this method requires "common.message" property to be set to true in io-package.json
+	 * @param {ioBroker.Message} obj
+	 */
+	onMessage(obj) {
+		if (typeof obj === "object" && obj.message) {
+			if (obj.command === "send") {
+				// e.g. send email or pushover or whatever
+				this.log.info("send command");
+				if(obj.message.PopupMessage){
+					let PopupDuration = 0;
+					if(typeof obj.message.PopupDuration !== "undefined" && !isNaN(obj.message.PopupDuration)){
+						PopupDuration = parseInt(obj.message.PopupDuration);
+					}
+					this.log.info("Popup Duration: " + PopupDuration);
+					this.setState('Popup.Duration', { val: PopupDuration, ack: true });
+					this.log.info("Popup Message: " + obj.message.PopupMessage);
+					this.setState('Popup.Message', { val: obj.message.PopupMessage, ack: true });
+				}
+				// Send response in callback if required
+				if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+			}
+		}
+	}
 }
 
 if (module.parent) {
@@ -505,10 +558,3 @@ if (module.parent) {
 	// otherwise start the instance directly
 	new Iqontrol();
 }
-
-
-
-
-
-
-

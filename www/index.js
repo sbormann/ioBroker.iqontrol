@@ -628,6 +628,9 @@ var dialogStateIdsToFetch = [];					//Contains all missing stateIds after render
 var dialogLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 				//Same as viewUpdateFunctions, but for dialog-page
 
+var toastStack = [];							//Contains the toast messages that are waiting in queue to be displayed
+
+
 const udef = 'undefined';
 
 //++++++++++ POLYFILL ++++++++++
@@ -745,6 +748,7 @@ function getStarted(){
 				} else {
 					console.log("* Actuel view rendered.");
 				}
+				fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration']);
 				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
@@ -1623,6 +1627,11 @@ function updateState(stateId, ignorePreventUpdate){
 		if(!preventUpdate[stateId] || ignorePreventUpdate == "ignorePreventUpdateForDialog") {
 			dialogUpdateFunctions[stateId][i](stateId);
 		}
+	}
+	if(stateId == namespace + ".Popup.Message"){
+		var duration = 0;
+		if(states[namespace + ".Popup.Duration"] && typeof states[namespace + ".Popup.Duration"].val !== udef && states[namespace + ".Popup.Duration"].val !== null && !isNaN(states[namespace + ".Popup.Duration"].val)) duration = parseInt(states[namespace + ".Popup.Duration"].val);
+		toast(states[stateId].val, duration)
 	}
 }
 
@@ -7530,6 +7539,42 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(partyModeStartMoment < now) { $('#DialogThermostatPartyModeStartMomentError').show(); error = true; } else { $('#DialogThermostatPartyModeStartMomentError').hide(); }
 	if(partyModeStopMoment <= partyModeStartMoment) { $('#DialogThermostatPartyModeStopMomentError').show(); error = true; } else { $('#DialogThermostatPartyModeStopMomentError').hide(); }
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
+}
+
+//++++++++++ TOAST ++++++++++
+function toast(message, duration){
+	toastStack.push({message: message, duration: duration});
+	if(toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
+}
+
+function toastShowNext(){
+	if(toastStack.length > 0) {
+		var toast = toastStack[0];
+		var $toast = $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><div class='toastMessageQueue' style='position: absolute; right: 2px; top: 2px; text-align: right; font-size: smaller;'>&nbsp;</div><h4>" + toast.message + "</h4></div>");
+		$toast.css({
+			'display': 'block', 
+			'background': '#fff',
+			'opacity': 0.85, 
+			'position': 'fixed',
+			'padding': '7px',
+			'text-align': 'center',
+			'word-wrap': 'break-word',
+			'max-width': '80%',
+			'right': '20px',
+			'left': 'unset',
+			'top': '20px',
+			'display': 'none'
+		});
+		var removeToast = function(){
+			$(this).remove();
+			toastStack.shift();
+			toastShowNext();
+		};
+		$toast.click(removeToast);
+		$toast.appendTo($.mobile.pageContainer).fadeIn(400).delay(toast.duration);
+		if(toastStack.length > 1) $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
+		if(toast.duration > 0) $toast.fadeOut(400, removeToast);
+	}	
 }
 
 //++++++++++ GENERAL AND INITIALIZATION ++++++++++

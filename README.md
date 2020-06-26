@@ -332,9 +332,23 @@ In addition to normal thermostat you can define:
 	* If ``javascript.0.weather`` has no value the fallback ``No weather data found`` will be used (using the fallback is optional)
 
 
+## Popup-Messages
+* Every instance creates the objects iqontrol.x.Popup.Message and iqontrol.x.Popup.Duration
+* When passing values to these objects, a popup-message is displayed
+* You can use html-tags to format the message
+* The duration is the time in ms the message is displayed; if the duration is 0 the message has to be confirmed
+* Alternatively you can set these values via sendTo-command (for example by blockly) with the parameters PopupMessage and PopupDuration
+
+![Popup Screenshot](img/popup_screenshot.png)
+![Popup Blockly](img/popup_blockly.png)
+
+
 ****
 
 ## Changelog
+
+### 1.1.3 development
+* (Sebastian Bormann) Added popup message (toast-message).
 
 ### 1.1.2 (2020-06-21)
 * (Sebastian Bormann) Compatibility enhancements for repeat function of Media-Player.

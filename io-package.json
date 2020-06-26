@@ -201,6 +201,8 @@
         "singleton": false,
         "materialize": true,
         "materializeTab": true,
+		"messagebox": true,
+		"subscribe": "messagebox",
         "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": false,
         "welcomeScreenPro": {
