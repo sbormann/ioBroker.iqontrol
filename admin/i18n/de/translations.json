@@ -37,6 +37,7 @@
     "Alarmsensor (sensor.alarm)": "Alarmsensor (sensor.alarm)",
     "All": "Alle",
     "Always": "Immer",
+    "Always send 'true' (do not toggle)": "Immer 'true' senden (nicht umschalten)",
     "Always use time instead of pressure": "Immer Zeit statt Druck benutzen",
     "Array": "Array",
     "Autocreate Device": "Gerät automatisch erstellen",

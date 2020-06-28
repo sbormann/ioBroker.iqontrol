@@ -287,7 +287,7 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - if set to true, the program will be started
 
 ### <img src="img/icons/play.png" width="32"> Scene:
-* **STATE**: *boolean* - displays, if the scene is active. If set to true, the scene will be started
+* **STATE**: *boolean* - displays, if the scene is active. Depending on the configuration of the scene (virtual group, set values for false enabled or disabled), the toggle-command will send true, false, min, 0, max or 100. There is an option to always send true (disable toggleing).
 
 ### <img src="img/icons/media_on.png" width="32"> Media-Player:
 * **STATE**: *string* - "play", "pause" or "stop" or *boolean* - true for play, false for stop
@@ -334,7 +334,7 @@ In addition to normal thermostat you can define:
 
 ## Popup-Messages
 * Every instance creates the objects ``iqontrol.x.Popup.Message`` and ``iqontrol.x.Popup.Duration``
-* When passing values to these objects, a popup-message is displayed
+* When passing values to these objects, a popup-message (or toast) is displayed
 * You can use html-tags to format the message
 * The duration is the time in ms the message is displayed; if the duration is 0 the message has to be confirmed
 * Alternatively you can set these values via sendTo-command (for example by blockly) with the parameters ``PopupMessage`` and ``PopupDuration``
@@ -347,8 +347,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### 1.1.3 development
-* (Sebastian Bormann) Added popup message (toast-message).
+### 1.1.3 (2020-06-28)
+* (Sebastian Bormann) Added popup messagen (toast-messagen).
+* (Sebastian Bormann) Enhanced scenes to be able to toggle (added option to always send true, if you need the old behaviour).
 
 ### 1.1.2 (2020-06-21)
 * (Sebastian Bormann) Compatibility enhancements for repeat function of Media-Player.

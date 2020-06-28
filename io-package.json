@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.2",
+        "version": "1.1.3",
         "news": {
+            "1.1.3": {
+                "en": "Added popup messagen (toast-messagen), Enhanced scenes to be able to toggle (added option to always send true, if you need the old behaviour).",
+                "de": "Popup-Messagen (Toast-Messagen) hinzugefügt, Szenen zum Umschalten verbessert (Option hinzugefügt, um immer true zu senden, wenn Sie das alte Verhalten benötigen).",
+                "ru": "Добавлены всплывающие сообщения (toast-messagen), Улучшенные сцены для возможности переключения (добавлена ​​опция всегда отправлять истину, если вам нужно старое поведение).",
+                "pt": "Adicionado messagen pop-up (brinde-messagen), cenas aprimoradas para poder alternar (opção adicionada para sempre enviar true, se você precisar do antigo comportamento).",
+                "nl": "Pop-up messagen toegevoegd (toast-messagen), Verbeterde scènes om te kunnen schakelen (optie toegevoegd om altijd true te verzenden, als je het oude gedrag nodig hebt).",
+                "fr": "Message contextuel ajouté (toast-messagen), scènes améliorées pour pouvoir basculer (option ajoutée pour toujours envoyer vrai, si vous avez besoin de l'ancien comportement).",
+                "it": "Aggiunto popup popup (toast-messagen), scene migliorate per poter attivare (aggiunta opzione per inviare sempre true, se hai bisogno del vecchio comportamento).",
+                "es": "Mensaje emergente agregado (mensaje-brindis), escenas mejoradas para poder alternar (opción agregada para enviar siempre verdadero, si necesita el comportamiento anterior).",
+                "pl": "Dodano wyskakujący komunikat (toast-messagen), Ulepszone sceny, aby móc się przełączać (dodano opcję, aby zawsze wysyłać prawdziwe, jeśli potrzebujesz starego zachowania).",
+                "zh-cn": "添加了弹出消息（nest-messagen），增强了场景以能够切换（添加了选项，如果您需要旧的行为，则始终发送true）。"
+            },
             "1.1.2": {
-                "en": "Compatibility enhancements for repeat function of Media-Player, Made value-list and target-value-list sortable, Made sortable lists only draggable in y-axis, Add option to enter own value for value-lists, Addes PLAY_EVERYWHERE to Media-Player."
+                "en": "Compatibility enhancements for repeat function of Media-Player, Made value-list and target-value-list sortable, Made sortable lists only draggable in y-axis, Add option to enter own value for value-lists, Addes PLAY_EVERYWHERE to Media-Player.",
+                "de": "Kompatibilitätsverbesserungen für die Wiederholungsfunktion von Media-Player, Werteliste und Zielwertliste sortierbar gemacht, Sortierlisten nur auf der y-Achse ziehbar gemacht, Option hinzufügen, um eigenen Wert für Wertelisten einzugeben, PLAY_EVERYWHERE an Media-Player hinzufügen.",
+                "ru": "Улучшения совместимости для функции повтора Media-Player, Созданный список значений и сортируемый список целевых значений, Созданные сортируемые списки можно перетаскивать только по оси Y, Добавить опцию для ввода собственного значения для списков значений, Добавляет PLAY_EVERYWHERE в Media-Player.",
+                "pt": "Aprimoramentos de compatibilidade para funções repetidas do Media-Player, lista de valores Made e lista de valores-alvo classificáveis, listas classificáveis ​​Made arrastáveis ​​apenas no eixo y, opção Add para inserir valor próprio para listas de valores, Adiciona PLAY_EVERYWHERE ao Media-Player.",
+                "nl": "Compatibiliteitsverbeteringen voor herhaalfunctie van Media-Player, Made value-list en target-value-list sorteerbaar, Made sortable-lijsten alleen versleepbaar in y-as, Optie toevoegen om eigen waarde in te voeren voor value-lists, Voegt PLAY_EVERYWHERE toe aan Media-Player.",
+                "fr": "Améliorations de compatibilité pour la fonction de répétition de Media-Player, liste de valeurs Made et liste de valeurs cible triable, listes triées Made uniquement glissables sur l'axe des Y, option Ajouter pour entrer sa propre valeur pour les listes de valeurs, ajoute PLAY_EVERYWHERE à Media-Player.",
+                "it": "Miglioramenti della compatibilità per la funzione di ripetizione di Media-Player, Elenco valori reso e lista valori obiettivo ordinabili, Elenco liste ordinabili reso trascinabile solo nell'asse y, Aggiungi opzione per inserire il proprio valore per liste valori, Aggiungi PLAY_EVERYWHERE a Media-Player.",
+                "es": "Mejoras de compatibilidad para la función de repetición de Media-Player, Made value-list y target-value-list clasificable, Made clasificable listas solo arrastrables en el eje y, Agregar opción para ingresar su propio valor para las listas de valores, Agrega PLAY_EVERYWHERE a Media-Player.",
+                "pl": "Ulepszenia kompatybilności dla funkcji powtarzania Media-Player, Możliwość sortowania listy wartości i listy wartości docelowych, Możliwość sortowania list przeciągalnych tylko w osi y, Dodanie opcji wprowadzania własnej wartości dla list wartości, Dodaje PLAY_EVERYWHERE do Media-Player.",
+                "zh-cn": "增强了Media-Player的重复功能的兼容性，使值列表和目标值列表可排序，使可排序列表仅可在y轴上拖动，添加选项以输入自己的值列表值，将PLAY_EVERYWHERE添加到MediaPlayer。"
             },
             "1.1.1": {
                 "en": "Some fixes, styling and enhancements for Media-Player, Added option to hide play, pause and stop icon for Media-Player, Added function repeat one to Media-Player, Maquee is only restarting, if the value of a state has really changed, Fixed crash when some ids of linked views were missing, Added targetValues to custom configuration, wich allows to send changes of a state to different target-datapoints.",
@@ -201,8 +222,8 @@
         "singleton": false,
         "materialize": true,
         "materializeTab": true,
-		"messagebox": true,
-		"subscribe": "messagebox",
+        "messagebox": true,
+        "subscribe": "messagebox",
         "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": false,
         "welcomeScreenPro": {

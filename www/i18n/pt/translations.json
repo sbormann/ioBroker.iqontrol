@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Alarmesensor (sensor.alarm)",
     "All": "Todos",
     "Always": "Sempre",
+    "Always send 'true' (do not toggle)": "Sempre envie 'true' (não alterne)",
     "Always use time instead of pressure": "Sempre use tempo em vez de pressão",
     "Array": "Matriz",
     "Aussen EG": "Fora do 1º andar",

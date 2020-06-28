@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Alarmsensor（sensor.alarm）",
     "All": "所有",
     "Always": "总是",
+    "Always send 'true' (do not toggle)": "始终发送“ true”（请勿切换）",
     "Always use time instead of pressure": "总是用时间代替压力",
     "Array": "排列",
     "Aussen EG": "外1楼",

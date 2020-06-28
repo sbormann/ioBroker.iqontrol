@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Capteur d'alarme (sensor.alarm)",
     "All": "Tous",
     "Always": "Toujours",
+    "Always send 'true' (do not toggle)": "Toujours envoyer «vrai» (ne pas basculer)",
     "Always use time instead of pressure": "Utilisez toujours le temps au lieu de la pression",
     "Array": "Tableau",
     "Aussen EG": "En dehors 1er étage",

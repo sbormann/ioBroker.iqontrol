@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Тревожный датчик (датчик. Тревога)",
     "All": "Все",
     "Always": "Всегда",
+    "Always send 'true' (do not toggle)": "Всегда отправлять 'true' (не переключать)",
     "Always use time instead of pressure": "Всегда используйте время вместо давления",
     "Array": "массив",
     "Aussen EG": "Снаружи 1й этаж",

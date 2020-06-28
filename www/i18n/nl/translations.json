@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Alarmsensor (sensor. Alarm)",
     "All": "Alle",
     "Always": "Altijd",
+    "Always send 'true' (do not toggle)": "Stuur altijd 'true' (niet wisselen)",
     "Always use time instead of pressure": "Gebruik altijd tijd in plaats van druk",
     "Array": "reeks",
     "Aussen EG": "Buiten 1e verdieping",

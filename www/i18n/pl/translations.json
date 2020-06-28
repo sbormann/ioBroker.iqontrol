@@ -62,6 +62,7 @@
     "Alarmsensor (sensor.alarm)": "Czujnik alarmu (czujnik. Alarm)",
     "All": "Wszystkie",
     "Always": "Zawsze",
+    "Always send 'true' (do not toggle)": "Zawsze wysyłaj „prawda” (nie przełączaj)",
     "Always use time instead of pressure": "Zawsze używaj czasu zamiast nacisku",
     "Array": "Szyk",
     "Aussen EG": "Na zewnątrz 1 piętro",

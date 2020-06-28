@@ -493,7 +493,8 @@ var iQontrolRoles = {
 										icon: "/images/icons/play.png",
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}, 
+											alwaysSendTrue: {name: "Always send 'true' (do not toggle)", type: "checkbox", default: "false"}, 
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -1136,7 +1137,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.type = "string";
 				result.readonly = true;
 				break;
-
+				
 				case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
 				if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
 				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
@@ -1170,13 +1171,22 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.readonly = true;
 				break;
 
-				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active":
+				case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active": case "scene.state":
 				if(typeof result.val == 'string') if (result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
 				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
 				result.type = "switch";
 				result.min = 0;
 				result.max = 1;
 				result.valueList = ["off", "on"];
+				break;
+
+				case "button": case "action.execute":
+				if(typeof result.val == 'string') if (result.val.toLowerCase() == "false" || result.val.toLowerCase() == "off" || result.val.toLowerCase() == "0" || result.val == "") result.val = false; else result.val = true;
+				if(result.val) result.plainText = _("on"); else result.plainText = _("off");
+				result.type = "button";
+				result.min = 0;
+				result.max = 1;
+				result.valueList = ["off", "on"];				
 				break;
 
 				case "level": case "level.dimmer": case "level.blind":
@@ -1651,6 +1661,10 @@ function toggleState(linkedStateId, deviceIdEscaped, callback){
 			}
 			break;
 
+			case "button":
+			setState(linkedStateId, deviceIdEscaped, true, true, callback);
+			break;
+
 			case "level":
 			var oldVal = state.val;
 			var min = state.min || 0;
@@ -1739,9 +1753,40 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 	}
 }
 
+function toggleScene(linkedStateId, deviceIdEscaped, callback){
+	var state = getStateObject(linkedStateId);
+	var deviceReadonly = false;
+	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
+	if(state && state.readonly == false && deviceReadonly == false){
+		if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "alwaysSendTrue") == "true") { //Always send true enabled
+			setState(linkedStateId, deviceIdEscaped, true, true, callback);
+		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.virtualGroup !== udef && usedObjects[linkedStateId].native.virtualGroup == true){ //ioBroker-Virtual Group
+			if(state.val.toString().toLowerCase() == "true") setState(linkedStateId, deviceIdEscaped, false, true, callback); // true -> false
+			else if(state.val.toString().toLowerCase() == "false") setState(linkedStateId, deviceIdEscaped, true, true, callback); // false -> true
+			else if(state.val.toString().toLowerCase() == "uncertain") setState(linkedStateId, deviceIdEscaped, false, true, callback); // uncertain -> false
+			else if(typeof state.val == "number" && state.val <= 0) setState(linkedStateId, deviceIdEscaped, state.max || 100, true, callback); // 0 -> max || 100
+			else if(typeof state.val == "number") setState(linkedStateId, deviceIdEscaped, state.min || 0, true, callback); // number > 0 -> min || 0
+			else setState(linkedStateId, deviceIdEscaped, true, true, callback); // else -> true	
+		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.onFalse !== udef){ //ioBroker-Scene
+			if(typeof usedObjects[linkedStateId].native.onFalse.enabled !== udef && usedObjects[linkedStateId].native.onFalse.enabled == true){ //ioBroker-Scene with enabled onFalse
+				if(state.val.toString().toLowerCase() == "true") setState(linkedStateId, deviceIdEscaped, false, true, callback); // true -> false
+				else if(state.val.toString().toLowerCase() == "false") setState(linkedStateId, deviceIdEscaped, true, true, callback); // false -> true
+				else if(state.val.toString().toLowerCase() == "uncertain") setState(linkedStateId, deviceIdEscaped, false, true, callback); // uncertain -> false
+				else if(typeof state.val == "number" && state.val <= 0) setState(linkedStateId, deviceIdEscaped, state.max || 100, true, callback); // 0 -> max || 100
+				else if(typeof state.val == "number") setState(linkedStateId, deviceIdEscaped, state.min || 0, true, callback); // number > 0 -> min || 0
+				else setState(linkedStateId, deviceIdEscaped, true, true, callback); // else -> true	
+			} else { //ioBroker-Scene with disabled onFalse
+				if(typeof state.val == "number" && state.val <= 0) setState(linkedStateId, deviceIdEscaped, state.max || 100, true, callback); // 0 -> max || 100
+				else if(typeof state.val == "number") setState(linkedStateId, deviceIdEscaped, state.min || 0, true, callback); // number > 0 -> min || 0
+				else setState(linkedStateId, deviceIdEscaped, true, true, callback); // else -> true	
+			}
+		} else { //Any other
+			toggleState(linkedStateId, deviceIdEscaped, callback)
+		}
+	}
+}
+
 function startProgram(linkedStateId, deviceIdEscaped, callback){
-	console.log("Start");
-	console.log(linkedStateId);
 	if(linkedStateId){
 		setState(linkedStateId, deviceIdEscaped, true, true, callback);
 	}
@@ -3165,7 +3210,7 @@ function renderView(viewId){
 							break;
 							
 							case "iQontrolScene":
-							if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
+							if(deviceLinkedStateIds["STATE"]) onclick = "toggleScene(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/play.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/play.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
@@ -5015,9 +5060,30 @@ function renderDialog(deviceIdEscaped){
 			}
 			break;
 
-			case "iQontrolProgram": case "iQontrolScene":
+			case "iQontrolScene":
+			var type = "Scene";
+			if(dialogStates["STATE"]){
+				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _deviceIdEscaped = deviceIdEscaped;
+					var _device = device;
+					var _linkedStateId = dialogLinkedStateIds["STATE"];
+					var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+					var bindingFunction = function(){
+						$('#DialogStateButton').on('click', function(e) {
+							toggleScene(_linkedStateId, _deviceIdEscaped);
+							dialogUpdateTimestamp(states[_linkedStateId]);
+							if (_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+						});
+					};
+					dialogBindingFunctions.push(bindingFunction);
+				})(); //<--End Closure
+			}
+			break;
+
+			case "iQontrolProgram":
 			var type = "Program";
-			if (device.commonRole == "iQontrolScene") type = "Scene";
 			if(dialogStates["STATE"]){
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
@@ -5082,6 +5148,31 @@ function renderDialog(deviceIdEscaped){
 						};
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
+					break;
+					
+					case "button":
+					var type = "Button";
+					if(dialogLinkedStateIds["STATE"]){
+						dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("push") + "</a>";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _device = device;
+							var _linkedStateId = dialogLinkedStateIds["STATE"];
+							var _linkedSetValueId = dialogLinkedStateIds["SET_VALUE"] || "";
+							var _linkedOffSetValueId = dialogLinkedStateIds["OFF_SET_VALUE"] || "";
+							var _returnToOffSetValueAfter = getDeviceOptionValue(_device, "returnToOffSetValueAfter") || "100";
+							var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+							var bindingFunction = function(){
+								$('#DialogStateButton').on('click', function(e) {
+									startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceIdEscaped);
+									dialogUpdateTimestamp(states[_linkedStateId]);
+									if (_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
 					break;
 
 					case "level":
