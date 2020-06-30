@@ -347,6 +347,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 1.1.4 development
+* (Sebastian Bormann) Changed the way popup-iframes are created to allow execution of code inside them.
+
 ### 1.1.3 (2020-06-28)
 * (Sebastian Bormann) Added popup messagen (toast-messagen).
 * (Sebastian Bormann) Enhanced scenes to be able to toggle (added option to always send true, if you need the old behaviour).

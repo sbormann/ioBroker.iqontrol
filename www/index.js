@@ -7400,7 +7400,10 @@ function renderDialog(deviceIdEscaped){
 							}, 500);
 						} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
 							var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-							iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+							//iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+							iframedoc.open();
+							iframedoc.write(states[_linkedHtmlId].val);
+							iframedoc.close();
 							setTimeout(function(){
 								$('.iQontrolDialogIframeWrapper').show();
 								$('#Dialog').popup('reposition', {positionTo: 'window'});
