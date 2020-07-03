@@ -157,7 +157,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 * Has no further states
 * The **linked-view-property** is opened directly
 
-### <img src="img/icons/switch_on.png" width="32"> Switch, <img src="img/icons/fan_on.png" width="32"> Fan:
+### <img src="img/icons/switch_on.png" width="32"> Switch:
 * **STATE**: *boolean* - display and set on/off-state
 * **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
@@ -199,6 +199,11 @@ Optional you can define the following states:
 	* **EFFECT_SPEED_UP** / **EFFECT_SPEED_DOWN**: *boolean* - if set to true, the effect will speed up/down
 * Miscellaneous:
     * **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
+
+### <img src="img/icons/fan_on.png" width="32"> Fan:
+* **STATE**: *boolean* - display and set on/off-state
+* **LEVEL**: *number* or *value-list* - the fan-speed
+* **POWER**: *number* - power-consumption that will be displayed in small in the upper right corner
 
 ### <img src="img/icons/radiator.png" width="32"> Thermostat:
 * **SET_TEMPERATURE**: *number* - goal-temperature
@@ -355,6 +360,7 @@ In addition to normal thermostat you can define:
 
 ### development
 * (Sebastian Bormann) Made dialog draggable by dragging title.
+* (Sebastian Bormann) Added LEVEL to fan.
 
 ### 1.1.4 development
 * (Sebastian Bormann) Changed the way popup-iframes are created to allow execution of code inside them.

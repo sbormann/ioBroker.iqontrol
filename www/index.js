@@ -92,7 +92,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
+										states: ["STATE", "LEVEL", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
@@ -4420,6 +4420,19 @@ function renderView(viewId){
 													result = state.val;
 													resultText = state.plainText;
 												}
+											} else if(level && level.type == 'valueList'){
+												if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = value-list
+													if(state.val) {
+														result = level.val;
+														resultText = level.plainText;
+													} else {
+														result = state.val;
+														resultText = state.plainText;
+													}
+												} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = value-list
+													result = level.val;
+													resultText = level.plainText;
+												}
 											} else {
 												if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = level
 													result = state.val * level.val;
@@ -5369,7 +5382,8 @@ function renderDialog(deviceIdEscaped){
 			}
 			//----Default Level
 			if(dialogStates["LEVEL"]){
-				if(dialogStates["LEVEL"].type == "level"){
+				switch(dialogStates["LEVEL"].type){
+					case "level":
 					var min = dialogStates["LEVEL"].min || 0;
 					var max = dialogStates["LEVEL"].max || 100;
 					var step = "1";
@@ -5424,6 +5438,59 @@ function renderDialog(deviceIdEscaped){
 						};
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
+					break;
+
+					case "valueList":
+					var type = "Selection";
+					dialogContent += "<label for='DialogLevelValueList' ><image src='./images/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+					dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
+					for(val in dialogStates["LEVEL"].valueList){
+						if (dialogStates["LEVEL"].targetValues && dialogStates["LEVEL"].custom.showOnlyTargetValues && !dialogStates["LEVEL"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+						dialogContent += "<option value='" + val + "'>" + _(dialogStates["LEVEL"].valueList[val]) + "</option>";
+					}
+					if(dialogStates["LEVEL"].custom.statesAddInput) {
+						dialogContent += "<option value='[INPUT]'>" + (dialogStates["LEVEL"].custom.statesAddInputCaption || _("Enter other value...")) + "</option>";						
+					}
+					dialogContent += "</select>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
+						var updateFunction = function(){
+							var level = getStateObject(_linkedLevelId);
+							if (level){
+								if(typeof level.val != udef) {
+									var val = level.val.toString();
+									$("#DialogLevelValueList").val(val).selectmenu('refresh');
+									if($("#DialogLevelValueList").val() !== val){ //val is not in option-list
+										if(level.valueList && typeof level.valueList[val] !== udef){
+											$("#DialogLevelValueList").prev("span").html(level.valueList[val]); 
+										} else {
+											$("#DialogLevelValueList").prev("span").html(val + "&nbsp;"); 
+										}
+									}
+								}
+								dialogUpdateTimestamp(states[_linkedLevelId]);
+							}
+						};
+						dialogUpdateFunctions[_linkedLevelId].push(updateFunction);
+						var bindingFunction = function(){
+							$('.DialogLevelValueList').on('change', function(e) {
+								var val = $("#DialogLevelValueList option:selected").val();
+								if(val == "[INPUT]") {
+									val = prompt((dialogStates["LEVEL"].custom.statesAddInputCaption || _("Enter other value...")));
+									if(val == null) {
+										updateState(_linkedLevelId);
+										return;
+									}
+									$("#DialogLevelValueList").prev("span").html(val + "&nbsp;"); 
+								}
+								setState(_linkedLevelId, _deviceIdEscaped, val);
+								dialogUpdateTimestamp(states[_linkedLevelId]);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+					break;
 				}
 			}
 		}

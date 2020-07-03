@@ -92,7 +92,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
+										states: ["STATE", "LEVEL", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
