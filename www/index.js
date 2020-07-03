@@ -4448,10 +4448,11 @@ function renderView(viewId){
 						if(replacement != null){
 							var newSrc = _variableSrc.substring(_variableSrc.indexOf('?') + 1, a) + replacement + _variableSrc.substring(b + 3);
 							if($(_that).attr('src') != newSrc){
-								$(_that).fadeTo(0,0);
+								//if(newSrc.substring(0, 5).toLowerCase() !== "data:") $(_that).fadeTo(0,0); else $(_that).fadeTo(0,1);
+								if($(_that).attr('src').substring(0, 5).toLowerCase() !== "data:") $(_that).fadeTo(0,0);
 								setTimeout(function(){ 
 									$(_that).attr('src', newSrc).on('load', function(){
-										$(_that).fadeTo(0,1);
+										if($(_that).hasClass('active')) $(_that).fadeTo(0,1); else $(_that).css('opacity', '');
 									});
 								}, 250);
 							}

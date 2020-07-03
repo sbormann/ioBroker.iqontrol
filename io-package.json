@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.3",
+        "version": "1.1.4",
         "news": {
+            "1.1.4": {
+                "en": "Changed the way popup-iframes are created to allow execution of code inside them, Added the possibility to chose progressbars as icons and background-images for devices, Added progress-circle of remaining display-time to popup."
+            },
             "1.1.3": {
                 "en": "Added popup messagen (toast-messagen), Enhanced scenes to be able to toggle (added option to always send true, if you need the old behaviour).",
                 "de": "Popup-Messagen (Toast-Messagen) hinzugefügt, Szenen zum Umschalten verbessert (Option hinzugefügt, um immer true zu senden, wenn Sie das alte Verhalten benötigen).",

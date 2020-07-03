@@ -324,7 +324,7 @@ In addition to normal thermostat you can define:
 ### Progress Bars
 * It is possible, to use SVG-Definitions in combination with variables instead of imagefiles to display progress-bars
 * There are a vew templates integrated to chose from, but you can also create your own SVGs
-* See Wiki [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars). 
+* See [Wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars) for further informations
 
 
 ## Device-Names

@@ -403,10 +403,12 @@ body {
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
 	opacity: 0;
+	display: none;
 }
 .iQontrolDeviceIcon.active {
 	pointer-events:auto !important;
 	opacity: 1;
+	display: block;
 }
 .iQontrolDeviceIcon.overlay {
 	pointer-events:none !important;
