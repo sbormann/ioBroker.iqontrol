@@ -1894,6 +1894,57 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     return false;
 };
 
+function dragElement(elementId, handleId, cursor) { //Makes an element draggable
+	element = document.getElementById(elementId);
+	if(!element) return;
+	handle = document.getElementById(handleId);
+	if(!handle) handle = element;
+	if(cursor === true) cursor = 'move'; 
+	if(cursor) handle.style.cursor = cursor;
+	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+	// otherwise, move the DIV from anywhere inside the DIV:
+	handle.addEventListener('mousedown', dragMouseDown);
+	handle.addEventListener('touchstart', dragMouseDown);
+
+	function dragMouseDown(e) {
+		console.log("DRAG START");
+		e = e || window.event;
+		e.preventDefault();
+		// get the mouse cursor position at startup:
+		pos3 = e.clientX;
+		pos4 = e.clientY;
+		document.addEventListener('mouseup', closeDragElement);
+		document.addEventListener('touchend', closeDragElement);
+		// call a function whenever the cursor moves:
+		document.addEventListener('mousemove', elementDrag);
+		document.addEventListener('touchmove', elementDrag);
+	}
+
+	function elementDrag(e) {
+		//console.log("DRAG MOVE");
+		e = e || window.event;
+		//e.preventDefault();
+		// calculate the new cursor position:
+		pos1 = pos3 - (e.clientX || e.touches[0].clientX);
+		pos2 = pos4 - (e.clientY || e.touches[0].clientY);
+		pos3 = e.clientX || e.touches[0].clientX;
+		pos4 = e.clientY || e.touches[0].clientY;
+		// set the element's new position:
+		element.style.top = (element.offsetTop - pos2) + "px";
+		element.style.left = (element.offsetLeft - pos1) + "px";
+		var elementPopup = document.getElementById(element.id + "-popup");
+	}
+
+	function closeDragElement() {
+		// stop moving when mouse button is released:
+		console.log("DRAG END");
+		document.removeEventListener('mouseup', closeDragElement);
+		document.removeEventListener('touchend', closeDragElement);
+		document.removeEventListener('mousemove', elementDrag);
+		document.removeEventListener('touchmove', elementDrag);
+	}
+}
+
 function secondsToHHMMSS(seconds){
 	if(isNaN(seconds)) return seconds;
 	var sec_num = parseInt(seconds, 10);
@@ -7766,6 +7817,9 @@ function handleVisibilityChange() {
 
 //Document ready - initialization - start connection
 $(document).ready(function(){
+	//Make Dialog draggable
+	dragElement('Dialog-popup', 'DialogHeaderTitle', true);
+
 	//Init Toolbar
 	$("[data-role='header'], [data-role='footer']").toolbar();
 
