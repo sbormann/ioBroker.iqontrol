@@ -7635,16 +7635,34 @@ function dialogThermostatPartyModeCheckConsistency(){
 	if(error) $("input[name='DialogThermostatPartyModeSave']").attr("disabled", "disabled"); else $("input[name='DialogThermostatPartyModeSave']").attr("disabled", false);
 }
 
-//++++++++++ TOAST ++++++++++
+//++++++++++ POPUP (TOAST) ++++++++++
 function toast(message, duration){
-	toastStack.push({message: message, duration: duration});
-	if(toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
+	if(toastStack.length == 0 || toastStack[toastStack.length - 1].message !== message){
+		toastStack.push({message: message, duration: duration});
+		if(toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
+	}
 }
 
 function toastShowNext(){
 	if(toastStack.length > 0) {
 		var toast = toastStack[0];
-		var $toast = $("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><div class='toastMessageQueue' style='position: absolute; right: 2px; top: 2px; text-align: right; font-size: smaller;'>&nbsp;</div><h4>" + toast.message + "</h4></div>");
+		var toaststring = "";
+		toaststring += "<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'>";
+		toaststring += 		"<div class='toastMessageDuration' style='display: none; position: absolute; left: 2px; top: -2px; width: 10px;'>";
+		toaststring +=			"<svg viewBox='0 0 36 36'>";
+		toaststring +=				"<path fill='none' stroke='lightgrey' stroke-width='4' d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'></path>";
+		toaststring +=				"<path class='toastMessageDurationProgress' fill='none' stroke='grey' stroke-width='4' stroke-linecap='round' stroke-dasharray='100, 100' transform='rotate(0 18 18)' d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'></path>";
+		toaststring +=			"</svg>";
+		toaststring +=		"</div>";
+		toaststring += 		"<div class='toastMessageQueue' style='position: absolute; right: 2px; top: 2px; text-align: right; font-size: smaller;'>&nbsp;</div>";
+		toaststring += 		"<h4>" + toast.message + "</h4>";
+		toaststring += "</div>";
+		var $toast = $(toaststring);
+		var removeToast = function(){
+			$(this).remove();
+			toastStack.shift();
+			toastShowNext();
+		};
 		$toast.css({
 			'display': 'block', 
 			'background': '#fff',
@@ -7659,11 +7677,10 @@ function toastShowNext(){
 			'top': '20px',
 			'display': 'none'
 		});
-		var removeToast = function(){
-			$(this).remove();
-			toastStack.shift();
-			toastShowNext();
-		};
+		if(toast.duration > 0){
+			$toast.find('.toastMessageDuration').show();
+			$toast.find('.toastMessageDurationProgress').css('stroke-dashoffset', 0).animate({'strokeDashoffset': 100}, toast.duration + 400, 'linear');
+		}
 		$toast.click(removeToast);
 		$toast.appendTo($.mobile.pageContainer).fadeIn(400).delay(toast.duration);
 		if(toastStack.length > 1) $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());

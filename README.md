@@ -321,6 +321,11 @@ In addition to normal thermostat you can define:
 	* As soon as the state of ``javascript.0.myimage`` is fetched from the server, the image will be replaced with ``./../iqontrol.meta/userimages/demo/XXX.jpg`` where ``XXX`` is the value of ``javascript.0.myimage``
 	* If ``javascript.0.myimage`` has no value the fallback ``whitestone`` will be used (using the fallback is optional)
 
+### Progress Bars
+* It is possible, to use SVG-Definitions in combination with variables instead of imagefiles to display progress-bars
+* There are a vew templates integrated to chose from, but you can also create your own SVGs
+* See Wiki [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars). 
+
 
 ## Device-Names
 * Just like variables in image-urls you can use variables in device-names. The syntax is almost the same:
@@ -343,12 +348,15 @@ In addition to normal thermostat you can define:
 ![Popup Blockly](img/popup_blockly.png)
 
 
+
 ****
 
 ## Changelog
 
 ### 1.1.4 development
 * (Sebastian Bormann) Changed the way popup-iframes are created to allow execution of code inside them.
+* (Sebastian Bormann) Added the possibility to chose progressbars as icons and background-images for devices.
+* (Sebastian Bormann) Added progress-circle of remaining display-time to popup.
 
 ### 1.1.3 (2020-06-28)
 * (Sebastian Bormann) Added popup messagen (toast-messagen).
