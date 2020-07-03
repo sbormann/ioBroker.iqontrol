@@ -353,6 +353,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### development
+* (Sebastian Bormann) Made dialog draggable by dragging title.
+
 ### 1.1.4 development
 * (Sebastian Bormann) Changed the way popup-iframes are created to allow execution of code inside them.
 * (Sebastian Bormann) Added the possibility to chose progressbars as icons and background-images for devices.
