@@ -4560,7 +4560,16 @@ function renderView(viewId){
 							var newBackgroundimage = "url(\"" + newSrc + "\")";
 							if($(_that).css('background-image') != newBackgroundimage){
 								console.log("Set new Background-image: " + newBackgroundimage);
-								$(_that).css('background-image', newBackgroundimage);
+								var $newBackgroundimageFile = $(new Image());
+								$newBackgroundimageFile.on('load', function(){ //Preloading the image
+									var oldCssTransition = null;
+									if(newSrc.substring(0, 5).toLowerCase() == "data:"){ //Bug for transition in background-size for SVGs
+										oldCssTransition = $(_that).css('transition');
+										$(_that).css('transition', 'background-size 0s');
+									}
+									$(_that).css('background-image', "url(\"" + $newBackgroundimageFile.attr('src') + "\")");
+									if(oldCssTransition !== null) setTimeout(function(){ $(_that).css('transition', oldCssTransition); }, 10);
+								}).attr('src', newSrc);
 							}
 						}
 					};

@@ -358,11 +358,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### development
-* (Sebastian Bormann) Made dialog draggable by dragging title.
+### 1.1.5 (2020-07-05)
+* (Sebastian Bormann) Made dialog movable by dragging title.
 * (Sebastian Bormann) Added LEVEL to fan.
+* (Sebastian Bormann) Fixed flickering of SVG-Background change on some devices.
 
-### 1.1.4 development
+### 1.1.4 (2020-07-03)
 * (Sebastian Bormann) Changed the way popup-iframes are created to allow execution of code inside them.
 * (Sebastian Bormann) Added the possibility to chose progressbars as icons and background-images for devices.
 * (Sebastian Bormann) Added progress-circle of remaining display-time to popup.

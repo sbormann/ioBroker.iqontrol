@@ -2259,7 +2259,7 @@ function load(settings, onChange) {
 					if (!resultStatesObj['TEMPERATURE']) resultStatesObj['TEMPERATURE'] = id;
 					break;
 
-					case ".BRIGHTNESS": case ".LUX":
+					case ".BRIGHTNESS": case ".LUX": case "illuminance":
 					if (!resultStatesObj['BRIGHTNESS']) resultStatesObj['BRIGHTNESS'] = id;
 					break;
 

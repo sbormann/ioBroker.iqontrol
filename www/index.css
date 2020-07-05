@@ -465,11 +465,11 @@ body {
 }
 .iQontrolDeviceInfoAText {
 	pointer-events:none !important;
-	position:absolute; left: 66px; top: 18px; width: 42px; height: 16px;
+	position:absolute; left: 65px; top: 19px; width: 45px; height: 16px;
 	overflow: hidden;
 	background: transparent;
 	color: black;
-	font-size: 8pt;
+	font-size: 7.5pt;
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
@@ -488,11 +488,11 @@ body {
 }
 .iQontrolDeviceInfoBText {
 	pointer-events:none !important;
-	position:absolute; left: 66px; top: 37px; width: 42px; height: 16px;
+	position:absolute; left: 65px; top: 38px; width: 45px; height: 16px;
 	overflow: hidden;
 	background: transparent;
 	color: black;
-	font-size: 8pt;
+	font-size: 7.5pt;
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
@@ -710,15 +710,15 @@ body {
 		position:absolute; left: 72px; top: 30px; width: 18px; height: 18px;
 	}
 	.iQontrolDeviceInfoAText {
-		position:absolute; left: 90px; top: 30px; width: 70px; height: 22px;
-		font-size: 11pt;
+		position:absolute; left: 90px; top: 30px; width: 72px; height: 22px;
+		font-size: 10.5pt;
 	}
 	.iQontrolDeviceInfoBIcon {
 		position:absolute; left: 72px; top: 58px; width: 18px; height: 18px;
 	}
 	.iQontrolDeviceInfoBText {
-		position:absolute; left: 90px; top: 58px; width: 70px; height: 22px;
-		font-size: 11pt;
+		position:absolute; left: 90px; top: 58px; width: 72px; height: 22px;
+		font-size: 10.5pt;
 	}
 	.iQontrolDeviceName  {
 		position:absolute; left: 10px; top: 84px; width: 150px; height: 45px;

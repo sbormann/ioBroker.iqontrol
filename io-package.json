@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.4",
+        "version": "1.1.5",
         "news": {
+            "1.1.5": {
+                "en": "Made dialog movable by dragging title, Added LEVEL to fan, Fixed flickering of SVG-Background change on some devices.",
+                "de": "Dialog durch Ziehen des Titels beweglich gemacht, LEVEL zum Lüfter hinzugefügt, Flackern der SVG-Hintergrundänderung auf einigen Geräten behoben.",
+                "ru": "Сделано перемещение диалога путем перетаскивания заголовка, Добавлен УРОВЕНЬ в веер, Исправлено мерцание изменения SVG-фона на некоторых устройствах.",
+                "pt": "Tornou a caixa de diálogo móvel arrastando o título, Adicionando LEVEL ao ventilador, Corrigida oscilação da alteração SVG-Background em alguns dispositivos.",
+                "nl": "Dialoog verplaatsbaar gemaakt door titel te slepen, LEVEL toegevoegd aan ventilator, Vaste flikkering van SVG-achtergrondverandering op sommige apparaten.",
+                "fr": "Boîte de dialogue mobile en faisant glisser le titre, Ajout de NIVEAU au ventilateur, Correction du scintillement du changement d'arrière-plan SVG sur certains appareils.",
+                "it": "Rende mobile la finestra di dialogo trascinando il titolo, Aggiunto LIVELLO alla ventola, Risolto lo sfarfallio della modifica dello sfondo SVG su alcuni dispositivi.",
+                "es": "Diálogo movido arrastrando el título, NIVEL agregado al ventilador, parpadeo fijo del cambio de fondo SVG en algunos dispositivos.",
+                "pl": "Okno dialogowe można było przenosić, przeciągając tytuł, Dodano POZIOM do wentylatora, Naprawiono migotanie zmiany tła SVG na niektórych urządzeniach.",
+                "zh-cn": "通过拖动标题使对话框可移动，向风扇添加了LEVEL，修复了某些设备上SVG-Background更改的闪烁。"
+            },
             "1.1.4": {
-                "en": "Changed the way popup-iframes are created to allow execution of code inside them, Added the possibility to chose progressbars as icons and background-images for devices, Added progress-circle of remaining display-time to popup."
+                "en": "Changed the way popup-iframes are created to allow execution of code inside them, Added the possibility to chose progressbars as icons and background-images for devices, Added progress-circle of remaining display-time to popup.",
+                "de": "Die Art und Weise, wie Popup-Iframes erstellt werden, um die Ausführung von Code in ihnen zu ermöglichen, wurde geändert. Es wurde die Möglichkeit hinzugefügt, Fortschrittsbalken als Symbole und Hintergrundbilder für Geräte auszuwählen. Es wurde ein Fortschrittskreis der verbleibenden Anzeigezeit zum Popup hinzugefügt.",
+                "ru": "Изменен способ создания popup-iframes, чтобы разрешить выполнение кода внутри них, Добавлена ​​возможность выбора индикаторов выполнения в качестве значков и фоновых изображений для устройств, Добавлен круг выполнения оставшегося времени отображения для всплывающего окна.",
+                "pt": "Foi alterada a maneira como os pop-iframes são criados para permitir a execução do código dentro deles. Adicionada a possibilidade de escolher barras de progresso como ícones e imagens de plano de fundo para dispositivos. Adicionado círculo de progresso do tempo restante de exibição para pop-up.",
+                "nl": "De manier veranderd waarop pop-up-iframes worden gemaakt om de uitvoering van code erin toe te staan, de mogelijkheid toegevoegd om voortgangsbalken te kiezen als pictogrammen en achtergrondafbeeldingen voor apparaten, voortgangscirkel van resterende weergavetijd toegevoegd aan pop-up.",
+                "fr": "Modification de la façon dont les popup-iframes sont créés pour permettre l'exécution de code à l'intérieur, Ajout de la possibilité de choisir les barres de progression comme icônes et images d'arrière-plan pour les appareils, Ajout du cercle de progression du temps d'affichage restant au popup.",
+                "it": "Modificato il modo in cui vengono creati i popup iframe per consentire l'esecuzione del codice al loro interno, Aggiunta la possibilità di scegliere barre di avanzamento come icone e immagini di sfondo per i dispositivi, Aggiunta cerchia di avanzamento del tempo di visualizzazione rimanente al popup.",
+                "es": "Se modificó la forma en que se crean los iframes emergentes para permitir la ejecución de código dentro de ellos, se agregó la posibilidad de elegir barras de progreso como iconos e imágenes de fondo para dispositivos, se agregó el círculo de progreso del tiempo de visualización restante a la ventana emergente.",
+                "pl": "Zmieniono sposób tworzenia wyskakujących ramek iframe, aby umożliwić wykonanie kodu w nich, Dodano możliwość wyboru pasków postępu jako ikon i obrazów tła dla urządzeń, Dodano koło postępu pozostałego czasu wyświetlania wyskakującego okienka.",
+                "zh-cn": "更改了创建弹出iframe的方式以允许在其中执行代码；增加了选择进度条作为设备图标和背景图像的可能性；增加了剩余显示时间的进度圈。"
             },
             "1.1.3": {
                 "en": "Added popup messagen (toast-messagen), Enhanced scenes to be able to toggle (added option to always send true, if you need the old behaviour).",
