@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.5",
+        "version": "1.1.6",
         "news": {
+            "1.1.6": {
+                "en": "Added some roles to recognize water and fire sensors more reliable, Added a block to blockly to send popup messages to iQontrol, Set option 'Always use time instead of pressure' as standard - if you want to use ForcedTouch, disable this option.",
+                "de": "Einige Rollen hinzugefügt, um Wasser- und Feuersensoren zuverlässiger zu erkennen. Block blockiert, um Popup-Nachrichten an iQontrol zu senden. Option \"Immer Zeit anstelle von Druck verwenden\" als Standard festlegen. Wenn Sie ForcedTouch verwenden möchten, deaktivieren Sie diese Option.",
+                "ru": "Добавлены некоторые роли для более надежного распознавания датчиков воды и пожара, Добавлен блок для блокирования отправки всплывающих сообщений в iQontrol, Установите опцию «Всегда использовать время вместо давления» в качестве стандарта - если вы хотите использовать ForcedTouch, отключите эту опцию.",
+                "pt": "Foram adicionadas algumas funções para reconhecer os sensores de água e fogo mais confiáveis; Adicionado um bloco para enviar mensagens pop-up para o iQontrol, definir opção como sempre usar o tempo em vez de pressão 'como padrão - se você deseja usar o ForcedTouch, desative esta opção.",
+                "nl": "Enkele rollen toegevoegd om water- en brandsensoren betrouwbaarder te herkennen, Blok toegevoegd om pop-upberichten naar iQontrol te sturen, Optie 'Altijd tijd gebruiken in plaats van druk' standaard instellen - als u ForcedTouch wilt gebruiken, schakel deze optie dan uit.",
+                "fr": "Ajout de certains rôles pour reconnaître les capteurs d'eau et d'incendie plus fiables, Ajout d'un bloc pour envoyer des messages contextuels à iQontrol, Définissez l'option `` Toujours utiliser le temps au lieu de la pression '' en standard - si vous souhaitez utiliser ForcedTouch, désactivez cette option.",
+                "it": "Aggiunti alcuni ruoli per riconoscere i sensori di acqua e fuoco più affidabili, Aggiunto un blocco a blocco per inviare messaggi popup a iQontrol, Impostare l'opzione 'Usa sempre il tempo invece della pressione' come standard - se si desidera utilizzare ForcedTouch, disabilitare questa opzione.",
+                "es": "Se agregaron algunas funciones para reconocer los sensores de agua y fuego más confiables, Se agregó un bloque para enviar mensajes emergentes a iQontrol, Establecer la opción 'Usar siempre el tiempo en lugar de la presión' como estándar; si desea usar ForcedTouch, desactive esta opción.",
+                "pl": "Dodano pewne role, aby rozpoznawać czujniki wody i ognia bardziej niezawodne, Dodano blokowanie blokowania wysyłania wyskakujących wiadomości do iQontrol, Ustaw opcję `` Zawsze używaj czasu zamiast ciśnienia '' jako standard - jeśli chcesz używać ForcedTouch, wyłącz tę opcję.",
+                "zh-cn": "添加了一些角色以更可靠地识别水和火传感器，添加了一个块以阻止将弹出消息发送到iQontrol，将选项“始终使用时间而不是压力”作为标准设置-如果要使用ForcedTouch，请禁用此选项。"
+            },
             "1.1.5": {
                 "en": "Made dialog movable by dragging title, Added LEVEL to fan, Fixed flickering of SVG-Background change on some devices.",
                 "de": "Dialog durch Ziehen des Titels beweglich gemacht, LEVEL zum Lüfter hinzugefügt, Flackern der SVG-Hintergrundänderung auf einigen Geräten behoben.",
@@ -246,6 +258,7 @@
         "singleton": false,
         "materialize": true,
         "materializeTab": true,
+        "blockly": true,
         "messagebox": true,
         "subscribe": "messagebox",
         "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",

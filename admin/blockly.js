@@ -1,0 +1,121 @@
+'use strict';
+
+if (typeof goog !== 'undefined') {
+    goog.provide('Blockly.JavaScript.Sendto');
+
+    goog.require('Blockly.JavaScript');
+}
+
+// remove it somewhere, because it defined in javascript=>blocks_words.js from javascript>=4.6.0
+Blockly.Translate = Blockly.Translate || function (word, lang) {
+    lang = lang || systemLang;
+    if (Blockly.Words && Blockly.Words[word]) {
+        return Blockly.Words[word][lang] || Blockly.Words[word].en;
+    } else {
+        return word;
+    }
+};
+
+/// --- SendTo --------------------------------------------------
+Blockly.Words['iqontrol']              		 = {'en': 'iQontrol',                   'de': 'iQontrol',                           'ru': 'iQontrol'};
+Blockly.Words['iqontrol_popup_message']      = {'en': 'popup message',              'de': 'Popup Meldung',                      'ru': 'Неожиданно возникнуть сообщение'};
+Blockly.Words['iqontrol_popup_duration']     = {'en': 'popup duration',             'de': 'Popup Dauer',                        'ru': 'Неожиданно возникнуть продолжительность'};
+
+Blockly.Words['iqontrol_log']               = {'en': 'log level',                   'de': 'Loglevel',                           'ru': 'Протокол'};
+Blockly.Words['iqontrol_log_none']          = {'en': 'none',                        'de': 'keins',                              'ru': 'нет'};
+Blockly.Words['iqontrol_log_info']          = {'en': 'info',                        'de': 'info',                               'ru': 'инфо'};
+Blockly.Words['iqontrol_log_debug']         = {'en': 'debug',                       'de': 'debug',                              'ru': 'debug'};
+Blockly.Words['iqontrol_log_warn']          = {'en': 'warning',                     'de': 'warning',                            'ru': 'warning'};
+Blockly.Words['iqontrol_log_error']         = {'en': 'error',                       'de': 'error',                              'ru': 'ошибка'};
+
+Blockly.Words['iqontrol_anyInstance']       = {'en': 'all instances',               'de': 'Alle Instanzen',                     'ru': 'На все драйвера'};
+Blockly.Words['iqontrol_tooltip']           = {'en': 'Send message to iQontrol',    'de': 'Sende eine Meldung an iQontrol',     'ru': 'Послать сообщение через iQontrol'};
+Blockly.Words['iqontrol_help']              = {'en': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'de': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'ru': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md'};
+
+Blockly.Sendto.blocks['iqontrol'] =
+    '<block type="iqontrol">'
+    + '     <value name="INSTANCE">'
+    + '     </value>'
+    + '     <value name="POPUP_MESSAGE">'
+    + '         <shadow type="text">'
+    + '             <field name="TEXT">text</field>'
+    + '         </shadow>'
+    + '     </value>'
+    + '     <value name="POPUP_DURATION">'
+    + '         <shadow type="math_number">'
+    + '             <field name="NUM">2500</field>'
+    + '         </shadow>'
+    + '     </value>'
+    + '     <value name="LOG">'
+    + '     </value>'
+    + '</block>';
+
+Blockly.Blocks['iqontrol'] = {
+    init: function() {
+        var options = [[Blockly.Translate('iqontrol_anyInstance'), '']];
+        if (typeof main !== 'undefined' && main.instances) {
+            for (var i = 0; i < main.instances.length; i++) {
+                var m = main.instances[i].match(/^system.adapter.iqontrol.(\d+)$/);
+                if (m) {
+                    var n = parseInt(m[1], 10);
+                    options.push(['iqontrol.' + n, '.' + n]);
+                }
+            }
+        }
+        if (!options.length) {
+            for (var u = 0; u <= 4; u++) {
+                options.push(['iqontrol.' + u, '.' + u]);
+            }
+        }
+        this.appendDummyInput('INSTANCE')
+            .appendField(Blockly.Translate('iqontrol'))
+            .appendField(new Blockly.FieldDropdown(options), "INSTANCE");
+
+        this.appendValueInput('POPUP_MESSAGE')
+            .appendField(Blockly.Translate('iqontrol_popup_message'));
+
+        var input = this.appendValueInput('POPUP_DURATION')
+            .appendField(Blockly.Translate('iqontrol_popup_duration'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        this.appendDummyInput('LOG')
+            .appendField(Blockly.Translate('iqontrol_log'))
+            .appendField(new Blockly.FieldDropdown([
+                [Blockly.Translate('iqontrol_log_none'),  ''],
+                [Blockly.Translate('iqontrol_log_info'),  'log'],
+                [Blockly.Translate('iqontrol_log_debug'), 'debug'],
+                [Blockly.Translate('iqontrol_log_warn'),  'warn'],
+                [Blockly.Translate('iqontrol_log_error'), 'error']
+            ]), 'LOG');
+
+        this.setInputsInline(false);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+
+        this.setColour(Blockly.Sendto.HUE);
+        this.setTooltip(Blockly.Translate('iqontrol_tooltip'));
+        this.setHelpUrl(Blockly.Translate('iqontrol_help'));
+    }
+};
+
+Blockly.JavaScript['iqontrol'] = function(block) {
+    var dropdown_instance = block.getFieldValue('INSTANCE');
+    var logLevel = block.getFieldValue('LOG'); 
+    var popupMessage  = Blockly.JavaScript.valueToCode(block, 'POPUP_MESSAGE', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupDuration = Blockly.JavaScript.valueToCode(block, 'POPUP_DURATION', Blockly.JavaScript.ORDER_ATOMIC);
+    var text = '{\n';
+	if (popupMessage)		text += '   PopupMessage: ' + popupMessage + ',\n';
+    if (popupDuration)		text += '   PopupDuration: ' + popupDuration + ',\n';
+    text = text.substring(0, text.length - 2);
+    text += '\n';
+    text += '}';
+    var logText;
+    if (logLevel) {
+        logText = 'console.' + logLevel + '("iqontrol: " + ' + text + ');\n'
+    } else {
+        logText = '';
+    }
+    return 'sendTo("iqontrol' + dropdown_instance + '", "send", ' + text + ');\n' + logText;
+};

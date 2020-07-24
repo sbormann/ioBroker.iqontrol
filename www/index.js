@@ -1160,7 +1160,7 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 				result.readonly = true;
 				break;
 
-				case "sensor.alarm.fire":
+				case "sensor.alarm.fire": case "sensor.fire": case "sensor.alarm.flood": case "sensor.flood": case "sensor.alarm.water": case "sensor.water": case "indicator.alarm.fire": case "indicator.fire": case "indicator.alarm.flood": case "indicator.flood": case "indicator.alarm.water": case "indicator.water": case "indicator.leakage":
 				if(result.val) result.plainText = _("triggered"); else result.plainText = " ";
 				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
 					result.valueList = {"true": _("triggered"), "false": _("OK")};
@@ -2833,7 +2833,7 @@ function applyToolbarPressureMenu(){
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
-			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
+			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				//console.log("PRESSURE change start FALLBACK");
 				if (toolbarPressureMenuFallbackTimer) {
 					clearInterval(toolbarPressureMenuFallbackTimer);
@@ -4870,7 +4870,7 @@ function applyViewPressureMenu(){
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
 				//console.log("PRESSURE change start");
 				//-- do nothing --
-			} else if (options.LayoutPressureMenuAlwaysUseFallback || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
+			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				//console.log("PRESSURE change start FALLBACK");
 				if (viewPressureMenuFallbackTimer) {
 					clearInterval(viewPressureMenuFallbackTimer);
