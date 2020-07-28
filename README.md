@@ -94,10 +94,56 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
     * ``<port of web adapter>`` is usually 8082
 * To open a specified instance you can add ``namespace=iqontrol.<instance-number>`` as URL-parameter
 * To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter
+    * ``<viewID>`` needs to be formated like ``iqontrol.<insctance-number>.Views.<view-name>``
+	* Note: this is case-sensitive!
+* To set or override return after time settings, use the following parameters:
+    * ``returnAfterTimeTreshold=<time in seconds>`` to set the time, after wich the destination view is called. Use ``0`` to disable return after time feature.
+	* ``returnAfterTimeDestiationView=<viewID>`` to set the view, wich is called after the treshold. If not specified, the home view will be used.
+	* These options are helpful, if you call iQontrol from an wall mounted tablet, wich should automatically return to home-view after beeing used 
 
 **Example:**
 * ``https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room``
     * Note upper and lower case
+
+
+
+## Icons and Background-Images
+* You can use the inbuilt images or the images uploaded under the images tab or any free url you like
+* You can also use a variable inside the image-url. This may be useful for example for weather-forecasts. Use this pattern:
+    * ``path/to/firstloaded.png|anotherpath/to/{iobrokerstate|fallback}.png``
+    * Example: ``./../iqontrol.meta/userimages/demo/bottle.jpg|./../iqontrol.meta/userimages/demo/{javascript.0.myimage|whitestone}.jpg`` 
+	* This loads ``./../iqontrol.meta/userimages/demo/bottle.jpg`` when you open the view
+	* As soon as the state of ``javascript.0.myimage`` is fetched from the server, the image will be replaced with ``./../iqontrol.meta/userimages/demo/XXX.jpg`` where ``XXX`` is the value of ``javascript.0.myimage``
+	* If ``javascript.0.myimage`` has no value the fallback ``whitestone`` will be used (using the fallback is optional)
+
+### Progress Bars
+* It is possible, to use SVG-Definitions in combination with variables instead of imagefiles to display progress-bars
+* There are a vew templates integrated to chose from, but you can also create your own SVGs
+* See [Wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars) for further informations
+
+
+## Device-Names
+* Just like variables in image-urls you can use variables in device-names. The syntax is almost the same:
+    * ``Text while loading|Text after loading {iobrokerstate|fallback}``
+	* Additionally can put the iobrokerstate into square brackets, then the plain value without its unit will be used: ``Text while loading|Text after loading {[iobrokerstate]|fallback}``
+    * Example: ``Weather is loading|Weather: {javascript.0.weather|No weather data found}`` 
+	* This shows ``Weather is loading`` when you open the view
+	* As soon as the state of ``javascript.0.weather`` is fetched from the server, the text will be replaced by ``Weather: XXX`` where ``XXX`` is the value of ``javascript.0.weather``
+	* If ``javascript.0.weather`` has no value the fallback ``No weather data found`` will be used (using the fallback is optional)
+
+
+## Popup-Messages
+* Every instance creates the objects ``iqontrol.x.Popup.Message`` and ``iqontrol.x.Popup.Duration``
+* When passing values to these objects, a popup-message (or toast) is displayed
+* You can use html-tags to format the message
+* The duration is the time in ms the message is displayed; if the duration is 0 the message has to be confirmed
+* Alternatively you can set these values via sendTo-command with the parameters ``PopupMessage`` and ``PopupDuration``. 
+    * Example: ``sendTo("iqontrol", "send", {PopupMessage: 'This is my message', PopupDuration: 2500});``
+* You can also use blockly to send messages to iQontrol
+
+![Popup Screenshot](img/popup_screenshot.png)
+
+![Popup Blockly](img/popup_blockly.png)
 
 
 ## Description of roles and associated states
@@ -237,7 +283,7 @@ In addition to normal thermostat you can define:
 * **STATE**: *boolean* - display if the door or window is opened or closed
     * Alternatively you can assign a *value-list*, to display additional states like 'tilted' (in options of windows you can define wich text stands for opened, closed an tilted to display the correct icon)
     * You can also assign a *string* to display any text like "3 windows open" or "all closed" or a *number*
-* Respect the **linked-view-property**
+* The **linked-view-property** is opened directly
 
 ### <img src="img/icons/garagedoor_closed.png" width="32"> Garage Door:
 * **STATE**: *boolean* - display if the door is opened or closed
@@ -317,47 +363,13 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 
-## Icons and Background-Images
-* You can use the inbuilt images or the images uploaded under the images tab or any free url you like
-* You can also use a variable inside the image-url. This may be useful for example for weather-forecasts. Use this pattern:
-    * ``path/to/firstloaded.png|anotherpath/to/{iobrokerstate|fallback}.png``
-    * Example: ``./../iqontrol.meta/userimages/demo/bottle.jpg|./../iqontrol.meta/userimages/demo/{javascript.0.myimage|whitestone}.jpg`` 
-	* This loads ``./../iqontrol.meta/userimages/demo/bottle.jpg`` when you open the view
-	* As soon as the state of ``javascript.0.myimage`` is fetched from the server, the image will be replaced with ``./../iqontrol.meta/userimages/demo/XXX.jpg`` where ``XXX`` is the value of ``javascript.0.myimage``
-	* If ``javascript.0.myimage`` has no value the fallback ``whitestone`` will be used (using the fallback is optional)
-
-### Progress Bars
-* It is possible, to use SVG-Definitions in combination with variables instead of imagefiles to display progress-bars
-* There are a vew templates integrated to chose from, but you can also create your own SVGs
-* See [Wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars) for further informations
-
-
-## Device-Names
-* Just like variables in image-urls you can use variables in device-names. The syntax is almost the same:
-    * ``Text while loading|Text after loading {iobrokerstate|fallback}``
-	* Additionally can put the iobrokerstate into square brackets, then the plain value without its unit will be used: ``Text while loading|Text after loading {[iobrokerstate]|fallback}``
-    * Example: ``Weather is loading|Weather: {javascript.0.weather|No weather data found}`` 
-	* This shows ``Weather is loading`` when you open the view
-	* As soon as the state of ``javascript.0.weather`` is fetched from the server, the text will be replaced by ``Weather: XXX`` where ``XXX`` is the value of ``javascript.0.weather``
-	* If ``javascript.0.weather`` has no value the fallback ``No weather data found`` will be used (using the fallback is optional)
-
-
-## Popup-Messages
-* Every instance creates the objects ``iqontrol.x.Popup.Message`` and ``iqontrol.x.Popup.Duration``
-* When passing values to these objects, a popup-message (or toast) is displayed
-* You can use html-tags to format the message
-* The duration is the time in ms the message is displayed; if the duration is 0 the message has to be confirmed
-* Alternatively you can set these values via sendTo-command with the parameters ``PopupMessage`` and ``PopupDuration``. 
-    * Example: ``sendTo("iqontrol", "send", {PopupMessage: 'This is my message', PopupDuration: 2500});``
-* You can also use blockly to send messages to iQontrol
-![Popup Screenshot](img/popup_screenshot.png)
-![Popup Blockly](img/popup_blockly.png)
-
-
-
 ****
 
 ## Changelog
+
+### development
+* (Sebastian Bormann) Improved long press and forced touch handling.
+* (Sebastian Bormann) Added URL-Parameters returnAfterTimeDestiationView and returnAfterTimeTreshold.
 
 ### 1.1.6 (2020-07-24)
 * (Sebastian Bormann) Added some roles to recognize water and fire sensors more reliable.

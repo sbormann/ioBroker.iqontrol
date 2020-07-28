@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.6",
+        "version": "1.1.7",
         "news": {
+            "1.1.7": {
+                "en": "Improved long press and forced touch handling, Added URL-Parameters returnAfterTimeDestiationView and returnAfterTimeTreshold.",
+                "de": "Verbesserte Handhabung für langes Drücken und erzwungenes Berühren, URL-Parameter returnAfterTimeDestiationView und returnAfterTimeTreshold hinzugefügt.",
+                "ru": "Улучшена обработка при длительном нажатии и принудительном касании, добавлены URL-параметры returnAfterTimeDestiationView и returnAfterTimeTreshold.",
+                "pt": "Pressão longa aprimorada e manipulação forçada de toque, parâmetros de URL adicionados returnAfterTimeDestiationView e returnAfterTimeTreshold.",
+                "nl": "Verbeterde lange druk en geforceerde aanraakbehandeling, URL-parameters toegevoegd returnAfterTimeDestiationView en returnAfterTimeTreshold.",
+                "fr": "Amélioration de la pression longue et du toucher forcé, ajout de paramètres d'URL returnAfterTimeDestiationView et returnAfterTimeTreshold.",
+                "it": "Migliore pressione prolungata e gestione forzata del tocco, parametri URL aggiunti returnAfterTimeDestiationView e returnAfterTimeTreshold.",
+                "es": "Mejora de la pulsación prolongada y manejo táctil forzado, parámetros de URL agregados returnAfterTimeDestiationView y returnAfterTimeTreshold.",
+                "pl": "Ulepszona obsługa długiego naciśnięcia i wymuszonego dotyku, dodano parametry adresu URL returnAfterTimeDestiationView i returnAfterTimeTreshold.",
+                "zh-cn": "改进了长按和强制触摸处理，添加了URL参数returnAfterTimeDestiationView和returnAfterTimeTreshold。"
+            },
             "1.1.6": {
                 "en": "Added some roles to recognize water and fire sensors more reliable, Added a block to blockly to send popup messages to iQontrol, Set option 'Always use time instead of pressure' as standard - if you want to use ForcedTouch, disable this option.",
                 "de": "Einige Rollen hinzugefügt, um Wasser- und Feuersensoren zuverlässiger zu erkennen. Block blockiert, um Popup-Nachrichten an iQontrol zu senden. Option \"Immer Zeit anstelle von Druck verwenden\" als Standard festlegen. Wenn Sie ForcedTouch verwenden möchten, deaktivieren Sie diese Option.",

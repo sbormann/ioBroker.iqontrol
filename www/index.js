@@ -5,7 +5,7 @@
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
 var useCache = true;
-var homeId = getUrlParameter('home') || '';	//If not specified, the first toolbar-entry will be used
+var homeId = getUrlParameter('home') || '';		//If not specified, the first toolbar-entry will be used
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -2745,9 +2745,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		//Return after time
-		if(options.LayoutViewReturnAfterTimeEnabled) {
-			returnAfterTimeDestinationView = options.LayoutViewReturnAfterTimeDestinationView || homeId;
-			returnAfterTimeTreshold = options.LayoutViewReturnAfterTimeTreshold || "600";
+		if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
+			returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
+			returnAfterTimeTreshold = getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeTreshold || "600";
 			if(!isNaN(returnAfterTimeTreshold)) returnAfterTimeTreshold = returnAfterTimeTreshold * 1; else returnAfterTimeTreshold = 600;
 			if(returnAfterTimeTimestamp == false){ //Timestamp was not set before - add Eventlisteners to document
 				$(document).on("touchstart mousedown keydown", function(){
@@ -2892,7 +2892,7 @@ function applyToolbarPressureMenu(){
 function toolbarPressureMenuStart(){
 	//console.log("PRESSURE start function");
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-	toolbarPressureMenuForceOld[this] = 0;
+	toolbarPressureMenuForceOld = [];
 	toolbarPressureMenuIgnorePressure = false;
 	setTimeout(function(){
 		toolbarPressureMenuIgnoreClick = false;
@@ -2901,7 +2901,7 @@ function toolbarPressureMenuStart(){
 
 function toolbarPressureMenuChange(force, event, that){
 	force = (force - 0.2) * 1.25; //Ignore forece <0.2
-	forceOld = (toolbarPressureMenuForceOld[that] - 0.2) * 1.25;
+	forceOld = ((toolbarPressureMenuForceOld[that] || 0) - 0.2) * 1.25;
 	if (toolbarPressureMenuIgnorePressure) return;
 	if (force > 0.5 && !toolbarPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
 		//console.log("PRESSURE changeFunction startDeepPress");
@@ -2949,7 +2949,9 @@ function toolbarPressureMenuEnd(ignorePressure){
 		}
 	}, 1);
 	if (!ignorePressure) setTimeout(function(){
+		toolbarPressureMenuForceOld = [];
 		toolbarPressureMenuIgnorePressure = false;
+		toolbarPressureMenuIgnoreClick = false; //####
 	}, 500);
 }
 
@@ -4929,7 +4931,7 @@ function applyViewPressureMenu(){
 function viewPressureMenuStart(){
 	//console.log("PRESSURE start function");
 	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-	viewPressureMenuForceOld[this] = 0;
+	viewPressureMenuForceOld = [];
 	viewPressureMenuIgnorePressure = false;
 	setTimeout(function(){
 		viewPressureMenuIgnoreClick = false;
@@ -4938,7 +4940,7 @@ function viewPressureMenuStart(){
 
 function viewPressureMenuChange(force, event, that){
 	force = (force - 0.2) * 1.25; //Ignore forece <0.2
-	forceOld = (viewPressureMenuForceOld[that] - 0.2) * 1.25;
+	forceOld = ((viewPressureMenuForceOld[that] || 0) - 0.2) * 1.25;
 	if (force > 0.5 && !viewPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
 		//console.log("PRESSURE changeFunction startDeepPress");
 		viewPressureMenuIgnoreClick = true;
@@ -4965,7 +4967,9 @@ function viewPressureMenuEnd(ignorePressure){
 			viewPressureMenuFallbackForce = 0;
 		}
 		if (!ignorePressure) setTimeout(function(){
+			viewPressureMenuForceOld = [];
 			viewPressureMenuIgnorePressure = false;
+			viewPressureMenuIgnoreClick = false; //####
 		}, 500);
 }
 
