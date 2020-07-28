@@ -119,6 +119,10 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 ### Progress Bars
 * It is possible, to use SVG-Definitions in combination with variables instead of imagefiles to display progress-bars
 * There are a vew templates integrated to chose from, but you can also create your own SVGs
+
+![Progressbar square](img/progressbar_square.png)
+![Progressbar circle](img/progressbar_circle.png)
+
 * See [Wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Progress-Bars) for further informations
 
 
@@ -142,7 +146,6 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 * You can also use blockly to send messages to iQontrol
 
 ![Popup Screenshot](img/popup_screenshot.png)
-
 ![Popup Blockly](img/popup_blockly.png)
 
 
