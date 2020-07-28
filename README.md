@@ -36,6 +36,36 @@ Fast Web-App for Visualization.
 Runs in any Browser.
 It's fully customizable.
 
+## Content
+
+[Add to Homescreen](#add-to-homescreen)
+
+[You need](#you-need)
+
+[Troubleshooting](#troubleshooting)
+
+[How to use](#how-to-use)
+
+[URL-Parameters](#url-parameters)
+
+[Icons and Background-Images](#icons-and-background-images)
+
+    * This chapter contains also informations about variables in images and progress-bars
+    
+[Device-Names](#device-names)
+
+    * This chapter contains also informations about variables in device-names
+    
+[Popup-Message](#popup-messages)
+
+[Description of roles and associated states](#description-of-roles-and-associatet-states)
+
+    [Modifying Datapoint Configuration by the wrench-icon](#modifying-datapoint-configuration)
+    
+    [General states](#general-states)
+    
+    [All other roles](#link-to-other-view)
+	
 ## Add to Homescreen
 You can save it as Web-App on Homescreen and it looks and feels like a native app:
 ![Add to Homescreeen](img/add_to_homescreen.png)
