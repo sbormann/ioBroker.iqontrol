@@ -367,7 +367,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### development
+### 1.1.7 (2020-07-28)
 * (Sebastian Bormann) Improved long press and forced touch handling.
 * (Sebastian Bormann) Added URL-Parameters returnAfterTimeDestiationView and returnAfterTimeTreshold.
 
