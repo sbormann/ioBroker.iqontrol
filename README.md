@@ -50,21 +50,17 @@ It's fully customizable.
 
 [Icons and Background-Images](#icons-and-background-images)
 
-    * This chapter contains also informations about variables in images and progress-bars
+    * Contains also informations about variables in images and progress-bars
     
 [Device-Names](#device-names)
 
-    * This chapter contains also informations about variables in device-names
+    * Contains also informations about variables in device-names
     
 [Popup-Message](#popup-messages)
 
 [Description of roles and associated states](#description-of-roles-and-associatet-states)
 
-    [Modifying Datapoint Configuration by the wrench-icon](#modifying-datapoint-configuration)
-    
-    [General states](#general-states)
-    
-    [All other roles](#link-to-other-view)
+    * Containts also informations on how to modify datapoint configuration by the wrench-icon
 	
 ## Add to Homescreen
 You can save it as Web-App on Homescreen and it looks and feels like a native app:
