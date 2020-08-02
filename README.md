@@ -373,7 +373,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### development
+### 1.1.8 (2020-08-02)
 * (Sebastian Bormann) Enhanced rendering of colour-lights with alternative colorspace.
 * (Sebastian Bormann) Added rounded corners to iframe.
 * (Sebastian Bormann) Added sans-serif as standard font-family to iframe (may overwrite your settings - you can overwrite this by marking your own font-family css with '!important').

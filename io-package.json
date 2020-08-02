@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.7",
+        "version": "1.1.8",
         "news": {
+            "1.1.8": {
+                "en": "Enhanced rendering of colour-lights with alternative colorspace, Added rounded corners to iframe, Added sans-serif as standard font-family to iframe (may overwrite your settings - you can overwrite this by marking your own font-family css with '!important'), Added sentry plugin.",
+                "de": "Verbessertes Rendern von Farblichtern mit alternativem Farbraum, Abgerundete Ecken zum Iframe hinzugefügt, Serifenlose Standard-Schriftfamilie zum Iframe hinzugefügt (möglicherweise überschreiben Sie Ihre Einstellungen - Sie können dies überschreiben, indem Sie Ihre eigene CSS-Schriftfamilie mit '! Wichtig' markieren ",
+                "ru": "Улучшенный рендеринг цветных источников света с альтернативным цветовым пространством, добавлены закругленные углы в iframe, добавлен sans-serif в качестве стандартного семейства шрифтов в iframe (может перезаписать ваши настройки - вы можете перезаписать это, пометив свой собственный набор шрифтов css знаком! ",
+                "pt": "Renderização aprimorada de luzes coloridas com espaço de cores alternativo, cantos arredondados adicionados ao iframe, sans-serif adicionados como família de fontes padrão ao iframe (pode sobrescrever suas configurações - você pode sobrescrever isso marcando sua própria css da família de fontes com '! Important' ",
+                "nl": "Verbeterde weergave van kleurenlichten met alternatieve kleurruimte, afgeronde hoeken toegevoegd aan iframe, schreefloos als standaard lettertypefamilie toegevoegd aan iframe (kan uw instellingen overschrijven - u kunt dit overschrijven door uw eigen lettertypefamilie css te markeren met '! Belangrijk') ",
+                "fr": "Rendu amélioré des lumières de couleur avec un espace colorimétrique alternatif, Ajout de coins arrondis à l'iframe, Ajout de sans-serif en tant que famille de polices standard à l'iframe (peut écraser vos paramètres - vous pouvez écraser cela en marquant votre propre css de famille de polices avec ``! Important '' ",
+                "it": "Rendering migliorato di luci di colore con spazio colore alternativo, Aggiunti angoli arrotondati a iframe, Aggiunto sans-serif come famiglia di caratteri standard a iframe (può sovrascrivere le tue impostazioni - puoi sovrascriverlo contrassegnando il tuo css di famiglia di caratteri con '! Important') ",
+                "es": "Representación mejorada de luces de color con espacio de color alternativo, Esquinas redondeadas agregadas al iframe, Sans-serif agregado como familia de fuentes estándar al iframe (puede sobrescribir sus configuraciones; puede sobrescribir esto marcando su propio CSS de familia de fuentes con '! Important' ",
+                "pl": "Ulepszone renderowanie kolorowych świateł z alternatywną przestrzenią kolorów, Dodano zaokrąglone rogi do elementu iframe, Dodano bezszeryfową jako standardową rodzinę czcionek do elementu iframe (można nadpisać swoje ustawienia - można to zastąpić, oznaczając własny plik CSS rodziny czcionek znakiem „! Important” ",
+                "zh-cn": "使用其他色彩空间增强了对彩色灯光的渲染，向iframe添加了圆角，向iframe添加了sans-serif作为标准字体系列（可能会覆盖您的设置-您可以通过用'！important'标记自己的字体系列css来覆盖此设置"
+            },
             "1.1.7": {
                 "en": "Improved long press and forced touch handling, Added URL-Parameters returnAfterTimeDestiationView and returnAfterTimeTreshold.",
                 "de": "Verbesserte Handhabung für langes Drücken und erzwungenes Berühren, URL-Parameter returnAfterTimeDestiationView und returnAfterTimeTreshold hinzugefügt.",
@@ -302,11 +314,11 @@
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
-		"plugins": {
-			"sentry": {
-				"dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
-			}
-		},
+        "plugins": {
+            "sentry": {
+                "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+            }
+        },
         "dependencies": [
             {
                 "admin": ">=3.0.0"
