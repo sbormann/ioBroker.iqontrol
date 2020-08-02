@@ -302,6 +302,11 @@
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
+		"plugins": {
+			"sentry": {
+				"dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+			}
+		},
         "dependencies": [
             {
                 "admin": ">=3.0.0"

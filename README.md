@@ -35,6 +35,8 @@ Fast Web-App for Visualization.
 
 Runs in any Browser.
 It's fully customizable.
+\
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 
 ## Add to Homescreen
@@ -370,6 +372,12 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### development
+* (Sebastian Bormann) Enhanced rendering of colour-lights with alternative colorspace.
+* (Sebastian Bormann) Added rounded corners to iframe.
+* (Sebastian Bormann) Added sans-serif as standard font-family to iframe (may overwrite your settings - you can overwrite this by marking your own font-family css with '!important').
+* (Sebastian Bormann) Added sentry plugin.
 
 ### 1.1.7 (2020-07-28)
 * (Sebastian Bormann) Improved long press and forced touch handling.

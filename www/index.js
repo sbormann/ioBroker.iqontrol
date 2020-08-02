@@ -3471,130 +3471,148 @@ function renderView(viewId){
 								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
 								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
-								if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]) switch(alternativeColorspace){
-									case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
-									if (deviceLinkedStateIds["CT"] == ""){
-										deviceLinkedStateIds["CT"] = createTempLinkedState(deviceId + ".CT", "level", deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]);
-										deviceLinkedStateIdsToUpdate.push(deviceLinkedStateIds["CT"]);
-									} 
-									
-									case "RGBW": case "#RGBW":
-									if (deviceLinkedStateIds["WHITE_BRIGHTNESS"] == ""){
-										deviceLinkedStateIds["WHITE_BRIGHTNESS"] = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]);
-										deviceLinkedStateIdsToUpdate.push(deviceLinkedStateIds["WHITE_BRIGHTNESS"]);
-									} 
-									
-									case "RGB": case "#RGB":
-									if (deviceLinkedStateIds["SATURATION"] == ""){
-										deviceLinkedStateIds["SATURATION"] = createTempLinkedState(deviceId + ".SATURATION", "level", deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]);
-										deviceLinkedStateIdsToUpdate.push(deviceLinkedStateIds["SATURATION"]);
-									}
-									if (deviceLinkedStateIds["COLOR_BRIGHTNESS"] == ""){
-										deviceLinkedStateIds["COLOR_BRIGHTNESS"] = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]);
-										deviceLinkedStateIdsToUpdate.push(deviceLinkedStateIds["COLOR_BRIGHTNESS"]);
-									}
-
-									case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
-									if (deviceLinkedStateIds["HUE"] == ""){
-										deviceLinkedStateIds["HUE"] = createTempLinkedState(deviceId + ".HUE", "level", deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]);
-										deviceLinkedStateIdsToUpdate.push(deviceLinkedStateIds["HUE"]);
-									}
-									break;
-								}
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
-									var _linkedHueId = deviceLinkedStateIds["HUE"];
-									var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
-									var _linkedColorBrightnessId = deviceLinkedStateIds["COLOR_BRIGHTNESS"];
+									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
 									var _linkedCtId = deviceLinkedStateIds["CT"];
 									var _linkedWhiteBrightnessId = deviceLinkedStateIds["WHITE_BRIGHTNESS"];
-									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
-									if (deviceLinkedStateIds["HUE"]){
-										var updateFunction = function(){
-											var stateHue = getStateObject(_linkedHueId);
-											if (stateHue && stateHue.val !== ""){
-												var hueMin = stateHue.min || 0;
-												var hueMax = stateHue.max || 359;
-												var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-												var	saturation = 100;
-												var stateSaturation = getStateObject(_linkedSaturationId);
-												if (stateSaturation && typeof stateSaturation.val != udef) {
-													var saturationMin = stateSaturation.min || 0;
-													var saturationMax = stateSaturation.max || 100;
-													saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
-												}
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").show()
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
+									var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+									var _linkedColorBrightnessId = deviceLinkedStateIds["COLOR_BRIGHTNESS"];
+									var _linkedHueId = deviceLinkedStateIds["HUE"];
+									var _createColouredLightFunction = function(){
+										var _deviceLinkedStateIdsToUpdate = [];
+										if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]) switch(alternativeColorspace){
+											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
+											if (_linkedCtId == ""){
+												_linkedCtId = createTempLinkedState(deviceId + ".CT", "level", _linkedAlternativeColorspaceValueId);
 											} 
-										};
-										if (_linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
-										if (_linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
-									}
-									if (deviceLinkedStateIds["CT"]){
-										var updateFunction = function(){
-											var stateCt = getStateObject(_linkedCtId);
-											if (stateCt  && typeof stateCt.val !== udef){
-												var ctMin = stateCt.min || 0;
-												var ctMax = stateCt.max || 100;
-												var ct = stateCt.val;
-												var invertCt = false;
-												if(getDeviceOptionValue(_device, "invertCt") == "true") invertCt = !invertCt;
-												var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").show()
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
+											
+											case "RGBW": case "#RGBW":
+											if (_linkedWhiteBrightnessId == ""){
+												_linkedWhiteBrightnessId = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", _linkedAlternativeColorspaceValueId);
 											} 
-										};
-										if (_linkedCtId) viewUpdateFunctions[_linkedCtId].push(updateFunction);
-									}
-									if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
-										var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
-											if (states[_linkedAlternativeColorspaceValueId] && states[callingStateId] && typeof states[callingStateId].val !== udef && states[callingStateId].val !== ""){
-												var ack = states[callingStateId].ack;
-												var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
-												var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
-												if(alternativeColorspaceValue) {
-													if ((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
-														console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
-													} else {
-														if (typeof states[_linkedAlternativeColorspaceValueId].val == "string" && states[_linkedAlternativeColorspaceValueId].val == states[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
-														setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);													
+											
+											case "RGB": case "#RGB":
+											if (_linkedSaturationId == ""){
+												_linkedSaturationId = createTempLinkedState(deviceId + ".SATURATION", "level", _linkedAlternativeColorspaceValueId);
+											}
+											if (_linkedColorBrightnessId == ""){
+												_linkedColorBrightnessId = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", _linkedAlternativeColorspaceValueId);
+											}
+
+											case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
+											if (_linkedHueId == ""){
+												_linkedHueId = createTempLinkedState(deviceId + ".HUE", "level", _linkedAlternativeColorspaceValueId);
+											}
+											_deviceLinkedStateIdsToUpdate.push(_linkedAlternativeColorspaceValueId);
+											break;
+										}
+										_deviceLinkedStateIdsToUpdate.push(_linkedCtId);
+										_deviceLinkedStateIdsToUpdate.push(_linkedWhiteBrightnessId);
+										_deviceLinkedStateIdsToUpdate.push(_linkedSaturationId);
+										_deviceLinkedStateIdsToUpdate.push(_linkedColorBrightnessId);
+										_deviceLinkedStateIdsToUpdate.push(_linkedHueId);
+										if (_linkedHueId){
+											var updateFunction = function(){
+												var stateHue = getStateObject(_linkedHueId);
+												if (stateHue && stateHue.val !== ""){
+													var hueMin = stateHue.min || 0;
+													var hueMax = stateHue.max || 359;
+													var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+													var	saturation = 100;
+													var stateSaturation = getStateObject(_linkedSaturationId);
+													if (stateSaturation && typeof stateSaturation.val != udef) {
+														var saturationMin = stateSaturation.min || 0;
+														var saturationMax = stateSaturation.max || 100;
+														saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+													}
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").show()
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
+												} 
+											};
+											if (_linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+											if (_linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
+										}
+										if (_linkedCtId){
+											var updateFunction = function(){
+												var stateCt = getStateObject(_linkedCtId);
+												if (stateCt  && typeof stateCt.val !== udef){
+													var ctMin = stateCt.min || 0;
+													var ctMax = stateCt.max || 100;
+													var ct = stateCt.val;
+													var invertCt = false;
+													if(getDeviceOptionValue(_device, "invertCt") == "true") invertCt = !invertCt;
+													var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoAIcon").show()
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
+												} 
+											};
+											if (_linkedCtId) viewUpdateFunctions[_linkedCtId].push(updateFunction);
+										}
+										if (_linkedAlternativeColorspaceValueId){
+											var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
+												if (states[_linkedAlternativeColorspaceValueId] && states[callingStateId] && typeof states[callingStateId].val !== udef && states[callingStateId].val !== ""){
+													var ack = states[callingStateId].ack;
+													var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
+													var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
+													if(alternativeColorspaceValue) {
+														if ((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
+															console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
+														} else {
+															if (typeof states[_linkedAlternativeColorspaceValueId].val == "string" && states[_linkedAlternativeColorspaceValueId].val == states[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
+															setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);													
+														}
 													}
 												}
+											};
+											if (_linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+											if (_linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
+											if (_linkedColorBrightnessId) viewUpdateFunctions[_linkedColorBrightnessId].push(updateFunction);
+											if (_linkedCtId) viewUpdateFunctions[_linkedCtId].push(updateFunction);
+											if (_linkedWhiteBrightnessId) viewUpdateFunctions[_linkedWhiteBrightnessId].push(updateFunction);
+											var updateFunction = function(){ //ConvertFromAlternativeColorspace
+												if (states[_linkedAlternativeColorspaceValueId]){
+													var ack = states[_linkedAlternativeColorspaceValueId];
+													var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
+													if(typeof usedObjects[_linkedAlternativeColorspaceValueId] == udef) usedObjects[_linkedAlternativeColorspaceValueId] = {};
+													usedObjects[_linkedAlternativeColorspaceValueId].result = {};
+													//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
+													if(result.hue != null){
+														if(_linkedHueId && _linkedHueId != "" && (!states[_linkedHueId] || (states[_linkedHueId] && typeof states[_linkedHueId].val != udef && Math.abs(states[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
+													} 
+													if(result.saturation != null){
+														if(_linkedSaturationId && _linkedSaturationId != "" && (!states[_linkedSaturationId] || (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val != udef && Math.abs(states[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
+													} 
+													if(result.colorBrightness != null){
+														if(_linkedColorBrightnessId && _linkedColorBrightnessId != "" && (!states[_linkedColorBrightnessId] || (states[_linkedColorBrightnessId] && typeof states[_linkedColorBrightnessId].val != udef && Math.abs(states[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
+													} 
+													if(result.ct != null){
+														if(_linkedCtId && _linkedCtId != "" && (!states[_linkedCtId] || (states[_linkedCtId] && typeof states[_linkedCtId].val != udef && Math.abs(states[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
+													} 
+													if(result.whiteBrightness != null){
+														if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId != "" && (!states[_linkedWhiteBrightnessId] || (states[_linkedWhiteBrightnessId] && typeof states[_linkedWhiteBrightnessId].val != udef && Math.abs(states[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
+													} 
+												}
+											};
+											if (_linkedAlternativeColorspaceValueId) viewUpdateFunctions[_linkedAlternativeColorspaceValueId].push(updateFunction);
+										}
+										_deviceLinkedStateIdsToUpdate = removeDuplicates(_deviceLinkedStateIdsToUpdate);
+										fetchStates(_deviceLinkedStateIdsToUpdate, function(){
+											for (var i = 0; i < _deviceLinkedStateIdsToUpdate.length; i++){
+												if (typeof usedObjects[_deviceLinkedStateIdsToUpdate[i]] == udef) {
+													fetchObject(_deviceLinkedStateIdsToUpdate[i], function(){
+														updateState(_deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForView");
+													});
+												} else {
+													updateState(_deviceLinkedStateIdsToUpdate[i], "ignorePreventUpdateForView");
+												}
 											}
-										};
-										if (_linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
-										if (_linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
-										if (_linkedColorBrightnessId) viewUpdateFunctions[_linkedColorBrightnessId].push(updateFunction);
-										if (_linkedCtId) viewUpdateFunctions[_linkedCtId].push(updateFunction);
-										if (_linkedWhiteBrightnessId) viewUpdateFunctions[_linkedWhiteBrightnessId].push(updateFunction);
-										var updateFunction = function(){ //ConvertFromAlternativeColorspace
-											if (states[_linkedAlternativeColorspaceValueId]){
-												var ack = states[_linkedAlternativeColorspaceValueId];
-												var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
-												if(typeof usedObjects[_linkedAlternativeColorspaceValueId] == udef) usedObjects[_linkedAlternativeColorspaceValueId] = {};
-												usedObjects[_linkedAlternativeColorspaceValueId].result = {};
-												//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
-												if(result.hue != null){
-													if(_linkedHueId && _linkedHueId != "" && (!states[_linkedHueId] || (states[_linkedHueId] && typeof states[_linkedHueId].val != udef && Math.abs(states[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
-												} 
-												if(result.saturation != null){
-													if(_linkedSaturationId && _linkedSaturationId != "" && (!states[_linkedSaturationId] || (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val != udef && Math.abs(states[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
-												} 
-												if(result.colorBrightness != null){
-													if(_linkedColorBrightnessId && _linkedColorBrightnessId != "" && (!states[_linkedColorBrightnessId] || (states[_linkedColorBrightnessId] && typeof states[_linkedColorBrightnessId].val != udef && Math.abs(states[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
-												} 
-												if(result.ct != null){
-													if(_linkedCtId && _linkedCtId != "" && (!states[_linkedCtId] || (states[_linkedCtId] && typeof states[_linkedCtId].val != udef && Math.abs(states[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
-												} 
-												if(result.whiteBrightness != null){
-													if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId != "" && (!states[_linkedWhiteBrightnessId] || (states[_linkedWhiteBrightnessId] && typeof states[_linkedWhiteBrightnessId].val != udef && Math.abs(states[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
-												} 
-											}
-										};
-										if (_linkedAlternativeColorspaceValueId) viewUpdateFunctions[_linkedAlternativeColorspaceValueId].push(updateFunction);
-									}
-								})(); //<--End Closure
+											_deviceLinkedStateIdsToUpdate = [];
+										});
+									};
+									if (_linkedAlternativeColorspaceValueId) fetchObject(alternativeColorspace, _createColouredLightFunction); else _createColouredLightFunction();
+								})(); //<--End Closure 
 							}
 							break;
 
@@ -7535,6 +7553,7 @@ function renderDialog(deviceIdEscaped){
 							//iframedoc.body.innerHTML = states[_linkedHtmlId].val;
 							iframedoc.open();
 							iframedoc.write(states[_linkedHtmlId].val);
+							$(iframedoc).find('body').css('font-family', 'sans-serif');
 							iframedoc.close();
 							setTimeout(function(){
 								$('.iQontrolDialogIframeWrapper').show();
