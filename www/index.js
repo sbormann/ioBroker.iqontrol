@@ -749,7 +749,7 @@ function getStarted(){
 				} else {
 					console.log("* Actuel view rendered.");
 				}
-				fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration']);
+				fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
 				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
@@ -1640,8 +1640,20 @@ function updateState(stateId, ignorePreventUpdate){
 	}
 	if(stateId == namespace + ".Popup.Message"){
 		var duration = 0;
+		var clickedValue = "";
+		var clickedDestinationState = "";
+		var buttonNames = "";
+		var buttonValues = "";
+		var buttonDestinationStates = "";
+		var buttonCloses = "";
 		if(states[namespace + ".Popup.Duration"] && typeof states[namespace + ".Popup.Duration"].val !== udef && states[namespace + ".Popup.Duration"].val !== null && !isNaN(states[namespace + ".Popup.Duration"].val)) duration = parseInt(states[namespace + ".Popup.Duration"].val);
-		toast(states[stateId].val, duration)
+		if(states[namespace + ".Popup.ClickedValue"] && typeof states[namespace + ".Popup.ClickedValue"].val !== udef && states[namespace + ".Popup.ClickedValue"].val !== null && states[namespace + ".Popup.ClickedValue"].val !== "") clickedValue = states[namespace + ".Popup.ClickedValue"].val;
+		if(states[namespace + ".Popup.ClickedDestinationState"] && typeof states[namespace + ".Popup.ClickedDestinationState"].val !== udef && states[namespace + ".Popup.ClickedDestinationState"].val !== null && states[namespace + ".Popup.ClickedDestinationState"].val !== "") clickedDestinationState = states[namespace + ".Popup.ClickedDestinationState"].val;
+		if(states[namespace + ".Popup.ButtonNames"] && typeof states[namespace + ".Popup.ButtonNames"].val !== udef && states[namespace + ".Popup.ButtonNames"].val !== null && states[namespace + ".Popup.ButtonNames"].val !== "") buttonNames = states[namespace + ".Popup.ButtonNames"].val;
+		if(states[namespace + ".Popup.ButtonValues"] && typeof states[namespace + ".Popup.ButtonValues"].val !== udef && states[namespace + ".Popup.ButtonValues"].val !== null && states[namespace + ".Popup.ButtonValues"].val !== "") buttonValues = states[namespace + ".Popup.ButtonValues"].val;
+		if(states[namespace + ".Popup.ButtonDestinationStates"] && typeof states[namespace + ".Popup.ButtonDestinationStates"].val !== udef && states[namespace + ".Popup.ButtonDestinationStates"].val !== null && states[namespace + ".Popup.ButtonDestinationStates"].val !== "") buttonDestinationStates = states[namespace + ".Popup.ButtonDestinationStates"].val;
+		if(states[namespace + ".Popup.ButtonCloses"] && typeof states[namespace + ".Popup.ButtonCloses"].val !== udef && states[namespace + ".Popup.ButtonCloses"].val !== null && states[namespace + ".Popup.ButtonCloses"].val !== "") buttonCloses = states[namespace + ".Popup.ButtonCloses"].val;
+		toast(states[stateId].val, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses)
 	}
 }
 
@@ -2771,7 +2783,7 @@ function handleOptions(){
 
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
-	if (config[namespace] && typeof config[namespace].toolbar !== udef && config[namespace].toolbar.length < 1) {
+	if (!(config[namespace] && typeof config[namespace].toolbar !== udef && config[namespace].toolbar.length > 0)) {
 		if (homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
 		return;
 	}
@@ -7787,9 +7799,9 @@ function dialogThermostatPartyModeCheckConsistency(){
 }
 
 //++++++++++ POPUP (TOAST) ++++++++++
-function toast(message, duration){
+function toast(message, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses){
 	if(toastStack.length == 0 || toastStack[toastStack.length - 1].message !== message){
-		toastStack.push({message: message, duration: duration});
+		toastStack.push({message: message, duration: duration, clickedValue: clickedValue, clickedDestinationState: clickedDestinationState, buttonNames: buttonNames, buttonValues: buttonValues, buttonDestinationStates: buttonDestinationStates, buttonCloses: buttonCloses});
 		if(toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
 	}
 }
@@ -7807,8 +7819,41 @@ function toastShowNext(){
 		toaststring +=		"</div>";
 		toaststring += 		"<div class='toastMessageQueue' style='position: absolute; right: 2px; top: 2px; text-align: right; font-size: smaller;'>&nbsp;</div>";
 		toaststring += 		"<h4>" + toast.message + "</h4>";
+		if(toast.buttonNames != ""){
+			toaststring += 		"<div class='toastMessageButtons' style='width: 100%; text-align: center; font-size: smaller;'>";	
+			var buttonNames = toast.buttonNames.split(',');
+			var buttonValues = toast.buttonValues.split(',');
+			var buttonDestinationStates = toast.buttonDestinationStates.split(',');
+			var buttonCloses = toast.buttonCloses.split(',');
+			toaststring +=	 		"<div data-role='controlgroup' data-type='horizontal' data-mini='true'>";
+			buttonNames.forEach(function(buttonName, i){
+				if(buttonName == "") return;
+				toaststring += 			"<button class='ui-shadow ui-btn ui-corner-all' onclick='";
+				toaststring +=				((typeof buttonCloses[i] != udef ? buttonCloses[i] == 'false' : typeof buttonCloses[0] != udef ? buttonCloses[0] == 'false' : false) ? "event.stopPropagation(); " : "");
+				var buttonDestinationState = (typeof buttonDestinationStates[i] != udef && buttonDestinationStates[i] != "" ? buttonDestinationStates[i] : typeof buttonDestinationStates[0] != udef && buttonDestinationStates[0] != "" ? buttonDestinationStates[0] : null);
+				var buttonValue = (typeof buttonValues[i] != udef && buttonValues[i] != "" ? buttonValues[i] : typeof buttonValues[0] != udef && buttonValues[0] != "" ? buttonValues[0] : buttonName);
+				if(buttonDestinationState != null){
+					toaststring +=			"deliverState(\"" + buttonDestinationState + "\", \"" + buttonValue + "\"); ";
+				}
+				toaststring +=				"deliverState(\"" + namespace + ".Popup.BUTTON_CLICKED\", \"" + buttonValue + "\"); ";
+				toaststring += 				"'>" + buttonName + "</button>";
+			});
+			toaststring +=			"</div>";
+			toaststring += 		"</div>";		
+		}
 		toaststring += "</div>";
 		var $toast = $(toaststring);
+		var removeToastByClick = function(){
+			$(this).remove();
+			toastStack.shift();
+			toastShowNext();
+			var clickedDestinationState = (typeof toast.clickedDestinationState != udef && toast.clickedDestinationState != "" ? toast.clickedDestinationState : null);
+			var clickedValue = (typeof toast.clickedValue != udef && toast.clickedValue != "" ? toast.clickedValue : true);
+			if(clickedDestinationState != null){
+				deliverState(clickedDestinationState, clickedValue);
+			}
+			deliverState(namespace + ".Popup.POPUP_CLICKED", clickedValue);
+		};
 		var removeToast = function(){
 			$(this).remove();
 			toastStack.shift();
@@ -7832,8 +7877,8 @@ function toastShowNext(){
 			$toast.find('.toastMessageDuration').show();
 			$toast.find('.toastMessageDurationProgress').css('stroke-dashoffset', 0).animate({'strokeDashoffset': 100}, toast.duration + 400, 'linear');
 		}
-		$toast.click(removeToast);
-		$toast.appendTo($.mobile.pageContainer).fadeIn(400).delay(toast.duration);
+		$toast.click(removeToastByClick);
+		$toast.appendTo($.mobile.pageContainer).enhanceWithin().fadeIn(400).delay(toast.duration);
 		if(toastStack.length > 1) $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
 		if(toast.duration > 0) $toast.fadeOut(400, removeToast);
 	}	

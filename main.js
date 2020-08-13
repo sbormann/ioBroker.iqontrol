@@ -77,6 +77,158 @@ class Iqontrol extends utils.Adapter {
 		}, function(err){
 			that.log.debug("ERROR creating " + objId + ": " + err);
 		});
+		objName = "Clicked Value";
+		objId = "Popup.ClickedValue";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Value that will be sent if popup is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Clicked Destination State";
+		objId = "Popup.ClickedDestinationState";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "The value will be sent to this state if popup is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Popup Clicked";
+		objId = "Popup.POPUP_CLICKED";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "The value will be sent to this datapoint if popup is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Button Names";
+		objId = "Popup.ButtonNames";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Comma-separated list of buttons that will be displayd under the popup",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Button Values";
+		objId = "Popup.ButtonValues";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Comma-separated list of values that will be sent if the button is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Button Destination States";
+		objId = "Popup.ButtonDestinationStates";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Comma-separated list of states, the value will be sent to if the button is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Button Closes";
+		objId = "Popup.ButtonCloses";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Comma-separated list of booleans (true/false) if the popup should close when the button is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
+		objName = "Button Clicked";
+		objId = "Popup.BUTTON_CLICKED";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "The value will be sent to this datapoint if button is clicked",
+				"type": "string",
+				"role": "text",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
 	}
 	
 	async setStateValue(id, value){
@@ -244,8 +396,44 @@ class Iqontrol extends utils.Adapter {
 					if(typeof obj.message.PopupDuration !== "undefined" && !isNaN(obj.message.PopupDuration)){
 						PopupDuration = parseInt(obj.message.PopupDuration);
 					}
-					this.log.info("Popup Duration: " + PopupDuration);
+					let PopupClickedValue = "";
+					if(typeof obj.message.PopupClickedValue !== "undefined"){
+						PopupClickedValue = obj.message.PopupClickedValue;
+					}
+					let PopupClickedDestinationState = "";
+					if(typeof obj.message.PopupClickedDestinationState !== "undefined"){
+						PopupClickedDestinationState = obj.message.PopupClickedDestinationState;
+					}
+					let PopupButtonNames = "";
+					if(typeof obj.message.PopupButtonNames !== "undefined"){
+						PopupButtonNames = obj.message.PopupButtonNames;
+					}
+					let PopupButtonValues = "";
+					if(typeof obj.message.PopupButtonValues !== "undefined"){
+						PopupButtonValues = obj.message.PopupButtonValues;
+					}
+					let PopupButtonDestinationStates = "";
+					if(typeof obj.message.PopupButtonDestinationStates !== "undefined"){
+						PopupButtonDestinationStates = obj.message.PopupButtonDestinationStates;
+					}
+					let PopupButtonCloses = "";
+					if(typeof obj.message.PopupButtonCloses !== "undefined"){
+						PopupButtonCloses = obj.message.PopupButtonCloses;
+					}
+					this.log.debug("PopupDuration: " + PopupDuration);
 					this.setState('Popup.Duration', { val: PopupDuration, ack: true });
+					this.log.debug("PopupClickedValue: " + PopupClickedValue);
+					this.setState('Popup.ClickedValue', { val: PopupClickedValue, ack: true });
+					this.log.debug("PopupClickedDestinationState: " + PopupClickedDestinationState);
+					this.setState('Popup.ClickedDestinationState', { val: PopupClickedDestinationState, ack: true });
+					this.log.debug("PopupButtonNames: " + PopupButtonNames);
+					this.setState('Popup.ButtonNames', { val: PopupButtonNames, ack: true });
+					this.log.debug("PopupButtonValues: " + PopupButtonValues);
+					this.setState('Popup.ButtonValues', { val: PopupButtonValues, ack: true });
+					this.log.debug("PopupButtonDestinationStates: " + PopupButtonDestinationStates);
+					this.setState('Popup.ButtonDestinationStates', { val: PopupButtonDestinationStates, ack: true });
+					this.log.debug("PopupButtonCloses: " + PopupButtonCloses);
+					this.setState('Popup.ButtonCloses', { val: PopupButtonCloses, ack: true });
 					this.log.info("Popup Message: " + obj.message.PopupMessage);
 					this.setState('Popup.Message', { val: obj.message.PopupMessage, ack: true });
 				}

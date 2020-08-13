@@ -140,12 +140,21 @@ Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visu
 
 
 ## Popup-Messages
-* Every instance creates the objects ``iqontrol.x.Popup.Message`` and ``iqontrol.x.Popup.Duration``
-* When passing values to these objects, a popup-message (or toast) is displayed
-* You can use html-tags to format the message
-* The duration is the time in ms the message is displayed; if the duration is 0 the message has to be confirmed
-* Alternatively you can set these values via sendTo-command with the parameters ``PopupMessage`` and ``PopupDuration``. 
-    * Example: ``sendTo("iqontrol", "send", {PopupMessage: 'This is my message', PopupDuration: 2500});``
+* Every instance creates the state ``iqontrol.x.Popup.Message``
+* When passing values to these state, a popup-message (or toast) is displayed
+* You can use html-tags to format the message text
+* There are some additional states for further customization of the displayed popup (these must be set, before the message datapoint is set):
+    * ``Duration``: This is the time in ms the message is displayed; if set to 0 the message has to be confirmed
+    * ``ClickedValue`` and ``ClickedDestinationState``: If the popup is clicked by user, the value from ``ClickedValue`` will be sent to ``iqontrol.x.Popup.POPUP_CLICKED`` and, if specified, additional to the datapoint in ``ClickedDestinationState`` 
+        * If no value is specified, ``true`` will be used
+    * ``ButtonNames``: Here you can specify a comma separated list of buttons, that will be displayed at the bottom of the popup (for example "OK,Abort")
+        * ``ButtonValues`` and ``ButtonDestinationStates``: These are comma separated lists of values that will be sent to ``iqontrol.x.Popup.BUTTON_CLICKED`` and, if specified, additional to the datapoint in ``ButtonDestinationStates``, if the user clickes the corresponding button
+		* If you only use one value (instead of a comma separated list), this value will be used for all buttons
+		* If you leave ``ButtonValues`` empty, the name of the button will be used
+		* If you only use one destination state (instead of a comma separated list), this state will be used for all buttons
+        * ``ButtonCloses``: This is a comma separated list of booleans (``true``/``false``) that specify, if the popup should be closed, when the corresponding button is pressed
+* Alternatively you can set these values via sendTo-command with the parameters ``PopupMessage``, ``PopupDuration``, ``PopupClickedValue`` and so on
+    * Example: ``sendTo("iqontrol", "send", {PopupMessage: 'This is my message', PopupDuration: 2500, PopupClickedValue: 'messageConfirmed'});``
 * You can also use blockly to send messages to iQontrol
 
 ![Popup Screenshot](img/popup_screenshot.png)
@@ -372,6 +381,10 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### Dev
+* (Sebastian Bormann) Fixed crash on some toolbar specifications
+* (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages
 
 ### 1.1.8 (2020-08-02)
 * (Sebastian Bormann) Enhanced rendering of colour-lights with alternative colorspace.

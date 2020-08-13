@@ -17,20 +17,26 @@ Blockly.Translate = Blockly.Translate || function (word, lang) {
 };
 
 /// --- SendTo --------------------------------------------------
-Blockly.Words['iqontrol']              		 = {'en': 'iQontrol',                   'de': 'iQontrol',                           'ru': 'iQontrol'};
-Blockly.Words['iqontrol_popup_message']      = {'en': 'popup message',              'de': 'Popup Meldung',                      'ru': 'Неожиданно возникнуть сообщение'};
-Blockly.Words['iqontrol_popup_duration']     = {'en': 'popup duration',             'de': 'Popup Dauer',                        'ru': 'Неожиданно возникнуть продолжительность'};
+Blockly.Words['iqontrol']              		 				= {'en': 'iQontrol',                			    'de': 'iQontrol',                           			'ru': 'iQontrol'};
+Blockly.Words['iqontrol_popup_message']      				= {'en': 'popup message',              				'de': 'Popup Meldung',                      			'ru': 'Неожиданно возникнуть сообщение'};
+Blockly.Words['iqontrol_popup_duration']     				= {'en': 'popup duration',            				'de': 'Popup Dauer',                        			'ru': 'Неожиданно возникнуть продолжительность'};
+Blockly.Words['iqontrol_popup_clicked_value'] 				= {'en': 'popup clicked value',        				'de': 'Popup Geklickt Wert',                			'ru': 'всплывающее окно со значением клика'};
+Blockly.Words['iqontrol_popup_clicked_destination_state'] 	= {'en': 'popup clicked destination state',        	'de': 'Popup Geklickt Zieldatenpunkt',                	'ru': 'всплывающее окно щелкнуло состояние назначения'};
+Blockly.Words['iqontrol_popup_button_names'] 				= {'en': 'popup button names',        				'de': 'Popup Knopf Bezeichnungen',         				'ru': 'имена всплывающих кнопок'};
+Blockly.Words['iqontrol_popup_button_values'] 				= {'en': 'popup button values',        				'de': 'Popup Knopf Werte',                				'ru': 'значения всплывающих кнопо'};
+Blockly.Words['iqontrol_popup_button_destination_states'] 				= {'en': 'popup button destination states',        	'de': 'Popup Knopf Zieldatenpunkte',       				'ru': 'состояния назначения всплывающих кнопок'};
+Blockly.Words['iqontrol_popup_button_closes'] 				= {'en': 'popup button closes',        				'de': 'Popup Knopf schließt',              				'ru': 'всплывающая кнопка закрывается'};
 
-Blockly.Words['iqontrol_log']               = {'en': 'log level',                   'de': 'Loglevel',                           'ru': 'Протокол'};
-Blockly.Words['iqontrol_log_none']          = {'en': 'none',                        'de': 'keins',                              'ru': 'нет'};
-Blockly.Words['iqontrol_log_info']          = {'en': 'info',                        'de': 'info',                               'ru': 'инфо'};
-Blockly.Words['iqontrol_log_debug']         = {'en': 'debug',                       'de': 'debug',                              'ru': 'debug'};
-Blockly.Words['iqontrol_log_warn']          = {'en': 'warning',                     'de': 'warning',                            'ru': 'warning'};
-Blockly.Words['iqontrol_log_error']         = {'en': 'error',                       'de': 'error',                              'ru': 'ошибка'};
+Blockly.Words['iqontrol_log']               	= {'en': 'log level',                   'de': 'Loglevel',                           'ru': 'Протокол'};
+Blockly.Words['iqontrol_log_none']         		= {'en': 'none',                        'de': 'keins',                              'ru': 'нет'};
+Blockly.Words['iqontrol_log_info']          	= {'en': 'info',                        'de': 'info',                               'ru': 'инфо'};
+Blockly.Words['iqontrol_log_debug']         	= {'en': 'debug',                       'de': 'debug',                              'ru': 'debug'};
+Blockly.Words['iqontrol_log_warn']          	= {'en': 'warning',                     'de': 'warning',                            'ru': 'warning'};
+Blockly.Words['iqontrol_log_error']         	= {'en': 'error',                       'de': 'error',                              'ru': 'ошибка'};
 
-Blockly.Words['iqontrol_anyInstance']       = {'en': 'all instances',               'de': 'Alle Instanzen',                     'ru': 'На все драйвера'};
-Blockly.Words['iqontrol_tooltip']           = {'en': 'Send message to iQontrol',    'de': 'Sende eine Meldung an iQontrol',     'ru': 'Послать сообщение через iQontrol'};
-Blockly.Words['iqontrol_help']              = {'en': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'de': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'ru': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md'};
+Blockly.Words['iqontrol_anyInstance']       	= {'en': 'all instances',               'de': 'Alle Instanzen',                     'ru': 'На все драйвера'};
+Blockly.Words['iqontrol_tooltip']           	= {'en': 'Send message to iQontrol',    'de': 'Sende eine Meldung an iQontrol',     'ru': 'Послать сообщение через iQontrol'};
+Blockly.Words['iqontrol_help']              	= {'en': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'de': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md', 'ru': 'https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md'};
 
 Blockly.Sendto.blocks['iqontrol'] =
     '<block type="iqontrol">'
@@ -45,6 +51,18 @@ Blockly.Sendto.blocks['iqontrol'] =
     + '         <shadow type="math_number">'
     + '             <field name="NUM">2500</field>'
     + '         </shadow>'
+    + '     </value>'
+    + '     <value name="POPUP_CLICKED_VALUE">'
+    + '     </value>'
+    + '     <value name="POPUP_CLICKED_DESTINATION_STATE">'
+    + '     </value>'
+    + '     <value name="POPUP_BUTTON_NAMES">'
+    + '     </value>'
+    + '     <value name="POPUP_BUTTON_VALUES">'
+    + '     </value>'
+    + '     <value name="POPUP_BUTTON_DESTINATION_STATES">'
+    + '     </value>'
+    + '     <value name="POPUP_BUTTON_CLOSES">'
     + '     </value>'
     + '     <value name="LOG">'
     + '     </value>'
@@ -80,6 +98,42 @@ Blockly.Blocks['iqontrol'] = {
             input.connection._optional = true;
         }
 
+        var input = this.appendValueInput('POPUP_CLICKED_VALUE')
+            .appendField(Blockly.Translate('iqontrol_popup_clicked_value'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        var input = this.appendValueInput('POPUP_CLICKED_DESTINATION_STATE')
+            .appendField(Blockly.Translate('iqontrol_popup_clicked_destination_state'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        var input = this.appendValueInput('POPUP_BUTTON_NAMES')
+            .appendField(Blockly.Translate('iqontrol_popup_button_names'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        var input = this.appendValueInput('POPUP_BUTTON_VALUES')
+            .appendField(Blockly.Translate('iqontrol_popup_button_values'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        var input = this.appendValueInput('POPUP_BUTTON_DESTINATION_STATES')
+            .appendField(Blockly.Translate('iqontrol_popup_button_destination_states'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
+        var input = this.appendValueInput('POPUP_BUTTON_CLOSES')
+            .appendField(Blockly.Translate('iqontrol_popup_button_closes'));
+        if (input.connection) {
+            input.connection._optional = true;
+        }
+
         this.appendDummyInput('LOG')
             .appendField(Blockly.Translate('iqontrol_log'))
             .appendField(new Blockly.FieldDropdown([
@@ -105,9 +159,21 @@ Blockly.JavaScript['iqontrol'] = function(block) {
     var logLevel = block.getFieldValue('LOG'); 
     var popupMessage  = Blockly.JavaScript.valueToCode(block, 'POPUP_MESSAGE', Blockly.JavaScript.ORDER_ATOMIC);
     var popupDuration = Blockly.JavaScript.valueToCode(block, 'POPUP_DURATION', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupClickedValue = Blockly.JavaScript.valueToCode(block, 'POPUP_CLICKED_VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupClickedDestinationState = Blockly.JavaScript.valueToCode(block, 'POPUP_CLICKED_DESTINATION_STATE', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupButtonNames = Blockly.JavaScript.valueToCode(block, 'POPUP_BUTTON_NAMES', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupButtonValues = Blockly.JavaScript.valueToCode(block, 'POPUP_BUTTON_VALUES', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupButtonDestinationStates = Blockly.JavaScript.valueToCode(block, 'POPUP_BUTTON_DESTINATION_STATES', Blockly.JavaScript.ORDER_ATOMIC);
+    var popupButtonCloses = Blockly.JavaScript.valueToCode(block, 'POPUP_BUTTON_CLOSES', Blockly.JavaScript.ORDER_ATOMIC);
     var text = '{\n';
-	if (popupMessage)		text += '   PopupMessage: ' + popupMessage + ',\n';
-    if (popupDuration)		text += '   PopupDuration: ' + popupDuration + ',\n';
+	if (popupMessage)					text += '   PopupMessage: ' + popupMessage + ',\n';
+    if (popupDuration)					text += '   PopupDuration: ' + popupDuration + ',\n';
+    if (popupClickedValue)				text += '   PopupClickedValue: ' + popupClickedValue + ',\n';
+    if (popupClickedDestinationState)	text += '   PopupClickedDestinationState: ' + popupClickedDestinationState + ',\n';
+    if (popupButtonNames)				text += '   PopupButtonNames: ' + popupButtonNames + ',\n';
+    if (popupButtonValues)				text += '   PopupButtonValues: ' + popupButtonValues + ',\n';
+    if (popupButtonDestinationStates)	text += '   PopupButtonDestinationStates: ' + popupButtonDestinationStates + ',\n';
+    if (popupButtonCloses)				text += '   PopupButtonCloses: ' + popupButtonCloses + ',\n';
     text = text.substring(0, text.length - 2);
     text += '\n';
     text += '}';
