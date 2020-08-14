@@ -383,8 +383,8 @@ In addition to normal thermostat you can define:
 ## Changelog
 
 ### Dev
-* (Sebastian Bormann) Fixed crash on some toolbar specifications
 * (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages
+* (Sebastian Bormann) Fixed crash on some toolbar specifications
 
 ### 1.1.8 (2020-08-02)
 * (Sebastian Bormann) Enhanced rendering of colour-lights with alternative colorspace.

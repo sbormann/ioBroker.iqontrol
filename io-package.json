@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.8",
+        "version": "1.1.9",
         "news": {
+            "1.1.9": {
+                "en": "Enhanced popup with the ability to add buttons and confirmation messages, Fixed crash on some toolbar specifications.",
+                "de": "Verbessertes Popup mit der Möglichkeit, Schaltflächen und Bestätigungsmeldungen hinzuzufügen. Absturz bei einigen Symbolleistenspezifikationen behoben.",
+                "ru": "Улучшено всплывающее окно с возможностью добавления кнопок и подтверждающих сообщений. Исправлен сбой на некоторых характеристиках панели инструментов.",
+                "pt": "Popup aprimorado com a capacidade de adicionar botões e mensagens de confirmação, falha corrigida em algumas especificações da barra de ferramentas.",
+                "nl": "Verbeterde pop-up met de mogelijkheid om knoppen en bevestigingsberichten toe te voegen, Crash op sommige werkbalkspecificaties opgelost.",
+                "fr": "Fenêtre contextuelle améliorée avec la possibilité d'ajouter des boutons et des messages de confirmation, Correction d'un crash sur certaines spécifications de la barre d'outils.",
+                "it": "Popup migliorato con la possibilità di aggiungere pulsanti e messaggi di conferma, Risolto crash su alcune specifiche della barra degli strumenti.",
+                "es": "Ventana emergente mejorada con la capacidad de agregar botones y mensajes de confirmación, Se corrigió el bloqueo en algunas especificaciones de la barra de herramientas.",
+                "pl": "Ulepszone wyskakujące okienko z możliwością dodawania przycisków i komunikatów potwierdzających, Naprawiono awarię niektórych specyfikacji paska narzędzi.",
+                "zh-cn": "增强的弹出窗口具有添加按钮和确认消息的功能，修复了某些工具栏规格上的崩溃。"
+            },
             "1.1.8": {
                 "en": "Enhanced rendering of colour-lights with alternative colorspace, Added rounded corners to iframe, Added sans-serif as standard font-family to iframe (may overwrite your settings - you can overwrite this by marking your own font-family css with '!important'), Added sentry plugin.",
                 "de": "Verbessertes Rendern von Farblichtern mit alternativem Farbraum, Abgerundete Ecken zum Iframe hinzugefügt, Serifenlose Standard-Schriftfamilie zum Iframe hinzugefügt (möglicherweise überschreiben Sie Ihre Einstellungen - Sie können dies überschreiben, indem Sie Ihre eigene CSS-Schriftfamilie mit '! Wichtig' markieren ",
