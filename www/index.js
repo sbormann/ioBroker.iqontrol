@@ -50,6 +50,7 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
 											showState: {name: "Show State", type: "checkbox", default: "false"}, 
+											buttonCaption: {name: "Caption for button", type: "text", default: ""},
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
@@ -5076,8 +5077,9 @@ function renderDialog(deviceIdEscaped){
 			case "iQontrolButton":
 			var type = "Button";
 			if(dialogLinkedStateIds["STATE"]){
+				var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";			
 				dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("push") + "</a>";
+				dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _device = device;
@@ -5261,8 +5263,9 @@ function renderDialog(deviceIdEscaped){
 					case "button":
 					var type = "Button";
 					if(dialogLinkedStateIds["STATE"]){
+						var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";			
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("push") + "</a>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
@@ -6445,8 +6448,8 @@ function renderDialog(deviceIdEscaped){
 			case "iQontrolBlind":
 			//----Actuator
 			if(!dialogReadonly && (dialogStates["FAVORITE_POSITION"] && dialogStates["FAVORITE_POSITION"].type)){
-				var favoritePositionCaption = getDeviceOptionValue(device, "favoritePositionCaption") || _("Favorite Position");			
-				dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + favoritePositionCaption + "</a>";
+				var favoritePositionCaption = getDeviceOptionValue(device, "favoritePositionCaption") || "Favorite Position";			
+				dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + _(favoritePositionCaption) + "</a>";
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedFavoritePositionId = dialogLinkedStateIds["FAVORITE_POSITION"];
@@ -7810,7 +7813,7 @@ function toastShowNext(){
 	if(toastStack.length > 0) {
 		var toast = toastStack[0];
 		var toaststring = "";
-		toaststring += "<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'>";
+		toaststring += "<div id='popup' class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'>";
 		toaststring += 		"<div class='toastMessageDuration' style='display: none; position: absolute; left: 2px; top: -2px; width: 10px;'>";
 		toaststring +=			"<svg viewBox='0 0 36 36'>";
 		toaststring +=				"<path fill='none' stroke='lightgrey' stroke-width='4' d='M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831'></path>";

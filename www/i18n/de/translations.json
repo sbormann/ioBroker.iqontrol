@@ -96,6 +96,7 @@
     "CLOSED": "Geschlossen",
     "CURRENT": "Aktuell",
     "Cancel": "Abbrechen",
+    "Caption for button": "Beschriftung des Knopfs",
     "Caption:": "Beschriftung:",
     "Carport": "Carport",
     "Change Directory Name from %s to:": "Verzeichnis-Namen ändern von %s auf:",

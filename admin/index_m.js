@@ -50,6 +50,7 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
 											showState: {name: "Show State", type: "checkbox", default: "false"}, 
+											buttonCaption: {name: "Caption for button", type: "text", default: "push"},
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 

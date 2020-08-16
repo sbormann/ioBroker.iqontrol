@@ -36,7 +36,8 @@ Fast Web-App for Visualization.
 Runs in any Browser.
 It's fully customizable.
 \
-**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
+\
+> **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 
 ## Add to Homescreen
@@ -382,9 +383,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### Dev
-* (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages
-* (Sebastian Bormann) Fixed crash on some toolbar specifications
+### dev
+* (Sebastian Bormann) Added option to change caption of device button.
+
+### 1.1.9 (2020-08-14)
+* (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages.
+* (Sebastian Bormann) Fixed crash on some toolbar specifications.
 
 ### 1.1.8 (2020-08-02)
 * (Sebastian Bormann) Enhanced rendering of colour-lights with alternative colorspace.

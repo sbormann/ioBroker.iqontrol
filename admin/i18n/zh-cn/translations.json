@@ -54,6 +54,7 @@
     "Browse": "选择文件",
     "Button": "按键",
     "Cancel": "取消",
+    "Caption for button": "按钮标题",
     "Caption:": "字幕：",
     "Change Directory Name from %s to:": "重命名%s目录为:",
     "Change filename from %s to:": "重命名%s文件为:",

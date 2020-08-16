@@ -54,6 +54,7 @@
     "Browse": "Durchsuchen",
     "Button": "Knopf",
     "Cancel": "Abbrechen",
+    "Caption for button": "Beschriftung des Knopfs",
     "Caption:": "Beschriftung:",
     "Change Directory Name from %s to:": "Verzeichnis %s umbenennen:",
     "Change filename from %s to:": "Datei %s umbenennen:",
