@@ -367,6 +367,16 @@ In addition to normal thermostat you can define:
 * **DURATION, ELAPSED**: *number* - duration and elapsed time of actual title - used to show a seek-bar
 * **VOLUME**: *number* - for volume-slider
 * **SOURCE, PLAYLIST**: *value-list* - show select-menu to chose a source or a title from playlist
+To display a universal remote control you can define the following states:
+* **REMOTE_NUMBER**: *string* - shows a num-pad an returnes the corresponding number, if a number is clicked
+* **REMOTE_VOLUME_UP, REMOTE_VOLUME_UP, REMOTE_CH_UP, REMOTE_CH_DOWN**: *string* - shows buttons vor volume up/down and channel up/down and returns 'volumeUp', 'volumeDown', 'chUp' or 'chDown', if the corresponding button is pressed
+* **REMOTE_PAD_DIRECTION, REMOTE_PAD_BACK, REMOTE_PAD_HOME, REMOTE_PAD_MENU**: *string* - shows a trackpad for navigation and returns 
+    * 'ok' if the middle of the pad is clicked, 
+	* 'left', 'right', 'up' or 'down', if the edges of the pad are clicked or the pad is swiped in the corresponding direction or
+	* 'back', 'home' or 'menu*, if the corresponding buttons are clicked
+	* Keep in mind: You can use the Target-Value-List (accessible via the wrench-icon of each datapoint) to link from one datapoint to multiple datapoints, depending on the returned value (see Modifying Datapoints section above)
+* **REMOTE_COLOR**: *string* - shows colored buttons an returnes the corresponding color ('red', 'green', 'yellow' or 'blue'), if a color is clicked
+
 
 ### <img src="img/icons/popup.png" width="32"> Popup:
 * **STATE**: *any* - can be used to display further information
@@ -384,6 +394,11 @@ In addition to normal thermostat you can define:
 
 ### dev
 * (Sebastian Bormann) Added option to change caption of device button.
+* (Sebastian Bormann) Added option to open URL in new window instead of box inside dialog.
+* (Sebastian Bormann) Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch).
+* (Sebastian Bormann) Collapsibles like additional informations are animated now.
+* (Sebastian Bormann) Device-Options are now sorted in categories.
+* (Sebastian Bormann) Added universal remote control including a track-pad to media-device.
 
 ### 1.1.9 (2020-08-14)
 * (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages.
