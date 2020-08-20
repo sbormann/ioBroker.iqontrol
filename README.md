@@ -395,13 +395,13 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### dev
-* (Sebastian Bormann) Added option to change caption of device button.
+### 1.1.10 (2020-08-20)
+* (Sebastian Bormann) Added universal remote control including a track-pad to media-device.
+* (Sebastian Bormann) Device-Options are now sorted in categories.
+* (Sebastian Bormann) Collapsibles like additional informations are animated now.
+* (Sebastian Bormann) Added option for the device button to change the caption of the button in the dialog.
 * (Sebastian Bormann) Added option to open URL in new window instead of box inside dialog.
 * (Sebastian Bormann) Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch).
-* (Sebastian Bormann) Collapsibles like additional informations are animated now.
-* (Sebastian Bormann) Device-Options are now sorted in categories.
-* (Sebastian Bormann) Added universal remote control including a track-pad to media-device.
 
 ### 1.1.9 (2020-08-14)
 * (Sebastian Bormann) Enhanced popup with the ability to add buttons and confirmation messages.

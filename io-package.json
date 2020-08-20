@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.9",
+        "version": "1.1.10",
         "news": {
+            "1.1.10": {
+                "en": "Added universal remote control including a track-pad to media-device, Device-Options are now sorted in categories, Collapsibles like additional informations are animated now, Added option for the device button to change the caption of the button in the dialog, Added option to open URL in new window instead of box inside dialog, Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch)."
+            },
             "1.1.9": {
                 "en": "Enhanced popup with the ability to add buttons and confirmation messages, Fixed crash on some toolbar specifications.",
                 "de": "Verbessertes Popup mit der Möglichkeit, Schaltflächen und Bestätigungsmeldungen hinzuzufügen. Absturz bei einigen Symbolleistenspezifikationen behoben.",
