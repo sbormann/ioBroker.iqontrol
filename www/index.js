@@ -657,7 +657,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -7743,6 +7743,54 @@ function renderDialog(deviceIdEscaped){
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				//Special: REMOTE_ADDITIONAL_BUTTONS is an Array: [{"name":"Name", "type":"LinkedState", "value":"LinkedStateId"}, ...]
+				var linkedRemoteAdditionalButtonsIds;
+				if (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef) linkedRemoteAdditionalButtonsIds = tryParseJSON(dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val);
+				var linkedRemoteAdditionalButtonsIdsAreValid = false;
+				if(Array.isArray(linkedRemoteAdditionalButtonsIds) && typeof linkedRemoteAdditionalButtonsIds == 'object') linkedRemoteAdditionalButtonsIds.forEach(function(element){
+					if (typeof element.name !== udef && element.name !== udef){
+						linkedRemoteAdditionalButtonsIdsAreValid = true;
+					}
+				});
+				if(linkedRemoteAdditionalButtonsIdsAreValid){
+					//get additional linkedStates from Array:
+					linkedRemoteAdditionalButtonsIds.forEach(function(element){
+						if (typeof states[element.value] == udef) {
+							dialogStateIdsToFetch.push(element.value);
+						}
+						if (typeof usedObjects[element.value] == udef) {
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _elementValue = element.value;
+								fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
+							})(); //<--End Closure
+						}
+						dialogLinkedStateIdsToUpdate.push(element.value);
+					});
+					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
+						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Additional Buttons") + ":</h4>";
+						dialogContent += "<div class='ui-grid-a' style='max-width:400px;' id='DialogRemoteAdditionalButtonsContent'>";
+						dialogContent += "</div>";
+					dialogContent += "</div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedRemoteAdditionalButtonsId = dialogLinkedStateIds["REMOTE_ADDITIONAL_BUTTONS"];
+						var _linkedRemoteAdditionalButtonsIds = linkedRemoteAdditionalButtonsIds;
+						var createRemoteAdditionalButtonsFunction = function(){
+							$("#DialogRemoteAdditionalButtonsContent").html("");
+							_linkedRemoteAdditionalButtonsIds.forEach(function(_element){
+								var state = getStateObject(_element.value);
+								if(state){
+									$("#DialogRemoteAdditionalButtonsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteAdditionalButtonsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='true'>" + _element.name + "</a></div>");
+								}
+								$("#DialogRemoteAdditionalButtonsContent").enhanceWithin();
+								$(".DialogRemoteAdditionalButtonsButton").on('click', function(e){ 
+									setState($(this).data("remote-additional-buttons-linked-state-id"), _deviceIdEscaped, $(this).data("remote-additional-buttons-button"), true);
+								});
+							});
+						};
+						dialogUpdateFunctions[_linkedRemoteAdditionalButtonsId].push(createRemoteAdditionalButtonsFunction);
 					})(); //<--End Closure
 				}
 				dialogContent += "</div>";
