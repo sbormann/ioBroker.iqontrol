@@ -465,6 +465,9 @@ In addition to normal thermostat you can define:
 * (Sebastian Bormann) Prevent pressure menu when scrolling and after opening menu.
 * (Sebastian Bormann) Corrected a few translations.
 
+<details>
+<summary>Older Changelog:</summary>
+
 ### 0.4.1 (2020-05-15)
 * (Sebastian Bormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position.
 * (Sebastian Bormann) Fixed crash when using some thermostats.
@@ -914,6 +917,8 @@ In addition to normal thermostat you can define:
 
 ### 0.0.1
 * (Sebastian Bormann) initial release
+
+</details>
 
 ## License
 MIT License
