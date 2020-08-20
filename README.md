@@ -377,6 +377,7 @@ In addition to normal thermostat you can define:
 	* 'back', 'home' or 'menu*, if the corresponding buttons are clicked
 	* Keep in mind: You can use the Target-Value-List (accessible via the wrench-icon of each datapoint) to link from one datapoint to multiple datapoints, depending on the returned value (see Modifying Datapoints section above)
 * **REMOTE_COLOR**: *string* - shows colored buttons an returnes the corresponding color ('red', 'green', 'yellow' or 'blue'), if a color is clicked
+* **REMOTE_HIDE_REMOTE**: *booelan* - if true, the complete remote control section will be hidden (for example to show it only, if a valid source is selected)
 
 
 ### <img src="img/icons/popup.png" width="32"> Popup:

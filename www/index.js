@@ -657,7 +657,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -673,6 +673,8 @@ var iQontrolRoles = {
 											repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"}, 
 											repeatAllValue: {name: "Value of REPEAT for 'repeat all'", type: "text", default: "true"}, 
 											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"}, 
+											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
+											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -2123,7 +2125,7 @@ function collapsibleAnimatedInit(){ // jQuery Tweak: Für den Wrapper-Div statt 
 		var current = $(this).closest(".ui-collapsible");             
 		if (current.hasClass("ui-collapsible-collapsed")) {
 			// collapse all others
-			$(".ui-collapsible").not(".ui-collapsible-collapsed").find(".ui-collapsible-heading-toggle").click();
+			if(current.parent("div").hasClass("ui-collapsible-set")) $(".ui-collapsible").not(".ui-collapsible-collapsed").find(".ui-collapsible-heading-toggle").click();
 			// and then expand this one
 			$(".ui-collapsible-content", current).slideDown(300);
 		} else {
@@ -7526,13 +7528,14 @@ function renderDialog(deviceIdEscaped){
 					})(); //<--End Closure
 				}
 			}
-			
+
 			//----RemoteControl
 			if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type)){
 				var type = "Remote Control";
+				dialogContent += "<div id='DialogRemote'>";
 				dialogContent += "<hr>";
 				dialogContent += "<label for='' ><image src='./images/buttongrid.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-				dialogContent += "<div class='ui-collapsible-set'>";
+				dialogContent += "<div" + (getDeviceOptionValue(device, "remoteKeepSectionsOpen") == "true" ? "" : " class='ui-collapsible-set'") + ">";
 				if(dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type){
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
 						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Numbers") + ":</h4>";
@@ -7743,6 +7746,24 @@ function renderDialog(deviceIdEscaped){
 					})(); //<--End Closure
 				}
 				dialogContent += "</div>";
+				dialogContent += "</div>";
+				if(dialogStates["REMOTE_HIDE_REMOTE"] && dialogStates["REMOTE_HIDE_REMOTE"].type){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedRemoteHideRemoteId = dialogLinkedStateIds["REMOTE_HIDE_REMOTE"];
+						var updateFunction = function(){
+							var remoteHideRemote = getStateObject(_linkedRemoteHideRemoteId);
+							if (remoteHideRemote){
+								if(typeof remoteHideRemote.val != udef && remoteHideRemote.val.toString() == "true") {
+									$("#DialogRemote").hide(1000);
+								} else {
+									$("#DialogRemote").show(500);
+								}									
+							}
+						};
+						dialogUpdateFunctions[_linkedRemoteHideRemoteId].push(updateFunction);
+					})(); //<--End Closure
+				}
 			}
 
 			//----Source
