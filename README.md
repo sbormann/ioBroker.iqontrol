@@ -368,7 +368,7 @@ In addition to normal thermostat you can define:
 * **VOLUME**: *number* - for volume-slider
 * **SOURCE, PLAYLIST**: *value-list* - show select-menu to chose a source or a title from playlist
 
-To display a universal remote control you can define the following states:
+#### To display a universal remote control you can define the following states:
 * **REMOTE_NUMBER**: *string* - shows a num-pad an returnes the corresponding number, if a number is clicked
 * **REMOTE_VOLUME_UP, REMOTE_VOLUME_UP, REMOTE_CH_UP, REMOTE_CH_DOWN**: *string* - shows buttons vor volume up/down and channel up/down and returns 'volumeUp', 'volumeDown', 'chUp' or 'chDown', if the corresponding button is pressed
 * **REMOTE_PAD_DIRECTION, REMOTE_PAD_BACK, REMOTE_PAD_HOME, REMOTE_PAD_MENU**: *string* - shows a trackpad for navigation and returns 
