@@ -190,6 +190,7 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 
 ![CustomDialog Call](img/custom_call.png)
 ![CustomDialog Example](img/custom_dialog.png)
+![Concept of Target-Value-List](img/target-value-list_concept.png)
   
 ### General states:
 Every role has the following three states:
@@ -394,6 +395,10 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### 1.1.11 (2020-08-21)
+* (Sebastian Bormann) Added option to define explicit conditions for a tile to be active.
+* (Sebastian Bormann) Added wrench icon to edit array dialog.
 
 ### 1.1.10 (2020-08-20)
 * (Sebastian Bormann) Added universal remote control including a track-pad to media-device.

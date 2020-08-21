@@ -42,6 +42,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -74,6 +78,10 @@ var iQontrolRoles = {
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -105,6 +113,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
@@ -133,6 +145,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -161,6 +177,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -187,6 +207,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -214,6 +238,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -241,6 +269,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -268,6 +300,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -295,6 +331,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "SE"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -322,6 +362,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -348,6 +392,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -376,6 +424,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -408,6 +460,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -445,6 +501,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
@@ -472,6 +532,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -499,6 +563,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -528,6 +596,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -559,6 +631,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -585,6 +661,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -615,6 +695,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -646,6 +730,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -686,6 +774,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -711,6 +803,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -736,6 +832,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
@@ -2118,7 +2218,7 @@ function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
-			//Edit
+			//Edit (SelectId, Edit Text or Edit Array)
 			if (command === 'edit') {
 				$(this).on('click', function () {
 					var stateIndex = $(this).data('index');
@@ -2206,18 +2306,19 @@ function load(settings, onChange) {
 			if (name === 'value') {
 				var arrayIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
 			}
 		});
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit (SelectId)
 			if (command === 'edit') {
-			var arrayIndex = $(this).data('index');
 				$(this).on('click', function(){
-					var arrayIndex = $(this).data('index');
-					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
+					var _arrayIndex = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _arrayIndex);
 					initSelectId(function (sid) {
-						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val(), {type: 'state'}, function (newId) {
+						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
 							if (newId) {
 								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
 							}
@@ -2225,7 +2326,34 @@ function load(settings, onChange) {
 					});
 				});
 			}
+			//OpenCustom
+			if (command === 'openCustom') {
+				var arrayIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex);
+				$(this).on('click', function (e) {
+					var _arrayIndex = $(this).data('index');
+					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val();
+					if (_stateId != ""){
+						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+						window.open(url);
+					}
+				});
+				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
+			}
 		});
+	}
+	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
+		var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
+		var stateObject = parent.gMain.objects[stateId];
+		if (typeof stateObject != udef) {
+			if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+			} else {
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+			}
+		} else {
+			$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+		}
 	}
 
 	//Enhance DeviceAutocreate with functions

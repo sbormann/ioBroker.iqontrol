@@ -42,6 +42,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -74,6 +78,10 @@ var iQontrolRoles = {
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -105,6 +113,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
@@ -133,6 +145,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -161,6 +177,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -187,6 +207,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -214,6 +238,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -241,6 +269,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -268,6 +300,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -295,6 +331,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "SE"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -322,6 +362,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -348,6 +392,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -376,6 +424,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -408,6 +460,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -445,6 +501,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
@@ -472,6 +532,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -499,6 +563,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -528,6 +596,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -559,6 +631,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -585,6 +661,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -615,6 +695,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -646,6 +730,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -686,6 +774,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -711,6 +803,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
@@ -736,6 +832,10 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
@@ -2054,6 +2154,85 @@ function removeDuplicates(array) { //Removes duplicates from an array
     });
 }
 
+function checkCondition(value, condition, conditionValue){
+	switch(condition){
+		case "at":
+		return true;
+		break;
+		
+		case "af":
+		return false;
+		break;
+		
+		case "eqt":
+		if(value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+			return false;
+		} else {
+			return true;
+		}
+
+		case "eqf":
+		if(value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+	
+		case "eq":
+		if(value.toString().toLowerCase() == conditionValue.toString().toLowerCase()){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		case "ne":
+		if(value.toString().toLowerCase() == conditionValue.toString().toLowerCase()){
+			return false;
+		} else {
+			return true;
+		}
+		break;
+
+		case "gt":
+		if(!isNaN(value) && !isNaN(conditionValue) && parseFloat(value) > parseFloat(conditionValue)){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+		
+		case "ge":
+		if(!isNaN(value) && !isNaN(conditionValue) && parseFloat(value) >= parseFloat(conditionValue)){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		case "lt":
+		if(!isNaN(value) && !isNaN(conditionValue) && parseFloat(value) < parseFloat(conditionValue)){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		case "le":
+		if(!isNaN(value) && !isNaN(conditionValue) && parseFloat(value) <= parseFloat(conditionValue)){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		default:
+		return null;
+	}
+	return null;
+}
+
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
     try {
         var o = JSON.parse(jsonString);
@@ -3217,6 +3396,13 @@ function renderView(viewId){
 					deviceLinkedStateIds[elementState] = linkedStateId;
 				});
 			}
+			//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["optionTileActiveStateId"] and fetched
+			var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
+			if (linkedTileActiveStateId) { //Call updateFunction after rendering View
+				if(!viewUpdateFunctions[linkedTileActiveStateId]) viewUpdateFunctions[linkedTileActiveStateId] = [];
+				deviceLinkedStateIdsToUpdate.push(linkedTileActiveStateId);
+			}
+			deviceLinkedStateIds["tileActiveStateId"] = linkedTileActiveStateId;
 			//--viewPressureMenu
 			viewPressureMenu[deviceIdEscaped] = {};
 			viewPressureMenu[deviceIdEscaped].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick:'$("#ViewPressureMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceIdEscaped + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
@@ -3944,13 +4130,14 @@ function renderView(viewId){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var showState = (getDeviceOptionValue(_device, "showState") == "true") || false;
 											var result;
 											var resultText = "";
-											var active;
-											if(showState && state && typeof state.val !== udef ){
+											if(state && typeof state.val !== udef ){
 												if(typeof state.plainText == 'number'){	//STATE = number (= level)
 													result = state.val;
 													resultText = result + state.unit;
@@ -3960,22 +4147,40 @@ function renderView(viewId){
 												}
 												if(resultText == "0%") resultText = _("off");
 												resultText = unescape(resultText);
-												if(state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
-													active = true;
+											}							
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard;
+											if (tileActive == null){
+												if(tileActiveValue.toString().toLowerCase() == "false" || tileActiveValue.toString().toLowerCase() == "0" || tileActiveValue.toString().toLowerCase() == "-1" || tileActiveValue.toString().toLowerCase() == ""){
+													tileActiveStandard = false;
+												} else {
+													tileActiveStandard = true;
+												}
+											}
+											if(showState || tileActive != null){
+												if(tileActive == null) tileActive = tileActiveStandard;
+												if(tileActive){
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else {
-													active = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												}
-												resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
+											}
+											if(showState){
+												resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, tileActive);
 												if (typeof result !== udef && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -3983,6 +4188,7 @@ function renderView(viewId){
 											}
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -3993,32 +4199,47 @@ function renderView(viewId){
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var result;
 											var resultText = "";
-											var active;
 											if(state && typeof state.val !== udef && state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
-												active = true;
+												result = true;
+											} else {
+												result = false;
+											}
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard = result;
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											} else {
-												active = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 											}
-											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4032,17 +4253,18 @@ function renderView(viewId){
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
 										var _linkedPartyTemperatureId = deviceLinkedStateIds["PARTY_TEMPERATURE"];
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var setTemperature = getStateObject(_linkedSetTemperatureId); 
 											var controlMode = getStateObject(_linkedControlModeId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var min = setTemperature && setTemperature.min || 0;
 											var max = setTemperature && setTemperature.max || 100;
-											var val = setTemperature && setTemperature.val || "";
+											var result = setTemperature && setTemperature.val || "";
 											var unit = setTemperature && setTemperature.unit || "";
 											var mode = "";
 											var modeText = "";
 											var resultText = "";
-											var active;
 											var controlModeDisabledValue = getDeviceOptionValue(_device, "controlModeDisabledValue") || "";
 											if (_linkedControlModeId) {
 												if(controlMode && typeof controlMode.val !== udef) {
@@ -4050,24 +4272,36 @@ function renderView(viewId){
 													modeText = controlMode.plainText;
 												}
 											}
-											if (val !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
-											resultText = val + unit + modeText;
-											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (val !== "" && (val <= min || val >= max))) {
-												active = false;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+											if (result !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
+											resultText = result + unit + modeText;
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard;
+											if ((mode !== "" && controlModeDisabledValue !== "" && mode == controlModeDisabledValue) || (tileActiveValue !== "" && (tileActiveValue <= min || tileActiveValue >= max))) {
+												tileActiveStandard = false;
 											} else {
-												active = true;
+												tileActiveStandard = true;
+											}
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 											}
-											resultText = addTimestamp(resultText, [setTemperature, controlMode], [_linkedSetTemperatureId, _linkedControlModeId], _device, active);
+											resultText = addTimestamp(resultText, [setTemperature, controlMode], [_linkedSetTemperatureId, _linkedControlModeId], _device, tileActive);
 											if (_linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) resultText += "&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />";
 											if (_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) resultText += "&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />";
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
@@ -4079,6 +4313,7 @@ function renderView(viewId){
 										if (_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
 										if (_linkedPartyTemperatureId) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
 										if (_linkedWindowOpenReportingId) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4089,76 +4324,106 @@ function renderView(viewId){
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || _("closed");
 											var stateTiltedValue = getDeviceOptionValue(_device, "stateTiltedValue") || _("tilted");
 											var stateOpenedValue = getDeviceOptionValue(_device, "stateOpenedValue") || _("opened");
+											var result;
 											var resultText;
-											var tilted = false;
-											var active;
 											if(state && typeof state.plainText == 'number'){		//STATE = number
 												result = state.val;
 												resultText = result + state.unit;
+												if(result > 0){ //show as opened
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+												} else { //show as closed
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+												}
 											} else if(state){ 										//STATE = bool or text
 												result = state.val;
 												if(typeof result == 'boolean') {					//STATE = bool -> force to opened or closed
-													if (result) {
+													if (result) { //opened
 														resultText = _("opened");
-													} else {
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+													} else { //closed
 														resultText = _("closed");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
 													}
 												} else {											//STATE = text
 													resultText = state.plainText;
 													switch (resultText) {
-														case stateClosedValue: case _(stateClosedValue):
+														case stateClosedValue: case _(stateClosedValue): //closed
 														result = false;
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
 														break;
 														
-														case stateTiltedValue: case _(stateTiltedValue):
+														case stateTiltedValue: case _(stateTiltedValue): //tilted
 														result = true;
-														tilted = true;
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").addClass("active");
 														break;
 														
-														case stateOpenedValue: case _(stateOpenedValue):
+														case stateOpenedValue: case _(stateOpenedValue): //opened
 														result = true;
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+														break;
+														
+														default: 										//free text or undefined state
+														if (typeof result == udef || result == 0 || result == false) { //show as closed
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+														} else { //show as opened
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+															$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
+														}
 														break;
 													}
 												}
 											}
-											if (typeof result == udef || result == 0 || result == false) {
-												active = false;
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard = tileActiveValue || false;
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
-											} else if (tilted) {
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").addClass("active");
-											} else {
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.tilted").removeClass("active");
 											}
 											resultText = unescape(resultText);
-											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, tileActive);
 											if (typeof result !== udef && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4172,47 +4437,58 @@ function renderView(viewId){
 										var _linkedLockStateId = deviceLinkedStateIds["LOCK_STATE"];
 										var _linkedLockStateUncertainId = deviceLinkedStateIds["LOCK_STATE_UNCERTAIN"];
 										var _linkedLockOpenId = deviceLinkedStateIds["LOCK_OPEN"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var lockState = getStateObject(_linkedLockStateId);
 											var lockStateUncertain = getStateObject(_linkedLockStateUncertainId);
 											var lockOpen = getStateObject(_linkedLockOpenId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var result;
 											var resultText = "";
-											var active;
 											if(state && typeof state.val !== udef && state.val){ //Opened
-												active = true;
+												result = true;
 												resultText = _("opened");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");													
 											} else if(lockState && typeof lockState.val !== udef && lockState.val){ //Closed, but unlocked
-												active = true;
+												result = true;
 												resultText = _("unlocked");
 												if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "<i>";
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").addClass("active");
 											} else { //Locked
-												active = false;
+												result = false;
 												resultText = _("locked");
 												if(lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");																							
 											}
-											resultText = addTimestamp(resultText, [state, lockState, lockStateUncertain, lockOpen], [_linkedStateId, _linkedLockStateId, _linkedLockStateUncertainId, _linkedLockOpenId], _device, active);
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard = tileActiveValue || false;
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");												
+ 											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");											
+											}
+											resultText = addTimestamp(resultText, [state, lockState, lockStateUncertain, lockOpen], [_linkedStateId, _linkedLockStateId, _linkedLockStateUncertainId, _linkedLockOpenId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4221,6 +4497,7 @@ function renderView(viewId){
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLockStateId) viewUpdateFunctions[_linkedLockStateId].push(updateFunction);
 										if(_linkedLockStateUncertainId) viewUpdateFunctions[_linkedLockStateUncertainId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4232,8 +4509,10 @@ function renderView(viewId){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedLevelId = deviceLinkedStateIds["LEVEL"];
 										var _linkedDirectionId = deviceLinkedStateIds["DIRECTION"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var level = getStateObject(_linkedLevelId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var min = level.min || 0;
 											var max = level.max || 100;
 											var val = level.val;
@@ -4246,66 +4525,76 @@ function renderView(viewId){
 											var directionOpeningValue = getDeviceOptionValue(_device, "directionOpeningValue") || 1;
 											var directionClosingValue = getDeviceOptionValue(_device, "directionClosingValue") || 2;
 											var directionUncertainValue = getDeviceOptionValue(_device, "directionUncertainValue") || 3;
+											var result;
 											var resultText = "";
-											var active;
+											var tileActiveStandard = false;
+											if(level && typeof level.plainText == 'number'){
+												result = level.val;
+												resultText = result + level.unit;
+											} else if(state){
+												result = level.val;
+												resultText = level.plainText;
+											}
 											if(level && typeof level.val !== udef && val == min){ //Closed
-												active = false;
+												tileActiveStandard = false;
 												resultText = _("closed");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											} else if(level && typeof level.val !== udef && val == max){ //Opened
-												active = true;
+												tileActiveStandard = true;
 												resultText = _("opened");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											} else if(direction && typeof direction.val !== udef && direction.val.toString() == directionOpeningValue.toString()){ //Middle, but opening
-												active = true;
+												tileActiveStandard = true;
 												resultText = _("opening");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											} else if(direction && typeof direction.val !== udef && direction.val.toString() == directionClosingValue.toString()){ //Middle, but closing
-												active = true;
+												tileActiveStandard = true;
 												resultText = _("closing");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").addClass("active");
 											} else { //Middle with no movement
-												active = true;
+												tileActiveStandard = true;
 												if(level && typeof level.val !== udef) resultText = level.val + level.unit;
 												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											}
-											resultText = addTimestamp(resultText, [level, direction], [_linkedLevelId, _linkedDirectionId], _device, active);
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result || 0;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+											}
+											resultText = addTimestamp(resultText, [level, direction], [_linkedLevelId, _linkedDirectionId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4313,6 +4602,7 @@ function renderView(viewId){
 										};
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 										if(_linkedDirectionId) viewUpdateFunctions[_linkedDirectionId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4324,39 +4614,50 @@ function renderView(viewId){
 										var _device = device;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var controlMode = getStateObject(_linkedControlModeId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var controlModeDisarmedValue = getDeviceOptionValue(_device, "controlModeDisarmedValue") || 0;
+											var result;
 											var resultText = "";
-											var active;
 											if(state && typeof state.val !== udef && state.val != 0){ //Triggered
-												active = true;
+												result = true;
 												resultText = state.plainText;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");											
 											} else { //Not triggered (or STATE not defined)
 												if(controlMode && typeof controlMode.val != udef && controlMode.val != controlModeDisarmedValue){ //Armed
-													active = true;
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+													result = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");											
 												} else { //Disarmed (or CONTROL_MODE not defined)
-													active = false;
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+													result = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.armed").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");											
 												}
+											}
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											var tileActiveStandard = tileActiveValue || false;
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											if(controlMode && controlMode.plainText){
 												if(resultText == ""){
@@ -4365,7 +4666,7 @@ function renderView(viewId){
 													resultText += ", " + controlMode.plainText;
 												}
 											}
-											resultText = addTimestamp(resultText, [state, controlMode], [_linkedStateId, _linkedControlModeId], _device, active);
+											resultText = addTimestamp(resultText, [state, controlMode], [_linkedStateId, _linkedControlModeId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4373,6 +4674,7 @@ function renderView(viewId){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4384,81 +4686,16 @@ function renderView(viewId){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedChargingId = deviceLinkedStateIds["CHARGING"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var charging = getStateObject(_linkedChargingId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText;
-											var active;
+											var tileActiveStandard = false;
 											var min =  state.min || 0;
 											var max =  state.max || 100;
-											if(state && typeof state.val !== udef && state.val == min){ //Empty
-												active = false;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").addClass("active");
-											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.10))){ //<10%
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
-											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.25))){ //<25%
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
-											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.50))){ //<50%
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
-											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.75))){ //<75%
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
-											} else if(state && typeof state.val !== udef){ //>75%
-												active = true;
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
-											}
 											if(state && typeof state.plainText == 'number'){
 												result = state.val;
 												resultText = result + state.unit;
@@ -4466,7 +4703,73 @@ function renderView(viewId){
 												result = state.val;
 												resultText = state.plainText;
 											}
-											resultText = addTimestamp(resultText, [state, charging], [_linkedStateId, _linkedChargingId], _device, active);
+											if(state && typeof state.val !== udef && state.val == min){ //Empty
+												tileActiveStandard = false;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").addClass("active");
+											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.10))){ //<10%
+												tileActiveStandard = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
+											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.25))){ //<25%
+												tileActiveStandard = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
+											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.50))){ //<50%
+												tileActiveStandard = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
+											} else if(state && typeof state.val !== udef && state.val <= (min + ((max-min) * 0.75))){ //<75%
+												tileActiveStandard = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
+											} else if(state && typeof state.val !== udef){ //>75%
+												tileActiveStandard = true;
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.full").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged75").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged50").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged25").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charged10").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.empty").removeClass("active");
+											}
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result || 0;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											if(tileActive == null) tileActive = tileActiveStandard;
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
+											}
+											resultText = addTimestamp(resultText, [state, charging], [_linkedStateId, _linkedChargingId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4479,6 +4782,7 @@ function renderView(viewId){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4497,6 +4801,7 @@ function renderView(viewId){
 										var _linkedEpisodeId = deviceLinkedStateIds["EPISODE"];
 										var _linkedPlaylistId = deviceLinkedStateIds["PLAYLIST"];
 										var _linkedSourceId = deviceLinkedStateIds["SOURCE"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
@@ -4510,10 +4815,13 @@ function renderView(viewId){
 											var episode = getStateObject(_linkedEpisodeId);
 											var playlist = getStateObject(_linkedPlaylistId);
 											var source = getStateObject(_linkedSourceId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var result;
 											var resultText;
-											var active;
+											var tileActiveStandard;
+											if(state && typeof state.val !== udef) result = state.val;
 											if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
-												active = true;
+												tileActiveStandard = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
@@ -4524,14 +4832,14 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
 											} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
 												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
-													active = true;
+													tileActiveStandard = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else { //Power off
-													active = false;
+													tileActiveStandard = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
@@ -4543,14 +4851,14 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
 											} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
 												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
-													active = true;
+													tileActiveStandard = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else { //Power off
-													active = false;
+													tileActiveStandard = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
@@ -4562,14 +4870,14 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").addClass("active");
 											} else { //Undefined
 												if (statePowerSwitch && typeof statePowerSwitch.val !== udef && statePowerSwitch.val) { //Power on
-													active = true;
+													tileActiveStandard = true;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else { //Power off
-													active = false;
+													tileActiveStandard = false;
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
@@ -4580,6 +4888,14 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.pause").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.stop").removeClass("active");
 											}
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											if(tileActive == null) tileActive = tileActiveStandard;
 											var resultTextParts = [];
 											if (artist && typeof artist.plainText !== udef && artist.plainText !== null && artist.plainText !== "") resultTextParts.push("<b>" + artist.plainText + "</b>");
 											if (album && typeof album.plainText !== udef && album.plainText !== null && album.plainText !== "") resultTextParts.push(album.plainText);
@@ -4594,7 +4910,7 @@ function renderView(viewId){
 													resultText = source.plainText;
 												}												
 											}
-											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, active);
+											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4607,6 +4923,7 @@ function renderView(viewId){
 										if(_linkedTitleId) viewUpdateFunctions[_linkedTitleId].push(updateFunction);
 										if(_linkedSeasonId) viewUpdateFunctions[_linkedSeasonId].push(updateFunction);
 										if(_linkedEpisodeId) viewUpdateFunctions[_linkedEpisodeId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -4618,12 +4935,13 @@ function renderView(viewId){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedLevelId = deviceLinkedStateIds["LEVEL"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var level = getStateObject(_linkedLevelId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText;
-											var active;
 											if(!level || typeof level == udef || typeof level.val == udef){
 												if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
 													result = state.val;
@@ -4654,14 +4972,21 @@ function renderView(viewId){
 													resultText = result + level.unit;
 												}
 											}
-											if (result == 0) {
-												active = false;
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											if (tileActive == false || (tileActive == null && tileActiveValue == 0)) {
+												tileActive = false;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 											} else {
-												active = true;
+												tileActive = true;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
@@ -4669,7 +4994,7 @@ function renderView(viewId){
 											}
 											if(resultText == "0%") resultText = _("off");
 											resultText = unescape(resultText);
-											resultText = addTimestamp(resultText, [state, level], [_linkedStateId, _linkedLevelId], _device, active);
+											resultText = addTimestamp(resultText, [state, level], [_linkedStateId, _linkedLevelId], _device, tileActive);
 											if (typeof result !== udef && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -4677,6 +5002,7 @@ function renderView(viewId){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 									})(); //<--End Closure
 								}
 							}

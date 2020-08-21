@@ -1,10 +1,31 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.10",
+        "version": "1.1.11",
         "news": {
+            "1.1.11": {
+                "en": "Added option to define explicit conditions for a tile to be active, Added wrench icon to edit array dialog.",
+                "de": "Option hinzugefügt, um explizite Bedingungen für die Aktivierung einer Kachel zu definieren. Schraubenschlüsselsymbol zum Bearbeiten des Array-Dialogs hinzugefügt.",
+                "ru": "Добавлена ​​опция для определения явных условий для активности плитки, Добавлен значок гаечного ключа в диалог редактирования массива.",
+                "pt": "Adicionada opção para definir condições explícitas para um bloco estar ativo. Adicionado ícone de chave inglesa para editar a caixa de diálogo da matriz.",
+                "nl": "Optie toegevoegd om expliciete voorwaarden te definiëren voor een tegel om actief te zijn, moersleutelpictogram toegevoegd om matrixdialoog te bewerken.",
+                "fr": "Ajout d'une option pour définir des conditions explicites pour qu'une tuile soit active, Ajout d'une icône de clé pour modifier la boîte de dialogue du tableau.",
+                "it": "Aggiunta opzione per definire condizioni esplicite per l'attivazione di un riquadro, aggiunta icona chiave inglese per modificare la finestra di dialogo dell'array.",
+                "es": "Se agregó la opción para definir condiciones explícitas para que un mosaico esté activo, Se agregó el ícono de llave inglesa para editar el cuadro de diálogo.",
+                "pl": "Dodano opcję definiowania wyraźnych warunków, aby kafelek był aktywny, Dodano ikonę klucza do edycji okna dialogowego tablicy.",
+                "zh-cn": "添加了用于定义图块处于活动状态的显式条件的选项，还添加了扳手图标以编辑阵列对话框。"
+            },
             "1.1.10": {
-                "en": "Added universal remote control including a track-pad to media-device, Device-Options are now sorted in categories, Collapsibles like additional informations are animated now, Added option for the device button to change the caption of the button in the dialog, Added option to open URL in new window instead of box inside dialog, Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch)."
+                "en": "Added universal remote control including a track-pad to media-device, Device-Options are now sorted in categories, Collapsibles like additional informations are animated now, Added option for the device button to change the caption of the button in the dialog, Added option to open URL in new window instead of box inside dialog, Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch).",
+                "de": "Universelle Fernbedienung hinzugefügt, einschließlich Track-Pad für Mediengerät. Geräteoptionen sind jetzt in Kategorien sortiert. Zusammenklappbare Elemente wie zusätzliche Informationen werden jetzt animiert. Option für die Geräteschaltfläche hinzugefügt, um die Beschriftung der Schaltfläche im Dialogfeld zu ändern. Option hinzugefügt ",
+                "ru": "Добавлен универсальный пульт дистанционного управления, включая трекпад для медиа-устройства, Параметры устройства теперь сортируются по категориям, Складные элементы, такие как дополнительная информация, теперь анимированы, Добавлена ​​опция для кнопки устройства для изменения заголовка кнопки в диалоговом окне, Добавлена ​​опция ",
+                "pt": "Adicionado controle remoto universal incluindo um trackpad para dispositivo de mídia, Device-Options agora são classificados em categorias, Collapsibles como informações adicionais são animados agora, Adicionado opção para o botão do dispositivo para alterar a legenda do botão na caixa de diálogo, opção adicionada ",
+                "nl": "Universele afstandsbediening inclusief trackpad toegevoegd aan media-apparaat, Apparaatopties zijn nu gesorteerd in categorieën, Opvouwbare items zoals aanvullende informatie zijn nu geanimeerd, Optie toegevoegd voor de apparaatknop om het bijschrift van de knop in het dialoogvenster te wijzigen, Optie toegevoegd ",
+                "fr": "Ajout d'une télécommande universelle comprenant un track-pad au périphérique multimédia, les options de périphérique sont maintenant triées en catégories, les éléments collapsibles comme les informations supplémentaires sont maintenant animés, option ajoutée pour le bouton de l'appareil pour changer la légende du bouton dans la boîte de dialogue, option ajoutée ",
+                "it": "Aggiunto controllo remoto universale che include un track-pad al dispositivo multimediale, le opzioni del dispositivo sono ora ordinate in categorie, le opzioni comprimibili come le informazioni aggiuntive sono ora animate, opzione aggiunta per il pulsante del dispositivo per modificare la didascalia del pulsante nella finestra di dialogo, opzione aggiunta ",
+                "es": "Se agregó un control remoto universal que incluye un track-pad al dispositivo de medios, las opciones de dispositivo ahora están ordenadas en categorías, los plegables como información adicional ahora están animados, se agregó la opción para que el botón del dispositivo cambie el título del botón en el cuadro de diálogo, se agregó la opción ",
+                "pl": "Dodano uniwersalny pilot zdalnego sterowania, w tym track-pad do urządzenia multimedialnego, Opcje urządzenia są teraz posortowane w kategoriach, Collapsibles, takie jak dodatkowe informacje, są teraz animowane, Dodano opcję przycisku urządzenia, aby zmienić podpis przycisku w oknie dialogowym, Dodano opcję ",
+                "zh-cn": "添加了通用遥控器，包括对媒体设备的触控板，设备选项现在已按类别排序，可折叠性（如其他信息）现在已设置为动画，设备按钮的添加选项可更改对话框中按钮的标题，添加选项"
             },
             "1.1.9": {
                 "en": "Enhanced popup with the ability to add buttons and confirmation messages, Fixed crash on some toolbar specifications.",
