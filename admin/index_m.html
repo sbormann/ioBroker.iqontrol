@@ -104,6 +104,15 @@
 						<a class="waves-effect waves-light btn" id="mainLink" target="_blank"><i class="material-icons left">open_in_new</i><span class="translate">Open iQontrol</span></a>
 					</div>
 				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<br>
+						<p style="font-size: small;" class="translate">If you like it, please consider a donation:</p>
+						<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url" target="_blank">
+							<img src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" alt="Paypal"></img>
+						</a>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col s12">
 						<br><br>
@@ -219,11 +228,14 @@
 						<span class="translate">Window</span>, 
 						<span class="translate">Door</span>, 
 						<span class="translate">Fire-Sensor</span>, 
+						<span class="translate">Flood-Sensor</span>, 
 						<span class="translate">Temperature-Sensor</span>, 
 						<span class="translate">Humidity-Sensor</span>,  
 						<span class="translate">Brightness-Sensor</span> 
 						<span class="translate">and</span> 
-						<span class="translate">Motion-Sensor</span> 
+						<span class="translate">Motion-Sensor</span>. 
+						<span class="translate">However, this can be changed in options of the device.</span><br>
+						<span class="translate">You can use variables in device-names and image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span></a>).
 					</div>
 				</div>
 			</div>
@@ -1241,6 +1253,18 @@
 							</div>
 							<div class="row">
 								<div class="col s12">
+									<p class="translate sub-title">Pressure / ForcedTouch:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value" type="checkbox" id="optionsLayoutPressureMenuAlwaysUseFallback" checked />
+									<label for="optionsLayoutPressureMenuAlwaysUseFallback" class="translate">Always use time instead of pressure</label>
+									<span class="helper-text"></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
 									<p class="translate sub-title">Return after time:</p>
 								</div>
 							</div>
@@ -1321,7 +1345,7 @@
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
-									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;array/Array" class="translate">Type</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit openCustom" style="width:100px;"></th>
 								</tr>
@@ -1330,13 +1354,17 @@
 					</div>
 				</div>
 				<br><br>
-				<div class="divider"></div>
-				<div class="row">
+				<div class="section">
+					<div class="divider"></div>
 					<div class="col s12">
-						<h6 class="translate sub-title">Options</h6>
+						<h5 class="translate sub-title">Options</h5>
 					</div>
 				</div>
 				<div class="row" id="dialogDeviceEditOptionsContent">
+				</div>
+				<div class="row">
+					<p><br></p>
+					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span></a>).
 				</div>
             </div>
             <div class="modal-footer">
@@ -1389,7 +1417,7 @@
 									<th data-name="name" class="translate">Name</th>
 									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
 									<th data-name="value" class="translate">Value</th>
-									<th data-buttons="edit delete" style="width:50px;"></th>
+									<th data-buttons="edit openCustom delete" style="width:50px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -1433,7 +1461,7 @@
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Preview:</h6>
-						<p class="translate">This is Alpha - still very buggy. Check the device after creation and edit it to correct role and states.</p>
+						<p class="translate">Check the device after creation and edit it to correct role and states.</p>
 					</div>
 				</div>
 				<div class="row">

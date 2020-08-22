@@ -13,6 +13,8 @@ appveyor.yml
 .travis.yaml
 appveyor.yaml
 .eslintrc.json
+iob_npm.done
+tsconfig.json
 
 # npm package files
 iobroker.*.tgz

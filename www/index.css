@@ -183,6 +183,10 @@ body {
 }
 
 #View{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	background-color: transparent;
 }
 #ViewMain {
@@ -403,10 +407,12 @@ body {
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
 	opacity: 0;
+	display: none;
 }
 .iQontrolDeviceIcon.active {
 	pointer-events:auto !important;
 	opacity: 1;
+	display: block;
 }
 .iQontrolDeviceIcon.overlay {
 	pointer-events:none !important;
@@ -463,11 +469,11 @@ body {
 }
 .iQontrolDeviceInfoAText {
 	pointer-events:none !important;
-	position:absolute; left: 66px; top: 18px; width: 42px; height: 16px;
+	position:absolute; left: 65px; top: 19px; width: 45px; height: 16px;
 	overflow: hidden;
 	background: transparent;
 	color: black;
-	font-size: 8pt;
+	font-size: 7.5pt;
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
@@ -486,11 +492,11 @@ body {
 }
 .iQontrolDeviceInfoBText {
 	pointer-events:none !important;
-	position:absolute; left: 66px; top: 37px; width: 42px; height: 16px;
+	position:absolute; left: 65px; top: 38px; width: 45px; height: 16px;
 	overflow: hidden;
 	background: transparent;
 	color: black;
-	font-size: 8pt;
+	font-size: 7.5pt;
 	font-weight: normal;
 	text-shadow: 0px 1px 2px rgba(0,0,0,0.3);
 	text-align: left;
@@ -523,10 +529,14 @@ body {
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
+	display: block;
 }
-
+.iQontrolDeviceState.hideStateIfInactive:not(.active){
+	display: none;
+}
 #Dialog{
 	min-width: 300px;
+	max-width: 100%;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
@@ -545,6 +555,9 @@ body {
 	margin-right: auto;
 	padding: 0px;
 	border: 2px inset #eee;
+	-webkit-border-radius: 5px;
+	   -moz-border-radius: 5px;
+			border-radius: 5px;
 	scrolling: auto;
 	overflow: scroll;
 }
@@ -554,6 +567,12 @@ body {
 	width: 100%;
 	height: 100%;
 	border: none;
+}
+.iQontrolDialogMediaText.artist{
+	font-weight: bold;
+}
+.iQontrolDialogMediaText.title{
+	font-style: italic;
 }
 .iQontrolDialogAdditionalInfoList{
 	list-style-position: outside;
@@ -584,6 +603,9 @@ body {
 }
 .fullWidthSlider .ui-slider-track{
 	margin-left: 15px !important;
+}
+.fullWidthSlider .ui-mini .ui-slider-track{
+	margin-left: 0px !important;
 }
 .ui-slider-track .ui-btn.ui-slider-handle {
     font-size: .7em !important;
@@ -620,6 +642,13 @@ body {
 	margin-left: -33px;
 	color: black;
 	text-shadow: 0 1px 0 grey;
+}
+
+.ui-popup-screen {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
@@ -695,15 +724,15 @@ body {
 		position:absolute; left: 72px; top: 30px; width: 18px; height: 18px;
 	}
 	.iQontrolDeviceInfoAText {
-		position:absolute; left: 90px; top: 30px; width: 70px; height: 22px;
-		font-size: 11pt;
+		position:absolute; left: 90px; top: 30px; width: 72px; height: 22px;
+		font-size: 10.5pt;
 	}
 	.iQontrolDeviceInfoBIcon {
 		position:absolute; left: 72px; top: 58px; width: 18px; height: 18px;
 	}
 	.iQontrolDeviceInfoBText {
-		position:absolute; left: 90px; top: 58px; width: 70px; height: 22px;
-		font-size: 11pt;
+		position:absolute; left: 90px; top: 58px; width: 72px; height: 22px;
+		font-size: 10.5pt;
 	}
 	.iQontrolDeviceName  {
 		position:absolute; left: 10px; top: 84px; width: 150px; height: 45px;

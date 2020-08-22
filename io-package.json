@@ -1,67 +1,91 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "0.2.20",
+        "version": "1.1.11",
         "news": {
-            "0.2.20": {
-                "en": "If value for POWER is greater than 100, it is rounded withour decimal places, Bugfixed invert-function with custom min and max, Added reload-link to loading page, Updated dependencies.",
-                "de": "Wenn der Wert für POWER größer als 100 ist, wird er mit unseren Dezimalstellen gerundet. Bugfixed Invert-Funktion mit benutzerdefinierten Min und Max. Reload-Link zur Ladeseite hinzugefügt. Aktualisierte Abhängigkeiten.",
-                "ru": "Если значение для POWER больше 100, оно округляется с нашими десятичными разрядами, исправлена ​​обратная функция с пользовательскими минимальными и максимальными значениями, добавлена ​​ссылка для перезагрузки страницы загрузки, обновлены зависимости.",
-                "pt": "Se o valor de POWER for maior que 100, ele será arredondado com nossas casas decimais, função invertida corrigida com bug com mínimo e máximo personalizados, link de recarregamento adicionado à página de carregamento, dependências atualizadas.",
-                "nl": "Als de waarde voor POWER groter is dan 100, wordt deze afgerond met onze decimalen, Bugfixed invert-functie met aangepaste min en max, toegevoegde reload-link naar laadpagina, bijgewerkte afhankelijkheden.",
-                "fr": "Si la valeur de POWER est supérieure à 100, elle est arrondie avec nos décimales, fonction inversée corrigée des bogues avec min et max personnalisés, lien de rechargement ajouté à la page de chargement, dépendances mises à jour.",
-                "it": "Se il valore di POWER è maggiore di 100, viene arrotondato con le nostre posizioni decimali, funzione di inversione corretta con min e max personalizzati, collegamento di ricarica aggiunto alla pagina di caricamento, dipendenze aggiornate.",
-                "es": "Si el valor de POWER es mayor que 100, se redondea con nuestros decimales, función invertida arreglada con errores con min y max personalizados, enlace de recarga agregado a la página de carga, dependencias actualizadas.",
-                "pl": "Jeśli wartość MOCY jest większa niż 100, jest ona zaokrąglana z naszymi miejscami po przecinku, Poprawiona funkcja odwracania z niestandardowymi wartościami minimalnymi i maksymalnymi, Dodany link reload do strony ładowania, Zaktualizowane zależności.",
-                "zh-cn": "如果POWER的值大于100，则将其四舍五入到小数点后，修正具有自定义最小值和最大值的反转函数，将重新加载链接添加到加载页面，更新了相关性。"
+            "1.1.11": {
+                "en": "Added option to define explicit conditions for a tile to be active, Added wrench icon to edit array dialog.",
+                "de": "Option hinzugefügt, um explizite Bedingungen für die Aktivierung einer Kachel zu definieren. Schraubenschlüsselsymbol zum Bearbeiten des Array-Dialogs hinzugefügt.",
+                "ru": "Добавлена ​​опция для определения явных условий для активности плитки, Добавлен значок гаечного ключа в диалог редактирования массива.",
+                "pt": "Adicionada opção para definir condições explícitas para um bloco estar ativo. Adicionado ícone de chave inglesa para editar a caixa de diálogo da matriz.",
+                "nl": "Optie toegevoegd om expliciete voorwaarden te definiëren voor een tegel om actief te zijn, moersleutelpictogram toegevoegd om matrixdialoog te bewerken.",
+                "fr": "Ajout d'une option pour définir des conditions explicites pour qu'une tuile soit active, Ajout d'une icône de clé pour modifier la boîte de dialogue du tableau.",
+                "it": "Aggiunta opzione per definire condizioni esplicite per l'attivazione di un riquadro, aggiunta icona chiave inglese per modificare la finestra di dialogo dell'array.",
+                "es": "Se agregó la opción para definir condiciones explícitas para que un mosaico esté activo, Se agregó el ícono de llave inglesa para editar el cuadro de diálogo.",
+                "pl": "Dodano opcję definiowania wyraźnych warunków, aby kafelek był aktywny, Dodano ikonę klucza do edycji okna dialogowego tablicy.",
+                "zh-cn": "添加了用于定义图块处于活动状态的显式条件的选项，还添加了扳手图标以编辑阵列对话框。"
             },
-            "0.2.19": {
-                "en": "Updated dependencies.",
-                "de": "Aktualisierte Abhängigkeiten.",
-                "ru": "Обновлены зависимости.",
-                "pt": "Dependências atualizadas.",
-                "nl": "Bijgewerkte afhankelijkheden.",
-                "fr": "Dépendances mises à jour.",
-                "it": "Dipendenze aggiornate.",
-                "es": "Dependencias actualizadas.",
-                "pl": "Zaktualizowano zależności.",
-                "zh-cn": "更新了依赖性。"
+            "1.1.10": {
+                "en": "Added universal remote control including a track-pad to media-device, Device-Options are now sorted in categories, Collapsibles like additional informations are animated now, Added option for the device button to change the caption of the button in the dialog, Added option to open URL in new window instead of box inside dialog, Made toggeling of a state more fault tolerant if the type is not set correctly (iQontrol presumes now, it is a switch).",
+                "de": "Universelle Fernbedienung hinzugefügt, einschließlich Track-Pad für Mediengerät. Geräteoptionen sind jetzt in Kategorien sortiert. Zusammenklappbare Elemente wie zusätzliche Informationen werden jetzt animiert. Option für die Geräteschaltfläche hinzugefügt, um die Beschriftung der Schaltfläche im Dialogfeld zu ändern. Option hinzugefügt ",
+                "ru": "Добавлен универсальный пульт дистанционного управления, включая трекпад для медиа-устройства, Параметры устройства теперь сортируются по категориям, Складные элементы, такие как дополнительная информация, теперь анимированы, Добавлена ​​опция для кнопки устройства для изменения заголовка кнопки в диалоговом окне, Добавлена ​​опция ",
+                "pt": "Adicionado controle remoto universal incluindo um trackpad para dispositivo de mídia, Device-Options agora são classificados em categorias, Collapsibles como informações adicionais são animados agora, Adicionado opção para o botão do dispositivo para alterar a legenda do botão na caixa de diálogo, opção adicionada ",
+                "nl": "Universele afstandsbediening inclusief trackpad toegevoegd aan media-apparaat, Apparaatopties zijn nu gesorteerd in categorieën, Opvouwbare items zoals aanvullende informatie zijn nu geanimeerd, Optie toegevoegd voor de apparaatknop om het bijschrift van de knop in het dialoogvenster te wijzigen, Optie toegevoegd ",
+                "fr": "Ajout d'une télécommande universelle comprenant un track-pad au périphérique multimédia, les options de périphérique sont maintenant triées en catégories, les éléments collapsibles comme les informations supplémentaires sont maintenant animés, option ajoutée pour le bouton de l'appareil pour changer la légende du bouton dans la boîte de dialogue, option ajoutée ",
+                "it": "Aggiunto controllo remoto universale che include un track-pad al dispositivo multimediale, le opzioni del dispositivo sono ora ordinate in categorie, le opzioni comprimibili come le informazioni aggiuntive sono ora animate, opzione aggiunta per il pulsante del dispositivo per modificare la didascalia del pulsante nella finestra di dialogo, opzione aggiunta ",
+                "es": "Se agregó un control remoto universal que incluye un track-pad al dispositivo de medios, las opciones de dispositivo ahora están ordenadas en categorías, los plegables como información adicional ahora están animados, se agregó la opción para que el botón del dispositivo cambie el título del botón en el cuadro de diálogo, se agregó la opción ",
+                "pl": "Dodano uniwersalny pilot zdalnego sterowania, w tym track-pad do urządzenia multimedialnego, Opcje urządzenia są teraz posortowane w kategoriach, Collapsibles, takie jak dodatkowe informacje, są teraz animowane, Dodano opcję przycisku urządzenia, aby zmienić podpis przycisku w oknie dialogowym, Dodano opcję ",
+                "zh-cn": "添加了通用遥控器，包括对媒体设备的触控板，设备选项现在已按类别排序，可折叠性（如其他信息）现在已设置为动画，设备按钮的添加选项可更改对话框中按钮的标题，添加选项"
             },
-            "0.2.18": {
-                "en": "Updated dependencies.",
-                "de": "Aktualisierte Abhängigkeiten.",
-                "ru": "Обновлены зависимости.",
-                "pt": "Dependências atualizadas.",
-                "nl": "Bijgewerkte afhankelijkheden.",
-                "fr": "Dépendances mises à jour.",
-                "it": "Dipendenze aggiornate.",
-                "es": "Dependencias actualizadas.",
-                "pl": "Zaktualizowano zależności.",
-                "zh-cn": "更新了依赖性。"
+            "1.1.9": {
+                "en": "Enhanced popup with the ability to add buttons and confirmation messages, Fixed crash on some toolbar specifications.",
+                "de": "Verbessertes Popup mit der Möglichkeit, Schaltflächen und Bestätigungsmeldungen hinzuzufügen. Absturz bei einigen Symbolleistenspezifikationen behoben.",
+                "ru": "Улучшено всплывающее окно с возможностью добавления кнопок и подтверждающих сообщений. Исправлен сбой на некоторых характеристиках панели инструментов.",
+                "pt": "Popup aprimorado com a capacidade de adicionar botões e mensagens de confirmação, falha corrigida em algumas especificações da barra de ferramentas.",
+                "nl": "Verbeterde pop-up met de mogelijkheid om knoppen en bevestigingsberichten toe te voegen, Crash op sommige werkbalkspecificaties opgelost.",
+                "fr": "Fenêtre contextuelle améliorée avec la possibilité d'ajouter des boutons et des messages de confirmation, Correction d'un crash sur certaines spécifications de la barre d'outils.",
+                "it": "Popup migliorato con la possibilità di aggiungere pulsanti e messaggi di conferma, Risolto crash su alcune specifiche della barra degli strumenti.",
+                "es": "Ventana emergente mejorada con la capacidad de agregar botones y mensajes de confirmación, Se corrigió el bloqueo en algunas especificaciones de la barra de herramientas.",
+                "pl": "Ulepszone wyskakujące okienko z możliwością dodawania przycisków i komunikatów potwierdzających, Naprawiono awarię niektórych specyfikacji paska narzędzi.",
+                "zh-cn": "增强的弹出窗口具有添加按钮和确认消息的功能，修复了某些工具栏规格上的崩溃。"
             },
-            "0.2.17": {
-                "en": "Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Added option to hide device, if it is inactive (handle with care, as you may not be able to switch it on again).",
-                "de": "Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Option zum Ausblenden des Geräts hinzugefügt, wenn es inaktiv ist (vorsichtig behandeln, da Sie es möglicherweise nicht wechseln können ",
-                "ru": "Добавлена ​​возможность открыть диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Добавлена ​​возможность скрыть устройство, если оно неактивно (обращайтесь с осторожностью, так как вы не сможете его переключить ",
-                "pt": "Foi adicionada a opção para abrir a caixa de diálogo clicando no bloco para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e Movimento, Opção adicionada para ocultar o dispositivo, se estiver inativo (manuseie com cuidado, pois pode não ser possível alterná-lo ",
-                "nl": "Optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatur, Vochtigheid, Helderheid en Beweging, Optie toegevoegd om apparaat te verbergen, als het inactief is (voorzichtig behandelen, omdat u het misschien niet kunt schakelen ",
-                "fr": "Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement. ",
-                "it": "Aggiunta opzione per aprire la finestra di dialogo facendo clic su riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Aggiunta opzione per nascondere il dispositivo, se è inattivo (maneggiare con cura, poiché potrebbe non essere possibile cambiarlo ",
-                "es": "Opción agregada para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Opción agregada para ocultar el dispositivo, si está inactivo (maneje con cuidado, ya que es posible que no pueda cambiarlo ",
-                "pl": "Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i Ruch, Dodano opcję ukrywania urządzenia, jeśli jest nieaktywne (obchodź się ostrożnie, ponieważ możesz nie być w stanie go zmienić ",
-                "zh-cn": "添加选项以通过单击视图，窗口，门，火，温度，湿度，亮度和运动的图块来打开对话框，添加选项以隐藏设备（如果其处于非活动状态）（请谨慎处理，因为您可能无法切换它）"
+            "1.1.8": {
+                "en": "Enhanced rendering of colour-lights with alternative colorspace, Added rounded corners to iframe, Added sans-serif as standard font-family to iframe (may overwrite your settings - you can overwrite this by marking your own font-family css with '!important'), Added sentry plugin.",
+                "de": "Verbessertes Rendern von Farblichtern mit alternativem Farbraum, Abgerundete Ecken zum Iframe hinzugefügt, Serifenlose Standard-Schriftfamilie zum Iframe hinzugefügt (möglicherweise überschreiben Sie Ihre Einstellungen - Sie können dies überschreiben, indem Sie Ihre eigene CSS-Schriftfamilie mit '! Wichtig' markieren ",
+                "ru": "Улучшенный рендеринг цветных источников света с альтернативным цветовым пространством, добавлены закругленные углы в iframe, добавлен sans-serif в качестве стандартного семейства шрифтов в iframe (может перезаписать ваши настройки - вы можете перезаписать это, пометив свой собственный набор шрифтов css знаком! ",
+                "pt": "Renderização aprimorada de luzes coloridas com espaço de cores alternativo, cantos arredondados adicionados ao iframe, sans-serif adicionados como família de fontes padrão ao iframe (pode sobrescrever suas configurações - você pode sobrescrever isso marcando sua própria css da família de fontes com '! Important' ",
+                "nl": "Verbeterde weergave van kleurenlichten met alternatieve kleurruimte, afgeronde hoeken toegevoegd aan iframe, schreefloos als standaard lettertypefamilie toegevoegd aan iframe (kan uw instellingen overschrijven - u kunt dit overschrijven door uw eigen lettertypefamilie css te markeren met '! Belangrijk') ",
+                "fr": "Rendu amélioré des lumières de couleur avec un espace colorimétrique alternatif, Ajout de coins arrondis à l'iframe, Ajout de sans-serif en tant que famille de polices standard à l'iframe (peut écraser vos paramètres - vous pouvez écraser cela en marquant votre propre css de famille de polices avec ``! Important '' ",
+                "it": "Rendering migliorato di luci di colore con spazio colore alternativo, Aggiunti angoli arrotondati a iframe, Aggiunto sans-serif come famiglia di caratteri standard a iframe (può sovrascrivere le tue impostazioni - puoi sovrascriverlo contrassegnando il tuo css di famiglia di caratteri con '! Important') ",
+                "es": "Representación mejorada de luces de color con espacio de color alternativo, Esquinas redondeadas agregadas al iframe, Sans-serif agregado como familia de fuentes estándar al iframe (puede sobrescribir sus configuraciones; puede sobrescribir esto marcando su propio CSS de familia de fuentes con '! Important' ",
+                "pl": "Ulepszone renderowanie kolorowych świateł z alternatywną przestrzenią kolorów, Dodano zaokrąglone rogi do elementu iframe, Dodano bezszeryfową jako standardową rodzinę czcionek do elementu iframe (można nadpisać swoje ustawienia - można to zastąpić, oznaczając własny plik CSS rodziny czcionek znakiem „! Important” ",
+                "zh-cn": "使用其他色彩空间增强了对彩色灯光的渲染，向iframe添加了圆角，向iframe添加了sans-serif作为标准字体系列（可能会覆盖您的设置-您可以通过用'！important'标记自己的字体系列css来覆盖此设置"
             },
-            "0.2.16": {
-                "en": "Fixed custom step for heating control, Added option to open dialog by clicking on tile for View, Window, Door, Fire, Temperatur, Humidity, Brightness and Motion, Fixed universal popup wich was displayed, even when empty.",
-                "de": "Benutzerdefinierter Schritt für die Heizungssteuerung korrigiert. Option zum Öffnen des Dialogfelds durch Klicken auf die Kachel für Ansicht, Fenster, Tür, Feuer, Temperatur, Luftfeuchtigkeit, Helligkeit und Bewegung hinzugefügt. Universelles Popup korrigiert, das angezeigt wurde, auch wenn leer.",
-                "ru": "Исправлен пользовательский шаг для управления обогревом, Добавлена ​​возможность открывать диалог, нажав на плитку для Вид, Окно, Дверь, Огонь, Температура, Влажность, Яркость и Движение, Исправлено универсальное всплывающее окно, которое отображалось, даже когда пусто.",
-                "pt": "Corrigido passo personalizado para controle de aquecimento, opção adicionada para abrir a caixa de diálogo clicando no ladrilho para Exibir, Janela, Porta, Incêndio, Temperatura, Umidade, Brilho e movimento, Pop-up universal fixo que era exibido, mesmo quando vazio.",
-                "nl": "Vaste aangepaste stap voor verwarmingsregeling, optie toegevoegd om dialoogvenster te openen door te klikken op tegel voor Beeld, Venster, Deur, Vuur, Temperatuur, Vochtigheid, Helderheid en Beweging, Vaste universele pop-up die werd weergegeven, zelfs als deze leeg was.",
-                "fr": "Correction d'une étape personnalisée pour le contrôle du chauffage, Ajout d'une option pour ouvrir la boîte de dialogue en cliquant sur la tuile pour la vue, la fenêtre, la porte, le feu, la température, l'humidité, la luminosité et le mouvement, popup universel fixe qui était affiché, même lorsqu'il était vide.",
-                "it": "Risolto il problema con il passaggio personalizzato per il controllo del riscaldamento. Aggiunta l'opzione per aprire la finestra di dialogo facendo clic su un riquadro per Visualizza, Finestra, Porta, Fuoco, Temperatura, Umidità, Luminosità e movimento, Risolto popup universale che veniva visualizzato, anche se vuoto.",
-                "es": "Se corrigió el paso personalizado para el control de calefacción, se agregó la opción para abrir el diálogo haciendo clic en el mosaico para Ver, Ventana, Puerta, Fuego, Temperatura, Humedad, Brillo y Movimiento, Ventana emergente universal fija que se mostró, incluso cuando estaba vacía.",
-                "pl": "Naprawiono niestandardowy krok do sterowania ogrzewaniem, Dodano opcję otwierania okna dialogowego poprzez kliknięcie kafelka dla Widok, Okno, Drzwi, Ogień, Temperatur, Wilgotność, Jasność i ruch, Naprawiono uniwersalne okienko wyskakujące, które było wyświetlane, nawet gdy jest puste.",
-                "zh-cn": "固定了加热控制的自定义步骤，添加了通过单击“视图”，“窗口”，“门”，“火”，“温度”，“湿度”，“亮度”和“运动”的图块来打开对话框的选项，显示了固定的通用弹出窗口，即使是空的也是如此。"
+            "1.1.7": {
+                "en": "Improved long press and forced touch handling, Added URL-Parameters returnAfterTimeDestiationView and returnAfterTimeTreshold.",
+                "de": "Verbesserte Handhabung für langes Drücken und erzwungenes Berühren, URL-Parameter returnAfterTimeDestiationView und returnAfterTimeTreshold hinzugefügt.",
+                "ru": "Улучшена обработка при длительном нажатии и принудительном касании, добавлены URL-параметры returnAfterTimeDestiationView и returnAfterTimeTreshold.",
+                "pt": "Pressão longa aprimorada e manipulação forçada de toque, parâmetros de URL adicionados returnAfterTimeDestiationView e returnAfterTimeTreshold.",
+                "nl": "Verbeterde lange druk en geforceerde aanraakbehandeling, URL-parameters toegevoegd returnAfterTimeDestiationView en returnAfterTimeTreshold.",
+                "fr": "Amélioration de la pression longue et du toucher forcé, ajout de paramètres d'URL returnAfterTimeDestiationView et returnAfterTimeTreshold.",
+                "it": "Migliore pressione prolungata e gestione forzata del tocco, parametri URL aggiunti returnAfterTimeDestiationView e returnAfterTimeTreshold.",
+                "es": "Mejora de la pulsación prolongada y manejo táctil forzado, parámetros de URL agregados returnAfterTimeDestiationView y returnAfterTimeTreshold.",
+                "pl": "Ulepszona obsługa długiego naciśnięcia i wymuszonego dotyku, dodano parametry adresu URL returnAfterTimeDestiationView i returnAfterTimeTreshold.",
+                "zh-cn": "改进了长按和强制触摸处理，添加了URL参数returnAfterTimeDestiationView和returnAfterTimeTreshold。"
+            },
+            "1.1.6": {
+                "en": "Added some roles to recognize water and fire sensors more reliable, Added a block to blockly to send popup messages to iQontrol, Set option 'Always use time instead of pressure' as standard - if you want to use ForcedTouch, disable this option.",
+                "de": "Einige Rollen hinzugefügt, um Wasser- und Feuersensoren zuverlässiger zu erkennen. Block blockiert, um Popup-Nachrichten an iQontrol zu senden. Option \"Immer Zeit anstelle von Druck verwenden\" als Standard festlegen. Wenn Sie ForcedTouch verwenden möchten, deaktivieren Sie diese Option.",
+                "ru": "Добавлены некоторые роли для более надежного распознавания датчиков воды и пожара, Добавлен блок для блокирования отправки всплывающих сообщений в iQontrol, Установите опцию «Всегда использовать время вместо давления» в качестве стандарта - если вы хотите использовать ForcedTouch, отключите эту опцию.",
+                "pt": "Foram adicionadas algumas funções para reconhecer os sensores de água e fogo mais confiáveis; Adicionado um bloco para enviar mensagens pop-up para o iQontrol, definir opção como sempre usar o tempo em vez de pressão 'como padrão - se você deseja usar o ForcedTouch, desative esta opção.",
+                "nl": "Enkele rollen toegevoegd om water- en brandsensoren betrouwbaarder te herkennen, Blok toegevoegd om pop-upberichten naar iQontrol te sturen, Optie 'Altijd tijd gebruiken in plaats van druk' standaard instellen - als u ForcedTouch wilt gebruiken, schakel deze optie dan uit.",
+                "fr": "Ajout de certains rôles pour reconnaître les capteurs d'eau et d'incendie plus fiables, Ajout d'un bloc pour envoyer des messages contextuels à iQontrol, Définissez l'option `` Toujours utiliser le temps au lieu de la pression '' en standard - si vous souhaitez utiliser ForcedTouch, désactivez cette option.",
+                "it": "Aggiunti alcuni ruoli per riconoscere i sensori di acqua e fuoco più affidabili, Aggiunto un blocco a blocco per inviare messaggi popup a iQontrol, Impostare l'opzione 'Usa sempre il tempo invece della pressione' come standard - se si desidera utilizzare ForcedTouch, disabilitare questa opzione.",
+                "es": "Se agregaron algunas funciones para reconocer los sensores de agua y fuego más confiables, Se agregó un bloque para enviar mensajes emergentes a iQontrol, Establecer la opción 'Usar siempre el tiempo en lugar de la presión' como estándar; si desea usar ForcedTouch, desactive esta opción.",
+                "pl": "Dodano pewne role, aby rozpoznawać czujniki wody i ognia bardziej niezawodne, Dodano blokowanie blokowania wysyłania wyskakujących wiadomości do iQontrol, Ustaw opcję `` Zawsze używaj czasu zamiast ciśnienia '' jako standard - jeśli chcesz używać ForcedTouch, wyłącz tę opcję.",
+                "zh-cn": "添加了一些角色以更可靠地识别水和火传感器，添加了一个块以阻止将弹出消息发送到iQontrol，将选项“始终使用时间而不是压力”作为标准设置-如果要使用ForcedTouch，请禁用此选项。"
+            },
+            "1.1.5": {
+                "en": "Made dialog movable by dragging title, Added LEVEL to fan, Fixed flickering of SVG-Background change on some devices.",
+                "de": "Dialog durch Ziehen des Titels beweglich gemacht, LEVEL zum Lüfter hinzugefügt, Flackern der SVG-Hintergrundänderung auf einigen Geräten behoben.",
+                "ru": "Сделано перемещение диалога путем перетаскивания заголовка, Добавлен УРОВЕНЬ в веер, Исправлено мерцание изменения SVG-фона на некоторых устройствах.",
+                "pt": "Tornou a caixa de diálogo móvel arrastando o título, Adicionando LEVEL ao ventilador, Corrigida oscilação da alteração SVG-Background em alguns dispositivos.",
+                "nl": "Dialoog verplaatsbaar gemaakt door titel te slepen, LEVEL toegevoegd aan ventilator, Vaste flikkering van SVG-achtergrondverandering op sommige apparaten.",
+                "fr": "Boîte de dialogue mobile en faisant glisser le titre, Ajout de NIVEAU au ventilateur, Correction du scintillement du changement d'arrière-plan SVG sur certains appareils.",
+                "it": "Rende mobile la finestra di dialogo trascinando il titolo, Aggiunto LIVELLO alla ventola, Risolto lo sfarfallio della modifica dello sfondo SVG su alcuni dispositivi.",
+                "es": "Diálogo movido arrastrando el título, NIVEL agregado al ventilador, parpadeo fijo del cambio de fondo SVG en algunos dispositivos.",
+                "pl": "Okno dialogowe można było przenosić, przeciągając tytuł, Dodano POZIOM do wentylatora, Naprawiono migotanie zmiany tła SVG na niektórych urządzeniach.",
+                "zh-cn": "通过拖动标题使对话框可移动，向风扇添加了LEVEL，修复了某些设备上SVG-Background更改的闪烁。"
             }
         },
         "title": "iQontrol",
@@ -114,6 +138,9 @@
         "singleton": false,
         "materialize": true,
         "materializeTab": true,
+        "blockly": true,
+        "messagebox": true,
+        "subscribe": "messagebox",
         "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": false,
         "welcomeScreenPro": {
@@ -143,6 +170,11 @@
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+            }
+        },
         "dependencies": [
             {
                 "admin": ">=3.0.0"
@@ -153,8 +185,7 @@
             {
                 "web": ">=1.7.1"
             }
-        ],
-        "installedFrom": "./iobroker.iqontrol"
+        ]
     },
     "native": {
         "demotoolbar": [

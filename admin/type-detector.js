@@ -193,6 +193,7 @@ function ChannelDetector() {
                 {role: /^level\.color\.red$/,                             indicator: false, type: 'number',  write: true,           name: 'RED',           required: true,   defaultRole: 'level.color.red'},
                 {role: /^level\.color\.green$/,                           indicator: false, type: 'number',  write: true,           name: 'GREEN',         required: true,   defaultRole: 'level.color.green'},
                 {role: /^level\.color\.blue$/,                            indicator: false, type: 'number',  write: true,           name: 'BLUE',          required: true,   defaultRole: 'level.color.blue'},
+                {role: /^level\.color\.white$/,                           indicator: false, type: 'number',  write: true,           name: 'WHITE',         required: false,  defaultRole: 'level.color.white'},
                 {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false,  defaultRole: 'level.dimmer'},
                 {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
@@ -288,7 +289,7 @@ function ChannelDetector() {
                 {role: /^weather\.title$/,                                indicator: false, type: 'string',  name: 'INFO',          required: false, defaultRole: 'weather.title'},
                 {role: /^date\.start$/,                                   indicator: false, type: 'string',  name: 'START',         required: false, defaultRole: 'date.start'},
                 {role: /^date\.end$/,                                     indicator: false, type: 'string',  name: 'END',           required: false, defaultRole: 'date.end'},
-                {role: /^date$/,                                          indicator: false, type: 'string',  name: 'START',         required: false, defaultRole: 'date'},
+                {role: /^date$/,                                          indicator: false, type: 'string',  name: 'START',         required: false},
                 {role: /^weather\.chart\.url/,                            indicator: false, type: 'string',  name: 'ICON',          required: false, defaultRole: 'weather.chart.url'},
 
                 // For detailed screen
@@ -1081,7 +1082,7 @@ function ChannelDetector() {
      *                  id - Root ID from which the detection must start
      *                  _keysOptional - Array with keys from options.objects for optimization
      *                  _usedIdsOptional - Array with yet detected devices to do not similar device under different types
-     *                  ignoreIndicators - If simple indicators like "low battery", "not rechable" must be detected as device or only as a part of other device.
+     *                  ignoreIndicators - If simple indicators like "low battery", "not reachable" must be detected as device or only as a part of other device.
      *                  allowedTypes - array with names of device types, that can be detected. Not listed device types will be ignored.
      *                  excludedTypes - array with names of device types, that must be ignored. The listed device types will be ignored.
      * @returns {*|boolean|"DIR"|"FILE"|ReadonlyArray<string>}

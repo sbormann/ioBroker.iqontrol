@@ -12,11 +12,15 @@ var iQontrolRoles = {
 										name: "Link to other view", 	
 										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -24,18 +28,31 @@ var iQontrolRoles = {
 										states: ["STATE", "POWER", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/switch_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolButton": 				{
@@ -43,20 +60,35 @@ var iQontrolRoles = {
 										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/button.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											showState: {name: "Show State", type: "checkbox", default: "false"}, 
+											buttonCaption: {name: "Caption for button", type: "text", default: ""},
 											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolLight": 				{
@@ -64,39 +96,66 @@ var iQontrolRoles = {
 										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/light_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
+											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
-											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
-											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""}
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
+										states: ["STATE", "LEVEL", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -104,17 +163,31 @@ var iQontrolRoles = {
 										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -122,16 +195,29 @@ var iQontrolRoles = {
 										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/radiator.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -139,17 +225,30 @@ var iQontrolRoles = {
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/temperature.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -157,35 +256,61 @@ var iQontrolRoles = {
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/humidity.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
-										}
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
+									}
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
 										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolMotion": 				{
@@ -193,17 +318,30 @@ var iQontrolRoles = {
 										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/motion_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "SE"},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoor": 				{
@@ -211,17 +349,30 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_closed.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -229,16 +380,29 @@ var iQontrolRoles = {
 										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -246,18 +410,31 @@ var iQontrolRoles = {
 										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/door_locked.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "door_opened.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "door_closed.png", default: ""},
 											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolWindow": 				{
@@ -265,17 +442,35 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/window_closed.png",
 										options: {
-											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png", default: ""},
-											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png", default: ""},
+											SECTION_ICONS: {name: "Icons", type: "section"},
+											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png;window_toplight_opened.png", default: ""},
+											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png", default: ""},
+											icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""}, 
+											stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""}, 
+											stateTiltedValue: {name: "Value of STATE for 'tilted'", type: "text", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBlind": 				{
@@ -283,26 +478,40 @@ var iQontrolRoles = {
 										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "blind_closed.png", default: ""},
 											icon_middle: {name: "Icon middle", type: "icon", defaultIcons: "blind_middle.png", default: ""},
 											icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png", default: ""},
 											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
 											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
 											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
-											favoritePositionCaption: {name: "Caption for FAVORITE_POSITION", type: "text", default: "Favorite Position"}
+											favoritePositionCaption: {name: "Caption for FAVORITE_POSITION", type: "text", default: "Favorite Position"},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolFire": 				{
@@ -310,17 +519,61 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/fire_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
+										}
+									},
+	"iQontrolFlood": 				{
+										name: "Flood-Sensor",
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/flood_on.png",
+										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -328,18 +581,32 @@ var iQontrolRoles = {
 										states: ["STATE", "CONTROL_MODE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
 											icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
 											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBattery": 				{
@@ -347,6 +614,7 @@ var iQontrolRoles = {
 										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png", default: ""},
 											icon_off: {name: "Icon empty", type: "icon", defaultIcons: "battery_empty.png", default: ""},
 											icon_charged75: {name: "Icon 75%", type: "icon", defaultIcons: "battery_75.png", default: ""},
@@ -354,14 +622,26 @@ var iQontrolRoles = {
 											icon_charged25: {name: "Icon 25%", type: "icon", defaultIcons: "battery_25.png", default: ""},
 											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolValue": 				{
@@ -369,16 +649,29 @@ var iQontrolRoles = {
 										states: ["STATE", "LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/value_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolProgram": 				{
@@ -386,19 +679,33 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/play_on.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											showState: {name: "Show State", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolScene": 				{
@@ -406,19 +713,78 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/play.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}, 
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											alwaysSendTrue: {name: "Always send 'true' (do not toggle)", type: "checkbox", default: "false"}, 
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
+										} 
+									},
+	"iQontrolMedia": 				{
+										name: "Media-Player / Remote Control", 	
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										icon: "/images/icons/media_on.png",
+										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
+											SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section"},
+											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
+											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
+											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"}, 
+											hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"}, 
+											hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}, 
+											SECTION_DEVICESPECIFIC_REPEAT: {name: "Repeat", type: "section"},
+											repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"}, 
+											repeatAllValue: {name: "Value of REPEAT for 'repeat all'", type: "text", default: "true"}, 
+											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"}, 
+											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
+											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										} 
 									},
 	"iQontrolPopup": 				{
@@ -426,15 +792,28 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/popup.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
-											popupWidth: {name: "Popup Width [px]", type: "number", min: "100", max: "2000", default: ""}, 
-											popupHeight: {name: "Popup Height [px]", type: "number", min: "100", max: "2000", default: ""}, 
+											SECTION_GENERAL: {name: "General", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -442,16 +821,421 @@ var iQontrolRoles = {
 										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
 										icon: "/images/icons/link.png",
 										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
-											showTimestamp: {name: "Show Timestamp", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"} 										
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "text", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 										}
 									}
 };
+
+var channelDetectorMatchTable = {
+    "unknown": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "blind": 			{
+							matchingRole: "iQontrolBlind",
+							matchingStates: {
+								"SET": "LEVEL",
+								"STOP": "STOP",
+								"DIRECTION": "DIRECTION",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "button": 			{
+							matchingRole: "iQontrolButton",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "camera": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "url": 				{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "image": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "dimmer": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "LEVEL",
+								"ON_SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "door": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "fireAlarm": 		{
+							matchingRole: "iQontrolFire",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "floodAlarm": 		{
+							matchingRole: "iQontrolFlood",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "gate": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "humidity": 		{
+							matchingRole: "iQontrolHumidity",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "info": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "instance": 		{
+							matchingRole: null,
+							matchingStates:  {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "light": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "lock": 			{
+							matchingRole: "iQontrolDoorWithLock",
+							matchingStates: {
+								"SET": "LOCK_STATE",
+								"OPEN": "LOCK_OPEN",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "location": 		{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "media": 			{
+							matchingRole: "iQontrolMedia",
+							matchingStates: {
+								"ACTUAL": "POWER_SWITCH",
+								"STATE": "STATE",
+								"PLAY": "PLAY",
+								"PAUSE": "PAUSE",
+								"STOP": "STOP",
+								"NEXT": "NEXT",
+								"PREV": "PREV",
+								"SHUFFLE": "SHUFFLE",
+								"REPEAT": "REPEAT",
+								"ARTIST": "ARTIST",
+								"ALBUM": "ALBUM",
+								"TITLE": "TITLE",
+								"EPISODE": "EPISODE",
+								"SEASON": "SEASON",
+								"COVER": "COVER_URL",
+								"DURATION": "DURATION",
+								"ELAPSED": "ELAPSED",
+								"SEEK": "ELAPSED",
+								"TRACK": "TRACK_NUMBER",
+								"VOLUME_ACTUAL": "VOLUME",
+								"VOLUME": "VOLUME",
+								"MUTE": "MUTE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "motion": 			{
+							matchingRole: "iQontrolMotion",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "BRIGHTNESS",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgb": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "ct": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"TEMPERATURE": "CT",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgbSingle": 		{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"RGB": "ALTERNATIVE_COLORSPACE_VALUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "hue": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"HUE": "HUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "slider": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "socket": 			{
+							matchingRole: "iQontrolSwitch",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "temperature": 		{
+							matchingRole: "iQontrolTemperature",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "HUMIDITY",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "thermostat": 		{
+							matchingRole: "iQontrolThermostat",
+							matchingStates: {
+								"SET": "STATE",
+								"ACTUAL": "TEMPERATURE",
+								"HUMIDITY": "HUMIDITY",
+								"BOOST": "BOOST_STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "valve": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volume": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volumeGroup": 		{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "window": 			{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "windowTilt": 		{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherCurrent": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherForecast": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "warning": 			{
+							matchingRole: null,
+							matchingStates:{
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						}
+}
 
 //Delcarations
 const udef = 'undefined';
@@ -632,7 +1416,18 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	}, 300);
 }
 function enhanceTextInputToComboboxEntryToInput(value){
-	$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value).replace(/\\/g, "/")).trigger('change').trigger('blur');
+	if(decodeURIComponent(value).substring(0, 10) == "[VARIABLE]"){
+		var variable = "";
+		if(decodeURIComponent(decodeURIComponent(value)).indexOf("{}") > -1) {
+			variable = prompt(_("Please enter datapoint id") + ":");
+			if (variable == "") variable = null;
+		}
+		if(variable !== null){
+			$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(decodeURIComponent(value).replace("[VARIABLE]", "")).replace("{}", "{" + variable + "}")).trigger('change').trigger('blur');
+		}
+	} else {
+		$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value).replace(/\\/g, "/")).trigger('change').trigger('blur');
+	}
 }
 
 
@@ -649,6 +1444,14 @@ function load(settings, onChange) {
 	console.log("Loading iQontrol Settings");
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
+	
+	// Create a helper for sortable tables with preserved width of cells  
+	var fixHelper = function(e, ui){
+		ui.children().each(function(){  
+			$(this).width($(this).width()).css({"background-color":"rgba(180,180,180,0.75)", "box-shadow":"-5px 5px 5px 0px rgba(180,180,180,0.75)"}); 			
+		});  
+		return ui;  
+	};
 
 	//Init Colorpickers
 	$('.MaterializeColorPicker').colorpicker().on('changeColor', function(event){
@@ -714,6 +1517,9 @@ function load(settings, onChange) {
 
 	//Init imageUpload
 	initImageUpload();
+
+	//Init ChannelDetector
+	var channelDetector = new ChannelDetector();
 
 	//Get Link of best fitting web-adapter
 	console.log("getLink of best fitting web-adapter");
@@ -851,7 +1657,7 @@ function load(settings, onChange) {
 			if(typeof err == udef) {
 				console.log("...userfiles moved.")
 				alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
-			} else console.log("...nothing to move.");
+			} else console.log("...nothing to move (" + err + ").");
 			
 			//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
 			console.log("Adjusting image links to new userfiles location");
@@ -881,7 +1687,7 @@ function load(settings, onChange) {
 
 			//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
-
+			
 			//Get iobrokerObjects
 			socket.emit('getObjects', function (err, objs) {
 				iobrokerObjects = objs;
@@ -967,13 +1773,14 @@ function load(settings, onChange) {
 		});
 		function changeViewsCommonName(index, oldVal, newVal){
 			toolbar.forEach(function(element){
-				if(element.nativeLinkedViewId == oldVal) element.nativeLinkedViewId = newVal;
+				if(element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
 			});
 		}
 		//Check for duplicates
 		viewsCheckDuplicates();
 		//Make table sortable
 		$("#tableViews tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableViews tbody").sortable('disable');
@@ -990,7 +1797,8 @@ function load(settings, onChange) {
 				values2table('tableViews', views, onChange, onTableViewsReady);
 				$("#tableViews tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 
@@ -1058,7 +1866,23 @@ function load(settings, onChange) {
 		var imagenames = [];
 		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
 		imagenames.sort();
-		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
+		//Progress-Bars
+		var progressbars = "";
+		progressbars += ";[" + _("Progress-Bars") + ":]";
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (link + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (link + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (link + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (link + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (link + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (link + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (link + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
+		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + ";[" + _("Images") + ":];" + imagenames.join(";"), true);
 		//Add role as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -1149,6 +1973,7 @@ function load(settings, onChange) {
 
 		//Make table sortable
 		$("#tableDevices tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableDevices tbody").sortable('disable');
@@ -1165,7 +1990,8 @@ function load(settings, onChange) {
 				values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 				$("#tableDevices tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 
@@ -1189,7 +2015,7 @@ function load(settings, onChange) {
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
 				if(commonRole == ""){
-					if(entry == "VALVE_STATES" || entry == "ADDITIONAL_INFO"){
+					if(entry == "VALVE_STATES" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
@@ -1255,7 +2081,7 @@ function load(settings, onChange) {
 					selectOptions.forEach(function(option){
 						var parts = option.split('/');
 						if (parts.length < 2) parts.push(parts[0]);
-						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + parts[1] + "</option>";
+						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1]) + "</option>";
 					});
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
@@ -1292,6 +2118,23 @@ function load(settings, onChange) {
 					//Blank Icon
 					options += ";[" + _("No Icon") + ":]";
 					options += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (link + "/images/icons/checkboard.png").replace(/\//g, "\\");
+					//Progress-Bars
+					var progressbars = "";
+					progressbars += ";[" + _("Progress-Bars") + ":]";
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (link + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (link + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (link + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (link + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (link + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (link + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (link + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
+					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
+					options += progressbars;
 					//User Icons
 					var userIcons = [];
 					images.forEach(function(element){ 
@@ -1310,6 +2153,17 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='" + _("(Default)") + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
+					break;
+					
+					case "section":
+					dialogDeviceEditOptionsContent += "</div>";
+					dialogDeviceEditOptionsContent += "<br><br>";
+					dialogDeviceEditOptionsContent += "<div class='row'>";
+					dialogDeviceEditOptionsContent += "		<div class='col s12'>";
+					dialogDeviceEditOptionsContent += "			<h6 class='translate sub-title'>" + _(name) + ":</h6>";
+					dialogDeviceEditOptionsContent += "		</div>";
+					dialogDeviceEditOptionsContent += "	</div>";
+					dialogDeviceEditOptionsContent += "<div class='row'>";
 					break;
 				}
 			}
@@ -1337,37 +2191,38 @@ function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'state') {
 				$(this).prop('readonly', true);
-				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID"}, ...]</span>');
-				if ($(this).val() == "SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "OFF_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "UP_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "DOWN_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "FAVORITE_POSITION_SET_VALUE") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "URL") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
-				if ($(this).val() == "HTML") $(this).after('<span style="font-size:x-small;" class="translate">constant</span>');
+				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 			}
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
 				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
 			}
 		});
-		//Hide role
+		//Role
 		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonRole') {
-				$(this).parent('div').parent('td').hide();
+				var stateIndex = $(this).data('index');
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') {
+					$(this).prop('disabled', true);
+				} else {
+					$(this).find('option[value="array"]').remove();
+				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
+				}
 			}
 		});
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
-			//Edit
+			//Edit (SelectId, Edit Text or Edit Array)
 			if (command === 'edit') {
-				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
-					$(this).on('click', function () {
-						var stateIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var stateIndex = $(this).data('index');
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
 						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
@@ -1377,10 +2232,7 @@ function load(settings, onChange) {
 						$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
 						$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						$('#dialogDeviceEditStateConstant').modal('open');
-					});
-				} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
-					$(this).on('click', function () {
-						var stateIndex = $(this).data('index');
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
@@ -1390,10 +2242,7 @@ function load(settings, onChange) {
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
 						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						$('#dialogDeviceEditStateArray').modal('open');
-					});
-				} else { //linkedState - open selectID dialog
-					$(this).on('click', function(){
-						var stateIndex = $(this).data('index');
+					} else { //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 						initSelectId(function (sid) {
 							sid.selectId('show', $('#tableDialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
@@ -1402,29 +2251,43 @@ function load(settings, onChange) {
 								}
 							});
 						});
-					});
-				}
+					}
+				});
 			}
 			//OpenCustom
 			if (command === 'openCustom') {
 				var stateIndex = $(this).data('index');
-				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
-				var stateObject = parent.gMain.objects[stateId];
-				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-					$(this).find('i').addClass('indigo').html('build');
-				} else {
-					$(this).find('i').addClass('grey').html('build');
-				}
+				$(this).prop('id', 'tableDialogDeviceEditStatesOpenCustom_' + stateIndex);
 				$(this).on('click', function (e) {
 					var _stateIndex = $(this).data('index');
-					var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
-					if (_stateId != ""){
-						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
-						window.open(url);
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState - open editText dialog
+						var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
+						if (_stateId != ""){
+							var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+							window.open(url);
+						}
 					}
 				});
+				tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
 			}
 		});
+	}
+	function tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex){
+		if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
+			var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
+			var stateObject = parent.gMain.objects[stateId];
+			if (typeof stateObject != udef) {
+				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+				} else {
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+				}
+			} else {
+				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			}
+		} else {
+			$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+		}
 	}
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
@@ -1443,18 +2306,19 @@ function load(settings, onChange) {
 			if (name === 'value') {
 				var arrayIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
 			}
 		});
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit (SelectId)
 			if (command === 'edit') {
-			var arrayIndex = $(this).data('index');
 				$(this).on('click', function(){
-					var arrayIndex = $(this).data('index');
-					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
+					var _arrayIndex = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _arrayIndex);
 					initSelectId(function (sid) {
-						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val(), {type: 'state'}, function (newId) {
+						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
 							if (newId) {
 								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
 							}
@@ -1462,7 +2326,34 @@ function load(settings, onChange) {
 					});
 				});
 			}
+			//OpenCustom
+			if (command === 'openCustom') {
+				var arrayIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex);
+				$(this).on('click', function (e) {
+					var _arrayIndex = $(this).data('index');
+					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val();
+					if (_stateId != ""){
+						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+						window.open(url);
+					}
+				});
+				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
+			}
 		});
+	}
+	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
+		var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
+		var stateObject = parent.gMain.objects[stateId];
+		if (typeof stateObject != udef) {
+			if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+			} else {
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+			}
+		} else {
+			$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+		}
 	}
 
 	//Enhance DeviceAutocreate with functions
@@ -1542,270 +2433,344 @@ function load(settings, onChange) {
 		}
 	});
 	function deviceAutocreate(sourceId, objects){
-		var resultObject = {};
-		var resultText = "";
-		var resultValid = false;
+		var result = {
+			resultObject: {
+				states: [],
+				options: []
+			},
+			resultText: "",
+			resultStatesText: "",
+			resultValid: false
+		}
+		resultStatesObj = {};
 		if(!objects[sourceId]){
-			resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
+			result.resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
 		} else {
 			//Find out Name
 			if (typeof objects[sourceId].common.name != udef) {
-				resultObject.commonName = objects[sourceId].common.name;
-				resultText += "<u>" + _("Name") + ":</u> " + objects[sourceId].common.name + "<br><br>";
-				resultValid = true;
+				result.resultObject.commonName = objects[sourceId].common.name;
+				if (typeof result.resultObject.commonName == "object"){
+					if (typeof result.resultObject.commonName[systemLang] != udef) {
+						result.resultObject.commonName = result.resultObject.commonName[systemLang];
+					} else if (typeof resultObject.commonName["en"] != udef) {
+						result.resultObject.commonName = result.resultObject.commonName["en"];
+					} else {
+						result.resultObject.commonName[Object.keys(result.resultObject.commonName)[0]];
+					}
+				}
+				result.resultText += "<u>" + _("Name") + ":</u> " + result.resultObject.commonName + "<br><br>";
+				result.resultValid = true;
 			} else {
-				resultObject.commonName = _("New Device");
-				resultText += "<blockquote>" + _("The name of the device could not be determined and was set to") + " \'" + _("New Device") + "\'</blockquote><br><br>";
+				result.resultObject.commonName = _("New Device");
+				result.resultText += "<blockquote>" + _("The name of the device could not be determined and was set to") + " \'" + _("New Device") + "\'</blockquote><br><br>";
 			}
-			//Get childStates
+			//Use ChannelDetector to find out role and matching states
+			var channelDetectorUsedDeviceTypeForCommonRole;
+			var channelDetectorResult = channelDetector.detect({
+				objects: objects, 
+				id: sourceId,
+				ignoreIndicators: ["STICKY_UNREACH"]
+			});
+			if (channelDetectorResult) {
+				channelDetectorResult.forEach(function (device){ //Iterate through all all found device-types
+					console.log("Detected channel type " + device.type + ":");
+					if (channelDetectorMatchTable[device.type] && channelDetectorMatchTable[device.type].matchingRole){ //Fitting role found
+						console.log("   This is matched to " + channelDetectorMatchTable[device.type].matchingRole);
+						if (!result.resultObject.commonRole){ //Role was not matched before
+							console.log("   Set this as role for the new device.");
+							result.resultObject.commonRole = channelDetectorMatchTable[device.type].matchingRole;
+							channelDetectorUsedDeviceTypeForCommonRole = device.type;
+						}
+						device.states.forEach(function(state){ //Iterate through all found states
+							if (state.id) { //This is a state with an id
+								if (channelDetectorMatchTable[device.type].matchingStates[state.name]){
+									if(!resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]]){ //Was not matched before
+										console.log("      " + state.name + " (" + state.id + ") ====> " + channelDetectorMatchTable[device.type].matchingStates[state.name]);
+										resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]] = state.id;
+										result.resultValid = true;
+										if (state.name == "CONNECTED") {
+											console.log("      Set Option invertUnreach because CONNECTED is used instead of UNREACH");
+											result.resultObject.options.push({option: "invertUnreach", type: "checkbox", value: "true"});
+										}
+									} else {
+										console.log("      " + state.name + " (" + state.id + ") fits to " + channelDetectorMatchTable[device.type].matchingStates[state.name] + " but this was already matched before.");
+									}
+								} else {
+									console.log("      " + state.name + " (" + state.id + ") no match.");								
+								}
+							}
+						});
+					}
+				});	
+			} else {
+				console.log("No Device detected.");
+			}
+			//Get childStates to match states, that were not assigned by ChannelDetector
 			var childStates = [];
 			for(id in objects){
 				if(id.indexOf(sourceId) == 0 && objects[id].type == 'state') childStates.push(id);
 			}
 			childStates.sort().reverse(); //reverse order, so that the top channel of multi-channel-devices wins
-			//Try to match childStates
-			resultStatesObj = {};
-			for(i = 0; i < childStates.length; i++){
+			for(i = 0; i < childStates.length; i++){ //Try to match childStates
 				var id = childStates[i];
 				var stateName = id.substring(id.lastIndexOf("."), id.length);
 				switch(stateName){
-					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE":
+					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE": case ".SET":
 					if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
-						resultStatesObj['LOCK_STATE'] = id;
+						if (!resultStatesObj['LOCK_STATE']) resultStatesObj['LOCK_STATE'] = id;
 					} else {
-						resultStatesObj['STATE'] = id;
+						if (!resultStatesObj['STATE']) resultStatesObj['STATE'] = id;
 					}
 					break;
 
-					case ".LEVEL": case ".level": case ".bri":
-					resultStatesObj['LEVEL'] = id;
+					case ".LEVEL": case ".level": case ".bri": case ".ACTUAL":
+					if (!resultStatesObj['LEVEL']) resultStatesObj['LEVEL'] = id;
 					break;
 
 					case ".DIRECTION":
-					resultStatesObj['DIRECTION'] = id;
+					if (!resultStatesObj['DIRECTION']) resultStatesObj['DIRECTION'] = id;
 					break;
 
 					case ".STOP":
-					resultStatesObj['STOP'] = id;
+					if (!resultStatesObj['STOP']) resultStatesObj['STOP'] = id;
 					break;
 
 					case ".HUE": case ".hue":
-					resultStatesObj['HUE'] = id;
+					if (!resultStatesObj['HUE']) resultStatesObj['HUE'] = id;
 					break;
 
 					case ".CT": case ".ct":
-					resultStatesObj['CT'] = id;
+					if (!resultStatesObj['CT']) resultStatesObj['CT'] = id;
 					break;
 
 					case ".SATURATION": case ".saturation": case ".sat":
-					resultStatesObj['SATURATION'] = id;
+					if (!resultStatesObj['SATURATION']) resultStatesObj['SATURATION'] = id;
+					break;
+					
+					case ".RGB":
+					if (!resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE']) resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE'] = id;
 					break;
 
 					case ".SET_TEMPERATURE":
-					resultStatesObj['SET_TEMPERATURE'] = id;
+					if (!resultStatesObj['SET_TEMPERATURE']) resultStatesObj['SET_TEMPERATURE'] = id;
 					break;
 
 					case ".HUMIDITY": case ".ACTUAL_HUMIDITY": case ".humidity":
-					resultStatesObj['HUMIDITY'] = id;
+					if (!resultStatesObj['HUMIDITY']) resultStatesObj['HUMIDITY'] = id;
 					break;
 
 					case ".TEMPERATURE": case ".ACTUAL_TEMPERATURE": case ".temperature":
-					resultStatesObj['TEMPERATURE'] = id;
+					if (!resultStatesObj['TEMPERATURE']) resultStatesObj['TEMPERATURE'] = id;
 					break;
 
-					case ".BRIGHTNESS": case ".LUX":
-					resultStatesObj['BRIGHTNESS'] = id;
+					case ".BRIGHTNESS": case ".LUX": case "illuminance":
+					if (!resultStatesObj['BRIGHTNESS']) resultStatesObj['BRIGHTNESS'] = id;
 					break;
 
 					case ".POWER": case ".Power": case ".power":
-					resultStatesObj['POWER'] = id;
+					if (!resultStatesObj['POWER']) resultStatesObj['POWER'] = id;
 					break;
 
 					case ".CONTROL_MODE":
-					resultStatesObj['CONTROL_MODE'] = id;
+					if (!resultStatesObj['CONTROL_MODE']) resultStatesObj['CONTROL_MODE'] = id;
 					break;
 
 					case ".BOOST_STATE":
-					resultStatesObj['BOOSST_STATE'] = id;
+					if (!resultStatesObj['BOOST_STATE']) resultStatesObj['BOOST_STATE'] = id;
 					break;
 
 					case ".PARTY_TEMPERATURE":
-					resultStatesObj['PARTY_TEMPERATURE'] = id;
+					if (!resultStatesObj['PARTY_TEMPERATURE']) resultStatesObj['PARTY_TEMPERATURE'] = id;
 					break;
 
 					case ".WINDOW_OPEN_REPORTING":
-					resultStatesObj['WINDOW_OPEN_REPORTING'] = id;
+					if (!resultStatesObj['WINDOW_OPEN_REPORTING']) resultStatesObj['WINDOW_OPEN_REPORTING'] = id;
 					break;
 
 					case ".STATE_UNCERTAIN":
-					resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
+					if (!resultStatesObj['LOCK_STATE_UNCERTAIN']) resultStatesObj['LOCK_STATE_UNCERTAIN'] = id;
 					break;
 
 					case ".OPEN":
-					resultStatesObj['LOCK_OPEN'] = id;
+					if (!resultStatesObj['LOCK_OPEN']) resultStatesObj['LOCK_OPEN'] = id;
+					break;
+
+					case ".URL":
+					if (!resultStatesObj['URL']) resultStatesObj['URL'] = id;
 					break;
 
 					case ".LOWBAT": case ".percent":
-					resultStatesObj['BATTERY'] = id;
+					if (!resultStatesObj['BATTERY']) resultStatesObj['BATTERY'] = id;
 					break;
 
 					case ".UNREACH":
-					resultStatesObj['UNREACH'] = id;
+					if (!resultStatesObj['UNREACH']) resultStatesObj['UNREACH'] = id;
+					break;
+
+					case ".online": case ":CONNECTED":
+					if (!resultStatesObj['UNREACH']) {
+						resultStatesObj['UNREACH'] = id;
+						console.log("Set Option invertUnreach because CONNECTED is used instead of UNREACH");
+						result.resultObject.options.push({option: "invertUnreach", type: "checkbox", value: "true"});
+					}
 					break;
 
 					case ".ERROR": case ".FAULT_REPORTING":
-					resultStatesObj['ERROR'] = id;
+					if (!resultStatesObj['ERROR']) resultStatesObj['ERROR'] = id;
 					break;
 				}
 			}
-			//Try to find out the role
-			//--iQontrolView
-			var role = null;
-			if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
-				role = "iQontrolView";
-			}
-			//--all the others
-			//----find out the role of sources main state (priority in ascending order!)
-			var sourceRole = null;
-			if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
-				sourceRole = objects[resultStatesObj['STATE']].common.role;
-				if(sourceRole == 'state') { //special - check the parent channel's role
-					var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
-					if(resultStateParent.length > 0){
-						if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+			//If the role was not found by DeviceDetector, try to find out the role now
+			if (!result.resultObject.commonRole || channelDetectorUsedDeviceTypeForCommonRole == "info"){ //Role was not matched before
+				//--iQontrolView
+				if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
+					result.resultObject.commonRole = "iQontrolView";
+				}
+				//--all the others
+				//----find out the role of sources main state (priority in ascending order!)
+				var sourceRole = null;
+				if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
+					sourceRole = objects[resultStatesObj['STATE']].common.role;
+					if(sourceRole == 'state') { //special - check the parent channel's role
+						var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
+						if(resultStateParent.length > 0){
+							if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+						}
+					} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
+						sourceRole = "sensor.motion";
 					}
-				} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
-					sourceRole = "sensor.motion";
+				}
+				if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
+				if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
+				if(resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
+				if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
+				if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
+				if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
+				//----try to match this to destination role
+				switch(sourceRole){
+					case "switch": case "switch.power": case "switch.enable":
+					result.resultObject.commonRole = 'iQontrolSwitch';
+					break;
+
+					case "switch.light": case "level.dimmer":
+					result.resultObject.commonRole = 'iQontrolLight';
+					break;
+
+					case "---missing---":
+					result.resultObject.commonRole = 'iQontrolFan';
+					break;
+
+					case "level.temperature":
+					if (resultStatesObj['PARTY_TEMPERATURE']) {
+						result.resultObject.commonRole = 'iQontrolHomematicThermostat';
+					} else {
+						result.resultObject.commonRole = 'iQontrolThermostat';
+					}
+					break;
+
+					case "value.temperature":
+					result.resultObject.commonRole = 'iQontrolTemperature';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['TEMPERATURE'];
+						delete resultStatesObj['TEMPERATURE'];
+					}
+					break;
+
+					case "value.humidity":
+					result.resultObject.commonRole = 'iQontrolHumidity';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['HUMIDITY'];
+						delete resultStatesObj['HUMIDITY'];
+					}
+					break;
+
+					case "value.brightness":
+					result.resultObject.commonRole = 'iQontrolBrightness';
+					if(!resultStatesObj['STATE']){
+						resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
+						delete resultStatesObj['BRIGHTNESS'];
+					}
+					break;
+
+					case "sensor.motion":
+					result.resultObject.commonRole = 'iQontrolMotion';
+					break;
+
+					case "sensor.door":
+					result.resultObject.commonRole = 'iQontrolDoor';
+					break;
+
+					case "switch.lock":
+					result.resultObject.commonRole = 'iQontrolDoorWithLock';
+					break;
+
+					case "sensor": case "sensor.window":
+					result.resultObject.commonRole = 'iQontrolWindow';
+					break;
+
+					case "level.blind":
+					result.resultObject.commonRole = 'iQontrolBlind';
+					break;
+
+					case "state":
+					result.resultObject.commonRole = 'iQontrolValue';
+					break;
+
+					case "sensor.alarm.fire":
+					result.resultObject.commonRole = 'iQontrolFire';
+					break;
+
+					case "action.execute":
+					result.resultObject.commonRole = 'iQontrolProgram';
+					break;
+
+					case "scene.state":
+					result.resultObject.commonRole = 'iQontrolScene';
+					break;
 				}
 			}
-			if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
-			if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
-			if(resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
-			if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
-			if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
-			if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
-			//----try to match this to destination role
-			switch(sourceRole){
-				case "switch": case "switch.power": case "switch.enable":
-				role = 'iQontrolSwitch';
-				break;
-
-				case "switch.light": case "level.dimmer":
-				role = 'iQontrolLight';
-				break;
-
-				case "---missing---":
-				role = 'iQontrolFan';
-				break;
-
-				case "level.temperature":
-				if (resultStatesObj['PARTY_TEMPERATURE']) {
-					role = 'iQontrolHomematicThermostat';
-				} else {
-					role = 'iQontrolThermostat';
-				}
-				break;
-
-				case "value.temperature":
-				role = 'iQontrolTemperature';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['TEMPERATURE'];
-					delete resultStatesObj['TEMPERATURE'];
-				}
-				break;
-
-				case "value.humidity":
-				role = 'iQontrolHumidity';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['HUMIDITY'];
-					delete resultStatesObj['HUMIDITY'];
-				}
-				break;
-
-				case "value.brightness":
-				role = 'iQontrolBrightness';
-				if(!resultStatesObj['STATE']){
-					resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
-					delete resultStatesObj['BRIGHTNESS'];
-				}
-				break;
-
-				case "sensor.motion":
-				role = 'iQontrolMotion';
-				break;
-
-				case "sensor.door":
-				role = 'iQontrolDoor';
-				break;
-
-				case "switch.lock":
-				role = 'iQontrolDoorWithLock';
-				break;
-
-				case "sensor": case "sensor.window":
-				role = 'iQontrolWindow';
-				break;
-
-				case "level.blind":
-				role = 'iQontrolBlind';
-				break;
-
-				case "state":
-				role = 'iQontrolValue';
-				break;
-
-				case "sensor.alarm.fire":
-				role = 'iQontrolFire';
-				break;
-
-				case "action.execute":
-				role = 'iQontrolProgram';
-				break;
-
-				case "scene.state":
-				role = 'iQontrolScene';
-				break;
+			//Further modification for some special cases
+			if (result.resultObject.commonRole == 'iQontrolThermostat' && resultStatesObj['PARTY_TEMPERATURE']) {
+				console.log("Modifying role to HomematicThermostat because PARTY_TEMPERATURE is present.");
+				result.resultObject.commonRole = 'iQontrolHomematicThermostat';
 			}
 			//Got role?
-			if (role) {
-				resultObject.commonRole = role;
-				if (typeof iQontrolRoles[role] != udef && typeof iQontrolRoles[role].name != udef) {
-					resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[role].name) + "<br><br>";
+			if (result.resultObject.commonRole) {
+				if (typeof iQontrolRoles[result.resultObject.commonRole] != udef && typeof iQontrolRoles[result.resultObject.commonRole].name != udef) {
+					result.resultText += "<u>" + _("Role") + ":</u> " + _(iQontrolRoles[result.resultObject.commonRole].name) + "<br><br>";
 				} else {
-					resultText += _("Role") + ": " + role + "<br><br>";
+					result.resultText += _("Role") + ": " + result.resultObject.commonRole + "<br><br>";
 				}
-				resultValid = true;
+				result.resultValid = true;
 			} else {
-				resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
+				result.resultText += "<blockquote>" + _("The role of the device is unknown. Please set it manually.") + "</blockquote><br><br>";
 			}
 			//Got states?
-			resultStates = [];
 			for(state in resultStatesObj){
-				resultStates.push({state: state, value: resultStatesObj[state]});
+				if(!result.resultObject.states[state]) result.resultObject.states.push({state: state, value: resultStatesObj[state]});
 			}
-			var resultStatesText = "";
-			if(resultStates.length > 0 ){
-				resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
-				for(i = 0; i < resultStates.length; i++){
-					resultStatesText += resultStates[i].state + ": " + resultStates[i].value + "<br>";
+			if(result.resultObject.states.length > 0 ){
+				result.resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
+				for(i = 0; i < result.resultObject.states.length; i++){
+					result.resultStatesText += result.resultObject.states[i].state + ": " + result.resultObject.states[i].value + "<br>";
 				}
-				resultObject.states = resultStates;
-				resultValid = true;
+				if (result.resultObject.options.length > 0){
+					result.resultStatesText += "<br><u>" + _("Options:") + "</u><br>";
+					result.resultObject.options.forEach(function(option){
+						result.resultStatesText += _(option.option) + ": " + _(option.value) + "<br>";
+					});
+				}
+				result.resultValid = true;
 			} else {
-				resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
+				result.resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
 			}
 			//Result valid?
-			if(resultValid) {
-				resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
+			if(result.resultValid) {
+				result.resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
 			} else {
-				resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
+				result.resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
 			}
 		}
-		var result = {};
-		result.resultObject = resultObject;
-		result.resultText = resultText;
-		result.resultStatesText = resultStatesText;
-		result.resultValid = resultValid;
 		return result;
 	}
 
@@ -1867,6 +2832,7 @@ function load(settings, onChange) {
 		});
 		//Make table sortable
 		$("#tableToolbar tbody").sortable({
+			helper: fixHelper,
 			stop: function( event, ui ) { 
 				console.log("Drag ended, start resorting...");
 				$("#tableToolbar tbody").sortable('disable');
@@ -1883,7 +2849,8 @@ function load(settings, onChange) {
 				values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
 				$("#tableToolbar tbody").sortable('enable');
 				console.log("resorted.");
-			}
+			},
+			axis: "y"
 		});	
 	}
 
