@@ -397,13 +397,12 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
-
-### dev
+### 1.1.12 (2020-08-21)
 * (sbormann) Prevented selection of elements on long click for actual iOS version.
 * (sbormann) Bugfixed tile active conditions for media.
 * (sbormann) Renamed Media-Player to Media-Player / Remote-Control.
+* (bluefox) The compatibility to socket.io 3.0.13 provided
 * (sbormann) Prevented accidentally sorting of tables when clicking buttons.
-
 
 ### 1.1.11 (2020-08-21)
 * (sbormann) Added option to define explicit conditions for a tile to be active.
