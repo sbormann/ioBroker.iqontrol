@@ -185,10 +185,10 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
     * Add optinally an option to value list to enter free text
 * Set a target-value-list:
     * In addition to the target-value-id, you can define different datapoint-ids and target-values for different keys (keys are possible values of the orgiginal datapoint)
-    * You can also use the wildcard * in the keys and in the target-values
+    * You can also use the wildcard ``*`` in the keys and in the target-values
 	* Example: 
-	    * Key: "TuneIn-Playlist: *", Target-Datapoint ID: "alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist", Target-Value: "*"
-	    * If the user enters "TuneIn-Playlist: Ambient" the value "Ambient" will be written to "alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist"
+	    * Key: ``TuneIn-Playlist: *``, Target-Datapoint ID: ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``, Target-Value: ``*``
+	    * If the user enters ``TuneIn-Playlist: Ambient`` the value ``Ambient`` will be written to ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``
 
 ![CustomDialog Call](img/custom_call.png)
 ![CustomDialog Example](img/custom_dialog.png)
