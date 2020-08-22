@@ -4,16 +4,16 @@
         "version": "1.1.12",
         "news": {
             "1.1.12": {
-                "en": "The compatibility to socket.io 3.0.13 provided",
-                "de": "Die Kompatibilität zu socket.io 3.0.13 wird bereitgestellt",
-                "ru": "Обеспечена совместимость с socket.io 3.0.13",
-                "pt": "A compatibilidade com socket.io 3.0.13 fornecida",
-                "nl": "De compatibiliteit met socket.io 3.0.13 wordt geboden",
-                "fr": "La compatibilité avec socket.io 3.0.13 fournie",
-                "it": "La compatibilità con socket.io 3.0.13 fornita",
-                "es": "La compatibilidad con socket.io 3.0.13 proporcionada",
-                "pl": "Zapewniona kompatybilność z socket.io 3.0.13",
-                "zh-cn": "提供与socket.io 3.0.13的兼容性"
+                "en": "Prevented selection of elements on long click for actual iOS version, Bugfixed tile active conditions for media, Renamed Media-Player to Media-Player / Remote-Control.The compatibility to socket.io 3.0.13 provided, Prevented accidentally sorting of tables when clicking buttons.",
+                "de": "Verhinderte Auswahl von Elementen bei langem Klicken für die aktuelle iOS-Version, Fehlerbehebung bei aktiven Bedingungen für Medien, Umbenennung in Media-Player in Media-Player / Fernbedienung. Die Kompatibilität mit socket.io 3.0.13 wurde bereitgestellt. Versehentliches Sortieren von Tabellen beim Klicken wurde verhindert ",
+                "ru": "Предотвращен выбор элементов при длительном нажатии для актуальной версии iOS, исправлены ошибки в активных условиях плитки для мультимедиа, Media-Player переименован в Media-Player / Remote-Control. Обеспечена совместимость с socket.io 3.0.13, предотвращена случайная сортировка таблиц при нажатии ",
+                "pt": "Seleção de elementos impedida no clique longo para a versão atual do iOS, condições ativas de bloco corrigidas para mídia, Media-Player renomeado para Media-Player / Remote-Control. A compatibilidade com socket.io 3.0.13 fornecida, Prevenção de classificação acidental de tabelas ao clicar ",
+                "nl": "Selectie van elementen bij lang klikken voor daadwerkelijke iOS-versie verhinderd, actieve tegelvoorwaarden voor media verholpen met bugs, hernoemde mediaspeler naar mediaspeler / afstandsbediening. De compatibiliteit met socket.io 3.0.13 geboden, voorkomen dat tabellen per ongeluk worden gesorteerd bij klikken ",
+                "fr": "Sélection d'éléments bloqués sur un clic long pour la version actuelle d'iOS, Correction d'un bug sur les conditions actives de la vignette pour le média, Renommé Media-Player en Media-Player / Remote-Control.La compatibilité avec socket.io 3.0.13 fournie, Empêche le tri accidentel des tableaux lors d'un clic ",
+                "it": "Impedita la selezione di elementi al clic prolungato per la versione iOS attuale, Risolto bug con le condizioni attive del riquadro per i media, Media Player rinominato in Media Player / Remote Control. La compatibilità con socket.io 3.0.13 fornita, Impedito l'ordinamento accidentale delle tabelle quando si fa clic ",
+                "es": "Se evitó la selección de elementos al hacer clic largo para la versión real de iOS, Se corrigieron errores en las condiciones activas del mosaico para los medios, Se cambió el nombre del reproductor multimedia a reproductor multimedia / control remoto. Se proporcionó compatibilidad con socket.io 3.0.13, se evitó la clasificación accidental de tablas al hacer clic ",
+                "pl": "Zapobiegnięto wybieraniu elementów przy długim kliknięciu dla aktualnej wersji iOS, Naprawiono błąd aktywnych warunków kafelków dla multimediów, Zmieniono nazwę Media-Player na Media-Player / Remote-Control Zgodność z socket.io 3.0.13, Zapobiegano przypadkowemu sortowaniu tabel po kliknięciu ",
+                "zh-cn": "防止在长时间单击时为实际的iOS版本选择元素，修正了媒体的磁贴激活条件，将Media-Player重命名为Media-Player / Remote-Control。提供了与socket.io 3.0.13的兼容性，防止了单击时对表的意外排序"
             },
             "1.1.11": {
                 "en": "Added option to define explicit conditions for a tile to be active, Added wrench icon to edit array dialog.",
