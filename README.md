@@ -402,6 +402,7 @@ In addition to normal thermostat you can define:
 * (sbormann) Prevented selection of elements on long click for actual iOS version.
 * (sbormann) Bugfixed tile active conditions for media.
 * (sbormann) Renamed Media-Player to Media-Player / Remote-Control.
+* (sbormann) Prevented accidentally sorting of tables when clicking buttons.
 
 
 ### 1.1.11 (2020-08-21)

@@ -1798,7 +1798,8 @@ function load(settings, onChange) {
 				$("#tableViews tbody").sortable('enable');
 				console.log("resorted.");
 			},
-			axis: "y"
+			axis: "y",
+			cancel: "a.btn-floating"
 		});	
 	}
 
@@ -1991,7 +1992,8 @@ function load(settings, onChange) {
 				$("#tableDevices tbody").sortable('enable');
 				console.log("resorted.");
 			},
-			axis: "y"
+			axis: "y",
+			cancel: "a.btn-floating"
 		});	
 	}
 
@@ -2850,7 +2852,8 @@ function load(settings, onChange) {
 				$("#tableToolbar tbody").sortable('enable');
 				console.log("resorted.");
 			},
-			axis: "y"
+			axis: "y",
+			cancel: "a.btn-floating"
 		});	
 	}
 
