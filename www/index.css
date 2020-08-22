@@ -183,6 +183,10 @@ body {
 }
 
 #View{
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	background-color: transparent;
 }
 #ViewMain {
@@ -638,6 +642,13 @@ body {
 	margin-left: -33px;
 	color: black;
 	text-shadow: 0 1px 0 grey;
+}
+
+.ui-popup-screen {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */

@@ -356,7 +356,7 @@ In addition to normal thermostat you can define:
 ### <img src="img/icons/play.png" width="32"> Scene:
 * **STATE**: *boolean* - displays, if the scene is active. Depending on the configuration of the scene (virtual group, set values for false enabled or disabled), the toggle-command will send true, false, min, 0, max or 100. There is an option to always send true (disable toggleing).
 
-### <img src="img/icons/media_on.png" width="32"> Media-Player:
+### <img src="img/icons/media_on.png" width="32"> Media-Player / Remote Control:
 * **STATE**: *string* - "play", "pause" or "stop" or *boolean* - true for play, false for stop
     * In device options you can define the value that represents play, pause and stop
 * **COVER_URL**: *string* - url to cover-image
@@ -395,6 +395,12 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### dev
+* (Sebastian Bormann) Prevented selection of elements on long click for actual iOS version.
+* (Sebastian Bormann) Bugfixed tile active conditions for media.
+* (Sebastian Bormann) Renamed Media-Player to Media-Player / Remote-Control.
+
 
 ### 1.1.11 (2020-08-21)
 * (Sebastian Bormann) Added option to define explicit conditions for a tile to be active.
