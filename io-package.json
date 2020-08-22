@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.11",
+        "version": "1.1.12",
         "news": {
+            "1.1.12": {
+                "en": "The compatibility to socket.io 3.0.13 provided",
+                "de": "Die Kompatibilität zu socket.io 3.0.13 wird bereitgestellt",
+                "ru": "Обеспечена совместимость с socket.io 3.0.13",
+                "pt": "A compatibilidade com socket.io 3.0.13 fornecida",
+                "nl": "De compatibiliteit met socket.io 3.0.13 wordt geboden",
+                "fr": "La compatibilité avec socket.io 3.0.13 fournie",
+                "it": "La compatibilità con socket.io 3.0.13 fornita",
+                "es": "La compatibilidad con socket.io 3.0.13 proporcionada",
+                "pl": "Zapewniona kompatybilność z socket.io 3.0.13",
+                "zh-cn": "提供与socket.io 3.0.13的兼容性"
+            },
             "1.1.11": {
                 "en": "Added option to define explicit conditions for a tile to be active, Added wrench icon to edit array dialog.",
                 "de": "Option hinzugefügt, um explizite Bedingungen für die Aktivierung einer Kachel zu definieren. Schraubenschlüsselsymbol zum Bearbeiten des Array-Dialogs hinzugefügt.",
@@ -183,7 +195,7 @@
                 "js-controller": ">=1.4.2"
             },
             {
-                "web": ">=1.7.1"
+                "web": ">=3.0.12"
             }
         ]
     },
