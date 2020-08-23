@@ -30,11 +30,14 @@
 
 Fast Web-App for Visualization.
 
-![Example](img/screenshot4.jpg)
-![Example](img/screenshot3.jpg)
+![Screenshot](img/screenshot_kueche.png)
+![Screenshot](img/screenshot_licht.png)
+![Screenshot](img/screenshot_heizung.png)
+![Screenshot](img/screenshot_rauchmelder.png)
+![Screenshot](img/screenshot_flot.png)
 
-Runs in any Browser.
-It's fully customizable.
+Runs in any Browser. 
+It's fully customizable and responsive.
 
 > **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
