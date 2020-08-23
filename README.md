@@ -398,7 +398,7 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### dev
+### 1.1.13 (2020-08-23)
 * (sbormann) Added option to remote to show vol and ch +/- inside pad.
 * (sbormann) Fixed calculation of blind level.
 * (sbormann) Fixed opening of external links.

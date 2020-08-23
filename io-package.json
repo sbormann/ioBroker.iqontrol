@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.12",
+        "version": "1.1.13",
         "news": {
+            "1.1.13": {
+                "en": "Added option to remote to show vol and ch +/- inside pad, Fixed calculation of blind level, Fixed opening of external links.",
+                "de": "Option zur Fernbedienung hinzugefügt, um vol und ch +/- im Pad anzuzeigen, Feste Berechnung des Blindpegels, Festes Öffnen externer Links.",
+                "ru": "В пульт ДУ добавлена ​​возможность показывать vol и ch +/- внутри панели, Исправлен расчет уровня слепых, Исправлено открытие внешних ссылок.",
+                "pt": "Adicionada opção de controle remoto para mostrar vol e ch +/- dentro do teclado, Cálculo fixo de nível de blind, Abertura fixa de links externos.",
+                "nl": "Optie toegevoegd aan afstandsbediening om vol en ch +/- in pad te tonen, Vaste berekening van blindniveau, Vaste opening van externe links.",
+                "fr": "Ajout d'une option à la télécommande pour afficher le vol et le ch +/- à l'intérieur du pad, Correction du calcul du niveau aveugle, Correction de l'ouverture des liens externes.",
+                "it": "Aggiunta opzione al telecomando per mostrare vol e ch +/- all'interno del pad, Calcolo fisso del livello della tenda, Apertura fissa dei collegamenti esterni.",
+                "es": "Añadida opción a control remoto para mostrar vol y ch +/- pad interior, Cálculo fijo de nivel ciego, Apertura fija de enlaces externos.",
+                "pl": "Dodano opcję pilota, aby pokazać vol i ch +/- wewnątrz padu, Naprawiono obliczanie poziomu niewidomych, Naprawiono otwieranie łączy zewnętrznych.",
+                "zh-cn": "向遥控器添加了选项以显示vol和ch +/-的内部打击垫，固定的盲级计算，固定的外部链接打开。"
+            },
             "1.1.12": {
                 "en": "Prevented selection of elements on long click for actual iOS version, Bugfixed tile active conditions for media, Renamed Media-Player to Media-Player / Remote-Control.The compatibility to socket.io 3.0.13 provided, Prevented accidentally sorting of tables when clicking buttons.",
                 "de": "Verhinderte Auswahl von Elementen bei langem Klicken für die aktuelle iOS-Version, Fehlerbehebung bei aktiven Bedingungen für Medien, Umbenennung in Media-Player in Media-Player / Fernbedienung. Die Kompatibilität mit socket.io 3.0.13 wurde bereitgestellt. Versehentliches Sortieren von Tabellen beim Klicken wurde verhindert ",
