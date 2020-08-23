@@ -397,6 +397,11 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### dev
+* (sbormann) Added option to remote to show vol and ch +/- inside pad.
+* (sbormann) Fixed calculation of blind level.
+
 ### 1.1.12 (2020-08-21)
 * (sbormann) Prevented selection of elements on long click for actual iOS version.
 * (sbormann) Bugfixed tile active conditions for media.

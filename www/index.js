@@ -763,6 +763,7 @@ var iQontrolRoles = {
 											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"}, 
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
 											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
+											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -3570,6 +3571,7 @@ function renderView(viewId){
 							case "iQontrolDoor":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/door_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/door_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							if (icons["tilted"] !== "none") iconContent += "<image class='iQontrolDeviceIcon tilted' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["tilted"] || "./images/icons/door_opened.png") + "' " + (variableSrc["tilted"] ? "data-variablesrc='" + variableSrc["tilted"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolGarageDoor":
@@ -3577,6 +3579,7 @@ function renderView(viewId){
 							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+								if (icons["tilted"] !== "none") iconContent += "<image class='iQontrolDeviceIcon tilted' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["tilted"] || "./images/icons/garagedoor_opened.png") + "' " + (variableSrc["tilted"] ? "data-variablesrc='" + variableSrc["tilted"] + "' " : "") + "/>";
 							break;
 							
 							case "iQontrolDoorWithLock":
@@ -4150,7 +4153,7 @@ function renderView(viewId){
 											}							
 											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
 											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
-											var tileActiveValue = result;
+											var tileActiveValue = result || false;
 											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
 												tileActiveValue = tileActiveStateId.val;
 											}
@@ -4217,7 +4220,7 @@ function renderView(viewId){
 												tileActiveValue = tileActiveStateId.val;
 											}
 											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
-											var tileActiveStandard = result;
+											var tileActiveStandard = result || false;
 											if(tileActive == null) tileActive = tileActiveStandard;
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
@@ -4531,7 +4534,7 @@ function renderView(viewId){
 											if(level && typeof level.plainText == 'number'){
 												result = level.val;
 												resultText = result + level.unit;
-											} else if(state){
+											} else if(level){
 												result = level.val;
 												resultText = level.plainText;
 											}
@@ -4818,7 +4821,7 @@ function renderView(viewId){
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText;
-											var tileActiveStandard;
+											var tileActiveStandard = false;
 											if(state && typeof state.val !== udef) result = state.val;
 											if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
 												tileActiveStandard = true;
@@ -7879,7 +7882,7 @@ function renderDialog(deviceIdEscaped){
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
-				if((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)){
+				if(!(getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type))){
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
 						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Control") + ":</h4>";
 						dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
@@ -7922,20 +7925,57 @@ function renderDialog(deviceIdEscaped){
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
-				if((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)){
+				if(((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)) || ((getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)))){
+					var remoteShowDirectionsInsidePad = (getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true");
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
 						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Pad") + ":</h4>";
 						if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
 							dialogContent += "<div class='ui-grid-b DialogRemotePadArea' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogRemotePadArea' id='DialogRemotePadArea' style='max-width:250px; border-style:dashed; border-color:lightgrey; border-width:1px; border-radius:5px; background-color:#f6f6f6; box-shadow: 0 1px 3px rgba(0,0,0,.15); touch-action: none;'>";
-								dialogContent += "<div class='ui-block-a'></div>";
-								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonUp' data-remote-pad-button='up' style='height: 45px; background-image: url(\"./images/media_pad_carat_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								dialogContent += "<div class='ui-block-c'></div>";
-								dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonLeft' data-remote-pad-button='left' style='height: 45px; background-image: url(\"./images/media_pad_carat_l.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonOK' data-remote-pad-button='ok' style='height: 45px; background-image: url(\"./images/media_pad_ok.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonRight' data-remote-pad-button='right' style='height: 45px; background-image: url(\"./images/media_pad_carat_r.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								dialogContent += "<div class='ui-block-a'></div>";
-								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonDown' data-remote-pad-button='down' style='height: 45px; background-image: url(\"./images/media_pad_carat_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								dialogContent += "<div class='ui-block-c'></div>";
+								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type){
+									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeUp' data-remote-pad-button='volumeUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-a'></div>";
+								}
+								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonUp' data-remote-pad-button='up' style='height: 45px; background-image: url(\"./images/media_pad_carat_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-b'></div>";
+								}
+								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type){
+									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChUp' data-remote-pad-button='chUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-c'></div>";
+								}
+								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonLeft' data-remote-pad-button='left' style='height: 45px; background-image: url(\"./images/media_pad_carat_l.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-a'></div>";
+								}
+								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonOK' data-remote-pad-button='ok' style='height: 45px; background-image: url(\"./images/media_pad_ok.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-b'></div>";
+								}
+								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonRight' data-remote-pad-button='right' style='height: 45px; background-image: url(\"./images/media_pad_carat_r.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-c'></div>";
+								}
+								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type){
+									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeDown' data-remote-pad-button='volumeDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-a'></div>";
+								}
+								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonDown' data-remote-pad-button='down' style='height: 45px; background-image: url(\"./images/media_pad_carat_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-b'></div>";
+								}
+								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type){
+									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChDown' data-remote-pad-button='chDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+								} else {
+									dialogContent += "<div class='ui-block-c'></div>";
+								}
 							dialogContent += "</div>";
 						}
 						dialogContent += "<div class='ui-grid-b ui-nodisc-icon ui-alt-icon' style='max-width:258px; margin: 0px -3px 0px -3px;'>";
@@ -7950,6 +7990,10 @@ function renderDialog(deviceIdEscaped){
 						var _linkedRemotePadBackId = dialogLinkedStateIds["REMOTE_PAD_BACK"];
 						var _linkedRemotePadHomeId = dialogLinkedStateIds["REMOTE_PAD_HOME"];
 						var _linkedRemotePadMenuId = dialogLinkedStateIds["REMOTE_PAD_MENU"];
+						var _linkedRemoteVolumeUpId = dialogLinkedStateIds["REMOTE_VOLUME_UP"];
+						var _linkedRemoteVolumeDownId = dialogLinkedStateIds["REMOTE_VOLUME_DOWN"];
+						var _linkedRemoteProgramUpId = dialogLinkedStateIds["REMOTE_CH_UP"];
+						var _linkedRemoteProgramDownId = dialogLinkedStateIds["REMOTE_CH_DOWN"];
 						var bindingFunction = function(){
 							var swipeElement = document.getElementById('DialogRemotePadArea');
 							if(!swipeElement) return;
@@ -8029,10 +8073,25 @@ function renderDialog(deviceIdEscaped){
 									setState(_linkedRemotePadMenuId, _deviceIdEscaped, val, true);									
 									break;
 									
+									case "volumeUp":
+									setState(_linkedRemoteVolumeUpId, _deviceIdEscaped, val, true);
+									break;
+									
+									case "volumeDown":
+									setState(_linkedRemoteVolumeDownId, _deviceIdEscaped, val, true);
+									break;
+									
+									case "chUp":
+									setState(_linkedRemoteProgramUpId, _deviceIdEscaped, val, true);
+									break;
+
+									case "chDown":
+									setState(_linkedRemoteProgramDownId, _deviceIdEscaped, val, true);
+									break;
+
 									default:
 									setState(_linkedRemotePadDirectionId, _deviceIdEscaped, val, true);									
 								}
-								console.log(">KLICK< " + $(this).data("remote-pad-button")); 
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
