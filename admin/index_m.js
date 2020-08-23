@@ -1800,7 +1800,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "a.btn-floating"
+			cancel: "input,textarea,button,select,option,a.btn-floating"
 		});	
 	}
 
@@ -1994,7 +1994,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "a.btn-floating"
+			cancel: "input,textarea,button,select,option,a.btn-floating"
 		});	
 	}
 
@@ -2854,7 +2854,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "a.btn-floating"
+			cancel: "input,textarea,button,select,option,a.btn-floating"
 		});	
 	}
 
