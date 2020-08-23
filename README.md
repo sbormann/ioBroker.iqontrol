@@ -31,9 +31,17 @@
 Fast Web-App for Visualization.
 
 ![Screenshot](img/screenshot_kueche.png)
+
+\
 ![Screenshot](img/screenshot_licht.png)
+
+\
 ![Screenshot](img/screenshot_heizung.png)
+
+\
 ![Screenshot](img/screenshot_rauchmelder.png)
+
+\
 ![Screenshot](img/screenshot_flot.png)
 
 Runs in any Browser. 
