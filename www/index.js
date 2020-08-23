@@ -3450,14 +3450,20 @@ function renderView(viewId){
 					if (deviceLinkedStateIds["URL"]){
 						viewPressureMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewPressureMenu").popup("close");', hidden: true};
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedUrlId = deviceLinkedStateIds["URL"];
 							viewUpdateFunctions[_linkedUrlId].push(function(){
-								var href = "";
-								if (states[_linkedUrlId]) href = states[_linkedUrlId].val;
-								viewPressureMenu[_deviceIdEscaped].externalLink.href = href;
-								if(href) viewPressureMenu[_deviceIdEscaped].externalLink.hidden = false;
-								if(device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', href);
+								var href = getStateObject(_linkedUrlId);
+								if(href && href.val){
+									viewPressureMenu[_deviceIdEscaped].externalLink.href = href.val;
+									viewPressureMenu[_deviceIdEscaped].externalLink.hidden = false
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', href.val);
+								} else {
+									viewPressureMenu[_deviceIdEscaped].externalLink.href = "";
+									viewPressureMenu[_deviceIdEscaped].externalLink.hidden = true;
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', '');
+								}
 							});
 						})(); //<--End Closure
 					}
