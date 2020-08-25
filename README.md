@@ -61,25 +61,8 @@ You can save it as Web-App on Homescreen and it looks and feels like a native ap
     * If this stands in conflict to other adapters, simply add another instance with the above settings - iQontrol will search the besst fitting web-adapter-instance and use it for communication
 	* For connecting over *iobroker.pro-Cloud* both, admin- and web-adapter should be set to http (not https)
 
-
-## Troubleshooting
-* Make shure you fulfilled the 'You need...' section at top of this page
-* If something doesn't work like expected after update please try the following steps:
-    * Start upload of adapter:
-    \
-        ![Upload](img/adapter_upload.png)
-	* Clear browser cache
-	* Restart ioBroker
-
-### If you have further problems, please provide the log from the debugging-console of your browser and screenshots of the faulty line:
-* Start iQonrol with opened debugging-console of your browser (mostly you need to press F12 to open it) 
-* Switch to the console-window and reproduce the bug
-* Look for messages in the console-window
-* When errors appear, the number of the line, wich caused the error, is listed
-* Please click on this line-number and make a screenshot of the faulty line:
-
-![Troubleshooting console window](img/troubleshooting_consolewindow.png)
-![Troubleshooting faulty line](img/troubleshooting_faultyline.png)
+/
+* If you experience any problems, please have a look at the troubleshooting section at the end of this readme
 
 
 ## Forum
@@ -403,6 +386,28 @@ In addition to normal thermostat you can define:
 ### <img src="img/icons/link.png" width="32"> External Link:
 * **STATE**: *any* - can be used to display further informations
 * **URL**: CONSTANT *string* - this url will be opened
+
+
+****
+
+## Troubleshooting
+* Make shure you fulfilled the 'You need...' section at top of this page
+* If something doesn't work like expected after update please try the following steps:
+    * Start upload of adapter:
+    \
+        ![Upload](img/adapter_upload.png)
+	* Clear browser cache
+	* Restart ioBroker
+
+### If you have further problems, please provide the log from the debugging-console of your browser and screenshots of the faulty line:
+* Start iQonrol with opened debugging-console of your browser (mostly you need to press <kbd>F12</kbd> to open it) 
+* Switch to the console-window and reproduce the bug
+* Look for messages in the console-window
+* When errors appear, the number of the line, wich caused the error, is listed
+* Please click on this line-number and make a screenshot of the faulty line:
+
+![Troubleshooting console window](img/troubleshooting_consolewindow.png)
+![Troubleshooting faulty line](img/troubleshooting_faultyline.png)
 
 
 ****
