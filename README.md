@@ -61,8 +61,7 @@ You can save it as Web-App on Homescreen and it looks and feels like a native ap
     * If this stands in conflict to other adapters, simply add another instance with the above settings - iQontrol will search the besst fitting web-adapter-instance and use it for communication
 	* For connecting over *iobroker.pro-Cloud* both, admin- and web-adapter should be set to http (not https)
 
-\
-* If you experience any problems, please have a look at the troubleshooting section at the end of this readme
+* If you experience any problems, please have a look at the [troubleshooting](#troubleshooting) section at the end of this readme
 
 
 ## Forum
