@@ -191,10 +191,11 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 Every role has the following three states:
 * **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
 * **BATTERY**: *boolean* - when true or *number* - when less than 10%, a little battery-empty-icon will be displayed
+    * You can further customize the behavior of the battery-icon in the options section 'BATTERY Empty Icon'
 * **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
 * **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
 
-Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
+Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
 * *boolean* - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog
 * *number* - will be displayed with its corresponding unit and generate a slider in the dialog
 * *string* - a text to be displayed
@@ -207,6 +208,7 @@ Almost all roles have a STATE- and/or a LEVEL-state. In most cases this represen
         }
         ````
     * You can create your own value list by modifying the datapoint (wrench-icon behind the datapoint in the objects-tab of iobroker, see above)
+	* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. However, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile.
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
