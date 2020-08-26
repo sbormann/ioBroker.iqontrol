@@ -280,6 +280,16 @@ body {
 	text-align: left;
 	overflow: hidden;
 }
+.iQontrolDevice.wide{
+	width: 226px; max-width: 226px;
+}
+.iQontrolDevice.high{
+	height: 226px; max-height: 226px;
+}
+.iQontrolDevice.big{
+	width: 226px; max-width: 226px;
+	height: 226px; max-height: 226px;
+}
 .iQontrolDevice:hover{
 	border: 0px solid rgba(255, 255, 255, 0.8);
 	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
@@ -657,6 +667,15 @@ body {
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
+@media screen and (min-width: 600px){
+	#Dialog{
+		min-width: 500px;
+	}	
+
+	.iQontrolDialogIframeWrapper{
+		min-width: 500px;
+	}
+}
 
 @media screen and (min-width: 1500px){
 	#ViewMain {
@@ -749,7 +768,11 @@ body {
 	}
 
 	#Dialog{
-		min-width: 600px;
+		min-width: 800px;
 	}	
+
+	.iQontrolDialogIframeWrapper{
+		min-width: 800px;
+	}
 }
 

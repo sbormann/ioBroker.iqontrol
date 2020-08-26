@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.13",
+        "version": "1.1.14",
         "news": {
+            "1.1.14": {
+                "en": "Made HTML/URL-iFrame resizable (can be turned off by option), Bugfixing remote control, Added option to configure conditions for active battery-empty-icon, Dialog is now repositioned and bigger when phone is rotated to horizontal view, Breaking Change - Using now shuffle.js to reposition the tiles after resizig or orientation change - For now its only a nice effect, but this opens possibilities for future development with different tile-sizes.",
+                "de": "HTML / URL-iFrame in der Größe veränderbar (kann optional deaktiviert werden), Fehlerbehebung bei der Fernbedienung, Option zum Konfigurieren der Bedingungen für das aktive Symbol für leeren Akku hinzugefügt. Der Dialog wird jetzt neu positioniert und vergrößert, wenn das Telefon in die horizontale Ansicht gedreht wird. ",
+                "ru": "HTML / URL-iFrame изменяемый размер (можно отключить по желанию), Исправление ошибок удаленного управления, Добавлена ​​возможность настройки условий для активного значка разряда батареи, Диалоговое окно теперь перемещается и становится больше, когда телефон повернут в горизонтальное положение, Срыв изменения - ",
+                "pt": "HTML / URL-iFrame redimensionável (pode ser desativado por opção), controle remoto para correção de bugs, opção adicionada para configurar condições para o ícone de bateria vazia ativa, a caixa de diálogo agora é reposicionada e fica maior quando o telefone é girado para a visualização horizontal, Breaking Change - ",
+                "nl": "HTML / URL-iFrame aanpasbaar gemaakt (kan worden uitgeschakeld door optie), Bugfixing afstandsbediening, Optie toegevoegd om voorwaarden te configureren voor actieve batterij-leeg-pictogram, Dialoog is nu verplaatst en groter wanneer de telefoon naar horizontale weergave wordt gedraaid, Breaking Change - ",
+                "fr": "Rendu HTML / URL-iFrame redimensionnable (peut être désactivé par option), Correction de bogues à distance, Ajout d'une option pour configurer les conditions pour l'icône de batterie vide active, La boîte de dialogue est maintenant repositionnée et plus grande lorsque le téléphone est tourné en vue horizontale, Changement de rupture - ",
+                "it": "Reso ridimensionabile HTML / URL-iFrame (può essere disattivato per opzione), Controllo remoto per la correzione di bug, Aggiunta opzione per configurare le condizioni per l'icona di batteria scarica attiva, La finestra di dialogo è ora riposizionata e più grande quando il telefono viene ruotato in vista orizzontale, Cambio di rottura - ",
+                "es": "Se cambió el tamaño de HTML / URL-iFrame (se puede desactivar mediante la opción), control remoto de corrección de errores, opción agregada para configurar las condiciones para el ícono de batería vacía activa, el cuadro de diálogo ahora se reposiciona y es más grande cuando el teléfono se gira a la vista horizontal, cambio de ruptura - ",
+                "pl": "Zmieniono rozmiar HTML / URL-iFrame (można go wyłączyć za pomocą opcji), Zdalne sterowanie poprawiające błędy, Dodano opcję konfiguracji warunków dla ikony aktywnego akumulatora - pusta ikona, Okno dialogowe jest teraz zmieniane i większe, gdy telefon jest obrócony do widoku poziomego, Przełomowa zmiana - ",
+                "zh-cn": "调整了HTML / URL-iFrame的大小（可以通过选项关闭），修正了遥控器的错误，添加了用于配置活动电池电量图标的条件的选项，现在将对话框重新定位，并且在将手机旋转至水平视图时将其放大，重大更改-"
+            },
             "1.1.13": {
                 "en": "Added option to remote to show vol and ch +/- inside pad, Fixed calculation of blind level, Fixed opening of external links.",
                 "de": "Option zur Fernbedienung hinzugefügt, um vol und ch +/- im Pad anzuzeigen, Feste Berechnung des Blindpegels, Festes Öffnen externer Links.",

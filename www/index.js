@@ -990,6 +990,7 @@ var viewPressureMenuFallbackTimer = false;		//Used as Fallback for some devices 
 var viewPressureMenuFallbackForce = 0;			//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
 var viewTimestampElapsedTimer = false; 			//Containes the timer that updates timestamps with elapsed time
 var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
+var viewShuffleInstances = [];					//Instances of shuffle-Objects
 
 var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
@@ -3505,13 +3506,13 @@ function renderView(viewId){
 			window.scrollTo(0, 0);
 		}
 		//Render View
-		var viewContent = "";
+		var viewContent = "<div class='viewShuffleContainer'>";
 		for (var deviceIndex = 0; deviceIndex < actualView.devices.length; deviceIndex++){
 			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
 			//Render Heading
-			if (device.nativeHeading) viewContent += "<br><h4>" + device.nativeHeading + "</h4>";
+			if (device.nativeHeading) viewContent += "</div><br><h4>" + device.nativeHeading + "</h4><div class='viewShuffleContainer'>";
 			//Render Device
 			var deviceContent = "";
 			//--Get linked States
@@ -3547,7 +3548,7 @@ function renderView(viewId){
 				}
 			}
 			//--PressureIndicator
-			viewContent += "<div class='iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 				//--Box
 				viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 					//--Link (to Dialog / Popup / External Link / Other View)
@@ -5150,12 +5151,25 @@ function renderView(viewId){
 					}
 				viewContent += deviceContent + "</div>";
 			viewContent += "</div>";
-			if(device.nativeNextLine) viewContent += "<br>";
+			if(device.nativeNextLine) viewContent += "</div><br><div class='viewShuffleContainer'>";
 		}
+		viewContent += "</div>";
 		//Place content
 		$("#ViewHeaderTitle").html(actualView.commonName);
 		$("#ViewContent").html(viewContent + "<br><br>");
 		resizeDevicesToFitScreen();
+		//Activate Shuffle	
+		if (!options.LayoutViewShuffleDisabled) {
+			viewShuffleInstances = [];
+			var viewShuffleContainers = document.querySelectorAll('.viewShuffleContainer');
+			viewShuffleContainers.forEach(function(viewShuffleContainer, i){
+				console.log(i);
+				viewShuffleInstances[i] = new Shuffle(viewShuffleContainer, {
+					itemSelector: '.viewShuffleTile',
+					delimiter: ','
+				});
+			});		
+		}
 		//Find variablesrc in images
 		$("img[data-variablesrc]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
 			var that = $(this);
@@ -8928,6 +8942,7 @@ $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable sw
 //Refresh Background on resize and orientationchange
 var resizeTimeout = false;
 $(window).on('orientationchange resize', function(){
+	if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
 	if(resizeTimeout) clearTimeout(resizeTimeout);
 	resizeTimeout = setTimeout(function(){
 		console.log("orientationchange / resize");
@@ -8938,7 +8953,7 @@ $(window).on('orientationchange resize', function(){
 	}, 250);
 });
 function resizeDevicesToFitScreen(){
-	if (!options.LayoutViewResizeDevicesToFitScreenDisabled){	
+	if (!options.LayoutViewResizeDevicesToFitScreenDisabled){
 		removeCustomCSS('resizeDevicesToFitScreen');
 		var screenSize = $(window).innerWidth() -6; //6 is padding-left and padding-right
 		var deviceSize = $('.iQontrolDevicePressureIndicator').outerWidth(true);
@@ -8952,7 +8967,12 @@ function resizeDevicesToFitScreen(){
 			customCSS += "	width: " + ((100/zoom) + 1) +"% !important;";
 			customCSS += "}";
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
+			if (!options.LayoutViewShuffleDisabled) setTimeout(function(){viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); }); console.log("Shuffle!"); }, 1000);
+		} else {
+			if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });		
 		}
+	} else {
+		if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });
 	}
 }
 

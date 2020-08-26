@@ -194,6 +194,7 @@ Every role has the following three states:
     * You can further customize the behavior of the battery-icon in the options section 'BATTERY Empty Icon'
 * **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
 * **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
+    * Behaviour can be inverted in the 'General' section of options (use connected instead of unreach)
 
 Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
 * *boolean* - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog
@@ -208,7 +209,7 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
         }
         ````
     * You can create your own value list by modifying the datapoint (wrench-icon behind the datapoint in the objects-tab of iobroker, see above)
-	* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. However, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile.
+	* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. However, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
@@ -415,10 +416,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### dev
+### 1.1.14 (2020-08-24)
 * (sbormann) Made HTML/URL-iFrame resizable (can be turned off by option).
 * (sbormann) Bugfixing remote control.
 * (sbormann) Added option to configure conditions for active battery-empty-icon.
+* (sbormann) Dialog is now repositioned and bigger when phone is rotated to horizontal view.
+* (sbormann) Breaking Change: Using now shuffle.js to reposition the tiles after resizig or orientation change. For now its only a nice effect, but this opens possibilities for future development with different tile-sizes.
 
 ### 1.1.13 (2020-08-23)
 * (sbormann) Added option to remote to show vol and ch +/- inside pad.
