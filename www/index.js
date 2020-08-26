@@ -52,6 +52,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -88,6 +89,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -123,6 +125,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -155,6 +158,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -187,6 +191,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -217,6 +222,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -248,6 +254,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -279,6 +286,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 									}
 									},
@@ -310,6 +318,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -341,6 +350,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -372,6 +382,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -402,6 +413,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -434,6 +446,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -470,6 +483,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -511,6 +525,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -542,6 +557,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -573,6 +589,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -606,6 +623,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -641,6 +659,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -671,6 +690,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -705,6 +725,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -740,6 +761,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										} 
 									},
@@ -785,6 +807,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										} 
 									},
@@ -814,6 +837,7 @@ var iQontrolRoles = {
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"}
 										}
 									},
@@ -1683,6 +1707,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 				case "number":
 				if (newValue.toString().toLowerCase() == "true") newValue = true;
 				if (newValue.toString().toLowerCase() == "false") newValue = false;
+				if (isNaN(newValue)) newValue = true;
 				newValue = Number(newValue);
 				break;
 
@@ -2249,54 +2274,81 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     return false;
 };
 
-function dragElement(elementId, handleId, cursor) { //Makes an element draggable
-	var element = document.getElementById(elementId);
-	if(!element) return;
-	handle = document.getElementById(handleId);
-	if(!handle) handle = element;
-	if(cursor === true) cursor = 'move'; 
-	if(cursor) handle.style.cursor = cursor;
-	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an element draggable
+	var dragElement = document.getElementById(dragElementId);
+	if(!dragElement) return;
+	dragHandle = document.getElementById(dragHandleId);
+	if(!dragHandle) dragHandle = dragElement;
+	if(cursor === true) if(resize) cursor = 'nw-resize'; else cursor = 'move'; 
+	if(cursor) dragHandle.style.cursor = cursor;
+	var posMoveX = 0, posMoveY = 0;
+	var posOldX = 0, posOldY = 0;
+	var posOffsetX = 0, posOffsetY = 0;
+	var iframeStylePointerEvent;
 	// otherwise, move the DIV from anywhere inside the DIV:
-	handle.addEventListener('mousedown', dragMouseDown);
-	handle.addEventListener('touchstart', dragMouseDown);
-
-	function dragMouseDown(e) {
+	dragHandle.addEventListener('mousedown', dragStart);
+	dragHandle.addEventListener('touchstart', dragStart);
+	function dragStart(e) {
 		console.log("DRAG START");
 		e = e || window.event;
 		e.preventDefault();
+		// Disable pointer-events for iframes 
+		if(dragElement.tagName = "IFRAME"){
+			iframeStylePointerEvent = dragElement.style.pointerEvents;
+			dragElement.style.pointerEvents = 'none';
+		}
 		// get the mouse cursor position at startup:
-		pos3 = e.clientX;
-		pos4 = e.clientY;
-		document.addEventListener('mouseup', closeDragElement);
-		document.addEventListener('touchend', closeDragElement);
+		posOldX = e.clientX || e.touches[0].clientX;
+		posOldY = e.clientY || e.touches[0].clientY;
+		posOffsetX = 0;
+		posOffsetY = 0;
+		document.addEventListener('mouseup', dragStop);
+		document.addEventListener('touchend', dragStop);
 		// call a function whenever the cursor moves:
-		document.addEventListener('mousemove', elementDrag);
-		document.addEventListener('touchmove', elementDrag);
+		document.addEventListener('mousemove', dragMove);
+		document.addEventListener('touchmove', dragMove);
 	}
-
-	function elementDrag(e) {
+	function dragMove(e) {
 		//console.log("DRAG MOVE");
 		e = e || window.event;
 		//e.preventDefault();
+		if(!e.buttons && !e.touches) {
+			dragStop();
+			return;
+		}
 		// calculate the new cursor position:
-		pos1 = pos3 - (e.clientX || e.touches[0].clientX);
-		pos2 = pos4 - (e.clientY || e.touches[0].clientY);
-		pos3 = e.clientX || e.touches[0].clientX;
-		pos4 = e.clientY || e.touches[0].clientY;
+		posMoveX = posOldX - (e.clientX || e.touches[0].clientX);
+		posMoveY = posOldY - (e.clientY || e.touches[0].clientY);
+		posOldX = e.clientX || e.touches[0].clientX;
+		posOldY = e.clientY || e.touches[0].clientY;
 		// set the element's new position:
-		element.style.top = (element.offsetTop - pos2) + "px";
-		element.style.left = (element.offsetLeft - pos1) + "px";
-		var elementPopup = document.getElementById(element.id + "-popup");
+		if(resize){
+			if(posMoveX != 0){
+				var tempPosX = dragElement.clientWidth;
+				dragElement.style.width = (dragElement.clientWidth - posMoveX - posOffsetX) + "px";
+				if(dragElement.clientWidth == tempPosX) posOffsetX = posOffsetX + posMoveX; else posOffsetX = 0;
+			}
+			if(posMoveY != 0){
+				var tempPosY = dragElement.clientHeight;
+				dragElement.style.height = (dragElement.clientHeight - posMoveY - posOffsetY) + "px";
+				if(dragElement.clientHeight == tempPosY) posOffsetY = posOffsetY + posMoveY; else posOffsetY = 0;
+			}
+		} else {
+			dragElement.style.left = (dragElement.offsetLeft - posMoveX) + "px";
+			dragElement.style.top = (dragElement.offsetTop - posMoveY) + "px";
+		}
 	}
-
-	function closeDragElement() {
+	function dragStop() {
 		// stop moving when mouse button is released:
 		console.log("DRAG END");
-		document.removeEventListener('mouseup', closeDragElement);
-		document.removeEventListener('touchend', closeDragElement);
-		document.removeEventListener('mousemove', elementDrag);
-		document.removeEventListener('touchmove', elementDrag);
+		document.removeEventListener('mouseup', dragStop);
+		document.removeEventListener('touchend', dragStop);
+		document.removeEventListener('mousemove', dragMove);
+		document.removeEventListener('touchmove', dragMove);
+		// Reenable pointer-events for iframes 
+		if(dragElement.tagName = "IFRAME"){
+			dragElement.style.pointerEvents = iframeStylePointerEvent;
+		}
 	}
 }
 
@@ -7853,7 +7905,7 @@ function renderDialog(deviceIdEscaped){
 			}
 
 			//----RemoteControl
-			if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type)){
+			if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].type)){
 				var type = "Remote Control";
 				dialogContent += "<div id='DialogRemote'>";
 				dialogContent += "<hr>";
@@ -7931,59 +7983,59 @@ function renderDialog(deviceIdEscaped){
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
-				if(((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)) || ((getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)))){
+				if(     ((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)) 
+						|| ((getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)))
+				   ){
 					var remoteShowDirectionsInsidePad = (getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true");
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
 						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Pad") + ":</h4>";
-						if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-							dialogContent += "<div class='ui-grid-b DialogRemotePadArea' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogRemotePadArea' id='DialogRemotePadArea' style='max-width:250px; border-style:dashed; border-color:lightgrey; border-width:1px; border-radius:5px; background-color:#f6f6f6; box-shadow: 0 1px 3px rgba(0,0,0,.15); touch-action: none;'>";
-								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type){
-									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeUp' data-remote-pad-button='volumeUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-a'></div>";
-								}
-								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonUp' data-remote-pad-button='up' style='height: 45px; background-image: url(\"./images/media_pad_carat_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-b'></div>";
-								}
-								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type){
-									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChUp' data-remote-pad-button='chUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-c'></div>";
-								}
-								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonLeft' data-remote-pad-button='left' style='height: 45px; background-image: url(\"./images/media_pad_carat_l.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-a'></div>";
-								}
-								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonOK' data-remote-pad-button='ok' style='height: 45px; background-image: url(\"./images/media_pad_ok.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-b'></div>";
-								}
-								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonRight' data-remote-pad-button='right' style='height: 45px; background-image: url(\"./images/media_pad_carat_r.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-c'></div>";
-								}
-								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type){
-									dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeDown' data-remote-pad-button='volumeDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-a'></div>";
-								}
-								if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
-									dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonDown' data-remote-pad-button='down' style='height: 45px; background-image: url(\"./images/media_pad_carat_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-b'></div>";
-								}
-								if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type){
-									dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChDown' data-remote-pad-button='chDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
-								} else {
-									dialogContent += "<div class='ui-block-c'></div>";
-								}
-							dialogContent += "</div>";
-						}
+						dialogContent += "<div class='ui-grid-b DialogRemotePadArea' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogRemotePadArea' id='DialogRemotePadArea' style='max-width:250px; border-style:dashed; border-color:lightgrey; border-width:1px; border-radius:5px; background-color:#f6f6f6; box-shadow: 0 1px 3px rgba(0,0,0,.15); touch-action: none;'>";
+							if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type){
+								dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeUp' data-remote-pad-button='volumeUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-a'></div>";
+							}
+							if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonUp' data-remote-pad-button='up' style='height: 45px; background-image: url(\"./images/media_pad_carat_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-b'></div>";
+							}
+							if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type){
+								dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChUp' data-remote-pad-button='chUp' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_u.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-c'></div>";
+							}
+							if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+								dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonLeft' data-remote-pad-button='left' style='height: 45px; background-image: url(\"./images/media_pad_carat_l.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-a'></div>";
+							}
+							if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonOK' data-remote-pad-button='ok' style='height: 45px; background-image: url(\"./images/media_pad_ok.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-b'></div>";
+							}
+							if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+								dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonRight' data-remote-pad-button='right' style='height: 45px; background-image: url(\"./images/media_pad_carat_r.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-c'></div>";
+							}
+							if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type){
+								dialogContent += "<div class='ui-block-a DialogRemotePadButton preventClick' id='DialogRemotePadButtonVolumeDown' data-remote-pad-button='volumeDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_vol_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-a'></div>";
+							}
+							if(dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type){
+								dialogContent += "<div class='ui-block-b DialogRemotePadButton preventClick' id='DialogRemotePadButtonDown' data-remote-pad-button='down' style='height: 45px; background-image: url(\"./images/media_pad_carat_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-b'></div>";
+							}
+							if(remoteShowDirectionsInsidePad && dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type){
+								dialogContent += "<div class='ui-block-c DialogRemotePadButton preventClick' id='DialogRemotePadButtonChDown' data-remote-pad-button='chDown' style='opacity: 0.7; height: 45px; background-image: url(\"./images/media_pad_ch_d.png\"); background-position: center; background-size: 16px 16px; background-repeat: no-repeat;'></div>";
+							} else {
+								dialogContent += "<div class='ui-block-c'></div>";
+							}
+						dialogContent += "</div>";
 						dialogContent += "<div class='ui-grid-b ui-nodisc-icon ui-alt-icon' style='max-width:258px; margin: 0px -3px 0px -3px;'>";
 							dialogContent += "<div class='ui-block-a'>" + ((dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) ? "<a href='' class='DialogRemotePadButton' id='DialogRemotePadButtonBack' data-remote-pad-button='back' data-role='button' data-mini='true'><image src='./images/media_pad_back.png' style='width:16px; height:16px;'></a>" : "") + "</div>";
 							dialogContent += "<div class='ui-block-b'>" + ((dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) ? "<a href='' class='DialogRemotePadButton' id='DialogRemotePadButtonHome' data-remote-pad-button='home' data-role='button' data-mini='true'><image src='./images/media_pad_home.png' style='width:16px; height:16px;'></a>" : "") + "</div>";
@@ -8164,9 +8216,9 @@ function renderDialog(deviceIdEscaped){
 									$("#DialogRemoteAdditionalButtonsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteAdditionalButtonsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='true'>" + _element.name + "</a></div>");
 								}
 								$("#DialogRemoteAdditionalButtonsContent").enhanceWithin();
-								$(".DialogRemoteAdditionalButtonsButton").on('click', function(e){ 
-									setState($(this).data("remote-additional-buttons-linked-state-id"), _deviceIdEscaped, $(this).data("remote-additional-buttons-button"), true);
-								});
+							});
+							$(".DialogRemoteAdditionalButtonsButton").on('click', function(e){ 
+								setState($(this).data("remote-additional-buttons-linked-state-id"), _deviceIdEscaped, $(this).data("remote-additional-buttons-button"), true);
 							});
 						};
 						dialogUpdateFunctions[_linkedRemoteAdditionalButtonsId].push(createRemoteAdditionalButtonsFunction);
@@ -8378,19 +8430,23 @@ function renderDialog(deviceIdEscaped){
 		}
 		//----Popup with url or html
 		if ((dialogStates["URL"] && !(device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")) || dialogStates["HTML"]){
-			var style = "display: none; overflow: hidden; ";
-			if (getDeviceOptionValue(device, "popupWidth")){
-				style += "width: " + getDeviceOptionValue(device, "popupWidth") + "px !important; ";
+			var style = "display: none; ";
+			var popupWidth = getDeviceOptionValue(device, "popupWidth");
+			if (popupWidth){
+				style += "width: " + popupWidth + "px !important; ";
+				if (popupWidth < 300) style += "min-width: " + popupWidth + "px !important; ";
 			} else if (device.commonRole !== "iQontrolPopup") {
 				style += "width: unset !important; "
 			}
-			if (getDeviceOptionValue(device, "popupHeight")) {
-				style += "height: " + getDeviceOptionValue(device, "popupHeight") + "px !important; ";
+			var popupHeight = getDeviceOptionValue(device, "popupHeight");
+			if (popupHeight) {
+				style += "height: " + popupHeight + "px !important; ";
 			} else if (device.commonRole !== "iQontrolPopup") {
 				style += "height: unset !important; "
 			}
-			dialogContent += "<div class='iQontrolDialogIframeWrapper' style='" + style + "'>";
+			dialogContent += "<div class='iQontrolDialogIframeWrapper' id='DialogPopupIframeWrapper' style='" + style + "'>";
 			dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogPopupIframe' scrolling='auto'>" + _("Content not available") + "</iframe>";
+			dialogContent += "	<div id='DialogPopupIframeHandle' style='" + ((getDeviceOptionValue(device, "popupFixed") == "true") ? "display: none; " : "") + "position: absolute; width: 18px; height: 18px; bottom: -9px; right: -9px; background: repeating-linear-gradient(to right, darkgrey, darkgrey 1px, transparent, transparent 25%); transform: rotate(45deg);'></div>";
 			dialogContent += "</div>";
 			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 				var _device = device;
@@ -8536,6 +8592,8 @@ function renderDialog(deviceIdEscaped){
 	$("#Dialog").enhanceWithin();
 	// CollapsibleAnimated initialisieren
 	collapsibleAnimatedInit()
+	// Make iFrame resizable
+	dragElement('DialogPopupIframeWrapper', 'DialogPopupIframeHandle', true, true);
 	//Fit slider popup size to text-length
 	$('.iQontrolDialogSlider').on('change', function(){
 		if ($(this).val() < 9999) {
@@ -8788,6 +8846,7 @@ $(window).on('orientationchange resize', function(){
 		console.log("orientationchange / resize");
 		resizeDevicesToFitScreen();
 		$.backstretch("resize"); //Refresh background
+		$('#Dialog').popup('reposition', {positionTo: 'window'});
 		resizeTimeout = false;
 	}, 250);
 });

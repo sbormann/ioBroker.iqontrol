@@ -413,6 +413,10 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### dev
+* (sbormann) Made HTML/URL-iFrame resizable (can be turned off by option).
+* (sbormann) Bugfixing remote control.
+
 ### 1.1.13 (2020-08-23)
 * (sbormann) Added option to remote to show vol and ch +/- inside pad.
 * (sbormann) Fixed calculation of blind level.
