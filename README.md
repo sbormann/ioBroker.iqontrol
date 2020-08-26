@@ -416,6 +416,7 @@ In addition to normal thermostat you can define:
 ### dev
 * (sbormann) Made HTML/URL-iFrame resizable (can be turned off by option).
 * (sbormann) Bugfixing remote control.
+* (sbormann) Added option to configure conditions for active battery-empty-icon.
 
 ### 1.1.13 (2020-08-23)
 * (sbormann) Added option to remote to show vol and ch +/- inside pad.
