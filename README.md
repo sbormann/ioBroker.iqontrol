@@ -416,6 +416,9 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### 1.1.15 (2020-08-27)
+* (sbormann) Bugfixed shuffle.js (better animations, fixed hideIfInactive-Option).
+
 ### 1.1.14 (2020-08-24)
 * (sbormann) Made HTML/URL-iFrame resizable (can be turned off by option).
 * (sbormann) Bugfixing remote control.

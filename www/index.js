@@ -3548,7 +3548,7 @@ function renderView(viewId){
 				}
 			}
 			//--PressureIndicator
-			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' " + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 				//--Box
 				viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 					//--Link (to Dialog / Popup / External Link / Other View)
@@ -4335,6 +4335,7 @@ function renderView(viewId){
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 												}
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
@@ -4386,6 +4387,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
@@ -4457,6 +4459,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if (_linkedSetTemperatureId) viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
 										if (_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
@@ -4570,6 +4573,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
@@ -4642,6 +4646,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLockStateId) viewUpdateFunctions[_linkedLockStateId].push(updateFunction);
@@ -4748,6 +4753,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 										if(_linkedDirectionId) viewUpdateFunctions[_linkedDirectionId].push(updateFunction);
@@ -4820,6 +4826,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
@@ -4928,6 +4935,7 @@ function renderView(viewId){
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charging").removeClass("active");
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
@@ -5052,6 +5060,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedPowerSwitchId) viewUpdateFunctions[_linkedPowerSwitchId].push(updateFunction);
@@ -5136,6 +5145,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
+											viewShuffleFilterHideDeviceIfInactive();
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
@@ -5163,12 +5173,14 @@ function renderView(viewId){
 			viewShuffleInstances = [];
 			var viewShuffleContainers = document.querySelectorAll('.viewShuffleContainer');
 			viewShuffleContainers.forEach(function(viewShuffleContainer, i){
-				console.log(i);
 				viewShuffleInstances[i] = new Shuffle(viewShuffleContainer, {
 					itemSelector: '.viewShuffleTile',
-					delimiter: ','
+					delimiter: ',',
+					speed: 1000,
+					columnWidth: viewShuffleColumWidth 
 				});
 			});		
+			viewShuffleFilterHideDeviceIfInactive();
 		}
 		//Find variablesrc in images
 		$("img[data-variablesrc]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
@@ -5341,6 +5353,18 @@ function renderView(viewId){
 				updateState(state); 
 			})
 		}, 60000);
+	});
+}
+
+function viewShuffleColumWidth(shuffleContainerWidth){
+	return $('.iQontrolDevicePressureIndicator').outerWidth(true);
+}
+
+function viewShuffleFilterHideDeviceIfInactive(){
+	viewShuffleInstances.forEach(function(shuffleInstance, i){ 
+		shuffleInstance.filter(function(shuffleElement){ 
+			return !($(shuffleElement).hasClass('hideDeviceIfInactive') && !$(shuffleElement).hasClass('active'));
+		}); 
 	});
 }
 
@@ -8941,24 +8965,39 @@ $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable sw
 
 //Refresh Background on resize and orientationchange
 var resizeTimeout = false;
+var lastWidth;
 $(window).on('orientationchange resize', function(){
-	if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
 	if(resizeTimeout) clearTimeout(resizeTimeout);
-	resizeTimeout = setTimeout(function(){
-		console.log("orientationchange / resize");
-		resizeDevicesToFitScreen();
-		$.backstretch("resize"); //Refresh background
-		$('#Dialog').popup('reposition', {positionTo: 'window'});
-		resizeTimeout = false;
-	}, 250);
+	if(!lastWidth) lastWidth = $(".iQontrolDevice").outerWidth(true);
+	var nowWidth = $(".iQontrolDevice").outerWidth(true);
+	if (nowWidth != lastWidth){
+		resizeTimeout = setTimeout(function(){
+			console.log("orientationchange / resize");
+			resizeDevicesToFitScreen();
+			$.backstretch("resize"); //Refresh background
+			$('#Dialog').popup('reposition', {positionTo: 'window'});
+			lastWidth = $(".iQontrolDevice").outerWidth(true);
+			resizeTimeout = false;
+		}, 1250); 
+	} else {
+		if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
+		resizeTimeout = setTimeout(function(){
+			console.log("orientationchange / resize");
+			resizeDevicesToFitScreen();
+			$.backstretch("resize"); //Refresh background
+			$('#Dialog').popup('reposition', {positionTo: 'window'});
+			resizeTimeout = false;
+		}, 250); 
+	}
 });
 function resizeDevicesToFitScreen(){
 	if (!options.LayoutViewResizeDevicesToFitScreenDisabled){
 		removeCustomCSS('resizeDevicesToFitScreen');
 		var screenSize = $(window).innerWidth() -6; //6 is padding-left and padding-right
 		var deviceSize = $('.iQontrolDevicePressureIndicator').outerWidth(true);
+		var columns = Math.round(screenSize/deviceSize);
 		if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenSize <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
-			var zoom = screenSize / (Math.round(screenSize/deviceSize) * deviceSize);
+			var zoom = screenSize / (columns * deviceSize);
 			console.log("resizeDevicesToFitScreen with zoom-factor " + zoom);
 			customCSS = "#ViewContent{";
 			customCSS += "	webkit-transform: scale(" + zoom +");";
@@ -8966,8 +9005,12 @@ function resizeDevicesToFitScreen(){
 			customCSS += "	       transform: scale(" + zoom +");";
 			customCSS += "	width: " + ((100/zoom) + 1) +"% !important;";
 			customCSS += "}";
+			customCSS += ".viewShuffleContainer{";
+			customCSS += "	width: " + (deviceSize * columns + 0) +"px !important;";
+			customCSS += "}";
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
-			if (!options.LayoutViewShuffleDisabled) setTimeout(function(){viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); }); console.log("Shuffle!"); }, 1000);
+			if (!options.LayoutViewShuffleDisabled) { viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); }); console.log("Shuffle!"); }
+			if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle!"); }, 1250);
 		} else {
 			if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });		
 		}

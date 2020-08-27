@@ -207,6 +207,9 @@ body {
 	margin-left: -5px;
 	margin-right: -5px;
 	padding-left: 7px;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 #ViewContent {
 	transform-origin: left top;
@@ -227,6 +230,10 @@ body {
 	font-weight: normal;
 	margin-top: 30px;
 	margin-bottom: 0px;
+}
+
+.viewShuffleContainer{
+	overflow: visible !important;
 }
 
 .iQontrolDevicePressureIndicator{
@@ -250,8 +257,18 @@ body {
 	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 }
 .iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active){
-	display: none;
+	visibility: hidden !important; 
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
+.iQontrolDevicePressureIndicator.hideDeviceIfInactive.active{
+	visibility: visible !important; 
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+
 .iQontrolDevice{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
