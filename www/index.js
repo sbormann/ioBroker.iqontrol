@@ -10,7 +10,7 @@ var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
-										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
+										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
@@ -20,15 +20,19 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
-										states: ["STATE", "POWER", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "POWER", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -41,10 +45,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -64,7 +72,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -81,8 +89,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
@@ -104,7 +116,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -120,10 +132,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -143,7 +159,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "URL", "HTML", "BATTERY", "ADDITIONAL_INFO", "UNREACH", "POWER", "ERROR"], 
+										states: ["STATE", "LEVEL", "URL", "HTML", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -156,10 +172,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -179,7 +199,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -194,8 +214,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -215,7 +239,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -228,8 +252,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -249,7 +277,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -262,9 +290,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -284,7 +316,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -297,9 +329,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -319,7 +355,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -332,9 +368,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -354,7 +394,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -367,9 +407,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -389,7 +433,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -402,9 +446,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -424,7 +472,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -437,8 +485,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -458,7 +510,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -473,8 +525,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -494,7 +550,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -512,9 +568,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -534,7 +594,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -556,10 +616,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -579,7 +643,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -592,9 +656,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -614,7 +682,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -627,9 +695,13 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -649,7 +721,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"],
+										states: ["STATE", "CONTROL_MODE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -665,8 +737,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -686,7 +762,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -704,8 +780,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -725,7 +805,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -738,8 +818,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -759,7 +843,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -774,10 +858,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -797,7 +885,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -813,10 +901,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -836,7 +928,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -862,10 +954,14 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -885,7 +981,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -897,8 +993,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -918,7 +1018,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
-										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR"], 
+										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -930,8 +1030,12 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);shortIfInactive/Short (1x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3)", default: ""},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);shortIfActive/Short (1x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3)", default: ""},
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -991,6 +1095,8 @@ var viewPressureMenuFallbackForce = 0;			//Used as Fallback for some devices - c
 var viewTimestampElapsedTimer = false; 			//Containes the timer that updates timestamps with elapsed time
 var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
 var viewShuffleInstances = [];					//Instances of shuffle-Objects
+var viewShuffleResizeObserver;					//Contains MutationObserver for class changes in Devices to trigger shuffle-update
+var viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled = []; //Timeouts for disabling Marquee-Observer while resizing
 
 var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
@@ -1378,6 +1484,13 @@ function getLinkedStateId(device, state, stateId){
 					return linkedStateId;
 				} else { //role of state is 'linkedState'
 					var linkedStateId = stateObject.value;
+					if(linkedStateId.substring(0, 8) == 'VIRTUAL:') { 
+						var config = (linkedStateId.substring(8) || "").split(',');
+						var type = config[0] || "boolean";
+						var role = config[1] || "state";
+						var value = config[2] || null;
+						linkedStateId = createTempLinkedState(stateId, type, role, false, value);
+					}
 					if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 					if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 					if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
@@ -1386,26 +1499,27 @@ function getLinkedStateId(device, state, stateId){
 					return linkedStateId;
 				}
 			}
-		}
+		} 
 	}
 	return null;
 }
 
-function createTempLinkedState(stateId, type, tempValuesStoredInObjectId, value){
-	if (typeof usedObjects[tempValuesStoredInObjectId] == udef) return null;
+function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, value){
+	if (tempValuesStoredInObjectId && typeof usedObjects[tempValuesStoredInObjectId] == udef) return null;
 	if (typeof states[stateId] == udef) states[stateId] = {};
 	if (typeof states[stateId].val == udef) states[stateId].val = "";	
 	if (typeof states[stateId] != udef && typeof states[stateId].val != udef && states[stateId].val == "") { //stateId is empty
 		var linkedStateId = "TEMP:" + stateId;
 		states[stateId].val = linkedStateId;
 		var tempType = (typeof type != udef && type) || "string";
-		var tempValue = (typeof value !== udef && value) || (usedObjects[tempValuesStoredInObjectId] && typeof usedObjects[tempValuesStoredInObjectId].native != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : "");
+		var tempRole = (typeof role != udef && role) || "state";
+		var tempValue = (typeof value !== udef && value) || (usedObjects[tempValuesStoredInObjectId] && typeof usedObjects[tempValuesStoredInObjectId].native != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
 		var tempObject = {
 			"type": "state",
 			"common": {
 				"name": stateId.substring(stateId.lastIndexOf('.') + 1),
 				"desc": "created by iQontrol",
-				"role": "state",
+				"role": tempRole,
 				"type": tempType,
 				"icon": "",
 				"read": true,
@@ -1858,6 +1972,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			var _stateId = stateId;
 			var _deviceIdEscaped = deviceIdEscaped;
 			var _preventUpdateTime = preventUpdateTime;
+			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') _preventUpdateTime = 200;
 			$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLoading").addClass("active");
 			preventUpdate[_stateId] = {};
 			preventUpdate[_stateId].stateId = _stateId;
@@ -1877,7 +1992,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 				if (_stateId.substring(0, 5) == 'TEMP:'){ //Save TEMP Value in parent DeviceObject
 					var _tempStateId = _stateId.substring(5);
 					var _tempValuesStoredInObjectId = usedObjects[_stateId].native.tempValuesStoredInObjectId;
-					setTimeout(function(){
+					if(_tempValuesStoredInObjectId) setTimeout(function(){
 						var tempValuesObject = usedObjects[_tempValuesStoredInObjectId];
 						if (typeof tempValuesObject.native == udef) tempValuesObject.native = {}; 
 						if (typeof tempValuesObject.native.iQontrolTempValues == udef) tempValuesObject.native.iQontrolTempValues = {};
@@ -1885,9 +2000,6 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 						deliverObject(_tempValuesStoredInObjectId, tempValuesObject, null);
 					}, 200);
 				}
-				setTimeout(function(){
-					updateState(_stateId, "ignorePreventUpdate");
-				}, 200);
 				if(callback) callback(error);			
 			} else {
 				//TargetValueId
@@ -3506,7 +3618,7 @@ function renderView(viewId){
 			window.scrollTo(0, 0);
 		}
 		//Render View
-		var viewContent = "<div class='viewShuffleContainer'>";
+		var viewContent = "<div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 		for (var deviceIndex = 0; deviceIndex < actualView.devices.length; deviceIndex++){
 			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
@@ -3549,8 +3661,8 @@ function renderView(viewId){
 			}
 			//--PressureIndicator
 			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + "' " + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-				//--Box
-				viewContent += "<div class='iQontrolDevice' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+				//--Box 
+				viewContent += "<div class='iQontrolDevice" + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 					//--Link (to Dialog / Popup / External Link / Other View)
 					switch(device.commonRole){
 						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
@@ -3606,10 +3718,6 @@ function renderView(viewId){
 							variableurl = encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
-						//--Background (Overlay)
-						if (!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
-							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-						}
 						//--BackgroundImageActive
 						url = "";
 						variableurl = null;
@@ -3618,6 +3726,44 @@ function renderView(viewId){
 							variableurl = encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
 						}
 						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
+						//--BackgroundIframe (BACKGROUND_URL)
+						if (deviceLinkedStateIds["BACKGROUND_URL"] || deviceLinkedStateIds["BACKGROUND_URL"]){
+							hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
+							hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
+							deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "');'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
+								var _linkedBackgroundHTMLId = deviceLinkedStateIds["BACKGROUND_HTML"];
+								var updateFunction = function(){
+									var stateBackgroundURL = getStateObject(_linkedBackgroundURLId);
+									var stateBackgroundHTML = getStateObject(_linkedBackgroundHTMLId);
+									var backgroundURL = null;
+									if (stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== "") backgroundURL = "data:text/html," + encodeURI(stateBackgroundHTML.val); 
+									if (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "") backgroundURL = stateBackgroundURL.val; 
+									if (backgroundURL){
+										if(backgroundURL){
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+											setTimeout(function(){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' src='" + backgroundURL + "'></iframe>");
+												setTimeout(function(){
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+												}, 500);
+											}, 500);
+										} else {
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
+										}
+									} 
+								};
+								if (_linkedBackgroundURLId) viewUpdateFunctions[_linkedBackgroundURLId].push(updateFunction);
+								if (_linkedBackgroundHTMLId) viewUpdateFunctions[_linkedBackgroundHTMLId].push(updateFunction);
+							})(); //<--End Closure
+						}
+						//--Background (Overlay)
+						if (!(getDeviceOptionValue(device, "noOverlayInactive") == "true")){
+							deviceContent += "<div class='iQontrolDeviceBackground' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+						}
 						//--BackgroundActive (OverlayActive)
 						if (!(getDeviceOptionValue(device, "noOverlayActive") == "true")){
 							deviceContent += "<div class='iQontrolDeviceBackground active' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
@@ -4012,25 +4158,25 @@ function renderView(viewId){
 										if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]) switch(alternativeColorspace){
 											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
 											if (_linkedCtId == ""){
-												_linkedCtId = createTempLinkedState(deviceId + ".CT", "level", _linkedAlternativeColorspaceValueId);
+												_linkedCtId = createTempLinkedState(deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
 											} 
 											
 											case "RGBW": case "#RGBW":
 											if (_linkedWhiteBrightnessId == ""){
-												_linkedWhiteBrightnessId = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", _linkedAlternativeColorspaceValueId);
+												_linkedWhiteBrightnessId = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											} 
 											
 											case "RGB": case "#RGB":
 											if (_linkedSaturationId == ""){
-												_linkedSaturationId = createTempLinkedState(deviceId + ".SATURATION", "level", _linkedAlternativeColorspaceValueId);
+												_linkedSaturationId = createTempLinkedState(deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											if (_linkedColorBrightnessId == ""){
-												_linkedColorBrightnessId = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", _linkedAlternativeColorspaceValueId);
+												_linkedColorBrightnessId = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 
 											case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
 											if (_linkedHueId == ""){
-												_linkedHueId = createTempLinkedState(deviceId + ".HUE", "level", _linkedAlternativeColorspaceValueId);
+												_linkedHueId = createTempLinkedState(deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											_deviceLinkedStateIdsToUpdate.push(_linkedAlternativeColorspaceValueId);
 											break;
@@ -4238,7 +4384,7 @@ function renderView(viewId){
 									var _linkedElapsedId = deviceLinkedStateIds["ELAPSED"];
 									var updateFunction = function(){
 										var stateElapsed = getStateObject(_linkedElapsedId);
-										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").hasClass("active");
+										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active");
 										if (active && stateElapsed && typeof stateElapsed.val !== udef && !isNaN(stateElapsed.val)){
 											var val = secondsToHHMMSS(stateElapsed.val);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceInfoBIcon").show();
@@ -4267,7 +4413,7 @@ function renderView(viewId){
 							}
 						deviceContent += "</div>";
 						//--State
-						deviceContent += "<div class='iQontrolDeviceState" + ((getDeviceOptionValue(device, "hideStateIfInactive") == "true")?" hideStateIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+						deviceContent += "<div class='iQontrolDeviceState" + ((getDeviceOptionValue(device, "hideStateIfInactive") == "true")?" hideIfInactive":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 							switch(device.commonRole){
 								case "iQontrolView": 
 								//Do nothing
@@ -4317,13 +4463,11 @@ function renderView(viewId){
 												if(tileActive){
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												} else {
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												}
@@ -4372,13 +4516,11 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 											}
@@ -4442,13 +4584,11 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 											}
@@ -4561,11 +4701,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											resultText = unescape(resultText);
 											resultText = addTimestamp(resultText, [state], [_linkedStateId], _device, tileActive);
@@ -4635,11 +4773,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");												
  											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");											
 											}
 											resultText = addTimestamp(resultText, [state, lockState, lockStateUncertain, lockOpen], [_linkedStateId, _linkedLockStateId, _linkedLockStateUncertainId, _linkedLockOpenId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
@@ -4742,11 +4878,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											resultText = addTimestamp(resultText, [level, direction], [_linkedLevelId, _linkedDirectionId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
@@ -4808,11 +4942,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											if(controlMode && controlMode.plainText){
 												if(resultText == ""){
@@ -4919,11 +5051,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											resultText = addTimestamp(resultText, [state, charging], [_linkedStateId, _linkedChargingId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
@@ -5035,11 +5165,9 @@ function renderView(viewId){
 											if(tileActive){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").removeClass("active");
 											}
 											var resultTextParts = [];
 											if (artist && typeof artist.plainText !== udef && artist.plainText !== null && artist.plainText !== "") resultTextParts.push("<b>" + artist.plainText + "</b>");
@@ -5177,10 +5305,11 @@ function renderView(viewId){
 					itemSelector: '.viewShuffleTile',
 					delimiter: ',',
 					speed: 1000,
-					columnWidth: viewShuffleColumWidth 
+					sizer: '.iQontrolDeviceShuffleSizer'
 				});
 			});		
 			viewShuffleFilterHideDeviceIfInactive();
+			viewShuffleApplyShuffleResizeObserver();
 		}
 		//Find variablesrc in images
 		$("img[data-variablesrc]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
@@ -5263,7 +5392,7 @@ function renderView(viewId){
 								var $newBackgroundimageFile = $(new Image());
 								$newBackgroundimageFile.on('load', function(){ //Preloading the image
 									var oldCssTransition = null;
-									if(newSrc.substring(0, 5).toLowerCase() == "data:"){ //Bug for transition in background-size for SVGs
+									if(newSrc.substring(0, 5).toLowerCase() == "data:"){ //Bugfix for transition in background-size for SVGs
 										oldCssTransition = $(_that).css('transition');
 										$(_that).css('transition', 'background-size 0s');
 									}
@@ -5356,15 +5485,66 @@ function renderView(viewId){
 	});
 }
 
-function viewShuffleColumWidth(shuffleContainerWidth){
-	return $('.iQontrolDevicePressureIndicator').outerWidth(true);
-}
-
 function viewShuffleFilterHideDeviceIfInactive(){
 	viewShuffleInstances.forEach(function(shuffleInstance, i){ 
 		shuffleInstance.filter(function(shuffleElement){ 
 			return !($(shuffleElement).hasClass('hideDeviceIfInactive') && !$(shuffleElement).hasClass('active'));
 		}); 
+	});
+}
+
+function viewShuffleApplyShuffleResizeObserver(){
+	console.log("Starting shuffle resize observer");
+	var viewShuffleApplyShuffleResizeObserverTimeout1 = false;
+	var viewShuffleApplyShuffleResizeObserverTimeout2 = false;
+	if(viewShuffleResizeObserver){
+		viewShuffleResizeObserver.disconnect();
+	} else {
+		viewShuffleResizeObserver = new MutationObserver(function(mutationList){
+			mutationList.forEach(function(mutation){
+				if(mutation.attributeName === 'class'){
+					var oldClasses = mutation.oldValue.split(' ');
+					var newClasses = mutation.target.className.split(' ');
+					var added = newClasses.filter(function(x){ return oldClasses.indexOf(x) == -1;});
+					var removed = oldClasses.filter(function(x){ return newClasses.indexOf(x) == -1;});
+					var changed = added.concat(removed);
+					var oldAndNew = oldClasses.concat(newClasses);
+					if(
+						(changed.indexOf('narrow') != -1 || changed.indexOf('wide') != -1 || changed.indexOf('xwide') != -1 || changed.indexOf('short') != -1 || changed.indexOf('high') != -1 || changed.indexOf('xhigh') != -1)
+						|| (changed.indexOf('active') != -1 && (oldAndNew.indexOf('narrowIfInactive') != -1 || oldAndNew.indexOf('wideIfInactive') != -1 || oldAndNew.indexOf('xwideIfInactive') != -1 || oldAndNew.indexOf('shortIfInactive') != -1 || oldAndNew.indexOf('highIfInactive') != -1 || oldAndNew.indexOf('xhighIfInactive') != -1 
+																||  oldAndNew.indexOf('narrowIfActive') != -1 || oldAndNew.indexOf('wideIfActive') != -1 || oldAndNew.indexOf('xwideIfActive') != -1 || oldAndNew.indexOf('shortIfActive') != -1 || oldAndNew.indexOf('highIfActive') != -1 || oldAndNew.indexOf('xhighIfActive') != -1 
+					))){ //high or wide changed
+						console.log(changed);
+						//Disable Marquee and re-enable it after change-animation
+						if (!options.LayoutViewMarqueeDisabled ){
+							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
+							var $state = $(mutation.target).find('.iQontrolDeviceState');
+							if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
+							$state.data('marquee-disabled', 'true').marquee('destroy');
+							viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){ 
+								var _$state = $state;
+								if (!options.LayoutViewMarqueeDisabled ){
+									_$state.data('marquee-disabled', 'false');
+									startMarqueeOnOverflow(_$state);
+								}
+							}, 1500);
+						}
+						//Shuffle two times
+						if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
+						viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){ 
+							viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! resizeObserver 100"); 
+						}, 100);
+						if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
+						viewShuffleApplyShuffleResizeObserverTimeout2 = setTimeout(function(){ 
+							viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! resizeObserver 1250"); 
+						}, 1250);
+					}
+				}
+			});
+		});
+	}
+	$('.iQontrolDevice').each(function(){
+		viewShuffleResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
 	});
 }
 
@@ -5503,7 +5683,7 @@ function applyMarqueeObserver(){
 	} else {
 		marqueeObserver = new MutationObserver(function(mutationList){
 			if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
-				startMarqueeOnOverflow($(mutationList[0].target));
+				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) startMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});
 	}
@@ -5522,13 +5702,24 @@ function applyMarqueeObserver(){
 }
 
 function startMarqueeOnOverflow(element){
+	if(!element || !element[0]) return;
 	if (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth()) { //element has overflowing content
 		console.log("Starting marquee");
+		var direction = 'left';
+		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
+		if(
+			($(element).parents('.iQontrolDevice').hasClass('high') || $(element).parents('.iQontrolDevice').hasClass('xhigh'))
+			|| ($(element).parents('.iQontrolDevice').hasClass('active') && ($(element).parents('.iQontrolDevice').hasClass('highIfActive') || $(element).parents('.iQontrolDevice').hasClass('xhighIfActive')))
+			|| (!($(element).parents('.iQontrolDevice').hasClass('active')) && ($(element).parents('.iQontrolDevice').hasClass('highIfInactive') || $(element).parents('.iQontrolDevice').hasClass('xhighIfInactive')))
+		){
+			direction = 'up'; 
+			speed /= 2;
+		}
 		element.marquee({
-			speed: (options.LayoutViewMarqueeSpeed || "40"),
+			speed: speed,
 			gap: 40,
 			delayBeforeStart: 2000,
-			direction: 'left',
+			direction: direction,
 			duplicated: true,
 			pauseOnHover: true,
 			startVisible: true
@@ -8036,78 +8227,10 @@ function renderDialog(deviceIdEscaped){
 				dialogContent += "<hr>";
 				dialogContent += "<label for='' ><image src='./images/buttongrid.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<div" + (getDeviceOptionValue(device, "remoteKeepSectionsOpen") == "true" ? "" : " class='ui-collapsible-set'") + ">";
-				if(dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type){
-					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
-						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Numbers") + ":</h4>";
-						dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
-							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton1' data-remote-number-button='1' data-role='button' data-mini='true'>1</a></div>";
-							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton2' data-remote-number-button='2' data-role='button' data-mini='true'>2</a></div>";
-							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton3' data-remote-number-button='3' data-role='button' data-mini='true'>3</a></div>";
-							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton4' data-remote-number-button='4' data-role='button' data-mini='true'>4</a></div>";
-							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton5' data-remote-number-button='5' data-role='button' data-mini='true'>5</a></div>";
-							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton6' data-remote-number-button='6' data-role='button' data-mini='true'>6</a></div>";
-							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton7' data-remote-number-button='7' data-role='button' data-mini='true'>7</a></div>";
-							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton8' data-remote-number-button='8' data-role='button' data-mini='true'>8</a></div>";
-							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton9' data-remote-number-button='9' data-role='button' data-mini='true'>9</a></div>";
-							dialogContent += "<div class='ui-block-a'></div>";
-							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton0' data-remote-number-button='0' data-role='button' data-mini='true'>0</a></div>";
-							dialogContent += "<div class='ui-block-c'></div>";
-						dialogContent += "</div>";
-					dialogContent += "</div>";
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedRemoteNumberId = dialogLinkedStateIds["REMOTE_NUMBER"];
-						var bindingFunction = function(){
-							$(".DialogRemoteNumberButton").on('click', function(e){ 
-								setState(_linkedRemoteNumberId, _deviceIdEscaped, $(this).data("remote-number-button"), true);
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
-				}
-				if(!(getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type))){
-					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
-						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Control") + ":</h4>";
-						dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
-							dialogContent += "<div class='ui-block-a'>" + ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonVolumeUp' data-remote-control-button='volumeUp' data-role='button' data-mini='true' data-icon='carat-u' data-iconpos='top'>VOL</a>" : "") + "</div>";
-							dialogContent += "<div class='ui-block-b'></div>";
-							dialogContent += "<div class='ui-block-c'>" + ((dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonChUp' data-remote-control-button='chUp' data-role='button' data-mini='true' data-icon='carat-u' data-iconpos='top'>CH</a>" : "") + "</div>";
-							dialogContent += "<div class='ui-block-a'>" + ((dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonVolumeDown' data-remote-control-button='volumeDown' data-role='button' data-mini='true' data-icon='carat-d' data-iconpos='bottom'>VOL</a>" : "") + "</div>";
-							dialogContent += "<div class='ui-block-b'></div>";
-							dialogContent += "<div class='ui-block-c'>" + ((dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonChDown' data-remote-control-button='chDown' data-role='button' data-mini='true' data-icon='carat-d' data-iconpos='bottom'>CH</a>" : "") + "</div>";
-						dialogContent += "</div>";
-					dialogContent += "</div>";
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedRemoteVolumeUpId = dialogLinkedStateIds["REMOTE_VOLUME_UP"];
-						var _linkedRemoteVolumeDownId = dialogLinkedStateIds["REMOTE_VOLUME_DOWN"];
-						var _linkedRemoteProgramUpId = dialogLinkedStateIds["REMOTE_CH_UP"];
-						var _linkedRemoteProgramDownId = dialogLinkedStateIds["REMOTE_CH_DOWN"];
-						var bindingFunction = function(){
-							$(".DialogRemoteControlButton").on('click', function(e){ 
-								var val = $(this).data("remote-control-button");
-								switch(val){
-									case "volumeUp":
-									setState(_linkedRemoteVolumeUpId, _deviceIdEscaped, val, true);
-									break;
-									
-									case "volumeDown":
-									setState(_linkedRemoteVolumeDownId, _deviceIdEscaped, val, true);
-									break;
-									
-									case "chUp":
-									setState(_linkedRemoteProgramUpId, _deviceIdEscaped, val, true);
-									break;
 
-									case "chDown":
-									setState(_linkedRemoteProgramDownId, _deviceIdEscaped, val, true);
-									break;
-								}
-							});
-						};
-						dialogBindingFunctions.push(bindingFunction);
-					})(); //<--End Closure
-				}
+
+
+				//----RemoteControl Pad
 				if(     ((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)) 
 						|| ((getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)))
 				   ){
@@ -8280,27 +8403,52 @@ function renderDialog(deviceIdEscaped){
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
-				if(dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type){
+
+				//----RemoteControl Control
+				if(!(getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type))){
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
-						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Color-Buttons") + ":</h4>";
-						dialogContent += "<div class='ui-grid-c' style='max-width:250px;'>";
-							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonRed' data-remote-color-button='red' data-role='button' data-mini='true' style='background-color: red;'>&nbsp;</a></div>";
-							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonGreen' data-remote-color-button='green' data-role='button' data-mini='true' style='background-color: green;'>&nbsp;</a></div>";
-							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonYellow' data-remote-color-button='yellow' data-role='button' data-mini='true' style='background-color: gold;'>&nbsp;</a></div>";
-							dialogContent += "<div class='ui-block-d'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonBlut' data-remote-color-button='blue' data-role='button' data-mini='true' style='background-color: darkblue;'>&nbsp;</a></div>";
+						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Control") + ":</h4>";
+						dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
+							dialogContent += "<div class='ui-block-a'>" + ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonVolumeUp' data-remote-control-button='volumeUp' data-role='button' data-mini='true' data-icon='carat-u' data-iconpos='top'>VOL</a>" : "") + "</div>";
+							dialogContent += "<div class='ui-block-b'></div>";
+							dialogContent += "<div class='ui-block-c'>" + ((dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonChUp' data-remote-control-button='chUp' data-role='button' data-mini='true' data-icon='carat-u' data-iconpos='top'>CH</a>" : "") + "</div>";
+							dialogContent += "<div class='ui-block-a'>" + ((dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonVolumeDown' data-remote-control-button='volumeDown' data-role='button' data-mini='true' data-icon='carat-d' data-iconpos='bottom'>VOL</a>" : "") + "</div>";
+							dialogContent += "<div class='ui-block-b'></div>";
+							dialogContent += "<div class='ui-block-c'>" + ((dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) ? "<a href='' class='DialogRemoteControlButton ui-nodisc-icon ui-alt-icon' id='DialogRemoteControlButtonChDown' data-remote-control-button='chDown' data-role='button' data-mini='true' data-icon='carat-d' data-iconpos='bottom'>CH</a>" : "") + "</div>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedRemoteColorId = dialogLinkedStateIds["REMOTE_COLOR"];
+						var _linkedRemoteVolumeUpId = dialogLinkedStateIds["REMOTE_VOLUME_UP"];
+						var _linkedRemoteVolumeDownId = dialogLinkedStateIds["REMOTE_VOLUME_DOWN"];
+						var _linkedRemoteProgramUpId = dialogLinkedStateIds["REMOTE_CH_UP"];
+						var _linkedRemoteProgramDownId = dialogLinkedStateIds["REMOTE_CH_DOWN"];
 						var bindingFunction = function(){
-							$(".DialogRemoteColorButton").on('click', function(e){ 
-								setState(_linkedRemoteColorId, _deviceIdEscaped, $(this).data("remote-color-button"), true);
+							$(".DialogRemoteControlButton").on('click', function(e){ 
+								var val = $(this).data("remote-control-button");
+								switch(val){
+									case "volumeUp":
+									setState(_linkedRemoteVolumeUpId, _deviceIdEscaped, val, true);
+									break;
+									
+									case "volumeDown":
+									setState(_linkedRemoteVolumeDownId, _deviceIdEscaped, val, true);
+									break;
+									
+									case "chUp":
+									setState(_linkedRemoteProgramUpId, _deviceIdEscaped, val, true);
+									break;
+
+									case "chDown":
+									setState(_linkedRemoteProgramDownId, _deviceIdEscaped, val, true);
+									break;
+								}
 							});
 						};
 						dialogBindingFunctions.push(bindingFunction);
 					})(); //<--End Closure
 				}
+				//----RemoteControl Additional Buttons
 				//Special: REMOTE_ADDITIONAL_BUTTONS is an Array: [{"name":"Name", "type":"LinkedState", "value":"LinkedStateId"}, ...]
 				var linkedRemoteAdditionalButtonsIds;
 				if (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef) linkedRemoteAdditionalButtonsIds = tryParseJSON(dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val);
@@ -8349,6 +8497,59 @@ function renderDialog(deviceIdEscaped){
 						dialogUpdateFunctions[_linkedRemoteAdditionalButtonsId].push(createRemoteAdditionalButtonsFunction);
 					})(); //<--End Closure
 				}
+				//----RemoteControl Numbers
+				if(dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type){
+					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
+						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Numbers") + ":</h4>";
+						dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
+							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton1' data-remote-number-button='1' data-role='button' data-mini='true'>1</a></div>";
+							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton2' data-remote-number-button='2' data-role='button' data-mini='true'>2</a></div>";
+							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton3' data-remote-number-button='3' data-role='button' data-mini='true'>3</a></div>";
+							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton4' data-remote-number-button='4' data-role='button' data-mini='true'>4</a></div>";
+							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton5' data-remote-number-button='5' data-role='button' data-mini='true'>5</a></div>";
+							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton6' data-remote-number-button='6' data-role='button' data-mini='true'>6</a></div>";
+							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton7' data-remote-number-button='7' data-role='button' data-mini='true'>7</a></div>";
+							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton8' data-remote-number-button='8' data-role='button' data-mini='true'>8</a></div>";
+							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton9' data-remote-number-button='9' data-role='button' data-mini='true'>9</a></div>";
+							dialogContent += "<div class='ui-block-a'></div>";
+							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteNumberButton' id='DialogRemoteNumberButton0' data-remote-number-button='0' data-role='button' data-mini='true'>0</a></div>";
+							dialogContent += "<div class='ui-block-c'></div>";
+						dialogContent += "</div>";
+					dialogContent += "</div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedRemoteNumberId = dialogLinkedStateIds["REMOTE_NUMBER"];
+						var bindingFunction = function(){
+							$(".DialogRemoteNumberButton").on('click', function(e){ 
+								setState(_linkedRemoteNumberId, _deviceIdEscaped, $(this).data("remote-number-button"), true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				//----RemoteControl Colors
+				if(dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type){
+					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
+						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Color-Buttons") + ":</h4>";
+						dialogContent += "<div class='ui-grid-c' style='max-width:250px;'>";
+							dialogContent += "<div class='ui-block-a'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonRed' data-remote-color-button='red' data-role='button' data-mini='true' style='background-color: red;'>&nbsp;</a></div>";
+							dialogContent += "<div class='ui-block-b'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonGreen' data-remote-color-button='green' data-role='button' data-mini='true' style='background-color: green;'>&nbsp;</a></div>";
+							dialogContent += "<div class='ui-block-c'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonYellow' data-remote-color-button='yellow' data-role='button' data-mini='true' style='background-color: gold;'>&nbsp;</a></div>";
+							dialogContent += "<div class='ui-block-d'><a href='' class='DialogRemoteColorButton' id='DialogRemoteColorButtonBlut' data-remote-color-button='blue' data-role='button' data-mini='true' style='background-color: darkblue;'>&nbsp;</a></div>";
+						dialogContent += "</div>";
+					dialogContent += "</div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedRemoteColorId = dialogLinkedStateIds["REMOTE_COLOR"];
+						var bindingFunction = function(){
+							$(".DialogRemoteColorButton").on('click', function(e){ 
+								setState(_linkedRemoteColorId, _deviceIdEscaped, $(this).data("remote-color-button"), true);
+							});
+						};
+						dialogBindingFunctions.push(bindingFunction);
+					})(); //<--End Closure
+				}
+				//----RemoteControl Hide
 				dialogContent += "</div>";
 				dialogContent += "</div>";
 				if(dialogStates["REMOTE_HIDE_REMOTE"] && dialogStates["REMOTE_HIDE_REMOTE"].type){
@@ -8692,7 +8893,7 @@ function renderDialog(deviceIdEscaped){
 				if(state && typeof state.val !== udef) {
 					if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number 
 						replacement = state.val + state.unit;
-					} else {											//STATE = bool or text
+					} else {														//STATE = bool or text
 						replacement = state.plainText;
 					}
 				} else if (placeholder) {
@@ -8831,6 +9032,7 @@ function dialogThermostatPartyModeCheckConsistency(){
 
 //++++++++++ POPUP (TOAST) ++++++++++
 function toast(message, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses){
+	console.log("toast set");
 	if(toastStack.length == 0 || toastStack[toastStack.length - 1].message !== message){
 		toastStack.push({message: message, duration: duration, clickedValue: clickedValue, clickedDestinationState: clickedDestinationState, buttonNames: buttonNames, buttonValues: buttonValues, buttonDestinationStates: buttonDestinationStates, buttonCloses: buttonCloses});
 		if(toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
@@ -8838,6 +9040,7 @@ function toast(message, duration, clickedValue, clickedDestinationState, buttonN
 }
 
 function toastShowNext(){
+	console.log("toastShowNext");
 	if(toastStack.length > 0) {
 		var toast = toastStack[0];
 		var toaststring = "";
@@ -8968,15 +9171,15 @@ var resizeTimeout = false;
 var lastWidth;
 $(window).on('orientationchange resize', function(){
 	if(resizeTimeout) clearTimeout(resizeTimeout);
-	if(!lastWidth) lastWidth = $(".iQontrolDevice").outerWidth(true);
-	var nowWidth = $(".iQontrolDevice").outerWidth(true);
-	if (nowWidth != lastWidth){
+	if(!lastWidth) lastWidth = $(".iQontrolDeviceShuffleSizer").outerWidth(true);
+	var nowWidth = $(".iQontrolDeviceShuffleSizer").outerWidth(true);
+	if (nowWidth != lastWidth){ // Detects changes in tile-size because of changing CSS @media query
 		resizeTimeout = setTimeout(function(){
 			console.log("orientationchange / resize");
 			resizeDevicesToFitScreen();
 			$.backstretch("resize"); //Refresh background
 			$('#Dialog').popup('reposition', {positionTo: 'window'});
-			lastWidth = $(".iQontrolDevice").outerWidth(true);
+			lastWidth = $(".iQontrolDeviceShuffleSizer").outerWidth(true);
 			resizeTimeout = false;
 		}, 1250); 
 	} else {
@@ -8994,7 +9197,7 @@ function resizeDevicesToFitScreen(){
 	if (!options.LayoutViewResizeDevicesToFitScreenDisabled){
 		removeCustomCSS('resizeDevicesToFitScreen');
 		var screenSize = $(window).innerWidth() -6; //6 is padding-left and padding-right
-		var deviceSize = $('.iQontrolDevicePressureIndicator').outerWidth(true);
+		var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 		var columns = Math.round(screenSize/deviceSize);
 		if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenSize <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
 			var zoom = screenSize / (columns * deviceSize);
@@ -9009,11 +9212,9 @@ function resizeDevicesToFitScreen(){
 			customCSS += "	width: " + (deviceSize * columns + 0) +"px !important;";
 			customCSS += "}";
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
-			if (!options.LayoutViewShuffleDisabled) { viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); }); console.log("Shuffle!"); }
-			if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle!"); }, 1250);
-		} else {
-			if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });		
-		}
+		} 
+		if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });		
+		if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle!"); }, 1250);
 	} else {
 		if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); console.log("Shuffle!"); });
 	}

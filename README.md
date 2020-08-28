@@ -188,14 +188,7 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 ![Concept of Target-Value-List](img/target-value-list_concept.png)
   
 ### General states:
-Every role has the following three states:
-* **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
-* **BATTERY**: *boolean* - when true or *number* - when less than 10%, a little battery-empty-icon will be displayed
-    * You can further customize the behavior of the battery-icon in the options section 'BATTERY Empty Icon'
-* **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
-* **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
-    * Behaviour can be inverted in the 'General' section of options (use connected instead of unreach)
-
+#### STATE and LEVEL
 Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this represents the main function of the device. You can assign io-broker-states of the following types to it:
 * *boolean* - if possible, it will be translated to a senseful text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog
 * *number* - will be displayed with its corresponding unit and generate a slider in the dialog
@@ -212,6 +205,18 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
 	* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. However, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
+
+### Further general states:
+* **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
+* **URL**: CONSTANT *string* - this url will be opened as iframe inside the dialog
+* **HTML**: CONSTANT *string* - this markup will be displayed inside the iframe, if no URL-Datapoint is specified
+* **BACKGROUND_URL**: CONSTANT *string* - this url will be shown as background of the device-tile. It is placed above the background-images, but you can configure it to be hidden, if the tile is active or inactive.
+* **BACKGROUND_HTML**: CONSTANT *string* - this markup will be displayed as background of the device-tile, if no BACKGROUND_URL is specified
+* **BATTERY**: *boolean* - when true or *number* - when less than 10%, a little battery-empty-icon will be displayed
+    * You can further customize the behavior of the battery-icon in the options section 'BATTERY Empty Icon'
+* **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
+* **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
+    * Behaviour can be inverted in the 'General' section of options (use connected instead of unreach)
 
 ### Link to other view:
 * Has no further states
@@ -379,11 +384,8 @@ In addition to normal thermostat you can define:
 * **REMOTE_ADDITIONAL_BUTTONS**: *array* - an array of buttons. The name of the button is sent to the corresponding state-id, if the button is clicked
 * **REMOTE_HIDE_REMOTE**: *booelan* - if true, the complete remote control section will be hidden (for example to show it only, if a valid source is selected)
 
-
 ### <img src="img/icons/popup.png" width="32"> Popup:
 * **STATE**: *any* - can be used to display further information
-* **URL**: CONSTANT *string* - this url will be opened as iframe inside popup
-* **HTML**: CONSTANT *string* - this markup will be displayed inside the popup if no URL is specified
 
 ### <img src="img/icons/link.png" width="32"> External Link:
 * **STATE**: *any* - can be used to display further informations
@@ -415,6 +417,12 @@ In addition to normal thermostat you can define:
 ****
 
 ## Changelog
+
+### 1.2.0 (2020-28-29)
+* (sbormann) Introducing different tile sizes, they can be configured in options for active and inactive state.
+* (sbormann) Added BACKGROUND_URL and BACKGROUND_HTML as universal states to all devices, to display webpages as background of tiles (for FLOT, weather, security-cameras,...).
+* (sbormann) Again better animations for shuffle.js.
+* (sbormann) Reordered remote control sections.
 
 ### 1.1.15 (2020-08-27)
 * (sbormann) Bugfixed shuffle.js (better animations, fixed hideIfInactive-Option).

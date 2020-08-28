@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.1.15",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "Introducing different tile sizes, they can be configured in options for active and inactive state, Added BACKGROUND_URL and BACKGROUND_HTML as universal states to all devices, to display webpages as background of tiles (for FLOT, weather, security-cameras),  Again better animations for shuffle_js, Reordered remote control sections.",
+                "de": "Durch die Einführung verschiedener Kachelgrößen können sie in den Optionen für aktiven und inaktiven Status konfiguriert werden. BACKGROUND_URL und BACKGROUND_HTML wurden als universelle Status für alle Geräte hinzugefügt, um Webseiten als Hintergrund für Kacheln anzuzeigen (für FLOT, Wetter, Sicherheitskameras). Wieder bessere Animationen für ",
+                "ru": "Представляя различные размеры плиток, они могут быть настроены в вариантах активного и неактивного состояния, добавлены BACKGROUND_URL и BACKGROUND_HTML как универсальные состояния для всех устройств, для отображения веб-страниц в качестве фона плиток (для FLOT, погоды, камер наблюдения), снова улучшенная анимация для ",
+                "pt": "Apresentando diferentes tamanhos de blocos, eles podem ser configurados em opções de estado ativo e inativo, Adicionado BACKGROUND_URL e BACKGROUND_HTML como estados universais para todos os dispositivos, para exibir páginas da web como plano de fundo de blocos (para FLOT, clima, câmeras de segurança), novamente melhores animações para ",
+                "nl": "Introductie van verschillende tegelgroottes, ze kunnen worden geconfigureerd in opties voor actieve en inactieve status, BACKGROUND_URL en BACKGROUND_HTML toegevoegd als universele staten voor alle apparaten, om webpagina's weer te geven als achtergrond van tegels (voor FLOT, weer, beveiligingscamera's), Wederom betere animaties voor ",
+                "fr": "Présentant différentes tailles de tuiles, elles peuvent être configurées dans des options pour l'état actif et inactif, Ajout de BACKGROUND_URL et BACKGROUND_HTML comme états universels à tous les appareils, pour afficher des pages Web en arrière-plan des tuiles (pour FLOT, météo, caméras de sécurité), Encore une fois de meilleures animations pour ",
+                "it": "Introducendo diverse dimensioni delle tessere, possono essere configurate nelle opzioni per lo stato attivo e inattivo, BACKGROUND_URL e BACKGROUND_HTML aggiunti come stati universali a tutti i dispositivi, per visualizzare le pagine web come sfondo delle tessere (per FLOT, meteo, telecamere di sicurezza), Ancora migliori animazioni per ",
+                "es": "Al presentar diferentes tamaños de mosaicos, se pueden configurar en opciones para estado activo e inactivo, Se agregaron BACKGROUND_URL y BACKGROUND_HTML como estados universales para todos los dispositivos, para mostrar páginas web como fondo de mosaicos (para FLOT, clima, cámaras de seguridad), nuevamente mejores animaciones para ",
+                "pl": "Wprowadzając różne rozmiary kafelków, można je konfigurować w opcjach stanu aktywnego i nieaktywnego, Dodano BACKGROUND_URL i BACKGROUND_HTML jako stany uniwersalne do wszystkich urządzeń, aby wyświetlać strony internetowe jako tło kafelków (dla FLOT, pogody, kamer bezpieczeństwa), Ponownie lepsze animacje dla ",
+                "zh-cn": "引入了不同的图块大小，可以将它们配置为活动状态和非活动状态的选项，向所有设备添加Background_URL和Background_HTML作为通用状态，以将网页显示为图块的背景（用于FLOT，天气，安全摄像机），还可以提供更好的动画效果"
+            },
             "1.1.15": {
                 "en": "Bugfixed shuffle_js (better animations, fixed hideIfInactive-Option).",
                 "de": "Bugfixed shuffle_js (bessere Animationen, versteckte hideIfInactive-Option).",

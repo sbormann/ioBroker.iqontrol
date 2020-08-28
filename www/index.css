@@ -268,7 +268,14 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-
+.iQontrolDeviceShuffleSizer {
+	display: none;
+	height: 0px;
+	width: 61px;
+	-webkit-transition: all 0s;
+	   -moz-transition: all 0s;
+			transition: all 0s;
+}
 .iQontrolDevice{
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -297,15 +304,23 @@ body {
 	text-align: left;
 	overflow: hidden;
 }
-.iQontrolDevice.wide{
+.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive{
+	width: 43px; max-width: 43px;
+}
+.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive{
 	width: 226px; max-width: 226px;
 }
-.iQontrolDevice.high{
+.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive{
+	width: 348px; max-width: 348px;
+}
+.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive{
+	height: 43px; max-height: 43px;
+}
+.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive{
 	height: 226px; max-height: 226px;
 }
-.iQontrolDevice.big{
-	width: 226px; max-width: 226px;
-	height: 226px; max-height: 226px;
+.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive{
+	height: 348px; max-height: 348px;
 }
 .iQontrolDevice:hover{
 	border: 0px solid rgba(255, 255, 255, 0.8);
@@ -324,6 +339,42 @@ body {
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+}
+.iQontrolDeviceBackgroundIframeWrapper {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	display: block;
+	border: none; 
+	-webkit-border-radius: 15px;
+	   -moz-border-radius: 15px;
+			border-radius: 15px;
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+	overflow: hidden;
+}
+.iQontrolDevice:not(.active) .iQontrolDeviceBackgroundIframeWrapper.hideIfInactive {
+	pointer-events:none !important;
+	opacity: 0 !important;
+}
+.iQontrolDevice.active .iQontrolDeviceBackgroundIframeWrapper.hideIfActive {
+	pointer-events:none !important;
+	opacity: 0 !important;
+}
+.iQontrolDeviceBackgroundIframeWrapper:hover {
+	-webkit-transform: scale3d(1.05,1.05,1);
+	   -moz-transform: scale3d(1.05,1.05,1);
+			transform: scale3d(1.05,1.05,1);
+}
+.iQontrolDeviceBackgroundIframe {
+	width: 100%;
+	min-height: 100%;
 }
 .iQontrolDeviceBackgroundImage {
 	-webkit-user-select: none !important;
@@ -436,6 +487,12 @@ body {
 	opacity: 0;
 	display: none;
 }
+.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon{
+	left:2.5px;
+}
+.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon{
+    top:2.5px;
+}
 .iQontrolDeviceIcon.active {
 	pointer-events:auto !important;
 	opacity: 1;
@@ -458,6 +515,12 @@ body {
 	-webkit-transition: all 0.2s ease 0.25s;
 	   -moz-transition: all 0.2s ease 0.25s;
 			transition: all 0.2s ease 0.25s;
+}
+.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading{
+	left:12.5px;
+}
+.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading{
+    top:12.5px;
 }
 .iQontrolDeviceLoading.active {
 	opacity: 0.9;
@@ -508,6 +571,12 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
+.iQontrolDevice.wide .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoAText {
+	width:167px;
+}
+.iQontrolDevice.xwide .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoAText {
+	width:289px;
+}
 .iQontrolDeviceInfoATextHue, .iQontrolDeviceInfoATextCt { 
 	border: none;
 	box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.15);
@@ -531,6 +600,12 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
+.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText  {
+	width: 167px;
+}
+.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText  {
+	width: 289px;
+}
 .iQontrolDeviceName  {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 58px; width: 103px; height: 30px;
@@ -543,6 +618,15 @@ body {
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
+}
+.iQontrolDevice.narrow .iQontrolDeviceName, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceName, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceName {
+	width: 43px;
+}
+.iQontrolDevice.wide .iQontrolDeviceName, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.wideIfActive .iQontrolDeviceName {
+	width: 225px;
+}
+.iQontrolDevice.xwide .iQontrolDeviceName, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceName {
+	width: 347px;
 }
 .iQontrolDeviceState  {
 	pointer-events:none !important;
@@ -558,9 +642,27 @@ body {
 			transition: all 1s;
 	display: block;
 }
-.iQontrolDeviceState.hideStateIfInactive:not(.active){
+.iQontrolDevice.narrow .iQontrolDeviceState, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceState, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceState {
+	width: 43px;
+}
+.iQontrolDevice.wide .iQontrolDeviceState, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceState, .iQontrolDevice.active.wideIfActive .iQontrolDeviceState {
+	width: 225px;
+}
+.iQontrolDevice.xwide .iQontrolDeviceState, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceState {
+	width: 347px;
+}
+.iQontrolDevice.high .iQontrolDeviceState, .iQontrolDevice:not(.active).highIfInactive .iQontrolDeviceState, .iQontrolDevice.active.highIfActive .iQontrolDeviceState {
+	height: 142px;
+	word-wrap: break-word;
+}
+.iQontrolDevice.xhigh .iQontrolDeviceState, .iQontrolDevice:not(.active).xhighIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xhighIfActive .iQontrolDeviceState {
+	height: 264px;
+	word-wrap: break-word;
+}
+.iQontrolDevice:not(.active) .iQontrolDeviceState.hideIfInactive{
 	display: none;
 }
+
 #Dialog{
 	min-width: 300px;
 	max-width: 100%;
@@ -711,6 +813,9 @@ body {
 		   -moz-border-radius: 22px;
 				border-radius: 22px;
 	}
+	.iQontrolDeviceShuffleSizer {
+		width: 93px;
+	}
 	.iQontrolDevice{
 		width: 156px; max-width: 156px;
 		height: 156px; max-height: 156px;
@@ -721,6 +826,24 @@ body {
 		-webkit-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 		   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 				box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
+	}
+	.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive{
+		width: 63px; max-width: 63px;
+	}
+	.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive{
+		width: 342px; max-width: 342px;
+	}
+	.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive{
+		width: 528px; max-width: 528px;
+	}
+	.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive{
+		height: 63px; max-height: 63px;
+	}
+	.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive{
+		height: 342px; max-height: 342px;
+	}
+	.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive{
+		height: 528px; max-height: 528px;
 	}
 	.iQontrolDevice:hover{
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
@@ -744,6 +867,12 @@ body {
 		   -moz-transform: scale3d(1.0,1.0,1);
 				transform: scale3d(1.0,1.0,1);
 	}
+	.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon{
+		left:3px;
+	}
+	.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon{
+		top:3px;
+	}
 	.iQontrolDeviceIcon:hover {
 		-webkit-transform: scale3d(1.2,1.2,1);
 		   -moz-transform: scale3d(1.2,1.2,1);
@@ -751,6 +880,12 @@ body {
 	}
 	.iQontrolDeviceLoading {
 		position:absolute; left: 18px; top: 18px; width: 36px; height: 36px;
+	}
+	.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading{
+		left:16.5px;
+	}
+	.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading{
+		top:16.5px;
 	}
 	.iQontrolDeviceError {
 		position:absolute; left: 72px; top: 4px; width: 24px; height: 24px;
@@ -768,6 +903,12 @@ body {
 		position:absolute; left: 90px; top: 30px; width: 72px; height: 22px;
 		font-size: 10.5pt;
 	}
+	.iQontrolDevice.wide .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoAText {
+		width:258px;
+	}
+	.iQontrolDevice.xwide .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoAText {
+		width:444px;
+	}
 	.iQontrolDeviceInfoBIcon {
 		position:absolute; left: 72px; top: 58px; width: 18px; height: 18px;
 	}
@@ -775,13 +916,43 @@ body {
 		position:absolute; left: 90px; top: 58px; width: 72px; height: 22px;
 		font-size: 10.5pt;
 	}
+	.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText  {
+		width: 258px;
+	}
+	.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText  {
+		width: 444px;
+	}
 	.iQontrolDeviceName  {
 		position:absolute; left: 10px; top: 84px; width: 150px; height: 45px;
 		font-size: 13pt;
 	}
+	.iQontrolDevice.narrow .iQontrolDeviceName, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceName, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceName {
+		width: 63px;
+	}
+	.iQontrolDevice.wide .iQontrolDeviceName, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.wideIfActive .iQontrolDeviceName {
+		width: 336px;
+	}
+	.iQontrolDevice.xwide .iQontrolDeviceName, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceName {
+		width: 522px;
+	}
 	.iQontrolDeviceState  {
 		position:absolute; left: 10px; top: 132px; width: 150px; height: 25px;
 		font-size: 13pt;
+	}
+	.iQontrolDevice.narrow .iQontrolDeviceState, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceState, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceState {
+		width: 63px;
+	}
+	.iQontrolDevice.wide .iQontrolDeviceState, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceState, .iQontrolDevice.active.wideIfActive .iQontrolDeviceState {
+		width: 336px;
+	}
+	.iQontrolDevice.xwide .iQontrolDeviceState, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceState {
+		width: 522px;
+	}
+	.iQontrolDevice.high .iQontrolDeviceState, .iQontrolDevice:not(.active).highIfInactive .iQontrolDeviceState, .iQontrolDevice.active.highIfActive .iQontrolDeviceState {
+		height: 215px;
+	}
+	.iQontrolDevice.xhigh .iQontrolDeviceState, .iQontrolDevice:not(.active).xhighIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xhighIfActive .iQontrolDeviceState {
+		height: 401px;
 	}
 
 	#Dialog{
