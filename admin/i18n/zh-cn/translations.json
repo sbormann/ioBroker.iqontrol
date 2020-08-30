@@ -95,6 +95,7 @@
     "Devices": "设备",
     "Devices have a role, that determines the function of the device, which icons are used and so on.": "设备需要指定一个角色，不同的角色将决定设备的功能，图标等。",
     "Devices of selected View": "当前显示页面的设备",
+    "Disable zoom-effect on hover": "在悬停时禁用缩放效果",
     "Door": "门设备",
     "Door with lock": "门锁设备",
     "Edit Array:": "编辑数组：",

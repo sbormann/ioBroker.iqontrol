@@ -17,7 +17,9 @@ body {
 	-webkit-touch-callout: none !important;
 	border: 16px solid #484848; /* Light grey */
 	border-top: 16px solid #059; /* Blue */
-	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+			border-radius: 50%;
 	width: 80px;
 	height: 80px;
 	animation: spin 3s linear infinite;
@@ -372,9 +374,15 @@ body {
 	   -moz-transform: scale3d(1.05,1.05,1);
 			transform: scale3d(1.05,1.05,1);
 }
+.iQontrolDeviceBackgroundIframeWrapper.noZoomOnHover:hover {
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
+}
 .iQontrolDeviceBackgroundIframe {
 	width: 100%;
 	min-height: 100%;
+	border: none;
 }
 .iQontrolDeviceBackgroundImage {
 	-webkit-user-select: none !important;
@@ -400,6 +408,11 @@ body {
 	-webkit-transform: scale3d(1.05,1.05,1);
 	   -moz-transform: scale3d(1.05,1.05,1);
 			transform: scale3d(1.05,1.05,1);
+}
+.iQontrolDeviceBackgroundImage.noZoomOnHover:hover {
+	-webkit-transform: scale3d(1.0,1.0,1);
+	   -moz-transform: scale3d(1.0,1.0,1);
+			transform: scale3d(1.0,1.0,1);
 }
 .iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active) {
 	pointer-events:none !important;
@@ -674,6 +687,59 @@ body {
 	width: 16px;	
 	cursor: pointer;
 }
+.jqte { 
+    width:300px; 
+    max-width:100%;
+	margin: 0px !important;
+    border-color: rgb(221,221,221) !important;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
+	   -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important;
+	        box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
+	-webkit-border-radius: 6px !important;
+	   -moz-border-radius: 6px !important;
+			border-radius: 6px !important;
+}
+.jqte_focused {
+    border-color: rgb(221,221,221) !important;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
+	   -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important;
+	        box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
+}
+.jqte_toolbar{
+	position: unset !important;
+	z-index: unset !important;	
+}
+.jqte_tool:not(.jqte_tool_1){
+	width: 20px !important;
+	height: 20px !important;
+}
+.jqte_tool_1{
+	height: 20px;
+}
+.jqte_tool_icon{
+	background-size:stretch !important;
+	opacity: 0.6 !important;
+}
+.jqte_formats, .jqte_fontsizes, .jqte_cpalette {
+	position: absolute !important;
+	z-index: 10000 !important;
+}
+.jqte_editor {
+    -webkit-user-select: text;
+	-webkit-touch-callout: none;
+    user-select: text;
+}
+.jqte_source {
+	background-color: white !important;
+}
+.jqte_source textarea{
+	top: 0px !important;
+	height: 100% !important;
+	overflow-y: scroll !important;
+	-webkit-box-shadow: none !important; 
+	   -moz-box-shadow: none !important;
+	        box-shadow: none !important; 
+}
 .iQontrolDialogIframeWrapper{
 	-webkit-overflow-scrolling: touch;
 	height: 85vh;
@@ -789,8 +855,10 @@ body {
 @media screen and (min-width: 600px){
 	#Dialog{
 		min-width: 500px;
-	}	
-
+	}
+	.jqte { 
+		min-width:500px; 
+	}
 	.iQontrolDialogIframeWrapper{
 		min-width: 500px;
 	}
@@ -957,8 +1025,10 @@ body {
 
 	#Dialog{
 		min-width: 800px;
-	}	
-
+	}
+	.jqte { 
+		min-width: 800px; 
+	}
 	.iQontrolDialogIframeWrapper{
 		min-width: 800px;
 	}

@@ -95,6 +95,7 @@
     "Devices": "Appareils",
     "Devices have a role, that determines the function of the device, which icons are used and so on.": "Les appareils ont un rôle à jouer, que determines la fonction de l'appareil, les icônes qui sont utilisées, et ainsi de suite.",
     "Devices of selected View": "Les appareils de la Vue sélectionnée",
+    "Disable zoom-effect on hover": "Désactiver l'effet de zoom lors du survol",
     "Door": "Porte",
     "Door with lock": "Porte avec serrure",
     "Edit Array:": "Modifier le tableau:",

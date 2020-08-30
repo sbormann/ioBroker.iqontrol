@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.2.0",
+        "version": "1.2.1",
         "news": {
+            "1.2.1": {
+                "en": "If STATE in Dialog contains (valid) HTML-Code, it is now rendered as HTML and - if state is not readonly - a HTML-Editor is shown, Added option to disable zoom-effect on mouse-over (for HTML-Widgets the zoom-effect may be disturbing), Remote is only shown, if one of the remote datapoints are defined, Added polyfil for older browsers for Array.from in shuffle_js.",
+                "de": "Wenn STATE in Dialog (gültigen) HTML-Code enthält, wird dieser jetzt als HTML gerendert und - wenn der Status nicht schreibgeschützt ist - ein HTML-Editor angezeigt. Option hinzugefügt, um den Zoomeffekt beim Mouse-Over zu deaktivieren (für HTML-Widgets die ",
+                "ru": "Если STATE в диалоге содержит (действительный) HTML-код, он теперь отображается как HTML и - если состояние не только для чтения - отображается HTML-редактор. Добавлена ​​опция для отключения эффекта масштабирования при наведении курсора мыши (для HTML-виджетов ",
+                "pt": "Se STATE na caixa de diálogo contém código HTML (válido), ele agora é renderizado como HTML e - se o estado não for somente leitura - um editor de HTML é mostrado. Adicionada opção para desativar o efeito de zoom ao passar o mouse (para HTML-Widgets o ",
+                "nl": "Als STATE in Dialog (geldige) HTML-Code bevat, wordt deze nu weergegeven als HTML en - als state niet alleen-lezen is - wordt een HTML-Editor getoond, Optie toegevoegd om zoom-effect uit te schakelen bij mouse-over (voor HTML-Widgets de ",
+                "fr": "Si STATE dans Dialog contient du HTML-Code (valide), il est maintenant rendu en HTML et - si l'état n'est pas en lecture seule - un HTML-Editor est affiché, Ajout d'une option pour désactiver l'effet de zoom lors du survol de la souris (pour les HTML-Widgets, le ",
+                "it": "Se STATE nella finestra di dialogo contiene codice HTML (valido), ora viene visualizzato come HTML e, se lo stato non è di sola lettura, viene visualizzato un editor HTML, aggiunta l'opzione per disabilitare l'effetto zoom al passaggio del mouse (per i widget HTML il ",
+                "es": "Si STATE en el cuadro de diálogo contiene código HTML (válido), ahora se representa como HTML y, si el estado no es de solo lectura, se muestra un editor HTML, opción agregada para deshabilitar el efecto de zoom al pasar el mouse (para HTML-Widgets ",
+                "pl": "Jeśli STAN w oknie dialogowym zawiera (prawidłowy) kod HTML, jest teraz renderowany jako HTML i - jeśli stan nie jest tylko do odczytu - wyświetlany jest edytor HTML. Dodano opcję wyłączania efektu powiększenia po najechaniu myszą (dla widżetów HTML ",
+                "zh-cn": "如果“对话框”中的“状态”包含（有效）HTML代码，则现在将其呈现为HTML，并且-如果状态不是只读的，则显示HTML编辑器，“添加”选项可在鼠标悬停时禁用缩放效果（对于HTML小部件，"
+            },
             "1.2.0": {
                 "en": "Introducing different tile sizes, they can be configured in options for active and inactive state, Added BACKGROUND_URL and BACKGROUND_HTML as universal states to all devices, to display webpages as background of tiles (for FLOT, weather, security-cameras),  Again better animations for shuffle_js, Reordered remote control sections.",
                 "de": "Durch die Einführung verschiedener Kachelgrößen können sie in den Optionen für aktiven und inaktiven Status konfiguriert werden. BACKGROUND_URL und BACKGROUND_HTML wurden als universelle Status für alle Geräte hinzugefügt, um Webseiten als Hintergrund für Kacheln anzuzeigen (für FLOT, Wetter, Sicherheitskameras). Wieder bessere Animationen für ",

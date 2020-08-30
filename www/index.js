@@ -27,6 +27,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"}
 										}
 									},
@@ -53,6 +54,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -95,6 +97,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
@@ -140,6 +143,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},						
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -180,6 +184,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -220,6 +225,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -258,6 +264,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -297,6 +304,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},	
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -336,6 +344,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -375,6 +384,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -414,6 +424,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -453,6 +464,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -491,6 +503,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -531,6 +544,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -575,6 +589,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -624,6 +639,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -663,6 +679,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -702,6 +719,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -743,6 +761,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -786,6 +805,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -824,6 +844,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -866,6 +887,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -909,6 +931,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -962,6 +985,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -999,6 +1023,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -1036,6 +1061,7 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -1182,6 +1208,85 @@ if (!Array.prototype.findIndex) {
     configurable: true,
     writable: true
   });
+}
+
+//Array.from// Production steps of ECMA-262, Edition 6, 22.1.2.1
+if (!Array.from) {
+  Array.from = (function () {
+    var toStr = Object.prototype.toString;
+    var isCallable = function (fn) {
+      return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+    };
+    var toInteger = function (value) {
+      var number = Number(value);
+      if (isNaN(number)) { return 0; }
+      if (number === 0 || !isFinite(number)) { return number; }
+      return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+    };
+    var maxSafeInteger = Math.pow(2, 53) - 1;
+    var toLength = function (value) {
+      var len = toInteger(value);
+      return Math.min(Math.max(len, 0), maxSafeInteger);
+    };
+
+    // The length property of the from method is 1.
+    return function from(arrayLike/*, mapFn, thisArg */) {
+      // 1. Let C be the this value.
+      var C = this;
+
+      // 2. Let items be ToObject(arrayLike).
+      var items = Object(arrayLike);
+
+      // 3. ReturnIfAbrupt(items).
+      if (arrayLike == null) {
+        throw new TypeError('Array.from requires an array-like object - not null or undefined');
+      }
+
+      // 4. If mapfn is undefined, then let mapping be false.
+      var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+      var T;
+      if (typeof mapFn !== 'undefined') {
+        // 5. else
+        // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+        if (!isCallable(mapFn)) {
+          throw new TypeError('Array.from: when provided, the second argument must be a function');
+        }
+
+        // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+        if (arguments.length > 2) {
+          T = arguments[2];
+        }
+      }
+
+      // 10. Let lenValue be Get(items, "length").
+      // 11. Let len be ToLength(lenValue).
+      var len = toLength(items.length);
+
+      // 13. If IsConstructor(C) is true, then
+      // 13. a. Let A be the result of calling the [[Construct]] internal method 
+      // of C with an argument list containing the single item len.
+      // 14. a. Else, Let A be ArrayCreate(len).
+      var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+      // 16. Let k be 0.
+      var k = 0;
+      // 17. Repeat, while k < len… (also steps a - h)
+      var kValue;
+      while (k < len) {
+        kValue = items[k];
+        if (mapFn) {
+          A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+        } else {
+          A[k] = kValue;
+        }
+        k += 1;
+      }
+      // 18. Let putStatus be Put(A, "length", len, true).
+      A.length = len;
+      // 20. Return A.
+      return A;
+    };
+  }());
 }
 
 //++++++++++ SOCKET  FUNCTIONS ++++++++++
@@ -2465,6 +2570,10 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     return false;
 };
 
+function isHTML(testString){
+	return /<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(testString);
+}
+
 function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an element draggable
 	var dragElement = document.getElementById(dragElementId);
 	if(!dragElement) return;
@@ -3711,13 +3820,14 @@ function renderView(viewId){
 						})(); //<--End Closure
 					}
 						//--BackgroundImage
+						var noZoomOnHover = (getDeviceOptionValue(device, "noZoomOnHover") == "true");
 						var url = "";
 						var variableurl = null;
 						if(device.nativeBackgroundImage){
 							url = encodeURI(device.nativeBackgroundImage.split('|')[0]);
 							variableurl = encodeURI(device.nativeBackgroundImage.split('|').slice(1).join('|'));
 						}
-						deviceContent += "<div class='iQontrolDeviceBackgroundImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--BackgroundImageActive
 						url = "";
 						variableurl = null;
@@ -3725,12 +3835,12 @@ function renderView(viewId){
 							url = encodeURI(device.nativeBackgroundImageActive.split('|')[0]);
 							variableurl = encodeURI(device.nativeBackgroundImageActive.split('|').slice(1).join('|'));
 						}
-						deviceContent += "<div class='iQontrolDeviceBackgroundImage active' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
+						deviceContent += "<div class='iQontrolDeviceBackgroundImage active" + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + (variableurl ? "data-variablebackgroundimage='" + variableurl + "' " : "") + "style='background-image:url(" + url + ");'></div>";
 						//--BackgroundIframe (BACKGROUND_URL)
 						if (deviceLinkedStateIds["BACKGROUND_URL"] || deviceLinkedStateIds["BACKGROUND_URL"]){
-							hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
-							hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
-							deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "');'></div>";
+							var hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
+							var hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
+							deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "');'></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
@@ -5300,14 +5410,14 @@ function renderView(viewId){
 		if (!options.LayoutViewShuffleDisabled) {
 			viewShuffleInstances = [];
 			var viewShuffleContainers = document.querySelectorAll('.viewShuffleContainer');
-			viewShuffleContainers.forEach(function(viewShuffleContainer, i){
-				viewShuffleInstances[i] = new Shuffle(viewShuffleContainer, {
+			for(i = 0; i < viewShuffleContainers.length; i++){
+				viewShuffleInstances[i] = new Shuffle(viewShuffleContainers[i], {
 					itemSelector: '.viewShuffleTile',
 					delimiter: ',',
 					speed: 1000,
 					sizer: '.iQontrolDeviceShuffleSizer'
 				});
-			});		
+			};		
 			viewShuffleFilterHideDeviceIfInactive();
 			viewShuffleApplyShuffleResizeObserver();
 		}
@@ -7498,9 +7608,12 @@ function renderDialog(deviceIdEscaped){
 					var _linkedCoverUrlId = dialogLinkedStateIds["COVER_URL"];
 					var updateFunction = function(){
 						var stateCoverUrl = getStateObject(_linkedCoverUrlId);
-						if (stateCoverUrl){
+						if (stateCoverUrl && stateCoverUrl.val && stateCoverUrl.val != ""){
 							$("#DialogMediaCoverImage").removeAttr('src').attr('src', stateCoverUrl.val);
+							$("#DialogMediaCoverImage").slideDown();
 							dialogUpdateTimestamp(states[_linkedCoverUrlId]);
+						} else {
+							$("#DialogMediaCoverImage").slideUp(500).removeAttr('src');
 						}
 					};
 					dialogUpdateFunctions[_linkedCoverUrlId].push(updateFunction);
@@ -8221,15 +8334,12 @@ function renderDialog(deviceIdEscaped){
 			}
 
 			//----RemoteControl
-			if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].type)){
+			if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != "[]")){
 				var type = "Remote Control";
 				dialogContent += "<div id='DialogRemote'>";
 				dialogContent += "<hr>";
 				dialogContent += "<label for='' ><image src='./images/buttongrid.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 				dialogContent += "<div" + (getDeviceOptionValue(device, "remoteKeepSectionsOpen") == "true" ? "" : " class='ui-collapsible-set'") + ">";
-
-
-
 				//----RemoteControl Pad
 				if(     ((dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type)) 
 						|| ((getDeviceOptionValue(device, "remoteShowDirectionsInsidePad") == "true") && ((dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type)))
@@ -8951,6 +9061,60 @@ function renderDialog(deviceIdEscaped){
 			}
 		})(); //<--End Closure
 	});
+	//Enhance Textareas with jqte
+	$('.iQontrolDialogString').each(function(){
+		if(isHTML($(this).val())){
+			if($(this).data('disabled') == true){ //readonly
+				var displayToolbar = "none";
+				$(this).jqte({
+					b: false,
+					br: false,
+					center: false,
+					color: false,
+					fsize: false,
+					format: false,
+					i: false,
+					indent: false,
+					link: false,
+					left: false,
+					ol: false,
+					outdent: false,
+					p: false,
+					remove: false,
+					right: false,
+					rule: false,
+					source: true,
+					sub: false,				
+					strike: false,
+					sup: false,
+					title: true,
+					titletext: [{title:"Format"},{title:"Schriftgr&ouml;&szlig;e"},{title:"Farbe"},{title:"Fett",hotkey:"B"},{title:"Kursiv",hotkey:"I"},{title:"Unterstrichen",hotkey:"U"},{title:"Nummeriert",hotkey:"."},{title:"Aufz&auml;hlung",hotkey:","},{title:"Tiefgestellt",hotkey:"down arrow"},{title:"Hochgestellt",hotkey:"up arrow"},{title:"Einzug verkleinern",hotkey:"left arrow"},{title:"Einzug vergr&ouml;&szlig;ern",hotkey:"right arrow"},{title:"Linksb&uuml;ndig"},{title:"Zentriert"},{title:"Rechtsb&uuml;ndig"},{title:"Durchgestrichen",hotkey:"K"},{title:"Link hinzuf&uuml;gen",hotkey:"L"},{title:"Link entfernen",hotkey:""},{title:"Style entfernen",hotkey:"Delete"},{title:"Horizontale Linie",hotkey:"H"},{title:"HTML",hotkey:""}],
+					u: false,
+					ul: false,
+					unlink: false
+				}).prop('readonly', 'true').removeClass('ui-state-disabled').parents('.jqte_source').prevAll('.jqte_editor').prop('contenteditable','false').prevAll('.jqte_toolbar').css('display',displayToolbar);
+			} else { //editable
+				$(this).jqte({
+					fsize: true,
+					fsizes: ['6','8','10','12','14','16','18','20','24','28','36'],
+					funit: "px",
+					format: true,
+					formats: [['p','Normal'],['h1','Ebene 1'],['h2','Ebene 2'],['h3','Ebene 3'],['h4','Ebene 4'],['h5','Ebene 5'],['h6','Ebene 6'],['pre','Vorformatiert']],
+					link: true,
+					strike: false,
+					title: true,
+					titletext: [{title:"Format"},{title:"Schriftgr&ouml;&szlig;e"},{title:"Farbe"},{title:"Fett",hotkey:"B"},{title:"Kursiv",hotkey:"I"},{title:"Unterstrichen",hotkey:"U"},{title:"Nummeriert",hotkey:"."},{title:"Aufz&auml;hlung",hotkey:","},{title:"Tiefgestellt",hotkey:"down arrow"},{title:"Hochgestellt",hotkey:"up arrow"},{title:"Einzug verkleinern",hotkey:"left arrow"},{title:"Einzug vergr&ouml;&szlig;ern",hotkey:"right arrow"},{title:"Linksb&uuml;ndig"},{title:"Zentriert"},{title:"Rechtsb&uuml;ndig"},{title:"Durchgestrichen",hotkey:"K"},{title:"Link hinzuf&uuml;gen",hotkey:"L"},{title:"Link entfernen",hotkey:""},{title:"Style entfernen",hotkey:"Delete"},{title:"Horizontale Linie",hotkey:"H"},{title:"HTML",hotkey:""}]
+				});
+				//Fix for safari z-index-bug jqte_fontsizes jqte_cpalette
+				$('#Dialog').append($('.jqte_formats'));
+				$('.jqte_formats').css('top', $('.jqte_tool_1').position().top + $('.jqte_tool_1').outerHeight()).css('left', $('.jqte_tool_1').position().left);
+				$('#Dialog').append($('.jqte_fontsizes'));
+				$('.jqte_fontsizes').css('top', $('.jqte_tool_2').position().top + $('.jqte_tool_2').outerHeight()).css('left', $('.jqte_tool_2').position().left);
+				$('#Dialog').append($('.jqte_cpalette'));
+				$('.jqte_cpalette').css('top', $('.jqte_tool_3').position().top + $('.jqte_tool_3').outerHeight()).css('left', $('.jqte_tool_3').position().left);
+			}
+		}
+	});	
 	//Show or hide Timestamp
 	var showTimestamp = null;
 	var dialogShowTimestamp = getDeviceOptionValue(device, "showTimestamp") || ""; //possible values: "" = auto, "yes", "no", "always", "never"

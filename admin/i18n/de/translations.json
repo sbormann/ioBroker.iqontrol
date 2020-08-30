@@ -95,6 +95,7 @@
     "Devices": "Geräte",
     "Devices have a role, that determines the function of the device, which icons are used and so on.": "Die Geräte haben jeweils einen Gerätetyp. Dieser bestimmt die Funktion des Gerätes und z.B. welche Icons verwendet werden.",
     "Devices of selected View": "Geräte der gewählten Ansicht",
+    "Disable zoom-effect on hover": "Zoom-Effekt bei Mouse-Over deaktivieren",
     "Door": "Tür",
     "Door with lock": "Tür mit Schloss",
     "Edit Array:": "Array bearbeiten:",

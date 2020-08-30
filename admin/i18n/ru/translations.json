@@ -95,6 +95,7 @@
     "Devices": "Устройства",
     "Devices have a role, that determines the function of the device, which icons are used and so on.": "Устройства имеют определенную роль, что determines функцию устройства, какие значки используются и так далее.",
     "Devices of selected View": "Устройства выбранного вида",
+    "Disable zoom-effect on hover": "Отключить эффект масштабирования при наведении",
     "Door": "Дверь",
     "Door with lock": "Дверь с замком",
     "Edit Array:": "Изменить массив:",

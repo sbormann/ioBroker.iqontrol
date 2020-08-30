@@ -151,6 +151,7 @@
     "Devices have a role, that determines the function of the device, which icons are used and so on.": "Die Geräte haben jeweils eine Rolle. Diese bestimmt die Funktion des Gerätes und z.B. welche Icons verwendet werden.",
     "Devices of selected View": "Geräte der ausgewählten Ansicht",
     "Dimmer": "Dimmer",
+    "Disable zoom-effect on hover": "Zoom-Effekt bei Mouse-Over deaktivieren",
     "Documentation": "Dokumentation",
     "Door": "Tür",
     "Door with lock": "Tür mit Schloss",
