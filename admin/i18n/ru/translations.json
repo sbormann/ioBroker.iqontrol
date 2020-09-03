@@ -59,6 +59,7 @@
     "Button": "кнопка",
     "Cancel": "Отменить",
     "Caption for button": "Подпись к кнопке",
+    "Caption for section 'Additional Buttons'": "Заголовок к разделу \"Дополнительные кнопки\"",
     "Caption:": "Надпись:",
     "Change Directory Name from %s to:": "Изменить имя папки из %S в:",
     "Change filename from %s to:": "Изменить имя файла из %S в:",

@@ -418,6 +418,12 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
+### dev
+* (sbormann) Enhanced TileActiveConditions to even work, if not STATE is definded.
+* (sbormann) Enhanced BACKGROUND_HTML noch to flicker, when changing value.
+* (sbormann) Added option to rename section 'Additional Buttons' for remote.
+* (sbormann) Arrays like REMOTE_ADDITIONAL_BUTTONS are now sortable.
+
 ### 1.2.1 (2020-28-30)
 * (sbormann) If STATE in Dialog contains (valid) HTML-Code, it is now rendered as HTML and - if state is not readonly - a HTML-Editor is shown.
 * (sbormann) Added option to disable zoom-effect on mouse-over (for HTML-Widgets the zoom-effect may be disturbing).

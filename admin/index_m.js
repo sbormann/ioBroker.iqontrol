@@ -970,6 +970,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
 											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
 											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
+											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -2204,7 +2205,6 @@ function load(settings, onChange) {
 			} */
 		});
 		$('select').select();
-
 		//Make table sortable
 		$("#tableDevices tbody").sortable({
 			helper: fixHelper,
@@ -2217,7 +2217,7 @@ function load(settings, onChange) {
 				});
 				var tableResorted = [];
 				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(views[devicesSelectedView].devices[sequence[i]]);
+					tableResorted.push(dialogDeviceEditStateArrayTable[sequence[i]]);
 				}
 				views[devicesSelectedView].devices = tableResorted;
 				onChange();
@@ -2524,6 +2524,8 @@ function load(settings, onChange) {
 			$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 		}
 	}
+	
+	//Enhance TableDialogDeviceEditStateArrayReady
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
 		var $table = $div.find('.table-values');
@@ -2575,7 +2577,35 @@ function load(settings, onChange) {
 				});
 				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
 			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+			}
 		});
+		//Make table sortable
+		$("#tableDialogDeviceEditStateArray tbody").sortable({
+			helper: fixHelper,
+			stop: function( event, ui ) { 
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogDeviceEditStateArray tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogDeviceEditStateArray').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogDeviceEditStateArrayTable[sequence[i]]);
+				}
+				dialogDeviceEditStateArrayTable = tableResorted;
+				onChange();
+				values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
+				$("#tableDialogDeviceEditStateArray tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			cancel: "input,textarea,button,select,option,a.btn-floating"
+		});	
 	}
 	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
 		var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();

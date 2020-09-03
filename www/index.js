@@ -970,6 +970,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
 											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
 											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
+											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -3714,6 +3715,7 @@ function renderView(viewId){
 	fetchView(actualViewId, function(){
 		actualView = getView(actualViewId);
 		viewUpdateFunctions = {};
+		viewUpdateFunctions["UPDATE_ONCE"] = [];
 		deviceLinkedStateIdsToUpdate = [];
 		viewLinksToOtherViews = [];
 		if (viewTimestampElapsedTimer){
@@ -3840,7 +3842,7 @@ function renderView(viewId){
 						if (deviceLinkedStateIds["BACKGROUND_URL"] || deviceLinkedStateIds["BACKGROUND_URL"]){
 							var hideBackgroundURLInactive = (getDeviceOptionValue(device, "hideBackgroundURLInactive") == "true");
 							var hideBackgroundURLActive = (getDeviceOptionValue(device, "hideBackgroundURLActive") == "true");
-							deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "');'></div>";
+							deviceContent += "<div class='iQontrolDeviceBackgroundIframeWrapper" + (hideBackgroundURLInactive ? " hideIfInactive" : "") + (hideBackgroundURLActive ? " hideIfActive" : "") + (noZoomOnHover ? " noZoomOnHover" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='opacity: 0;');'></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
@@ -3851,19 +3853,17 @@ function renderView(viewId){
 									var backgroundURL = null;
 									if (stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== "") backgroundURL = "data:text/html," + encodeURI(stateBackgroundHTML.val); 
 									if (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "") backgroundURL = stateBackgroundURL.val; 
-									if (backgroundURL){
-										if(backgroundURL){
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+									if(backgroundURL){							
+										//$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+										setTimeout(function(){
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' src='" + backgroundURL + "'></iframe>");
 											setTimeout(function(){
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' src='" + backgroundURL + "'></iframe>");
-												setTimeout(function(){
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
-												}, 500);
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 											}, 500);
-										} else {
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
-										}
+										}, 500);
+									} else {
+										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
 									} 
 								};
 								if (_linkedBackgroundURLId) viewUpdateFunctions[_linkedBackgroundURLId].push(updateFunction);
@@ -4530,7 +4530,7 @@ function renderView(viewId){
 								break;
 
 								case "iQontrolButton": case "iQontrolProgram":
-								if (deviceLinkedStateIds["STATE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
@@ -4591,14 +4591,15 @@ function renderView(viewId){
 											}
 											viewShuffleFilterHideDeviceIfInactive();
 										};
-										viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolScene":
-								if (deviceLinkedStateIds["STATE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -4641,14 +4642,15 @@ function renderView(viewId){
 											}
 											viewShuffleFilterHideDeviceIfInactive();
 										};
-										viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolThermostat": case "iQontrolHomematicThermostat":
-								if (deviceLinkedStateIds["SET_TEMPERATURE"] || deviceLinkedStateIds["CONTROL_MODE"]){
+								if (deviceLinkedStateIds["SET_TEMPERATURE"] || deviceLinkedStateIds["CONTROL_MODE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -4711,17 +4713,18 @@ function renderView(viewId){
 											}
 											viewShuffleFilterHideDeviceIfInactive();
 										};
-										if (_linkedSetTemperatureId) viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
-										if (_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
-										if (_linkedPartyTemperatureId) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
-										if (_linkedWindowOpenReportingId) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
+										if(_linkedSetTemperatureId) viewUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
+										if(_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
+										if(_linkedPartyTemperatureId) viewUpdateFunctions[_linkedPartyTemperatureId].push(updateFunction);
+										if(_linkedWindowOpenReportingId) viewUpdateFunctions[_linkedWindowOpenReportingId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedSetTemperatureId && !_linkedControlModeId && !_linkedPartyTemperatureId && !_linkedWindowOpenReportingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolWindow":
-								if (deviceLinkedStateIds["STATE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -4825,12 +4828,13 @@ function renderView(viewId){
 										};
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolDoorWithLock":
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LOCK_STATE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LOCK_STATE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -4898,12 +4902,13 @@ function renderView(viewId){
 										if(_linkedLockStateId) viewUpdateFunctions[_linkedLockStateId].push(updateFunction);
 										if(_linkedLockStateUncertainId) viewUpdateFunctions[_linkedLockStateUncertainId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedLockStateId && !_linkedLockStateUncertainId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolBlind":
-								if (deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["DIRECTION"]){
+								if (deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["DIRECTION"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -4937,7 +4942,7 @@ function renderView(viewId){
 											}
 											if(level && typeof level.val !== udef && val == min){ //Closed
 												tileActiveStandard = false;
-												resultText = _("closed");
+												if(level && typeof level.plainText == 'number') resultText = _("closed");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -4945,7 +4950,7 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											} else if(level && typeof level.val !== udef && val == max){ //Opened
 												tileActiveStandard = true;
-												resultText = _("opened");
+												if(level && typeof level.plainText == 'number') resultText = _("opened");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
@@ -4969,7 +4974,6 @@ function renderView(viewId){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").addClass("active");
 											} else { //Middle with no movement
 												tileActiveStandard = true;
-												if(level && typeof level.val !== udef) resultText = level.val + level.unit;
 												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
@@ -5002,12 +5006,13 @@ function renderView(viewId){
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 										if(_linkedDirectionId) viewUpdateFunctions[_linkedDirectionId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedLevelId && !_linkedDirectionId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 								
 								case "iQontrolAlarm":
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["CONTROL_MODE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["CONTROL_MODE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
@@ -5073,12 +5078,13 @@ function renderView(viewId){
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedControlModeId) viewUpdateFunctions[_linkedControlModeId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedControlModeId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolBattery":
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING']){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING'] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -5180,12 +5186,13 @@ function renderView(viewId){
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedChargingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								case "iQontrolMedia":
-								if (true || deviceLinkedStateIds["STATE"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -5308,12 +5315,13 @@ function renderView(viewId){
 										if(_linkedSeasonId) viewUpdateFunctions[_linkedSeasonId].push(updateFunction);
 										if(_linkedEpisodeId) viewUpdateFunctions[_linkedEpisodeId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 								break;
 
 								default:
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"]){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
@@ -5388,6 +5396,7 @@ function renderView(viewId){
 										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if(_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedLevelId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);										
 									})(); //<--End Closure
 								}
 							}
@@ -5592,6 +5601,10 @@ function renderView(viewId){
 				updateState(state); 
 			})
 		}, 60000);
+		//Call UPDATE_ONCE Functions
+		viewUpdateFunctions["UPDATE_ONCE"].forEach(function(viewUpdateFunction){
+			viewUpdateFunction();
+		});
 	});
 }
 
@@ -8582,8 +8595,9 @@ function renderDialog(deviceIdEscaped){
 						}
 						dialogLinkedStateIdsToUpdate.push(element.value);
 					});
+					var type = getDeviceOptionValue(device, "remoteAdditionalButtonsCaption") || _("Additional Buttons");
 					dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
-						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Additional Buttons") + ":</h4>";
+						dialogContent += "<h4><image src='./images/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>";
 						dialogContent += "<div class='ui-grid-a' style='max-width:400px;' id='DialogRemoteAdditionalButtonsContent'>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
