@@ -423,6 +423,8 @@ In addition to normal thermostat you can define:
 * (sbormann) Enhanced BACKGROUND_HTML noch to flicker, when changing value.
 * (sbormann) Added option to rename section 'Additional Buttons' for remote.
 * (sbormann) Arrays like REMOTE_ADDITIONAL_BUTTONS are now sortable.
+* (sbormann) Enhanced handling for BACKGROUND_URL/HTML.
+* (sbormann) Added options to change caption of UP, STOP and DOWN for blinds.
 
 ### 1.2.1 (2020-28-30)
 * (sbormann) If STATE in Dialog contains (valid) HTML-Code, it is now rendered as HTML and - if state is not readonly - a HTML-Editor is shown.

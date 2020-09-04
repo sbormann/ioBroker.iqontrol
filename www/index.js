@@ -624,6 +624,9 @@ var iQontrolRoles = {
 											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
 											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
 											favoritePositionCaption: {name: "Caption for FAVORITE_POSITION", type: "text", default: "Favorite Position"},
+											upCaption: {name: "Caption for UP", type: "text", default: "Up"},
+											stopCaption: {name: "Caption for STOP", type: "text", default: "Stop"},
+											downCaption: {name: "Caption for DOWN", type: "text", default: "Down"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -3850,18 +3853,33 @@ function renderView(viewId){
 								var updateFunction = function(){
 									var stateBackgroundURL = getStateObject(_linkedBackgroundURLId);
 									var stateBackgroundHTML = getStateObject(_linkedBackgroundHTMLId);
-									var backgroundURL = null;
-									if (stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== "") backgroundURL = "data:text/html," + encodeURI(stateBackgroundHTML.val); 
-									if (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "") backgroundURL = stateBackgroundURL.val; 
-									if(backgroundURL){							
-										//$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
+									if(stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== ""){ //URL
+										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'></iframe>");
+										}
 										setTimeout(function(){
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' src='" + backgroundURL + "'></iframe>");
+											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
+											iframe.src = stateBackgroundURL.val;
 											setTimeout(function(){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 											}, 500);
-										}, 500);
-									} else {
+										}, (isFirefox?100:0));
+									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== ""){ //HTML
+										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'></iframe>");
+										}
+										setTimeout(function(){
+											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
+											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+											iframedoc.open();
+											iframedoc.write(stateBackgroundHTML.val);
+											$(iframedoc).find('body').css('font-family', 'sans-serif');
+											iframedoc.close();
+											setTimeout(function(){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+											}, 500);
+										}, (isFirefox?100:0));
+									} else { //Nothing
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '0');
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("");
 									} 
@@ -7459,7 +7477,8 @@ function renderDialog(deviceIdEscaped){
 			if(!dialogReadonly && ((dialogStates["DOWN"] && dialogStates["DOWN"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["UP"] && dialogStates["UP"].type))){
 				dialogContent += "<center><div data-role='controlgroup' data-type='horizontal'>";
 				if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
-					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-d' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _("Down") + "</a>";
+					var downCaption = getDeviceOptionValue(device, "downCaption") || "Down";			
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-d' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateDownButton' id='DialogStateDownButton'>" + _(downCaption) + "</a>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedDownId = dialogLinkedStateIds["DOWN"];
@@ -7474,7 +7493,8 @@ function renderDialog(deviceIdEscaped){
 					})(); //<--End Closure
 				}
 				if(dialogStates["STOP"] && dialogStates["STOP"].type){
-					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _("Stop") + "</a>";
+					var stopCaption = getDeviceOptionValue(device, "stopCaption") || "Stop";			
+					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStopButton' id='DialogStateStopButton'>" + _(stopCaption) + "</a>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedStopId = dialogLinkedStateIds["STOP"];
@@ -7487,7 +7507,8 @@ function renderDialog(deviceIdEscaped){
 					})(); //<--End Closure
 				}
 				if(dialogStates["UP"] && dialogStates["UP"].type){
-					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-u' data-iconpos='right'  class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _("Up") + "</a>";
+					var upCaption = getDeviceOptionValue(device, "upCaption") || "Up";			
+					dialogContent += "<a data-role='button' data-mini='false' data-icon='carat-u' data-iconpos='right'  class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateUPButton' id='DialogStateUPButton'>" + _(upCaption) + "</a>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedUpId = dialogLinkedStateIds["UP"];
