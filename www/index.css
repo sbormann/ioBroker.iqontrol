@@ -6,6 +6,7 @@ body {
 	background-size: cover;
 	-webkit-touch-callout: none !important;
 }
+
 .small {
 	font-size: 70%;
 }
@@ -126,13 +127,17 @@ body {
 	color: #fff;
 }
 
-#ToolbarPressureMenu{
+#Toolbar {
+	border-width: 0px !important;
+	background: transparent !important;
+}
+#ToolbarPressureMenu {
 	background-color: #ffffffbf;
 	max-height: 80vh;
 	padding: 1px;
 	overflow-y: auto;
 }
-#ToolbarPressureMenu a{
+#ToolbarPressureMenu a {
 	min-width: 200px;
 	background-color: #d8d8d899;
 	border-top: 1px solid #9e9b9b82;
@@ -142,36 +147,18 @@ body {
 	margin: -1px;
 	padding: 20px 40px 20px 10px;
 }
-#ViewPressureMenu{
-	background-color: #ffffffbf;
-}
-#ViewPressureMenu a{
-	min-width: 200px;
-	background-color: #d8d8d899;
-	border-top: 1px solid #9e9b9b82;
-	border-left: none;
-	border-right: none;
-	border-bottom: 1px solid #9e9b9b82;
-	margin: -1px;
-	padding: 20px 40px 20px 10px;
-}
-
-#Toolbar{
-	border-width: 0px !important;
-	background: transparent !important;
-}
-.iQontrolToolbarLink.ui-btn:not(.ui-btn-active){
+.iQontrolToolbarLink.ui-btn:not(.ui-btn-active) {
 	max-width: 100%;
 	background-color: #333333 !important;
     border-color: #1f1f1f !important;
 	color: #ffffff !important;
     text-shadow: 0 1px 0 #111111 !important;
 }
-.iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{
+.iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover {
 	background-color: #373737 !important;
 	color: #ffffff !important;
 }
-.iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{
+.iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover {
 	max-width: 100%;
 	z-index: 20;
 	background-color: #0c5088 !important;
@@ -180,16 +167,29 @@ body {
     box-shadow: 0 0 12px 1px #0c5088 !important;
     text-shadow: 0 1px 0 0 #111111 !important;
 }
-.iQontrolToolbarLink.ui-btn:after{
+.iQontrolToolbarLink.ui-btn:after {
 	background-color: transparent !important;
 }
 
-#View{
+#View {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 	background-color: transparent;
+}
+#ViewPressureMenu {
+	background-color: #ffffffbf;
+}
+#ViewPressureMenu a {
+	min-width: 200px;
+	background-color: #d8d8d899;
+	border-top: 1px solid #9e9b9b82;
+	border-left: none;
+	border-right: none;
+	border-bottom: 1px solid #9e9b9b82;
+	margin: -1px;
+	padding: 20px 40px 20px 10px;
 }
 #ViewMain {
 	overflow-y:hidden;
@@ -201,9 +201,7 @@ body {
 	font-weight: bold;
 	font-family: verdana,tahoma,arial,helvetica,sans-serif;
 	text-shadow: none;
-	/* text-shadow: 0px 1px 2px rgba(0,0,0,0.8);	 */
 }
-
 #ViewHeaderTitle {
 	background-color: rgba(0,0,0,0.15);
 	margin-left: -5px;
@@ -233,12 +231,10 @@ body {
 	margin-top: 30px;
 	margin-bottom: 0px;
 }
-
-.viewShuffleContainer{
+.viewShuffleContainer {
 	overflow: visible !important;
 }
-
-.iQontrolDevicePressureIndicator{
+.iQontrolDevicePressureIndicator {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
@@ -258,13 +254,13 @@ body {
 	   -moz-box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 	        box-shadow: 0px 0px 0px 0px rgba(175,175,175,0.85);
 }
-.iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active){
+.iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active) {
 	visibility: hidden !important; 
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-.iQontrolDevicePressureIndicator.hideDeviceIfInactive.active{
+.iQontrolDevicePressureIndicator.hideDeviceIfInactive.active {
 	visibility: visible !important; 
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
@@ -278,7 +274,7 @@ body {
 	   -moz-transition: all 0s;
 			transition: all 0s;
 }
-.iQontrolDevice{
+.iQontrolDevice {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
@@ -306,47 +302,52 @@ body {
 	text-align: left;
 	overflow: hidden;
 }
-.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive{
+.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive {
 	width: 43px; max-width: 43px;
 }
-.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive{
+.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive {
 	width: 226px; max-width: 226px;
 }
-.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive{
+.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive {
 	width: 348px; max-width: 348px;
 }
-.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive{
+.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive {
 	height: 43px; max-height: 43px;
 }
-.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive{
+.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive {
 	height: 226px; max-height: 226px;
 }
-.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive{
+.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive {
 	height: 348px; max-height: 348px;
 }
-.iQontrolDevice.fullscreen, .iQontrolDevice:not(.active).fullscreenIfInactive, .iQontrolDevice.active.fullscreenIfActive{
-	width: 85vw; max-width: 85vw;
-	height: 85vh; max-height: 85vh;
+.iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive {
+	width: calc(100vw - 40px); max-width: calc(100vw - 40px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
-.iQontrolDevice.fullwidth-4-3, .iQontrolDevice:not(.active).fullwidth-4-3IfInactive, .iQontrolDevice.active.fullwidth-4-3IfActive{
-	width: 85vw; max-width: 85vw;
-	height: 63.75vw; max-height: 63.75vw;
+.iQontrolDevice.aspect-1-1, .iQontrolDevice:not(.active).aspect-1-1IfInactive, .iQontrolDevice.active.aspect-1-1IfActive {
+	padding-bottom: calc(100% - 104px);
 }
-.iQontrolDevice.fullwidth-3-2, .iQontrolDevice:not(.active).fullwidth-3-2IfInactive, .iQontrolDevice.active.fullwidth-3-2IfActive{
-	width: 85vw; max-width: 85vw;
-	height: 56.67vw; max-height: 56.67vw;
+.iQontrolDevice.aspect-4-3, .iQontrolDevice:not(.active).aspect-4-3IfInactive, .iQontrolDevice.active.aspect-4-3IfActive {
+	padding-bottom: calc(75% - 104px);
 }
-.iQontrolDevice.fullwidth-16-9, .iQontrolDevice:not(.active).fullwidth-16-9IfInactive, .iQontrolDevice.active.fullwidth-16-9IfActive{
-	width: 85vw; max-width: 85vw;
-	height: 47.81vw; max-height: 47.81vw;
+.iQontrolDevice.aspect-3-2, .iQontrolDevice:not(.active).aspect-3-2IfInactive, .iQontrolDevice.active.aspect-3-2IfActive {
+	padding-bottom: calc(66.66% - 104px);
 }
-.iQontrolDevice:hover{
+.iQontrolDevice.aspect-16-9, .iQontrolDevice:not(.active).aspect-16-9IfInactive, .iQontrolDevice.active.aspect-16-9IfActive {
+	padding-bottom: calc(56.25% - 104px);
+}
+.iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive {
+	padding-bottom: calc(42.86% - 104px);
+}
+.iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive {
+	height: calc(100vh - 70px); max-width: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.iQontrolDevice:hover {
 	border: 0px solid rgba(255, 255, 255, 0.8);
 	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 }
-.iQontrolDeviceLink{
+.iQontrolDeviceLink {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
@@ -516,10 +517,10 @@ body {
 	opacity: 0;
 	display: none;
 }
-.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon{
+.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon {
 	left:2.5px;
 }
-.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon{
+.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon {
     top:2.5px;
 }
 .iQontrolDeviceIcon.active {
@@ -545,10 +546,10 @@ body {
 	   -moz-transition: all 0.2s ease 0.25s;
 			transition: all 0.2s ease 0.25s;
 }
-.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading{
+.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading {
 	left:12.5px;
 }
-.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading{
+.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading {
     top:12.5px;
 }
 .iQontrolDeviceLoading.active {
@@ -629,13 +630,13 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
-.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText  {
+.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText {
 	width: 167px;
 }
-.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText  {
+.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText {
 	width: 289px;
 }
-.iQontrolDeviceName  {
+.iQontrolDeviceName {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 58px; width: 103px; height: 30px;
 	overflow: hidden;
@@ -657,7 +658,7 @@ body {
 .iQontrolDevice.xwide .iQontrolDeviceName, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceName {
 	width: 347px;
 }
-.iQontrolDeviceState  {
+.iQontrolDeviceState {
 	pointer-events:none !important;
 	position:absolute; left: 5px; top: 90px; width: 103px; height: 17px;
 	overflow: hidden;
@@ -688,11 +689,11 @@ body {
 	height: 264px;
 	word-wrap: break-word;
 }
-.iQontrolDevice:not(.active) .iQontrolDeviceState.hideIfInactive{
+.iQontrolDevice:not(.active) .iQontrolDeviceState.hideIfInactive {
 	display: none;
 }
 
-#Dialog{
+#Dialog {
 	min-width: 300px;
 	max-width: 100%;
 }
@@ -721,18 +722,18 @@ body {
 	   -moz-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important;
 	        box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
 }
-.jqte_toolbar{
+.jqte_toolbar {
 	position: unset !important;
 	z-index: unset !important;	
 }
-.jqte_tool:not(.jqte_tool_1){
+.jqte_tool:not(.jqte_tool_1) {
 	width: 20px !important;
 	height: 20px !important;
 }
-.jqte_tool_1{
+.jqte_tool_1 {
 	height: 20px;
 }
-.jqte_tool_icon{
+.jqte_tool_icon {
 	background-size:stretch !important;
 	opacity: 0.6 !important;
 }
@@ -748,7 +749,7 @@ body {
 .jqte_source {
 	background-color: white !important;
 }
-.jqte_source textarea{
+.jqte_source textarea {
 	top: 0px !important;
 	height: 100% !important;
 	overflow-y: scroll !important;
@@ -756,7 +757,7 @@ body {
 	   -moz-box-shadow: none !important;
 	        box-shadow: none !important; 
 }
-.iQontrolDialogIframeWrapper{
+.iQontrolDialogIframeWrapper {
 	-webkit-overflow-scrolling: touch;
 	height: 85vh;
 	max-height: 100%;
@@ -775,7 +776,7 @@ body {
 	overflow: hidden;
 	position: relative;
 }
-.iQontrolDialogIframe{
+.iQontrolDialogIframe {
 	scrolling: none;
 	overflow: visible;
 	min-width:100%;
@@ -784,13 +785,13 @@ body {
 	height: 100%;
 	border: none;
 }
-.iQontrolDialogMediaText.artist{
+.iQontrolDialogMediaText.artist {
 	font-weight: bold;
 }
-.iQontrolDialogMediaText.title{
+.iQontrolDialogMediaText.title {
 	font-style: italic;
 }
-.iQontrolDialogAdditionalInfoList{
+.iQontrolDialogAdditionalInfoList {
 	list-style-position: outside;
 	padding-left: 10px;
 }
@@ -814,13 +815,13 @@ body {
 	background-repeat: repeat-y !important;
 	background-size: 100%, auto !important;
 }
-.fullWidthSlider .ui-slider-input{
+.fullWidthSlider .ui-slider-input {
 	display: none;
 }
-.fullWidthSlider .ui-slider-track{
+.fullWidthSlider .ui-slider-track {
 	margin-left: 15px !important;
 }
-.fullWidthSlider .ui-mini .ui-slider-track{
+.fullWidthSlider .ui-mini .ui-slider-track {
 	margin-left: 0px !important;
 }
 .ui-slider-track .ui-btn.ui-slider-handle {
@@ -847,7 +848,7 @@ body {
 .ui-state-disabled {
 	opacity: 0.75 !important;
 }
-.ui-state-disabled.ui-btn.ui-btn-icon-right::after{
+.ui-state-disabled.ui-btn.ui-btn-icon-right::after {
 	display: none !important;
 }
 .ui-state-disabled.ui-slider-track .ui-btn.ui-slider-handle {
@@ -868,19 +869,19 @@ body {
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
-@media screen and (min-width: 600px){
-	#Dialog{
+@media screen and (min-width: 600px) {
+	#Dialog {
 		min-width: 500px;
 	}
 	.jqte { 
 		min-width:500px; 
 	}
-	.iQontrolDialogIframeWrapper{
+	.iQontrolDialogIframeWrapper {
 		min-width: 500px;
 	}
 }
 
-@media screen and (min-width: 1500px){
+@media screen and (min-width: 1500px) {
 	#ViewMain {
 		font-size: 22pt;
 	}
@@ -891,7 +892,7 @@ body {
 		font-size: 15pt;
 	}
 
-	.iQontrolDevicePressureIndicator{
+	.iQontrolDevicePressureIndicator {
 		margin: 12px;
 		-webkit-border-radius: 22px;
 		   -moz-border-radius: 22px;
@@ -900,7 +901,7 @@ body {
 	.iQontrolDeviceShuffleSizer {
 		width: 93px;
 	}
-	.iQontrolDevice{
+	.iQontrolDevice {
 		width: 156px; max-width: 156px;
 		height: 156px; max-height: 156px;
 		padding: 3px 3px 3px 3px;
@@ -911,25 +912,40 @@ body {
 		   -moz-box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 				box-shadow: 0px 1px 2px 1px rgba(0,0,0,0.2);
 	}
-	.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive{
+	.iQontrolDevice.narrow, .iQontrolDevice:not(.active).narrowIfInactive, .iQontrolDevice.active.narrowIfActive {
 		width: 63px; max-width: 63px;
 	}
-	.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive{
+	.iQontrolDevice.wide, .iQontrolDevice:not(.active).wideIfInactive, .iQontrolDevice.active.wideIfActive {
 		width: 342px; max-width: 342px;
 	}
-	.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive{
+	.iQontrolDevice.xwide, .iQontrolDevice:not(.active).xwideIfInactive, .iQontrolDevice.active.xwideIfActive {
 		width: 528px; max-width: 528px;
 	}
-	.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive{
+	.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive {
 		height: 63px; max-height: 63px;
 	}
-	.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive{
+	.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive {
 		height: 342px; max-height: 342px;
 	}
-	.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive{
+	.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive {
 		height: 528px; max-height: 528px;
 	}
-	.iQontrolDevice:hover{
+	.iQontrolDevice.aspect-1-1, .iQontrolDevice:not(.active).aspect-1-1IfInactive, .iQontrolDevice.active.aspect-1-1IfActive {
+		padding-bottom: calc(100% - 156px);
+	}
+	.iQontrolDevice.aspect-4-3, .iQontrolDevice:not(.active).aspect-4-3IfInactive, .iQontrolDevice.active.aspect-4-3IfActive {
+		padding-bottom: calc(75% - 156px);
+	}
+	.iQontrolDevice.aspect-3-2, .iQontrolDevice:not(.active).aspect-3-2IfInactive, .iQontrolDevice.active.aspect-3-2IfActive {
+		padding-bottom: calc(66.66% - 156px);
+	}
+	.iQontrolDevice.aspect-16-9, .iQontrolDevice:not(.active).aspect-16-9IfInactive, .iQontrolDevice.active.aspect-16-9IfActive {
+		padding-bottom: calc(56.25% - 156px);
+	}
+	.iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive {
+		padding-bottom: calc(42.86% - 156px);
+	}
+	.iQontrolDevice:hover {
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 		   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 				box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
@@ -951,10 +967,10 @@ body {
 		   -moz-transform: scale3d(1.0,1.0,1);
 				transform: scale3d(1.0,1.0,1);
 	}
-	.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon{
+	.iQontrolDevice.narrow .iQontrolDeviceIcon, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceIcon {
 		left:3px;
 	}
-	.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon{
+	.iQontrolDevice.short .iQontrolDeviceIcon, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceIcon, .iQontrolDevice.active.shortIfActive .iQontrolDeviceIcon {
 		top:3px;
 	}
 	.iQontrolDeviceIcon:hover {
@@ -965,10 +981,10 @@ body {
 	.iQontrolDeviceLoading {
 		position:absolute; left: 18px; top: 18px; width: 36px; height: 36px;
 	}
-	.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading{
+	.iQontrolDevice.narrow .iQontrolDeviceLoading, .iQontrolDevice:not(.active).narrowIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.narrowIfActive .iQontrolDeviceLoading {
 		left:16.5px;
 	}
-	.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading{
+	.iQontrolDevice.short .iQontrolDeviceLoading, .iQontrolDevice:not(.active).shortIfInactive .iQontrolDeviceLoading, .iQontrolDevice.active.shortIfActive .iQontrolDeviceLoading {
 		top:16.5px;
 	}
 	.iQontrolDeviceError {
@@ -1000,13 +1016,13 @@ body {
 		position:absolute; left: 90px; top: 58px; width: 72px; height: 22px;
 		font-size: 10.5pt;
 	}
-	.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText  {
+	.iQontrolDevice.wide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).wideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.wideIfActive .iQontrolDeviceInfoBText {
 		width: 258px;
 	}
-	.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText  {
+	.iQontrolDevice.xwide .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceInfoBText {
 		width: 444px;
 	}
-	.iQontrolDeviceName  {
+	.iQontrolDeviceName {
 		position:absolute; left: 10px; top: 84px; width: 150px; height: 45px;
 		font-size: 13pt;
 	}
@@ -1019,7 +1035,7 @@ body {
 	.iQontrolDevice.xwide .iQontrolDeviceName, .iQontrolDevice:not(.active).xwideIfInactive .iQontrolDeviceName, .iQontrolDevice.active.xwideIfActive .iQontrolDeviceName {
 		width: 522px;
 	}
-	.iQontrolDeviceState  {
+	.iQontrolDeviceState {
 		position:absolute; left: 10px; top: 132px; width: 150px; height: 25px;
 		font-size: 13pt;
 	}
@@ -1039,13 +1055,13 @@ body {
 		height: 401px;
 	}
 
-	#Dialog{
+	#Dialog {
 		min-width: 800px;
 	}
 	.jqte { 
 		min-width: 800px; 
 	}
-	.iQontrolDialogIframeWrapper{
+	.iQontrolDialogIframeWrapper {
 		min-width: 800px;
 	}
 }

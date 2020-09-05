@@ -391,6 +391,10 @@ In addition to normal thermostat you can define:
 * **STATE**: *any* - can be used to display further informations
 * **URL**: CONSTANT *string* - this url will be opened
 
+### <img src="img/icons/widget_on.png" width="32"> Widget:
+This device has some special predefined size- and display-settings to show a website, that can be defined by **BACKGROUND_URL**- as a widget
+* **STATE**: *any* - SPECIAL: If empty, a virtual datapoint will be created, so you can click on the icon, to activate and therefore maximize the size of the widget
+
 
 ****
 
@@ -418,13 +422,16 @@ In addition to normal thermostat you can define:
 
 ## Changelog
 
-### dev
+### 1.2.2 (2020-09-05)
 * (sbormann) Enhanced TileActiveConditions to even work, if not STATE is definded.
-* (sbormann) Enhanced BACKGROUND_HTML noch to flicker, when changing value.
 * (sbormann) Added option to rename section 'Additional Buttons' for remote.
 * (sbormann) Arrays like REMOTE_ADDITIONAL_BUTTONS are now sortable.
-* (sbormann) Enhanced handling for BACKGROUND_URL/HTML.
+* (sbormann) Enhanced handling of BACKGROUND_URL/HTML.
 * (sbormann) Added options to change caption of UP, STOP and DOWN for blinds.
+* (sbormann) Disabled scrolling to top by reconnection.
+* (sbormann) Added more tile size options (full width with different aspects and full screen).
+* (sbormann) Fixed a bug where frontend could crash in endless loop.
+* (sbormann) Added Widget to devices.
 
 ### 1.2.1 (2020-28-30)
 * (sbormann) If STATE in Dialog contains (valid) HTML-Code, it is now rendered as HTML and - if state is not readonly - a HTML-Editor is shown.
