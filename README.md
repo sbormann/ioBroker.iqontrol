@@ -392,7 +392,7 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 ### <img src="img/icons/widget_on.png" width="32"> Widget:
-This device has some special predefined size- and display-settings to show a website, that can be defined by **BACKGROUND_URL**- as a widget
+This device has some special predefined size- and display-settings to show a website, that can be defined by **BACKGROUND_URL**, as a widget
 * **STATE**: *any* - SPECIAL: If empty, a virtual datapoint will be created, so you can click on the icon, to activate and therefore maximize the size of the widget
 
 
