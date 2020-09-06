@@ -392,7 +392,7 @@ In addition to normal thermostat you can define:
 * **URL**: CONSTANT *string* - this url will be opened
 
 ### <img src="img/icons/widget_on.png" width="32"> Widget:
-This device has some special predefined size- and display-settings to show a website, that can be defined by **BACKGROUND_URL**, as a widget
+This device has some special predefined size- and display-settings to show a website, that can be defined by **BACKGROUND_URL**, as a widget. With default options, a small enlarge-button will be shown on the upper right side.
 * **STATE**: *any* - SPECIAL: If empty, a virtual datapoint will be created, so you can click on the icon, to activate and therefore maximize the size of the widget
 
 
@@ -422,8 +422,13 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
+### 1.2.3 (2020-09-07)
+* (sbormann) Now it will be automatically scrolled to tile that is switched to Screen Size.
+* (sbormann) New options to set tile size for an enlarged state, wich can be toggled via a new enlarge-button and via the pressure menu (both needs to be turned on in options).
+* (sbormann) Modified the widget-device to use the new enlarge-button and use a blank icon by default.
+
 ### 1.2.2 (2020-09-05)
-* (sbormann) Enhanced TileActiveConditions to even work, if not STATE is definded.
+* (sbormann) Enhanced TileActiveConditions to even work, if STATE is not definded.
 * (sbormann) Added option to rename section 'Additional Buttons' for remote.
 * (sbormann) Arrays like REMOTE_ADDITIONAL_BUTTONS are now sortable.
 * (sbormann) Enhanced handling of BACKGROUND_URL/HTML.

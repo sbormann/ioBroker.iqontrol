@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "news": {
+            "1.2.3": {
+                "en": "Now it will be automatically scrolled to tile that is switched to Screen Size, New options to set tile size for an enlarged state, wich can be toggled via a new enlarge-button and via the pressure menu (both needs to be turned on in options), Modified the widget-device to use the new enlarge-button and use a blank icon by default.",
+                "de": "Jetzt wird automatisch zu einer Kachel gescrollt, die auf Bildschirmgröße umgeschaltet wird. Neue Optionen zum Festlegen der Kachelgröße für einen vergrößerten Status, die über eine neue Vergrößerungstaste und über das Druckmenü umgeschaltet werden können (beide müssen in den Optionen aktiviert sein ",
+                "ru": "Теперь он будет автоматически прокручиваться до плитки, которая переключается на Размер экрана, Новые параметры для установки размера плитки для увеличенного состояния, которые можно переключать с помощью новой кнопки увеличения и через меню давления (оба должны быть включены в параметрах ",
+                "pt": "Agora ele será automaticamente rolado para o bloco que é alterado para Tamanho da tela, Novas opções para definir o tamanho do bloco para um estado ampliado, que pode ser alternado através de um novo botão de ampliar e através do menu de pressão (ambos precisam ser ativados nas opções ",
+                "nl": "Nu wordt automatisch naar de tegel gescrolld die is overgeschakeld naar Schermgrootte, Nieuwe opties om tegelgrootte in te stellen voor een vergrote staat, die kan worden omgeschakeld via een nieuwe vergrotingsknop en via het drukmenu (beide moeten worden ingeschakeld in opties ",
+                "fr": "Maintenant, il sera automatiquement défilé jusqu'à la vignette qui est commutée sur Taille de l'écran, Nouvelles options pour définir la taille de la vignette pour un état agrandi, qui peut être basculée via un nouveau bouton d'agrandissement et via le menu de pression (les deux doivent être activés dans les options ",
+                "it": "Ora verrà fatto scorrere automaticamente alla tessera che è cambiata in Dimensioni schermo, Nuove opzioni per impostare la dimensione della tessera per uno stato ingrandito, che può essere attivata tramite un nuovo pulsante di ingrandimento e tramite il menu di pressione (entrambi devono essere attivati ​​nelle opzioni ",
+                "es": "Ahora se desplazará automáticamente al mosaico que se cambia a Tamaño de pantalla, Nuevas opciones para establecer el tamaño del mosaico para un estado ampliado, que se puede alternar mediante un nuevo botón de ampliación y mediante el menú de presión (ambos deben activarse en las opciones ",
+                "pl": "Teraz zostanie automatycznie przewinięty do kafelka, który jest przełączany na Rozmiar ekranu, Nowe opcje ustawienia rozmiaru kafelka dla stanu powiększenia, które można przełączać za pomocą nowego przycisku powiększania i menu nacisku (oba muszą być włączone w opcjach ",
+                "zh-cn": "现在它将自动滚动到切换为屏幕尺寸的图块，新选项可将图块大小设置为放大状态，这可以通过新的放大按钮和压力菜单进行切换（两者都需要在选项中打开） "
+            },
             "1.2.2": {
                 "en": "Enhanced TileActiveConditions to even work, if not STATE is definded, Added option to rename section 'Additional Buttons' for remote, Arrays like REMOTE_ADDITIONAL_BUTTONS are now sortable, Enhanced handling of BACKGROUND_URL/HTML, Added options to change caption of UP, STOP and DOWN for blinds, Disabled scrolling to top by reconnection, Added more tile size options (full width with different aspects and full screen), Fixed a bug where frontend could crash in endless loop, Added Widget to devices.",
                 "de": "Verbesserte TileActiveConditions funktionieren sogar, wenn STATE nicht definiert ist. Option zum Umbenennen des Abschnitts 'Zusätzliche Schaltflächen' für Remote hinzugefügt. Arrays wie REMOTE_ADDITIONAL_BUTTONS sind jetzt sortierbar. Verbesserte Behandlung von BACKGROUND_URL / HTML. Erweiterte Optionen zum Ändern der Beschriftung von UP, STOP und DOWN für ",
