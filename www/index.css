@@ -614,7 +614,7 @@ body {
 	background-image: url("./images/minimize.png");
 	background-position: 1px 4px;
 }
-.iQontrolDevice:not(.active) .iQontrolDeviceEnlargeButton.showIfInactive, .iQontrolDevice.active .iQontrolDeviceEnlargeButton.showIfActive {
+.iQontrolDevice:not(.active) .iQontrolDeviceEnlargeButton.showIfInactive, .iQontrolDevice.active .iQontrolDeviceEnlargeButton.showIfActive, .iQontrolDevice.enlarged .iQontrolDeviceEnlargeButton {
 	pointer-events:auto !important;
 	opacity: 0.5;
 }
@@ -698,6 +698,7 @@ body {
 	   -moz-transition: all 1s;
 			transition: all 1s;
 	display: block;
+	word-wrap: break-word;
 }
 .iQontrolDevice.high .iQontrolDeviceState, .iQontrolDevice:not(.active).highIfInactive .iQontrolDeviceState, .iQontrolDevice.active.highIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.highIfEnlarged .iQontrolDeviceState,
 .iQontrolDevice.xhigh .iQontrolDeviceState, .iQontrolDevice:not(.active).xhighIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xhighIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.xhighIfEnlarged .iQontrolDeviceState {
@@ -1036,6 +1037,7 @@ body {
 	}
 	.iQontrolDeviceState {
 		position:absolute; left: 10px; top: 132px;
+		height: 30px; height: calc(100% - 131px);
 		font-size: 13pt;
 	}
 

@@ -2476,7 +2476,7 @@ function updateState(stateId, ignorePreventUpdate){
 function toggleState(linkedStateId, deviceIdEscaped, callback){
 	var state = getStateObject(linkedStateId);
 	var deviceReadonly = false;
-	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
+	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true" && linkedStateId.substr(-12) != "tileEnlarged") deviceReadonly = true;
 	if(state && state.readonly == false && deviceReadonly == false){
 		switch(state.type){
 			case "button":
@@ -5939,7 +5939,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
 							var $state = $(mutation.target).find('.iQontrolDeviceState');
 							if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
-							$state.data('marquee-disabled', 'true').marquee('destroy');
+							$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
 							viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){ 
 								var _$state = $state;
 								if (!options.LayoutViewMarqueeDisabled ){
@@ -6154,11 +6154,7 @@ function startMarqueeOnOverflow(element){
 		console.log("Starting marquee");
 		var direction = 'left';
 		var speed = (Number(options.LayoutViewMarqueeSpeed) || 40);
-		if(
-			($(element).parents('.iQontrolDevice').hasClass('high') || $(element).parents('.iQontrolDevice').hasClass('xhigh'))
-			|| ($(element).parents('.iQontrolDevice').hasClass('active') && ($(element).parents('.iQontrolDevice').hasClass('highIfActive') || $(element).parents('.iQontrolDevice').hasClass('xhighIfActive')))
-			|| (!($(element).parents('.iQontrolDevice').hasClass('active')) && ($(element).parents('.iQontrolDevice').hasClass('highIfInactive') || $(element).parents('.iQontrolDevice').hasClass('xhighIfInactive')))
-		){
+		if($(element).innerHeight() > 2 * (parseInt($(element).css('line-height'), 10) || 25)){
 			direction = 'up'; 
 			speed /= 2;
 		}
@@ -9751,6 +9747,27 @@ function resizeFullWidthDevicesToFitScreen(){
 		customCSS += "}";
 		addCustomCSS(customCSS, "resizeFullWidthDevicesToFitScreen");
 	} 
+	if (!options.LayoutViewMarqueeDisabled ){
+		var selector = ".iQontrolDevice.aspect-1-1, .iQontrolDevice:not(.active).aspect-1-1IfInactive, .iQontrolDevice.active.aspect-1-1IfActive, .iQontrolDevice.enlarged.aspect-1-1IfEnlarged";
+		selector += ".iQontrolDevice.aspect-4-3, .iQontrolDevice:not(.active).aspect-4-3IfInactive, .iQontrolDevice.active.aspect-4-3IfActive, .iQontrolDevice.enlarged.aspect-4-3IfEnlarged";
+		selector += ".iQontrolDevice.aspect-3-2, .iQontrolDevice:not(.active).aspect-3-2IfInactive, .iQontrolDevice.active.aspect-3-2IfActive, .iQontrolDevice.enlarged.aspect-3-3IfEnlarged";
+		selector += ".iQontrolDevice.aspect-16-9, .iQontrolDevice:not(.active).aspect-16-9IfInactive, .iQontrolDevice.active.aspect-16-9IfActive, .iQontrolDevice.enlarged.aspect-16-9IfEnlarged";
+		selector += ".iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged";
+		selector += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged";
+		$(selector).each(function(){
+			var deviceID = $(this).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
+			var $state = $(this).find('.iQontrolDeviceState');
+			if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
+			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
+			viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){ 
+				var _$state = $state;
+				if (!options.LayoutViewMarqueeDisabled ){
+					_$state.data('marquee-disabled', 'false');
+					startMarqueeOnOverflow(_$state);
+				}
+			}, 1500);		
+		});
+	}
 }
 
 //Check Connection when opening page
