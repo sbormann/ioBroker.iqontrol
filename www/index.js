@@ -1539,15 +1539,6 @@ function getStarted(triggeredByReconnection){
 				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
-				//Open Dialog by URL-Parameter
-				if(openDialogId != null){
-					setTimeout(function(){
-						renderDialog(openDialogId);
-						$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});
-						openDialogId = null;
-					}, 100);
-				}
-
 			});
 	});
 }
@@ -5895,6 +5886,12 @@ function renderView(viewId, triggeredByReconnection){
 			applyMarqueeObserver();
 			applyViewPressureMenu();
 			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
+			//Open Dialog by URL-Parameter
+			if(openDialogId != null){
+				renderDialog(openDialogId);
+				$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});
+				openDialogId = null;
+			}
 		});
 		//Start timer that updates timestamps with elapsed time
 		if (viewTimestampElapsedTimer){
