@@ -7958,15 +7958,46 @@ function renderDialog(deviceIdEscaped){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _deviceIdEscaped = deviceIdEscaped;
 					var _linkedCoverUrlId = dialogLinkedStateIds["COVER_URL"];
+					var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
+					var _linkedAlbumId = dialogLinkedStateIds["ALBUM"];
+					var _linkedTitleId = dialogLinkedStateIds["TITLE"];
+					var _linkedTrackId = dialogLinkedStateIds["TRACK"];
+					var _linkedSeasonId = dialogLinkedStateIds["SEASON"];
+					var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
+					var dialogMediaCoverImageChangeTimeout;
 					var updateFunction = function(){
-						var stateCoverUrl = getStateObject(_linkedCoverUrlId);
-						if (stateCoverUrl && stateCoverUrl.val && stateCoverUrl.val != ""){
-							$("#DialogMediaCoverImage").removeAttr('src').attr('src', stateCoverUrl.val);
-							$("#DialogMediaCoverImage").slideDown();
-							dialogUpdateTimestamp(states[_linkedCoverUrlId]);
-						} else {
-							$("#DialogMediaCoverImage").slideUp(500).removeAttr('src');
-						}
+						if(!dialogMediaCoverImageChangeTimeout) dialogMediaCoverImageChangeTimeout = setTimeout(function(){
+							var stateCoverUrl = getStateObject(_linkedCoverUrlId);
+							var stateArtist = getStateObject(_linkedArtistId);
+							var stateAlbum = getStateObject(_linkedAlbumId);
+							var stateTitle = getStateObject(_linkedTitleId);
+							var stateTrack = getStateObject(_linkedTrackId);
+							var stateSeason = getStateObject(_linkedSeasonId);
+							var stateEpisode = getStateObject(_linkedEpisodeId);
+							if (stateCoverUrl && stateCoverUrl.val && stateCoverUrl.val != ""){
+								var newSrc = stateCoverUrl.val;
+								var AATTSE = encodeURI((stateArtist && stateArtist.val || "") + (stateAlbum && stateAlbum.val || "") + (stateTitle && stateTitle.val || "") + (stateTrack && stateTrack.val || "") + (stateSeason && stateSeason.val || "") + (stateEpisode && stateEpisode.val || ""));
+								if (newSrc.indexOf('?') == -1) {
+									newSrc += "?AATTSE = " + AATTSE;
+								} else {
+									newSrc += "&AATTSE = " + AATTSE;
+								}
+								if($("#DialogMediaCoverImage").attr('src') != newSrc){
+									console.log("Changing DialogMediaCoverImage to " + newSrc);
+									$("#DialogMediaCoverImage").fadeTo(0,0);
+									setTimeout(function(){ 
+										$("#DialogMediaCoverImage").attr('src', newSrc).on('load', function(){
+											$("#DialogMediaCoverImage").fadeTo(0,1); 
+										});
+									}, 250);
+									$("#DialogMediaCoverImage").slideDown();
+									dialogUpdateTimestamp(states[_linkedCoverUrlId]);
+								}
+							} else {
+								$("#DialogMediaCoverImage").slideUp(500).removeAttr('src');
+							}
+							dialogMediaCoverImageChangeTimeout = false;
+						}, 100);
 					};
 					dialogUpdateFunctions[_linkedCoverUrlId].push(updateFunction);
 					//Because some devices always use the same cover-url but change the image itsself it should be reloaded when artist, album, track,... changes:

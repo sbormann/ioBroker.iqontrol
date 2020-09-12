@@ -435,6 +435,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Always show enlarge button, if tile is enlarged.
 * (sbormann) Enhanced some styles and marquee detection.
 * (sbormann) Added url-parameter to open a specified dialog on loading the page.
+* (sbormann) Changed the way cover images are loaded.
 
 ### 1.2.3 (2020-09-07)
 * (sbormann) Now it will be automatically scrolled to tile that is switched to Screen Size.
