@@ -94,6 +94,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter
     * ``<viewID>`` needs to be formated like ``iqontrol.<insctance-number>.Views.<view-name>``
 	* Note: this is case-sensitive!
+* To open a specified dialog on loading the page you can add ``openDialog=<deviceID>`` as URL-parameter
+    * ``<deviceID>`` needs to formated like ``iqontrol.<insctance-number>.Views.<view-name>.devices.<device-number>`` where <device-number> starts from 0 (so the first device on a view has device-number 0)
+	* Note: this is case-sensitive!
 * To set or override return after time settings, use the following parameters:
     * ``returnAfterTimeTreshold=<time in seconds>`` to set the time, after wich the destination view is called. Use ``0`` to disable return after time feature.
 	* ``returnAfterTimeDestiationView=<viewID>`` to set the view, wich is called after the treshold. If not specified, the home view will be used.
@@ -202,7 +205,12 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
         }
         ````
     * You can create your own value list by modifying the datapoint (wrench-icon behind the datapoint in the objects-tab of iobroker, see above)
-	* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. However, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile
+	* iQontrol will display a defined valueList as a drop down field in the dialog under the following circumstances:
+	    * if type is 'numbers' and the valueList has exact as many entries, as steps between min- and max of the datapoint or
+		* if type is 'boolean', but role is not 'switch' or
+		* if type is 'string' or
+		* if "Add option to enter free text" is activated
+* If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. Furthermore, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile
 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
@@ -426,6 +434,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Ignore readonly for enlarge.
 * (sbormann) Always show enlarge button, if tile is enlarged.
 * (sbormann) Enhanced some styles and marquee detection.
+* (sbormann) Added url-parameter to open a specified dialog on loading the page.
 
 ### 1.2.3 (2020-09-07)
 * (sbormann) Now it will be automatically scrolled to tile that is switched to Screen Size.

@@ -5,7 +5,8 @@
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
 var useCache = true;
-var homeId = getUrlParameter('home') || '';		//If not specified, the first toolbar-entry will be used
+var homeId = getUrlParameter('home') || '';			//If not specified, the first toolbar-entry will be used
+var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -1538,6 +1539,15 @@ function getStarted(triggeredByReconnection){
 				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
+				//Open Dialog by URL-Parameter
+				if(openDialogId != null){
+					setTimeout(function(){
+						renderDialog(openDialogId);
+						$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});
+						openDialogId = null;
+					}, 100);
+				}
+
 			});
 	});
 }
@@ -3864,6 +3874,9 @@ function toolbarPressureMenuChange(force, event, that){
 		event.preventDefault();
 		event.stopPropagation();
 		openToolbarPressureMenu($(that).data('index'), that);
+	} else if (force >= 1 && forceOld >= 1){
+		console.log("PRESSURE force and forceOld > 1 -> END PRESSURE!");
+		toolbarPressureMenuEnd();
 	} else {
 		if (!toolbarPressureMenuChangeTimer) {
 			toolbarPressureMenuChangeTimer = setTimeout(function(){
@@ -6296,6 +6309,9 @@ function viewPressureMenuChange(force, event, that){
 		event.stopPropagation();
 		openViewPressureMenu($(that).data('iqontrol-device-id'), that);
 		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	} else if (force >= 1 && forceOld >= 1){
+		console.log("PRESSURE force and forceOld > 1 -> END PRESSURE!");
+		viewPressureMenuEnd();
 	} else {
 		$(that).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
 	}
@@ -9843,7 +9859,7 @@ $(document).ready(function(){
 	for (role in iQontrolRoles){
 		iQontrolRoles[role].states.push("tileEnlarged");
 	}
-
+	
 	//Init socket.io
 	socket = io.connect(socketUrl, {
 		query: {key: socketSession},
