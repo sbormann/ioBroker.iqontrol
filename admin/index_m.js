@@ -2337,6 +2337,8 @@ function load(settings, onChange) {
 				}
 			}
 		});
+		//Add padding to checkbox
+		$lines.find('input[type=checkbox]').parent('td').css('padding','15px 0px 0px 10px');
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');

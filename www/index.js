@@ -3968,7 +3968,9 @@ function renderView(viewId, triggeredByReconnection){
 			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
-			//Render Heading
+			//New Line
+			if(device.nativeNewLine) viewContent += "</div><br><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+			//Heading
 			if (device.nativeHeading) viewContent += "</div><br><h4>" + device.nativeHeading + "</h4><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			//Render Device
 			var deviceContent = "";
@@ -5700,7 +5702,6 @@ function renderView(viewId, triggeredByReconnection){
 					}
 				viewContent += deviceContent + "</div>";
 			viewContent += "</div>";
-			if(device.nativeNextLine) viewContent += "</div><br><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 		}
 		viewContent += "</div>";
 		//Place content
@@ -5887,11 +5888,13 @@ function renderView(viewId, triggeredByReconnection){
 			applyViewPressureMenu();
 			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 			//Open Dialog by URL-Parameter
-			if(openDialogId != null){
-				renderDialog(openDialogId);
-				$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});
-				openDialogId = null;
-			}
+			setTimeout(function(){
+				if(openDialogId != null){
+					renderDialog(openDialogId);
+					$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});
+					openDialogId = null;
+				}
+			}, 250);
 		});
 		//Start timer that updates timestamps with elapsed time
 		if (viewTimestampElapsedTimer){
