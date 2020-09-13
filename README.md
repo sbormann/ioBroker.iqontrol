@@ -439,6 +439,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added option to start with new line for devices.
 * (sbormann) Tiles with no link to other view now open dialog by default.
 * (sbormann) Added mouse cursor styles depending on tile actions (open dialog, toggle, link to view, external link, ...).
+* (sbormann) You can now chose caption and appereance (always visible, collapsible closed, collapsible opened) of ADDITIONAL_INFO.
 
 ### 1.2.3 (2020-09-07)
 * (sbormann) Now it will be automatically scrolled to tile that is switched to Screen Size.
