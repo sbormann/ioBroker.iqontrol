@@ -357,12 +357,29 @@ body {
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: default !important;
+	cursor: default;
+}
+.iQontrolDeviceLink.dialog {
+	cursor: default;
+}
+.iQontrolDeviceLink.linkedView {
+	cursor: alias;
+}
+.iQontrolDeviceLink.externalLink {
+	cursor: copy;
+}
+.iQontrolDeviceLink.toggle {
+	cursor: pointer;
 }
 .iQontrolDeviceLinkToToggle {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+	cursor: pointer;
+}
+.iQontrolDeviceLinkToToggle.dialog {
+	cursor: default;
 }
 .iQontrolDeviceBackgroundIframeWrapper {
 	-webkit-user-select: none !important;
