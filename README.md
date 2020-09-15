@@ -432,6 +432,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ### dev
 * (sbormann) Added option to show big icons if device is inactive, active or enlarged.
+* (sbormann) Added forced reload to cover images.
 
 ### 1.2.4 (2020-09-14)
 * (sbormann) Ignore readonly for enlarge.
