@@ -165,6 +165,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * This gives you the possibility to place (interactive) content inside a tile (like clocks, FLOT-charts, tables, weather-forecasts and so on)
 * By default mouse events will be directed to this content (thus you can't click the tile itself any more), but you can disable this with the option "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML"
 * iQontrol offers an device-role "Widget" which has some predefined options set that will be mostly used when showing a website as widget. But you can achieve the same result with any other role by modifying the devices options properly.
+
 ![Popup Screenshot](img/widget_screenshot.png)
 
 ### postMessage-Communication (for experts only)
