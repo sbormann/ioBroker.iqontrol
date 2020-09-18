@@ -1,10 +1,12 @@
 /* Some Parts of CSS will be modified by index.js while runtime! */
 
 body {
-	/* background-image: url(./images/grey.jpg); */
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 	background-color: white;
 	background-size: cover;
-	-webkit-touch-callout: none !important;
 }
 
 .small {
