@@ -185,7 +185,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * See below for an example-Website:
 
 <details>
-<summary>Show example website to be displayed as:</summary>
+<summary>Show example website to be displayed as widget with postMessage-communication:</summary>
 
 * You can use the following HTML code and copy it to the BACKGROUND_HTML-State of a widget (which then needs to be configured as "Constant") 
 * Acitvate the option "Allow postMessage-Communication for BACKGROUND_URL/HTML"
