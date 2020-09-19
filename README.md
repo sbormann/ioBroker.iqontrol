@@ -526,7 +526,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
-### dev
+### 1.2.5 (2020-09-19)
 * (sbormann) Fix for iOS 14 touch callout.
 * (sbormann) Added option to show big icons if device is inactive, active or enlarged.
 * (sbormann) Added forced reload to cover images.
@@ -534,6 +534,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added options to hide device, name or state if inactive, active or enlarged.
 * (sbormann) Added option direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML.
 * (sbormann) Added postMessage-Communication to allow widget-websites to send commands to iQontrol and receive messages from iQontrol.
+* (sbormann) Added option to disable swiping.
 
 ### 1.2.4 (2020-09-14)
 * (sbormann) Ignore readonly for enlarge.

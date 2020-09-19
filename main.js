@@ -58,6 +58,25 @@ class Iqontrol extends utils.Adapter {
 		}, function(err){
 			that.log.debug("ERROR creating " + objId + ": " + err);
 		});
+		objName = "Clear";
+		objId = "Popup.CLEAR";
+		obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Clear Popup Settings",
+				"type": "boolean",
+				"role": "button",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});
 		objName = "Display Duration";
 		objId = "Popup.Duration";
 		obj = {
@@ -283,7 +302,7 @@ class Iqontrol extends utils.Adapter {
 		this.log.info("Deleting unused Objects...");
 		this.deleteUnusedObjects();
 		
-		//this.subscribeStates("*");
+		this.subscribeStates("*");
 		
 		this.setState('info.connection', { val: true, ack: true });
 		this.log.info("iQontrol ready.");
@@ -375,6 +394,19 @@ class Iqontrol extends utils.Adapter {
 		if (state) {
 			// The state was changed
 			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			switch(id){
+				case this.namespace + ".Popup.CLEAR":
+					this.log.info("Popup.CLEAR");
+					this.setState('Popup.Duration', { val: "", ack: true });
+					this.setState('Popup.ClickedValue', { val: "", ack: true });
+					this.setState('Popup.ClickedDestinationState', { val: "", ack: true });
+					this.setState('Popup.ButtonNames', { val: "", ack: true });
+					this.setState('Popup.ButtonValues', { val: "", ack: true });
+					this.setState('Popup.ButtonDestinationStates', { val: "", ack: true });
+					this.setState('Popup.ButtonCloses', { val: "", ack: true });
+					this.setState('Popup.Message', { val: "", ack: true });
+				break;
+			}
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);

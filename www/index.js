@@ -43,7 +43,7 @@ var iQontrolRoles = {
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "true"}
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -4399,6 +4399,7 @@ function renderView(viewId, triggeredByReconnection){
 	}
 	fetchView(actualViewId, function(){
 		actualView = getView(actualViewId);
+		if(!actualView) return;
 		viewUpdateFunctions = {};
 		viewUpdateFunctions["UPDATE_ONCE"] = [];
 		deviceLinkedStateIdsToUpdate = [];
@@ -6057,21 +6058,21 @@ function renderView(viewId, triggeredByReconnection){
 											viewShuffleFilterHideDeviceIfInactive();
 											//Special: Also update viewUpdate-Functions with _linkedCoverUrlId datapoint (to update icons and background images that are updated via variable)
 											if(typeof viewUpdateFunctions[_linkedCoverUrlId] != udef) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
-												viewUpdateFunction("forceReloadOfImage");
+												setTimeout(function(){ viewUpdateFunction(_linkedCoverUrlId, "forceReloadOfImage"); }, 50);
 											});
 											//Special: Also update icons and background-images, that contain the coverUrl and that are _not_ updated via variable
 											if(coverUrl && typeof coverUrl.plainText !== udef && coverUrl.plainText !== null && coverUrl.plainText !== ""){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon:not([data-variablesrc])").each(function(){
 													if($(this).attr('src').indexOf(coverUrl.plainText) == 0){
 														console.log("Force reload of media player icon");
-														var newSrc = coverUrl.plainText + "?forceReload = " + new Date().getTime();
+														var newSrc = coverUrl.plainText + "?forceReload = " + Math.floor(new Date().getTime() / 100);
 														$(this).attr('src', newSrc);
 													}
 												});
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not([data-variablebackgroundimage])").each(function(){
 													if($(this).css('background-image').indexOf("url:(" + coverUrl.plainText) == 0){
 														console.log("Force reload of media player background image");
-														var newSrc = "url:(" + coverUrl.plainText + "?forceReload = " + new Date().getTime() + ")";
+														var newSrc = "url:(" + coverUrl.plainText + "?forceReload = " + Math.floor(new Date().getTime() / 100) + ")";
 														$(this).css('background-image', newSrc);
 													}
 												});
@@ -6216,7 +6217,7 @@ function renderView(viewId, triggeredByReconnection){
 					var _b = b;
 					var _linkedStateId = linkedStateId;
 					var _placeholder = placeholder;
-					var updateFunction = function(forceReloadOfImage){
+					var updateFunction = function(stateId, forceReloadOfImage){
 						var state = getStateObject(_linkedStateId);
 						var replacement = null;
 						if(state && typeof state.val !== udef) {
@@ -6231,9 +6232,9 @@ function renderView(viewId, triggeredByReconnection){
 							if(newSrc && forceReloadOfImage){
 								console.log("Force reload of image");
 								if (newSrc.indexOf('?') == -1) {
-									newSrc += "?forceReload = " + new Date().getTime();
+									newSrc += "?forceReload = " + Math.floor(new Date().getTime() / 100);
 								} else {
-									newSrc += "&forceReload = " + new Date().getTime();
+									newSrc += "&forceReload = " + Math.floor(new Date().getTime() / 100);
 								}
 							}
 							if($(_that).attr('src') != newSrc){
@@ -6270,7 +6271,7 @@ function renderView(viewId, triggeredByReconnection){
 					var _b = b;
 					var _linkedStateId = linkedStateId;
 					var _placeholder = placeholder;
-					var updateFunction = function(forceReloadOfImage){
+					var updateFunction = function(stateId, forceReloadOfImage){
 						var state = getStateObject(_linkedStateId);
 						var replacement = null;
 						if(state && typeof state.val !== udef) {
@@ -6285,9 +6286,9 @@ function renderView(viewId, triggeredByReconnection){
 							if(newSrc && forceReloadOfImage){
 								console.log("Force reload of image");
 								if (newSrc.indexOf('?') == -1) {
-									newSrc += "?forceReload = " + new Date().getTime();
+									newSrc += "?forceReload = " + Math.floor(new Date().getTime() / 100);
 								} else {
-									newSrc += "&forceReload = " + new Date().getTime();
+									newSrc += "&forceReload = " + Math.floor(new Date().getTime() / 100);
 								}
 							}
 							var newBackgroundimage = "url(\"" + newSrc + "\")";
@@ -10185,44 +10186,44 @@ function toastShowNext(){
 //++++++++++ GENERAL AND INITIALIZATION ++++++++++
 //Enable swiping
 (function( $, window, undefined ) { //Extend jQuery swiping with vertical swipes
-    $.event.special.swipe.handleSwipe = function( start, stop, thisObject, origTarget ) { //custom handleSwipe with swiperight, swipeleft, swipeup, swipedown
-        if ( stop.time - start.time < $.event.special.swipe.durationThreshold ) {
-            var horSwipe = Math.abs( start.coords[0] - stop.coords[0] ) > $.event.special.swipe.horizontalDistanceThreshold;
-            var verSwipe = Math.abs( start.coords[1] - stop.coords[1] ) > $.event.special.swipe.verticalDistanceThreshold;
-            if( horSwipe != verSwipe ) {
-                var direction;
-                if(horSwipe)
-                    direction = start.coords[0] > stop.coords[0] ? "swipeleft" : "swiperight";
-                else
-                    direction = start.coords[1] > stop.coords[1] ? "swipeup" : "swipedown";
-                $.event.trigger($.Event( "swipe", { target: origTarget, swipestart: start, swipestop: stop }), undefined, thisObject);
-                $.event.trigger($.Event( direction, { target: origTarget, swipestart: start, swipestop: stop }), undefined, thisObject);
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-    $.each({ //do binding
-        swipeup: "swipe.up",
-        swipedown: "swipe.down"
-    }, function( event, sourceEvent ) {
-        $.event.special[ event ] = {
-            setup: function() {
-                $( this ).bind( sourceEvent, $.noop );
-            },
-            teardown: function() {
-                $( this ).unbind( sourceEvent );
-            }
-        };
-    }); 
+	$.event.special.swipe.handleSwipe = function( start, stop, thisObject, origTarget ) { //custom handleSwipe with swiperight, swipeleft, swipeup, swipedown
+		if ( stop.time - start.time < $.event.special.swipe.durationThreshold ) {
+			var horSwipe = Math.abs( start.coords[0] - stop.coords[0] ) > $.event.special.swipe.horizontalDistanceThreshold;
+			var verSwipe = Math.abs( start.coords[1] - stop.coords[1] ) > $.event.special.swipe.verticalDistanceThreshold;
+			if( horSwipe != verSwipe ) {
+				var direction;
+				if(horSwipe)
+					direction = start.coords[0] > stop.coords[0] ? "swipeleft" : "swiperight";
+				else
+					direction = start.coords[1] > stop.coords[1] ? "swipeup" : "swipedown";
+				$.event.trigger($.Event( "swipe", { target: origTarget, swipestart: start, swipestop: stop }), undefined, thisObject);
+				$.event.trigger($.Event( direction, { target: origTarget, swipestart: start, swipestop: stop }), undefined, thisObject);
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	$.each({ //do binding
+		swipeup: "swipe.up",
+		swipedown: "swipe.down"
+	}, function( event, sourceEvent ) {
+		$.event.special[ event ] = {
+			setup: function() {
+				$( this ).bind( sourceEvent, $.noop );
+			},
+			teardown: function() {
+				$( this ).unbind( sourceEvent );
+			}
+		};
+	}); 
 })( jQuery, this );
 $(document).one("pagecreate", ".swipePage", function(){ //Swipe view
 	$(document).on("swiperight", ".ui-page", function(event){
-		viewSwipe("right");
+		if(!options.LayoutViewSwipingDisabled) viewSwipe("right");
 	});
 	$(document).on("swipeleft", ".ui-page", function(event){
-		viewSwipe("left");
+		if(!options.LayoutViewSwipingDisabled) viewSwipe("left");
 	});
 });
 $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
