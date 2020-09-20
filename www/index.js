@@ -4210,6 +4210,7 @@ function renderToolbar(){
 function applyToolbarPressureMenu(){
 	$('.iQontrolToolbarLink.ui-btn').pressure({
 		start: function(event){	// this is called on force start
+			//console.log("PRESSURE start");
 			//-- do nothing --
 			//(This event is handeled via touchstart-event seperately, because since iOS 13 the pressure start event is not called properly any more)
 		},
@@ -4238,15 +4239,15 @@ function applyToolbarPressureMenu(){
 				//-- do nothing --
 			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				//console.log("PRESSURE change start FALLBACK");
-				if (toolbarPressureMenuFallbackTimer) {
-					clearInterval(toolbarPressureMenuFallbackTimer);
-					toolbarPressureMenuFallbackTimer = false;
-					toolbarPressureMenuFallbackForce = 0;
-				}
 				var that = this;
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
 					var _event = event;
+					if (toolbarPressureMenuFallbackTimer) {
+						clearInterval(toolbarPressureMenuFallbackTimer);
+						toolbarPressureMenuFallbackTimer = false;
+						toolbarPressureMenuFallbackForce = 0;
+					}
 					toolbarPressureMenuFallbackTimer = setInterval(function(){
 						//console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
 						if (toolbarPressureMenuIgnorePressure) {
@@ -6476,7 +6477,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 								if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 								viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
 									var scrollTop = (_$target.offset().top - (parseInt(_$target.parent('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6));
-									console.log("Scroll to " + scrollTop);
+									console.log("fullHeight activated - scroll to " + scrollTop);
 									$('html,body').animate({
 										scrollTop: scrollTop
 									}, 1000);
@@ -6484,11 +6485,46 @@ function viewShuffleApplyShuffleResizeObserver(){
 								if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 								viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){ 
 									var scrollTop = (_$target.offset().top - (parseInt(_$target.parent('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6));
-									console.log("Scroll to " + scrollTop);
+									console.log("fullHeight activated - 2nd scroll to " + scrollTop);
 									$('html,body').animate({
 										scrollTop: scrollTop
 									}, 1000);
 								}, 2250);
+							})(); //<--End Closure
+						} else if (
+							removed.indexOf('fullHeight') != -1 
+							|| (removed.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1) 
+							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfInactive') != -1)
+							|| (removed.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
+						){ //fullHeight deactivated
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								console.log("fullHeight deactivated");
+								var _$target = $(mutation.target);
+								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetShuffleInstanceIndex = null;
+								var _targetShuffleItemIndex = null;
+								for(var i = 0; i < viewShuffleInstances.length; i++){
+									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
+										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+											_targetShuffleInstanceIndex = i;
+											_targetShuffleItemIndex = j;
+											break;
+										}										
+									}
+									if(_targetShuffleInstanceIndex) break;
+								}
+								if(_targetShuffleInstanceIndex){
+									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
+									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
+									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
+									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y;
+										console.log("fullHeight deactivated - scroll to " + scrollTop);
+										$('html,body').animate({
+											scrollTop: scrollTop
+										}, 1000);	
+									}, 1300);
+								}
 							})(); //<--End Closure
 						}
 					}
@@ -6725,15 +6761,15 @@ function applyViewPressureMenu(){
 				//-- do nothing --
 			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
 				//console.log("PRESSURE change start FALLBACK");
-				if (viewPressureMenuFallbackTimer) {
-					clearInterval(viewPressureMenuFallbackTimer);
-					viewPressureMenuFallbackTimer = false;
-					viewPressureMenuFallbackForce = 0;
-				}
 				var that = this;
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
 					var _event = event;
+					if (viewPressureMenuFallbackTimer) {
+						clearInterval(viewPressureMenuFallbackTimer);
+						viewPressureMenuFallbackTimer = false;
+						viewPressureMenuFallbackForce = 0;
+					}
 					viewPressureMenuFallbackTimer = setInterval(function(){
 						//console.debug("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
 						if (viewPressureMenuIgnorePressure) {
