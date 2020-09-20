@@ -4223,22 +4223,22 @@ function applyToolbarPressureMenu(){
 			//-- do nothing --
 		},
 		end: function(){ // this is called on force end
-			//console.log("PRESSURE end");
+			console.log("PRESSURE end native");
 			//-- do nothing --
 			//(This event is handeled via touchend-event seperately, because since iOS 13 the pressure end event is not called properly any more)
 		},
 		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
 			var forceOld = toolbarPressureMenuForceOld[this] || 0;
-			//console.debug("	PRESSURE change " + force + "|" + forceOld);
+			console.debug("	PRESSURE change " + force + "|" + forceOld);
 			if (toolbarPressureMenuIgnorePressure || toolbarPressureMenuFallbackTimer) {
-				//console.debug("	PRESSURE change ignore");
+				console.debug("	PRESSURE change ignore");
 				return;
 			}
 			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
-				//console.log("PRESSURE change start");
+				console.log("PRESSURE change start");
 				//-- do nothing --
 			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
-				//console.log("PRESSURE change start FALLBACK");
+				console.log("PRESSURE change start FALLBACK");
 				var that = this;
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _that = that;
@@ -4249,9 +4249,9 @@ function applyToolbarPressureMenu(){
 						toolbarPressureMenuFallbackForce = 0;
 					}
 					toolbarPressureMenuFallbackTimer = setInterval(function(){
-						//console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
+						console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
 						if (toolbarPressureMenuIgnorePressure) {
-							//console.log("	PRESSURE Fallback change ignore");
+							console.log("	PRESSURE Fallback change ignore");
 						} else {
 							if (toolbarPressureMenuFallbackForce >= 1){
 								toolbarPressureMenuFallbackForce = 1;
@@ -4278,23 +4278,23 @@ function applyToolbarPressureMenu(){
 		only: null
 	});
 	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		//console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
+		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		toolbarPressureMenuStart();
 	});	
 	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		//console.log("PRESSURE end via TOUCHEND/MOUSEUP");
+		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
 		toolbarPressureMenuEnd();
 	});	
 	$(window).scroll(function(){
 		if(!viewPressureMenuIgnorePressure){
-			//console.log("PRESSURE end via SCROLL");
+			console.log("PRESSURE end via SCROLL");
 			toolbarPressureMenuEnd();		
 		}
 	});
 }
 
 function toolbarPressureMenuStart(){
-	//console.log("PRESSURE start function");
+	console.log("PRESSURE start function");
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	toolbarPressureMenuForceOld = [];
 	toolbarPressureMenuIgnorePressure = false;
@@ -4308,19 +4308,20 @@ function toolbarPressureMenuChange(force, event, that){
 	forceOld = ((toolbarPressureMenuForceOld[that] || 0) - 0.2) * 1.25;
 	if (toolbarPressureMenuIgnorePressure) return;
 	if (force > 0.5 && !toolbarPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
-		//console.log("PRESSURE changeFunction startDeepPress");
+		console.log("PRESSURE changeFunction startDeepPress");
 		toolbarPressureMenuIgnoreClick = true;
 	}
 	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
-		//console.log("PRESSURE changeFunction Maximum reached");
+		console.log("PRESSURE changeFunction Maximum reached");
 		toolbarPressureMenuIgnorePressure = true;
 		event.preventDefault();
 		event.stopPropagation();
 		openToolbarPressureMenu($(that).data('index'), that);
 	} else if (force >= 1 && forceOld >= 1){
-		console.log("PRESSURE force and forceOld > 1 -> END PRESSURE!");
+		console.log("PRESSURE changeFunction force and forceOld > 1 -> END PRESSURE!");
 		toolbarPressureMenuEnd();
 	} else {
+		console.log("PRESSURE changeFunction else");
 		if (!toolbarPressureMenuChangeTimer) {
 			toolbarPressureMenuChangeTimer = setTimeout(function(){
 				toolbarPressureMenuChangeTimer = false;
@@ -4332,7 +4333,7 @@ function toolbarPressureMenuChange(force, event, that){
 }
 
 function toolbarPressureMenuEnd(ignorePressure){
-	//console.log("PRESSURE end function");
+	console.log("PRESSURE end function");
 	toolbarPressureMenuIgnorePressure = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
@@ -4342,10 +4343,10 @@ function toolbarPressureMenuEnd(ignorePressure){
 		toolbarPressureMenuFallbackForce = 0;
 	}
 	setTimeout(function(){
-		console.log("Find active Toolbar Index");
+		console.log("PRESSURE end function - find active Toolbar Index");
 		var toolbarIndex = -1;
 		for (var i = 0; i < config[namespace].toolbar.length; i++){
-			if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedView) == actualViewId) {
+			if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedViaew) == actualViewId) {
 				toolbarIndex = i;
 				break;
 			}
@@ -4356,6 +4357,7 @@ function toolbarPressureMenuEnd(ignorePressure){
 		}
 	}, 1);
 	if (!ignorePressure) setTimeout(function(){
+		console.log("PRESSURE end function - delete everything");
 		toolbarPressureMenuForceOld = [];
 		toolbarPressureMenuIgnorePressure = false;
 		toolbarPressureMenuIgnoreClick = false; //####
@@ -4365,6 +4367,7 @@ function toolbarPressureMenuEnd(ignorePressure){
 function openToolbarPressureMenu(toolbarIndex, callingElement){
 	console.log("PRESSURE openToolbarPressureMenu");
 	if (toolbarPressureMenu[toolbarIndex] && Object.keys(toolbarPressureMenu[toolbarIndex]).length > 0){
+	console.log("PRESSURE openToolbarPressureMenu - open");
 		$('#ToolbarPressureMenuList').empty();
 		for (key in toolbarPressureMenu[toolbarIndex]){
 			var element = toolbarPressureMenu[toolbarIndex][key];
@@ -4374,6 +4377,7 @@ function openToolbarPressureMenu(toolbarIndex, callingElement){
 		$("#ToolbarPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
 		toolbarPressureMenuEnd(true);
 	} else { //callingElement has no pressureMenu
+		console.log("PRESSURE openToolbarPressureMenu - calling Element has no pressureMenu");
 		toolbarPressureMenuIgnoreClick = false;
 		$(callingElement).click();
 		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
