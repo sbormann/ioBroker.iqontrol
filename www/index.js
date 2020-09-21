@@ -4277,7 +4277,7 @@ function applyToolbarPressureMenu(){
 		preventSelect: true,
 		only: null
 	});
-	$('.iQontrolToolbarLink.ui-btn').on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
+	$('.iQontrolToolbarLink.ui-btn').on('touchstart mousedown', function(){ //Fallback for iOS 13: pressure end-event is not called properly
 		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
 		toolbarPressureMenuStart();
 	});	
@@ -6476,24 +6476,33 @@ function viewShuffleApplyShuffleResizeObserver(){
 							|| (added.indexOf('enlarged') != -1 && oldAndNew.indexOf('fullHeightIfEnlarged') != -1)
 						){ //fullHeight activated
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								console.log("fullHeight activated - setTimeout to scroll to");
+								console.log("fullHeight activated");
 								var _$target = $(mutation.target);
-								if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
-								viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
-									var scrollTop = (_$target.offset().top - (parseInt(_$target.parent('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6));
-									console.log("fullHeight activated - scroll to " + scrollTop);
-									$('html,body').animate({
-										scrollTop: scrollTop
-									}, 1000);
-								}, 1100);
-								if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
-								viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){ 
-									var scrollTop = (_$target.offset().top - (parseInt(_$target.parent('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6));
-									console.log("fullHeight activated - 2nd scroll to " + scrollTop);
-									$('html,body').animate({
-										scrollTop: scrollTop
-									}, 1000);
-								}, 2250);
+								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
+								var _targetShuffleInstanceIndex = null;
+								var _targetShuffleItemIndex = null;
+								for(var i = 0; i < viewShuffleInstances.length; i++){
+									for(var j = 0; j < viewShuffleInstances[i].items.length; j++){
+										if(viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == _targetDeviceId){
+											_targetShuffleInstanceIndex = i;
+											_targetShuffleItemIndex = j;
+											break;
+										}										
+									}
+									if(_targetShuffleInstanceIndex != null) break;
+								}
+								if(_targetShuffleInstanceIndex != null){
+									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
+									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
+									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
+									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y;
+										console.log("fullHeight activated - scroll to " + scrollTop);
+										$('html,body').animate({
+											scrollTop: scrollTop
+										}, 1000);	
+									}, 1300);
+								}
 							})(); //<--End Closure
 						} else if (
 							removed.indexOf('fullHeight') != -1 
@@ -6515,9 +6524,9 @@ function viewShuffleApplyShuffleResizeObserver(){
 											break;
 										}										
 									}
-									if(_targetShuffleInstanceIndex) break;
+									if(_targetShuffleInstanceIndex != null) break;
 								}
-								if(_targetShuffleInstanceIndex){
+								if(_targetShuffleInstanceIndex != null){
 									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
