@@ -529,6 +529,8 @@ This device has some special predefined size- and display-settings to show a web
 ### development
 * (sbormann) Scroll to element when deactivating fullScreen.
 * (sbormann) Fixed toolbarPressureMenu.
+* (sbormann) Enhanced picture selection drop down and rearranged some images - maybe you need to clear cache to get this working.
+* (sbormann) Added INFO_A and INFO_B to display additional informations in the tile.
 
 
 ### 1.2.5 (2020-09-19)

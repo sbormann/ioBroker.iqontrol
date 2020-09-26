@@ -590,6 +590,9 @@ body {
 	position:absolute; left: 52px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 .iQontrolDevice.bigIcon .iQontrolDeviceError, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceError, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceError, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceError {
 	left: 108px; 
@@ -602,6 +605,9 @@ body {
 	position:absolute; left: 68px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 .iQontrolDevice.bigIcon .iQontrolDeviceUnreach, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceUnreach, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceUnreach, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceUnreach {
 	left: 124px; 
@@ -614,6 +620,9 @@ body {
 	position:absolute; left: 84px; top: 2px; width: 16px; height: 16px;
 	overflow: hidden;
 	opacity: 0;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 .iQontrolDevice.bigIcon .iQontrolDeviceBattery, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceBattery, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceBattery, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceBattery {
 	left: 140px; 
@@ -660,6 +669,9 @@ body {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 20px; width: 12px; height: 12px;
 	overflow: hidden;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 .iQontrolDevice.bigIcon .iQontrolDeviceInfoAIcon, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoAIcon, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoAIcon, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoAIcon {
 	left: 108px; 
@@ -692,6 +704,9 @@ body {
 	pointer-events:none !important;
 	position:absolute; left: 52px; top: 39px; width: 12px; height: 12px;
 	overflow: hidden;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 .iQontrolDevice.bigIcon .iQontrolDeviceInfoBIcon, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoBIcon, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoBIcon, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoBIcon {
 	left: 108px; 

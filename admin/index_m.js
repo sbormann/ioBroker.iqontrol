@@ -7,10 +7,60 @@ var namespace = "iqontrol.meta";
 var useCache = true;
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
+var inbuiltSymbols = [
+	"brightness.png",
+	"buttongrid.png",
+	"color.png",
+	"colortemperature.png",
+	"config.png",
+	"door.png",
+	"door_lock.png",
+	"down.png",
+	"fire.png",
+	"humidity.png",
+	"info.png",
+	"media_eject.png",
+	"media_forward.png",
+	"media_mute.png",
+	"media_next.png",
+	"media_pad_back.png",
+	"media_pad_carat_d.png",
+	"media_pad_carat_l.png",
+	"media_pad_carat_r.png",
+	"media_pad_carat_u.png",
+	"media_pad_home.png",
+	"media_pad_menu.png",
+	"media_pad_ok.png",
+	"media_pause.png",
+	"media_play.png",
+	"media_playeverywhere.png",
+	"media_power.png",
+	"media_prev.png",
+	"media_repeat.png",
+	"media_repeat_one.png",
+	"media_rewind.png",
+	"media_shuffle.png",
+	"media_stop.png",
+	"power.png",
+	"program.png",
+	"saturation.png",
+	"setpoint.png",
+	"slats.png",
+	"slider.png",
+	"stop.png",
+	"switch.png",
+	"temperature.png",
+	"time.png",
+	"up.png",
+	"variable.png",
+	"view.png",
+	"volume.png",
+	"window.png"
+];
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
-										states: ["ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
@@ -47,7 +97,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
-										states: ["STATE", "POWER", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -112,7 +162,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -180,7 +230,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -247,7 +297,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "URL", "HTML", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -311,7 +361,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -375,7 +425,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -437,7 +487,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -500,7 +550,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -563,7 +613,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -626,7 +676,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -689,7 +739,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -752,7 +802,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "TOGGLE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -814,7 +864,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -878,7 +928,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -946,7 +996,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1022,7 +1072,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1085,7 +1135,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1148,7 +1198,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1213,7 +1263,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1280,7 +1330,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1342,7 +1392,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1408,7 +1458,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1475,7 +1525,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1553,7 +1603,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1614,7 +1664,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
-										states: ["STATE", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1670,7 +1720,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWidget": 				{
 										name: "Widget", 				
-										states: ["STATE", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2254,7 +2304,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption){
 	options.forEach(function(option){
 		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){ //Optgroup
 			var caption = _(option.substring(1, option.length - 1));
-			comboboxContent += "	<li style='padding: 14px 4px; color:grey;'>";
+			comboboxContent += "	<li class='divider' style='padding: 14px 4px 30px 4px; color:grey;' tabindex='-1'>";
 			comboboxContent += "		" + caption + "&nbsp;";
 			comboboxContent += "	</li>";				
 		} else { //Normal option
@@ -2320,6 +2370,14 @@ function enhanceTextInputToComboboxEntryToInput(value){
 	}
 }
 
+function removeDuplicates(array) { //Removes duplicates from an array
+    var seen = {};
+    return array.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}
+
+
 
 
 /************** LOAD ********************************************************
@@ -2371,6 +2429,11 @@ function load(settings, onChange) {
 			$(this).prevAll('.select-wrapper').children('select').val('');
 		}
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 	});
 
 	//Select elements with id=key and class=value and insert value
@@ -2401,6 +2464,16 @@ function load(settings, onChange) {
 	images = [];
 	imagesDirs = [];
 	devicesSelectedView = -1;
+	
+	//Get inbuiltIcons
+	var inbuiltIcons = [];
+	for (iQontrolRole in iQontrolRoles){
+		for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
+			if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "icon") inbuiltIcons = inbuiltIcons.concat(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].defaultIcons.split(";"));
+		}
+	}
+	removeDuplicates(inbuiltIcons);
+	inbuiltIcons.sort();
 
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change');
@@ -2468,6 +2541,11 @@ function load(settings, onChange) {
 			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>" + _("Select Role") + "</option>");
 			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "' data-icon='" + (iQontrolRoles[element].icon ? link + iQontrolRoles[element].icon : "") + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
 			$('select').select();
+			$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+				if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+					e.preventDefault();
+				}	
+			});
 
 			//Try to init socket.io via conn.js and servConn-Object
 			if(location.protocol == 'https:' && !result[bestInstance].native.secure && !isIobrokerPro){
@@ -2633,8 +2711,12 @@ function load(settings, onChange) {
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
-		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
-		imagenames.sort();
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
+			imagesDir.files.forEach(function(file){
+				 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+			});
+		});
 		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
@@ -2723,6 +2805,11 @@ function load(settings, onChange) {
 		$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 		//Reset devicesSelecteView
 		devicesSelectedView = -1;
 		$('.divDevices').hide();
@@ -2755,8 +2842,15 @@ function load(settings, onChange) {
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
 		var imagenames = [];
-		images.forEach(function(element){ imagenames.push(".\\.." + userfilesImagePathBS + element.filenameBS + "/" + element.filenameBS); });
-		imagenames.sort();
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
+			imagesDir.files.forEach(function(file){
+				 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+			});
+		});
+		if (imagenames.length > 0){
+			imagenames.unshift(";[" + _("Images") + ":]");
+		}
 		//Progress-Bars
 		var progressbars = "";
 		progressbars += ";[" + _("Progress-Bars") + ":]";
@@ -2773,7 +2867,7 @@ function load(settings, onChange) {
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
-		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + ";[" + _("Images") + ":];" + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + imagenames.join(";"), true);
 		//Add role as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -2826,7 +2920,12 @@ function load(settings, onChange) {
 					} else {
 						$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
 					}
-					$('select').select()
+					$('select').select();
+					$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+						if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+							e.preventDefault();
+						}	
+					});
 					$('#dialogDeviceEdit').modal('open');
 				});
 			}
@@ -2863,6 +2962,11 @@ function load(settings, onChange) {
 			} */
 		});
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 		//Make table sortable
 		$("#tableDevices tbody").sortable({
 			helper: fixHelper,
@@ -2908,7 +3012,7 @@ function load(settings, onChange) {
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
 				if(commonRole == ""){
-					if(entry == "VALVE_STATES" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
+					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  | entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
@@ -3028,16 +3132,27 @@ function load(settings, onChange) {
 					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
 					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
 					options += progressbars;
-					//User Icons
-					var userIcons = [];
-					images.forEach(function(element){ 
-						if (element.filename.substring(0, 11) == "/usericons/") userIcons.push(element.filename.substring(11));
+					//Inbuilt Icons
+					options += ";[" + _("Inbuilt Icons") + ":]";
+					inbuiltIcons.forEach(function(inbuiltIcon){
+						if (inbuiltIcon != "") {
+							options += ";" + ("./images/icons/" + inbuiltIcon).replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");	
+						}
 					});
-					userIcons.sort();
-					if (userIcons.length > 0){
+					//User Icons
+					var imagenames = [];
+					imagesDirs.forEach(function(imagesDir){
+						if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+							imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+							imagesDir.files.forEach(function(file){
+								 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+							});
+						}
+					});
+					if (imagenames.length > 0){
 						options += ";[" + _("User Icons") + ":]";
-						userIcons.forEach(function(option){
-							options += ";" + ("./.." + userfilesImagePath + "/usericons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
+						imagenames.forEach(function(option){
+							options += ";" + option;
 						});
 					}
 					//Icons Combobox
@@ -3066,6 +3181,11 @@ function load(settings, onChange) {
 				$('#dialogDeviceEditOptionsContent').html(dialogDeviceEditOptionsContent);
 			}
 			$('select').select();
+			$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+				if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+					e.preventDefault();
+				}	
+			});
 			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
 				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);	
 			});
@@ -3085,6 +3205,8 @@ function load(settings, onChange) {
 			if (name === 'state') {
 				$(this).prop('readonly', true);
 				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
+				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
 				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 			}
@@ -3131,7 +3253,14 @@ function load(settings, onChange) {
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
 						});
 						$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+						var showAdditionalCols = "";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "commonRole";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "";
 						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
+						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
 						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						$('#dialogDeviceEditStateArray').modal('open');
@@ -3188,12 +3317,28 @@ function load(settings, onChange) {
 		var $div = $('#tableDialogDeviceEditStateArray');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
-		//Hide role
-		$lines.find('select[data-name]').each(function () {
+		var showAdditionalCols = $('#dialogDeviceEditStateArrayShowAdditionalCols').val();
+		//Hide Type / Icon / Role
+		$table.find('th[data-name]').each(function () {
+			$(this).show(0);
 			var name = $(this).data('name');
-			if (name === 'commonRole') {
-				$(this).parent('div').parent('td').hide();
-			}
+			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
+				$(this).hide(0);
+			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
+				$(this).hide(0);
+			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
+				$(this).hide(0);
+			} 
+		});
+		$lines.find('.values-input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
+				$(this).parent('div').parent('td').hide(0);
+			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
+				$(this).parent('td').hide(0);
+			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
+				$(this).parent('td').hide(0);
+			} 
 		});
 		//Add id for selectId-Dialog
 		$lines.find('input[data-name]').each(function () {
@@ -3204,6 +3349,31 @@ function load(settings, onChange) {
 				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
 			}
 		});
+		//Add images to Selectbox for Icons
+		if (showAdditionalCols.indexOf('icon') != -1) {
+			var inbuiltSymbolsString = "";
+			inbuiltSymbols.forEach(function(symbol){
+				if (symbol != "") {
+					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");	
+				}
+			});
+			if (inbuiltSymbols.length > 0){
+				inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
+			}
+			var imagenames = [];
+			imagesDirs.forEach(function(imagesDir){
+				if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+					imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+					imagesDir.files.forEach(function(file){
+						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+					});
+				}
+			});
+			if (imagenames.length > 0){
+				imagenames.unshift(";[" + _("User Symbols") + ":]");
+			}
+			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (link + "/images/symbols/info.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
+		}
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
@@ -3709,6 +3879,11 @@ function load(settings, onChange) {
 		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
 		$('#dialogDeviceCopyFrom').modal('open');
@@ -3717,6 +3892,11 @@ function load(settings, onChange) {
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
 		views[$('#dialogDeviceCopyFromSourceView').val()].devices.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceDevice').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
 	});
 	$('#dialogDeviceCopyFromSourceDevice').on('change', function(){
@@ -3834,6 +4014,11 @@ function load(settings, onChange) {
 						imagesSelectedDirFillSelectbox();
 						$('#imagesSelectedDir').val(dummy).trigger('change');
 						$('select').select();
+						$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+							if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+								e.preventDefault();
+							}	
+						});
 						$('#imagesUploadFileSubmit').removeClass('disabled');
 						$('#imagesUploadFileFormProgress').hide();
 					});
@@ -3853,13 +4038,17 @@ function load(settings, onChange) {
 			images = [];
 			imagesDirs = [{
 						dirname: 		"/",
+						dirnameBS: 		"\\",
+						dirnameVS: 		"|"
 			}];
 		};
 		socketCallback = function(err, obj){
 			obj.forEach(function(element){
 				if(element.isDir) {
 					imagesDirs.push({
-						dirname:		path.substring(userfilesImagePath.length) + "/" + element.file
+						dirname:		path.substring(userfilesImagePath.length) + "/" + element.file,
+						dirnameBS: 		path.substring(userfilesImagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
+						dirnameVS:		path.substring(userfilesImagePath.length).replace(/\//g, "|") + "|" + element.file.replace(/\//g, "|")
 					});
 					getImagesRunningTasks += 1;
 					getImages(path + "/" + element.file, callback);
@@ -3874,7 +4063,22 @@ function load(settings, onChange) {
 			});
 			if(getImagesRunningTasks > 0) {
 				getImagesRunningTasks -= 1;
-			} else {
+			} else { //Got all images
+				imagesDirs.sort(function(a, b){
+					return ((a.dirname.toLowerCase() > b.dirname.toLowerCase()) ? 1 : ((b.dirname.toLowerCase() > a.dirname.toLowerCase()) ? -1 : 0));
+				});
+				imagesDirs.forEach(function(imagesDir){
+					var imagesDirFiles = [];
+					images.forEach(function(image){
+						if(image.filename.indexOf(imagesDir.dirname) == 0 && (image.filename.lastIndexOf('/') == 0 || image.filename.lastIndexOf('/') == imagesDir.dirname.length)){
+							imagesDirFiles.push(image);
+						}
+					});
+					imagesDirFiles.sort(function(a, b){
+						return ((a.filename.toLowerCase() > b.filename.toLowerCase()) ? 1 : ((b.filename.toLowerCase() > a.filename.toLowerCase()) ? -1 : 0));
+					});
+					imagesDir.files = imagesDirFiles; 
+				});
 				console.log("Got all images.");
 				$('.hideOnLoad').show();
 				$('.showOnLoad').hide();
@@ -3892,6 +4096,11 @@ function load(settings, onChange) {
 		$('#imagesSelectedDir').empty();
 		imagesDirsSorted.forEach(function(element){ $('#imagesSelectedDir').append("<option value='" + element + "'>" + element + "</option>"); });
 		$('select').select();
+		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+			if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+				e.preventDefault();
+			}	
+		});
 		imagesSelectedDirFilterList();
 	}
 
@@ -3971,6 +4180,11 @@ function load(settings, onChange) {
 									imagesSelectedDirFillSelectbox();
 									$('#imagesSelectedDir').val(dummy).trigger('change');
 									$('select').select();
+									$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+										if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+											e.preventDefault();
+										}	
+									});
 								});
 							});
 						})(); //<--End Closure
@@ -3990,6 +4204,11 @@ function load(settings, onChange) {
 								imagesSelectedDirFillSelectbox();
 								$('#imagesSelectedDir').val(dummy).trigger('change');
 								$('select').select();
+								$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+									if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+										e.preventDefault();
+									}	
+								});
 							});
 						});
 					}
@@ -4042,6 +4261,11 @@ function load(settings, onChange) {
 					imagesSelectedDirFillSelectbox();
 					$('#imagesSelectedDir').val(dummy).trigger('change');
 					$('select').select();
+					$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+						if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+							e.preventDefault();
+						}	
+					});
 				});
 			});
 		}
@@ -4070,6 +4294,11 @@ function load(settings, onChange) {
 						imagesSelectedDirFillSelectbox();
 						$('#imagesSelectedDir').val(dummy).trigger('change');
 						$('select').select();
+						$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+							if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+								e.preventDefault();
+							}	
+						});
 					});
 				});
 			})(); //<--End Closure
@@ -4088,6 +4317,11 @@ function load(settings, onChange) {
 					imagesSelectedDirFillSelectbox();
 					$('#imagesSelectedDir').val(dummy).trigger('change');
 					$('select').select();
+					$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+						if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+							e.preventDefault();
+						}	
+					});
 				});
 			});
 		}
@@ -4100,6 +4334,11 @@ function load(settings, onChange) {
 			var dummy = $('#imagesSelectedDir').val();
 			$('#imagesSelectedDir').val(dummy).trigger('change');
 			$('select').select();
+			$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome
+				if (e.clientX >= e.target.clientWidth || e.clientY >= e.target.clientHeight) {
+					e.preventDefault();
+				}	
+			});
 		});
 	});
 	

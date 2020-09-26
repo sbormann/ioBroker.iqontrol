@@ -147,7 +147,7 @@
 							<thead>
 								<tr>
 									<th data-name="commonName" class="translate">Name</th>
-									<th data-name="nativeBackgroundImage" xdata-type="select" class="translate">Background Image</th>
+									<th data-name="nativeBackgroundImage" class="translate">Background Image</th>
 									<th data-buttons="up down delete drag_handle" style="width:170px;"></th>
 								</tr>
 							</thead>
@@ -354,6 +354,7 @@
 					<div class="col s12">
 						<br><br>
 						<p class="translate">Images in the folder '/usericons' can be used as icons for devices.</p>
+						<p class="translate">Images in the folder '/usersymbols' can be used as symbols for states.</p>
 					</div>
 				</div>
 				<!--div class = "row hideOnLoad">
@@ -1413,6 +1414,7 @@
         <div id="dialogDeviceEditStateArray" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditStateArrayIndex" />
+                <input type="hidden" id="dialogDeviceEditStateArrayShowAdditionalCols" />
                 <div class="row">
                     <div class="col s12">
                         <h6 class="title"><span class="translate">Edit Array:</span> <span id="dialogDeviceEditStateArrayName"></span></h6>
@@ -1431,7 +1433,9 @@
 							<thead>
 								<tr>
 									<th data-name="name" class="translate">Name</th>
-									<th data-name="commonRole" style="display: none;" data-type="select" data-options="linkedState;const;array" class="translate">Role</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState;const" class="translate">Type</th>
+									<th data-name="icon" class="translate">Icon</th>
+									<th data-name="role" class="translate">Role</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit openCustom delete drag_handle" style="width:50px;"></th>
 								</tr>
