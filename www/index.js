@@ -6323,6 +6323,7 @@ function renderView(viewId, triggeredByReconnection){
 		viewContent += "</div>";
 		//Place content
 		$("#ViewHeaderTitle").html(actualView.commonName);
+		if(actualView.nativeHideName) $("#ViewHeaderTitle").hide(); else $("#ViewHeaderTitle").show();
 		$("#ViewContent").html(viewContent + "<br><br>");
 		resizeDevicesToFitScreen();
 		//Activate Shuffle	

@@ -4115,6 +4115,11 @@ function load(settings, onChange) {
 			$('#imagesUploadRenameDir').removeClass('disabled');
 			$('#imagesUploadDeleteDir').removeClass('disabled');
 		}
+		if(val == "/userwidgets"){
+			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml, text/html, text/css, text/javascript');
+		} else {
+			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml');			
+		}
 		var $div = $('#tableImages');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
@@ -4153,7 +4158,16 @@ function load(settings, onChange) {
 			//Replace photo-button with thumbnail
 			if (command === 'photo') {
 				var imageIndex = $(this).data('index');
-				$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + images[imageIndex].filename + "' data-filename='./.." + userfilesImagePath + images[imageIndex].filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
+				var filename = images[imageIndex].filename;
+				if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_html.png' data-filename='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class=''></img>");
+				} else if (filename.endsWith(".css")){
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_css.png' data-filename='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class=''></img>");
+				} else if (filename.endsWith(".mjs") || filename.endsWith(".js")){
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_js.png' data-filename='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class=''></img>");
+				} else {
+					$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + filename + "' data-filename='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
+				}
 			}
 			//Rename file
 			if (command === 'edit') {

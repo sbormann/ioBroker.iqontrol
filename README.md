@@ -311,6 +311,7 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
 #### Further general states:
+* **INFA_A** and **INFA_B**: *array* - an array of datapoints and icons, that will be cyclical displayed in the upper right side of the tile
 * **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
 * **URL**: CONSTANT or DATAPOINT *string* - this url will be opened as iframe inside the dialog
 * **HTML**: CONSTANT or DATAPOINT *string* - this markup will be displayed inside the iframe, if no URL-Datapoint is specified
@@ -528,9 +529,10 @@ This device has some special predefined size- and display-settings to show a web
 
 ### development
 * (sbormann) Scroll to element when deactivating fullScreen.
-* (sbormann) Fixed toolbarPressureMenu.
 * (sbormann) Enhanced picture selection drop down and rearranged some images - maybe you need to clear cache to get this working.
 * (sbormann) Added INFO_A and INFO_B to display additional informations in the tile.
+* (sbormann) Added possibility to hide views name.
+* (sbormann) Added possibility to upload html, css and js files.
 
 
 ### 1.2.5 (2020-09-19)
