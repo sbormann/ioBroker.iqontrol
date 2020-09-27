@@ -57,6 +57,8 @@ var inbuiltSymbols = [
 	"volume.png",
 	"window.png"
 ];
+var inbuiltWidgets = [
+];
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
@@ -3217,6 +3219,44 @@ function load(settings, onChange) {
 				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
 			}
 		});
+		//Add widgets and websites to Selectbox for URL and BACKGROUND_URL
+		var inbuiltWidgetsString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget != "") {
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget).replace(/\//g, "\\") + "/" + widget.replace(/\//g, "\\");	
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
+		}
+		var websitenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + (link + "/images/icons/file_html.png").replace(/\//g, "\\"));
+					}
+				});
+				if(websitenamesInThisDir.length > 0){
+					websitenames.push("[" + imagesDir.dirnameBS + ":]");
+					websitenames.push(websitenamesInThisDir);
+				}
+			}
+		});
+		if (websitenames.length > 0){
+			websitenames.unshift(";[" + _("User Widgets") + ":]");
+		}
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'value') {
+				var stateIndex = $(this).data('index');
+				if(dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
+					enhanceTextInputToCombobox(this, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true);
+				}
+			}
+		});
 		//Role
 		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -3226,7 +3266,19 @@ function load(settings, onChange) {
 					$(this).prop('disabled', true);
 				} else {
 					$(this).find('option[value="array"]').remove();
-				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
+					$(this).on('input change', function(){
+						tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							//Show or hide selectboxes
+							var _stateIndex = stateIndex;
+							if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','');
+							} else {
+								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
+							}
+						})(); //<--End Closure
+						
+					}).trigger('change');
 				}
 			}
 		});
@@ -3349,7 +3401,7 @@ function load(settings, onChange) {
 				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
 			}
 		});
-		//Add images to Selectbox for Icons
+		//Add images to Selectbox for Icons (Symbols)
 		if (showAdditionalCols.indexOf('icon') != -1) {
 			var inbuiltSymbolsString = "";
 			inbuiltSymbols.forEach(function(symbol){
