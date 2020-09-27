@@ -527,13 +527,14 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
-### development
+### 1.2.6 (2020-09-27)
 * (sbormann) Scroll to element when deactivating fullScreen.
 * (sbormann) Enhanced picture selection drop down and rearranged some images - maybe you need to clear cache to get this working.
 * (sbormann) Added INFO_A and INFO_B to display additional informations in the tile.
 * (sbormann) Added possibility to hide views name.
 * (sbormann) Added possibility to upload html, css and js files and added drop down menu for these files for URL- and BACKGROUND_URL-State.
-
+* (sbormann) Added option to hide icon, if device is enlarged.
+* (sbormann) Added option set visibility of BACKGROUND_URL/HTML, if device is enlarged.
 
 ### 1.2.5 (2020-09-19)
 * (sbormann) Fix for iOS 14 touch callout.
