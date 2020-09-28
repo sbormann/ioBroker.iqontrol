@@ -147,6 +147,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
         * If no value is specified, ``true`` will be used
     * ``ButtonNames``: Here you can specify a comma separated list of buttons, that will be displayed at the bottom of the popup (for example "OK,Abort")
         * ``ButtonValues`` and ``ButtonDestinationStates``: These are comma separated lists of values that will be sent to ``iqontrol.x.Popup.BUTTON_CLICKED`` and, if specified, additional to the datapoint in ``ButtonDestinationStates``, if the user clickes the corresponding button
+		    * Instead of a datapoint you can use the commands ``COMMAND:renderView`` and ``COMMAND:openDialog`` as a ButtonDestinationState, to render a view or open a dialog
+			* The ButtonValue then specifies the view resp. dialog and needs to be in the format ``iqontrol.<instance-number>.Views.<view-name>`` resp. ``iqontrol.<instance-number>.Views.<view-name>.devices.<device-number>`` where ``<device-number>`` starts from 0 (so the first device on a view is device number 0)
 		* If you only use one value (instead of a comma separated list), this value will be used for all buttons
 		* If you leave ``ButtonValues`` empty, the name of the button will be used
 		* If you only use one destination state (instead of a comma separated list), this state will be used for all buttons
@@ -177,6 +179,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
         * ``{ command: "setState", stateId: <stateId>, value: <value> }`` - this will set the ioBroker state ``<stateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
         * ``{ command: "getState", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` (see below how to receive the answer-message)
         * ``{ command: "getStateSubscribed", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` now and every time its value changes (see below how to receive the answer-messages)
+        * ``{ command: "renderView", value: <viewID> }`` - this will instruct iQontrol to render a view, where ``<viewID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>`` (case-sensitive)
+        * ``{ command: "openDialog", value: <deviceID> }`` - this will instruct iQontrol to open a dialog, where ``<deviceID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>.devices.<device-number>`` where ``<device-number>`` starts from 0 (so the first device on a view is device number 0)
 * To receive messages from iQontrol, you need to register an event-listener to the "message"-event with the javascript-command ``window.addEventListener("message", receivePostMessage, false);``
     * The function ``receivePostMessage`` receives the object ``event``
 	* ``event.data`` contains the message from iqontrol, which will be an object like:
@@ -201,6 +205,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	<button onclick="getState('system.adapter.admin.0.cpu')">getState system.adapter.admin.0.cpu</button><br>
 	<button onclick="getStateSubscribed('system.adapter.admin.0.uptime')">getStateSubscribed system.adapter.admin.0.uptime</button><br>
 	<button onclick="setState('iqontrol.0.Popup.Message', 'Hey, this is a test Message')">setState popup message</button><br>
+	<button onclick="renderView('iqontrol.0.Views.Home')">renderView 'Home'</button><br>
+	<button onclick="openDialog('iqontrol.0.Views.Home.devices.0')">openDialog 1st device on 'Home'</button><br>
 	<br>
 	message sent: <span id="messageSent">-</span><br>
 	<br>
@@ -225,6 +231,16 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		//setState
 		function setState(stateId, value){
 			sendPostMessage("setState", stateId, value);
+		}
+
+		//renderView
+		function renderView(viewId){
+			sendPostMessage("renderView", null, viewId);
+		}
+
+		//openDialog
+		function openDialog(deviceId){
+			sendPostMessage("openDialog", null, deviceId);
 		}
 
 		//send postMessages
@@ -311,7 +327,8 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
 However, not every type makes sense to every role. So the STATE of a switch for example will be a boolean in most cases, to be able to be toggled between on and off. A string may be displayed, but the switch will not be functional.
 
 #### Further general states:
-* **INFA_A** and **INFA_B**: *array* - an array of datapoints and icons, that will be cyclical displayed in the upper right side of the tile
+* **INFO_A** and **INFO_B**: *array* - an array of datapoints and icons, that will be cyclical displayed in the upper right side of the tile
+* **ADDITIONAL_CONTROLS**: *array* - an array of datapoints, that define additional control elements that will be displayed inside info-dialog
 * **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
 * **URL**: CONSTANT or DATAPOINT *string* - this url will be opened as iframe inside the dialog
 * **HTML**: CONSTANT or DATAPOINT *string* - this markup will be displayed inside the iframe, if no URL-Datapoint is specified
@@ -526,6 +543,10 @@ This device has some special predefined size- and display-settings to show a web
 ****
 
 ## Changelog
+
+### dev
+* (sbormann) Added ADDITIONAL_CONTROLS as universal datapoint to define an array of additional control items that will be displayed inside dialog.
+* (sbormann) Added possibility to renderViews and openDialogs via popup-buttons and postMessage-commands for iframes.
 
 ### 1.2.6 (2020-09-27)
 * (sbormann) Scroll to element when deactivating fullScreen.

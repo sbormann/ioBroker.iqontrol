@@ -62,12 +62,14 @@ var inbuiltWidgets = [
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
-										states: ["INFO_A", "INFO_B", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -100,7 +102,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
-										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -109,6 +111,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -167,7 +171,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -180,6 +184,8 @@ var iQontrolRoles = {
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -237,7 +243,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -249,6 +255,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -306,7 +314,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -315,6 +323,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -372,7 +382,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -383,6 +393,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -438,7 +450,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -447,6 +459,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -502,7 +516,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -511,6 +525,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -567,7 +583,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -576,6 +592,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -632,7 +650,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -641,6 +659,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -697,7 +717,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -706,6 +726,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -762,7 +784,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -771,6 +793,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -827,7 +851,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -836,6 +860,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -891,7 +917,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -902,6 +928,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -957,7 +985,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -971,6 +999,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1027,7 +1057,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1048,6 +1078,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1105,7 +1137,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1114,6 +1146,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1170,7 +1204,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1179,6 +1213,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1235,7 +1271,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1247,6 +1283,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1302,7 +1340,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1316,6 +1354,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1371,7 +1411,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1380,6 +1420,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1435,7 +1477,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1446,6 +1488,8 @@ var iQontrolRoles = {
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1503,7 +1547,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1515,6 +1559,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1572,7 +1618,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1595,6 +1641,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1652,7 +1700,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1660,6 +1708,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1715,7 +1765,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1723,6 +1773,8 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -1773,7 +1825,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWidget": 				{
 										name: "Widget", 				
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1782,6 +1834,8 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
@@ -3067,7 +3121,7 @@ function load(settings, onChange) {
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
 				if(commonRole == ""){
-					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  | entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
+					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
@@ -3262,6 +3316,7 @@ function load(settings, onChange) {
 				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
 				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
+				if ($(this).val() == "ADDITIONAL_CONTROLS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", role: "SLIDER"}, ...]</span>');
 				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 			}
@@ -3362,6 +3417,7 @@ function load(settings, onChange) {
 						if(dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "commonRole";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "";
 						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
@@ -3433,16 +3489,20 @@ function load(settings, onChange) {
 				$(this).hide(0);
 			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
 				$(this).hide(0);
+			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
+				$(this).hide(0);
 			} 
 		});
 		$lines.find('.values-input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
-				$(this).parent('div').parent('td').hide(0);
+				$(this).parents('td').hide(0);
 			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
-				$(this).parent('td').hide(0);
+				$(this).parents('td').hide(0);
 			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
-				$(this).parent('td').hide(0);
+				$(this).parents('td').hide(0);
+			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
+				$(this).parents('td').hide(0);
 			} 
 		});
 		//Add id for selectId-Dialog
