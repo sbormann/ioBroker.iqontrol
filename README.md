@@ -91,7 +91,10 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * The frontend is called via ``http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html``
     * ``<port of web adapter>`` is usually 8082
 * To open a specified instance you can add ``namespace=iqontrol.<instance-number>`` as URL-parameter
-* To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter
+* To open a specified view you can add ``renderView=<viewID>`` as URL-parameter.
+    * ``<viewID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>``
+	* Note: this is case-sensitive!
+* To open a specified view as homepage you can add ``home=<viewID>`` as URL-parameter. This will also change the linked view of the first toolbar entry!
     * ``<viewID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>``
 	* Note: this is case-sensitive!
 * To open a specified dialog while loading the page you can add ``openDialog=<deviceID>`` as URL-parameter
@@ -547,6 +550,7 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Added ADDITIONAL_CONTROLS as universal datapoint to define an array of additional control items that will be displayed inside dialog.
 * (sbormann) Added possibility to renderViews and openDialogs via popup-buttons and postMessage-commands for iframes.
+* (sbormann) Changed behaviour of url-parameter home (this will now also change the link of the first toolbar entry) and added new url-parameter renderView.
 
 ### 1.2.6 (2020-09-27)
 * (sbormann) Scroll to element when deactivating fullScreen.

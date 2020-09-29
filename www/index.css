@@ -816,6 +816,9 @@ body {
 	   -moz-border-radius: 6px !important;
 			border-radius: 6px !important;
 }
+.jqte.DialogAdditionalControlsString{
+	width: 266px;
+}
 .jqte_focused {
     border-color: rgb(221,221,221) !important;
 	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 3px 0px !important; 
@@ -975,6 +978,9 @@ body {
 	}
 	.jqte { 
 		min-width:500px; 
+	}
+	.jqte.DialogAdditionalControlsString { 
+		min-width:466px; 
 	}
 	.iQontrolDialogIframeWrapper {
 		min-width: 500px;
@@ -1171,6 +1177,9 @@ body {
 	}
 	.jqte { 
 		min-width: 800px; 
+	}
+	.jqte.DialogAdditionalControlsString { 
+		min-width: 766px; 
 	}
 	.iQontrolDialogIframeWrapper {
 		min-width: 800px;

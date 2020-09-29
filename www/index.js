@@ -5,7 +5,7 @@
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
 var useCache = true;
-var homeId = getUrlParameter('home') || '';			//If not specified, the first toolbar-entry will be used
+var homeId = getUrlParameter('renderView') || '';	//If not specified, the first toolbar-entry will be used
 var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
@@ -1899,6 +1899,7 @@ var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
 var dialogLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 				//Same as viewUpdateFunctions, but for dialog-page
+var renderDialogCount = 0;						//When rendering a view from a foreign namespace there may be some datapoints that need to be fetched. The dialog is re-rendered. To avoid an endless loop, this variable contains nummer of re-rendering.
 
 var toastStack = [];							//Contains the toast messages that are waiting in queue to be displayed
 
@@ -2103,7 +2104,7 @@ function getStarted(triggeredByReconnection){
 				//socket.emit('subscribe', '*');
 				$('.loader').hide();
 				$.mobile.loading('hide');
-			});
+			}, "forceFetch");
 	});
 }
 
@@ -2120,29 +2121,33 @@ function fetchSystemConfig(callback){
 	});
 }
 
-function fetchConfig(_namespace, callback){
+function fetchConfig(_namespace, callback, forceFetch){
 	if (typeof _namespace == "function") {
 		callback = _namespace;
 		_namespace = null;
 	}
 	if (_namespace == null) _namespace = namespace;
-	console.debug("[Socket] getObject system.adapter." + _namespace);
-	socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
-		if(_object) {
-			config[_namespace] = _object.native;
-			if (_namespace == namespace){
-				//Create options-object
-				console.log("* Creating options-object");
-				for (var key in config[namespace]) { 
-					if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key]; 
-				};
-			} 
-			if(callback) callback();
-		} else {
-			console.log("Config-Object not found");
-			if(callback) callback(error = "objectNotFound"); //Object not found
-		}
-	});
+	if (typeof config[_namespace] == udef || forceFetch){
+		console.debug("[Socket] getObject system.adapter." + _namespace);
+		socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
+			if(_object) {
+				config[_namespace] = _object.native;
+				if (_namespace == namespace){
+					//Create options-object
+					console.log("* Creating options-object");
+					for (var key in config[namespace]) { 
+						if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key]; 
+					};
+				} 
+				if(callback) callback();
+			} else {
+				console.log("Config-Object not found");
+				if(callback) callback(error = "objectNotFound"); //Object not found
+			}
+		});
+	} else {
+		if(callback) callback();
+	}
 }
 
 function fetchView(viewId, callback){
@@ -4291,6 +4296,7 @@ function renderToolbar(){
 		if (homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
 		return;
 	}
+	if (getUrlParameter('renderView')) config[namespace].toolbar[0].nativeLinkedView = getUrlParameter('renderView');
 	if (homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];
@@ -4302,17 +4308,23 @@ function renderToolbar(){
 		//Create toolbarPressureMenu
 		toolbarPressureMenu[toolbarIndex] = {};
 		toolbarPressureMenuLinksToOtherViews[toolbarIndex] = [];
-		var view = getView(linkedViewId);
-		if (view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
-			if (typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
-				var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
-				if (deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
-					var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
-					toolbarPressureMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarPressureMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarPressureMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarPressureMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
-					toolbarPressureMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
-				}
-			}
-		};
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _toolbarIndex = toolbarIndex;
+			var _linkedViewId = linkedViewId;
+			fetchView(_linkedViewId, function(){
+				var view = getView(_linkedViewId);
+				if (view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
+					if (typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView != ""){ //Link to other view
+						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
+						if (deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
+							var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
+							toolbarPressureMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarPressureMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarPressureMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarPressureMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
+							toolbarPressureMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
+						}
+					}
+				};
+			});
+		})(); //<--End Closure
 	}
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
@@ -7189,7 +7201,6 @@ function viewSwipe(direction){
 }
 
 //++++++++++ DIALOG ++++++++++
-var renderDialogCount = 0;
 function renderDialog(deviceIdEscaped){
 	if (typeof deviceIdEscaped == udef || deviceIdEscaped == "") return;
 	var deviceId = unescape(deviceIdEscaped);
@@ -10366,7 +10377,7 @@ function renderDialog(deviceIdEscaped){
 											var type = _element.name || "Text";
 											var buttonCaption = _element.caption || "Submit";			
 											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsString_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-											dialogAdditionalControlsContent += "<textarea class='iQontrolDialogString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsString_" + _index + "' id='DialogAdditionalControlsString_" + _index + "'></textarea>";
+											dialogAdditionalControlsContent += "<textarea class='iQontrolDialogString DialogAdditionalControlsString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsString_" + _index + "' id='DialogAdditionalControlsString_" + _index + "'></textarea>";
 											if (!readonly && !dialogReadonly) {
 												dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsString_" + _index + "Submit' id='DialogAdditionalControlsString_" + _index + "Submit'>" + _(buttonCaption) + "</a>";
 											}
@@ -10403,9 +10414,9 @@ function renderDialog(deviceIdEscaped){
 							for(var i = 0; i < dialogAdditionalControlsBindingFunctions.length; i++){ dialogAdditionalControlsBindingFunctions[i](); }
 							for(var i = 0; i < dialogAdditionalControlsLinkedStateIdsToUpdate.length; i++){ updateState(dialogAdditionalControlsLinkedStateIdsToUpdate[i]); } 
 							//Enhance Textareas with jqte
-							enhanceTextareasWithJqte('.iQontrolDialogString');
+							enhanceTextareasWithJqte('.DialogAdditionalControlsString');
 							//Reposition to window
-							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 250);
+							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 500);
 						};
 						//Fetch additional linkedStates from Array and then call createDialogAdditionalControlsFunction:
 						var createDialogAdditionalControlsNumberOfStatesToFetch = _linkedAdditionalControls.length;
@@ -10662,11 +10673,13 @@ function dialogThermostatPartyModeCheckConsistency(){
 }
 
 function enhanceTextareasWithJqte(selector){
+	var selectorClass = selector.replace('.', '').replace('#', '');
 	$(selector).each(function(){
 		if($(this).parent('.jqte_source').length == 0 && isHTML($(this).val())){
 			if($(this).data('disabled') == true){ //readonly
 				var displayToolbar = "none";
 				$(this).jqte({
+					css: "jqte",
 					b: false,
 					br: false,
 					center: false,
@@ -10692,9 +10705,10 @@ function enhanceTextareasWithJqte(selector){
 					u: false,
 					ul: false,
 					unlink: false
-				}).prop('readonly', 'true').removeClass('ui-state-disabled').parents('.jqte_source').prevAll('.jqte_editor').prop('contenteditable','false').prevAll('.jqte_toolbar').css('display',displayToolbar);
+				}).prop('readonly', 'true').removeClass('ui-state-disabled').parents('.jqte_source').prevAll('.jqte_editor').prop('contenteditable','false').prevAll('.jqte_toolbar').css('display',displayToolbar).parent().addClass(selectorClass);
 			} else { //editable
 				$(this).jqte({
+					css: "jqte",
 					fsize: true,
 					fsizes: ['6','8','10','12','14','16','18','20','24','28','36'],
 					funit: "px",
@@ -10704,7 +10718,7 @@ function enhanceTextareasWithJqte(selector){
 					strike: false,
 					title: true,
 					titletext: [{title:"Format"},{title:"Schriftgr&ouml;&szlig;e"},{title:"Farbe"},{title:"Fett",hotkey:"B"},{title:"Kursiv",hotkey:"I"},{title:"Unterstrichen",hotkey:"U"},{title:"Nummeriert",hotkey:"."},{title:"Aufz&auml;hlung",hotkey:","},{title:"Tiefgestellt",hotkey:"down arrow"},{title:"Hochgestellt",hotkey:"up arrow"},{title:"Einzug verkleinern",hotkey:"left arrow"},{title:"Einzug vergr&ouml;&szlig;ern",hotkey:"right arrow"},{title:"Linksb&uuml;ndig"},{title:"Zentriert"},{title:"Rechtsb&uuml;ndig"},{title:"Durchgestrichen",hotkey:"K"},{title:"Link hinzuf&uuml;gen",hotkey:"L"},{title:"Link entfernen",hotkey:""},{title:"Style entfernen",hotkey:"Delete"},{title:"Horizontale Linie",hotkey:"H"},{title:"HTML",hotkey:""}]
-				});
+				}).parents('.jqte_source').prevAll('.jqte_toolbar').parent().addClass(selectorClass);
 				//Fix for safari z-index-bug jqte_fontsizes jqte_cpalette
 				$('#Dialog').append($('.jqte_formats'));
 				$('.jqte_formats').css('top', $('.jqte_tool_1').position().top + $('.jqte_tool_1').outerHeight()).css('left', $('.jqte_tool_1').position().left);
