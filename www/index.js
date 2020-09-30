@@ -6666,33 +6666,33 @@ function renderView(viewId, triggeredByReconnection){
 		});
 		//Start viewInfoSliderInterval
 		viewInfoSliderInterval = setInterval(function(){
-			for (deviceIdEscaped in viewInfoASliderIndex){
-				if(viewInfoASliderLength[deviceIdEscaped] < 2) break;
+			for (sliderDeviceIdEscaped in viewInfoASliderIndex){
+				if(viewInfoASliderLength[sliderDeviceIdEscaped] < 2) continue;
 				var i = 0;
 				do {
 					i++;
-					viewInfoASliderIndex[deviceIdEscaped] = (viewInfoASliderIndex[deviceIdEscaped] + 1) % viewInfoASliderLength[deviceIdEscaped];
-				} while (i < viewInfoASliderLength[deviceIdEscaped] && $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[deviceIdEscaped] + "'].iQontrolDeviceInfoAIcon").css('display') == 'none')
-				var sliderIndex = viewInfoASliderIndex[deviceIdEscaped];
-				console.log("InfoASlider " + deviceIdEscaped + ": " + sliderIndex);
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '0');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '0');
+					viewInfoASliderIndex[sliderDeviceIdEscaped] = (viewInfoASliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoASliderLength[sliderDeviceIdEscaped];
+				} while (i < viewInfoASliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAIcon").css('display') == 'none')
+				var sliderIndex = viewInfoASliderIndex[sliderDeviceIdEscaped];
+				console.log("InfoASlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '1');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '1');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '0');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoAText").css('opacity', '0');
 			}
-			for (deviceIdEscaped in viewInfoBSliderIndex){
-				if(viewInfoBSliderLength[deviceIdEscaped] < 2) break;
+			for (sliderDeviceIdEscaped in viewInfoBSliderIndex){
+				if(viewInfoBSliderLength[sliderDeviceIdEscaped] < 2) continue;
 				var i = 0;
 				do {
 					i++;
-					viewInfoBSliderIndex[deviceIdEscaped] = (viewInfoBSliderIndex[deviceIdEscaped] + 1) % viewInfoBSliderLength[deviceIdEscaped];
-				} while (i < viewInfoBSliderLength[deviceIdEscaped] && $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[deviceIdEscaped] + "'].iQontrolDeviceInfoBIcon").css('display') == 'none')
-				var sliderIndex = viewInfoBSliderIndex[deviceIdEscaped];
-				console.log("InfoBSlider " + deviceIdEscaped + ": " + sliderIndex);
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '1');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '0');
-				$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '0');
+					viewInfoBSliderIndex[sliderDeviceIdEscaped] = (viewInfoBSliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoBSliderLength[sliderDeviceIdEscaped];
+				} while (i < viewInfoBSliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBIcon").css('display') == 'none')
+				var sliderIndex = viewInfoBSliderIndex[sliderDeviceIdEscaped];
+				console.log("InfoBSlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '1');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '1');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '0');
+				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '0');
 			}
 		}, 5000)
 	});
