@@ -547,6 +547,9 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
+### dev
+* (sbormann) Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu
+
 ### 1.2.7 (2020-09-30)
 * (sbormann) Added ADDITIONAL_CONTROLS as universal datapoint to define an array of additional control items that will be displayed inside dialog.
 * (sbormann) Added possibility to renderViews and openDialogs via popup-buttons and postMessage-commands for iframes.

@@ -3056,19 +3056,6 @@ function load(settings, onChange) {
 					$(this).addClass('left');
 				});
 			}
-			/* The following part is deactivated, because the PressureMenue makes it unnecessary to disallow linkedView to some roles
-			//Remove LinkedView for unallowed Roles
-			if (name === 'nativeLinkedView') {
-				var index = $(this).data('index');
-				switch(views[devicesSelectedView].devices[index].commonRole){
-					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion": //Link to other View allowed
-					$(this).parent('div').parent('td').css('opacity', '1');
-					break;
-
-					default: //Link to other view not allowed
-					$(this).parent('div').parent('td').css('opacity', '0');
-				}
-			} */
 		});
 		$('select').select();
 		$('select').siblings('input.select-dropdown').on('mousedown', function(e){ //fixes bug where Select would close when scrubber was dragged in Chrome

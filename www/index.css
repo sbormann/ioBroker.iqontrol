@@ -132,13 +132,13 @@ body {
 	border-width: 0px !important;
 	background: transparent !important;
 }
-#ToolbarPressureMenu {
+#ToolbarContextMenu {
 	background-color: #ffffffbf;
 	max-height: 80vh;
 	padding: 1px;
 	overflow-y: auto;
 }
-#ToolbarPressureMenu a {
+#ToolbarContextMenu a {
 	min-width: 200px;
 	background-color: #d8d8d899;
 	border-top: 1px solid #9e9b9b82;
@@ -179,10 +179,10 @@ body {
 	-webkit-touch-callout: none !important;
 	background-color: transparent;
 }
-#ViewPressureMenu {
+#ViewDeviceContextMenu {
 	background-color: #ffffffbf;
 }
-#ViewPressureMenu a {
+#ViewDeviceContextMenu a {
 	min-width: 200px;
 	background-color: #d8d8d899;
 	border-top: 1px solid #9e9b9b82;

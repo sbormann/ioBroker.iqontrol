@@ -1860,14 +1860,12 @@ var returnAfterTimeDestinationView = "";		//If the option ReturnAfterTime is act
 var returnAfterTimeTreshold = 0;				//If the option ReturnAfterTime is active, this ist the treshold, after wich the destinationView will be loaded
 
 var toolbarLinksToOtherViews = [];				//Will become History when clicking on a link to other view on actual view
-var toolbarPressureMenu = {};					//Contains Items for Pressure Menu in the form of toolbarPressureMenu[toolbarIndex] = {linkedView, ...} linkedView is Object in the form of {name, href, target, onclick}
-var toolbarPressureMenuIgnorePressure = false;	//Set to true, if the toolbarPressureMenu-function is temporarily disabled, for example because a click function has been called
-var toolbarPressureMenuIgnoreClick = false;		//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
-var toolbarPressureMenuForceOld = [];			//Array of objectQueries that stores the last pressure force of the corresponding objects
-var toolbarPressureMenuFallbackTimer = false;	//Used as Fallback for some devices - contains a setInterval-Id if fallback is running
-var toolbarPressureMenuFallbackForce = 0;		//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
-var toolbarPressureMenuLinksToOtherViews = [];	//Will become History when clicking on a PressureMenu Link
-var toolbarPressureMenuChangeTimer = false;		//Limits execution of bluring-effect
+var toolbarContextMenu = {};					//Contains Items for Context Menu in the form of toolbarContextMenu[toolbarIndex] = {linkedView, ...} linkedView is Object in the form of {name, href, target, onclick}
+var toolbarContextMenuInterval = false;			//Contains the id of the running setInterval that raises the level = duration of long click of the contextMenu
+var toolbarContextMenuLevel = 0;				//Contains the level = duration of long click of the contextMenu
+var toolbarContextMenuIgnoreClick = false;		//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
+var toolbarContextMenuIgnoreStart = false;		//Set to true, if the toolbarContextMenu-function is temporarily disabled, for example because a click function has been called
+var toolbarContextMenuLinksToOtherViews = [];	//Will become History when clicking on a Context Menu Link
 
 var actualView = {};							//Contains the actual view as object
 var actualViewId;								//Contains the ID of the actual View
@@ -1877,12 +1875,11 @@ var viewHistoryPosition = 0;					//Position in history
 var deviceLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a view, where updateFunctions were created - the corresponding updateFunctions are called after rendering the view
 var viewUpdateFunctions = {};					//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
 var marqueeObserver;							//Contains MutationObserver for marquee-enabled elements
-var viewPressureMenu = {};						//Contains Items for Pressure Menu in the form of viewPressureMenu[deviceIdEscaped] = {linkedView, externalLink, ...} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
-var viewPressureMenuIgnorePressure = false;		//Set to true, if the ViewPressureMenu-function is temporarily disabled, for example because a click function has been called
-var viewPressureMenuIgnoreClick = false;		//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
-var viewPressureMenuForceOld = [];				//Array of objectQueries that stores the last pressure force of the corresponding objects
-var viewPressureMenuFallbackTimer = false;		//Used as Fallback for some devices - contains a setInterval-Id if fallback is running
-var viewPressureMenuFallbackForce = 0;			//Used as Fallback for some devices - contains a virtual force-value that is counted up by the FalbackTimer
+var viewDeviceContextMenu = {};					//Contains Items for Context Menu in the form of viewDeviceContextMenu[deviceIdEscaped] = {linkedView, externalLink, ...} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
+var viewDeviceContextMenuInterval = false;		//Contains the id of the running setInterval that raises the level = duration of long click of the contextMenu
+var viewDeviceContextMenuLevel = 0;				//Contains the level = duration of long click of the contextMenu
+var viewDeviceContextMenuIgnoreClick = false;	//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
+var viewDeviceContextMenuIgnoreStart = false;	//Set to true, if the toolbarContextMenu-function is temporarily disabled, for example because a click function has been called
 var viewTimestampElapsedTimer = false; 			//Containes the timer that updates timestamps with elapsed time
 var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
 var viewShuffleInstances = [];					//Instances of shuffle-Objects
@@ -2066,7 +2063,7 @@ if (!Array.from) {
 function getStarted(triggeredByReconnection){
 	console.log("* Get started...");
 	$('.loader').show();
-	$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
+	$("#ToolbarContextMenu, #ViewDeviceContextMenu, #Dialog").popup("close");
 	$('#pincode').hide(150);
 	states = {};
 	dialogStateIdsToFetch = [];
@@ -4304,10 +4301,10 @@ function renderToolbar(){
 	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
 		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarPressureMenuIgnoreClick){ toolbarPressureMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
-		//Create toolbarPressureMenu
-		toolbarPressureMenu[toolbarIndex] = {};
-		toolbarPressureMenuLinksToOtherViews[toolbarIndex] = [];
+		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		//Create toolbarContextMenu
+		toolbarContextMenu[toolbarIndex] = {};
+		toolbarContextMenuLinksToOtherViews[toolbarIndex] = [];
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _toolbarIndex = toolbarIndex;
 			var _linkedViewId = linkedViewId;
@@ -4318,8 +4315,8 @@ function renderToolbar(){
 						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 						if (deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
 							var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
-							toolbarPressureMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarPressureMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarPressureMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarPressureMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
-							toolbarPressureMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
+							toolbarContextMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarContextMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarContextMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarContextMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
+							toolbarContextMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
 						}
 					}
 				};
@@ -4329,146 +4326,70 @@ function renderToolbar(){
 	toolbarContent += "</ul></div>";
 	$("#ToolbarContent").html(toolbarContent);
 	$("#ToolbarContent").enhanceWithin();
-	applyToolbarPressureMenu();
+	applyToolbarContextMenu();
 }
 
-function applyToolbarPressureMenu(){
-	$('.iQontrolToolbarLink.ui-btn').pressure({
-		start: function(event){	// this is called on force start
-			//console.log("PRESSURE start");
-			//-- do nothing --
-			//(This event is handeled via touchstart-event seperately, because since iOS 13 the pressure start event is not called properly any more)
-		},
-		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
-			//console.log("PRESSURE startDeepPress");
-			//-- do nothing --
-		},
-		endDeepPress: function(){ // this is called when the "force click" / "deep press" end
-			//console.log("PRESSURE endDeepPress");
-			//-- do nothing --
-		},
-		end: function(){ // this is called on force end
-			console.log("PRESSURE end native");
-			//-- do nothing --
-			//(This event is handeled via touchend-event seperately, because since iOS 13 the pressure end event is not called properly any more)
-		},
-		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
-			var forceOld = toolbarPressureMenuForceOld[this] || 0;
-			console.debug("	PRESSURE change " + force + "|" + forceOld);
-			if (toolbarPressureMenuIgnorePressure || toolbarPressureMenuFallbackTimer) {
-				console.debug("	PRESSURE change ignore");
-				return;
-			}
-			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
-				console.log("PRESSURE change start");
-				//-- do nothing --
-			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
-				console.log("PRESSURE change start FALLBACK");
-				var that = this;
-				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-					var _that = that;
-					var _event = event;
-					if (toolbarPressureMenuFallbackTimer) {
-						clearInterval(toolbarPressureMenuFallbackTimer);
-						toolbarPressureMenuFallbackTimer = false;
-						toolbarPressureMenuFallbackForce = 0;
-					}
-					toolbarPressureMenuFallbackTimer = setInterval(function(){
-						console.debug("PRESSURE Fallback: " + toolbarPressureMenuFallbackForce);
-						if (toolbarPressureMenuIgnorePressure) {
-							console.log("	PRESSURE Fallback change ignore");
-						} else {
-							if (toolbarPressureMenuFallbackForce >= 1){
-								toolbarPressureMenuFallbackForce = 1;
-							} else {
-								toolbarPressureMenuFallbackForce += 0.05;
-							}
-							toolbarPressureMenuChange(toolbarPressureMenuFallbackForce, _event, _that);
-						}
-						toolbarPressureMenuForceOld[_that] = toolbarPressureMenuFallbackForce;
-					}, 25);
-				})(); //<--End Closure
-			} else { //Pressure change
-				toolbarPressureMenuChange(force, event, this);
-			}
-			toolbarPressureMenuForceOld[this] = force;
-		},
-		unsupported: function(){ // this is called once there is a touch on the element and the device or browser does not support Force or 3D touch - NOTE: this is only called if the polyfill option is disabled!
-		}
-	},{
-		polyfill: true,
-		polyfillSpeedUp: 500,
-		polyfillSpeedDown: 50,
-		preventSelect: true,
-		only: null
-	});
-	$('.iQontrolToolbarLink.ui-btn').on('touchstart mousedown', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
-		toolbarPressureMenuStart();
+function applyToolbarContextMenu(){
+	$('.iQontrolToolbarLink.ui-btn').on('touchstart mousedown', function(event){ 
+		console.log("toolbarContextMenu start via TOUCHSTART/MOUSEDOWN");
+		toolbarContextMenuStart(event.target);
+		viewDeviceContextMenuEnd();
 	});	
-	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		console.log("PRESSURE end via TOUCHEND/MOUSEUP");
-		toolbarPressureMenuEnd();
+	$(window).on('touchend mouseup', function(){
+		console.log("toolbarContextMenu end via TOUCHEND/MOUSEUP");
+		toolbarContextMenuEnd();
 	});	
 	$(window).scroll(function(){
-		if(!viewPressureMenuIgnorePressure){
-			console.log("PRESSURE end via SCROLL");
-			toolbarPressureMenuEnd();		
+		if(!toolbarContextMenuIgnoreStart){
+			console.log("toolbarContextMenu end via SCROLL");
+			toolbarContextMenuEnd();		
 		}
 	});
 }
 
-function toolbarPressureMenuStart(){
-	console.log("PRESSURE start function");
+function toolbarContextMenuStart(callingElement){
+	console.log("toolbarContextMenu start function");
+	if(toolbarContextMenuIgnoreStart) {
+		console.log("toolbarContextMenu start ignored");
+		return;
+	}
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-	toolbarPressureMenuForceOld = [];
-	toolbarPressureMenuIgnorePressure = false;
+	toolbarContextMenuIgnoreClick = false;
 	setTimeout(function(){
-		toolbarPressureMenuIgnoreClick = false;
+		toolbarContextMenuIgnoreClick = false;
+		console.log("toolbarContextMenu ignore click ended after 100ms");
 	}, 100);
+	toolbarContextMenuLevel = 0;
+	if(toolbarContextMenuInterval) clearInterval(toolbarContextMenuInterval);
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _callingElement = callingElement;
+		toolbarContextMenuInterval = setInterval(function(){
+			toolbarContextMenuLevel += 0.05;
+			var level = (toolbarContextMenuLevel - 0.2) * 1.25; //Ignore level <0.2
+			console.log("toolbarContextMenu level: " + level);
+			if (level > 0.5 && !toolbarContextMenuIgnoreClick){
+				console.log("toolbarContextMenu startDeepPress");
+				toolbarContextMenuIgnoreClick = true;
+			}
+			if (level >= 1){ //Maximum reached
+				console.log("toolbarContextMenu maximum reached");
+				toolbarContextMenuIgnoreStart = true;
+				openToolbarContextMenu($(_callingElement).data('index'), _callingElement);
+				toolbarContextMenuEnd();
+			} else if (level > 0) { 
+				$('.iQontrolToolbarLink.ui-btn:not(:hover), #ViewMain, .backstretch').css('filter', 'blur(' + 9 * level + 'px)');				
+			}
+		}, 25);
+	})(); //<--End Closure
 }
 
-function toolbarPressureMenuChange(force, event, that){
-	force = (force - 0.2) * 1.25; //Ignore forece <0.2
-	forceOld = ((toolbarPressureMenuForceOld[that] || 0) - 0.2) * 1.25;
-	if (toolbarPressureMenuIgnorePressure) return;
-	if (force > 0.5 && !toolbarPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
-		console.log("PRESSURE changeFunction startDeepPress");
-		toolbarPressureMenuIgnoreClick = true;
-	}
-	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
-		console.log("PRESSURE changeFunction Maximum reached");
-		toolbarPressureMenuIgnorePressure = true;
-		event.preventDefault();
-		event.stopPropagation();
-		openToolbarPressureMenu($(that).data('index'), that);
-	} else if (force >= 1 && forceOld >= 1){
-		console.log("PRESSURE changeFunction force and forceOld > 1 -> END PRESSURE!");
-		toolbarPressureMenuEnd();
-	} else {
-		console.log("PRESSURE changeFunction else");
-		if (!toolbarPressureMenuChangeTimer) {
-			toolbarPressureMenuChangeTimer = setTimeout(function(){
-				toolbarPressureMenuChangeTimer = false;
-			}, 50);
-			$('.iQontrolToolbarLink.ui-btn:not(:hover), #ViewMain, .backstretch').css('filter', 'blur(' + 9 * force + 'px)');				
-			//$('.iQontrolToolbarLink.ui-btn:not(:hover), #ViewMain, .backstretch').css('box-shadow', 'inset 0 0 50px '+ ((100 * force) -50) +'px #212121');				
-		}
-	}
-}
-
-function toolbarPressureMenuEnd(ignorePressure){
-	console.log("PRESSURE end function");
-	toolbarPressureMenuIgnorePressure = true;
+function toolbarContextMenuEnd(endIgnoreStart){
+	console.log("toolbarContextMenu end function");
+	toolbarContextMenuIgnoreStart = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
-	//$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('box-shadow', 'none');
-	if (toolbarPressureMenuFallbackTimer) {
-		clearInterval(toolbarPressureMenuFallbackTimer);
-		toolbarPressureMenuFallbackTimer = false;
-		toolbarPressureMenuFallbackForce = 0;
-	}
+	if(toolbarContextMenuInterval) clearInterval(toolbarContextMenuInterval);
 	setTimeout(function(){
-		console.log("PRESSURE end function - find active Toolbar Index");
+		console.log("toolbarContextMenu end function - find active Toolbar Index");
 		var toolbarIndex = -1;
 		for (var i = 0; i < config[namespace].toolbar.length; i++){
 			if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedViaew) == actualViewId) {
@@ -4481,29 +4402,28 @@ function toolbarPressureMenuEnd(ignorePressure){
 			$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
 		}
 	}, 1);
-	if (!ignorePressure) setTimeout(function(){
-		console.log("PRESSURE end function - delete everything");
-		toolbarPressureMenuForceOld = [];
-		toolbarPressureMenuIgnorePressure = false;
-		toolbarPressureMenuIgnoreClick = false; //####
-	}, 500);
+	if (!endIgnoreStart) setTimeout(function(){
+		console.log("toolbarContextMenu end function - end ignoreStart");
+		toolbarContextMenuIgnoreStart = false;
+		toolbarContextMenuIgnoreClick = false;
+	}, 300);
 }
 
-function openToolbarPressureMenu(toolbarIndex, callingElement){
-	console.log("PRESSURE openToolbarPressureMenu");
-	if (toolbarPressureMenu[toolbarIndex] && Object.keys(toolbarPressureMenu[toolbarIndex]).length > 0){
-		console.log("PRESSURE openToolbarPressureMenu - open");
-		$('#ToolbarPressureMenuList').empty();
-		for (key in toolbarPressureMenu[toolbarIndex]){
-			var element = toolbarPressureMenu[toolbarIndex][key];
-			$('#ToolbarPressureMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon" style="' + (typeof element.hidden != udef && element.hidden ? 'display: none;' : '') + '"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
+function openToolbarContextMenu(toolbarIndex, callingElement){
+	console.log("toolbarContextMenu openToolbarContextMenu");
+	if (toolbarContextMenu[toolbarIndex] && Object.keys(toolbarContextMenu[toolbarIndex]).length > 0){
+		console.log("toolbarContextMenu openToolbarContextMenu - open");
+		$('#ToolbarContextMenuList').empty();
+		for (key in toolbarContextMenu[toolbarIndex]){
+			var element = toolbarContextMenu[toolbarIndex][key];
+			$('#ToolbarContextMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon" style="' + (typeof element.hidden != udef && element.hidden ? 'display: none;' : '') + '"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
 		};
-		$('#ToolbarPressureMenuList').listview('refresh');
-		$("#ToolbarPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
-		toolbarPressureMenuEnd(true);
-	} else { //callingElement has no pressureMenu
-		console.log("PRESSURE openToolbarPressureMenu - calling Element has no pressureMenu");
-		toolbarPressureMenuIgnoreClick = false;
+		$('#ToolbarContextMenuList').listview('refresh');
+		$("#ToolbarContextMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
+		toolbarContextMenuEnd(true);
+	} else { //callingElement has no contextMenu
+		console.log("toolbarContextMenu openToolbarContextMenu - calling Element has no contextMenu");
+		toolbarContextMenuIgnoreClick = false;
 		$(callingElement).click();
 		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	}	
@@ -4581,19 +4501,19 @@ function renderView(viewId, triggeredByReconnection){
 				deviceLinkedStateIdsToUpdate.push(linkedTileActiveStateId);
 			}
 			deviceLinkedStateIds["tileActiveStateId"] = linkedTileActiveStateId;
-			//--viewPressureMenu
-			viewPressureMenu[deviceIdEscaped] = {};
-			viewPressureMenu[deviceIdEscaped].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick: '$("#ViewPressureMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceIdEscaped + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
-			var onclick = "$(\"#ViewPressureMenu\").popup(\"close\"); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\");";
-			viewPressureMenu[deviceIdEscaped].enlarge = {name: _("Enlarge"), icon:'arrow-u-r', href: '', target: '', onclick: onclick, hidden: true};
-			viewPressureMenu[deviceIdEscaped].reduce = {name: _("Reduce"), icon:'arrow-d-l', href: '', target: '', onclick: onclick, hidden: true};
+			//--viewDeviceContextMenu
+			viewDeviceContextMenu[deviceIdEscaped] = {};
+			viewDeviceContextMenu[deviceIdEscaped].dialog = {name: _("Properties..."), icon: 'comment', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); setTimeout(function(){renderDialog("' + deviceIdEscaped + '"); $("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 400);'};
+			var onclick = "$(\"#ViewDeviceContextMenu\").popup(\"close\"); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\");";
+			viewDeviceContextMenu[deviceIdEscaped].enlarge = {name: _("Enlarge"), icon:'arrow-u-r', href: '', target: '', onclick: onclick, hidden: true};
+			viewDeviceContextMenu[deviceIdEscaped].reduce = {name: _("Reduce"), icon:'arrow-d-l', href: '', target: '', onclick: onclick, hidden: true};
 			//--Get viewLinksToOtherViews
 			if (device.nativeLinkedView && device.nativeLinkedView != "") { //Link to other view
 				var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
 				if (deviceLinkedViewId && typeof getView(deviceLinkedViewId) !== udef && getView(deviceLinkedViewId) && typeof getView(deviceLinkedViewId).commonName !== udef){
 					var deviceLinkedViewName = getView(deviceLinkedViewId).commonName;
 					viewLinksToOtherViews.push(deviceLinkedViewId);
-					viewPressureMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewPressureMenu").popup("close"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = ' + (viewLinksToOtherViews.length - 1) + '; renderView(unescape("' + escape(deviceLinkedViewId) + '"));'};
+					viewDeviceContextMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); viewHistory = viewLinksToOtherViews; viewHistoryPosition = ' + (viewLinksToOtherViews.length - 1) + '; renderView(unescape("' + escape(deviceLinkedViewId) + '"));'};
 				}
 			}
 			//--PressureIndicator
@@ -4627,13 +4547,13 @@ function renderView(viewId, triggeredByReconnection){
 
 						default: //Link to Dialog
 						if(getDeviceOptionValue(device, "clickOnTileToggles") == "true"){ //clickOnTileToggles
-							deviceContent += "<div class='iQontrolDeviceLink toggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='if(viewPressureMenu[\"" + deviceIdEscaped + "\"] && viewPressureMenu[\"" + deviceIdEscaped + "\"].toggle && viewPressureMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewPressureMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
+							deviceContent += "<div class='iQontrolDeviceLink toggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
 						} else { //Normal Link to Dialog
 							deviceContent += "<div class='iQontrolDeviceLink dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 						}
 					}
 					if (deviceLinkedStateIds["URL"]){
-						viewPressureMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewPressureMenu").popup("close");', hidden: true};
+						viewDeviceContextMenu[deviceIdEscaped].externalLink = {name: _("Open External Link"), icon: 'action', href: '', target: '_blank', onclick: '$("#ViewDeviceContextMenu").popup("close");', hidden: true};
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -4641,12 +4561,12 @@ function renderView(viewId, triggeredByReconnection){
 							viewUpdateFunctions[_linkedUrlId].push(function(){
 								var href = getStateObject(_linkedUrlId);
 								if(href && href.val){
-									viewPressureMenu[_deviceIdEscaped].externalLink.href = href.val;
-									viewPressureMenu[_deviceIdEscaped].externalLink.hidden = false
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
 									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', href.val);
 								} else {
-									viewPressureMenu[_deviceIdEscaped].externalLink.href = "";
-									viewPressureMenu[_deviceIdEscaped].externalLink.hidden = true;
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
+									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
 									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', '');
 								}
 							});
@@ -4933,7 +4853,7 @@ function renderView(viewId, triggeredByReconnection){
 						} else {
 							deviceContent += iconContent;
 						}
-						if(onclick != "") viewPressureMenu[deviceIdEscaped].toggle = {name: _("Toggle"), icon:'power', href: '', target: '', onclick: onclick + ' $("#ViewPressureMenu").popup("close");'};
+						if(onclick != "") viewDeviceContextMenu[deviceIdEscaped].toggle = {name: _("Toggle"), icon:'power', href: '', target: '', onclick: onclick + ' $("#ViewDeviceContextMenu").popup("close");'};
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
 						//--IconError
@@ -5017,19 +4937,19 @@ function renderView(viewId, triggeredByReconnection){
 									var stateEnlarged = getStateObject(_linkedTileEnlargedId);
 									if (typeof stateEnlarged !== udef && stateEnlarged.val) {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("enlarged");
-										viewPressureMenu[_deviceIdEscaped].enlarge.hidden = true;
+										viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
 										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
-											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewPressureMenu[_deviceIdEscaped].reduce.hidden = false;
+											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;
 										} else {
-											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewPressureMenu[_deviceIdEscaped].reduce.hidden = false;											
+											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = false;											
 										}
 									} else {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("enlarged");
-										viewPressureMenu[_deviceIdEscaped].reduce.hidden = true;
+										viewDeviceContextMenu[_deviceIdEscaped].reduce.hidden = true;
 										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active")){
-											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewPressureMenu[_deviceIdEscaped].enlarge.hidden = false;
+											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuActive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;
 										} else {
-											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewPressureMenu[_deviceIdEscaped].enlarge.hidden = false;											
+											if(getDeviceOptionValue(_device, "tileEnlargeShowInPressureMenuInactive") == "true") viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = false;											
 										}
 									}
 								});
@@ -6640,7 +6560,7 @@ function renderView(viewId, triggeredByReconnection){
 			}
 			deviceLinkedStateIdsToUpdate = [];
 			applyMarqueeObserver();
-			applyViewPressureMenu();
+			applyViewDeviceContextMenu();
 			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 			//Open Dialog by URL-Parameter
 			if(openDialogId != null){
@@ -7014,167 +6934,101 @@ function startMarqueeOnOverflow(element){
 	}
 }
 
-function applyViewPressureMenu(){
+function applyViewDeviceContextMenu(){
+	//In former versions the context menu was called pressure menu - therefore there are some elements with old names like pressureIndicator
 	$('.iQontrolDeviceLink').off('click').on('click', function(event){
-		console.log("CLICK");
-		if (!viewPressureMenuIgnoreClick){
-			viewPressureMenuEnd();
+		console.log("viewDeviceContextMenu device CLICK");
+		if (!viewDeviceContextMenuIgnoreClick){
+			viewDeviceContextMenuEnd();
 			var onclick = $(this).data('onclick');
 			var that = this;
 			if (onclick) new Function('that', onclick)(that);
 		} else {
-			console.log("CLICK ignored");
+			console.log("viewDeviceContextMenu device CLICK ignored");
 		}
 	});
 	$('.iQontrolDeviceLinkToToggle').off('click').on('click', function(event){
-		console.log("CLICK TOGGLE");
+		console.log("viewDeviceContextMenu device CLICK TOGGLE");
 		event.stopPropagation();
-		viewPressureMenuIgnorePressure = true;
+		viewDeviceContextMenuIgnoreStart = true;
 	});
-	$('.iQontrolDeviceLink').pressure({
-		start: function(event){	// this is called on force start
-			//console.log("PRESSURE start");
-			//-- do nothing --
-			//(This event is handeled via touchstart-event seperately, because since iOS 13 the pressure start event is not called properly any more)
-		},
-		startDeepPress: function(event){ // this is called on "force click" / "deep press", aka once the force is greater than 0.5
-			//console.log("PRESSURE startDeepPress");
-			//-- do nothing --
-		},
-		endDeepPress: function(){ // this is called when the "force click" / "deep press" end
-			//console.log("PRESSURE endDeepPress");
-			//-- do nothing --
-		},
-		end: function(){ // this is called on force end
-			//console.log("PRESSURE end");
-			//-- do nothing --
-			//(This event is handeled via touchend-event seperately, because since iOS 13 the pressure end event is not called properly any more)
-		},
-		change: function(force, event){	// this is called every time there is a change in pressure, 'force' is a value ranging from 0 to 1
-			var forceOld = viewPressureMenuForceOld[this] || 0;
-			//console.debug("	PRESSURE change " + force + "|" + forceOld);
-			if (viewPressureMenuIgnorePressure || viewPressureMenuFallbackTimer) {
-				//console.log("	PRESSURE change ignore");
-				return;
-			}
-			if (force > 0 && force < 1 && forceOld == 0){ //Pressure change start
-				//console.log("PRESSURE change start");
-				//-- do nothing --
-			} else if (options.LayoutPressureMenuAlwaysUseFallback != false || (force >= 1 && forceOld == 0)){ //Pressure change start FALLBACK (direct jump of force from 0 to 1 on some devices)
-				//console.log("PRESSURE change start FALLBACK");
-				var that = this;
-				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-					var _that = that;
-					var _event = event;
-					if (viewPressureMenuFallbackTimer) {
-						clearInterval(viewPressureMenuFallbackTimer);
-						viewPressureMenuFallbackTimer = false;
-						viewPressureMenuFallbackForce = 0;
-					}
-					viewPressureMenuFallbackTimer = setInterval(function(){
-						//console.debug("PRESSURE Fallback: " + viewPressureMenuFallbackForce);
-						if (viewPressureMenuIgnorePressure) {
-							//console.log("	PRESSURE Fallback change ignore");
-						} else {
-							if (viewPressureMenuFallbackForce >= 1){
-								viewPressureMenuFallbackForce = 1;
-							} else {
-								viewPressureMenuFallbackForce += 0.05;
-							}
-							viewPressureMenuChange(viewPressureMenuFallbackForce, _event, _that);
-						}
-						viewPressureMenuForceOld[_that] = viewPressureMenuFallbackForce;
-					}, 25);
-				})(); //<--End Closure
-			} else { //Pressure change
-				viewPressureMenuChange(force, event, this);
-			}
-			viewPressureMenuForceOld[this] = force;
-		},
-		unsupported: function(){ // this is called once there is a touch on the element and the device or browser does not support Force or 3D touch - NOTE: this is only called if the polyfill option is disabled!
-		}
-	},{
-		polyfill: true,
-		polyfillSpeedUp: 500,
-		polyfillSpeedDown: 50,
-		preventSelect: true,
-		only: null
+	$('.iQontrolDeviceLink').on('touchstart mousedown', function(event){ 
+		console.log("viewDeviceContextMenu start via TOUCHSTART/MOUSEDOWN");
+		viewDeviceContextMenuStart(event.target);
+		toolbarContextMenuEnd();
 	});
-	$('.iQontrolDeviceLink').on('touchstart mousedown', function(){ //Fallback for iOS 13: pressure start-event is not called properly
-		//console.log("PRESSURE start via TOUCHSTART/MOUSEDOWN");
-		viewPressureMenuStart();
-	});
-	$(window).on('touchend mouseup', function(){ //Fallback for iOS 13: pressure end-event is not called properly
-		//console.log("PRESSURE end via TOUCHEND/MOUSEUP");
-		viewPressureMenuEnd();
+	$(window).on('touchend mouseup', function(){ 
+		console.log("viewDeviceContextMenu end via TOUCHEND/MOUSEUP");
+		viewDeviceContextMenuEnd();
 	});
 	$(window).scroll(function(){
-		if(!viewPressureMenuIgnorePressure){
-			//console.log("PRESSURE end via SCROLL");
-			viewPressureMenuEnd();		
+		if(!viewDeviceContextMenuIgnoreStart){
+			console.log("viewDeviceContextMenu end via SCROLL");
+			viewDeviceContextMenuEnd();		
 		}
 	});
 }
 
-function viewPressureMenuStart(){
-	//console.log("PRESSURE start function");
+function viewDeviceContextMenuStart(callingElement){
+	console.log("viewDeviceContextMenu start function");
+	if(viewDeviceContextMenuIgnoreStart) {
+		console.log("viewDeviceContextMenu start ignored");
+		return;
+	}
 	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-	viewPressureMenuForceOld = [];
-	viewPressureMenuIgnorePressure = false;
+	viewDeviceContextMenuIgnoreClick = false;
 	setTimeout(function(){
-		viewPressureMenuIgnoreClick = false;
+		viewDeviceContextMenuIgnoreClick = false;
+		console.log("viewDeviceContextMenu ignore click ended after 100ms");
 	}, 100);
+	viewDeviceContextMenuLevel = 0;
+	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _callingElement = callingElement;
+		viewDeviceContextMenuInterval = setInterval(function(){
+			viewDeviceContextMenuLevel += 0.05;
+			var level = (viewDeviceContextMenuLevel - 0.2) * 1.25; //Ignore level <0.2
+			console.log("viewDeviceContextMenu level: " + level);
+			if (level > 0.5 && !viewDeviceContextMenuIgnoreClick){
+				console.log("viewDeviceContextMenu startDeepPress");
+				viewDeviceContextMenuIgnoreClick = true;
+			}
+			if (level >= 1){ //Maximum reached
+				console.log("viewDeviceContextMenu maximum reached");
+				viewDeviceContextMenuIgnoreStart = true;
+				openViewDeviceContextMenu($(_callingElement).data('iqontrol-device-id'), _callingElement);
+				viewDeviceContextMenuEnd();
+			} else if (level > 0) { 
+				$(_callingElement).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
+			}
+		}, 25);
+	})(); //<--End Closure
 }
 
-function viewPressureMenuChange(force, event, that){
-	force = (force - 0.2) * 1.25; //Ignore forece <0.2
-	forceOld = ((viewPressureMenuForceOld[that] || 0) - 0.2) * 1.25;
-	if (force > 0.5 && !viewPressureMenuIgnoreClick){ //Pressure changeFunction startDeepPress
-		//console.log("PRESSURE changeFunction startDeepPress");
-		viewPressureMenuIgnoreClick = true;
-	}
-	if (force >= 1 && forceOld < 1){ //Pressure changeFunction Maximum reached
-		//console.log("PRESSURE changeFunction Maximum reached");
-		viewPressureMenuIgnorePressure = true;
-		event.preventDefault();
-		event.stopPropagation();
-		openViewPressureMenu($(that).data('iqontrol-device-id'), that);
-		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-	} else if (force >= 1 && forceOld >= 1){
-		console.log("PRESSURE force and forceOld > 1 -> END PRESSURE!");
-		viewPressureMenuEnd();
-	} else {
-		$(that).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * force + 'px rgba(175,175,175,0.85)');
-	}
+function viewDeviceContextMenuEnd(endIgnoreStart){
+	console.log("viewDeviceContextMenu end function");
+	viewDeviceContextMenuIgnoreStart = true;
+	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
+	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
+	if (!endIgnoreStart) setTimeout(function(){
+		console.log("viewDeviceContextMenu end function - end ignoreStart");
+		viewDeviceContextMenuIgnoreStart = false;
+		viewDeviceContextMenuIgnoreClick = false;
+	}, 300);
 }
 
-function viewPressureMenuEnd(ignorePressure){
-		//console.log("PRESSURE end function");
-		viewPressureMenuIgnorePressure = true;
-		$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
-		if (viewPressureMenuFallbackTimer) {
-			clearInterval(viewPressureMenuFallbackTimer);
-			viewPressureMenuFallbackTimer = false;
-			viewPressureMenuFallbackForce = 0;
-		}
-		if (!ignorePressure) setTimeout(function(){
-			viewPressureMenuForceOld = [];
-			viewPressureMenuIgnorePressure = false;
-			viewPressureMenuIgnoreClick = false; //####
-		}, 500);
-}
-
-function openViewPressureMenu(deviceIdEscaped, positionToElement){
-	console.log("PRESSURE openViewPressureMenu");
-	if (viewPressureMenu[deviceIdEscaped]){
-		$('#ViewPressureMenuList').empty();
-		for (key in viewPressureMenu[deviceIdEscaped]){
-			var element = viewPressureMenu[deviceIdEscaped][key];
-			$('#ViewPressureMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon" style="' + (typeof element.hidden != udef && element.hidden ? 'display: none;' : '') + '"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
+function openViewDeviceContextMenu(deviceIdEscaped, callingElement){
+	console.log("viewDeviceContextMenu openViewDeviceContextMenu");
+	if (viewDeviceContextMenu[deviceIdEscaped]){
+		console.log("viewDeviceContextMenu openViewDeviceContextMenu - open");
+		$('#ViewDeviceContextMenuList').empty();
+		for (key in viewDeviceContextMenu[deviceIdEscaped]){
+			var element = viewDeviceContextMenu[deviceIdEscaped][key];
+			$('#ViewDeviceContextMenuList').append('<li' + (typeof element.icon != udef ? ' data-icon="' + element.icon + '"' : '') + ' class="ui-nodisc-icon ui-alt-icon" style="' + (typeof element.hidden != udef && element.hidden ? 'display: none;' : '') + '"><a href="' + (typeof element.href != udef ? element.href : '') + '" target="' + (typeof element.target != udef ? element.target : '') + '" onclick=\'' + (typeof element.onclick != udef ? element.onclick : '') + '\'>' + (typeof element.name != udef ? element.name : key) + '</a></li>');
 		};
-		$('#ViewPressureMenuList').listview('refresh');
-		$("#ViewPressureMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(positionToElement)});
-		viewPressureMenuEnd(true);
+		$('#ViewDeviceContextMenuList').listview('refresh');
+		$("#ViewDeviceContextMenu").data('closeable', 'false').popup("open", {transition: "pop", positionTo: $(callingElement)});
+		viewDeviceContextMenuEnd(true);
 	}
 }
 
@@ -11171,7 +11025,7 @@ $(document).ready(function(){
 				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) {
 					console.log("Return after time - render destinationView (" + returnAfterTimeDestinationView + ")");	
 					returnAfterTimeTimestamp = null;
-					$("#ToolbarPressureMenu, #ViewPressureMenu, #Dialog").popup("close");
+					$("#ToolbarContextMenu, #ViewDeviceContextMenu, #Dialog").popup("close");
 					$('#pincode').hide(150);
 					setTimeout(function(){
 						renderView(returnAfterTimeDestinationView);
