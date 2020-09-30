@@ -547,7 +547,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
-### dev
+### 1.2.7 (2020-09-30)
 * (sbormann) Added ADDITIONAL_CONTROLS as universal datapoint to define an array of additional control items that will be displayed inside dialog.
 * (sbormann) Added possibility to renderViews and openDialogs via popup-buttons and postMessage-commands for iframes.
 * (sbormann) Changed behaviour of url-parameter home (this will now also change the link of the first toolbar entry) and added new url-parameter renderView.

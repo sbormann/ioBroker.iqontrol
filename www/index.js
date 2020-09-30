@@ -4492,7 +4492,7 @@ function toolbarPressureMenuEnd(ignorePressure){
 function openToolbarPressureMenu(toolbarIndex, callingElement){
 	console.log("PRESSURE openToolbarPressureMenu");
 	if (toolbarPressureMenu[toolbarIndex] && Object.keys(toolbarPressureMenu[toolbarIndex]).length > 0){
-	console.log("PRESSURE openToolbarPressureMenu - open");
+		console.log("PRESSURE openToolbarPressureMenu - open");
 		$('#ToolbarPressureMenuList').empty();
 		for (key in toolbarPressureMenu[toolbarIndex]){
 			var element = toolbarPressureMenu[toolbarIndex][key];
