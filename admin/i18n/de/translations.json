@@ -1,4 +1,5 @@
 {
+"Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Keinen virtuellen Datenpunkt für STATE verwenden (Schalter ausblenden, wenn STATE leer ist)",
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",
     "(Default)": "(Standard)",
     "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)": "(Wenn in iQontrol einer dieser Werte eingegeben wird, wird der hier angegebene Ziel-Wert an den hier angegebenen Ziel-Datenpunkt gesendet)",

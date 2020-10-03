@@ -1780,6 +1780,8 @@ var iQontrolRoles = {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
@@ -2364,7 +2366,7 @@ function getLinkedStateId(device, state, stateId){
 				} else { //role of state is 'linkedState'
 					var linkedStateId = stateObject.value;
 					//--Special: If STATE of iQontrolWidget is empty, create VIRTUAL DP
-					if(device.commonRole == "iQontrolWidget" && state == "STATE" && linkedStateId == ""){
+					if(device.commonRole == "iQontrolWidget" && state == "STATE" && linkedStateId == "" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
 						linkedStateId = "VIRTUAL:boolean,switch,false";
 						device.states[stateIndex] = linkedStateId;
 					}
@@ -4293,7 +4295,7 @@ function renderToolbar(){
 		if (homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
 		return;
 	}
-	if (getUrlParameter('renderView')) config[namespace].toolbar[0].nativeLinkedView = getUrlParameter('renderView');
+	if (getUrlParameter('home')) config[namespace].toolbar[0].nativeLinkedView = getUrlParameter('home');
 	if (homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
 	var toolbarContent = "";
 	toolbarLinksToOtherViews = [];

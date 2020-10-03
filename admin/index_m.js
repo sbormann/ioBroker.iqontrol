@@ -1831,6 +1831,8 @@ var iQontrolRoles = {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 

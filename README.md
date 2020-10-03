@@ -548,7 +548,10 @@ This device has some special predefined size- and display-settings to show a web
 ## Changelog
 
 ### dev
-* (sbormann) Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu
+* (sbormann) Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu.
+* (sbormann) Bank icons don't catch mouse and touch-events any more.
+* (sbormann) Added option to disable virtual datapoint (switch) for widgetes.
+* (sbormann) Fixed url-parameter home.
 
 ### 1.2.7 (2020-09-30)
 * (sbormann) Added ADDITIONAL_CONTROLS as universal datapoint to define an array of additional control items that will be displayed inside dialog.
