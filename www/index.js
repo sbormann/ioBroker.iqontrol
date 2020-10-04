@@ -1567,7 +1567,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1586,6 +1586,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
 											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
 											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
+											remoteChannelsCaption: {name: "Caption for section 'Channels'", type: "text", default: ""}, 
 											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
@@ -3452,7 +3453,8 @@ function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an e
 }
 
 function collapsibleAnimatedInit(){ // jQuery Tweak: Für den Wrapper-Div statt data-role="collapsible-set" class="ui-collapsible-set" verwenden, allen Einträgen (also divs mit data-role="collapsible") zusätzlich class="collapsibleAnimated" hinzufügen. Muss nach pagecreate initialisiert werden.
-	$(".collapsibleAnimated .ui-collapsible-content:not(.ui-collapsible-collapsed)").css('display', 'block');
+	$(".collapsibleAnimated .ui-collapsible-content:not(.ui-collapsible-content-collapsed)").css('display', 'block');
+	$(".collapsibleAnimated .ui-collapsible-content.ui-collapsible-content-collapsed").css('display', 'none');
 	$(".collapsibleAnimated .ui-collapsible-heading-toggle").on("click", function (e) { 
 		var current = $(this).closest(".ui-collapsible");             
 		if (current.hasClass("ui-collapsible-collapsed")) {
@@ -4440,7 +4442,7 @@ function renderView(viewId, triggeredByReconnection){
 	actualViewId = addNamespaceToViewId(viewId);
 	//Mark actual view on toolbar
 	var toolbarIndex = -1;
-	for (var i = 0; i < config[namespace].toolbar.length; i++){
+	if(config[namespace] && config[namespace].toolbar) for (var i = 0; i < config[namespace].toolbar.length; i++){
 		if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedView) == actualViewId) {
 			toolbarIndex = i;
 			break;
@@ -9690,7 +9692,7 @@ function renderDialog(deviceIdEscaped){
 									_linkedRemoteAdditionalButtonsIds.forEach(function(_element){
 										var state = getStateObject(_element.value);
 										if(state){
-											$("#DialogRemoteAdditionalButtonsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteAdditionalButtonsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='true'>" + _element.name + "</a></div>");
+											$("#DialogRemoteAdditionalButtonsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteAdditionalButtonsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='true'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='width:24px; height:24px; margin:-2px 0px -6px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
 										}
 										$("#DialogRemoteAdditionalButtonsContent").enhanceWithin();
 									});
@@ -9699,6 +9701,56 @@ function renderDialog(deviceIdEscaped){
 									});
 								};
 								dialogUpdateFunctions[_linkedRemoteAdditionalButtonsId].push(createRemoteAdditionalButtonsFunction);
+							})(); //<--End Closure
+						}
+						//----RemoteControl Channels
+						//Special: REMOTE_CHANNELS is an Array: [{"name":"Name", "type":"LinkedState", "value":"LinkedStateId"}, ...]
+						var linkedRemoteChannelsIds;
+						if (dialogStates["REMOTE_CHANNELS"] && typeof dialogStates["REMOTE_CHANNELS"].val != udef) linkedRemoteChannelsIds = tryParseJSON(dialogStates["REMOTE_CHANNELS"].val);
+						var linkedRemoteChannelsIdsAreValid = false;
+						if(Array.isArray(linkedRemoteChannelsIds) && typeof linkedRemoteChannelsIds == 'object') linkedRemoteChannelsIds.forEach(function(element){
+							if (typeof element.name !== udef && element.name !== udef){
+								linkedRemoteChannelsIdsAreValid = true;
+							}
+						});
+						if(linkedRemoteChannelsIdsAreValid){
+							//get additional linkedStates from Array:
+							linkedRemoteChannelsIds.forEach(function(element){
+								if (typeof states[element.value] == udef) {
+									dialogStateIdsToFetch.push(element.value);
+								}
+								if (typeof usedObjects[element.value] == udef) {
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _elementValue = element.value;
+										fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
+									})(); //<--End Closure
+								}
+								dialogLinkedStateIdsToUpdate.push(element.value);
+							});
+							var type = getDeviceOptionValue(device, "remoteChannelsCaption") || _("Channels");
+							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
+								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>";
+								dialogContent += "<div class='ui-grid-a' style='max-width:400px;' id='DialogRemoteChannelsContent'>";
+								dialogContent += "</div>";
+							dialogContent += "</div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedRemoteChannelsId = dialogLinkedStateIds["REMOTE_CHANNELS"];
+								var _linkedRemoteChannelsIds = linkedRemoteChannelsIds;
+								var createRemoteChannelsFunction = function(){
+									$("#DialogRemoteChannelsContent").html("");
+									_linkedRemoteChannelsIds.forEach(function(_element){
+										var state = getStateObject(_element.value);
+										if(state){
+											$("#DialogRemoteChannelsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteChannelsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='false'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='width:32px; height:32px; margin:-6px 0px -11px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
+										}
+										$("#DialogRemoteChannelsContent").enhanceWithin();
+									});
+									$(".DialogRemoteChannelsButton").on('click', function(e){ 
+										setState($(this).data("remote-additional-buttons-linked-state-id"), _deviceIdEscaped, $(this).data("remote-additional-buttons-button"), true);
+									});
+								};
+								dialogUpdateFunctions[_linkedRemoteChannelsId].push(createRemoteChannelsFunction);
 							})(); //<--End Closure
 						}
 						//----RemoteControl Numbers

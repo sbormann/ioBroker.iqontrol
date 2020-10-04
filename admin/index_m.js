@@ -1618,7 +1618,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1637,6 +1637,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
 											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
 											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
+											remoteChannelsCaption: {name: "Caption for section 'Channels'", type: "text", default: ""}, 
 											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}, 
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
@@ -3085,7 +3086,7 @@ function load(settings, onChange) {
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
 				if(commonRole == ""){
-					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
+					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
 						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
@@ -3294,6 +3295,7 @@ function load(settings, onChange) {
 				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
 				if ($(this).val() == "ADDITIONAL_CONTROLS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", role: "SLIDER"}, ...]</span>');
 				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "REMOTE_CHANNELS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 			}
 			if (name === 'value') {
@@ -3396,7 +3398,8 @@ function load(settings, onChange) {
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "commonRole";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
 						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
 						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
@@ -3468,6 +3471,8 @@ function load(settings, onChange) {
 				$(this).hide(0);
 			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
 				$(this).hide(0);
+			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
+				$(this).hide(0);
 			} 
 		});
 		$lines.find('.values-input[data-name]').each(function () {
@@ -3479,6 +3484,8 @@ function load(settings, onChange) {
 			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
 				$(this).parents('td').hide(0);
 			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
 				$(this).parents('td').hide(0);
 			} 
 		});
@@ -3514,7 +3521,7 @@ function load(settings, onChange) {
 			if (imagenames.length > 0){
 				imagenames.unshift(";[" + _("User Symbols") + ":]");
 			}
-			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (link + "/images/symbols/info.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
+			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (link + "/images/icons/blank.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
 		}
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
