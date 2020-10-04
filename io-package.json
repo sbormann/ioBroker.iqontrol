@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.3.0",
+        "version": "1.3.1",
         "news": {
-            "1.3.0": {
+            "1.3.1": {
                 "en": "Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu, Blank icons don't catch mouse and touch-events any more, Added option to disable virtual datapoint (switch) for widgetes, Fixed url-parameter home, Added collapsible sections to device options, Enhanced channel detector for autocreate devices function, Enhanced dropdown-menus on admin-page to work better on mobile devices.",
                 "de": "Breaking Change: Druckerkennung vollständig entfernt und durch lange Klicks ersetzt, um das Kontextmenü zu öffnen. Leere Symbole erfassen keine Maus- und Berührungsereignisse mehr. Option zum Deaktivieren des virtuellen Datenpunkts (Schalters) für Widgetes hinzugefügt. URL-Parameter-Startseite behoben. ",
                 "ru": "Критическое изменение: полностью удалено обнаружение давления и заменено долгими щелчками для открытия контекстного меню, пустые значки больше не улавливают события мыши и касания, добавлена ​​возможность отключить виртуальную точку данных (переключатель) для виджетов, фиксированный исходный URL-параметр, ",
