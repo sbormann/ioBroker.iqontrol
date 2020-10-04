@@ -1,5 +1,4 @@
 {
-"Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)",
     "%s is directory. Only file upload allowed.": "%s is directory. Only file upload allowed.",
     "(Default)": "(Default)",
     "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)": "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)",
@@ -113,6 +112,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML",
     "Disable swiping": "Disable swiping",
     "Disable zoom-effect on hover": "Disable zoom-effect on hover",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)",
     "Door": "Door",
     "Door with lock": "Door with lock",
     "Edit Array:": "Edit Array:",

@@ -169,6 +169,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "将鼠标事件直接定向到图块，而不是Background_URL / HTML的内容",
     "Disable swiping": "禁用刷卡",
     "Disable zoom-effect on hover": "在悬停时禁用缩放效果",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "不要将虚拟数据点用于STATE（隐藏开关，如果STATE为空）",
     "Documentation": "文档",
     "Door": "门",
     "Door with lock": "门锁",

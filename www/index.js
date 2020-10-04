@@ -3452,6 +3452,7 @@ function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an e
 }
 
 function collapsibleAnimatedInit(){ // jQuery Tweak: Für den Wrapper-Div statt data-role="collapsible-set" class="ui-collapsible-set" verwenden, allen Einträgen (also divs mit data-role="collapsible") zusätzlich class="collapsibleAnimated" hinzufügen. Muss nach pagecreate initialisiert werden.
+	$(".collapsibleAnimated .ui-collapsible-content:not(.ui-collapsible-collapsed)").css('display', 'block');
 	$(".collapsibleAnimated .ui-collapsible-heading-toggle").on("click", function (e) { 
 		var current = $(this).closest(".ui-collapsible");             
 		if (current.hasClass("ui-collapsible-collapsed")) {
@@ -4668,7 +4669,7 @@ function renderView(viewId, triggeredByReconnection){
 								}
 							}
 						} 
-						var hideIconEnlarged = getDeviceOptionValue(device, "hideIconEnlarged") || false;
+						var hideIconEnlarged = (getDeviceOptionValue(device, "hideIconEnlarged") == "true") || false;
 						switch(device.commonRole){
 							case "iQontrolView": case "":
 							if (icons["on"] && icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blank.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";

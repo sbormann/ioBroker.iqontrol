@@ -112,6 +112,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "Directe muisgebeurtenissen naar de tegel in plaats daarvan naar de inhoud van BACKGROUND_URL / HTML",
     "Disable swiping": "Schakel vegen uit",
     "Disable zoom-effect on hover": "Schakel zoomeffect uit bij zweven",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Gebruik geen virtueel datapunt voor STATE (verberg schakelaar, als STATE leeg is)",
     "Door": "Deur",
     "Door with lock": "Deur met slot",
     "Edit Array:": "Matrix bewerken:",

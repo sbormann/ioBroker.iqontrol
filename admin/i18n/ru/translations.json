@@ -112,6 +112,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "Направляйте события мыши на плитку вместо содержимого BACKGROUND_URL / HTML",
     "Disable swiping": "Отключить смахивание",
     "Disable zoom-effect on hover": "Отключить эффект масштабирования при наведении",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Не используйте виртуальную точку данных для STATE (скрыть переключатель, если STATE пуст)",
     "Door": "Дверь",
     "Door with lock": "Дверь с замком",
     "Edit Array:": "Изменить массив:",

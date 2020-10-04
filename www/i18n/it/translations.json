@@ -169,6 +169,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "Indirizza gli eventi del mouse al riquadro invece del contenuto di BACKGROUND_URL / HTML",
     "Disable swiping": "Disabilita lo scorrimento",
     "Disable zoom-effect on hover": "Disabilita l'effetto zoom al passaggio del mouse",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Non utilizzare un datapoint virtuale per STATE (nascondi switch, se STATE è vuoto)",
     "Documentation": "Documentazione",
     "Door": "Porta",
     "Door with lock": "Porta con serratura",

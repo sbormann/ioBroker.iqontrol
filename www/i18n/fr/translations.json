@@ -169,6 +169,7 @@
     "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML": "Dirigez les événements de souris vers la vignette plutôt que vers le contenu de BACKGROUND_URL / HTML",
     "Disable swiping": "Désactiver le balayage",
     "Disable zoom-effect on hover": "Désactiver l'effet de zoom lors du survol",
+    "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "N'utilisez pas de point de données virtuel pour STATE (cachez le commutateur, si STATE est vide)",
     "Documentation": "La Documentation",
     "Door": "Porte",
     "Door with lock": "Porte avec serrure",
