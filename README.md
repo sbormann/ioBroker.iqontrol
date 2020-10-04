@@ -547,7 +547,10 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
-### 1.3.0 (2020-10-04)
+### dev
+
+
+### 1.3.1 (2020-10-04)
 * (sbormann) Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu.
 * (sbormann) Blank icons don't catch mouse and touch-events any more.
 * (sbormann) Added option to disable virtual datapoint (switch) for widgetes.
