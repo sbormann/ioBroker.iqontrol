@@ -4436,8 +4436,9 @@ function openToolbarContextMenu(toolbarIndex, callingElement){
 
 //++++++++++ VIEW ++++++++++
 function renderView(viewId, triggeredByReconnection){
-	console.log("renderView " + viewId);
-	if(!viewId) viewId = homeId;
+	console.log("renderView " + viewId + ", triggeredByReconnection: " + !!triggeredByReconnection);
+	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
+	if(!viewId){ console.log("No viewId to render!"); return; }
 	if(actualViewId != addNamespaceToViewId(viewId)) triggeredByReconnection = false;
 	actualViewId = addNamespaceToViewId(viewId);
 	//Mark actual view on toolbar
@@ -7061,6 +7062,7 @@ function viewSwipe(direction){
 
 //++++++++++ DIALOG ++++++++++
 function renderDialog(deviceIdEscaped){
+	console.log("renderDialog " + deviceIdEscaped);
 	if (typeof deviceIdEscaped == udef || deviceIdEscaped == "") return;
 	var deviceId = unescape(deviceIdEscaped);
 	fetchConfig(getNamespace(deviceId), function(){
@@ -9742,7 +9744,7 @@ function renderDialog(deviceIdEscaped){
 									_linkedRemoteChannelsIds.forEach(function(_element){
 										var state = getStateObject(_element.value);
 										if(state){
-											$("#DialogRemoteChannelsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteChannelsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='false'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='width:32px; height:32px; margin:-6px 0px -11px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
+											$("#DialogRemoteChannelsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteChannelsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='false'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='max-width:94px; height:32px; margin:-6px 0px -11px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
 										}
 										$("#DialogRemoteChannelsContent").enhanceWithin();
 									});
@@ -10048,21 +10050,26 @@ function renderDialog(deviceIdEscaped){
 								var iframe = document.getElementById('DialogPopupIframe');
 								if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "" && getDeviceOptionValue(_device, "openURLExternal") != "true") {
 									iframe.src = states[_linkedUrlId].val;
-									setTimeout(function(){
-										$('.iQontrolDialogIframeWrapper').show();
-										$('#Dialog').popup('reposition', {positionTo: 'window'});
-									}, 500);
+									if(iframe.onload == null) {
+										iframe.onload = function(){ 
+											this.onload = function(){};
+											$('.iQontrolDialogIframeWrapper').show();
+											$('#Dialog').popup('reposition', {positionTo: 'window'});
+										}
+									}
 								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
 									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-									//iframedoc.body.innerHTML = states[_linkedHtmlId].val;
+									if(iframe.onload == null) {
+										iframe.onload = function(){ 
+											this.onload = function(){};
+											$('.iQontrolDialogIframeWrapper').show();
+											$('#Dialog').popup('reposition', {positionTo: 'window'});
+										}
+									}
 									iframedoc.open();
 									iframedoc.write(states[_linkedHtmlId].val);
 									$(iframedoc).find('body').css('font-family', 'sans-serif');
 									iframedoc.close();
-									setTimeout(function(){
-										$('.iQontrolDialogIframeWrapper').show();
-										$('#Dialog').popup('reposition', {positionTo: 'window'});
-									}, 500);
 								} else {
 									$('.iQontrolDialogIframeWrapper').hide();						
 								}
@@ -10927,6 +10934,7 @@ $(document).ready(function(){
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
+		dialogUpdateFunctions = {};
 	});
 
 	//PullToRefresh
