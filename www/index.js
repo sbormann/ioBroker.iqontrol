@@ -2098,7 +2098,7 @@ function getStarted(triggeredByReconnection){
 					viewHistoryPosition = 0;
 					console.log("* Home rendered.");
 				} else {
-					console.log("* Actuel view rendered.");
+					console.log("* Actual view rendered.");
 				}
 				fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
 				//socket.emit('subscribe', '*');
@@ -4628,7 +4628,7 @@ function renderView(viewId, triggeredByReconnection){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 											iframedoc.open();
-											iframedoc.write(stateBackgroundHTML.val);
+											iframedoc.write(stateBackgroundHTML.val.replace(/\\n/g, String.fromCharCode(13)));
 											$(iframedoc).find('body').css('font-family', 'sans-serif');
 											iframedoc.close();
 											setTimeout(function(){
@@ -10067,7 +10067,7 @@ function renderDialog(deviceIdEscaped){
 										}
 									}
 									iframedoc.open();
-									iframedoc.write(states[_linkedHtmlId].val);
+									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
 									$(iframedoc).find('body').css('font-family', 'sans-serif');
 									iframedoc.close();
 								} else {

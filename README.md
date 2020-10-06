@@ -551,6 +551,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added icons to REMOTE_ADDITIONAL_BUTTONS of remote control.
 * (sbormann) Added REMOTE_CHANNELS to display channel buttons inside remote control.
 * (sbormann) Enhanced positioning of dialog if URL/HTML is set.
+* (sbormann) When writing data to an iframe replace encoded cr chars.
 
 ### 1.3.1 (2020-10-04)
 * (sbormann) Breaking change: completely removed presssure detection and replaced it by long clicks to open context menu.
