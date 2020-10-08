@@ -519,6 +519,9 @@ body {
 .iQontrolDevice:not(.active) .iQontrolDeviceBackground.active {
 	opacity: 0 !important;
 }
+.iQontrolDevice.enlarged .iQontrolDeviceBackground.hideIfEnlarged {
+	opacity: 0 !important;
+}
 .iQontrolDeviceBackground:not(.active) {
 	background-color: rgb(180, 180, 180);
 	opacity: 0.5;
