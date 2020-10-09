@@ -578,9 +578,8 @@ body {
 	pointer-events: none !important;
 	display: none;
 }
-.iQontrolDeviceIcon[src="./images/icons/blank.png"]{
+.iQontrolDevice.active .iQontrolDeviceIcon.noPointerEventsIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceIcon.noPointerEventsIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceIcon.noPointerEventsIfEnlarged {
 	pointer-events: none !important;
-	display:none;
 }
 .iQontrolDeviceLoading {
 	pointer-events:none !important;
