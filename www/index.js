@@ -11081,8 +11081,9 @@ $(document).ready(function(){
 			console.log("postMessage received from " + event.source.frameElement.id + ": " + JSON.stringify(event.data));
 			if(event.source.frameElement.dataset.allowPostMessage == "true"){
 				if(event.data.command) switch(event.data.command){
-					case "getState":
+					case "getState": case "getWidgetState":
 					if(event.data.stateId){
+						if(event.data.command == "getWidgetState") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
 						console.log("postMessage received: getState " + event.data.stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
@@ -11095,8 +11096,9 @@ $(document).ready(function(){
 					}
 					break;
 
-					case "getStateSubscribed":
+					case "getStateSubscribed": case "getWidgetStateSubscribed":
 					if(event.data.stateId){
+						if(event.data.command == "getWidgetStateSubscribed") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
 						console.log("postMessage received: getState " + event.data.stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
@@ -11114,8 +11116,9 @@ $(document).ready(function(){
 					}
 					break;
 
-					case "setState":
+					case "setState": case "setWidgetState":
 					if(event.data.stateId && event.data.value){
+						if(event.data.command == "setWidgetState") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
 						console.log("postMessage received: setState " + event.data.stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;

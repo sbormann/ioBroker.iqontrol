@@ -60,6 +60,7 @@ var inbuiltSymbols = [
 
 var inbuiltWidgets = [
 ];
+inbuiltWidgets = [{filename:"clock_and_weather.html", name:"Clock and Weather", options: {sizeInactive: "xwideIfInactive highIfInactive", sizeActive: "xwideIfAactive highIfInactive", sizeInactive: "xwideIfActive highIfActive"}, icon: "/images/icons/file_html.png", info:"(C) by blackeagle"}]
 
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -2709,7 +2710,7 @@ function load(settings, onChange) {
 			if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "icon") inbuiltIcons = inbuiltIcons.concat(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].defaultIcons.split(";"));
 		}
 	}
-	removeDuplicates(inbuiltIcons);
+	inbuiltIcons = removeDuplicates(inbuiltIcons);
 	inbuiltIcons.sort();
 
 	//Update all Colorpickers
@@ -3438,8 +3439,8 @@ function load(settings, onChange) {
 		//Add widgets and websites to Selectbox for URL and BACKGROUND_URL
 		var inbuiltWidgetsString = "";
 		inbuiltWidgets.forEach(function(widget){
-			if (widget != "") {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget).replace(/\//g, "\\") + "/" + widget.replace(/\//g, "\\");	
+			if (widget && typeof widget.filename != udef) {
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + (widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -4434,11 +4435,11 @@ function load(settings, onChange) {
 				var imageIndex = $(this).data('index');
 				var filename = images[imageIndex].filename;
 				if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_html.png' data-filetype='htmlmixed' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_html.png' data-filetype='htmlmixed' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".css")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_css.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_css.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".mjs") || filename.endsWith(".js")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_js.png' data-filetype='javascript' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_js.png' data-filetype='javascript' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else {
 					$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + filename + "' data-filetype='image' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
 				}
@@ -4451,7 +4452,7 @@ function load(settings, onChange) {
 					var newName = images[index].filename;
 					var isValid = false;
 					do {
-						newName = prompt(_("Change filename from %s to:", oldName), newName).replace(/\\/g, "/");
+						newName = (prompt(_("Change filename from %s to:", oldName), newName) || "").replace(/\\/g, "/");
 						isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 						if (!isValid) alert(_("Invalid Name"));
 					} while (!isValid)
@@ -4561,7 +4562,7 @@ function load(settings, onChange) {
 		var newName = (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder";
 		var isValid = false;
 		do {
-			newName = prompt(_("Create Directory"), newName).replace(/\\/g, "/");
+			newName = (prompt(_("Create Directory"), newName) || "").replace(/\\/g, "/");
 			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 			if (!isValid) alert(_("Invalid Name"));
 		} while (!isValid)
@@ -4585,7 +4586,7 @@ function load(settings, onChange) {
 		var newName = $('#imagesSelectedDir').val();
 		var isValid = false;
 		do {
-			newName = prompt(_("Change Directory Name from %s to:", oldName), newName).replace(/\\/g, "/");
+			newName = (prompt(_("Change Directory Name from %s to:", oldName), newName) || "").replace(/\\/g, "/");
 			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 			if (!isValid) alert(_("Invalid Name"));
 		} while (!isValid)
@@ -4877,12 +4878,89 @@ function save(callback) {
 			obj[$this.attr('id')] = $this.val();
 		}
 	});
+
 	//Get edited subsettings
 	obj.toolbar = toolbar;
 	obj.views = views;
+
 	//Set version
 	version = ++version || 0;
 	obj.version = version;
-	//Save settings
-	callback(obj);
+
+	//Get widgetDatapoints
+	async function downloadFileAsStringAsync(filename, path) {
+		return await new Promise(function(resolve){
+			if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+			path = (path ? path + "/" : "") + filename;
+			if (path[0] === '/') {
+				var parts = path.split('/');
+				_adapter = parts[1];
+				parts.splice(0, 2);
+				path = parts.join('/');
+			}
+			socket.emit('readFile', _adapter, path, function (error, fileData, mimeType) {
+				if(!error && fileData){
+					resolve(fileData);
+				} else {
+					resolve("");
+				}
+			});
+		});
+	}
+	var imagePath = "/iqontrol/images";
+	var widgetsToDownload = [];
+	views.forEach(function(view){
+		if (typeof view.devices != udef) view.devices.forEach(function(device){
+			if (typeof device.states != udef) device.states.forEach(function(state){
+				if((state.state == "URL" ||state.state == "BACKGROUND_URL") && state.commonRole == "const" && state.value != "") {
+					var filename = null;
+					var path = null;
+					if(state.value.indexOf("./images/widgets/") == 0){ 
+						filename = state.value.substr(8);
+						path = imagePath;
+					}
+					if(state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+						filename = state.value.substr(29);
+						path = userfilesImagePath;
+					}									
+					if(filename && path){
+						widgetsToDownload.push({filename: filename, path: path});
+					}
+				}
+			});
+		});
+	});
+	widgetsToDownload = removeDuplicates(widgetsToDownload);
+	if(widgetsToDownload.length > 0){
+		var widgetsDatapoints = [];
+		var widgetsToDownloadCount = widgetsToDownload.length;
+		widgetsToDownload.forEach(function(widget){
+			downloadFileAsStringAsync(widget.filename, widget.path).then(function(htmlAsString){
+				widgetsToDownloadCount--;
+				$(htmlAsString).filter('meta[name="widget-datapoint"]').each(function(){ 
+					var id = $(this).prop('content');
+					var data = $(this).data() || {};
+					var type = data.type || "string";
+					var role = data.role || "";
+					var name = data.name || id;
+					var min = data.min || null;
+					var max = data.max || null;
+					var def = data.def || null;
+					var unit = data.unit || null;
+					var widgetDatapoint = {id: id, type: type, role: role, name: name, min: min, max: max, def: def, unit: unit};
+					widgetsDatapoints.push(widgetDatapoint);
+					console.log("Found widgetDatapoint: ", widgetDatapoint);
+				});
+				if(widgetsToDownloadCount == 0){
+					obj.widgetsDatapoints = widgetsDatapoints;
+					//Save settings
+					callback(obj);
+				}
+			});			
+		});
+	} else {
+		obj.widgetsDatapoints = [];
+		//Save settings
+		callback(obj);
+	}
 }

@@ -17,6 +17,10 @@ function idEncode(id){
 	return id.replace(/[\.\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
 }
 
+function idEncodePointAllowed(id){
+	return id.replace(/[\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
+}
+
 class Iqontrol extends utils.Adapter {
 
 	/**
@@ -250,6 +254,37 @@ class Iqontrol extends utils.Adapter {
 		});
 	}
 	
+	async createWidgets(){
+		if(typeof this.config.widgetsDatapoints != 'undefined'){
+			for(var index = 0; index < this.config.widgetsDatapoints.length; index++){
+				let that = this;
+				let objName = this.config.widgetsDatapoints[index].name || idEncodePointAllowed(this.config.widgetsDatapoints[index].id);
+				let objId = "Widgets." + idEncodePointAllowed(this.config.widgetsDatapoints[index].id);
+				let obj = {
+					"type": "state",
+					"common": {
+						"name": objName,
+						"desc": "created by iQontrol",
+						"type": this.config.widgetsDatapoints[index].type || "string",
+						"role": this.config.widgetsDatapoints[index].role || "",
+						"icon": ""
+					},
+					"native": {}
+				};
+				if(this.config.widgetsDatapoints[index].min) obj.common.min = this.config.widgetsDatapoints[index].min;
+				if(this.config.widgetsDatapoints[index].max) obj.common.max = this.config.widgetsDatapoints[index].max;
+				if(this.config.widgetsDatapoints[index].def) obj.common.def = this.config.widgetsDatapoints[index].def;
+				if(this.config.widgetsDatapoints[index].unit) obj.common.unit = this.config.widgetsDatapoints[index].unit;
+				createdObjects.push(objId);
+				await this.setObjectAsync(objId, obj, true).then(function(){ 
+					that.log.debug("created: " + objId); 
+				}, function(err){
+					that.log.debug("ERROR creating " + objId + ": " + err);
+				});
+			}
+		}
+	}
+	
 	async setStateValue(id, value){
 		let that = this;
 		await this.setStateAsync(id, value).then(function(){ 
@@ -296,6 +331,9 @@ class Iqontrol extends utils.Adapter {
 		
 		this.log.info("Creating Popup States...");
 		await this.createPopup();
+		
+		this.log.info("Creating Widget States...");
+		await this.createWidgets();
 		
 		//this.log.debug("Created Objects: " + createdObjects.length + " (" + createdObjects.toString() + ")");
 
