@@ -11083,13 +11083,15 @@ $(document).ready(function(){
 				if(event.data.command) switch(event.data.command){
 					case "getState": case "getWidgetState":
 					if(event.data.stateId){
-						if(event.data.command == "getWidgetState") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
-						console.log("postMessage received: getState " + event.data.stateId);
+						var stateId = event.data.stateId;
+						if(event.data.command == "getWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
+						console.log("postMessage received: getState " + stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
-							fetchStates(_event.data.stateId, function(){
-								if(states[_event.data.stateId]){
-									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_event.data.stateId]}, "*");
+							var _stateId = stateId;
+							fetchStates(_stateId, function(){
+								if(states[_stateId]){
+									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_stateId]}, "*");
 								}
 							});
 						})(); //<--End Closure
@@ -11098,17 +11100,19 @@ $(document).ready(function(){
 
 					case "getStateSubscribed": case "getWidgetStateSubscribed":
 					if(event.data.stateId){
-						if(event.data.command == "getWidgetStateSubscribed") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
-						console.log("postMessage received: getState " + event.data.stateId);
+						var stateId = event.data.stateId;
+						if(event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
+						console.log("postMessage received: getState " + stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
-							fetchStates(_event.data.stateId, function(){
+							var _stateId = stateId;
+							fetchStates(_stateId, function(){
 								var updateFunction = function(){
-									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_event.data.stateId]}, "*");
+									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_stateId]}, "*");
 								}
-								if(!viewUpdateFunctions[_event.data.stateId]) viewUpdateFunctions[_event.data.stateId] = [];
-								viewUpdateFunctions[_event.data.stateId].push(updateFunction);
-								if(states[_event.data.stateId]){
+								if(!viewUpdateFunctions[_stateId]) viewUpdateFunctions[_stateId] = [];
+								viewUpdateFunctions[_stateId].push(updateFunction);
+								if(states[_stateId]){
 									updateFunction();
 								}
 							});
@@ -11118,17 +11122,19 @@ $(document).ready(function(){
 
 					case "setState": case "setWidgetState":
 					if(event.data.stateId && event.data.value){
-						if(event.data.command == "setWidgetState") event.data.stateId = namespace + ".Widgets." + event.data.stateId;
-						console.log("postMessage received: setState " + event.data.stateId + " to " + event.data.value);
+						var stateId = event.data.stateId;
+						if(event.data.command == "setWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
+						console.log("postMessage received: setState " + stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
+							var _stateId = stateId;
 							var _value = _event.data.value
 							if(typeof _value != "object"){
 								_value = {val: _value, ack: false};
 							}
-							deliverState(_event.data.stateId, _value, function(error){
+							deliverState(_stateId, _value, function(error){
 								setTimeout(function(){
-									updateState(_event.data.stateId, "ignorePreventUpdate");
+									updateState(_stateId, "ignorePreventUpdate");
 								}, 200);
 							});
 						})(); //<--End Closure
