@@ -305,6 +305,183 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 ````
 </details>
 
+### Further configuration of widgets
+* There are additional meta-tags, you can use inside the head-section of your widget-website to configure the behavior of the widget:
+	* 'widget-description'
+		* syntax: ``<meta name="widget-description" content="Please see www.mywebsite.com for further informations. (C) by me"/>``
+		* This will be displayed when chosing the widget as URL or BACKGROUND_URL
+	* 'widget-options'
+		* syntax: ``<meta name="widget-options" content="{noZoomOnHover: 'true', hideDeviceName: 'true'}"/>``
+		* See the expandable section below for the possible options that can be configured by this meta-tag
+
+<details>
+<summary>Show possible options that can be configured by the meta-tag 'widget-options':</summary>
+* ``Icons:
+	* ``icon_on`` (Icon on):
+		* Default: ""
+	* ``icon_off`` (Icon off):
+		* Default: ""
+* ``Device Specific Options:
+	* ``noVirtualState`` (Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+* ``General:
+	* ``readonly`` (Readonly):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``invertUnreach`` (Invert UNREACH (use connected instead of unreach)):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``additionalControlsSectionType`` (Appereance of ADDITIONAL_CONTROLS):
+		* Possible values: "none"|"collapsible"|"collapsible open"
+		* Default: "collapsible"
+	* ``additionalControlsCaption`` (Caption for ADDITIONAL_CONTROLS):
+		* Default: "Additional Controls"
+	* ``additionalInfoSectionType`` (Appereance of ADDITIONAL_INFO):
+		* Possible values: "none"|"collapsible"|"collapsible open"
+		* Default: "collapsible"
+	* ``additionalInfoCaption`` (Caption for ADDITIONAL_INFO):
+		* Default: "Additional Infos"
+* ``BATTERY Empty Icon:
+	* ``batteryActiveCondition`` (Condition):
+		* Possible values: ""|"at"|"af"|"eqt"|"eqf"|"eq"|"ne"|"gt"|"ge"|"lt"|"le"
+		* Default: ""
+	* ``batteryActiveConditionValue`` (Condition value):
+		* Default: ""
+* ``Tile-Behaviour (general):
+	* ``clickOnIconOpensDialog`` (Click on icon opens dialog (instead of toggling)):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``noZoomOnHover`` (Disable zoom-effect on hover):
+		* Possible values: "true"|"false"
+		* Default: "true"
+	* ``hideDeviceName`` (Hide device name):
+		* Possible values: "true"|"false"
+		* Default: "true"
+* ``Tile-Behaviour if device is inactive:
+	* ``sizeInactive`` (Size of tile, if device is inactive):
+		* Possible values: ""|"narrowIfInactive shortIfInactive"|"narrowIfInactive"|"narrowIfInactive highIfInactive"|"narrowIfInactive xhighIfInactive"|"shortIfInactive"|"shortIfInactive wideIfInactive"|"shortIfInactive xwideIfInactive"|"wideIfInactive"|"xwideIfInactive"|"highIfInactive"|"xhighIfInactive"|"wideIfInactive highIfInactive"|"xwideIfInactive highIfInactive"|"wideIfInactive xhighIfInactive"|"xwideIfInactive xhighIfInactive"|"fullWidthIfInactive aspect-1-1IfInactive"|"fullWidthIfInactive aspect-4-3IfInactive"|"fullWidthIfInactive aspect-3-2IfInactive"|"fullWidthIfInactive aspect-16-9IfInactive"|"fullWidthIfInactive aspect-21-9IfInactive"|"fullWidthIfInactive fullHeightIfInactive"|"
+		* Default: "xwideIfInactive highIfInactive"
+	* ``bigIconInactive`` (Show big icon, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``iconNoPointerEventsInactive`` (Ignore mouse events for the icon, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``noOverlayInactive`` (Remove overlay of tile, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "true" 
+	* ``hideBackgroundURLInactive`` (Hide background from BACKGROUND_URL/HTML, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideDeviceNameIfInactive`` (Hide device name, if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideStateIfInactive`` (Hide state, if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "true"	* ``
+	* ``hideDeviceIfInactive`` (Hide device, if it is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"	* ``
+* ``Tile-Behaviour if device is active:
+	* ``sizeActive`` (Size of tile, if device is active):
+		* Possible values: ""|"narrowIfActive shortIfActive"|"narrowIfActive"|"narrowIfActive highIfActive"|"narrowIfActive xhighIfActive"|"shortIfActive"|"shortIfActive wideIfActive"|"shortIfActive xwideIfActive"|"wideIfActive"|"xwideIfActive"|"highIfActive"|"xhighIfActive"|"wideIfActive highIfActive"|"xwideIfActive highIfActive"|"wideIfActive xhighIfActive"|"xwideIfActive xhighIfActive"|"fullWidthIfActive aspect-1-1IfActive"|"fullWidthIfActive aspect-4-3IfActive"|"fullWidthIfActive aspect-3-2IfActive"|"fullWidthIfActive aspect-16-9IfActive"|"fullWidthIfActive aspect-21-9IfActive"|"fullWidthIfActive fullHeightIfActive"|"
+	* ``bigIconActive`` (Show big icon, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``iconNoPointerEventsActive`` (Ignore mouse events for the icon, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``noOverlayActive`` (Remove overlay of tile, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "true"
+	* ``hideBackgroundURLActive`` (Hide background from BACKGROUND_URL/HTML, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideDeviceNameIfActive`` (Hide device name, if the device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideStateIfActive`` (Hide state, if the device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideDeviceIfActive`` (Hide device, if it is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+* ``Tile-Behaviour if device is enlarged:
+	* ``sizeEnlarged`` (Size of tile, if device is enlarged):
+		* Possible values: ""|"narrowIfEnlarged shortIfEnlarged"|"narrowIfEnlarged"|"narrowIfEnlarged highIfEnlarged"|"narrowIfEnlarged xhighIfEnlarged"|"shortIfEnlarged"|"shortIfEnlarged wideIfEnlarged"|"shortIfEnlarged xwideIfEnlarged"|"wideIfEnlarged"|"xwideIfEnlarged"|"highIfEnlarged"|"xhighIfEnlarged"|"wideIfEnlarged highIfEnlarged"|"xwideIfEnlarged highIfEnlarged"|"wideIfEnlarged xhighIfEnlarged"|"xwideIfEnlarged xhighIfEnlarged"|"fullWidthIfEnlarged aspect-1-1IfEnlarged"|"fullWidthIfEnlarged aspect-4-3IfEnlarged"|"fullWidthIfEnlarged aspect-3-2IfEnlarged"|"fullWidthIfEnlarged aspect-16-9IfEnlarged"|"fullWidthIfEnlarged aspect-21-9IfEnlarged"|"fullWidthIfEnlarged fullHeightIfEnlarged"|"
+	* ``bigIconEnlarged`` (Show big icon, if device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "true"
+	* ``iconNoPointerEventsEnlarged`` (Ignore mouse events for the icon, if device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``noOverlayEnlarged`` (Remove overlay of tile, if device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``tileEnlargeStartEnlarged`` (Tile is enlarged on start):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``tileEnlargeShowButtonInactive`` (Show Enlarge-Button, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "true" 
+	* ``tileEnlargeShowButtonActive`` (Show Enlarge-Button, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "true" 
+	* ``tileEnlargeShowInPressureMenuInactive`` (Show Enlarge in Menu, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "true" 
+	* ``tileEnlargeShowInPressureMenuActive`` (Show Enlarge in Menu, if device is active)
+		* Possible values: "true"|"false"
+		* Default: "true" 
+	* ``visibilityBackgroundURLEnlarged`` (Visibility of background from BACKGROUND_URL/HTML, if device is enlarged):
+		* Possible values: ""|"visibleIfEnlarged"|"hideIfEnlarged"
+		* Default: ""
+	* ``hideDeviceNameIfEnlarged`` (Hide device name, if the device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideStateIfEnlarged`` (Hide state, if the device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideIconEnlarged`` (Hide icon, if device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+* ``Conditions for an Active Tile:
+	* ``tileActiveStateId`` (State ID (empty = STATE/LEVEL will be used)):
+		* Default: ""
+	* ``tileActiveCondition`` (Condition):
+		* Possible values: ""|"at"|"af"|"eqt"|"eqf"|"eq"|"ne"|"gt"|"ge"|"lt"|"le"
+		* Default: ""
+	* ``tileActiveConditionValue`` (Condition value):
+		* Default: ""
+* ``Timestamp:
+	* ``addTimestampToState`` (Add timestamp to state):
+		* Possible values: ""|"SA"|"ST"|"STA"|"SE"|"SEA"|"SE."|"SE.A"|"Se"|"SeA"|"STE"|"STEA"|"STE."|"STE.A"|"STe"|"STeA"|"T"|"TA"|"TE"|"TEA"|"TE."|"TE.A"|"Te"|"TeA"|"E"|"EA"|"E."|"E.A"|"e"|"eA"|"N"
+		* Default: "N"
+	* ``showTimestamp`` (Show Timestamp in dialog):
+		* Possible values: ""|""|"yes"|"no"|"always"|"never"
+		* Default: ""
+* ``URL/HTML:
+	* ``popupWidth`` (Width [px] for URL/HTML-Box):
+		* Default: "" 
+	* ``popupHeight`` (Height [px] for URL/HTML-Box):
+		* Default: ""
+	* ``popupFixed`` (Fixed (not resizable)):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``openURLExternal`` (Open URL in new window (instead of showing as box in dialog)):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``popupAllowPostMessage`` (Allow postMessage-Communication for URL/HTML):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``backgroundURLAllowPostMessage`` (Allow postMessage-Communication for BACKGROUND_URL/HTML):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``backgroundURLNoPointerEvents`` (Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML):
+		* Possible values: "true"|"false"
+		* Default: "false"}
+</details>
 
 ## Description of roles and associated states
 Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding iobroker state.
