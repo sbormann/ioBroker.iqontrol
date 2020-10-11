@@ -202,6 +202,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <summary>Show example widget-website to be displayed as widget with postMessage-communication:</summary>
 
 * You can use the following HTML code and copy it to the BACKGROUND_HTML-State of a widget (which then needs to be configured as "Constant") 
+* As an alternative you can upload this code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then also needs to be configured as "Constant")
 * Acitvate the option "Allow postMessage-Communication for BACKGROUND_URL/HTML"
 * It will demonstrate how a two-way communication between the website and iQontrol is done
 ````html
@@ -311,7 +312,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* syntax: ``<meta name="widget-description" content="Please see www.mywebsite.com for further informations. (C) by me"/>``
 		* This will be displayed when chosing the widget as URL or BACKGROUND_URL
 	* 'widget-options'
-		* syntax: ``<meta name="widget-options" content="{noZoomOnHover: 'true', hideDeviceName: 'true'}"/>``
+		* syntax: ``<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true'}"/>``
 		* See the expandable section below for the possible options that can be configured by this meta-tag
 
 <details>
@@ -482,6 +483,96 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``backgroundURLNoPointerEvents`` (Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML):
 		* Possible values: "true"|"false"
 		* Default: "false"
+</details>
+
+<details>
+<summary>Show example widget-website with creates a map with the above settings:</summary>
+
+* You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
+* When adding the widget a description is displayed
+* Then you are asked, if you would like to apply the contained options
+* Three datapoints are created to control the position of the map: iqontrol.x.Widgets.Map.Posision.latitude, .altitude and .zoom
+````html
+<!doctype html>
+<html style="width: 100%; height: 100%; margin: 0px;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="widget-description" content="This is a map widget, please provide coordinates at iqontrol.x.Widgets.Map.Posision. (C) by Sebastian Bormann"/> 
+ 	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+ 	<meta name="widget-datapoint" content="Map.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Position.zoom" data-type="number" data-role="value.zoom" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<title>iQontrol Map Widget</title>
+</head>
+<body style="width: 100%; height: 100%; margin: 0px;">
+	<div id="mapid" style="width: 100%; height: 100%; margin: 0px;"></div>
+	<script type="text/javascript">
+      //Declarations
+      var mapPositionLatitude = 20;
+      var mapPositionLongitude = 30;
+      var mapPositionZoom = 10;
+      var mymap = false;
+
+      //Subscribe to WidgetDatapoints now
+      sendPostMessage("getWidgetStateSubscribed", "Map.Position.latitude");
+      sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
+      sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");
+
+      //Initialize map (with timeout to give script the time go get the initial position values)
+      setTimeout(function(){
+         console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+	      mymap = L.map('mapid').setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
+              'useCache': true
+          }).addTo(mymap);
+      }, 250);
+      
+      //Reposition map
+      function repositionMap(){
+        console.log("Reposition map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+        if(mymap) mymap.setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom); else console.log("   Abort, map not initialized yet");
+      }
+      
+      //send postMessages
+      function sendPostMessage(command, stateId, value){
+          message = { command: command, stateId: stateId, value: value };
+          window.parent.postMessage(message, "*");
+      }
+
+      //receive postMessages
+      window.addEventListener("message", receivePostMessage, false);
+      function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
+          if(event.data && event.data.command) switch(event.data.command){
+              case "getState":
+                  if(event.data.stateId && event.data.value) switch(event.data.stateId){
+                    case "Map.Position.latitude":
+                      	console.log("Set latitude to " + event.data.value.val);
+                    	mapPositionLatitude = parseFloat(event.data.value.val) || 0;
+                      	if(mymap) repositionMap();
+                    break;
+
+                    case "Map.Position.longitude":
+                      	console.log("Set longitude to " + event.data.value.val);
+                    	mapPositionLongitude = parseFloat(event.data.value.val) || 0;
+                      	if(mymap) repositionMap();
+                    break;
+                      
+                    case "Map.Position.zoom":
+                      	console.log("Set zoom to " + event.data.value.val);
+                    	mapPositionZoom = parseFloat(event.data.value.val) || 0;
+                      	if(mymap) repositionMap();
+                    break;
+                  }
+              break;
+          }
+      }
+	</script>
+</body>
+</html>
+````
 </details>
 
 ## Description of roles and associated states
