@@ -60,7 +60,7 @@ var inbuiltSymbols = [
 
 var inbuiltWidgets = [
 ];
-inbuiltWidgets = [{filename:"clock_and_weather.html", name:"Clock and Weather", options: {sizeInactive: "xwideIfInactive highIfInactive", sizeActive: "xwideIfAactive highIfInactive", sizeInactive: "xwideIfActive highIfActive"}, icon: "/images/icons/file_html.png", info:"(C) by blackeagle"}]
+//inbuiltWidgets = [{filename:"clock_and_weather.html", name:"Clock and Weather", icon: "/images/icons/file_html.png"}];
 
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -2412,22 +2412,6 @@ var iobrokerObjectsReadyFunctions = [];
 var dialogCodeEditorCodeMirror = false;
 var dialogCodeEditorCodeMirrorChanged = false;
 
-//ChannelDetector
-/* const detector = new ChannelDetector();
-const keys = Object.keys(iobrokerObjects);		// For optimization
-const usedIds = [];                 			// To not allow using of same ID in more than one device
-const ignoreIndicators = [];    				// Ignore indicators by name
-const supportedTypes = [];						// Supported types. Leave it null if you want to get ALL devices.
-var options = {
-	objects:            iobrokerObjects,
-	id:                 'milight-smart-light.1.Feuerstelle.fullColor-1',
-	_keysOptional:      keys,
-	_usedIdsOptional:   usedIds,
-	ignoreIndicators:   ignoreIndicators
-};
-var controls = detector.detect(options); */
-
-
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
 	var $dialog = $('#' + id);
@@ -2508,10 +2492,11 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
 };
 
 var $enhanceTextInputToComboboxActualTarget;
-function enhanceTextInputToCombobox(targetInput, options, iconsFromOption){
+function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSelect){
 	//targetInput - string - selector for text-input-field to enhance
 	//options - string - "value1/caption1/icon1;value2/caption2/icon2;[optgroup-caption];value3/caption3/icon3;..."
 	//iconsFromOption - boolean - if true, the values will be used to generate links to icons (\ will be replaced by / an link will be preceded), if no icon is given in options
+	//onSelect - function - function that will be called with the argument (value), if a value is selected
 	$(targetInput).on('blur', function(){
 		var that = this;
 		setTimeout(function(){var _that = that; _that.scrollLeft = 100000;}, 10);
@@ -2521,6 +2506,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption){
 	$(targetInput).each(function(){
 		$(this).add('label').wrap("<div class='combobox'></div>");
 		$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
+		$(this).data('combobox-onselect', onSelect);
 		lastTargetInput = this; 
 	});
 	options = options || $(lastTargetInput).data('options') || "";
@@ -2581,6 +2567,7 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	}, 300);
 }
 function enhanceTextInputToComboboxEntryToInput(value){
+	var onSelect = $enhanceTextInputToComboboxActualTarget.data('combobox-onselect');
 	if(decodeURIComponent(value).substring(0, 10) == "[VARIABLE]"){
 		var variable = "";
 		if(decodeURIComponent(decodeURIComponent(value)).indexOf("{}") > -1) {
@@ -2588,10 +2575,14 @@ function enhanceTextInputToComboboxEntryToInput(value){
 			if (variable == "") variable = null;
 		}
 		if(variable !== null){
-			$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(decodeURIComponent(value).replace("[VARIABLE]", "")).replace("{}", "{" + variable + "}")).trigger('change').trigger('blur');
+			value = decodeURIComponent(decodeURIComponent(value).replace("[VARIABLE]", "")).replace("{}", "{" + variable + "}");
+			$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
+			if(onSelect) onSelect(value);
 		}
 	} else {
-		$enhanceTextInputToComboboxActualTarget.val(decodeURIComponent(value).replace(/\\/g, "/")).trigger('change').trigger('blur');
+		value = decodeURIComponent(value).replace(/\\/g, "/");
+		$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
+		if(onSelect) onSelect(value);
 	}
 }
 
@@ -2602,6 +2593,178 @@ function removeDuplicates(array) { //Removes duplicates from an array
     });
 }
 
+//File-Operations
+function uploadFile(file, path, callback) {
+	if(typeof path == 'function') {
+		callback = path;
+		path = null;
+	}
+	var reader = new FileReader();
+	reader.onload = function(e) { //Closure--> to capture the file information.
+		path = (path ? path + "/" : "") + file.name;
+		var parts = path.split('/');
+		var adapter = parts[1];
+		parts.splice(0, 2);
+		socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
+			if (callback) callback(file.name);
+		});
+	};
+	reader.readAsArrayBuffer(file);
+}
+function uploadStringAsFile(string, filename, path, callback) { 
+	if(typeof path == 'function') {
+		callback = path;
+		path = null;
+	}
+	var reader = new FileReader();
+	reader.onload = function(e) { //Closure--> to capture the file information.
+		if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+		path = (path ? path + "/" : "") + filename;
+		var parts = path.split('/');
+		var adapter = parts[1];
+		parts.splice(0, 2);
+		socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
+			if (callback) callback(filename);
+		});
+	};
+	reader.readAsArrayBuffer(new Blob([string]));
+}
+function downloadFileAsString(filename, path, callback) {
+	if(typeof path == 'function') {
+		callback = path;
+		path = null;
+	}
+	if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+	path = (path ? path + "/" : "") + filename;
+	if (path[0] === '/') {
+		var parts = path.split('/');
+		adapter = parts[1];
+		parts.splice(0, 2);
+		path = parts.join('/');
+	}
+	socket.emit('readFile', adapter, path, function (error, fileData, mimeType) {
+		if(!error && fileData){
+			if (callback) callback(fileData);
+		}			
+	});
+}
+async function downloadFileAsStringAsync(filename, path) {
+	return await new Promise(function(resolve){
+		if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+		path = (path ? path + "/" : "") + filename;
+		if (path[0] === '/') {
+			var parts = path.split('/');
+			_adapter = parts[1];
+			parts.splice(0, 2);
+			path = parts.join('/');
+		}
+		socket.emit('readFile', _adapter, path, function (error, fileData, mimeType) {
+			if(!error && fileData){
+				resolve(fileData);
+			} else {
+				resolve("");
+			}
+		});
+	});
+}
+function readDir(path, callback) { //callback(err, obj)
+	if(servConn.getIsConnected()) {
+		servConn.readDir(path, callback);
+	} else {
+		var parts = path.split('/');
+		var adapter = parts[1];
+		parts.splice(0, 2);
+		socket.emit('readDir', adapter, parts.join('/'), callback);
+	}
+}
+function readDirAsync(path){
+	return new Promise(resolve => {
+		readDir(path, function(err, obj){
+			resolve(err);
+		});
+	});
+}
+function readDirAsZip(path, callback) {
+	var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
+	if(servConn.getIsConnected()){
+		servConn.readDirAsZip(pathWithoutSlashNamespace, false, function(err, data){ if (callback) callback(err, data); });
+	} else {
+		alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
+	}
+}
+function deleteFile(path, callback) {
+	if(servConn.getIsConnected()){
+		servConn.unlink(path, function(err){ if (callback) callback(err); });
+	} else {
+		alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
+		var parts = path.split('/');
+		var adapter = parts[1];
+		parts.splice(0, 2);
+		//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
+	}
+}
+function renameFile(oldPath, newPath, callback) {
+	var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
+	createDir(newDir, function(){
+		var oldParts = oldPath.split('/');
+		var oldAdapter = oldParts[1];
+		var newParts = newPath.split('/');
+		var newAdapter = newParts[1];
+		if(oldAdapter != newAdapter){
+			newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
+			newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
+		}
+		if(servConn.getIsConnected()){
+			servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
+		} else {
+			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
+			oldParts.splice(0, 2);
+			newParts.splice(0, 2);
+			//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
+		}
+	});
+}
+function renameFileAsync(oldPath, newPath){
+	return new Promise(resolve => {
+		renameFile(oldPath, newPath, function(err, obj){
+			resolve(err);
+		});
+	});
+}
+async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
+	if (typeof index != 'number') index = 0;
+	pathSubdirs = path.split('/');
+	if (index >= pathSubdirs.length){
+		if(callback) callback();
+	} else {
+		pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
+		var pathSubdirExists = await checkExistance(pathSubdir);
+		if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
+			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+				var _path = path;
+				var _callback = callback;
+				var _index = index;
+				if(servConn.getIsConnected()){
+					servConn.mkdir(pathSubdir, function(err){
+						createDir(_path, _callback, _index + 1);
+					});
+				} else {
+					alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
+					var parts = path.split('/');
+					var adapter = parts[1];
+					parts.splice(0, 2);
+					// socket.emit('mkdir', adapter, pathSubdir, function(err){	createDir(_path, _callback, _index + 1); });
+				}
+			})(); //<--End Closure
+		} else { //Subdir exists - iterate to next subdir
+			createDir(path, callback, index + 1);
+		}
+	}
+}
+async function checkExistance(path){
+	var result = await readDirAsync(path);
+	if(result == null) return true; else return false;
+}
 
 
 
@@ -2646,6 +2809,14 @@ function load(settings, onChange) {
 	dialogCodeEditorCodeMirror.on("change", function(){ 
 		dialogCodeEditorCodeMirrorChanged = true;
 		$('#dialogCodeEditor .btn-set').removeClass('disabled');		
+	});
+	$('#dialogCodeEditor .btn-set').on('click', function(){
+		if(confirm(_("Overwrite file?"))){
+			uploadStringAsFile(dialogCodeEditorCodeMirror.getValue(), $("#dialogCodeEditorFileName").text(), userfilesImagePath, function(name){
+				dialogCodeEditorCodeMirrorChanged = false;
+				$('#dialogCodeEditor .btn-set').addClass('disabled');								
+			});
+		}
 	});
 	$('#dialogCodeEditor .btn-close').on('click', function(){
 		if(dialogCodeEditorCodeMirrorChanged){
@@ -3141,7 +3312,7 @@ function load(settings, onChange) {
 					$('#dialogDeviceEditDeviceIndex').val(deviceIndex);
 					dialogDeviceEditStates = views[viewIndex].devices[deviceIndex].states || [];
 					dialogDeviceEditStatesTable = [];
-					dialogDeviceEditOptions = views[viewIndex].devices[deviceIndex].options || [];
+					dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[viewIndex].devices[deviceIndex].options || []));
 					$('#dialogDeviceEditOptionsContent').empty();
 					if(views[viewIndex].devices[deviceIndex].commonRole) {
 						$('#dialogDeviceEditCommonRole').val(views[viewIndex].devices[deviceIndex].commonRole).trigger('change');
@@ -3251,7 +3422,11 @@ function load(settings, onChange) {
 				dialogDeviceEditOptions[index] = entry;
 			}
 		});
-		if(dialogDeviceEditCommonRole){ //build option content
+		//Build options content
+		dialogDeviceEditOptionsBuildOptionsContent();
+	});
+	function dialogDeviceEditOptionsBuildOptionsContent(){
+		if(dialogDeviceEditCommonRole){
 			var dialogDeviceEditOptionsComboboxes = [];
 			var dialogDeviceEditOptionsContent = "<ul class='collapsible' id='dialogDeviceEditOptionsContentCollapsible'>";
 			var dialogDeviceEditOptionsContentCollapsibleOpen = false;
@@ -3407,8 +3582,8 @@ function load(settings, onChange) {
 				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);	
 			});
 			if (M) M.updateTextFields();
-		}
-	});
+		}		
+	}
 
 	//Enhance tableDialogDeviceEditStates with functions
 	function ontableDialogDeviceEditStatesReady(){
@@ -3470,7 +3645,7 @@ function load(settings, onChange) {
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				if(dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
-					enhanceTextInputToCombobox(this, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true);
+					enhanceTextInputToCombobox(this, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
 				}
 			}
 		});
@@ -3581,6 +3756,61 @@ function load(settings, onChange) {
 			}
 		} else {
 			$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+		}
+	}
+	function dialogDeviceEditStatesWidgetSelected(value){
+		var filename = null;
+		var path = null;
+		if(value.indexOf("./images/widgets/") == 0){ 
+			filename = value.substr(8);
+			path = imagePath;
+		}
+		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+			filename = value.substr(29);
+			path = userfilesImagePath;
+		}									
+		if(filename && path){
+			downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
+				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){ 
+					var metaName = $(this).prop('name');
+					var metaContent = $(this).prop('content');
+					var data = $(this).data() || {};
+					switch(metaName){
+						case "widget-description":
+						if(metaContent) alert(metaContent);
+						break;
+						
+						case "widget-options":
+						if(metaContent) {
+							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
+							if(widgetOptions){
+								var widgetOptionsString = "";
+								var widgetOptionsUnsupportedString;
+								for(option in widgetOptions){
+									if(iQontrolRoles["iQontrolWidget"].options[option]){
+										widgetOptionsString += iQontrolRoles["iQontrolWidget"].options[option].name + ": " + widgetOptions[option] + "\n";
+									} else {
+										widgetOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "\n";
+									}
+								};
+								if(widgetOptionsUnsupportedString) widgetOptionsString += "\n\n" + _("Unsupported settings:") + "\n" + widgetOptionsUnsupportedString;
+								if(confirm(_("Found settings for widget options. Apply?:") + "\n\n" + widgetOptionsString)){
+									for(option in widgetOptions){
+										if(iQontrolRoles["iQontrolWidget"].options[option]){
+											var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+											if (optionsIndex) dialogDeviceEditOptions[optionsIndex].value = widgetOptions[option];
+										}
+									};
+									dialogDeviceEditOptionsBuildOptionsContent();
+								}
+							} else {
+								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
+							}
+						}
+						break;
+					}
+				});
+			});			
 		}
 	}
 	
@@ -4435,13 +4665,13 @@ function load(settings, onChange) {
 				var imageIndex = $(this).data('index');
 				var filename = images[imageIndex].filename;
 				if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_html.png' data-filetype='htmlmixed' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_html_edit.png' data-filetype='htmlmixed' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".css")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_css.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_css_edit.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".mjs") || filename.endsWith(".js")){
-					$(this).replaceWith("<img src='" + link + "/images/icons/file_js.png' data-filetype='javascript' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_js_edit.png' data-filetype='javascript' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else {
-					$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + filename + "' data-filetype='image' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px;' class='thumbnail'></img>");
+					$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + filename + "' data-filetype='image' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:zoom-in;' class='thumbnail'></img>");
 				}
 			}
 			//Rename file
@@ -4521,14 +4751,7 @@ function load(settings, onChange) {
 		});
 		//CodeEditor
 		$('.code').on('click', function(){
-			initDialog('dialogCodeEditor', function(){
-				if(confirm(_("Overwrite file?"))){
-					uploadStringAsFile(dialogCodeEditorCodeMirror.getValue(), $("#dialogCodeEditorFileName").text(), userfilesImagePath, function(name){
-						dialogCodeEditorCodeMirrorChanged = false;
-						$('#dialogCodeEditor .btn-set').addClass('disabled');								
-					});
-				}
-			});
+			initDialog('dialogCodeEditor');
 			var fileName = $(this).data('filename');
 			$("#dialogCodeEditorFileName").text(fileName); 
 			$("#dialogCodeEditorFileType").text($(this).data('filetype')); 
@@ -4689,160 +4912,6 @@ function load(settings, onChange) {
 		});
 	}
 
-	//File-Operations
-	function uploadFile(file, path, callback) {
-		if(typeof path == 'function') {
-			callback = path;
-			path = null;
-		}
-		var reader = new FileReader();
-		reader.onload = function(e) { //Closure--> to capture the file information.
-			path = (path ? path + "/" : "") + file.name;
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
-				if (callback) callback(file.name);
-			});
-		};
-		reader.readAsArrayBuffer(file);
-	}
-	function uploadStringAsFile(string, filename, path, callback) { 
-		if(typeof path == 'function') {
-			callback = path;
-			path = null;
-		}
-		var reader = new FileReader();
-		reader.onload = function(e) { //Closure--> to capture the file information.
-			if(filename.substr(0, 1) == "/") filename = filename.substr(1);
-			path = (path ? path + "/" : "") + filename;
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
-				if (callback) callback(filename);
-			});
-		};
-		reader.readAsArrayBuffer(new Blob([string]));
-	}
-	function downloadFileAsString(filename, path, callback) {
-		if(typeof path == 'function') {
-			callback = path;
-			path = null;
-		}
-		if(filename.substr(0, 1) == "/") filename = filename.substr(1);
-		path = (path ? path + "/" : "") + filename;
-		if (path[0] === '/') {
-			var parts = path.split('/');
-			adapter = parts[1];
-			parts.splice(0, 2);
-			path = parts.join('/');
-		}
-		socket.emit('readFile', adapter, path, function (error, fileData, mimeType) {
-			if(!error && fileData){
-				if (callback) callback(fileData);
-			}			
-		});
-	}
-	function readDir(path, callback) { //callback(err, obj)
-		if(servConn.getIsConnected()) {
-			servConn.readDir(path, callback);
-		} else {
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			socket.emit('readDir', adapter, parts.join('/'), callback);
-		}
-	}
-	function readDirAsync(path){
-		return new Promise(resolve => {
-			readDir(path, function(err, obj){
-				resolve(err);
-			});
-		});
-	}
-	function readDirAsZip(path, callback) {
-		var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
-		if(servConn.getIsConnected()){
-			servConn.readDirAsZip(pathWithoutSlashNamespace, false, function(err, data){ if (callback) callback(err, data); });
-		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-		}
-	}
-	function deleteFile(path, callback) {
-		if(servConn.getIsConnected()){
-			servConn.unlink(path, function(err){ if (callback) callback(err); });
-		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-			var parts = path.split('/');
-			var adapter = parts[1];
-			parts.splice(0, 2);
-			//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
-		}
-	}
-	function renameFile(oldPath, newPath, callback) {
-		var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
-		createDir(newDir, function(){
-			var oldParts = oldPath.split('/');
-			var oldAdapter = oldParts[1];
-			var newParts = newPath.split('/');
-			var newAdapter = newParts[1];
-			if(oldAdapter != newAdapter){
-				newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
-				newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
-			}
-			if(servConn.getIsConnected()){
-				servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
-			} else {
-				alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-				oldParts.splice(0, 2);
-				newParts.splice(0, 2);
-				//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
-			}
-		});
-	}
-	function renameFileAsync(oldPath, newPath){
-		return new Promise(resolve => {
-			renameFile(oldPath, newPath, function(err, obj){
-				resolve(err);
-			});
-		});
-	}
-	async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
-		if (typeof index != 'number') index = 0;
-		pathSubdirs = path.split('/');
-		if (index >= pathSubdirs.length){
-			if(callback) callback();
-		} else {
-			pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
-			var pathSubdirExists = await checkExistance(pathSubdir);
-			if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
-				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-					var _path = path;
-					var _callback = callback;
-					var _index = index;
-					if(servConn.getIsConnected()){
-						servConn.mkdir(pathSubdir, function(err){
-							createDir(_path, _callback, _index + 1);
-						});
-					} else {
-						alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-						var parts = path.split('/');
-						var adapter = parts[1];
-						parts.splice(0, 2);
-						// socket.emit('mkdir', adapter, pathSubdir, function(err){	createDir(_path, _callback, _index + 1); });
-					}
-				})(); //<--End Closure
-			} else { //Subdir exists - iterate to next subdir
-				createDir(path, callback, index + 1);
-			}
-		}
-	}
-	async function checkExistance(path){
-		var result = await readDirAsync(path);
-		if(result == null) return true; else return false;
-	}
-
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
 	function loadOptions(){
@@ -4888,25 +4957,6 @@ function save(callback) {
 	obj.version = version;
 
 	//Get widgetDatapoints
-	async function downloadFileAsStringAsync(filename, path) {
-		return await new Promise(function(resolve){
-			if(filename.substr(0, 1) == "/") filename = filename.substr(1);
-			path = (path ? path + "/" : "") + filename;
-			if (path[0] === '/') {
-				var parts = path.split('/');
-				_adapter = parts[1];
-				parts.splice(0, 2);
-				path = parts.join('/');
-			}
-			socket.emit('readFile', _adapter, path, function (error, fileData, mimeType) {
-				if(!error && fileData){
-					resolve(fileData);
-				} else {
-					resolve("");
-				}
-			});
-		});
-	}
 	var imagePath = "/iqontrol/images";
 	var widgetsToDownload = [];
 	views.forEach(function(view){

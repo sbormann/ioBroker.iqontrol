@@ -318,16 +318,16 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <details>
 <summary>Show possible options that can be configured by the meta-tag 'widget-options':</summary>
 
-* ``Icons:
+* Icons:
 	* ``icon_on`` (Icon on):
 		* Default: ""
 	* ``icon_off`` (Icon off):
 		* Default: ""
-* ``Device Specific Options:
+* Device Specific Options:
 	* ``noVirtualState`` (Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)):
 		* Possible values: "true"|"false"
 		* Default: "false" 
-* ``General:
+* General:
 	* ``readonly`` (Readonly):
 		* Possible values: "true"|"false"
 		* Default: "false" 
@@ -344,13 +344,13 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Default: "collapsible"
 	* ``additionalInfoCaption`` (Caption for ADDITIONAL_INFO):
 		* Default: "Additional Infos"
-* ``BATTERY Empty Icon:
+* BATTERY Empty Icon:
 	* ``batteryActiveCondition`` (Condition):
 		* Possible values: ""|"at"|"af"|"eqt"|"eqf"|"eq"|"ne"|"gt"|"ge"|"lt"|"le"
 		* Default: ""
 	* ``batteryActiveConditionValue`` (Condition value):
 		* Default: ""
-* ``Tile-Behaviour (general):
+* Tile-Behaviour (general):
 	* ``clickOnIconOpensDialog`` (Click on icon opens dialog (instead of toggling)):
 		* Possible values: "true"|"false"
 		* Default: "false" 
@@ -360,7 +360,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideDeviceName`` (Hide device name):
 		* Possible values: "true"|"false"
 		* Default: "true"
-* ``Tile-Behaviour if device is inactive:
+* Tile-Behaviour if device is inactive:
 	* ``sizeInactive`` (Size of tile, if device is inactive):
 		* Possible values: ""|"narrowIfInactive shortIfInactive"|"narrowIfInactive"|"narrowIfInactive highIfInactive"|"narrowIfInactive xhighIfInactive"|"shortIfInactive"|"shortIfInactive wideIfInactive"|"shortIfInactive xwideIfInactive"|"wideIfInactive"|"xwideIfInactive"|"highIfInactive"|"xhighIfInactive"|"wideIfInactive highIfInactive"|"xwideIfInactive highIfInactive"|"wideIfInactive xhighIfInactive"|"xwideIfInactive xhighIfInactive"|"fullWidthIfInactive aspect-1-1IfInactive"|"fullWidthIfInactive aspect-4-3IfInactive"|"fullWidthIfInactive aspect-3-2IfInactive"|"fullWidthIfInactive aspect-16-9IfInactive"|"fullWidthIfInactive aspect-21-9IfInactive"|"fullWidthIfInactive fullHeightIfInactive"|"
 		* Default: "xwideIfInactive highIfInactive"
@@ -385,7 +385,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideDeviceIfInactive`` (Hide device, if it is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"	* ``
-* ``Tile-Behaviour if device is active:
+* Tile-Behaviour if device is active:
 	* ``sizeActive`` (Size of tile, if device is active):
 		* Possible values: ""|"narrowIfActive shortIfActive"|"narrowIfActive"|"narrowIfActive highIfActive"|"narrowIfActive xhighIfActive"|"shortIfActive"|"shortIfActive wideIfActive"|"shortIfActive xwideIfActive"|"wideIfActive"|"xwideIfActive"|"highIfActive"|"xhighIfActive"|"wideIfActive highIfActive"|"xwideIfActive highIfActive"|"wideIfActive xhighIfActive"|"xwideIfActive xhighIfActive"|"fullWidthIfActive aspect-1-1IfActive"|"fullWidthIfActive aspect-4-3IfActive"|"fullWidthIfActive aspect-3-2IfActive"|"fullWidthIfActive aspect-16-9IfActive"|"fullWidthIfActive aspect-21-9IfActive"|"fullWidthIfActive fullHeightIfActive"|"
 	* ``bigIconActive`` (Show big icon, if device is active):
@@ -409,7 +409,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideDeviceIfActive`` (Hide device, if it is active):
 		* Possible values: "true"|"false"
 		* Default: "false"
-* ``Tile-Behaviour if device is enlarged:
+* Tile-Behaviour if device is enlarged:
 	* ``sizeEnlarged`` (Size of tile, if device is enlarged):
 		* Possible values: ""|"narrowIfEnlarged shortIfEnlarged"|"narrowIfEnlarged"|"narrowIfEnlarged highIfEnlarged"|"narrowIfEnlarged xhighIfEnlarged"|"shortIfEnlarged"|"shortIfEnlarged wideIfEnlarged"|"shortIfEnlarged xwideIfEnlarged"|"wideIfEnlarged"|"xwideIfEnlarged"|"highIfEnlarged"|"xhighIfEnlarged"|"wideIfEnlarged highIfEnlarged"|"xwideIfEnlarged highIfEnlarged"|"wideIfEnlarged xhighIfEnlarged"|"xwideIfEnlarged xhighIfEnlarged"|"fullWidthIfEnlarged aspect-1-1IfEnlarged"|"fullWidthIfEnlarged aspect-4-3IfEnlarged"|"fullWidthIfEnlarged aspect-3-2IfEnlarged"|"fullWidthIfEnlarged aspect-16-9IfEnlarged"|"fullWidthIfEnlarged aspect-21-9IfEnlarged"|"fullWidthIfEnlarged fullHeightIfEnlarged"|"
 	* ``bigIconEnlarged`` (Show big icon, if device is enlarged):
@@ -448,7 +448,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideIconEnlarged`` (Hide icon, if device is enlarged):
 		* Possible values: "true"|"false"
 		* Default: "false"
-* ``Conditions for an Active Tile:
+* Conditions for an Active Tile:
 	* ``tileActiveStateId`` (State ID (empty = STATE/LEVEL will be used)):
 		* Default: ""
 	* ``tileActiveCondition`` (Condition):
@@ -456,14 +456,14 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Default: ""
 	* ``tileActiveConditionValue`` (Condition value):
 		* Default: ""
-* ``Timestamp:
+* Timestamp:
 	* ``addTimestampToState`` (Add timestamp to state):
 		* Possible values: ""|"SA"|"ST"|"STA"|"SE"|"SEA"|"SE."|"SE.A"|"Se"|"SeA"|"STE"|"STEA"|"STE."|"STE.A"|"STe"|"STeA"|"T"|"TA"|"TE"|"TEA"|"TE."|"TE.A"|"Te"|"TeA"|"E"|"EA"|"E."|"E.A"|"e"|"eA"|"N"
 		* Default: "N"
 	* ``showTimestamp`` (Show Timestamp in dialog):
-		* Possible values: ""|""|"yes"|"no"|"always"|"never"
+		* Possible values: ""|"yes"|"no"|"always"|"never"
 		* Default: ""
-* ``URL/HTML:
+* URL/HTML:
 	* ``popupWidth`` (Width [px] for URL/HTML-Box):
 		* Default: "" 
 	* ``popupHeight`` (Height [px] for URL/HTML-Box):
@@ -498,8 +498,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content="This is a map widget, please provide coordinates at iqontrol.x.Widgets.Map.Posision. (C) by Sebastian Bormann"/> 
- 	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
- 	<meta name="widget-datapoint" content="Map.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+	<meta name="widget-datapoint" content="Map.Position.latitude" data-type="number" data-role="value.gps.latitude" />
 	<meta name="widget-datapoint" content="Map.Position.longitude" data-type="number" data-role="value.gps.longitude" />
 	<meta name="widget-datapoint" content="Map.Position.zoom" data-type="number" data-role="value.zoom" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
@@ -509,66 +509,66 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <body style="width: 100%; height: 100%; margin: 0px;">
 	<div id="mapid" style="width: 100%; height: 100%; margin: 0px;"></div>
 	<script type="text/javascript">
-      //Declarations
-      var mapPositionLatitude = 20;
-      var mapPositionLongitude = 30;
-      var mapPositionZoom = 10;
-      var mymap = false;
+		//Declarations
+		var mapPositionLatitude = 0;
+		var mapPositionLongitude = 0;
+		var mapPositionZoom = 10;
+		var mymap = false;
 
-      //Subscribe to WidgetDatapoints now
-      sendPostMessage("getWidgetStateSubscribed", "Map.Position.latitude");
-      sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
-      sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");
+		//Subscribe to WidgetDatapoints now
+		sendPostMessage("getWidgetStateSubscribed", "Map.Position.latitude");
+		sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
+		sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");
 
-      //Initialize map (with timeout to give script the time go get the initial position values)
-      setTimeout(function(){
-         console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
-	      mymap = L.map('mapid').setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
-              'useCache': true
-          }).addTo(mymap);
-      }, 250);
-      
-      //Reposition map
-      function repositionMap(){
-        console.log("Reposition map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
-        if(mymap) mymap.setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom); else console.log("   Abort, map not initialized yet");
-      }
-      
-      //send postMessages
-      function sendPostMessage(command, stateId, value){
-          message = { command: command, stateId: stateId, value: value };
-          window.parent.postMessage(message, "*");
-      }
+		//Initialize map (with timeout to give script the time go get the initial position values)
+		setTimeout(function(){
+			console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+			mymap = L.map('mapid').setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
+				'useCache': true
+			}).addTo(mymap);
+		}, 250);
 
-      //receive postMessages
-      window.addEventListener("message", receivePostMessage, false);
-      function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
-          if(event.data && event.data.command) switch(event.data.command){
-              case "getState":
-                  if(event.data.stateId && event.data.value) switch(event.data.stateId){
-                    case "Map.Position.latitude":
-                      	console.log("Set latitude to " + event.data.value.val);
-                    	mapPositionLatitude = parseFloat(event.data.value.val) || 0;
-                      	if(mymap) repositionMap();
-                    break;
+		//Reposition map
+		function repositionMap(){
+			console.log("Reposition map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+			if(mymap) mymap.setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom); else console.log("   Abort, map not initialized yet");
+		}
 
-                    case "Map.Position.longitude":
-                      	console.log("Set longitude to " + event.data.value.val);
-                    	mapPositionLongitude = parseFloat(event.data.value.val) || 0;
-                      	if(mymap) repositionMap();
-                    break;
-                      
-                    case "Map.Position.zoom":
-                      	console.log("Set zoom to " + event.data.value.val);
-                    	mapPositionZoom = parseFloat(event.data.value.val) || 0;
-                      	if(mymap) repositionMap();
-                    break;
-                  }
-              break;
-          }
-      }
+		//send postMessages
+		function sendPostMessage(command, stateId, value){
+			message = { command: command, stateId: stateId, value: value };
+			window.parent.postMessage(message, "*");
+		}
+
+		//receive postMessages
+		window.addEventListener("message", receivePostMessage, false);
+		function receivePostMessage(event){ //event = {data: message data, origin: url of origin, source: id of sending element}
+			if(event.data && event.data.command) switch(event.data.command){
+				case "getState":
+				if(event.data.stateId && event.data.value) switch(event.data.stateId){
+					case "Map.Position.latitude":
+					console.log("Set latitude to " + event.data.value.val);
+					mapPositionLatitude = parseFloat(event.data.value.val) || 0;
+					if(mymap) repositionMap();
+					break;
+
+					case "Map.Position.longitude":
+					console.log("Set longitude to " + event.data.value.val);
+					mapPositionLongitude = parseFloat(event.data.value.val) || 0;
+					if(mymap) repositionMap();
+					break;
+
+					case "Map.Position.zoom":
+					console.log("Set zoom to " + event.data.value.val);
+					mapPositionZoom = parseFloat(event.data.value.val) || 0;
+					if(mymap) repositionMap();
+					break;
+				}
+				break;
+			}
+		}
 	</script>
 </body>
 </html>
@@ -848,7 +848,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ## Changelog
 
-### dev
+### 1.3.2 (2020-10-12)
 * (sbormann) Added icons to REMOTE_ADDITIONAL_BUTTONS of remote control.
 * (sbormann) Added REMOTE_CHANNELS to display channel buttons inside remote control.
 * (sbormann) Enhanced positioning of dialog if URL/HTML is set.
