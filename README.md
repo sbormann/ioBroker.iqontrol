@@ -486,7 +486,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 
 <details>
-<summary>Show example widget-website with creates a map with the above settings:</summary>
+<summary>Show example widget-website that creates a map with the above settings:</summary>
 
 * You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
 * When adding the widget a description is displayed
