@@ -190,7 +190,24 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To receive messages from iQontrol, you need to register an event-listener to the "message"-event with the javascript-command ``window.addEventListener("message", receivePostMessage, false);``
     * The function ``receivePostMessage`` receives the object ``event``
 	* ``event.data`` contains the message from iqontrol, which will be an object like:
-	    * ``{ command: "getState", stateId: <stateId>, value: <value> }`` - this will be the answer to a getState-command or a getStateSubsribed-command and gives you the actual ``<value>``-object of the ioBroker state``<stateId>``
+	    * event.data = ``{ command: "getState", stateId: <stateId>, value: <stateObject> }`` - this will be the answer to a getState-command or a getStateSubsribed-command and gives you the actual ``<value>``-object of the ioBroker state``<stateId>``
+		* ``<stateObject>`` itself is an object like 
+			````javascript
+			event.data.value = {
+				val: <value>,
+				unit: "<unit>",
+				plainText: "<clear text of val, for example taken from valuelist>",
+				ack: <true|false>,
+				readonly: <true|false>,
+				custom: {<object with custom settings>},
+				from: "<source of state>",
+				lc: <timestamp of last change>,
+				ts: <timestamp of last actualization>,
+				q: <quality of signal>,
+				role: "<role of state>",
+				type: "<string|number|boolean>"
+			}
+			````
 * To instruct iQontrol to generate a widgetState under ``iqontrol.<instance>.Widgets`` you can use a meta-tag inside the head-section of the widget-website:
     * Syntax: ``<meta name="widget-datapoint" content="WidgetName.StateName" data-type="string" data-role="text" />``
 	* You can further configure the datapoint by using data-type (which can be set to string, number or boolean), data-role, data-name, data-min, data-max, data-def and data-unit attributes
@@ -847,6 +864,10 @@ This device has some special predefined size- and display-settings to show a web
 ****
 
 ## Changelog
+
+### dev
+* (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
+* (sbormann) Enhanced postMessage-Communication to deliver the complete stateObject if a state is requested.
 
 ### 1.3.2 (2020-10-12)
 * (sbormann) Added icons to REMOTE_ADDITIONAL_BUTTONS of remote control.

@@ -11081,40 +11081,32 @@ $(document).ready(function(){
 			console.log("postMessage received from " + event.source.frameElement.id + ": " + JSON.stringify(event.data));
 			if(event.source.frameElement.dataset.allowPostMessage == "true"){
 				if(event.data.command) switch(event.data.command){
-					case "getState": case "getWidgetState":
+					case "getState": case "getWidgetState": case "getStateSubscribed": case "getWidgetStateSubscribed":
 					if(event.data.stateId){
 						var stateId = event.data.stateId;
-						if(event.data.command == "getWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
-						console.log("postMessage received: getState " + stateId);
+						if(event.data.command == "getWidgetState" || event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
+						console.log("postMessage received: " + event.data.command + " " + stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
 							var _stateId = stateId;
+							var _noSubscribe = (event.data.command == "getState" || event.data.command == "getWidgetState");
+							var _updateFunctionExecuted = false;
 							fetchStates(_stateId, function(){
-								if(states[_stateId]){
-									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_stateId]}, "*");
-								}
-							});
-						})(); //<--End Closure
-					}
-					break;
-
-					case "getStateSubscribed": case "getWidgetStateSubscribed":
-					if(event.data.stateId){
-						var stateId = event.data.stateId;
-						if(event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
-						console.log("postMessage received: getState " + stateId);
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _event = event;
-							var _stateId = stateId;
-							fetchStates(_stateId, function(){
-								var updateFunction = function(){
-									_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: states[_stateId]}, "*");
-								}
-								if(!viewUpdateFunctions[_stateId]) viewUpdateFunctions[_stateId] = [];
-								viewUpdateFunctions[_stateId].push(updateFunction);
-								if(states[_stateId]){
-									updateFunction();
-								}
+								fetchObject(_stateId, function(){
+									var updateFunction = function(){
+										if((_noSubscribe && _updateFunctionExecuted)) console.log("Nooooooooo");
+										if(usedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
+											var value = getStateObject(_stateId);
+											_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: value}, "*");
+											_updateFunctionExecuted = true;
+										}
+									}
+									if(!viewUpdateFunctions[_stateId]) viewUpdateFunctions[_stateId] = [];
+									viewUpdateFunctions[_stateId].push(updateFunction);
+									if(states[_stateId]){
+										updateFunction();
+									}
+								});
 							});
 						})(); //<--End Closure
 					}

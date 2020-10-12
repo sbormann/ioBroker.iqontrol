@@ -3798,7 +3798,12 @@ function load(settings, onChange) {
 									for(option in widgetOptions){
 										if(iQontrolRoles["iQontrolWidget"].options[option]){
 											var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-											if (optionsIndex) dialogDeviceEditOptions[optionsIndex].value = widgetOptions[option];
+											if (optionsIndex != -1) {
+												dialogDeviceEditOptions[optionsIndex].value = widgetOptions[option];
+											} else {
+												var entry = {option: option, value: widgetOptions[option]};
+												dialogDeviceEditOptions.push(entry);
+											}
 										}
 									};
 									dialogDeviceEditOptionsBuildOptionsContent();
