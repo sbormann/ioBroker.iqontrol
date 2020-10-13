@@ -197,6 +197,10 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 				val: <value>,
 				unit: "<unit>",
 				plainText: "<clear text of val, for example taken from valuelist>",
+				min: <minimum>,
+				max: <maximum>,
+				valuelist: {<object with possible values and corresponding clear text>},
+				targetValues: {<target value list>},
 				ack: <true|false>,
 				readonly: <true|false>,
 				custom: {<object with custom settings>},
@@ -868,6 +872,8 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
 * (sbormann) Enhanced postMessage-Communication to deliver the complete stateObject if a state is requested.
+* (sbormann) Drop-Down-Menus in admin-page are now bigger.
+* (sbormann) Added Autocreate Widget to devices tab.
 
 ### 1.3.2 (2020-10-12)
 * (sbormann) Added icons to REMOTE_ADDITIONAL_BUTTONS of remote control.

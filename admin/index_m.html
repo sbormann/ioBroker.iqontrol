@@ -46,6 +46,7 @@
 		.inputClear, .selectClear{ display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
 		.combobox{ position: relative; }
 		.comboboxDropdownTrigger{ display: block !important; position: absolute !important; right: 0px !important; top: 0px !important; margin: 0px !important; padding: 0px !important; }
+		.combobox .dropdown-content { left: unset !important; width: unset !important; }
 		.CodeMirror{ width: 100%; width: calc(100% - 25px); height: unset !important; position: absolute; }
 	</style>
 </head>
@@ -66,7 +67,7 @@
 					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
 					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
 					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
-					<li class="tab col s2"><a href="#tabImages" class="translate">Images</a></li>
+					<li class="tab col s2"><a href="#tabImages" class="translate">Images & Widgets</a></li>
 					<li class="tab col s2"><a href="#tabOptions" class="translate">Options</a></li>
 				</ul>
 			</div>
@@ -199,6 +200,7 @@
 					<div class="col s12">
 						<a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
 						<a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
+						<a class="waves-effect waves-light btn" id="devicesAutocreateWidgetButton"><i class="material-icons left">widgets</i><span class="translate">Autocreate Widget</span></a>
 					</div>
 				</div>
 				<div class="row divDevices" style="display:none;">
@@ -1540,6 +1542,50 @@
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Copy this device</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: DeviceAddWidget  -->
+        <div id="dialogDevicesAutocreateWidget" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Autocreate Widget:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="input-field col s12">
+						<input class="value" name='dialogDevicesAutocreateWidgetName' id='dialogDevicesAutocreateWidgetName'></select>
+						<label for='dialogDevicesAutocreateWidgetName' class="translate"></label>
+						<span class="translate">Widget Name</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<input class="value" name='dialogDevicesAutocreateWidgetSource' id='dialogDevicesAutocreateWidgetSource'></select>
+						<label for='dialogDevicesAutocreateWidgetSource' class="translate"></label>
+						<span class="translate">Widget Source</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Preview:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p id="dialogDevicesAutocreateWidgetDescription"></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p id="dialogDevicesAutocreateWidgetOptions"></p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Autocreate Widget</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

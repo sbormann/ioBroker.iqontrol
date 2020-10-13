@@ -2497,20 +2497,23 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	//options - string - "value1/caption1/icon1;value2/caption2/icon2;[optgroup-caption];value3/caption3/icon3;..."
 	//iconsFromOption - boolean - if true, the values will be used to generate links to icons (\ will be replaced by / an link will be preceded), if no icon is given in options
 	//onSelect - function - function that will be called with the argument (value), if a value is selected
-	$(targetInput).on('blur', function(){
+	$(targetInput).one('blur', function(){
 		var that = this;
 		setTimeout(function(){var _that = that; _that.scrollLeft = 100000;}, 10);
 	});
 	$(targetInput).trigger('blur');
 	var lastTargetInput;
 	$(targetInput).each(function(){
-		$(this).add('label').wrap("<div class='combobox'></div>");
-		$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
-		$(this).data('combobox-onselect', onSelect);
+		if(!$(this).parent('div').hasClass('combobox')){
+			$(this).add('label').wrap("<div class='combobox'></div>");
+			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
+		}
+		$(this).data('combobox-onselect', onSelect);			
 		lastTargetInput = this; 
 	});
 	options = options || $(lastTargetInput).data('options') || "";
 	options = options.split(";");
+	$("ul[id='dropdown_" + targetInput + "']").remove(); //If there was an old dropdownlist remove it
 	var comboboxContent = "<ul id='dropdown_" + targetInput + "' class='dropdown-content' style='min-width: 100%; right: 0px; left: unset;'>";
 	options.forEach(function(option){
 		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){ //Optgroup
@@ -2546,7 +2549,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	});
 	comboboxContent += "</ul>";
 	$(lastTargetInput).after(comboboxContent);
-	$('.comboboxDropdownTrigger').dropdown({alignment: 'right'});
+	$('.comboboxDropdownTrigger').dropdown({alignment: 'right', constrainWidth: false});
 }
 function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	var $dropdownlist = $("ul[id='" + dropdownlist + "']");
@@ -2559,7 +2562,7 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 		var _$dropdownlist = $dropdownlist;
 		$("ul[id='" + _dropdownlist + "'] li").each(function(){
 			$(this).removeClass('grey lighten-3');
-			if ($(this).data('value') == encodeURIComponent(value.replace(/\//g, "\\"))){
+			if ($(this).data('value') == encodeURIComponent((value || "").replace(/\//g, "\\"))){
 				$(this).addClass('grey lighten-3');
 				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top); 
 			}
@@ -3645,7 +3648,7 @@ function load(settings, onChange) {
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				if(dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
-					enhanceTextInputToCombobox(this, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
+					enhanceTextInputToCombobox("#" + this.id, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
 				}
 			}
 		});
@@ -4425,6 +4428,127 @@ function load(settings, onChange) {
 		}
 	});
 
+	//Enhance AutocreateWidget with functions
+	var dialogDevicesAutocreateWidgetOptions;
+	$('#devicesAutocreateWidgetButton').on('click', function () {
+		initDialog('dialogDevicesAutocreateWidget', function(){ //save dialog
+			views[$('#devicesSelectedView').val()].devices.push({
+				commonName: $('#dialogDevicesAutocreateWidgetName').val() || "Widget",
+				commonRole: "iQontrolWidget",
+				nativeBackgroundImage: "",
+				nativeBackgroundImageActive: "",
+				nativeHeading: "",
+				nativeLinkedView: "",
+				nativeNewLine: false,
+				options: dialogDevicesAutocreateWidgetOptions,
+				states: [{state: "BACKGROUND_URL", commonRole: "const", value: $("#dialogDevicesAutocreateWidgetSource").val()}]
+			});
+			console.log("Added Widget");
+			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+		});
+		//Add widgets and websites to Selectbox
+		$('#dialogDevicesAutocreateWidgetSource').val("");
+		var inbuiltWidgetsString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget && typeof widget.filename != udef) {
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + (widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
+		}
+		var websitenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + (link + "/images/icons/file_html.png").replace(/\//g, "\\"));
+					}
+				});
+				if(websitenamesInThisDir.length > 0){
+					websitenames.push("[" + imagesDir.dirnameBS + ":]");
+					websitenames.push(websitenamesInThisDir.join(";"));
+				}
+			}
+		});
+		if (websitenames.length > 0){
+			websitenames.unshift(";[" + _("User Widgets") + ":]");
+		}
+		enhanceTextInputToCombobox("#dialogDevicesAutocreateWidgetSource", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDevicesAutocreateWidgetWidgetSelected);
+		//Further settings
+		$('#dialogDevicesAutocreateWidgetName').val("");
+		$('#dialogDevicesAutocreateWidgetDescription').html("");
+		$('#dialogDevicesAutocreateWidgetOptions').html("");
+		$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
+		dialogDevicesAutocreateWidgetOptions = [];
+		$('#dialogDevicesAutocreateWidget').modal('open');
+	});
+	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
+		$('#dialogDevicesAutocreateWidgetDescription').html("")
+		$('#dialogDevicesAutocreateWidgetOptions').html("")
+		if($("#dialogDevicesAutocreateWidgetSource").val() != ""){
+			$('#dialogDevicesAutocreateWidget a.btn-set').removeClass('disabled');
+		} else {
+			$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
+		}
+		dialogDevicesAutocreateWidgetOptions = [];
+	});
+	function dialogDevicesAutocreateWidgetWidgetSelected(value){
+		var filename = null;
+		var path = null;
+		if(value.indexOf("./images/widgets/") == 0){ 
+			filename = value.substr(8);
+			path = imagePath;
+		}
+		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+			filename = value.substr(29);
+			path = userfilesImagePath;
+		}									
+		if(filename && path){
+			downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
+				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){ 
+					var metaName = $(this).prop('name');
+					var metaContent = $(this).prop('content');
+					var data = $(this).data() || {};
+					switch(metaName){
+						case "widget-description":
+						if(metaContent) $('#dialogDevicesAutocreateWidgetDescription').html(metaContent);
+						break;
+						
+						case "widget-options":
+						if(metaContent) {
+							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
+							if(widgetOptions){
+								var widgetOptionsString = "";
+								var widgetOptionsUnsupportedString;
+								for(option in widgetOptions){
+									if(iQontrolRoles["iQontrolWidget"].options[option]){
+										widgetOptionsString += iQontrolRoles["iQontrolWidget"].options[option].name + ": " + widgetOptions[option] + "<br>";
+									} else {
+										widgetOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
+									}
+								};
+								if(widgetOptionsUnsupportedString) widgetOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + widgetOptionsUnsupportedString;
+								$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Found settings for widget options:") + "</b><br>" + widgetOptionsString);
+								dialogDevicesAutocreateWidgetOptions = [];
+								for(roleOption in iQontrolRoles["iQontrolWidget"].options){
+									if(iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
+									var value = widgetOptions[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
+									var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
+									dialogDevicesAutocreateWidgetOptions.push(entry);
+								}
+							} else {
+								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
+							}
+						}
+						break;
+					}
+				});
+			});			
+		}
+	}
 
 	//+++++++++ TOOLBAR ++++++++++
 	//Load Toolbar
