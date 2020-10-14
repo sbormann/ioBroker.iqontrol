@@ -194,8 +194,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* ``<stateObject>`` itself is an object like 
 			````javascript
 			event.data.value = {
-				val: <value>,
+				val: <value (rounded)>,
 				unit: "<unit>",
+				valFull: <value (not rounded)>,
 				plainText: "<clear text of val, for example taken from valuelist>",
 				min: <minimum>,
 				max: <maximum>,

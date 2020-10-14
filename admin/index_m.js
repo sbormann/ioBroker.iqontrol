@@ -2506,15 +2506,15 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	$(targetInput).each(function(){
 		if(!$(this).parent('div').hasClass('combobox')){
 			$(this).add('label').wrap("<div class='combobox'></div>");
-			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + targetInput + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
+			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
 		}
 		$(this).data('combobox-onselect', onSelect);			
 		lastTargetInput = this; 
 	});
 	options = options || $(lastTargetInput).data('options') || "";
 	options = options.split(";");
-	$("ul[id='dropdown_" + targetInput + "']").remove(); //If there was an old dropdownlist remove it
-	var comboboxContent = "<ul id='dropdown_" + targetInput + "' class='dropdown-content' style='min-width: 100%; right: 0px; left: unset;'>";
+	$("ul[id='dropdown_" + encodeURIComponent(targetInput) + "']").remove(); //If there was an old dropdownlist remove it
+	var comboboxContent = "<ul id='dropdown_" + encodeURIComponent(targetInput) + "' class='dropdown-content'>";
 	options.forEach(function(option){
 		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){ //Optgroup
 			var caption = _(option.substring(1, option.length - 1));
@@ -2538,7 +2538,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 				if (icon != "") icon = link + icon;
 			}
 			comboboxContent += "	<li data-value='" + value + "'>";
-			comboboxContent += "		<a onclick=\"enhanceTextInputToComboboxEntryToInput('" + value + "');\">";
+			comboboxContent += "		<a href='#!'>";
 			if (icon != ""){
 				comboboxContent += "		<img src='" + icon + "' style='display: block; margin-bottom: 5px; min-width: 40px; max-width: 40px; max-height: 40px; width: auto; height: auto;'>";
 			}
@@ -2549,7 +2549,9 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	});
 	comboboxContent += "</ul>";
 	$(lastTargetInput).after(comboboxContent);
-	$('.comboboxDropdownTrigger').dropdown({alignment: 'right', constrainWidth: false});
+	$('.comboboxDropdownTrigger').dropdown({alignment: 'right', constrainWidth: false, onItemClick: function(event){
+		enhanceTextInputToComboboxEntryToInput($(event).data('value'));
+	}});
 }
 function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	var $dropdownlist = $("ul[id='" + dropdownlist + "']");
@@ -3121,7 +3123,11 @@ function load(settings, onChange) {
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){
-				 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
+					|| file.filenameBS.endsWith(".css")
+					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
+					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+				}
 			});
 		});
 		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
@@ -3247,7 +3253,11 @@ function load(settings, onChange) {
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){
-				 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
+					|| file.filenameBS.endsWith(".css")
+					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
+					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+				}
 			});
 		});
 		if (imagenames.length > 0){

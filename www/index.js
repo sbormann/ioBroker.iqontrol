@@ -2814,6 +2814,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			}
 			if(typeof result.val == 'number'){
 				result.type = "level";
+				result.valFull = result.val;
 				var n = 2;
 				result.val =  Math.round(result.val * Math.pow(10, n)) / Math.pow(10, n);
 			} else {
@@ -2824,6 +2825,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		if(result.type == "string" && typeof result.custom.statesAddInput && result.custom.statesAddInput){
 			result.type = "valueList";
 		}
+		if(typeof result.valFull == udef) result.valFull = result.val;
 	}
 	return result;
 }
