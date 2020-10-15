@@ -218,6 +218,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* You can further configure the datapoint by using data-type (which can be set to string, number or boolean), data-role, data-name, data-min, data-max, data-def and data-unit attributes
     * The corresponding datapoint is only then created, if the widget-website is added to a device as URL or BACKGROUND_URL	
 * The same concept may be used for the URL/HTML-State, which is used to display a website inside the dialog of a device
+* To create an icon for your widget place a .png file with the same filename as the widget into the widgets directory
 * See below for an example widget-website:
 
 <details>
@@ -867,7 +868,7 @@ This device has some special predefined size- and display-settings to show a web
 
 
 ****
-
+    
 ## Changelog
 
 ### dev

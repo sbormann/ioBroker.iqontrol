@@ -5,6 +5,7 @@
 //connectionLink are defined later inside load-function, because relevant informations are missing at this moment
 var namespace = "iqontrol.meta";
 var useCache = true;
+var imagePath = "/iqontrol/images";
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var inbuiltSymbols = [
@@ -59,8 +60,8 @@ var inbuiltSymbols = [
 ];
 
 var inbuiltWidgets = [
+	{filename:"map/map.html", name:"Map", icon: "map/map.png"}
 ];
-//inbuiltWidgets = [{filename:"clock_and_weather.html", name:"Clock and Weather", icon: "/images/icons/file_html.png"}];
 
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -2809,7 +2810,9 @@ function load(settings, onChange) {
 	dialogCodeEditorCodeMirror = CodeMirror.fromTextArea($("#dialogCodeEditorCode")[0], {
 		lineNumbers: true,
 		theme: "material",
-		viewportMargin: Infinity
+		viewportMargin: Infinity,
+		indentUnit: 4,
+		indentWithTabs: true
 	});
 	dialogCodeEditorCodeMirror.on("change", function(){ 
 		dialogCodeEditorCodeMirrorChanged = true;
@@ -3628,7 +3631,7 @@ function load(settings, onChange) {
 		var inbuiltWidgetsString = "";
 		inbuiltWidgets.forEach(function(widget){
 			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + (widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -3641,7 +3644,9 @@ function load(settings, onChange) {
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
 					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + (link + "/images/icons/file_html.png").replace(/\//g, "\\"));
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
 				if(websitenamesInThisDir.length > 0){
@@ -4459,9 +4464,9 @@ function load(settings, onChange) {
 		//Add widgets and websites to Selectbox
 		$('#dialogDevicesAutocreateWidgetSource').val("");
 		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
+		inbuiltWidgets.forEach(function(widget){ 
 			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + (widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -4474,7 +4479,9 @@ function load(settings, onChange) {
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
 					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + (link + "/images/icons/file_html.png").replace(/\//g, "\\"));
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
 				if(websitenamesInThisDir.length > 0){
@@ -5096,7 +5103,6 @@ function save(callback) {
 	obj.version = version;
 
 	//Get widgetDatapoints
-	var imagePath = "/iqontrol/images";
 	var widgetsToDownload = [];
 	views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
