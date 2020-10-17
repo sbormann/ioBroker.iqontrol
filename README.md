@@ -246,10 +246,14 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-datapoint" content="postMessageTest.test" data-type="string" data-role="text" />
+	<meta name="widget-description" content="This is a test widget. To get the WidgetDeviceState-Functions working, please set a valid iobroker-datapoint for STATE. (C) by Sebastian Bormann"/> 
+	<meta name="widget-urlparameters" content="title/postMessageTest/Please enter a title">
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
  	<title>iQontrol postMessageTest</title>
 </head>
 <body>
 	<br><br>
+	<h3><span id="title">postMessageTest</span><h3>
 	<button onclick="getWidgetState('postMessageTest.test')">getWidgetState postMessageTest.test</button><br>
 	<button onclick="getWidgetStateSubscribed('postMessageTest.test')">getWidgetStateSubscribed postMessageTest.test</button><br>
 	<button onclick="setWidgetState('postMessageTest.test', 'Hello world')">setWidgetState postMessageTest.test to 'Hello world'</button><br>
@@ -275,6 +279,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		var countSend = 0;
 		var countReceived = 0;
 		
+		//Set title from UrlParameter
+		document.getElementById('title').innerHTML = getUrlParameter('title') || "No Title set";
+			
 		//getWidgetState
 		function getWidgetState(stateId){
 			sendPostMessage("getWidgetState", stateId);
@@ -332,7 +339,15 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		function openDialog(deviceId){
 			sendPostMessage("openDialog", null, deviceId);
 		}
-
+		
+		// +++++ Default Functions +++++		
+		//getUrlParameter
+		function getUrlParameter(name) {
+			name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			var results = regex.exec(location.search);
+			return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
       
 		//send postMessages
 		function sendPostMessage(command, stateId, value){
@@ -365,7 +380,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * There are additional meta-tags, you can use inside the head-section of your widget-website to configure the behavior of the widget:
 	* 'widget-description'
 		* syntax: ``<meta name="widget-description" content="Please see www.mywebsite.com for further informations. (C) by me"/>``
-		* This will be displayed when chosing the widget as URL or BACKGROUND_URL or if you autocreate a widget
+		* The content will be displayed when chosing the widget as URL or BACKGROUND_URL or if you autocreate a widget
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description;parameter2/default value2/description2"/>``
 		* The user will be asked for these parameter when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
@@ -579,9 +594,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	<div id="mapid" style="width: 100%; height: 100%; margin: 0px;"></div>
 	<script type="text/javascript">
 		//Declarations
-		var mapPositionLatitude = 0;
-		var mapPositionLongitude = 0;
-		var mapPositionZoom = 10;
+		var mapPositionLatitude;
+		var mapPositionLongitude;
+		var mapPositionZoom;
 		var mymap = false;
 
 		//Subscribe to WidgetDatapoints now
@@ -589,15 +604,15 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
 		sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");
 
-		//Initialize map (with timeout to give script the time go get the initial position values)
-		setTimeout(function(){
+		//Initialize map (if all three parameters mapPositionLatitude, mapPositionLongitude and mapPositionZoom were received)
+		if(mapPositionLatitude != null && mapPositionLongitude != null && mapPositionZoom != null){
 			console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
 			mymap = L.map('mapid').setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
 			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 				'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
 				'useCache': true
 			}).addTo(mymap);
-		}, 250);
+		};
 
 		//Reposition map
 		function repositionMap(){
@@ -920,7 +935,7 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
 * (sbormann) Enhanced postMessage-Communication to deliver the complete stateObject if a state is requested.
-* (sbormann) postMessage-Communication commands getWidgetDeviceDatapoint, getWidgetDeviceDatapointSubscribed and setWidgetDeviceDatapoint
+* (sbormann) postMessage-Communication commands getWidgetDeviceState, getWidgetDeviceStateSubscribed and setWidgetDeviceState
 * (sbormann) Drop-Down-Menus in admin-page are now bigger.
 * (sbormann) Added Autocreate Widget to devices tab.
 
