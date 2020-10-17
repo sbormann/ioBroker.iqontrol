@@ -182,6 +182,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
         * ``{ command: "setWidgetState", stateId: <widgetStateId>, value: <value> }`` - this will set the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
         * ``{ command: "getWidgetState", stateId: <widgetStateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` (see below how to receive the answer-message)
         * ``{ command: "getWidgetStateSubscribed", stateId: <widgetStateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` now and every time its value changes (see below how to receive the answer-messages)
+        * ``{ command: "setWidgetDeviceState", stateId: <widgetDeviceState>, value: <value> }`` - this will set the ioBroker datapoint that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL) to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
+        * ``{ command: "getWidgetDeviceState", stateId: <widgetDeviceState> }`` - this will cause iQontrol to send the value of the ioBroker datapoint, that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL; see below how to receive the answer-message)
         * ``{ command: "setState", stateId: <stateId>, value: <value> }`` - this will set the ioBroker state ``<stateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
         * ``{ command: "getState", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` (see below how to receive the answer-message)
         * ``{ command: "getStateSubscribed", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` now and every time its value changes (see below how to receive the answer-messages)
@@ -241,20 +243,24 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	<button onclick="getWidgetState('postMessageTest.test')">getWidgetState postMessageTest.test</button><br>
 	<button onclick="getWidgetStateSubscribed('postMessageTest.test')">getWidgetStateSubscribed postMessageTest.test</button><br>
 	<button onclick="setWidgetState('postMessageTest.test', 'Hello world')">setWidgetState postMessageTest.test to 'Hello world'</button><br>
-  	<br><br>
+  	<br>
+	<button onclick="getWidgetDeviceState('STATE')">getWidgetDeviceState STATE</button><br>
+	<button onclick="getWidgetDeviceStateSubscribed('STATE')">getWidgetDeviceStateSubscribed STATE</button><br>
+	<button onclick="setWidgetDeviceState('STATE', 'Hello world')">setWidgetDeviceState STATE to 'Hello world'</button><br>
+  	<br>
 	<button onclick="getState('system.adapter.admin.0.cpu')">getState system.adapter.admin.0.cpu</button><br>
 	<button onclick="getStateSubscribed('system.adapter.admin.0.uptime')">getStateSubscribed system.adapter.admin.0.uptime</button><br>
 	<button onclick="setState('iqontrol.0.Popup.Message', 'Hey, this is a test Message')">setState popup message</button><br>
-  	<br><br>
+  	<br>
 	<button onclick="renderView('iqontrol.0.Views.Home')">renderView 'Home'</button><br>
 	<button onclick="openDialog('iqontrol.0.Views.Home.devices.0')">openDialog 1st device on 'Home'</button><br>
-	<br>
+	<br><hr>
 	message sent: <span id="messageSent">-</span><br>
-	<br>
+	<br><hr>
 	message received: <span id="messageReceived">-</span><br>
-	<br>
+	<br><hr>
 	this means: <span id="thisMeans">-</span><br>
-	<br>
+	<br><hr>
     <script type="text/javascript">
 		var countSend = 0;
 		var countReceived = 0;
@@ -274,13 +280,29 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 			sendPostMessage("setWidgetState", stateId, value);
 		}
 
+		
+		//getWidgetDeviceState
+		function getWidgetDeviceState(stateId){
+			sendPostMessage("getWidgetDeviceState", stateId);
+		}
       
+		//getWidgetDeviceStateSubscribed (this means, everytime the state changes, an update will be received)
+		function getWidgetDeviceStateSubscribed(stateId){
+			sendPostMessage("getWidgetDeviceStateSubscribed", stateId);
+		}
+		
+		//setWidgetDeviceState
+		function setWidgetDeviceState(stateId, value){
+			sendPostMessage("setWidgetDeviceState", stateId, value);
+		}
+      
+		
 		//getState
 		function getState(stateId){
 			sendPostMessage("getState", stateId);
 		}
 
-      //getStateSubscribed (this means, everytime the state changes, an update will be received)
+		//getStateSubscribed (this means, everytime the state changes, an update will be received)
 		function getStateSubscribed(stateId){
 			sendPostMessage("getStateSubscribed", stateId);
 		}
@@ -317,8 +339,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 			if(event.data) document.getElementById('messageReceived').innerHTML = countReceived + " - " + JSON.stringify(event.data);
 			if(event.data && event.data.command) switch(event.data.command){
 				case "getState":
-				if(event.data.stateId && event.data.value){
-					document.getElementById('thisMeans').innerHTML = "Got State " + event.data.stateId + ": " + JSON.stringify(event.data.value);
+				if(event.data.stateId && event.data.value && event.data.value.val){
+					document.getElementById('thisMeans').innerHTML = "Got State " + event.data.stateId + " with value " + event.data.value.val;
 				}
 				break;
 			}
@@ -333,7 +355,20 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * There are additional meta-tags, you can use inside the head-section of your widget-website to configure the behavior of the widget:
 	* 'widget-description'
 		* syntax: ``<meta name="widget-description" content="Please see www.mywebsite.com for further informations. (C) by me"/>``
-		* This will be displayed when chosing the widget as URL or BACKGROUND_URL
+		* This will be displayed when chosing the widget as URL or BACKGROUND_URL or if you autocreate a widget
+	* 'widget-urlparameters'
+		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description;parameter2/default value2/description2"/>``
+		* The user will be asked for these parameter when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
+		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
+		* You can use these settings inside your widget-website by requesting the url-parameters with a function like this:
+			````javascript
+function getUrlParameter(name) {
+	name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+	var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+	var results = regex.exec(location.search);
+	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+			````
 	* 'widget-options'
 		* syntax: ``<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true'}"/>``
 		* See the expandable section below for the possible options that can be configured by this meta-tag
@@ -874,6 +909,7 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
 * (sbormann) Enhanced postMessage-Communication to deliver the complete stateObject if a state is requested.
+* (sbormann) postMessage-Communication commands getWidgetDeviceDatapoint, getWidgetDeviceDatapointSubscribed and setWidgetDeviceDatapoint
 * (sbormann) Drop-Down-Menus in admin-page are now bigger.
 * (sbormann) Added Autocreate Widget to devices tab.
 
