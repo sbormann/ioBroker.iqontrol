@@ -179,16 +179,26 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To send commands to iQontrol you can use the following javascript-command: ``window.parent.postMessage(message, "*");`` 
     * ``message`` is a javascript object of the format ``{ command: command, stateId: stateId, value: value }``
     * The following message-commands are supported:
-        * ``{ command: "setWidgetState", stateId: <widgetStateId>, value: <value> }`` - this will set the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
-        * ``{ command: "getWidgetState", stateId: <widgetStateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` (see below how to receive the answer-message)
-        * ``{ command: "getWidgetStateSubscribed", stateId: <widgetStateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` now and every time its value changes (see below how to receive the answer-messages)
-        * ``{ command: "setWidgetDeviceState", stateId: <widgetDeviceState>, value: <value> }`` - this will set the ioBroker datapoint that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL) to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
-        * ``{ command: "getWidgetDeviceState", stateId: <widgetDeviceState> }`` - this will cause iQontrol to send the value of the ioBroker datapoint, that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL; see below how to receive the answer-message)
-        * ``{ command: "setState", stateId: <stateId>, value: <value> }`` - this will set the ioBroker state ``<stateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
-        * ``{ command: "getState", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` (see below how to receive the answer-message)
-        * ``{ command: "getStateSubscribed", stateId: <stateId> }`` - this will cause iQontrol to send the value of the ioBroker state ``<stateId>`` now and every time its value changes (see below how to receive the answer-messages)
-        * ``{ command: "renderView", value: <viewID> }`` - this will instruct iQontrol to render a view, where ``<viewID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>`` (case-sensitive)
-        * ``{ command: "openDialog", value: <deviceID> }`` - this will instruct iQontrol to open a dialog, where ``<deviceID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>.devices.<device-number>`` where ``<device-number>`` starts from 0 (so the first device on a view is device number 0)
+        * ``{ command: "setWidgetState", stateId: <widgetStateId>, value: <value> }``
+			* This will set the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
+        * ``{ command: "getWidgetState", stateId: <widgetStateId> }``
+			* This will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` (see below how to receive the answer-message)
+        * ``{ command: "getWidgetStateSubscribed", stateId: <widgetStateId> }``
+			* This will cause iQontrol to send the value of the ioBroker state ``iqontrol.<instance>.Widgets.<widgetStateId>`` now and every time its value changes (see below how to receive the answer-messages)
+        * ``{ command: "setWidgetDeviceState", stateId: <widgetDeviceState>, value: <value> }``
+			* This will set the ioBroker datapoint that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL) to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
+        * ``{ command: "getWidgetDeviceState", stateId: <widgetDeviceState> }``
+			* This will cause iQontrol to send the value of the ioBroker datapoint, that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL; see below how to receive the answer-message)
+        * ``{ command: "setState", stateId: <stateId>, value: <value> }``
+			* This will set the ioBroker state ``<stateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
+        * ``{ command: "getState", stateId: <stateId> }``
+			* This will cause iQontrol to send the value of the ioBroker state ``<stateId>`` (see below how to receive the answer-message)
+        * ``{ command: "getStateSubscribed", stateId: <stateId> }``
+			* This will cause iQontrol to send the value of the ioBroker state ``<stateId>`` now and every time its value changes (see below how to receive the answer-messages)
+        * ``{ command: "renderView", value: <viewID> }``
+			* This will instruct iQontrol to render a view, where ``<viewID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>`` (case-sensitive)
+        * ``{ command: "openDialog", value: <deviceID> }``
+			* This will instruct iQontrol to open a dialog, where ``<deviceID>`` needs to be formatted like ``iqontrol.<instance-number>.Views.<view-name>.devices.<device-number>`` where ``<device-number>`` starts from 0 (so the first device on a view is device number 0)
 * To receive messages from iQontrol, you need to register an event-listener to the "message"-event with the javascript-command ``window.addEventListener("message", receivePostMessage, false);``
     * The function ``receivePostMessage`` receives the object ``event``
 	* ``event.data`` contains the message from iqontrol, which will be an object like:
