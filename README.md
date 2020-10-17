@@ -362,13 +362,14 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
 		* You can use these settings inside your widget-website by requesting the url-parameters with a function like this:
 			````javascript
-function getUrlParameter(name) {
-	name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-	var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-	var results = regex.exec(location.search);
-	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
+			function getUrlParameter(name) {
+				name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+				var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+				var results = regex.exec(location.search);
+				return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+			};
 			````
+
 	* 'widget-options'
 		* syntax: ``<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true'}"/>``
 		* See the expandable section below for the possible options that can be configured by this meta-tag
