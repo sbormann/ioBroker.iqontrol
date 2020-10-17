@@ -3797,6 +3797,24 @@ function load(settings, onChange) {
 						case "widget-description":
 						if(metaContent) alert(metaContent);
 						break;
+
+						case "widget-urlparameters":
+						if(metaContent){
+							var widgetUrlParameters = "";
+							var urlParameters = metaContent.split(';');
+							urlParameters.forEach(function(urlParameter){ 
+								urlParameter = urlParameter.trim();
+								var result = prompt(urlParameter.split('/')[2] ||urlParameter.split('/')[0], urlParameter.split('/')[1] || "");
+								if(result) {
+									widgetUrlParameters += "&" + encodeURI(urlParameter.split('/')[0]) + "=" + encodeURI(result); 
+								}
+							});
+							if(widgetUrlParameters) {
+								widgetUrlParameters = "?" + widgetUrlParameters.substr(1);
+								$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + widgetUrlParameters);
+							}
+						}
+						break;						
 						
 						case "widget-options":
 						if(metaContent) {
@@ -4445,10 +4463,14 @@ function load(settings, onChange) {
 
 	//Enhance AutocreateWidget with functions
 	var dialogDevicesAutocreateWidgetOptions;
+	var dialogDevicesAutocreateWidgetUrlParameters = "";
 	$('#devicesAutocreateWidgetButton').on('click', function () {
 		initDialog('dialogDevicesAutocreateWidget', function(){ //save dialog
+			var filenamePlain = $('#dialogDevicesAutocreateWidgetSource').val();
+			filenamePlain = filenamePlain.slice(filenamePlain.lastIndexOf('/') + 1, filenamePlain.lastIndexOf('.'));
+			filenamePlain = filenamePlain.charAt(0).toUpperCase() + filenamePlain.slice(1);
 			views[$('#devicesSelectedView').val()].devices.push({
-				commonName: $('#dialogDevicesAutocreateWidgetName').val() || "Widget",
+				commonName: $('#dialogDevicesAutocreateWidgetName').val() || filenamePlain || "Widget",
 				commonRole: "iQontrolWidget",
 				nativeBackgroundImage: "",
 				nativeBackgroundImageActive: "",
@@ -4456,7 +4478,7 @@ function load(settings, onChange) {
 				nativeLinkedView: "",
 				nativeNewLine: false,
 				options: dialogDevicesAutocreateWidgetOptions,
-				states: [{state: "BACKGROUND_URL", commonRole: "const", value: $("#dialogDevicesAutocreateWidgetSource").val()}]
+				states: [{state: "BACKGROUND_URL", commonRole: "const", value: $("#dialogDevicesAutocreateWidgetSource").val() + dialogDevicesAutocreateWidgetUrlParameters}]
 			});
 			console.log("Added Widget");
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
@@ -4498,19 +4520,23 @@ function load(settings, onChange) {
 		$('#dialogDevicesAutocreateWidgetName').val("");
 		$('#dialogDevicesAutocreateWidgetDescription').html("");
 		$('#dialogDevicesAutocreateWidgetOptions').html("");
+		$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
 		$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
 		dialogDevicesAutocreateWidgetOptions = [];
+		dialogDevicesAutocreateWidgetUrlParameters = "";
 		$('#dialogDevicesAutocreateWidget').modal('open');
 	});
 	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
 		$('#dialogDevicesAutocreateWidgetDescription').html("")
 		$('#dialogDevicesAutocreateWidgetOptions').html("")
+		$('#dialogDevicesAutocreateWidgetUrlParameters').html("")
 		if($("#dialogDevicesAutocreateWidgetSource").val() != ""){
 			$('#dialogDevicesAutocreateWidget a.btn-set').removeClass('disabled');
 		} else {
 			$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
 		}
 		dialogDevicesAutocreateWidgetOptions = [];
+		dialogDevicesAutocreateWidgetUrlParameters = "";
 	});
 	function dialogDevicesAutocreateWidgetWidgetSelected(value){
 		var filename = null;
@@ -4532,6 +4558,26 @@ function load(settings, onChange) {
 					switch(metaName){
 						case "widget-description":
 						if(metaContent) $('#dialogDevicesAutocreateWidgetDescription').html(metaContent);
+						break;
+						
+						case "widget-urlparameters":
+						if(metaContent){
+							dialogDevicesAutocreateWidgetUrlParameters = "";
+							var dialogDevicesAutocreateWidgetUrlParametersString = "";
+							var urlParameters = metaContent.split(';');
+							urlParameters.forEach(function(urlParameter){ 
+								urlParameter = urlParameter.trim();
+								var result = prompt(urlParameter.split('/')[2] ||urlParameter.split('/')[0], urlParameter.split('/')[1] || "");
+								if(result) {
+									dialogDevicesAutocreateWidgetUrlParameters += "&" + encodeURI(urlParameter.split('/')[0]) + "=" + encodeURI(result); 
+									dialogDevicesAutocreateWidgetUrlParametersString += urlParameter.split('/')[0] + ": " + result + "<br>";
+								}
+							});
+							if(dialogDevicesAutocreateWidgetUrlParameters) {
+								dialogDevicesAutocreateWidgetUrlParameters = "?" + dialogDevicesAutocreateWidgetUrlParameters.substr(1);
+								$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + dialogDevicesAutocreateWidgetUrlParametersString);
+							}
+						}
 						break;
 						
 						case "widget-options":
@@ -5111,11 +5157,11 @@ function save(callback) {
 					var filename = null;
 					var path = null;
 					if(state.value.indexOf("./images/widgets/") == 0){ 
-						filename = state.value.substr(8);
+						filename = state.value.slice(8, state.value.lastIndexOf('?'));
 						path = imagePath;
 					}
 					if(state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-						filename = state.value.substr(29);
+						filename = state.value.slice(29, state.value.lastIndexOf('?'));
 						path = userfilesImagePath;
 					}									
 					if(filename && path){

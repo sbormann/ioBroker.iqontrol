@@ -248,7 +248,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	<meta name="widget-datapoint" content="postMessageTest.test" data-type="string" data-role="text" />
 	<meta name="widget-description" content="This is a test widget. To get the WidgetDeviceState-Functions working, please set a valid iobroker-datapoint for STATE. (C) by Sebastian Bormann"/> 
 	<meta name="widget-urlparameters" content="title/postMessageTest/Please enter a title">
-	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'xwideIfActive highIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
  	<title>iQontrol postMessageTest</title>
 </head>
 <body>
@@ -588,7 +588,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	<meta name="widget-datapoint" content="Map.Position.zoom" data-type="number" data-role="value.zoom" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-	<title>iQontrol Map Widget</title>
+	<title>Simple iQontrol Map Widget</title>
 </head>
 <body style="width: 100%; height: 100%; margin: 0px;">
 	<div id="mapid" style="width: 100%; height: 100%; margin: 0px;"></div>
@@ -653,6 +653,239 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 				break;
 			}
 		}
+	</script>
+</body>
+</html>
+````
+</details>
+
+<details>
+<summary>Show a more edvanced example:</summary>
+
+* You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
+* When adding the widget a description is displayed
+* A url-parameter for your title is asked
+* Then you are asked, if you would like to apply the contained options
+* A bunch of datapoints are created to control the position of the map and to set favorite positions
+````html
+<!doctype html>
+<html style="width: 100%; height: 100%; margin: 0px;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="widget-description" content="This is a map widget, please provide coordinates at iqontrol.x.Widgets.Map. (C) by Sebastian Bormann"/> 
+	<meta name="widget-urlparameters" content="title/My Map/Please enter a title for your map">
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+
+	<meta name="widget-datapoint" content="Map.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Position.zoom" data-type="number" data-role="value.zoom" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.0.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.1.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.2.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.3.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.4.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.5.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.6.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.7.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.8.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.icon-url" data-type="string" data-role="url" />
+
+	<meta name="widget-datapoint" content="Map.Favorites.9.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.icon-url" data-type="string" data-role="url" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+	<title>iQontrol Map Widget</title>
+</head>
+<body style="width: 100%; height: 100%; margin: 0px;">
+	<div id="mapid" style="width: 100%; height: 100%; margin: 0px;"></div>
+	<div id="title" style="position: absolute; top: 3px; right: 15px; z-index: 1000; font-size: smaller; font-family: helvetica; text-shadow: 0px 0px 3px white;"></div>
+	<script type="text/javascript">
+	//Declarations
+	var mapPositionLatitude;
+	var mapPositionLongitude;
+	var mapPositionZoom;
+	var mapFavorites = [];
+	var mapMarkers = [];
+	var mapMarkerIcons = [];
+	var mymap = false;
+	
+	//Set title from UrlParameter
+	document.getElementById('title').innerHTML = getUrlParameter('title') || "";
+
+	//Subscribe to WidgetDatapoints now
+	sendPostMessage("getWidgetStateSubscribed", "Map.Position.latitude");
+	sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
+	sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");	  
+	for(var i=0; i<10; i++){
+		mapFavorites[i] = {};
+		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".Position.latitude");
+		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".Position.longitude");
+		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".name");
+		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".icon-url");
+	}
+
+	//Initialize and Reposition map
+	function repositionMap(){
+		console.log("Reposition map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+		if(mymap){
+			mymap.setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);
+		} else {
+			if(mapPositionLatitude != null && mapPositionLongitude != null && mapPositionZoom != null){
+			console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
+				mymap = L.map('mapid', {tap: false}).setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
+				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+					'useCache': true
+				}).addTo(mymap);
+			}
+		}
+	}
+
+	//Set Favorites Markers
+	function favoritesMarkers(favoritesIndex){
+		if(mapMarkers[favoritesIndex]){
+			mapMarkers[favoritesIndex].setLatLng([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude]);
+		} else {
+			if(mapFavorites[favoritesIndex].latitude != null && mapFavorites[favoritesIndex].longitude != null && mapFavorites[favoritesIndex].name != null && mapFavorites[favoritesIndex].iconUrl != null){
+				if(mapFavorites[favoritesIndex].iconUrl != "") {
+					mapMarkers[favoritesIndex] = L.marker([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude], {icon: mapMarkerIcons[favoritesIndex]}).addTo(mymap).bindPopup(mapFavorites[favoritesIndex].name);
+				} else {
+					mapMarkers[favoritesIndex] = L.marker([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude]).addTo(mymap).bindPopup(mapFavorites[favoritesIndex].name);
+				}
+			}
+		}
+	}
+
+	//Set Favorites Markers Name
+	function favoritesMarkersName(favoritesIndex){
+		if(mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setPopupContent(mapFavorites[favoritesIndex].name); else favoritesMarkers(favoritesIndex);
+	}
+
+	 //Set Farovites Markers Icon
+	function favoritesMarkersIcon(favoritesIndex){
+		if(mapFavorites[favoritesIndex].iconUrl != "") {
+			mapMarkerIcons[favoritesIndex] = L.icon({
+				iconUrl: mapFavorites[favoritesIndex].iconUrl,
+				iconSize:		[32, 32], // size of the icon
+				shadowSize:		[32, 32], // size of the shadow
+				iconAnchor:		[16, 16], // point of the icon which will correspond to marker's location
+				shadowAnchor:	[16, 16], // the same for the shadow
+				popupAnchor:	[0, 0]    // point from which the popup should open relative to the iconAnchor
+			});
+		} else {
+			mapMarkerIcons[favoritesIndex] = L.Icon.Default.prototype;
+		}
+		if(mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setIcon(mapMarkerIcons[favoritesIndex]); else favoritesMarkers(favoritesIndex);
+	}
+
+	//send postMessages
+	function sendPostMessage(command, stateId, value){
+		message = { command: command, stateId: stateId, value: value };
+		window.parent.postMessage(message, "*");
+	}
+
+	//receive postMessages
+	window.addEventListener("message", receivePostMessage, false);
+	function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
+		if(event.data && event.data.command) switch(event.data.command){
+			case "getState":
+				if(event.data.stateId && event.data.value) switch(event.data.stateId){
+					case "Map.Position.latitude":
+						console.log("Set latitude to " + event.data.value.valFull);
+						mapPositionLatitude = parseFloat(event.data.value.valFull) || 0;
+						repositionMap();
+					break;
+					
+					case "Map.Position.longitude":
+						console.log("Set longitude to " + event.data.value.valFull);
+						mapPositionLongitude = parseFloat(event.data.value.valFull) || 0;
+						repositionMap();
+					break;
+					
+					case "Map.Position.zoom":
+						console.log("Set zoom to " + event.data.value.valFull);
+						mapPositionZoom = parseFloat(event.data.value.valFull) || 0;
+						repositionMap();
+					break;
+					
+					default:
+					if(event.data.stateId.substring(0, 14) == "Map.Favorites."){
+						var favoritesIndex = parseInt(event.data.stateId.substring(14,15));
+						switch(event.data.stateId.substring(16)){
+							case "Position.latitude":
+							console.log("Set mapFavorite " + favoritesIndex + " latitude to " + event.data.value.valFull);
+							mapFavorites[favoritesIndex].latitude = parseFloat(event.data.value.valFull) || 0;
+							favoritesMarkers(favoritesIndex);
+							break;
+							
+							case "Position.longitude":
+							console.log("Set mapFavorite " + favoritesIndex + " longitude to " + event.data.value.valFull);
+							mapFavorites[favoritesIndex].longitude = parseFloat(event.data.value.valFull) || 0;
+							favoritesMarkers(favoritesIndex);
+							break;
+							
+							case "name":
+							console.log("Set mapFavorite " + favoritesIndex + " name to " + event.data.value.val);
+							mapFavorites[favoritesIndex].name = event.data.value.val || null;
+							favoritesMarkersName(favoritesIndex);
+							break;
+							
+							case "icon-url":
+							console.log("Set mapFavorite " + favoritesIndex + " iconUrl to " + event.data.value.val);
+							mapFavorites[favoritesIndex].iconUrl = event.data.value.val || "";
+							favoritesMarkersIcon(favoritesIndex);
+							break;							
+						}
+					}
+				}
+			break;
+		}
+	}
+	
+	//GetUrlParameter
+	function getUrlParameter(name) {
+		name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+		var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+		var results = regex.exec(location.search);
+		return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+	};
 	</script>
 </body>
 </html>
@@ -932,12 +1165,13 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.3.3 (2020-10-17)
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
 * (sbormann) Enhanced postMessage-Communication to deliver the complete stateObject if a state is requested.
-* (sbormann) postMessage-Communication commands getWidgetDeviceState, getWidgetDeviceStateSubscribed and setWidgetDeviceState
+* (sbormann) Added postMessage-Communication commands getWidgetDeviceState, getWidgetDeviceStateSubscribed and setWidgetDeviceState.
 * (sbormann) Drop-Down-Menus in admin-page are now bigger.
 * (sbormann) Added Autocreate Widget to devices tab.
+* (sbormann) Added more meta-tags for widgets.
 
 ### 1.3.2 (2020-10-12)
 * (sbormann) Added icons to REMOTE_ADDITIONAL_BUTTONS of remote control.

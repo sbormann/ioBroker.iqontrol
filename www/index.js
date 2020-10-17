@@ -11083,20 +11083,24 @@ $(document).ready(function(){
 			console.log("postMessage received from " + event.source.frameElement.id + ": " + JSON.stringify(event.data));
 			if(event.source.frameElement.dataset.allowPostMessage == "true"){
 				if(event.data.command) switch(event.data.command){
-					case "getState": case "getWidgetState": case "getStateSubscribed": case "getWidgetStateSubscribed":
+					case "getState": case "getWidgetState": case "getStateSubscribed": case "getWidgetStateSubscribed": case "getWidgetDeviceState": case "getWidgetDeviceStateSubscribed":
 					if(event.data.stateId){
 						var stateId = event.data.stateId;
 						if(event.data.command == "getWidgetState" || event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
+						if(event.data.command == "getWidgetDeviceState" || event.data.command == "getWidgetDeviceStateSubscribed") {
+							var deviceIdEscaped = event.source.frameElement.dataset.iqontrolDeviceId;
+							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
+							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";
+						}
 						console.log("postMessage received: " + event.data.command + " " + stateId);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
 							var _stateId = stateId;
-							var _noSubscribe = (event.data.command == "getState" || event.data.command == "getWidgetState");
+							var _noSubscribe = (event.data.command == "getState" || event.data.command == "getWidgetState" || event.data.command == "getWidgetDeviceState");
 							var _updateFunctionExecuted = false;
-							fetchStates(_stateId, function(){
+							if (_stateId) fetchStates(_stateId, function(){
 								fetchObject(_stateId, function(){
 									var updateFunction = function(){
-										if((_noSubscribe && _updateFunctionExecuted)) console.log("Nooooooooo");
 										if(usedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
 											var value = getStateObject(_stateId);
 											_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: value}, "*");
@@ -11114,10 +11118,15 @@ $(document).ready(function(){
 					}
 					break;
 
-					case "setState": case "setWidgetState":
+					case "setState": case "setWidgetState": case "setWidgetDeviceState":
 					if(event.data.stateId && event.data.value){
 						var stateId = event.data.stateId;
 						if(event.data.command == "setWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
+						if(event.data.command == "setWidgetDeviceState") {
+							var deviceIdEscaped = event.source.frameElement.dataset.iqontrolDeviceId;
+							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
+							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";
+						}
 						console.log("postMessage received: setState " + stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _event = event;
@@ -11126,11 +11135,7 @@ $(document).ready(function(){
 							if(typeof _value != "object"){
 								_value = {val: _value, ack: false};
 							}
-							deliverState(_stateId, _value, function(error){
-								setTimeout(function(){
-									updateState(_stateId, "ignorePreventUpdate");
-								}, 200);
-							});
+							if (_stateId) deliverState(_stateId, _value);
 						})(); //<--End Closure
 					}
 					break;
