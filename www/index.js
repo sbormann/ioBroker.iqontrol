@@ -11109,7 +11109,7 @@ $(document).ready(function(){
 									}
 									if(!viewUpdateFunctions[_stateId]) viewUpdateFunctions[_stateId] = [];
 									viewUpdateFunctions[_stateId].push(updateFunction);
-									if(states[_stateId]){
+									if(typeof states[_stateId] != udef){
 										updateFunction();
 									}
 								});

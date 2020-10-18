@@ -60,6 +60,7 @@ var inbuiltSymbols = [
 ];
 
 var inbuiltWidgets = [
+	{filename:"clock/clock_analog.html", name:"Analog Clock", icon: "clock/clock_analog.png"},
 	{filename:"map/map.html", name:"Map", icon: "map/map.png"}
 ];
 
@@ -2313,7 +2314,7 @@ var channelDetectorMatchTable = {
     "thermostat": 		{
 							matchingRole: "iQontrolThermostat",
 							matchingStates: {
-								"SET": "STATE",
+								"SET": "SET_TEMPERATURE",
 								"ACTUAL": "TEMPERATURE",
 								"HUMIDITY": "HUMIDITY",
 								"BOOST": "BOOST_STATE",

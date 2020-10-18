@@ -1,0 +1,59 @@
+<!doctype html>
+<html style="width: 100%; height: 100%; margin: 0px;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="widget-description" content="This is an analog clock widget, inspired by OT Online Tutorials, (C) by Sebastian Bormann"/> 
+	<meta name="widget-urlparameters" content="--background-color/rgba(104,164,255,0%)/Please enter background-color;--clock-edge-color/rgba(16,16,16,100%)/Please enter color for clock edge;--clock-face-color/rgba(255,255,255,100%)/Please enter color for clock face;--clock-hands-color/rgba(132,132,132,100%)/Please enter color for clock hands;--clock-hands-seconds-color/rgba(255,103,103,100%)/Please enter color for clock second hand">	
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+	<link rel="stylesheet" type="text/css" href="clock_analog.css" />
+	<title>iQontrol Clock Widget</title>
+	<style>
+	</style>
+</head>
+<body style="width: 100%; height: 100%; margin: 0px;">
+	<div class="clockWrapper">
+		<div class="clock">
+			<div class="hour">
+				<div class="hh" id="hh"></div>
+			</div>
+			<div class="min">
+				<div class="mm" id="mm"></div>
+			</div>
+			<div class="sec">
+				<div class="ss" id="ss"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		//Get colors from URL-Parameters
+		document.querySelector(':root').style.setProperty("--background-color", getUrlParameter("--background-color") || "rgba(104,164,255,0%)");
+		document.querySelector(':root').style.setProperty("--clock-edge-color", getUrlParameter("--clock-edge-color") || "rgba(16,16,16,100%)");
+		document.querySelector(':root').style.setProperty("--clock-face-color", getUrlParameter("--clock-face-color") || "rgba(255,255,255,100%)");
+		document.querySelector(':root').style.setProperty("--clock-hands-color", getUrlParameter("--clock-hands-color") || "rgba(132,132,132,100%)");
+		document.querySelector(':root').style.setProperty("--clock-hands-seconds-color", getUrlParameter("--clock-hands-seconds-color") || "rgba(255,103,103,100%)");
+		
+		//Run the clock
+		const deg = 6;
+		const hh = document.querySelector("#hh");
+		const mm = document.querySelector("#mm");
+		const ss = document.querySelector("#ss");
+		setInterval(function(){
+			let day = new Date();
+			let h = day.getHours() * 30;
+			let m = day.getMinutes() * deg;
+			let s = day.getSeconds() * deg;
+			hh.style.transform = 'rotateZ(' + h+(m/12) + 'deg)';
+			mm.style.transform = 'rotateZ(' + m + 'deg)';
+			ss.style.transform = 'rotateZ(' + s + 'deg)';
+		}, 1000);
+		
+		//GetUrlParameter
+		function getUrlParameter(name) {
+			name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			var results = regex.exec(location.search);
+			return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
+	</script>
+</body>
+</html>
