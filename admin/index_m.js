@@ -2493,6 +2493,83 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
     return false;
 };
 
+function removeDuplicates(array) { //Removes duplicates from an array
+    var seen = {};
+    return array.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+}
+
+function updateSymbolicLinks(){
+	var changed = false;
+	if (typeof views != udef && views.length > 0) views.forEach(function(view){
+		if (typeof view.devices != udef) view.devices.forEach(function(device){
+			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
+				if(views[device.symbolicLinkFrom.sourceView] && views[device.symbolicLinkFrom.sourceView].devices && typeof views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice] == "object"){
+					var newStates = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].states)); //Creates new array, not just a reference
+					if(JSON.stringify(device.states) != JSON.stringify(newStates)){
+						console.log("Update device states from symbolic link");
+						device.states = newStates;
+						changed = true;
+					}
+					var newOptions = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].options)); //Object.assign creates new object, not just a reference
+					if(JSON.stringify(device.options) != JSON.stringify(newOptions)){
+						console.log("Update device options from symbolic link");
+						device.options = newOptions;
+						changed = true;
+					}
+				} else { //Source Device not found! Remove symbolic link!
+					console.log("Remove symbolic link because source device is missing");
+					delete device.symbolicLinkFrom;
+					changed = true;
+				}
+			}
+		});
+	});
+	return changed;	
+}
+
+function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDeviceIndex, skip){
+	//If newViewIndex and newDeviceIndex are null, then all symbolic links to oldViewIndex/oldDeviceIndex are delted (converted to normal devices)
+	//If oldDeviceIndex and newDeviceIndex are "*", then all devices are affected
+	if(skip == null) skip = [];
+	var changed = [];
+	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){
+		if (typeof view.devices != udef) view.devices.forEach(function(device, deviceIndex){
+			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){ //Valid Symbolic link
+				if(device.symbolicLinkFrom.sourceView == oldViewIndex && (device.symbolicLinkFrom.sourceDevice == oldDeviceIndex || oldDeviceIndex == "*") && skip.findIndex(function(element){ return (typeof element != udef && element.view == viewIndex && element.device == deviceIndex); }) == -1){
+					if(newViewIndex == null || newDeviceIndex == null){
+						console.log("Remove symbolic link of device " + viewIndex + "/" + deviceIndex + " because source device " + device.symbolicLinkFrom.sourceView + "/" + device.symbolicLinkFrom.sourceDevice + " has been deleted [viewIndex/deviceIndex]");
+						delete device.symbolicLinkFrom;
+						changed.push({view: viewIndex, device: deviceIndex});
+					} else {
+						console.log("Change symbolic link of device " + viewIndex + "/" + deviceIndex + " from " + device.symbolicLinkFrom.sourceView + "/" + device.symbolicLinkFrom.sourceDevice + " to " + newViewIndex + "/" + newDeviceIndex + " [viewIndex/DeviceIndex]");
+						device.symbolicLinkFrom.sourceView = newViewIndex;
+						if(newDeviceIndex !== "*") device.symbolicLinkFrom.sourceDevice = newDeviceIndex;
+						changed.push({view: viewIndex, device: deviceIndex});
+					}
+				}
+			}
+		});
+	});
+	return changed;		
+}
+
+function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
+	var destinations = [];
+	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){
+		if (typeof view.devices != udef) view.devices.forEach(function(device, deviceIndex){
+			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
+				if(device.symbolicLinkFrom.sourceView == sourceViewIndex && device.symbolicLinkFrom.sourceDevice == sourceDeviceIndex){
+					destinations.push({view: viewIndex, device: deviceIndex});
+				}
+			}
+		});
+	});
+	return destinations;		
+}
+
+//Combobox
 var $enhanceTextInputToComboboxActualTarget;
 function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSelect){
 	//targetInput - string - selector for text-input-field to enhance
@@ -2591,13 +2668,6 @@ function enhanceTextInputToComboboxEntryToInput(value){
 		$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
 		if(onSelect) onSelect(value);
 	}
-}
-
-function removeDuplicates(array) { //Removes duplicates from an array
-    var seen = {};
-    return array.filter(function(item) {
-        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-    });
 }
 
 //File-Operations
@@ -3047,11 +3117,13 @@ function load(settings, onChange) {
 			if (typeof views != udef) views.forEach(function(view){
 				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
 					view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
+					console.log("Adjusted view-backgroundimage: " + view.nativeBackgroundImage);
 					fileLocationChanged = true;
 				}
 				if (typeof view.devices != udef) view.devices.forEach(function(device){
 					if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
 						device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
+						console.log("Adjusted device-backgroundimage: " + device.nativeBackgroundImage);
 						fileLocationChanged = true;
 					}
 				});
@@ -3138,6 +3210,27 @@ function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			if (command === 'delete') {
+				$(this).on('click', function (event) {
+					var _viewIndex = $(this).data('index');
+					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, "*", null, null);
+					if(changedSymbolicLinks.length > 0) {
+						var deletedSymbolicLinksString = "";
+						changedSymbolicLinks.forEach(function(destination){ 
+							var deviceNumber = parseInt(destination.device) + 1;
+							//1st 2nd 3rd 4th...
+							var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
+							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")"; 
+						});
+						alert(_("The following devices were symbolic links of a device from the view you deleted. They were converted to normal devices:") + deletedSymbolicLinksString);
+					}
+					changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
+					for(var i = _viewIndex; i < views.length; i++){
+						var changedSymbolicLink = changeSymbolicLinks(i + 1, "*", i, "*", changedSymbolicLinks);
+						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
+					}
+				});
+			}			
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
@@ -3178,8 +3271,15 @@ function load(settings, onChange) {
 					sequence.push($(this).data('index'));
 				});
 				var tableResorted = [];
+				var changedSymbolicLinks = [];
 				for(var i = 0; i < sequence.length; i++){
 					tableResorted.push(views[sequence[i]]);
+					if(i != sequence[i]) {
+						for(deviceIndex in views[sequence[i]].devices){
+							var changedSymbolicLink = changeSymbolicLinks(sequence[i], deviceIndex, i, deviceIndex, changedSymbolicLinks);
+							changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
+						}
+					}
 				}
 				views = tableResorted;
 				onChange();
@@ -3284,18 +3384,40 @@ function load(settings, onChange) {
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
 		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + imagenames.join(";"), true);
-		//Add role as span to commonName
+		//Add role and symblic link info as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonName') {
 				var deviceIndex = $(this).data('index');
-				if (views[devicesSelectedView].devices[deviceIndex].commonRole){
+				if(typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom == "object" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView !== "" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice !== ""){ //Symbolic link
 					$(this).next('span').remove();
-					$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
-				} else {
-					$(this).next('span').remove();
-					$(this).after('<span style="font-size:x-small; color: red;">' + _('Please assign a role in device settings') + '</span>');
+					var deviceNumber = parseInt(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice) + 1;
+					//1st 2nd 3rd 4th...
+					var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
+					$(this).after('<span style="font-size:x-small; color: blue;">' + _('Linked from view') + ' ' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].commonName + ', ' + deviceNumberString  + ' ' + _('device') + ' ' + ' (' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].devices[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice].commonName + ')</span>');
+				} else { //Normal device
+					if (views[devicesSelectedView].devices[deviceIndex].commonRole){
+						$(this).next('span').remove();
+						$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+					} else {
+						$(this).next('span').remove();
+						$(this).after('<span style="font-size:x-small; color: red;">' + _('Please assign a role in device settings') + '</span>');
+					}
 				}
+				$(this).on('change', function(){ //Check for changes for Symbolic link
+					var _viewIndex = devicesSelectedView;
+					var _deviceIndex = $(this).data('index');
+					var destinations = checkSymbolicLinks(_viewIndex, _deviceIndex);
+					if(destinations.length > 0) {
+						var destinationInThisView = false;
+						destinations.forEach(function(destination){
+							if(destination.view == _viewIndex) {
+								destinationInThisView = true;
+							}
+						});
+						if(destinationInThisView) values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+					}
+				});
 			}
 		});
 		//Add padding to checkbox
@@ -3305,44 +3427,80 @@ function load(settings, onChange) {
 			var command = $(this).data('command');
 			//Edit Device
 			if (command === 'edit') {
-				$(this).on('click', function () {
-					var viewIndex = devicesSelectedView;
-					var deviceIndex = $(this).data('index');
-					initDialog('dialogDeviceEdit', function(){ //save dialog
-						var viewIndex =   $('#dialogDeviceEditViewIndex').val();
-						var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-						views[viewIndex].devices[deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
-						views[viewIndex].devices[deviceIndex].states = dialogDeviceEditStatesTable;
-						dialogDeviceEditOptions = [];
-						$('.dialogDeviceEditOption').each(function(){ //save the options entrys
-							var option = $(this).data('option');
-							var type = $(this).data('type');
-							if (type == "checkbox") var value = $(this).prop('checked').toString(); else var value = $(this).val();
-							var entry = {option: option, type: type, value: value};
-							dialogDeviceEditOptions.push(entry);
-						});
-						views[viewIndex].devices[deviceIndex].options = dialogDeviceEditOptions; 
-						onTableDevicesReady();
+				var deviceIndex = $(this).data('index');
+				if(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Symbolic link
+					$(this).addClass('dark grey').find('i').html('content_copy');
+					$(this).on('click', function () {
+						var _viewIndex = devicesSelectedView;
+						var _deviceIndex = $(this).data('index');
+						var result = confirm(_("Convert symbolic link to real device?"));
+						if(result){
+							delete views[_viewIndex].devices[_deviceIndex].symbolicLinkFrom;
+							values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+						}
 					});
-					$('#dialogDeviceEditCommonName').html(views[viewIndex].devices[deviceIndex].commonName || "");
-					$('#dialogDeviceEditViewIndex').val(viewIndex);
-					$('#dialogDeviceEditDeviceIndex').val(deviceIndex);
-					dialogDeviceEditStates = views[viewIndex].devices[deviceIndex].states || [];
-					dialogDeviceEditStatesTable = [];
-					dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[viewIndex].devices[deviceIndex].options || []));
-					$('#dialogDeviceEditOptionsContent').empty();
-					if(views[viewIndex].devices[deviceIndex].commonRole) {
-						$('#dialogDeviceEditCommonRole').val(views[viewIndex].devices[deviceIndex].commonRole).trigger('change');
-					} else {
-						$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
-					}
-					$('#dialogDeviceEditCommonRole').select();
-					$('#dialogDeviceEdit').modal('open');
-				});
+				} else { //Normal device
+					$(this).on('click', function () {
+						var _viewIndex = devicesSelectedView;
+						var _deviceIndex = $(this).data('index');
+						initDialog('dialogDeviceEdit', function(){ //save dialog
+							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
+							var _deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
+							views[_viewIndex].devices[_deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
+							views[_viewIndex].devices[_deviceIndex].states = dialogDeviceEditStatesTable;
+							dialogDeviceEditOptions = [];
+							$('.dialogDeviceEditOption').each(function(){ //save the options entrys
+								var option = $(this).data('option');
+								var type = $(this).data('type');
+								if (type == "checkbox") var value = $(this).prop('checked').toString(); else var value = $(this).val();
+								var entry = {option: option, type: type, value: value};
+								dialogDeviceEditOptions.push(entry);
+							});
+							views[_viewIndex].devices[_deviceIndex].options = dialogDeviceEditOptions; 
+							updateSymbolicLinks();
+							onTableDevicesReady();
+						});
+						$('#dialogDeviceEditCommonName').html(views[_viewIndex].devices[_deviceIndex].commonName || "");
+						$('#dialogDeviceEditViewIndex').val(_viewIndex);
+						$('#dialogDeviceEditDeviceIndex').val(_deviceIndex);
+						dialogDeviceEditStates = views[_viewIndex].devices[_deviceIndex].states || [];
+						dialogDeviceEditStatesTable = [];
+						dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
+						$('#dialogDeviceEditOptionsContent').empty();
+						if(views[_viewIndex].devices[_deviceIndex].commonRole) {
+							$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
+						} else {
+							$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
+						}
+						$('#dialogDeviceEditCommonRole').select();
+						$('#dialogDeviceEdit').modal('open');
+					});
+				}
 			}
+			//Delete
+			if (command === 'delete') {
+				$(this).on('click', function (event) {
+					var _viewIndex = devicesSelectedView;
+					var _deviceIndex = $(this).data('index');
+					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, _deviceIndex, null, null);
+					if(changedSymbolicLinks.length > 0) {
+						var deletedSymbolicLinksString = "";
+						changedSymbolicLinks.forEach(function(destination){ 
+							var deviceNumber = parseInt(destination.device) + 1;
+							//1st 2nd 3rd 4th...
+							var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
+							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")"; 
+						});
+						alert(_("The following devices were symbolic links of the device you deleted. They were converted to normal devices:") + deletedSymbolicLinksString);
+					}
+					for(var i = _deviceIndex; i < views[_viewIndex].devices.length; i++){
+						var changedSymbolicLink = changeSymbolicLinks(_viewIndex, i + 1, _viewIndex, i, changedSymbolicLinks);
+						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
+					}
+				});
+			}			
 			//Drag-Icon
 			if (command === 'drag_handle') {
-				var imageIndex = $(this).data('index');
 				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
 			}
 		});
@@ -3371,8 +3529,13 @@ function load(settings, onChange) {
 					sequence.push($(this).data('index'));
 				});
 				var tableResorted = [];
+				var changedSymbolicLinks = [];
 				for(var i = 0; i < sequence.length; i++){
 					tableResorted.push(views[devicesSelectedView].devices[sequence[i]]);
+					if(i != sequence[i]) {
+						var changedSymbolicLink = changeSymbolicLinks(devicesSelectedView, sequence[i], devicesSelectedView, i, changedSymbolicLinks);
+						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
+					}
 				}
 				views[devicesSelectedView].devices = tableResorted;
 				onChange();
@@ -4429,6 +4592,9 @@ function load(settings, onChange) {
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
 			var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference
+			if($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
+				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
+			}
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 		});
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
@@ -5116,6 +5282,9 @@ function load(settings, onChange) {
 *** This will be called by the admin adapter when the user presses the save button ***
 *************************************************************************************/
 function save(callback) {
+	//Update symbolic links
+	updateSymbolicLinks();	
+	
 	//Check for linkedViews that don't exist anymore and delete them
 	var existingViews = [];
 	if (typeof views != udef) views.forEach(function(view){

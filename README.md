@@ -1167,6 +1167,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ### dev
 * (sbormann) Added clock widget.
+* (sbormann) Added ability to create symbolic links instead of real copys of devices.
 
 ### 1.3.3 (2020-10-17)
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.
