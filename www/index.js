@@ -46,6 +46,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
@@ -82,6 +84,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -91,6 +95,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -105,6 +111,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -159,6 +167,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -168,6 +178,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -182,6 +194,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -234,6 +248,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -243,6 +259,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -257,6 +275,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -306,6 +326,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -315,6 +337,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -329,6 +353,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -378,6 +404,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -387,6 +415,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -401,6 +431,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -448,6 +480,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -457,6 +491,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -471,6 +507,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -519,6 +557,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -528,6 +568,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -542,6 +584,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -590,6 +634,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -599,6 +645,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -613,6 +661,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -661,6 +711,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -670,6 +722,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -684,6 +738,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -732,6 +788,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -741,6 +799,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -755,6 +815,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -803,6 +865,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -812,6 +876,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -826,6 +892,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -873,6 +941,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -882,6 +952,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -896,6 +968,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -945,6 +1019,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -954,6 +1030,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -968,6 +1046,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1021,6 +1101,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1030,6 +1112,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1044,6 +1128,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1105,6 +1191,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1114,6 +1202,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1128,6 +1218,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1176,6 +1268,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1185,6 +1279,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1199,6 +1295,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1247,6 +1345,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1256,6 +1356,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1270,6 +1372,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1320,6 +1424,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1329,6 +1435,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1343,6 +1451,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1395,6 +1505,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1404,6 +1516,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1418,6 +1532,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1465,6 +1581,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1474,6 +1592,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1488,6 +1608,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1539,6 +1661,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1548,6 +1672,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1562,6 +1688,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1614,6 +1742,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1623,6 +1753,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1637,6 +1769,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1664,6 +1798,8 @@ var iQontrolRoles = {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}, 
 											SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section"},
 											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
 											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
@@ -1702,6 +1838,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1711,6 +1849,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1725,6 +1865,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1771,6 +1913,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1780,6 +1924,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1794,6 +1940,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1840,6 +1988,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1849,6 +1999,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1863,6 +2015,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -1908,6 +2062,8 @@ var iQontrolRoles = {
 											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "true"}, 
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
@@ -1917,6 +2073,8 @@ var iQontrolRoles = {
 											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "true"},							
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
@@ -1931,6 +2089,8 @@ var iQontrolRoles = {
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "true"}, 
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
@@ -5075,6 +5235,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--Info A
+						var hideIfClasses = (getDeviceOptionValue(device, "hideInfoAIfInactive") == "true" ? " hideIfInactive" : "") + (getDeviceOptionValue(device, "hideInfoAIfActive") == "true" ? " hideIfActive" : "") + (getDeviceOptionValue(device, "hideInfoAIfEnlarged") == "true" ? " hideIfEnlarged" : "");
 						viewInfoASliderLength[deviceIdEscaped] = 0;
 						viewInfoASliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoA' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
@@ -5083,8 +5244,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["TEMPERATURE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/temperature.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/temperature.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedTemperatureId = deviceLinkedStateIds["TEMPERATURE"];
@@ -5110,8 +5271,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["BRIGHTNESS"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/brightness.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/brightness.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedBrightnessId = deviceLinkedStateIds["BRIGHTNESS"];
@@ -5137,8 +5298,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["SLATS_LEVEL"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/slats.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/slats.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedSlatsLevelId = deviceLinkedStateIds["SLATS_LEVEL"];
@@ -5164,8 +5325,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["VOLTAGE"]) {
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedVoltageId = deviceLinkedStateIds["VOLTAGE"];
@@ -5191,8 +5352,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["HUE"] || deviceLinkedStateIds["CT"] || deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='./images/symbols/color.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='./images/symbols/color.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
 								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -5345,8 +5506,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["VOLUME"]) {
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/volume.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/volume.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
@@ -5390,8 +5551,8 @@ function renderView(viewId, triggeredByReconnection){
 								infoAArray.forEach(function(element){
 									sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 									viewInfoASliderLength[deviceIdEscaped]++;
-									deviceContent += "<image class='iQontrolDeviceInfoAIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon != "" ? element.icon : "./images/symbols/info.png") + "'>";
-									deviceContent += "<div class='iQontrolDeviceInfoAText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+									deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon != "" ? element.icon : "./images/symbols/info.png") + "'>";
+									deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
@@ -5423,6 +5584,7 @@ function renderView(viewId, triggeredByReconnection){
 						deviceContent += "</div>";
 
 						//--Info B
+						var hideIfClasses = (getDeviceOptionValue(device, "hideInfoBIfInactive") == "true" ? " hideIfInactive" : "") + (getDeviceOptionValue(device, "hideInfoBIfActive") == "true" ? " hideIfActive" : "") + (getDeviceOptionValue(device, "hideInfoBIfEnlarged") == "true" ? " hideIfEnlarged" : "");
 						viewInfoBSliderLength[deviceIdEscaped] = 0;
 						viewInfoBSliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoB' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
@@ -5431,8 +5593,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["HUMIDITY"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/humidity.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/humidity.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedHumidityId = deviceLinkedStateIds["HUMIDITY"];
@@ -5458,8 +5620,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["POWER"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedPowerId = deviceLinkedStateIds["POWER"];
@@ -5487,8 +5649,8 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["ELAPSED"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/time.png'>";
-								deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/time.png'>";
+								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
@@ -5530,8 +5692,8 @@ function renderView(viewId, triggeredByReconnection){
 								infoBArray.forEach(function(element){
 									sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 									viewInfoBSliderLength[deviceIdEscaped]++;
-									deviceContent += "<image class='iQontrolDeviceInfoBIcon' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon != "" ? element.icon : "./images/symbols/info.png") + "'>";
-									deviceContent += "<div class='iQontrolDeviceInfoBText' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
+									deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (element.icon && element.icon != "" ? element.icon : "./images/symbols/info.png") + "'>";
+									deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _device = device;
@@ -6260,6 +6422,7 @@ function renderView(viewId, triggeredByReconnection){
 											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
 											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
 											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+											var coverImageReloadDelay = 50 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
 											var statePowerSwitch = getStateObject(_linkedPowerSwitchId);
 											var artist = getStateObject(_linkedArtistId);
 											var album = getStateObject(_linkedAlbumId);
@@ -6358,7 +6521,7 @@ function renderView(viewId, triggeredByReconnection){
 											viewShuffleFilterHideDeviceIfInactive();
 											//Special: Also update viewUpdate-Functions with _linkedCoverUrlId datapoint (to update icons and background images that are updated via variable)
 											if(typeof viewUpdateFunctions[_linkedCoverUrlId] != udef) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
-												setTimeout(function(){ viewUpdateFunction(_linkedCoverUrlId, "forceReloadOfImage"); }, 50);
+												setTimeout(function(){ viewUpdateFunction(_linkedCoverUrlId, "forceReloadOfImage"); }, coverImageReloadDelay);
 											});
 											//Special: Also update icons and background-images, that contain the coverUrl and that are _not_ updated via variable
 											if(coverUrl && typeof coverUrl.plainText !== udef && coverUrl.plainText !== null && coverUrl.plainText !== ""){
@@ -6733,7 +6896,7 @@ function renderView(viewId, triggeredByReconnection){
 				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '0');
 				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index!='" + sliderIndex + "'].iQontrolDeviceInfoBText").css('opacity', '0');
 			}
-		}, 5000)
+		}, 5000);
 	});
 }
 
@@ -8783,6 +8946,7 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["COVER_URL"]){
 						dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedCoverUrlId = dialogLinkedStateIds["COVER_URL"];
 							var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
@@ -8793,6 +8957,7 @@ function renderDialog(deviceIdEscaped){
 							var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
 							var dialogMediaCoverImageChangeTimeout;
 							var updateFunction = function(){
+								var coverImageReloadDelay = 100 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
 								if(!dialogMediaCoverImageChangeTimeout) dialogMediaCoverImageChangeTimeout = setTimeout(function(){
 									var stateCoverUrl = getStateObject(_linkedCoverUrlId);
 									var stateArtist = getStateObject(_linkedArtistId);
@@ -8824,7 +8989,7 @@ function renderDialog(deviceIdEscaped){
 										$("#DialogMediaCoverImage").slideUp(500).removeAttr('src');
 									}
 									dialogMediaCoverImageChangeTimeout = false;
-								}, 100);
+								}, coverImageReloadDelay);
 							};
 							dialogUpdateFunctions[_linkedCoverUrlId].push(updateFunction);
 							//Because some devices always use the same cover-url but change the image itsself it should be reloaded when artist, album, track,... changes:
