@@ -345,9 +345,24 @@ body {
 .iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged {
 	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 104px);
 }
+.iQontrolDevice.aspect-1-1-limited, .iQontrolDevice:not(.active).aspect-1-1-limitedIfInactive, .iQontrolDevice.active.aspect-1-1-limitedIfActive, .iQontrolDevice.enlarged.aspect-1-1-limitedIfEnlarged {
+	padding-bottom: 100%; padding-bottom: calc(100% - 104px); padding-bottom: min(calc(100% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.iQontrolDevice.aspect-4-3-limited, .iQontrolDevice:not(.active).aspect-4-3-limitedIfInactive, .iQontrolDevice.active.aspect-4-3-limitedIfActive, .iQontrolDevice.enlarged.aspect-4-3-limitedIfEnlarged {
+	padding-bottom: 75%; padding-bottom: calc(75% - 104px); padding-bottom: min(calc(75% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.iQontrolDevice.aspect-3-2-limited, .iQontrolDevice:not(.active).aspect-3-2-limitedIfInactive, .iQontrolDevice.active.aspect-3-2-limitedIfActive, .iQontrolDevice.enlarged.aspect-3-3-limitedIfEnlarged {
+	padding-bottom: 66.66%; padding-bottom: calc(66.66% - 104px); padding-bottom: min(calc(66.66% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.iQontrolDevice.aspect-16-9-limited, .iQontrolDevice:not(.active).aspect-16-9-limitedIfInactive, .iQontrolDevice.active.aspect-16-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-16-9-limitedIfEnlarged {
+	padding-bottom: 56.25%; padding-bottom: calc(56.25% - 104px); padding-bottom: min(calc(56.25% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
+.iQontrolDevice.aspect-21-9-limited, .iQontrolDevice:not(.active).aspect-21-9-limitedIfInactive, .iQontrolDevice.active.aspect-21-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-21-9-limitedIfEnlarged {
+	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 104px); padding-bottom: min(calc(42.86% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+}
 .iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {
 	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-	padding-bottom: unset;
+	padding-bottom: unset !important;
 }
 .iQontrolDevice:hover {
 	border: 0px solid rgba(255, 255, 255, 0.8);
@@ -1079,9 +1094,24 @@ body {
 	.iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged {
 		padding-bottom: calc(42.86% - 156px);
 	}
+	.iQontrolDevice.aspect-1-1-limited, .iQontrolDevice:not(.active).aspect-1-1-limitedIfInactive, .iQontrolDevice.active.aspect-1-1-limitedIfActive, .iQontrolDevice.enlarged.aspect-1-1-limitedIfEnlarged {
+		padding-bottom: calc(100% - 156px); padding-bottom: min(calc(100% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	}
+	.iQontrolDevice.aspect-4-3-limited, .iQontrolDevice:not(.active).aspect-4-3-limitedIfInactive, .iQontrolDevice.active.aspect-4-3-limitedIfActive, .iQontrolDevice.enlarged.aspect-4-3-limitedIfEnlarged {
+		padding-bottom: calc(75% - 156px); padding-bottom: min(calc(75% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	}
+	.iQontrolDevice.aspect-3-2-limited, .iQontrolDevice:not(.active).aspect-3-2-limitedIfInactive, .iQontrolDevice.active.aspect-3-2-limitedIfActive, .iQontrolDevice.enlarged.aspect-3-3-limitedIfEnlarged {
+		padding-bottom: calc(66.66% - 156px); padding-bottom: min(calc(66.66% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	}
+	.iQontrolDevice.aspect-16-9-limited, .iQontrolDevice:not(.active).aspect-16-9-limitedIfInactive, .iQontrolDevice.active.aspect-16-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-16-9-limitedIfEnlarged {
+		padding-bottom: calc(56.25% - 156px); padding-bottom: min(calc(56.25% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	}
+	.iQontrolDevice.aspect-21-9-limited, .iQontrolDevice:not(.active).aspect-21-9-limitedIfInactive, .iQontrolDevice.active.aspect-21-9-limitedIfActive, .iQontrolDevice.enlarged.aspect-21-9-limitedIfEnlarged {
+		padding-bottom: calc(42.86% - 156px); padding-bottom: min(calc(42.86% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	}
 	.iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {
 		height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
-		padding-bottom: unset;
+		padding-bottom: unset !important;
 	}
 	.iQontrolDevice:hover {
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
