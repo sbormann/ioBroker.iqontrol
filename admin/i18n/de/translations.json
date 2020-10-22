@@ -484,6 +484,7 @@
     "Tile-Behaviour if device is active": "Verhalten der Gerätekachel, wenn das Gerät aktiv ist",
     "Tile-Behaviour if device is enlarged": "Verhalten der Gerätekachel, wenn das Gerät vergrößert ist",
     "Tile-Behaviour if device is inactive": "Verhalten der Gerätekachel, wenn das Gerät inaktiv ist",
+    "Tiles centered": "Gerätekacheln zentriert",
     "Time in seconds (return is triggered after this time of inactivity):": "Zeit in Sekunden (nach dieser Inaktivitätszeit wird der Seitenwechsel ausgeführt):",
     "Time stamp": "Zeitstempel",
     "Timestamp": "Zeitstempel",
