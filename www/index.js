@@ -6658,7 +6658,8 @@ function renderView(viewId, triggeredByReconnection){
 					itemSelector: '.viewShuffleTile',
 					delimiter: ',',
 					speed: 750,
-					sizer: '.iQontrolDeviceShuffleSizer'
+					sizer: '.iQontrolDeviceShuffleSizer',
+					isCentered: options.LayoutViewTilesCentered || false
 				});
 			};		
 			viewShuffleFilterHideDeviceIfInactive();
