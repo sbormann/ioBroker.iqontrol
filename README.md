@@ -1172,6 +1172,8 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added optional delay of cover reload for media.
 * (sbormann) Added new size optione for tiles (full width with aspect ratio but limited to screen height).
 * (sbormann) Added option to center tiles (options / tiles / general / tiles centered).
+* (sbormann) Changed scrollbar layout.
+* (sbormann) Fixed scrolling to top when clicking on a large dialog.
 
 ### 1.3.3 (2020-10-17)
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.

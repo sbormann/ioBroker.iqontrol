@@ -7354,7 +7354,7 @@ function renderDialog(deviceIdEscaped){
 		var dialogContent = "";
 		var dialogBindingFunctions = [];
 		dialogContent += "<form class='fullWidthSlider'>";
-		dialogContent += "<button style='position:fixed; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"; //jQuery fix for autofocus on first input when clicking on popup
+		dialogContent += "<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"; //jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
 			//--Get linked States & States
 			//  While getting the LinkedStateId the correspondig usedObject is also fetched
 			var dialogLinkedStateIds = {};
@@ -11239,6 +11239,12 @@ function handleVisibilityChange() {
 $(document).ready(function(){
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true);
+	
+	//jQuery fix for autofocus on first input when clicking on popup
+	$('#Dialog').on('mousemove', function(event){ 
+		console.log(event.pageY); 
+		$('#DialogAutofocusElement').css('top', (event.pageY - $('#Dialog').offset().top - 20) + 'px');
+	});
 
 	//Init Toolbar
 	$("[data-role='header'], [data-role='footer']").toolbar();

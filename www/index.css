@@ -9,6 +9,19 @@ body {
 	background-size: cover;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: button; 
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888; 
+}
+
 .small {
 	font-size: 70%;
 }
@@ -178,6 +191,7 @@ body {
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 	background-color: transparent;
+	overflow: visible;
 }
 #ViewDeviceContextMenu {
 	background-color: #ffffffbf;
@@ -830,6 +844,7 @@ body {
 #Dialog {
 	min-width: 300px;
 	max-width: 100%;
+	margin-bottom: 20px;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
@@ -1003,6 +1018,7 @@ body {
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+	position:fixed;
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
