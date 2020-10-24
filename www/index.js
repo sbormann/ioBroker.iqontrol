@@ -2122,6 +2122,7 @@ var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
 var usedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
 var waitingForObject = {};						//Contains all IDs where actual tasks to retreive the object are running
+var fetchObjectBufferedCallbacks = {};			//Contains callbacks that are buffered, if fetchObject is called while already waiting for object
 var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, stateId, deviceIdEscaped, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
@@ -2427,13 +2428,19 @@ function fetchView(viewId, callback){
 	}
 }
 
-function fetchObject(id, callback){
+function fetchObject(id, callback, bufferCallbackIfAlreadyWaitingForObject){
 	if (usedObjects[id]) {
 		console.log("Object was already Received: " + id);
 		if(callback) callback(error = "objectWasAlreadyReceived");	//Do nothing - object is already retreived
 	} else if(waitingForObject[id]){
 		console.log("Already waiting for object: " + id);
-		if(callback) callback(error = "alreadyWaitingForObject");	//Do nothing - there is already a task running that trys to retrieve the object
+		if(bufferCallbackIfAlreadyWaitingForObject){
+			console.log("Buffered Callback");
+			if(!fetchObjectBufferedCallbacks[id]) fetchObjectBufferedCallbacks[id] = [];
+			if(callback) fetchObjectBufferedCallbacks[id].push(callback);
+		} else {
+			if(callback) callback(error = "alreadyWaitingForObject");	//Do nothing - there is already a task running that trys to retrieve the object
+		}
 	} else {
 		waitingForObject[id] = [];
 		console.log("Fetch object: " + id);
@@ -2446,6 +2453,12 @@ function fetchObject(id, callback){
 				console.log("Fetched Object: " + _id);
 				if (states[_id]) updateState(_id);
 				if(callback) callback();
+				if(fetchObjectBufferedCallbacks[_id]){
+					fetchObjectBufferedCallbacks[_id].forEach(function(callbackFunction){
+						callbackFunction();
+					});
+					fetchObjectBufferedCallbacks[_id] = [];
+				}
 			} else {
 				console.log("Object not found");
 				if(callback) callback(error = "objectNotFound"); //Object not found
@@ -3943,6 +3956,7 @@ function convertFromAlternativeColorspace(device, linkedAlternativeColorspaceVal
 		break;
 		
 		case "HUE_MILIGHT":
+		if(alternativeColorspaceValue == "") alternativeColorspaceValue = "0";
 		result.hue = Math.round(modulo(-3.60 * (parseFloat(alternativeColorspaceValue/2.55) - 66), 360));
 		break;				
 	}
@@ -5459,7 +5473,7 @@ function renderView(viewId, triggeredByReconnection){
 											if (_linkedWhiteBrightnessId) viewUpdateFunctions[_linkedWhiteBrightnessId].push(updateFunction);
 											var updateFunction = function(){ //ConvertFromAlternativeColorspace
 												if (states[_linkedAlternativeColorspaceValueId]){
-													var ack = states[_linkedAlternativeColorspaceValueId];
+													var ack = states[_linkedAlternativeColorspaceValueId].ack;
 													var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
 													if(typeof usedObjects[_linkedAlternativeColorspaceValueId] == udef) usedObjects[_linkedAlternativeColorspaceValueId] = {};
 													usedObjects[_linkedAlternativeColorspaceValueId].result = {};
@@ -5497,7 +5511,7 @@ function renderView(viewId, triggeredByReconnection){
 											_deviceLinkedStateIdsToUpdate = [];
 										});
 									};
-									if (_linkedAlternativeColorspaceValueId) fetchObject(_linkedAlternativeColorspaceValueId, _createColouredLightFunction); else _createColouredLightFunction();
+									if (_linkedAlternativeColorspaceValueId) fetchObject(_linkedAlternativeColorspaceValueId, _createColouredLightFunction, true); else _createColouredLightFunction();
 								})(); //<--End Closure 
 							}
 							break;
@@ -11242,7 +11256,6 @@ $(document).ready(function(){
 	
 	//jQuery fix for autofocus on first input when clicking on popup
 	$('#Dialog').on('mousemove', function(event){ 
-		console.log(event.pageY); 
 		$('#DialogAutofocusElement').css('top', (event.pageY - $('#Dialog').offset().top - 20) + 'px');
 	});
 
