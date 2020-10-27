@@ -2826,7 +2826,7 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 		usedObjects[linkedStateId] = tempObject;
 		var tempState = {
 			"val": tempValue,
-			"ack": true,
+			"ack": false,
 			"from": "iQontrol",
 			"lc": 0,
 			"q": 0,

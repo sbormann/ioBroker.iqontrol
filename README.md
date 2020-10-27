@@ -1167,6 +1167,7 @@ This device has some special predefined size- and display-settings to show a web
 
 ### dev
 * (sbormann) Added option for transparent background.
+* (sbormann) Enhanced handling of temporary states for color lights.
 
 ### 1.3.5 (2020-10-27)
 * (sbormann) Fix for line 6034 (capitalze).
