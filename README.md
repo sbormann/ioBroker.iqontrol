@@ -1165,6 +1165,9 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
+### 1.3.5 (2020-10-27)
+* (sbormann) Fix for line 6034 (capitalze).
+
 ### 1.3.4 (2020-10-27)
 * (sbormann) Added clock widget.
 * (sbormann) Added ability to create symbolic links instead of real copys of devices.

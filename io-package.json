@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.3.4",
+        "version": "1.3.5",
         "news": {
+            "1.3.5": {
+                "en": "Fix for line 6034 (capitalze).",
+                "de": "Fix für Zeile 6034 (Großschreibung).",
+                "ru": "Исправление для строки 6034 (заглавная).",
+                "pt": "Correção para a linha 6034 (capitalze).",
+                "nl": "Oplossing voor regel 6034 (hoofdletter).",
+                "fr": "Correction de la ligne 6034 (majuscule).",
+                "it": "Correzione per la riga 6034 (capitalze).",
+                "es": "Arreglo para la línea 6034 (mayúscula).",
+                "pl": "Poprawka dla linii 6034 (capitalze).",
+                "zh-cn": "修复6034行（大写）。"
+            },
             "1.3.4": {
                 "en": "Added clock widget, Added ability to create symbolic links instead of real copys of devices, Added options to hide INFO_A and INFO_B if device is inactive/active/enlarged, Added optional delay of cover reload for media, Added new size optione for tiles (full width with aspect ratio but limited to screen height), Added option to center tiles (options / tiles / general / tiles centered), Changed scrollbar layout, Fixed scrolling to top when clicking on a large dialog, Fixed colour lights if using alterntive_color_space, Added blank symbol, Removed up/down arrows from lists (because of sort-by-dragging not necessary any more and they broke symbolic links), Added option to apply padding to BACKGROUND_URL/HTML, Enhanced recognition of tilted state for windows, Added backup and restore of settings and userfiles (under options / backup and restore).",
                 "de": "Uhr-Widget hinzugefügt, Möglichkeit hinzugefügt, symbolische Links anstelle von echten Kopien von Geräten zu erstellen, Optionen zum Ausblenden von INFO_A und INFO_B hinzugefügt, wenn das Gerät inaktiv / aktiv / vergrößert ist, Optionale Verzögerung beim erneuten Laden des Deckblatts für Medien hinzugefügt, Option für neue Größe für Kacheln hinzugefügt (voll) ",

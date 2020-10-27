@@ -479,7 +479,7 @@
     "No duplicates allowed! View Names must be unique.": "Geen duplicaten toegestaan! ",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Geen socket.io-instantie gevonden. ",
     "No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!": "Geen socket.io-instantie gevonden. ",
-    "None": "",
+    "None": "Geen",
     "Normal": "normaal",
     "Normal (1x1)": "Normaal (1x1)",
     "Nothing": "Niets",
