@@ -6040,7 +6040,7 @@ function renderView(viewId, triggeredByReconnection){
 												} else {											//STATE = text
 													resultText = state.plainText;
 													switch (resultText) {
-														case stateClosedValue: case _(stateClosedValue): case capitalize(stateClosedValue): case capitlize(_(stateClosedValue)): //closed
+														case stateClosedValue: case _(stateClosedValue): case capitalize(stateClosedValue): case capitalize(_(stateClosedValue)): //closed
 														result = false;
 														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
 														$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
