@@ -220,8 +220,8 @@ body {
 #ViewHeaderTitle {
 	background-color: rgba(0,0,0,0.15);
 	margin-left: -5px;
-	margin-right: -5px;
 	padding-left: 7px;
+	width: 100vw;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
@@ -240,8 +240,8 @@ body {
 #ViewContent h4 {
 	background-color: rgba(0,0,0,0.15);
 	margin-left: -5px;
-	margin-right: -5px;
 	padding-left: 7px;
+	width: 100vw;
 	font-weight: normal;
 	margin-top: 30px;
 	margin-bottom: 0px;

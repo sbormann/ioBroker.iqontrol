@@ -1165,7 +1165,7 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.3.4 (2020-10-27)
 * (sbormann) Added clock widget.
 * (sbormann) Added ability to create symbolic links instead of real copys of devices.
 * (sbormann) Added options to hide INFO_A and INFO_B if device is inactive/active/enlarged.
@@ -1175,6 +1175,11 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Changed scrollbar layout.
 * (sbormann) Fixed scrolling to top when clicking on a large dialog.
 * (sbormann) Fixed colour lights if using alterntive_color_space.
+* (sbormann) Added blank symbol.
+* (sbormann) Removed up/down arrows from lists (because of sort-by-dragging not necessary any more and they broke symbolic links).
+* (sbormann) Added option to apply padding to BACKGROUND_URL/HTML.
+* (sbormann) Enhanced recognition of tilted state for windows.
+* (sbormann) Added backup and restore of settings and userfiles (under options / backup and restore).
 
 ### 1.3.3 (2020-10-17)
 * (sbormann) Fixed applying of widget-options for newly devices that havn't been saved before.

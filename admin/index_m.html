@@ -47,6 +47,7 @@
 		.combobox{ position: relative; }
 		.comboboxDropdownTrigger{ display: block !important; position: absolute !important; right: 0px !important; top: 0px !important; margin: 0px !important; padding: 0px !important; }
 		.combobox .dropdown-content { left: unset !important; width: unset !important; min-width: 100% !important;}
+		.multiple-select-dropdown.dropdown-content li span, .multiple-select-dropdown.dropdown-content li span label { pointer-events: none; }
 		.CodeMirror{ width: 100%; width: calc(100% - 25px); height: unset !important; position: absolute; }
 	</style>
 </head>
@@ -158,7 +159,7 @@
 									<th data-name="commonName" class="translate">Name</th>
 									<th data-name="nativeHideName" data-type="checkbox" class="translate" style="width:10px;">Hide Name</th>
 									<th data-name="nativeBackgroundImage" class="translate">Background Image</th>
-									<th data-buttons="up down delete drag_handle" style="width:170px;"></th>
+									<th data-buttons="delete drag_handle" style="width:100px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -226,7 +227,7 @@
 									<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 									<th data-name="nativeBackgroundImage" class="translate">Background Image</th>
 									<th data-name="nativeBackgroundImageActive" class="translate">Background Image Active</th>
-									<th data-buttons="edit up down delete drag_handle" style="width:210px;"></th>
+									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -278,7 +279,7 @@
 										<th data-name="commonName" class="translate">Name</th>
 										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 										<th data-name="nativeIcon" data-type="select" class="translate" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
-										<th data-buttons="up down delete drag_handle" style="width:170px;"></th>
+										<th data-buttons="delete drag_handle" style="width:100px;"></th>
 									</tr>
 								</thead>
 							</table>
@@ -373,12 +374,12 @@
 						<p class="translate">(You may need to create these folders first).</p>
 					</div>
 				</div>
-				<!--div class = "row hideOnLoad">
+				<div class = "row hideOnLoad">
 					<div class="col s12">
 						<br><br><br>
-						<a class="waves-effect waves-light btn" id="imagesUploadDownloadDirAsZip"><i class="material-icons left" id="imagesUploadDownloadDirAsZipIcon">cloud_download</i><span class="translate">Download Directory</span></a>
+						<a class="waves-effect waves-light btn" id="imagesUploadDownloadDirAsZip"><i class="material-icons left" id="imagesUploadDownloadDirAsZipIcon">cloud_download</i><span class="translate">Download Directory</span><div id="imagesUploadDownloadDirAsZipProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
 					</div>
-				</div-->
+				</div>
 			</div>
 
 			<!-- ++++++++++ TAB: Options ++++++++++ -->
@@ -1332,8 +1333,78 @@
 								</div>
 							</div>
 						</div>
-
-
+					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Backup/Restore:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Backup:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<select multiple name='optionsBackupRestoreExportViewsSelectedSelection' id='optionsBackupRestoreExportViewsSelectedSelection'></select>
+									<label for='optionsBackupRestoreExportViewsSelectedSelection' class="translate">Views:</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn disabled" id="optionsBackupRestoreExportViewsSelected"><i class="material-icons left">file_download</i><i class="material-icons left">apps</i><span class="translate">Export selected Views</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportViewsAll"><i class="material-icons left">file_download</i><i class="material-icons left">apps</i><span class="translate">Export all Views</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportToolbar"><i class="material-icons left">file_download</i><i class="material-icons left">more_horiz</i><span class="translate">Export Toolbar</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportOptions"><i class="material-icons left">file_download</i><i class="material-icons left">settings</i><span class="translate">Export Options</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportCustoms"><i class="material-icons left">file_download</i><i class="material-icons left">build</i><span class="translate">Export Custom Datapoint-Settings</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreExportEverything"><i class="material-icons left">file_download</i><i class="material-icons left">blur_on</i><span class="translate">Export Everything (but userfiles)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn orange" id="optionsBackupRestoreExportUserfiles"><i class="material-icons left" id="optionsBackupRestoreExportUserfilesIcon">file_download</i><i class="material-icons left">cloud</i><span class="translate">Export Userfiles</span><div id="optionsBackupRestoreExportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Restore:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportViewsOverwrite" data-overwrite="true"><i class="material-icons left">file_upload</i><i class="material-icons left">apps</i><span class="translate">Import Views (overwrite existing views)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportViewsAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">apps</i><span class="translate">Import Views (append to existing views)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarOverwrite"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (overwrite exisiting toolbar)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (append to exsisting toolbar)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportOptions"><i class="material-icons left">file_upload</i><i class="material-icons left">settings</i><span class="translate">Import Options</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportCustoms"><i class="material-icons left">file_upload</i><i class="material-icons left">build</i><span class="translate">Import Custom Datapoint-Settings</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreImportEverything"><i class="material-icons left">file_upload</i><i class="material-icons left">blur_on</i><span class="translate">Import Everything (but userfiles)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<!--a class="waves-effect waves-light btn orange" id="optionsBackupRestoreImportUserfiles"><i class="material-icons left" id="optionsBackupRestoreImportUserfilesIcon">file_upload</i><i class="material-icons left">cloud</i><span class="translate">Import Userfiles</span><div id="optionsBackupRestoreImportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a-->
+									<p class="translate">Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.</p>
+								</div>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -1632,6 +1703,32 @@
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>
+
+		<!-- DIALOG: optionsBackupRestoreImportCustoms -->
+        <div id="dialogOptionsBackupRestoreImportCustoms" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title" class="translate">Import Custom Datapoint-Settings</h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogOptionsBackupRestoreImportCustomsList"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<a class="btn" onclick="$('.dialogOptionsBackupRestoreImportCustomsListItem').prop('checked', true);"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
+						<a class="btn" onclick="$('.dialogOptionsBackupRestoreImportCustomsListItem').prop('checked', false);"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>		
 
 		<!-- DIALOG: ImagePopup -->
         <div id="dialogImagePopup" class="modal modal-fixed-footer">

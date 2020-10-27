@@ -9,6 +9,7 @@ var imagePath = "/iqontrol/images";
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
 var inbuiltSymbols = [
+	"blank.png",
 	"brightness.png",
 	"buttongrid.png",
 	"color.png",
@@ -106,6 +107,7 @@ var iQontrolRoles = {
 											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "true"}
 										}
@@ -184,6 +186,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 				
@@ -267,6 +270,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -348,6 +352,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -426,6 +431,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -504,6 +510,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -580,6 +587,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -657,6 +665,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -734,6 +743,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 									}
@@ -811,6 +821,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -888,6 +899,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -965,6 +977,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1041,6 +1054,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1119,6 +1133,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1201,6 +1216,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1291,6 +1307,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1368,6 +1385,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1445,6 +1463,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1524,6 +1543,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1605,6 +1625,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1681,6 +1702,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1761,6 +1783,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -1842,6 +1865,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										} 
@@ -1938,6 +1962,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										} 
@@ -2013,6 +2038,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -2083,6 +2109,7 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -2162,6 +2189,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
@@ -2904,6 +2932,87 @@ async function downloadFileAsStringAsync(filename, path) {
 		});
 	});
 }
+function saveStringAsLocalFile(string, type, mime, filename, addPrefix){ //type: charset=utf-8 or base64, mime: for example "text/json"
+	if(addPrefix){
+		var date = new Date();
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		if (m < 10) m = '0' + m;
+		d = date.getDate();
+		if (d < 10) d = '0' + d;
+		var dateText = y + "-" + m + "-" + d;    
+		filename = dateText + "_" + adapter + "_" + instance + "_" + (filename || ".txt");
+	}
+	filename = encodeURIComponent(filename || "iqontrol.txt");
+	var dataString = "data:" + (mime || "text/plain") + ";" + (type || "charset=utf-8") + "," + encodeURIComponent(string);
+	var saveAnchorNode = document.createElement('a');
+    saveAnchorNode.setAttribute('opacity', 0);
+    saveAnchorNode.setAttribute('href', dataString);
+    saveAnchorNode.setAttribute('download', filename);
+    document.body.appendChild(saveAnchorNode);
+    saveAnchorNode.click();
+    saveAnchorNode.remove();
+}
+function loadLocalFileAsString(accept, callback){ //accept: for example ".txt, .json, image/*"
+	if(typeof accept == "function"){
+		callback = accept;
+		accept = ".*";
+	}
+	if(typeof callback !== "function") return;
+    var loadInputNode = document.createElement('input');
+	loadInputNode.setAttribute('opacity', 0);
+    loadInputNode.setAttribute('type', 'file');
+    loadInputNode.setAttribute('accept', accept);
+	loadInputNode.addEventListener('change', function (event){
+		if(!window.FileReader) { // Browser is not compatible
+			alert(_("Browser not compatible"));
+			return;
+		}
+		var reader = new FileReader();
+		reader.onload = function(_event) {
+			if(_event.target.readyState != 2) return;
+			if(_event.target.error) {
+				alert(_("Error while reading file"));
+				return;
+			}
+			callback(_event.target.result);
+		};
+		reader.readAsText(event.target.files[0]);
+	}, false);
+    document.body.appendChild(loadInputNode); 
+	loadInputNode.click();
+	loadInputNode.remove();
+}
+function loadLocalFileAsArrayBuffer(accept, callback){ //accept: for example ".txt, .json, image/*"
+	if(typeof accept == "function"){
+		callback = accept;
+		accept = ".*";
+	}
+	if(typeof callback !== "function") return;
+    var loadInputNode = document.createElement('input');
+	loadInputNode.setAttribute('opacity', 0);
+    loadInputNode.setAttribute('type', 'file');
+    loadInputNode.setAttribute('accept', accept);
+	loadInputNode.addEventListener('change', function (event){
+		if(!window.FileReader) { // Browser is not compatible
+			alert(_("Browser not compatible"));
+			return;
+		}
+		var reader = new FileReader();
+		reader.onload = function(_event) {
+			if(_event.target.readyState != 2) return;
+			if(_event.target.error) {
+				alert(_("Error while reading file"));
+				return;
+			}
+			callback(_event.target.result);
+		};
+		reader.readAsArrayBuffer(event.target.files[0]);
+	}, false);
+    document.body.appendChild(loadInputNode); 
+	loadInputNode.click();
+	loadInputNode.remove();
+}
 function readDir(path, callback) { //callback(err, obj)
 	if(servConn.getIsConnected()) {
 		servConn.readDir(path, callback);
@@ -2922,12 +3031,17 @@ function readDirAsync(path){
 	});
 }
 function readDirAsZip(path, callback) {
+	var pathWithoutSlashNamespace = path.substring(namespace.length + 1);
+	if(pathWithoutSlashNamespace.substr(-1) == '/') pathWithoutSlashNamespace = pathWithoutSlashNamespace.substr(0, pathWithoutSlashNamespace.length -1);
+	socket.emit('sendToHost', parent.gMain.currentHost, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){ 
+		callback(data.error || null, data.data || null);
+	});
+}
+function writeDirAsZip(path, base64Zip, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
-	if(servConn.getIsConnected()){
-		servConn.readDirAsZip(pathWithoutSlashNamespace, false, function(err, data){ if (callback) callback(err, data); });
-	} else {
-		alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-	}
+	socket.emit('sendToHost', parent.gMain.currentHost, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){ 
+		callback(data.error || null, null);
+	});
 }
 function deleteFile(path, callback) {
 	if(servConn.getIsConnected()){
@@ -3125,7 +3239,7 @@ function load(settings, onChange) {
 
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change');
-
+	
 	//Init imageUpload
 	initImageUpload();
 
@@ -3302,8 +3416,8 @@ function load(settings, onChange) {
 			if (M) M.updateTextFields();
 			
 			//Get iobrokerObjects
-			socket.emit('getObjects', function (err, objs) {
-				iobrokerObjects = objs;
+			socket.emit('getObjects', function (err, _objs) {
+				iobrokerObjects = _objs;
 				iobrokerObjectsReady = true;
 				for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
 					if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
@@ -4011,7 +4125,6 @@ function load(settings, onChange) {
 								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
 							}
 						})(); //<--End Closure
-						
 					}).trigger('change');
 				}
 			}
@@ -5270,7 +5383,7 @@ function load(settings, onChange) {
 		});
 		//CodeEditor
 		$('.code').on('click', function(){
-			initDialog('dialogCodeEditor');
+			initDialog('dialogCodeEditor', function(){});
 			var fileName = $(this).data('filename');
 			$("#dialogCodeEditorFileName").text(fileName); 
 			$("#dialogCodeEditorFileType").text($(this).data('filetype')); 
@@ -5382,26 +5495,26 @@ function load(settings, onChange) {
 	$('#imagesUploadDownloadDirAsZip').on('click', function(){
 		$('#imagesUploadDownloadDirAsZip').addClass('disabled');
 		$('#imagesUploadDownloadDirAsZipIcon').text("hourglass_empty");
-		readDirAsZip(userfilesImagePath + $('#imagesSelectedDir').val(), function(err, data){
-			if (err) {
-				alert("Error: " + err);
-			} else if (data) {
-				var date = new Date();
-				var y = date.getFullYear();
-				var m = date.getMonth() + 1;
-				if (m < 10) m = '0' + m;
-				d = date.getDate();
-				if (d < 10) d = '0' + d;
-				var dateText = y + "-" + m + "-" + d;
-				$('body').append('<a id="zip_download" href="data:application/zip;base64,' + data + '" download="' + dateText + '-iqontrol-userfiles.zip"></a>');
-				document.getElementById('zip_download').click();
-				document.getElementById('zip_download').remove();
-			} else {
-				alert("Error: no data received.");
-			}
+		$('#imagesUploadDownloadDirAsZipProgress').show();
+		if(confirm(_("Depending on the size it may take a while to create the zip file."))){
+			readDirAsZip(userfilesImagePath + $('#imagesSelectedDir').val(), function(err, data){
+				if (err) {
+					alert("Error: " + err);
+				} else if (data) {
+					var filename = "userfiles" + (($('#imagesSelectedDir').val() && $('#imagesSelectedDir').val().length > 1) ? ($('#imagesSelectedDir').val().replace(/\//g, '_').replace(/\\/g, '_').replace(/ /g, '_')) : "") + ".zip";
+					saveStringAsLocalFile(data, "base64", "application/zip", filename);
+				} else {
+					alert("Error: no data received.");
+				}
+				$('#imagesUploadDownloadDirAsZipIcon').text("cloud_download");
+				$('#imagesUploadDownloadDirAsZip').removeClass('disabled');
+				$('#imagesUploadDownloadDirAsZipProgress').hide();
+			});
+		} else {
 			$('#imagesUploadDownloadDirAsZipIcon').text("cloud_download");
 			$('#imagesUploadDownloadDirAsZip').removeClass('disabled');
-		});
+		$('#imagesUploadDownloadDirAsZipProgress').hide();
+		}
 	});	
 
 	//CreateFile-Buttons
@@ -5434,7 +5547,431 @@ function load(settings, onChange) {
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
 	function loadOptions(){
-		$('.collapsible').collapsible();
+		$('.collapsible').collapsible();		
+
+		//Export All Views
+		$('#optionsBackupRestoreExportViewsAll').off('click').on('click', function(){
+			saveStringAsLocalFile(JSON.stringify(views), "charset=utf-8", "text/json", "views.json", true);
+		});
+
+		//Export Selected Views
+		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
+		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
+		$('#optionsBackupRestoreExportViewsSelectedSelection').off('change').on('change', function(){
+			var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
+			if(selected.length){
+				$('#optionsBackupRestoreExportViewsSelected').removeClass('disabled');
+			} else {
+				$('#optionsBackupRestoreExportViewsSelected').addClass('disabled');
+			}
+		});
+		$('#optionsBackupRestoreExportViewsSelected').off('click').on('click', function(){
+			var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
+			if(selected.length){
+				var selectedViews = [];
+				selected.forEach(function(index){
+					selectedViews.push(views[index]);
+					selectedViews[selectedViews.length - 1].devices.forEach(function(device){ //Remove symbolic links
+						if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+					});
+				});
+				saveStringAsLocalFile(JSON.stringify(selectedViews), "charset=utf-8", "text/json", "selected_views.json", true);
+			}
+		});
+
+		//Export Toolbar
+		$('#optionsBackupRestoreExportToolbar').off('click').on('click', function(){
+			saveStringAsLocalFile(JSON.stringify(toolbar), "charset=utf-8", "text/json", "toolbar.json", true);
+		});
+		
+		//Export Options
+		$('#optionsBackupRestoreExportOptions').off('click').on('click', function(){
+			//Select elements with class=value and build settings object
+			var options = {};
+			$('.value').each(function () {
+				var $this = $(this);
+				if ($this.attr('type') === 'checkbox') {
+					options[$this.attr('id')] = $this.prop('checked');
+				} else {
+					options[$this.attr('id')] = $this.val();
+				}
+			});
+			saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
+		});
+		
+		//Export Custom
+		$('#optionsBackupRestoreExportCustoms').off('click').on('click', function(){
+			var customs = [];
+			for(objectId in parent.gMain.objects){
+				if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
+			};
+			saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
+		});
+
+		//Export Everything (but userfiles)
+		$('#optionsBackupRestoreExportEverything').off('click').on('click', function(){
+			var obj = {};
+			obj.views = views;
+			obj.toolbar = toolbar;
+			//Select elements with class=value and build settings object
+			var options = {};
+			$('.value').each(function () {
+				var $this = $(this);
+				if ($this.attr('type') === 'checkbox') {
+					options[$this.attr('id')] = $this.prop('checked');
+				} else {
+					options[$this.attr('id')] = $this.val();
+				}
+			});
+			obj.options = options;
+			var customs = [];
+			for(objectId in parent.gMain.objects){
+				if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
+			};
+			obj.customs = customs;
+			saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
+		});
+
+		//Export Userfiles
+		$('#optionsBackupRestoreExportUserfiles').off('click').on('click', function(){
+			$('#optionsBackupRestoreExportUserfiles').addClass('disabled');
+			$('#optionsBackupRestoreExportUserfilesIcon').text("hourglass_empty");
+			$('#optionsBackupRestoreExportUserfilesProgress').show();
+			if(confirm(_("Depending on the size it may take a while to create the zip file."))){
+				readDirAsZip(userfilesImagePath + '/', function(err, data){
+					if (err) {
+						alert("Error: " + err);
+					} else if (data) {
+						saveStringAsLocalFile(data, "base64", "application/zip", "userfiles.zip", true);
+					} else {
+						alert("Error: no data received.");
+					}
+					$('#optionsBackupRestoreExportUserfilesIcon').text("file_download");
+					$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
+					$('#optionsBackupRestoreExportUserfilesProgress').hide();
+				});
+			} else {
+				$('#optionsBackupRestoreExportUserfilesIcon').text("file_download");
+				$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
+				$('#optionsBackupRestoreExportUserfilesProgress').hide();
+			}
+		});	
+		
+		//Import Views
+		$('#optionsBackupRestoreImportViewsOverwrite, #optionsBackupRestoreImportViewsAppend').off('click').on('click', function(){
+			var overwrite = ($(this).data('overwrite') == true);
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if(resultObj && typeof resultObj.forEach == "function"){
+					resultObj.forEach(function(entry, index){ 
+						if(typeof entry.commonName == "undefined") entry.commonName = "View";
+						if(!overwrite){
+							var viewNames = [];
+							views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
+							var existingNameIndex = 0;
+							while(viewNames.indexOf(entry.commonName + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
+							if(existingNameIndex) entry.commonName = entry.commonName + " " + existingNameIndex;
+						}
+						if(!overwrite && entry.devices) entry.devices.forEach(function(device){ //Remove symbolic links, if views are appended
+							if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+						});
+					});
+				} else {
+					resultObjValid = false;
+				}
+				if(resultObjValid) {
+					if(overwrite){
+						if(confirm(_("Really overwrite existing Settings?"))){
+							views = resultObj;
+							alert(_("Settings imported."));
+							onChange();
+						}
+					} else {
+						views = views.concat(resultObj);
+							alert(_("Settings imported."));
+							onChange();
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});
+		
+		//Import Toolbar
+		$('#optionsBackupRestoreImportToolbarOverwrite, #optionsBackupRestoreImportToolbarAppend').off('click').on('click', function(){
+			var overwrite = ($(this).data('overwrite') == true);
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if(resultObj && typeof resultObj.forEach == "function"){
+					resultObj.forEach(function(entry, index){ 
+						if(typeof entry.nativeLinkedView == "undefined"){
+							resultObjValid = false;
+						} else {
+							if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
+							if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
+						}
+					});
+				} else {
+					resultObjValid = false;
+				}
+				if(resultObjValid) {
+					if(overwrite){
+						if(confirm(_("Really overwrite existing Settings?"))){
+							toolbar = resultObj;
+							alert(_("Settings imported."));
+							onChange();
+						}
+					} else {
+						toolbar = toolbar.concat(resultObj);
+							alert(_("Settings imported."));
+							onChange();
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});
+		
+		//Import Options
+		$('#optionsBackupRestoreImportOptions').off('click').on('click', function(){
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if(!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+					resultObjValid = false;
+				}
+				if(resultObjValid) {
+					if(confirm(_("Really overwrite existing Settings?"))){
+						//Select elements with id=key and class=value and insert value
+						$('.value').each(function () {
+							var $key = $(this);
+							var id = $key.attr('id');
+							if ($key.attr('type') === 'checkbox') {
+								$key.prop('checked', resultObj[id]);
+							} else {
+								$key.val(resultObj[id]);
+							}
+						});
+						$('.MaterializeColorPicker').trigger('change');
+						alert(_("Settings imported."));
+						onChange();
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});
+		
+		//Import Customs
+		$('#optionsBackupRestoreImportCustoms').off('click').on('click', function(){
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if(resultObj && typeof resultObj.forEach == "function"){
+					resultObj.forEach(function(entry, index){ 
+						if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
+							resultObjValid = false;
+						}
+					});
+				} else {
+					resultObjValid = false;
+				}
+				if(resultObjValid) {
+					initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
+						if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
+							var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
+							var dialogOptionsBackupRestoreImportCustomsCounter = 0;
+							var dialogOptionsBackupRestoreImportCustomsError = false;
+							customs.forEach(function(custom, index){
+								if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
+									dialogOptionsBackupRestoreImportCustomsCounter++;
+									console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _custom = custom;
+										socket.emit('getObject', _custom.id, function(err, _obj){
+											if(_obj){
+												if(typeof _obj.common == udef) _obj.common = {};
+												if(typeof _obj.common.custom == udef) _obj.common.custom = {};
+												_obj.common.custom[adapter + "." + instance] = _custom.custom;
+												socket.emit('setObject', _custom.id, _obj, function(err){
+													dialogOptionsBackupRestoreImportCustomsCounter--;
+													if(err) dialogOptionsBackupRestoreImportCustomsError = true;
+													if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
+														if(dialogOptionsBackupRestoreImportCustomsError){
+															alert(_("Error: Invalid data."));
+														} else {
+															alert(_("Settings imported."));
+															onChange();
+														}
+													}
+												});
+											}
+										});
+									})(); //<--End Closure
+								}
+							});
+						}
+					});
+					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
+					$('#dialogOptionsBackupRestoreImportCustomsList').empty();
+					resultObj.forEach(function(custom, index){ 
+						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
+					});
+					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});
+
+		//Import Everything (but userfiles)
+		$('#optionsBackupRestoreImportEverything').off('click').on('click', function(){
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
+					//Views
+					if(resultObj.views && typeof resultObj.views.forEach == "function") {
+						resultObj.views.forEach(function(entry, index){ 
+							if(typeof entry.commonName == "undefined") entry.commonName = "View";
+						});
+					} else {
+						resultObjValid = false;
+					}
+					//Toolbar
+					if(resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
+						resultObj.toolbar.forEach(function(entry, index){ 
+							if(typeof entry.nativeLinkedView == "undefined"){
+								resultObjValid = false;
+							} else {
+								if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
+								if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
+							}
+						});
+					} else {
+						resultObjValid = false;
+					}
+					//Options
+					if(!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
+						resultObjValid = false;
+					}
+					//Customs
+					if(resultObj.customs && typeof resultObj.customs.forEach == "function"){
+						resultObj.customs.forEach(function(entry, index){ 
+							if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
+								resultObjValid = false;
+							}
+						});
+					} else {
+						resultObjValid = false;
+					}
+				} else {
+					resultObjValid = false;
+				}
+				if(resultObjValid) {
+					if(confirm(_("Really overwrite existing Settings?"))){
+						//Views
+						views = resultObj.views;
+						//Toolbar
+						toolbar = resultObj.toolbar;
+						//Options
+						//Select elements with id=key and class=value and insert value
+						$('.value').each(function () {
+							var $key = $(this);
+							var id = $key.attr('id');
+							if ($key.attr('type') === 'checkbox') {
+								$key.prop('checked', resultObj.options[id]);
+							} else {
+								$key.val(resultObj.options[id]);
+							}
+						});
+						$('.MaterializeColorPicker').trigger('change');
+						alert(_("Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported."));
+						onChange();
+						//Customs
+						initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
+							if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
+								var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
+								var dialogOptionsBackupRestoreImportCustomsCounter = 0;
+								var dialogOptionsBackupRestoreImportCustomsError = false;
+								customs.forEach(function(custom, index){
+									if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
+										dialogOptionsBackupRestoreImportCustomsCounter++;
+										console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
+										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+											var _custom = custom;
+											socket.emit('getObject', _custom.id, function(err, _obj){
+												if(_obj){
+													if(typeof _obj.common == udef) _obj.common = {};
+													if(typeof _obj.common.custom == udef) _obj.common.custom = {};
+													_obj.common.custom[adapter + "." + instance] = _custom.custom;
+													socket.emit('setObject', _custom.id, _obj, function(err){
+														dialogOptionsBackupRestoreImportCustomsCounter--;
+														if(err) dialogOptionsBackupRestoreImportCustomsError = true;
+														if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
+															if(dialogOptionsBackupRestoreImportCustomsError){
+																alert(_("Error: Invalid data."));
+															} else {
+																alert(_("Settings imported."));
+																onChange();
+															}
+														}
+													});
+												}
+											});
+										})(); //<--End Closure
+									}
+								});
+							}
+						});
+						$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
+						$('#dialogOptionsBackupRestoreImportCustomsList').empty();
+						resultObj.customs.forEach(function(custom, index){ 
+							$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
+						});
+						$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});
+
+		//Import Userfiles
+		$('#optionsBackupRestoreImportUserfiles').off('click').on('click', function(){
+			loadLocalFileAsArrayBuffer(".zip", function(result){
+				if(result) {
+					if(confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
+						$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
+						$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
+						$('#optionsBackupRestoreImportUserfilesProgress').show();
+						writeDirAsZip(userfilesImagePath + '/', result, function(err){
+							if(err){
+								alert(_("Error: Invalid data."));
+							} else {
+								getImages(function(){
+									values2table('tableImages', images, onChange, onTableImagesReady);
+									var dummy = $('#imagesSelectedDir').val();
+									$('#imagesSelectedDir').val(dummy).trigger('change');
+									$('#imagesSelectedDir').select();
+								});
+								alert(_("Files imported."));
+							}
+							$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
+							$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
+							$('#optionsBackupRestoreImportUserfilesProgress').hide();
+						});
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		});	
+
+
 	}
 }
 
