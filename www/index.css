@@ -384,6 +384,11 @@ body {
 	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 }
+.iQontrolDevice:not(.active).transparentIfInactive, .iQontrolDevice.active.transparentIfActive, .iQontrolDevice.enlarged.transparentIfEnlarged {
+	-webkit-box-shadow: none !important;
+	   -moz-box-shadow: none !important;
+			box-shadow: none !important;
+} 
 .iQontrolDeviceLink {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -523,6 +528,9 @@ body {
 	background-color: rgba(255, 255, 255, 0.6);
 	opacity: 0.99;
 }
+.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceBackgroundImage, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceBackgroundImage, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceBackgroundImage {
+	background-color: transparent !important;
+} 
 .iQontrolDeviceBackground {
 	pointer-events: none !important;	
 	-webkit-user-select: none !important;

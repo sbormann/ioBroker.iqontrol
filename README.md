@@ -1165,6 +1165,9 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
+### dev
+* (sbormann) Added option for transparent background.
+
 ### 1.3.5 (2020-10-27)
 * (sbormann) Fix for line 6034 (capitalze).
 
