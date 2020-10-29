@@ -960,6 +960,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 * **ERROR**: *boolean* - when true, a little exclamation-mark-icon will be displayed
 * **UNREACH**: *boolean* - when true, a little wireless-icon will be displayed
     * Behaviour can be inverted in the 'General' section of options (use connected instead of unreach)
+* **ENLARGE_TILE**: *boolean* - when true, the tile will be set as enlarged. You can overwrite that by clicking the enlarge/reduce button. But everytime the state of ENLARGE_TILE changes, it will take over control of the tiles enlargement state again. If the role of ENLARGE_TILE is *button*, then every state change will toggle the enlargement state
 
 ### Link to other view:
 * Has no further states
@@ -1164,6 +1165,10 @@ This device has some special predefined size- and display-settings to show a web
 ****
     
 ## Changelog
+
+### dev
+* (sbormann) Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile.
+* (sbormann) Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint.
 
 ### 1.3.6 (2020-10-29)
 * (sbormann) Added option for transparent background.

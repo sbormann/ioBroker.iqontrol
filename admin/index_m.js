@@ -68,7 +68,7 @@ var inbuiltWidgets = [
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
-										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"], 
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
@@ -109,7 +109,7 @@ var iQontrolRoles = {
 											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "true"}
@@ -117,7 +117,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch", 				
-										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -192,7 +192,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -201,7 +201,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button", 
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -280,7 +280,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -288,7 +288,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -366,7 +366,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -374,7 +374,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -449,7 +449,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -457,7 +457,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -532,7 +532,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -540,7 +540,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -613,7 +613,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -621,7 +621,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -695,7 +695,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -703,7 +703,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -777,7 +777,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -785,7 +785,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -859,7 +859,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -867,7 +867,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -941,7 +941,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -949,7 +949,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1023,7 +1023,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1031,7 +1031,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door", 
-										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1104,7 +1104,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1112,7 +1112,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1187,7 +1187,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1195,7 +1195,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1274,7 +1274,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1282,7 +1282,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1369,7 +1369,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1377,7 +1377,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1451,7 +1451,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1459,7 +1459,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1533,7 +1533,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1541,7 +1541,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"],
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"], 
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1617,7 +1617,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1625,7 +1625,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery", 
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1703,7 +1703,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1711,7 +1711,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1784,7 +1784,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1792,7 +1792,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1869,7 +1869,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1877,7 +1877,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1955,7 +1955,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -1963,7 +1963,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2056,7 +2056,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -2064,7 +2064,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2136,7 +2136,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -2144,7 +2144,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2211,7 +2211,7 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -2219,7 +2219,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWidget": 				{
 										name: "Widget", 				
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML"], 
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2295,7 +2295,7 @@ var iQontrolRoles = {
 											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", min: "0", max: "200", default: ""},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
@@ -4024,8 +4024,9 @@ function load(settings, onChange) {
 					case "number":
 					var min = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].min || 0;
 					var max = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].max || 100;
+					var step = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].step || 1;
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
 					dialogDeviceEditOptionsContent += "</div>";
