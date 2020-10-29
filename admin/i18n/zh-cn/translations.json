@@ -137,6 +137,7 @@
     "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "不要将虚拟数据点用于STATE（隐藏开关，如果STATE为空）",
     "Door": "门设备",
     "Door with lock": "门锁设备",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Background_URL / HTML的动态缩放（这是将内容放入单个1x1磁贴中所需的缩放级别，单位为％）",
     "Edit Array:": "编辑数组：",
     "Edit Constant:": "编辑常量：",
     "Edit Device:": "编辑设备：",

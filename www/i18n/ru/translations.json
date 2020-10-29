@@ -198,6 +198,7 @@
     "Door with lock": "Дверь с замком",
     "Doorlock": "Замком",
     "Down": "вниз",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Динамическое масштабирование для BACKGROUND_URL / HTML (это уровень масштабирования в%, который потребуется, чтобы контент поместился в одну плитку 1x1)",
     "ENERGY COUNTER": "Счётчик расхода",
     "Edit Array:": "Изменить массив:",
     "Edit Constant:": "Редактировать константу:",

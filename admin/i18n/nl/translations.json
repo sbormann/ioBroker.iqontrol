@@ -137,6 +137,7 @@
     "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "Gebruik geen virtueel datapunt voor STATE (verberg schakelaar, als STATE leeg is)",
     "Door": "Deur",
     "Door with lock": "Deur met slot",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Dynamische zoom voor BACKGROUND_URL / HTML (dit is het zoomniveau in% dat nodig zou zijn om de inhoud in een enkele 1x1 tegel te laten passen)",
     "Edit Array:": "Matrix bewerken:",
     "Edit Constant:": "Bewerk constante:",
     "Edit Device:": "Bewerken-Apparaat:",

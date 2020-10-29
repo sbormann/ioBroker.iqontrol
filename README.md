@@ -1165,9 +1165,11 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.3.6 (2020-10-29)
 * (sbormann) Added option for transparent background.
 * (sbormann) Enhanced handling of temporary states for color lights.
+* (sbormann) Added option for dynamic zoom for BACKGROUND_URL/HTML.
+* (sbormann) Fixed creating of widget-datapoints.
 
 ### 1.3.5 (2020-10-27)
 * (sbormann) Fix for line 6034 (capitalze).

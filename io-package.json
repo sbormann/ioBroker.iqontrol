@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.3.5",
+        "version": "1.3.6",
         "news": {
+            "1.3.6": {
+                "en": "Added option for transparent background, Enhanced handling of temporary states for color lights, Added option for dynamic zoom for BACKGROUND_URL/HTML, Fixed creating of widget-datapoints.",
+                "de": "Option für transparenten Hintergrund hinzugefügt, Verbesserte Behandlung von temporären Zuständen für Farblichter, Option für dynamischen Zoom für BACKGROUND_URL / HTML hinzugefügt, Erstellung von Widget-Datenpunkten behoben.",
+                "ru": "Добавлена ​​опция прозрачного фона, Улучшена обработка временных состояний цветных огней, Добавлена ​​опция динамического масштабирования для BACKGROUND_URL / HTML, Исправлено создание точек данных виджета.",
+                "pt": "Adicionada opção para fundo transparente, manipulação aprimorada de estados temporários para luzes coloridas, opção adicionada para zoom dinâmico para BACKGROUND_URL / HTML, Criação fixa de widget-datapoints.",
+                "nl": "Optie toegevoegd voor transparante achtergrond, Verbeterde afhandeling van tijdelijke toestanden voor gekleurde lichten, Optie toegevoegd voor dynamische zoom voor BACKGROUND_URL / HTML, Aanmaken van widget-datapunten opgelost.",
+                "fr": "Ajout d'une option pour l'arrière-plan transparent, Gestion améliorée des états temporaires pour les lumières de couleur, Ajout d'une option de zoom dynamique pour BACKGROUND_URL / HTML, Correction de la création de widgets-points de données.",
+                "it": "Aggiunta opzione per sfondo trasparente, Gestione migliorata degli stati temporanei per luci colorate, Aggiunta opzione per zoom dinamico per BACKGROUND_URL / HTML, Corretta la creazione di widget-datapoint.",
+                "es": "Opción agregada para fondo transparente, Manejo mejorado de estados temporales para luces de color, Opción agregada para zoom dinámico para BACKGROUND_URL / HTML, Creación fija de puntos de datos de widget.",
+                "pl": "Dodano opcję przezroczystego tła, Ulepszoną obsługę tymczasowych stanów dla kolorowych świateł, Dodano opcję dynamicznego powiększania dla BACKGROUND_URL / HTML, Naprawiono tworzenie punktów danych widgetów.",
+                "zh-cn": "添加了用于透明背景的选项，增强了对彩色光的临时状态的处理，添加了用于Background_URL / HTML的动态缩放的选项，修复了小部件数据点的创建。"
+            },
             "1.3.5": {
                 "en": "Fix for line 6034 (capitalze).",
                 "de": "Fix für Zeile 6034 (Großschreibung).",

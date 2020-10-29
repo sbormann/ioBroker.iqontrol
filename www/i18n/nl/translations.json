@@ -198,6 +198,7 @@
     "Door with lock": "Deur met slot",
     "Doorlock": "Doorlock",
     "Down": "naar beneden",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Dynamische zoom voor BACKGROUND_URL / HTML (dit is het zoomniveau in% dat nodig zou zijn om de inhoud in een enkele 1x1 tegel te laten passen)",
     "ENERGY COUNTER": "Energie Teller",
     "Edit Array:": "Matrix bewerken:",
     "Edit Constant:": "Bewerk constante:",

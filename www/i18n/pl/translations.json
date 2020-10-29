@@ -198,6 +198,7 @@
     "Door with lock": "Drzwi z zamkiem",
     "Doorlock": "Zamkiem",
     "Down": "Na dół",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Dynamiczne powiększenie dla BACKGROUND_URL / HTML (jest to stopień powiększenia w%, który byłby potrzebny, aby zawartość zmieściła się na pojedynczym kafelku 1x1)",
     "ENERGY COUNTER": "Licznik Energii",
     "Edit Array:": "Edytuj tablicę:",
     "Edit Constant:": "Edytuj stałą:",

@@ -137,6 +137,7 @@
     "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)": "N'utilisez pas de point de données virtuel pour STATE (cachez le commutateur, si STATE est vide)",
     "Door": "Porte",
     "Door with lock": "Porte avec serrure",
+    "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)": "Zoom dynamique pour BACKGROUND_URL / HTML (il s'agit du niveau de zoom en% qui serait nécessaire pour permettre au contenu de tenir dans une seule vignette 1x1)",
     "Edit Array:": "Modifier le tableau:",
     "Edit Constant:": "Modifier la constante:",
     "Edit Device:": "Modifier L'Appareil:",
