@@ -2970,6 +2970,53 @@ function enhanceTextInputToComboboxEntryToInput(value){
 	}
 }
 
+//Objects
+function getCommonName(object){
+	var name = false;
+	if(object && typeof object.common != udef && typeof object.common.name != udef){
+		if(typeof object.common.name == "object" && typeof object.common.name[systemLang] != udef){
+			name = object.common.name[systemLang];
+		} else if(typeof object.common.name == "object" && typeof object.common.name["en"] != udef){
+			name = object.common.name["en"];
+		} else if (typeof object.common.name == "string") {
+			name = object.common.name;
+		}
+	}
+	return name;
+}
+
+//Enumerations
+var enumerations = {};
+function getEnumerations(enumName, callback) {
+	enumName = enumName ? enumName + '.' : '';
+    socket.emit('getObjectView', 'system', 'enum', {startkey: 'enum' + enumName, endkey: 'enum' + enumName + '.\u9999'}, function (err, res) {
+        if (!err && res) {
+            var _res   = {};
+            for (var i = 0; i < res.rows.length; i++) {
+                if (res.rows[i].id !== 'enum.' + enumName) {
+                    _res[res.rows[i].id] = res.rows[i].value;
+                }
+            }
+            callback && callback(null, _res);
+        } else {
+            callback && callback(err, []);
+        }
+    });
+}
+function getEnumerationName(enumeration){
+	var name = _(enumeration);
+	if(enumerations[enumeration] && typeof enumerations[enumeration].common != udef && typeof enumerations[enumeration].common.name != udef){
+		if(typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name[systemLang] != udef){
+			name = enumerations[enumeration].common.name[systemLang];
+		} else if(typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name["en"] != udef){
+			name = _(enumerations[enumeration].common.name["en"]);
+		} else if (typeof enumerations[enumeration].common.name == "string") {
+			name = _(enumerations[enumeration].common.name);
+		}
+	}
+	return name;
+}
+
 //File-Operations
 function uploadFile(file, path, callback) {
 	if(typeof path == 'function') {
@@ -3573,6 +3620,27 @@ function load(settings, onChange) {
 	function loadViews(){
 		//Fill Table
 		values2table('tableViews', views, onChange, onTableViewsReady);
+		
+		//Fill Selectbox ViewsAutocreateEnumerations
+		$('#viewsAutocreateButton').addClass('disabled');
+		$('#viewsAutocreateButtonProgress').show();
+		getEnumerations('', function(error, result){
+			if(!error && result){
+				enumerations = result;
+				var enumerationsMain = Object.keys(result);
+				enumerationsMain = enumerationsMain.filter(function(element){
+					if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
+				});
+				$('#dialogViewsAutocreateEnumerationMain').empty().append("<option disabled selected value>" + _("Select Enumeration") + "</option>");
+				enumerationsMain.forEach(function(enumeration, index){ 
+					var name = getEnumerationName(enumeration);
+					$('#dialogViewsAutocreateEnumerationMain').append("<option value='" + enumeration + "'>" + name + "</option>"); 
+				});
+				$('#dialogViewsAutocreateEnumerationMain').select();
+			$('#viewsAutocreateButton').removeClass('disabled');
+			$('#viewsAutocreateButtonProgress').hide();
+			}
+		});
 	}
 
 	//Enhance TableViews with functions
@@ -3697,6 +3765,116 @@ function load(settings, onChange) {
 		return duplicates;
 	}
 
+	//Enhance ViewsAutocreate with functions
+	$('#viewsAutocreateButton').on('click', function () {
+		initDialog('dialogViewsAutocreate', function(){ //save dialog
+			if(!confirm(_("Create selected views?") + " " + _("This may take a few seconds."))) return;
+			var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
+			var viewsAutocreateResult = {views: [], toolbar: []};
+			var iQontrolViewDevices = [];
+			var masterView = false;
+			var viewCount = 0;
+			var deviceCount = 0;
+			var toolbarCount = 0;
+			$('.dialogViewsAutocreateEnumerationListItem').each(function(){
+				var enumeration = $(this).data('enumeration');
+				if($(this).prop('checked') || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
+					var name = getEnumerationName(enumeration);
+					var viewNames = [];
+					views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
+					var existingNameIndex = 0;
+					while(viewNames.indexOf(name + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
+					if(existingNameIndex) name = name + " " + existingNameIndex;
+					var view = {commonName: name, nativeBackgroundImage: './images/wallpaper/orangedrops.jpg', devices: []}
+					if(enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function") enumerations[enumeration].common.members.forEach(function(member){
+						if($('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + enumeration + '"][data-member="' + member + '"]').prop('checked')){
+							var result = deviceAutocreate(member, iobrokerObjects);
+							if(result && result.resultObject) {
+								view.devices.push(result.resultObject);
+								deviceCount++;
+							}
+						}
+					});
+					if(view.devices.length || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
+						if(enumeration == enumerationMain){
+							masterView = viewsAutocreateResult.views.length;
+							view.nativeBackgroundImage = './images/wallpaper/bakestone.jpg';
+						}
+						viewsAutocreateResult.views.push(view);
+						viewCount++;
+					}
+					if(view.devices.length && enumeration != enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked')) {
+						iQontrolViewDevices.push({commonName: name, commonRole: "iQontrolView", nativeLinkedView: name, nativeBackgroundImage: './images/wallpaper/orangedrops.jpg'});
+						deviceCount++;
+					}
+					if(enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterViewToolbarEntry').prop('checked')){
+						var icon = "bars";
+						if(enumeration == "enum.rooms") icon = "grid";
+						if(enumeration == "enum.functions") icon = "gear";
+						viewsAutocreateResult.toolbar.push({commonName: name, nativeLinkedView: name, nativeIcon: icon});
+						toolbarCount++;
+					}
+				}
+			});	
+			if($('#dialogViewsAutocreateCreateMasterView').prop('checked') && masterView !== false){
+				if(typeof viewsAutocreateResult.views[masterView].devices == udef) viewsAutocreateResult.views[masterView].devices = [];
+				viewsAutocreateResult.views[masterView].devices = iQontrolViewDevices.concat(viewsAutocreateResult.views[masterView].devices);
+			}
+			if(confirm(_("Created %s devices in %s views", deviceCount, viewCount) + (toolbarCount ? " " + _("and a toolbar entry") : "") + ". " + _("Save these settings?"))){
+				views = views.concat(viewsAutocreateResult.views);
+				toolbar = toolbar.concat(viewsAutocreateResult.toolbar);
+				loadViews();
+			}
+		});
+		$('#dialogViewsAutocreateEnumerationMain').val("").select();
+		$('#dialogViewsAutocreateEnumerationList').html(_("Please select an enumeration."));
+		$('#dialogViewsAutocreate a.btn.chose').addClass('disabled');
+		$('#dialogViewsAutocreateBtnSetProgress').hide();
+		$('#dialogViewsAutocreate a.btn-set').addClass('disabled');
+		$('#dialogViewsAutocreate').modal('open');
+	});
+	$('#dialogViewsAutocreateEnumerationMain').on('change', function(){
+		var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
+		$('#dialogViewsAutocreateEnumerationList').empty();
+		var listContent = "<ul class='collapsible'>";
+		for(enumeration in enumerations){
+			if(enumeration.indexOf(enumerationMain) == 0){
+				var name = getEnumerationName(enumeration);
+				var members = [];
+				if(enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function"){
+					members = enumerations[enumeration].common.members;
+				};
+				listContent += "<li>";
+				listContent += "	<div class='collapsible-header'>";
+				listContent += "		<label><input class='dialogViewsAutocreateEnumerationListItem' type='checkbox' checked='checked' data-enumeration='" + enumeration + "'><span>" + name + "</span></label>";
+				if(members.length){
+					listContent += "		<div style='position: relative; right: 20px; margin-left: auto; padding: 3px 10px; border-radius: 14px; background: lightgrey;'><span>" + members.length + " " + _("devices") + "</span></div>";
+				}
+				listContent += "	</div>";
+				listContent += "	<div class='collapsible-body'>";
+				if(members.length){
+					listContent += "		<span>";
+					members.forEach(function(member, index){
+						listContent += "		<label><input class='dialogViewsAutocreateEnumerationListMemberItem' type='checkbox' checked='checked' data-enumeration='" + enumeration + "' data-member='" + member + "' data-member-index='" + index + "'><span style='height: auto;'>" + member + (iobrokerObjects && iobrokerObjects[member] && getCommonName(iobrokerObjects[member]) ? "&nbsp;<b>(" + getCommonName(iobrokerObjects[member]) + ")</b>" : "") + "</span></label><br>";
+					});
+					listContent += "		</span>";
+				}
+				listContent += "	</div>";
+				listContent += "</li>";			
+			}
+		};		
+		listContent += "</ul>";			
+		$('#dialogViewsAutocreateEnumerationList').html(listContent);
+		$('.collapsible').collapsible();
+		$('.dialogViewsAutocreateEnumerationListItem').off('change').on('change', function(e){
+			$('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + $(this).data('enumeration') + '"]').prop('checked', $(this).prop('checked'));
+		});
+		$('.dialogViewsAutocreateEnumerationListMemberItem').off('change').on('change', function(){
+			if($(this).prop('checked')) $('.dialogViewsAutocreateEnumerationListItem[data-enumeration="' + $(this).data('enumeration') + '"]').prop('checked', true);
+		});
+		$('#dialogViewsAutocreate a.btn.chose').removeClass('disabled');
+		$('#dialogViewsAutocreate a.btn-set').removeClass('disabled');
+	});
 
 	//++++++++++ DEVICES ++++++++++
 	//Load Devices
@@ -4564,7 +4742,7 @@ function load(settings, onChange) {
 		}
 		$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
 		$('#dialogDeviceAutocreatePreviewStates').html('');
-		$('#dialogDeviceAutocreate a.btn-set').addClass('disabled')
+		$('#dialogDeviceAutocreate a.btn-set').addClass('disabled');
 		$('#dialogDeviceAutocreate').modal('open');
 	});
 	$('#dialogDeviceAutocreateSourceId').on('input change', function(){
@@ -5660,166 +5838,305 @@ function load(settings, onChange) {
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
 	function loadOptions(){
-		$('.collapsible').collapsible();		
+		$('.collapsible').collapsible();
 
-		//Export All Views
-		$('#optionsBackupRestoreExportViewsAll').off('click').on('click', function(){
-			saveStringAsLocalFile(JSON.stringify(views), "charset=utf-8", "text/json", "views.json", true);
-		});
-
-		//Export Selected Views
+		//Fill Selectbox for Export Selected Views
 		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
-		$('#optionsBackupRestoreExportViewsSelectedSelection').off('change').on('change', function(){
-			var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
-			if(selected.length){
-				$('#optionsBackupRestoreExportViewsSelected').removeClass('disabled');
+	}
+
+	//Export All Views
+	$('#optionsBackupRestoreExportViewsAll').on('click', function(){
+		saveStringAsLocalFile(JSON.stringify(views), "charset=utf-8", "text/json", "views.json", true);
+	});
+
+	$('#optionsBackupRestoreExportViewsSelectedSelection').on('change', function(){
+		var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
+		if(selected.length){
+			$('#optionsBackupRestoreExportViewsSelected').removeClass('disabled');
+		} else {
+			$('#optionsBackupRestoreExportViewsSelected').addClass('disabled');
+		}
+	});
+	$('#optionsBackupRestoreExportViewsSelected').on('click', function(){
+		var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
+		if(selected.length){
+			var selectedViews = [];
+			selected.forEach(function(index){
+				selectedViews.push(views[index]);
+				selectedViews[selectedViews.length - 1].devices.forEach(function(device){ //Remove symbolic links
+					if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+				});
+			});
+			saveStringAsLocalFile(JSON.stringify(selectedViews), "charset=utf-8", "text/json", "selected_views.json", true);
+		}
+	});
+
+	//Export Toolbar
+	$('#optionsBackupRestoreExportToolbar').on('click', function(){
+		saveStringAsLocalFile(JSON.stringify(toolbar), "charset=utf-8", "text/json", "toolbar.json", true);
+	});
+	
+	//Export Options
+	$('#optionsBackupRestoreExportOptions').on('click', function(){
+		//Select elements with class=value and build settings object
+		var options = {};
+		$('.value').each(function () {
+			var $this = $(this);
+			if ($this.attr('type') === 'checkbox') {
+				options[$this.attr('id')] = $this.prop('checked');
 			} else {
-				$('#optionsBackupRestoreExportViewsSelected').addClass('disabled');
+				options[$this.attr('id')] = $this.val();
 			}
 		});
-		$('#optionsBackupRestoreExportViewsSelected').off('click').on('click', function(){
-			var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
-			if(selected.length){
-				var selectedViews = [];
-				selected.forEach(function(index){
-					selectedViews.push(views[index]);
-					selectedViews[selectedViews.length - 1].devices.forEach(function(device){ //Remove symbolic links
-						if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
-					});
-				});
-				saveStringAsLocalFile(JSON.stringify(selectedViews), "charset=utf-8", "text/json", "selected_views.json", true);
+		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
+	});
+	
+	//Export Custom
+	$('#optionsBackupRestoreExportCustoms').on('click', function(){
+		var customs = [];
+		for(objectId in parent.gMain.objects){
+			if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
+		};
+		saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
+	});
+
+	//Export Everything (but userfiles)
+	$('#optionsBackupRestoreExportEverything').on('click', function(){
+		var obj = {};
+		obj.views = views;
+		obj.toolbar = toolbar;
+		//Select elements with class=value and build settings object
+		var options = {};
+		$('.value').each(function () {
+			var $this = $(this);
+			if ($this.attr('type') === 'checkbox') {
+				options[$this.attr('id')] = $this.prop('checked');
+			} else {
+				options[$this.attr('id')] = $this.val();
 			}
 		});
+		obj.options = options;
+		var customs = [];
+		for(objectId in parent.gMain.objects){
+			if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
+		};
+		obj.customs = customs;
+		saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
+	});
 
-		//Export Toolbar
-		$('#optionsBackupRestoreExportToolbar').off('click').on('click', function(){
-			saveStringAsLocalFile(JSON.stringify(toolbar), "charset=utf-8", "text/json", "toolbar.json", true);
-		});
-		
-		//Export Options
-		$('#optionsBackupRestoreExportOptions').off('click').on('click', function(){
-			//Select elements with class=value and build settings object
-			var options = {};
-			$('.value').each(function () {
-				var $this = $(this);
-				if ($this.attr('type') === 'checkbox') {
-					options[$this.attr('id')] = $this.prop('checked');
+	//Export Userfiles
+	$('#optionsBackupRestoreExportUserfiles').on('click', function(){
+		$('#optionsBackupRestoreExportUserfiles').addClass('disabled');
+		$('#optionsBackupRestoreExportUserfilesIcon').text("hourglass_empty");
+		$('#optionsBackupRestoreExportUserfilesProgress').show();
+		if(confirm(_("Depending on the size it may take a while to create the zip file."))){
+			readDirAsZip(userfilesImagePath + '/', function(err, data){
+				if (err) {
+					alert("Error: " + err);
+				} else if (data) {
+					saveStringAsLocalFile(data, "base64", "application/zip", "userfiles.zip", true);
 				} else {
-					options[$this.attr('id')] = $this.val();
+					alert("Error: no data received.");
 				}
-			});
-			saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
-		});
-		
-		//Export Custom
-		$('#optionsBackupRestoreExportCustoms').off('click').on('click', function(){
-			var customs = [];
-			for(objectId in parent.gMain.objects){
-				if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
-			};
-			saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
-		});
-
-		//Export Everything (but userfiles)
-		$('#optionsBackupRestoreExportEverything').off('click').on('click', function(){
-			var obj = {};
-			obj.views = views;
-			obj.toolbar = toolbar;
-			//Select elements with class=value and build settings object
-			var options = {};
-			$('.value').each(function () {
-				var $this = $(this);
-				if ($this.attr('type') === 'checkbox') {
-					options[$this.attr('id')] = $this.prop('checked');
-				} else {
-					options[$this.attr('id')] = $this.val();
-				}
-			});
-			obj.options = options;
-			var customs = [];
-			for(objectId in parent.gMain.objects){
-				if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
-			};
-			obj.customs = customs;
-			saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
-		});
-
-		//Export Userfiles
-		$('#optionsBackupRestoreExportUserfiles').off('click').on('click', function(){
-			$('#optionsBackupRestoreExportUserfiles').addClass('disabled');
-			$('#optionsBackupRestoreExportUserfilesIcon').text("hourglass_empty");
-			$('#optionsBackupRestoreExportUserfilesProgress').show();
-			if(confirm(_("Depending on the size it may take a while to create the zip file."))){
-				readDirAsZip(userfilesImagePath + '/', function(err, data){
-					if (err) {
-						alert("Error: " + err);
-					} else if (data) {
-						saveStringAsLocalFile(data, "base64", "application/zip", "userfiles.zip", true);
-					} else {
-						alert("Error: no data received.");
-					}
-					$('#optionsBackupRestoreExportUserfilesIcon').text("file_download");
-					$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
-					$('#optionsBackupRestoreExportUserfilesProgress').hide();
-				});
-			} else {
 				$('#optionsBackupRestoreExportUserfilesIcon').text("file_download");
 				$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
 				$('#optionsBackupRestoreExportUserfilesProgress').hide();
+			});
+		} else {
+			$('#optionsBackupRestoreExportUserfilesIcon').text("file_download");
+			$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
+			$('#optionsBackupRestoreExportUserfilesProgress').hide();
+		}
+	});	
+	
+	//Import Views
+	$('#optionsBackupRestoreImportViewsOverwrite, #optionsBackupRestoreImportViewsAppend').on('click', function(){
+		var overwrite = ($(this).data('overwrite') == true);
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if(resultObj && typeof resultObj.forEach == "function"){
+				resultObj.forEach(function(entry, index){ 
+					if(typeof entry.commonName == "undefined") entry.commonName = "View";
+					if(!overwrite){
+						var viewNames = [];
+						views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
+						var existingNameIndex = 0;
+						while(viewNames.indexOf(entry.commonName + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
+						if(existingNameIndex) entry.commonName = entry.commonName + " " + existingNameIndex;
+					}
+					if(!overwrite && entry.devices) entry.devices.forEach(function(device){ //Remove symbolic links, if views are appended
+						if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+					});
+				});
+			} else {
+				resultObjValid = false;
 			}
-		});	
-		
-		//Import Views
-		$('#optionsBackupRestoreImportViewsOverwrite, #optionsBackupRestoreImportViewsAppend').off('click').on('click', function(){
-			var overwrite = ($(this).data('overwrite') == true);
-			loadLocalFileAsString(".json", function(result){
-				var resultObj = tryParseJSON(result);
-				var resultObjValid = true;
-				if(resultObj && typeof resultObj.forEach == "function"){
-					resultObj.forEach(function(entry, index){ 
-						if(typeof entry.commonName == "undefined") entry.commonName = "View";
-						if(!overwrite){
-							var viewNames = [];
-							views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
-							var existingNameIndex = 0;
-							while(viewNames.indexOf(entry.commonName + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
-							if(existingNameIndex) entry.commonName = entry.commonName + " " + existingNameIndex;
+			if(resultObjValid) {
+				if(overwrite){
+					if(confirm(_("Really overwrite existing Settings?"))){
+						views = resultObj;
+						alert(_("Settings imported."));
+						onChange();
+					}
+				} else {
+					views = views.concat(resultObj);
+						alert(_("Settings imported."));
+						onChange();
+				}
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
+	});
+	
+	//Import Toolbar
+	$('#optionsBackupRestoreImportToolbarOverwrite, #optionsBackupRestoreImportToolbarAppend').on('click', function(){
+		var overwrite = ($(this).data('overwrite') == true);
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if(resultObj && typeof resultObj.forEach == "function"){
+				resultObj.forEach(function(entry, index){ 
+					if(typeof entry.nativeLinkedView == "undefined"){
+						resultObjValid = false;
+					} else {
+						if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
+						if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
+					}
+				});
+			} else {
+				resultObjValid = false;
+			}
+			if(resultObjValid) {
+				if(overwrite){
+					if(confirm(_("Really overwrite existing Settings?"))){
+						toolbar = resultObj;
+						alert(_("Settings imported."));
+						onChange();
+					}
+				} else {
+					toolbar = toolbar.concat(resultObj);
+						alert(_("Settings imported."));
+						onChange();
+				}
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
+	});
+	
+	//Import Options
+	$('#optionsBackupRestoreImportOptions').on('click', function(){
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if(!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+				resultObjValid = false;
+			}
+			if(resultObjValid) {
+				if(confirm(_("Really overwrite existing Settings?"))){
+					//Select elements with id=key and class=value and insert value
+					$('.value').each(function () {
+						var $key = $(this);
+						var id = $key.attr('id');
+						if ($key.attr('type') === 'checkbox') {
+							$key.prop('checked', resultObj[id]);
+						} else {
+							$key.val(resultObj[id]);
 						}
-						if(!overwrite && entry.devices) entry.devices.forEach(function(device){ //Remove symbolic links, if views are appended
-							if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+					});
+					$('.MaterializeColorPicker').trigger('change');
+					alert(_("Settings imported."));
+					onChange();
+				}
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
+	});
+	
+	//Import Customs
+	$('#optionsBackupRestoreImportCustoms').on('click', function(){
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if(resultObj && typeof resultObj.forEach == "function"){
+				resultObj.forEach(function(entry, index){ 
+					if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
+						resultObjValid = false;
+					}
+				});
+			} else {
+				resultObjValid = false;
+			}
+			if(resultObjValid) {
+				initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
+					if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
+						var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
+						var dialogOptionsBackupRestoreImportCustomsCounter = 0;
+						var dialogOptionsBackupRestoreImportCustomsError = false;
+						customs.forEach(function(custom, index){
+							if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
+								dialogOptionsBackupRestoreImportCustomsCounter++;
+								console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _custom = custom;
+									socket.emit('getObject', _custom.id, function(err, _obj){
+										if(_obj){
+											if(typeof _obj.common == udef) _obj.common = {};
+											if(typeof _obj.common.custom == udef) _obj.common.custom = {};
+											_obj.common.custom[adapter + "." + instance] = _custom.custom;
+											socket.emit('setObject', _custom.id, _obj, function(err){
+												dialogOptionsBackupRestoreImportCustomsCounter--;
+												if(err) dialogOptionsBackupRestoreImportCustomsError = true;
+												if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
+													if(dialogOptionsBackupRestoreImportCustomsError){
+														alert(_("Error: Invalid data."));
+													} else {
+														alert(_("Settings imported."));
+														onChange();
+													}
+												}
+											});
+										}
+									});
+								})(); //<--End Closure
+							}
 						});
+					}
+				});
+				$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
+				$('#dialogOptionsBackupRestoreImportCustomsList').empty();
+				resultObj.forEach(function(custom, index){ 
+					$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
+				});
+				$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
+	});
+
+	//Import Everything (but userfiles)
+	$('#optionsBackupRestoreImportEverything').on('click', function(){
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
+				//Views
+				if(resultObj.views && typeof resultObj.views.forEach == "function") {
+					resultObj.views.forEach(function(entry, index){ 
+						if(typeof entry.commonName == "undefined") entry.commonName = "View";
 					});
 				} else {
 					resultObjValid = false;
 				}
-				if(resultObjValid) {
-					if(overwrite){
-						if(confirm(_("Really overwrite existing Settings?"))){
-							views = resultObj;
-							alert(_("Settings imported."));
-							onChange();
-						}
-					} else {
-						views = views.concat(resultObj);
-							alert(_("Settings imported."));
-							onChange();
-					}
-				} else {
-					alert(_("Error: Invalid data."));
-				}
-			});
-		});
-		
-		//Import Toolbar
-		$('#optionsBackupRestoreImportToolbarOverwrite, #optionsBackupRestoreImportToolbarAppend').off('click').on('click', function(){
-			var overwrite = ($(this).data('overwrite') == true);
-			loadLocalFileAsString(".json", function(result){
-				var resultObj = tryParseJSON(result);
-				var resultObjValid = true;
-				if(resultObj && typeof resultObj.forEach == "function"){
-					resultObj.forEach(function(entry, index){ 
+				//Toolbar
+				if(resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
+					resultObj.toolbar.forEach(function(entry, index){ 
 						if(typeof entry.nativeLinkedView == "undefined"){
 							resultObjValid = false;
 						} else {
@@ -5830,61 +6147,13 @@ function load(settings, onChange) {
 				} else {
 					resultObjValid = false;
 				}
-				if(resultObjValid) {
-					if(overwrite){
-						if(confirm(_("Really overwrite existing Settings?"))){
-							toolbar = resultObj;
-							alert(_("Settings imported."));
-							onChange();
-						}
-					} else {
-						toolbar = toolbar.concat(resultObj);
-							alert(_("Settings imported."));
-							onChange();
-					}
-				} else {
-					alert(_("Error: Invalid data."));
-				}
-			});
-		});
-		
-		//Import Options
-		$('#optionsBackupRestoreImportOptions').off('click').on('click', function(){
-			loadLocalFileAsString(".json", function(result){
-				var resultObj = tryParseJSON(result);
-				var resultObjValid = true;
-				if(!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+				//Options
+				if(!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
 					resultObjValid = false;
 				}
-				if(resultObjValid) {
-					if(confirm(_("Really overwrite existing Settings?"))){
-						//Select elements with id=key and class=value and insert value
-						$('.value').each(function () {
-							var $key = $(this);
-							var id = $key.attr('id');
-							if ($key.attr('type') === 'checkbox') {
-								$key.prop('checked', resultObj[id]);
-							} else {
-								$key.val(resultObj[id]);
-							}
-						});
-						$('.MaterializeColorPicker').trigger('change');
-						alert(_("Settings imported."));
-						onChange();
-					}
-				} else {
-					alert(_("Error: Invalid data."));
-				}
-			});
-		});
-		
-		//Import Customs
-		$('#optionsBackupRestoreImportCustoms').off('click').on('click', function(){
-			loadLocalFileAsString(".json", function(result){
-				var resultObj = tryParseJSON(result);
-				var resultObjValid = true;
-				if(resultObj && typeof resultObj.forEach == "function"){
-					resultObj.forEach(function(entry, index){ 
+				//Customs
+				if(resultObj.customs && typeof resultObj.customs.forEach == "function"){
+					resultObj.customs.forEach(function(entry, index){ 
 						if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
 							resultObjValid = false;
 						}
@@ -5892,7 +6161,30 @@ function load(settings, onChange) {
 				} else {
 					resultObjValid = false;
 				}
-				if(resultObjValid) {
+			} else {
+				resultObjValid = false;
+			}
+			if(resultObjValid) {
+				if(confirm(_("Really overwrite existing Settings?"))){
+					//Views
+					if(confirm(_("Import Views (overwrite existing views)") + "?")) views = resultObj.views;
+					//Toolbar
+					if(confirm(_("Import Toolbar (overwrite exisiting toolbar)") + "?")) toolbar = resultObj.toolbar;
+					//Options
+					//Select elements with id=key and class=value and insert value
+					if(confirm(_("Import Options") + "?")) $('.value').each(function () {
+						var $key = $(this);
+						var id = $key.attr('id');
+						if ($key.attr('type') === 'checkbox') {
+							$key.prop('checked', resultObj.options[id]);
+						} else {
+							$key.val(resultObj.options[id]);
+						}
+					});
+					$('.MaterializeColorPicker').trigger('change');
+					alert(_("Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported."));
+					onChange();
+					//Customs
 					initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
 						if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
 							var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
@@ -5928,164 +6220,49 @@ function load(settings, onChange) {
 							});
 						}
 					});
-					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
+					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
 					$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-					resultObj.forEach(function(custom, index){ 
+					resultObj.customs.forEach(function(custom, index){ 
 						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
 					});
 					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
-				} else {
-					alert(_("Error: Invalid data."));
 				}
-			});
+			} else {
+				alert(_("Error: Invalid data."));
+			}
 		});
+	});
 
-		//Import Everything (but userfiles)
-		$('#optionsBackupRestoreImportEverything').off('click').on('click', function(){
-			loadLocalFileAsString(".json", function(result){
-				var resultObj = tryParseJSON(result);
-				var resultObjValid = true;
-				if(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
-					//Views
-					if(resultObj.views && typeof resultObj.views.forEach == "function") {
-						resultObj.views.forEach(function(entry, index){ 
-							if(typeof entry.commonName == "undefined") entry.commonName = "View";
-						});
-					} else {
-						resultObjValid = false;
-					}
-					//Toolbar
-					if(resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
-						resultObj.toolbar.forEach(function(entry, index){ 
-							if(typeof entry.nativeLinkedView == "undefined"){
-								resultObjValid = false;
-							} else {
-								if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
-								if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
-							}
-						});
-					} else {
-						resultObjValid = false;
-					}
-					//Options
-					if(!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
-						resultObjValid = false;
-					}
-					//Customs
-					if(resultObj.customs && typeof resultObj.customs.forEach == "function"){
-						resultObj.customs.forEach(function(entry, index){ 
-							if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
-								resultObjValid = false;
-							}
-						});
-					} else {
-						resultObjValid = false;
-					}
-				} else {
-					resultObjValid = false;
+	//Import Userfiles 		xxxx 	not working with large zip-files 	xxxx
+	$('#optionsBackupRestoreImportUserfiles').on('click', function(){
+		loadLocalFileAsArrayBuffer(".zip", function(result){
+			if(result) {
+				if(confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
+					$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
+					$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
+					$('#optionsBackupRestoreImportUserfilesProgress').show();
+					writeDirAsZip(userfilesImagePath + '/', result, function(err){
+						if(err){
+							alert(_("Error: Invalid data."));
+						} else {
+							getImages(function(){
+								values2table('tableImages', images, onChange, onTableImagesReady);
+								var dummy = $('#imagesSelectedDir').val();
+								$('#imagesSelectedDir').val(dummy).trigger('change');
+								$('#imagesSelectedDir').select();
+							});
+							alert(_("Files imported."));
+						}
+						$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
+						$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
+						$('#optionsBackupRestoreImportUserfilesProgress').hide();
+					});
 				}
-				if(resultObjValid) {
-					if(confirm(_("Really overwrite existing Settings?"))){
-						//Views
-						views = resultObj.views;
-						//Toolbar
-						toolbar = resultObj.toolbar;
-						//Options
-						//Select elements with id=key and class=value and insert value
-						$('.value').each(function () {
-							var $key = $(this);
-							var id = $key.attr('id');
-							if ($key.attr('type') === 'checkbox') {
-								$key.prop('checked', resultObj.options[id]);
-							} else {
-								$key.val(resultObj.options[id]);
-							}
-						});
-						$('.MaterializeColorPicker').trigger('change');
-						alert(_("Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported."));
-						onChange();
-						//Customs
-						initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
-							if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
-								var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
-								var dialogOptionsBackupRestoreImportCustomsCounter = 0;
-								var dialogOptionsBackupRestoreImportCustomsError = false;
-								customs.forEach(function(custom, index){
-									if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
-										dialogOptionsBackupRestoreImportCustomsCounter++;
-										console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
-										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-											var _custom = custom;
-											socket.emit('getObject', _custom.id, function(err, _obj){
-												if(_obj){
-													if(typeof _obj.common == udef) _obj.common = {};
-													if(typeof _obj.common.custom == udef) _obj.common.custom = {};
-													_obj.common.custom[adapter + "." + instance] = _custom.custom;
-													socket.emit('setObject', _custom.id, _obj, function(err){
-														dialogOptionsBackupRestoreImportCustomsCounter--;
-														if(err) dialogOptionsBackupRestoreImportCustomsError = true;
-														if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
-															if(dialogOptionsBackupRestoreImportCustomsError){
-																alert(_("Error: Invalid data."));
-															} else {
-																alert(_("Settings imported."));
-																onChange();
-															}
-														}
-													});
-												}
-											});
-										})(); //<--End Closure
-									}
-								});
-							}
-						});
-						$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
-						$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-						resultObj.customs.forEach(function(custom, index){ 
-							$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
-						});
-						$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
-					}
-				} else {
-					alert(_("Error: Invalid data."));
-				}
-			});
+			} else {
+				alert(_("Error: Invalid data."));
+			}
 		});
-
-		//Import Userfiles
-		$('#optionsBackupRestoreImportUserfiles').off('click').on('click', function(){
-			loadLocalFileAsArrayBuffer(".zip", function(result){
-				if(result) {
-					if(confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
-						$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
-						$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
-						$('#optionsBackupRestoreImportUserfilesProgress').show();
-						writeDirAsZip(userfilesImagePath + '/', result, function(err){
-							if(err){
-								alert(_("Error: Invalid data."));
-							} else {
-								getImages(function(){
-									values2table('tableImages', images, onChange, onTableImagesReady);
-									var dummy = $('#imagesSelectedDir').val();
-									$('#imagesSelectedDir').val(dummy).trigger('change');
-									$('#imagesSelectedDir').select();
-								});
-								alert(_("Files imported."));
-							}
-							$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
-							$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
-							$('#optionsBackupRestoreImportUserfilesProgress').hide();
-						});
-					}
-				} else {
-					alert(_("Error: Invalid data."));
-				}
-			});
-		});	
-
-
-	}
+	});	
 }
 
 /************** SAVE *****************************************************************

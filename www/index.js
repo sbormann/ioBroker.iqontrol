@@ -5414,15 +5414,9 @@ function renderView(viewId, triggeredByReconnection){
 											if(stateEnlargeTile.ts && new Date() - stateEnlargeTile.ts < 100) toggleState(_linkedTileEnlargedId, _deviceIdEscaped, null, 0);
 											break;
 											
-											case "string":
-											var val = stateEnlargeTile.val.toString();
-											if(val == "0" || val == "-1" || val == "false") val = false; else val = true;
-											setState(_linkedTileEnlargedId, _deviceIdEscaped, val, true, null, 0);
-											break;
-											
 											default:
 											var val = stateEnlargeTile.plainText.toString();
-											if(val == "0" || val == "-1" || val == "false" || val == _("false")) val = false; else val = true;
+											if(stateEnlargeTile.val == false || val == "0" || val == "-1" || val == "false" || val == _("false") || val == _("closed") || val == _("OK") || val == _("off")) val = false; else val = true;
 											setState(_linkedTileEnlargedId, _deviceIdEscaped, val, true, null, 0);
 										}
 									}

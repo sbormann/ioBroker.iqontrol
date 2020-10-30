@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.3.6",
+        "version": "1.4.0",
         "news": {
+            "1.4.0": {
+                "en": "Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions), Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint, Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile, Drag-Sort of lists should now work on touch devices too.",
+                "de": "Autocreate-Ansichten hinzugefügt, mit denen Sie ganze Konfigurationen aus ioBroker-Listen (z. B. Räumen oder Funktionen) erstellen können. Status ENLARGE_TILE hinzugefügt, mit dem die Vergrößerung der Kachel über einen externen Datenpunkt ausgelöst werden kann. Verbesserter dynamischer Zoom für BACKGROUND_URL / HTML ",
+                "ru": "Добавлены представления Autocreate, которые помогут вам создавать целые конфигурации из списков ioBroker (например, комнаты или функции), Добавлено состояние ENLARGE_TILE, которое можно использовать для запуска увеличения плитки через внешнюю точку данных, Расширенное динамическое масштабирование для BACKGROUND_URL / HTML, чтобы быть больше ",
+                "pt": "Adicionadas visualizações Autocreate, que irão ajudá-lo a criar configurações inteiras de listas ioBroker (por exemplo, salas ou funções), estado adicionado ENLARGE_TILE, que pode ser usado para acionar a ampliação do ladrilho por meio de datapoint externo, zoom dinâmico aprimorado para BACKGROUND_URL / HTML para ser mais ",
+                "nl": "Toegevoegde Autocreate-weergaven, waarmee u volledige configuraties kunt maken uit ioBroker-lijsten (bijvoorbeeld kamers of functies), Staat toegevoegd ENLARGE_TILE, die kan worden gebruikt om vergroting van tegel te activeren via een extern datapunt, Verbeterde dynamische zoom voor BACKGROUND_URL / HTML om meer te zijn ",
+                "fr": "Ajout de vues de création automatique, qui vous aideront à créer des configurations entières à partir de listes ioBroker (par exemple, des salles ou des fonctions), Ajout de l'état ENLARGE_TILE, qui peut être utilisé pour déclencher l'agrandissement de la tuile via un point de données externe, Zoom dynamique amélioré pour BACKGROUND_URL / HTML pour être plus ",
+                "it": "Aggiunte viste di creazione automatica, che ti aiuteranno a creare intere configurazioni da elenchi ioBroker (ad esempio stanze o funzioni), Stato aggiunto ENLARGE_TILE, che può essere utilizzato per attivare l'ingrandimento del riquadro tramite datapoint esterno, Zoom dinamico migliorato per BACKGROUND_URL / HTML per essere più ",
+                "es": "Se agregaron vistas de creación automática, que lo ayudarán a crear configuraciones completas a partir de listas de ioBroker (por ejemplo, salas o funciones), estado agregado ENLARGE_TILE, que se puede usar para activar la ampliación del mosaico a través de un punto de datos externo, zoom dinámico mejorado para que BACKGROUND_URL / HTML sea más ",
+                "pl": "Dodano widoki Autocreate, które pomogą Ci stworzyć całe konfiguracje z list ioBroker (na przykład pokoje lub funkcje), Dodano stan ENLARGE_TILE, który może być użyty do wywołania powiększania kafelka przez zewnętrzny punkt danych, Ulepszony dynamiczny zoom dla BACKGROUND_URL / HTML, aby był bardziej ",
+                "zh-cn": "添加了自动创建视图，可帮助您从ioBroker列表中创建整个配置（例如房间或功能），添加了状态ENLARGE_TILE，可用于通过外部数据点触发图块放大，BACKGROUND_URL / HTML的增强型动态缩放功能更多"
+            },
             "1.3.6": {
                 "en": "Added option for transparent background, Enhanced handling of temporary states for color lights, Added option for dynamic zoom for BACKGROUND_URL/HTML, Fixed creating of widget-datapoints.",
                 "de": "Option für transparenten Hintergrund hinzugefügt, Verbesserte Behandlung von temporären Zuständen für Farblichter, Option für dynamischen Zoom für BACKGROUND_URL / HTML hinzugefügt, Erstellung von Widget-Datenpunkten behoben.",

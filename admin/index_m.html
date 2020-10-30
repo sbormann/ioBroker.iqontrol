@@ -30,8 +30,8 @@
 	<script type="text/javascript" src="./codemirror/mode/javascript/javascript.js"></script>
 	<script type="text/javascript" src="./codemirror/mode/css/css.js"></script>
 	<script type="text/javascript" src="./codemirror/mode/htmlmixed/htmlmixed.js"></script>
+	<script type="text/javascript" src="./jquery.ui.touch-punch.min.js"></script>
 	<script type="text/javascript" src="words.js"></script>
-	<!-- script type="text/javascript">systemDictionary = iqontrol_systemDictionary;</script -->
     <script type="text/javascript" src="conn.js"></script>
     <script type="text/javascript" src="type-detector.js"></script>
 	<script type="text/javascript" src="index_m.js"></script>
@@ -91,19 +91,19 @@
 							<span class="translate">Start setting up your interface by:</span>
 							<ol>
 								<li><span class="translate">Start creating views.</span><br>
-											<span class="translate">You can consider views as something like a page.</span></li>
-									<li><span class="translate">Then create devices on these views.</span><br>
-											<span class="translate">Devices have a role, that determines the function of the device, which icons are used and so on.</span><br>
-											<span class="translate">Depending on that role you can link several states to the device. These will give the device its functionality.</span><br>
-											<span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span><br>
-											<span class="translate">You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</span></li>
-									<li><span class="translate">Afterwards you can create a toolbar, which is displayed as footer.</span><br>
-											<span class="translate">Toolbar-Entrys are links to views.</span><br>
-											<span class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</span></li>
-									<li><span class="translate">To give everything a fancy style, you can upload your own images.</span><br>
-											<span class="translate">You can use your images as background-images for views, or for devices.</span><br>
-											<span class="translate">Images in the folder '/usericons' can be used as icons for devices.</span><br>
-											<span class="translate">The free builtin demo-wallpapers are from www.pexels.com.</span></li>
+										<span class="translate">You can consider views as something like a page.</span></li>
+								<li><span class="translate">Then create devices on these views.</span><br>
+										<span class="translate">Devices have a role, that determines the function of the device, which icons are used and so on.</span><br>
+										<span class="translate">Depending on that role you can link several states to the device. These will give the device its functionality.</span><br>
+										<span class="translate">If you select 'Link to other view' as role you can create links to other views. I suggest skinning Links to other views with the same Background, the linked view has.</span><br>
+										<span class="translate">You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.</span></li>
+								<li><span class="translate">Afterwards you can create a toolbar, which is displayed as footer.</span><br>
+										<span class="translate">Toolbar-Entrys are links to views.</span><br>
+										<span class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</span></li>
+								<li><span class="translate">To give everything a fancy style, you can upload your own images.</span><br>
+										<span class="translate">You can use your images as background-images for views, or for devices.</span><br>
+										<span class="translate">Images in the folder '/usericons' can be used as icons for devices.</span><br>
+										<span class="translate">The free builtin demo-wallpapers are from www.pexels.com.</span></li>
 							</ol>
 						</p>
 					</div>
@@ -139,6 +139,16 @@
 
 			<!-- ++++++++++ TAB: Views ++++++++++ -->
 			<div id="tabViews"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Operations</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<a class="waves-effect waves-light btn disabled" id="viewsAutocreateButton"><i class="material-icons left">grain</i><span class="translate">Autocreate Views</span><div id="viewsAutocreateButtonProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col s12">
 						<h6 class="translate sub-title">Views</h6>
@@ -251,7 +261,7 @@
 						<span class="translate">Motion-Sensor</span>. 
 						<span class="translate">However, this can be changed in options of the device.</span><br>
 						<br>
-						<span class="translate">You can use variables in device-names and image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span></a>).
+						<span class="translate">You can use variables in device-names and image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).
 					</div>
 				</div>
 			</div>
@@ -290,6 +300,7 @@
 					<div class="col s12">
 						<h6 class="translate">Homepage</h6>
 						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
+						<p><span class="translate">You can also use URL-Parameters to determine, which view or even dialog will be loaded at start</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#url-parameters" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
 					</div>
 				</div>
 				<div class="row">
@@ -1418,6 +1429,69 @@
 
 	<!-- ++++++++++ DIALOGS ++++++++++ -->
     <div class="m material-dialogs">
+		<!-- DIALOG: viewsAutocreate -->
+        <div id="dialogViewsAutocreate" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title" class="translate">Autocreate views</h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Select Enumeration</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="value icons" name='dialogViewsAutocreateEnumerationMain' id='dialogViewsAutocreateEnumerationMain'></select>
+						<label for='dialogViewsAutocreateEnumerationMain' class="translate"></label>
+						<span class="translate">Enumeration</span>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogViewsAutocreateEnumerationList"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<a class="btn chose" onclick="$('.dialogViewsAutocreateEnumerationListItem').prop('checked', true).trigger('change');"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
+						<a class="btn chose" onclick="$('.dialogViewsAutocreateEnumerationListItem').prop('checked', false).trigger('change');"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate sub-title">A view will be created for each selected entry from this list.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6 l6">
+						<input class="value" type="checkbox" id="dialogViewsAutocreateCreateMasterView" checked />
+						<label for="dialogViewsAutocreateCreateMasterView" class="translate">Create a main view with links to the created views.</label>
+						<span class="helper-text"></span>
+					</div>
+					<div class="input-field col s12 m6 l6">
+						<input class="value" type="checkbox" id="dialogViewsAutocreateCreateMasterViewToolbarEntry" checked />
+						<label for="dialogViewsAutocreateCreateMasterViewToolbarEntry" class="translate">Create a toolbar-entry for this master-view.</label>
+						<span class="helper-text"></span>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>		
+
 		<!-- DIALOG: DeviceEdit -->
         <div id="dialogDeviceEdit" class="modal modal-fixed-footer">
             <div class="modal-content">
@@ -1432,7 +1506,7 @@
 					<div class="col s12">
 						<h6 class="sub-title">
 							<a class="btn-floating btn-small waves-effect waves-light" href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#description-of-roles-and-associated-states" target="_blank"><i class="material-icons">live_help</i></a>
-							<span class="translate">Select Role</span>
+							<span class="translate">Select Role</span>:
 						</h6>
 					</div>
 				</div>
@@ -1475,7 +1549,7 @@
 				</div>
 				<div class="row">
 					<p><br></p>
-					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span></a>).
+					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).
 				</div>
             </div>
             <div class="modal-footer">

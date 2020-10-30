@@ -1166,9 +1166,11 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
-* (sbormann) Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile.
+### 1.4.0 (2020-10-30)
+* (sbormann) Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions).
 * (sbormann) Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint.
+* (sbormann) Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile.
+* (sbormann) Drag-Sort of lists should now work on touch devices too.
 
 ### 1.3.6 (2020-10-29)
 * (sbormann) Added option for transparent background.
