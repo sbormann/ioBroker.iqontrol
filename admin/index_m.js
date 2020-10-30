@@ -3848,7 +3848,7 @@ function load(settings, onChange) {
 				listContent += "	<div class='collapsible-header'>";
 				listContent += "		<label><input class='dialogViewsAutocreateEnumerationListItem' type='checkbox' checked='checked' data-enumeration='" + enumeration + "'><span>" + name + "</span></label>";
 				if(members.length){
-					listContent += "		<div style='position: relative; right: 20px; margin-left: auto; padding: 3px 10px; border-radius: 14px; background: lightgrey;'><span>" + members.length + " " + _("devices") + "</span></div>";
+					listContent += "		<div style='position: relative; right: 20px; margin-left: auto; padding: 3px 10px; border-radius: 14px; background: lightgrey;'><span>" + members.length + " " + (members.length == 1 ? _("device") : _("devices")) + "</span></div>";
 				}
 				listContent += "	</div>";
 				listContent += "	<div class='collapsible-body'>";
