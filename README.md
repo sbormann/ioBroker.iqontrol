@@ -1166,6 +1166,9 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
+### dev
+* (sbormann) Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices.
+
 ### 1.4.0 (2020-10-30)
 * (sbormann) Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions).
 * (sbormann) Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint.

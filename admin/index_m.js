@@ -2885,7 +2885,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	$(targetInput).each(function(){
 		if(!$(this).parent('div').hasClass('combobox')){
 			$(this).add('label').wrap("<div class='combobox'></div>");
-			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "' href='#' onclick='$enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val()); console.log($enhanceTextInputToComboboxActualTarget);'><i class='material-icons' style='font-size: 25px;'>arrow_drop_down</i></a>");
+			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "' href='#' onclick='console.log(\"Combobox dropdown clicked\"); $enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val());'><i class='material-icons comboboxDropdownTriggerArrow' style='font-size: 25px;'>arrow_drop_down</i></a>");
 		}
 		$(this).data('combobox-onselect', onSelect);			
 		lastTargetInput = this; 
@@ -3688,7 +3688,7 @@ function load(settings, onChange) {
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
-				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
 			}
 		});
 		//CommonName changed
@@ -3717,7 +3717,10 @@ function load(settings, onChange) {
 		//Make table sortable
 		$("#tableViews tbody").sortable({
 			helper: fixHelper,
-			stop: function( event, ui ) { 
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){ 
 				console.log("Drag ended, start resorting...");
 				$("#tableViews tbody").sortable('disable');
 				var sequence = [];
@@ -3742,7 +3745,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "input,textarea,button,select,option,a.btn-floating"
+			handle: "a[data-command='drag_handle']"
 		});	
 	}
 
@@ -4065,7 +4068,7 @@ function load(settings, onChange) {
 			}			
 			//Drag-Icon
 			if (command === 'drag_handle') {
-				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
 			}
 		});
 		$lines.find('select[data-name]').each(function() {
@@ -4108,7 +4111,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "input,textarea,button,select,option,a.btn-floating"
+			handle: "a[data-command='drag_handle']"
 		});
 	}
 
@@ -4687,7 +4690,7 @@ function load(settings, onChange) {
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
-				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
 			}
 		});
 		//Make table sortable
@@ -4711,7 +4714,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "input,textarea,button,select,option,a.btn-floating"
+			handle: "a[data-command='drag_handle']"
 		});	
 	}
 	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
@@ -5366,7 +5369,7 @@ function load(settings, onChange) {
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
-				$(this).removeClass('btn-floating').addClass('btn-flat disabled').find('i').html('drag_handle');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
 			}
 		});
 		//Make table sortable
@@ -5390,7 +5393,7 @@ function load(settings, onChange) {
 				console.log("resorted.");
 			},
 			axis: "y",
-			cancel: "input,textarea,button,select,option,a.btn-floating"
+			handle: "a[data-command='drag_handle']"
 		});	
 	}
 
