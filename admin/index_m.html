@@ -83,6 +83,7 @@
 				<div class="row showOnLoad">
 					<div class="col s12">
 						<p class="translate">Loading settings...</p>
+						<div id="mainShowOnLoadProgress" class="progress showOnLoad" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div>
 					</div>
 				</div>
 				<div class="row hideOnLoad" style="display: none;">
@@ -106,6 +107,12 @@
 										<span class="translate">The free builtin demo-wallpapers are from www.pexels.com.</span></li>
 							</ol>
 						</p>
+					</div>
+				</div>
+				<div class="row hideOnLoad loadingObjects" style="display: none;">
+					<div class="col s12">
+						<p class="translate">Still loading some objects in the background...</p>
+						<div id="mainLoadingObjectsProgress" class="progress hideOnLoad loadingObjects" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div>
 					</div>
 				</div>
 				<div class="row hideOnLoad" style="display: none;">

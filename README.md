@@ -28,7 +28,7 @@
 
 ## iqontrol adapter for ioBroker
 
-Fast Web-App for Visualization.
+Fast Web-App for Visualization. 
 
 ![Screenshot](img/screenshot_kueche.png)
 
@@ -45,7 +45,7 @@ Fast Web-App for Visualization.
 ![Screenshot](img/screenshot_flot.png)
 
 Runs in any Browser. 
-It's fully customizable and responsive.
+Easy to setup, allthough it's fully customizable and responsive.
 
 > **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
@@ -86,6 +86,11 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	Images in the folder '/usericons' can be used as icons for devices.
 	The free builtin demo-wallpapers are from www.pexels.com.
 
+### Use Autocreate
+* You'll find a ``Autocreate Views``-Button inside the  ``Views``-Tab
+* If you have well maintained ioBroker enumerations like Rooms or Functions, you can use this function to automatically build Views with the devices listed inside this enumerations
+* Keep in mind, because of the large numbers of different adapters and devices inside the ioBroker-univese, the autocration feature can not maintain all devices 100% correctly. You may need to rework some of the settings by hand to get the best results. But autocreate offers you a good starting point to build your own visualization in seconds. 
+
 
 ## URL-Parameters
 * The frontend is called via ``http[s]://<url or ip of iobroker>:<port of web adapter>/iqontrol/index.html``
@@ -108,7 +113,6 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 **Example:**
 * ``https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room``
     * Note upper and lower case
-
 
 
 ## Icons and Background-Images
@@ -1166,8 +1170,10 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.4.1 (2020-11-01)
 * (sbormann) Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices.
+* (sbormann) Enhanced demo for new instances.
+* (sbormann) Enhanced autocreate views function.
 
 ### 1.4.0 (2020-10-30)
 * (sbormann) Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions).

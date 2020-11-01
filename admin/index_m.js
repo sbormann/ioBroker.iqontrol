@@ -8,6 +8,17 @@ var useCache = true;
 var imagePath = "/iqontrol/images";
 var userfilesImagePath = "/iqontrol.meta/userimages";
 var userfilesImagePathBS = userfilesImagePath.replace(/\//g, "\\");
+
+var inbuiltWallpapers = [
+	"bakestone.jpg",
+	"bottle.jpg",
+	"decor.jpg",
+	"grass.jpg",
+	"green.jpg",
+	"orangedrops.jpg",
+	"whitestone.jpg"
+];
+
 var inbuiltSymbols = [
 	"blank.png",
 	"brightness.png",
@@ -3234,7 +3245,7 @@ function renameFile(oldPath, newPath, callback) {
 		}
 	});
 }
-function renameFileAsync(oldPath, newPath){
+function renameFileAsync(oldPath, newPath){ 
 	return new Promise(resolve => {
 		renameFile(oldPath, newPath, function(err, obj){
 			resolve(err);
@@ -3531,9 +3542,14 @@ function load(settings, onChange) {
 			socketConnectionErrorMessages += "\n\n\n" + _("Trying to use fallback. Some functions and file-operations may not work.");
 			alert(socketConnectionErrorMessages);
 		}
+		
+		//Signal to admin, that no changes yet
+		onChange(false);
+
 		//Get images
 		console.log("getImages");
 		getImages(async function(){
+			/* The following part was for backwads-compatibility - but it is broken (i think, the socket.io-function rename has changed, as it doesn't allow to transfer betwen iqontrol and iqontrol.meta directory any more - therefore this is disabled now
 			//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
 			console.log("Moving userfiles to new location...");
 			var oldImagePath = "/" + adapter + "/userimages";
@@ -3561,9 +3577,8 @@ function load(settings, onChange) {
 					}
 				});
 			});
-			
-			//Signal to admin, that no changes yet
-			if (fileLocationChanged) onChange(true); else onChange(false);
+			if (fileLocationChanged) onChange(true);
+			*/
 
 			//Show Settings
 			console.log("All settings loaded. Adapter ready.");
@@ -3575,14 +3590,22 @@ function load(settings, onChange) {
 			if (M) M.updateTextFields();
 			
 			//Get iobrokerObjects
-			socket.emit('getObjects', function (err, _objs) {
-				iobrokerObjects = _objs;
-				iobrokerObjectsReady = true;
-				for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
-					if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
-				}
-				iobrokerObjectsReadyFunctions = [];
-			});
+			setTimeout(function(){
+				console.log("Getting ioBroker Objects...");
+				$('.loadingObjects').show();
+				socket.emit('getObjects', function (err, _objs) {
+					console.log("Got ioBroker Objects.");
+					iobrokerObjects = _objs;
+					iobrokerObjectsReady = true;
+					if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+					for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+					}
+					iobrokerObjectsReadyFunctions = [];
+					$('.loadingObjects').hide();
+					console.log("ioBroker Objects ready.");
+				});
+			}, 100);
 		});
 	}
 
@@ -3622,25 +3645,37 @@ function load(settings, onChange) {
 		values2table('tableViews', views, onChange, onTableViewsReady);
 		
 		//Fill Selectbox ViewsAutocreateEnumerations
+		console.log("Loading Enumerations...");
 		$('#viewsAutocreateButton').addClass('disabled');
 		$('#viewsAutocreateButtonProgress').show();
-		getEnumerations('', function(error, result){
-			if(!error && result){
-				enumerations = result;
-				var enumerationsMain = Object.keys(result);
-				enumerationsMain = enumerationsMain.filter(function(element){
-					if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
-				});
-				$('#dialogViewsAutocreateEnumerationMain').empty().append("<option disabled selected value>" + _("Select Enumeration") + "</option>");
-				enumerationsMain.forEach(function(enumeration, index){ 
-					var name = getEnumerationName(enumeration);
-					$('#dialogViewsAutocreateEnumerationMain').append("<option value='" + enumeration + "'>" + name + "</option>"); 
-				});
-				$('#dialogViewsAutocreateEnumerationMain').select();
-			$('#viewsAutocreateButton').removeClass('disabled');
-			$('#viewsAutocreateButtonProgress').hide();
-			}
-		});
+		var toDo = function(){
+			getEnumerations('', function(error, result){
+				if(!error && result){
+					enumerations = result;
+					var enumerationsMain = Object.keys(result);
+					enumerationsMain = enumerationsMain.filter(function(element){ //Filter for main Enumerations (that are elements, that have sub-enumerations)
+						if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
+					});
+					$('#dialogViewsAutocreateEnumerationMain').empty().append("<option disabled selected value>" + _("Select Enumeration") + "</option>");
+					enumerationsMain.forEach(function(enumeration, index){ 
+						var name = getEnumerationName(enumeration);
+						$('#dialogViewsAutocreateEnumerationMain').append("<option value='" + enumeration + "'>" + name + "</option>"); 
+					});
+					$('#dialogViewsAutocreateEnumerationMain').select();
+					$('#viewsAutocreateButton').removeClass('disabled');
+					$('#viewsAutocreateButtonProgress').hide();
+					console.log("Enumerations ready.");
+				} else {
+					if(error) console.log("Error getting enumerations: " + error); else console.log("There are no Enumerations");
+					$('#viewsAutocreateButtonProgress').hide();
+				}
+			});
+		}
+		if(iobrokerObjectsReady) {
+			toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
 	}
 
 	//Enhance TableViews with functions
@@ -3649,6 +3684,15 @@ function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
+		var inbuiltWallpapersString = "";
+		inbuiltWallpapers.forEach(function(wallpaper){
+			if (wallpaper != "") {
+				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");	
+			}
+		});
+		if (inbuiltSymbols.length > 0){
+			inbuiltWallpapersString = ";[" + _("Inbuilt Wallpapers") + ":]" + inbuiltWallpapersString;
+		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
@@ -3660,7 +3704,10 @@ function load(settings, onChange) {
 				}
 			});
 		});
-		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + ";" + imagenames.join(";"), true);
+		if (imagenames.length > 0){
+			imagenames.unshift(";[" + _("User Images") + ":]");
+		}
+		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + inbuiltWallpapersString + imagenames.join(";"), true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');

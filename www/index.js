@@ -10585,7 +10585,7 @@ function renderDialog(deviceIdEscaped){
 					}
 				});
 				if(linkedAdditionalControlsAreValid){
-					var type = getDeviceOptionValue(device, "additionalControlsCaption") || _("Additional Controls");
+					var type = _(getDeviceOptionValue(device, "additionalControlsCaption") || "Additional Controls");
 					var additionalControlsSectionType = getDeviceOptionValue(device, "additionalControlsSectionType") || "collapsible";
 					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>";
