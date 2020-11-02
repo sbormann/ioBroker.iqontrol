@@ -4,7 +4,16 @@
         "version": "1.4.1",
         "news": {
             "1.4.1": {
-                "en": "Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices, Enhanced demo for new instances, Enhanced autocreate views function."
+                "en": "Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices, Enhanced demo for new instances, Enhanced autocreate views function.",
+                "de": "Behoben: Drag-Sortierung oder Tabellen und Verwendung von Comboboxen auf mobilen (Touch-) Geräten, Erweiterte Demo für neue Instanzen, Erweiterte Funktion zum automatischen Erstellen von Ansichten.",
+                "ru": "Исправлена ​​сортировка перетаскиванием таблиц и использование комбинированных списков на мобильных (сенсорных) устройствах, Улучшенная демонстрация для новых экземпляров, Улучшенная функция автоматического создания представлений.",
+                "pt": "Arrastar classificação ou tabelas e uso de comboboxes em dispositivos móveis (toque) fixos, demonstração aprimorada para novas instâncias, função de criação automática de visualizações aprimorada",
+                "nl": "Vaste slepen-sorteren of tabellen en gebruik van comboboxen op mobiele (aanraak) apparaten, verbeterde demo voor nieuwe instanties, verbeterde autocreate weergavefunctie.",
+                "fr": "Correction du tri par glisser ou des tables et de l'utilisation des combobox sur les appareils mobiles (tactiles), démo améliorée pour les nouvelles instances, fonction de création automatique améliorée des vues.",
+                "it": "Risolto il problema con l'ordinamento tramite trascinamento o le tabelle e l'utilizzo di caselle combinate su dispositivi mobili (touch), demo migliorata per nuove istanze, funzione di visualizzazione automatica avanzata.",
+                "es": "Se corrigió la clasificación de arrastre o tablas y el uso de cuadros combinados en dispositivos móviles (táctiles), demostración mejorada para nuevas instancias, función de creación automática mejorada de vistas.",
+                "pl": "Naprawiono sortowanie przez przeciąganie lub tabele i używanie comboboxów na urządzeniach mobilnych (dotykowych), ulepszone demo dla nowych instancji, ulepszona funkcja automatycznego tworzenia widoków.",
+                "zh-cn": "修复了移动（触摸）设备上的拖动排序或表格以及组合框的用法，新实例的增强型演示，增强的自动创建视图功能。"
             },
             "1.4.0": {
                 "en": "Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions), Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint, Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile, Drag-Sort of lists should now work on touch devices too.",

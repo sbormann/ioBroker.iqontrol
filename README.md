@@ -193,6 +193,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 			* This will set the ioBroker datapoint that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL) to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
         * ``{ command: "getWidgetDeviceState", stateId: <widgetDeviceState> }``
 			* This will cause iQontrol to send the value of the ioBroker datapoint, that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL; see below how to receive the answer-message)
+        * ``{ command: "getWidgetDeviceStateSubscribed", stateId: <widgetDeviceState> }``
+			* This will cause iQontrol to send the value of the ioBroker datapoint, that is assigned to the devices STATE ``<widgetDeviceState>`` (for example the datapoint, that is assigned to LEVEL) now and every time its value changes (see below how to receive the answer-message)
         * ``{ command: "setState", stateId: <stateId>, value: <value> }``
 			* This will set the ioBroker state ``<stateId>`` to the value ``<value>`` (``<value>`` can be a string, number or boolean or an object like ``{ val: <value>, ack: true|false }``)
         * ``{ command: "getState", stateId: <stateId> }``
@@ -216,11 +218,13 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 				plainText: "<clear text of val, for example taken from valuelist>",
 				min: <minimum>,
 				max: <maximum>,
+				step: <step-width>,
 				valuelist: {<object with possible values and corresponding clear text>},
 				targetValues: {<target value list>},
 				ack: <true|false>,
 				readonly: <true|false>,
 				custom: {<object with custom settings>},
+				id: <id of the iobroker datapoint>,
 				from: "<source of state>",
 				lc: <timestamp of last change>,
 				ts: <timestamp of last actualization>,
@@ -386,8 +390,11 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* syntax: ``<meta name="widget-description" content="Please see www.mywebsite.com for further informations. (C) by me"/>``
 		* The content will be displayed when chosing the widget as URL or BACKGROUND_URL or if you autocreate a widget
 	* 'widget-urlparameters'
-		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description;parameter2/default value2/description2"/>``
+		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
 		* The user will be asked for these parameter when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
+		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select`` or ``multipleSelect``
+		    * If type is ``select`` or ``multipleSelect`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...``
+		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
 		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
 		* You can use these settings inside your widget-website by requesting the url-parameters with a function like this:
 			````javascript
@@ -1169,6 +1176,11 @@ This device has some special predefined size- and display-settings to show a web
 ****
     
 ## Changelog
+
+### dev
+* (sbormann) Added Flot-Chart widget.
+* (sbormann) Enhanced adding of widgets with a new settings dialog.
+* (sbormann) Added some new options for widget-developers (the meta-tag url-datapoints was enhanced for example to ask for a color with a color-picker, postMessage-answeres now contain the id of the original datapoint).
 
 ### 1.4.1 (2020-11-01)
 * (sbormann) Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices.

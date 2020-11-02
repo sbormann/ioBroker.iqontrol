@@ -73,6 +73,7 @@ var inbuiltSymbols = [
 
 var inbuiltWidgets = [
 	{filename:"clock/clock_analog.html", name:"Analog Clock", icon: "clock/clock_analog.png"},
+	{filename:"flot-chart/flot-chart.html", name:"FLOT Chart", icon: "flot-chart/flot-chart.png"},
 	{filename:"map/map.html", name:"Map", icon: "map/map.png"}
 ];
 
@@ -123,7 +124,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "true"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "true"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolSwitch": 				{
@@ -206,7 +208,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 				
 										}
 									},
@@ -294,7 +297,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolLight": 				{
@@ -380,7 +384,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolFan": 					{
@@ -463,7 +468,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolThermostat": 			{
@@ -546,7 +552,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHomematicThermostat": 	{
@@ -627,7 +634,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolTemperature": 			{
@@ -709,7 +717,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolHumidity": 			{
@@ -791,7 +800,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 									}
 									},
 	"iQontrolBrightness": 			{
@@ -873,7 +883,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolMotion": 				{
@@ -955,7 +966,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoor": 				{
@@ -1037,7 +1049,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolGarageDoor": 				{
@@ -1118,7 +1131,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolDoorWithLock": 		{
@@ -1201,7 +1215,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolWindow": 				{
@@ -1288,7 +1303,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBlind": 				{
@@ -1383,7 +1399,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolFire": 				{
@@ -1465,7 +1482,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolFlood": 				{
@@ -1547,7 +1565,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolAlarm": 				{
@@ -1631,7 +1650,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolBattery": 				{
@@ -1717,7 +1737,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolValue": 				{
@@ -1798,7 +1819,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolProgram": 				{
@@ -1883,7 +1905,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolScene": 				{
@@ -1969,7 +1992,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										} 
 									},
 	"iQontrolMedia": 				{
@@ -2070,7 +2094,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										} 
 									},
 	"iQontrolPopup": 				{
@@ -2150,7 +2175,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolExternalLink":			{
@@ -2225,7 +2251,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									},
 	"iQontrolWidget": 				{
@@ -2253,7 +2280,7 @@ var iQontrolRoles = {
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "true"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "true"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
-											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: "xwideIfInactive highIfInactive"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: " /Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: "xwideIfInactive highIfInactive"},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
 											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
@@ -2265,7 +2292,7 @@ var iQontrolRoles = {
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
 											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
-											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: "fullWidthIfActive fullHeightIfActive"},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: " /Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: "fullWidthIfActive fullHeightIfActive"},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
 											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
@@ -2277,7 +2304,7 @@ var iQontrolRoles = {
 											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
-											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
+											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: " /Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
 											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
@@ -2309,7 +2336,8 @@ var iQontrolRoles = {
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 											backgroundURLPadding: {name: "Apply padding to BACKGROUND_URL/HTML", type: "number", min: "0", max: "50", default: ""},
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
-											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_URL/HTML", type: "checkbox", default: "false"}
 										}
 									}
 };
@@ -2719,6 +2747,7 @@ var iobrokerObjectsReady = false;
 var iobrokerObjectsReadyFunctions = [];
 var dialogCodeEditorCodeMirror = false;
 var dialogCodeEditorCodeMirrorChanged = false;
+var modalZIndexCount = 9999;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -2728,7 +2757,6 @@ function initDialog(id, callback) {
 		$dialog.modal({
 			dismissible: false
 		});
-
 		$dialog.find('.btn-set').on('click', function () {
 			var $dialog = $('#' + $(this).data('dialogid'));
 			var callback = $dialog.data('callback');
@@ -2742,8 +2770,8 @@ function initDialog(id, callback) {
 
 var selectId;
 function initSelectId(callback) {
+	setTimeout(function(){ $('#dialogSelectId').css('z-index', modalZIndexCount++); }, 100);
 	if (selectId) {
-		$('#dialogSelectId').css('z-index', '99999');
 		return callback(selectId);
 	}
 	var options = {
@@ -2979,6 +3007,27 @@ function enhanceTextInputToComboboxEntryToInput(value){
 		$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
 		if(onSelect) onSelect(value);
 	}
+}
+
+//Colorpickers
+function initColorpickers(onChange){
+	$('.MaterializeColorPicker').each(function(){
+		if(!$(this).data('materialize-color-picker-initialized')){
+			$(this).colorpicker().on('changeColor', function(event){
+				if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+				onChange();
+			});
+			$(this).on('change', function(){
+				if ($(this).val() == "") {
+					$(this).css('border-right', '0px solid black');
+				} else {
+					$(this).trigger('changeColor');
+				}
+			});
+			$(this).data('materialize-color-picker-initialized', true);
+		}
+		$(this).trigger('change');
+	});
 }
 
 //Objects
@@ -3311,15 +3360,7 @@ function load(settings, onChange) {
 	};
 
 	//Init Colorpickers
-	$('.MaterializeColorPicker').colorpicker().on('changeColor', function(event){
-		$(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
-		onChange();
-	});
-	$('.MaterializeColorPicker').on('change', function(){
-		if ($(this).val() == "") {
-			$(this).css('border-right', '0px solid black');
-		}
-	});
+	initColorpickers(onChange);
 
 	//Init CodeMirror
 	dialogCodeEditorCodeMirror = CodeMirror.fromTextArea($("#dialogCodeEditorCode")[0], {
@@ -3605,7 +3646,7 @@ function load(settings, onChange) {
 					$('.loadingObjects').hide();
 					console.log("ioBroker Objects ready.");
 				});
-			}, 100);
+			}, 1000);
 		});
 	}
 
@@ -3882,6 +3923,7 @@ function load(settings, onChange) {
 		$('#dialogViewsAutocreateBtnSetProgress').hide();
 		$('#dialogViewsAutocreate a.btn-set').addClass('disabled');
 		$('#dialogViewsAutocreate').modal('open');
+		$('#dialogViewsAutocreate').css('z-index', modalZIndexCount++);
 	});
 	$('#dialogViewsAutocreateEnumerationMain').on('change', function(){
 		var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
@@ -4088,6 +4130,8 @@ function load(settings, onChange) {
 						}
 						$('#dialogDeviceEditCommonRole').select();
 						$('#dialogDeviceEdit').modal('open');
+						$('#dialogDeviceEdit').css('z-index', modalZIndexCount++);
+
 					});
 				}
 			}
@@ -4242,13 +4286,6 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "<div class='collapsible-body'>";
 					break;
 
-					case "text":
-					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
-					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
-					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
-					dialogDeviceEditOptionsContent += "</div>";
-					break;
-
 					case "number":
 					var min = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].min || 0;
 					var max = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].max || 100;
@@ -4267,7 +4304,7 @@ function load(settings, onChange) {
 					selectOptions.forEach(function(option){
 						var parts = option.split('/');
 						if (parts.length < 2) parts.push(parts[0]);
-						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1]) + "</option>";
+						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
 					});
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
@@ -4286,6 +4323,16 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    </label></p>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
+
+
+					case "color":
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
+					dialogDeviceEditOptionsContent += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogDeviceEditOption' data-option='" + entry + "' data-type='color' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
+					dialogDeviceEditOptionsContent += "    <span class='helper-text'></span>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+
 
 					case "icon":
 					//Default Icons
@@ -4350,7 +4397,14 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='" + _("(Default)") + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
-					break;				
+					break;
+					
+					case "text": default:
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
 				}
 			}
 			if(dialogDeviceEditOptionsContent == ""){
@@ -4376,6 +4430,7 @@ function load(settings, onChange) {
 			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
 				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);	
 			});
+			initColorpickers(onChange);
 			if (M) M.updateTextFields();
 		}		
 	}
@@ -4488,6 +4543,8 @@ function load(settings, onChange) {
 						$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
 						$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						$('#dialogDeviceEditStateConstant').modal('open');
+						$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
+
 					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
@@ -4507,6 +4564,7 @@ function load(settings, onChange) {
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
 						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						$('#dialogDeviceEditStateArray').modal('open');
+						$('#dialogDeviceEditStateArray').css('z-index', modalZIndexCount++);
 					} else { //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 						initSelectId(function (sid) {
@@ -4566,70 +4624,24 @@ function load(settings, onChange) {
 			path = userfilesImagePath;
 		}									
 		if(filename && path){
-			downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
-				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){ 
-					var metaName = $(this).prop('name');
-					var metaContent = $(this).prop('content');
-					var data = $(this).data() || {};
-					switch(metaName){
-						case "widget-description":
-						if(metaContent) alert(metaContent);
-						break;
-
-						case "widget-urlparameters":
-						if(metaContent){
-							var widgetUrlParameters = "";
-							var urlParameters = metaContent.split(';');
-							urlParameters.forEach(function(urlParameter){ 
-								urlParameter = urlParameter.trim();
-								var result = prompt(urlParameter.split('/')[2] ||urlParameter.split('/')[0], urlParameter.split('/')[1] || "");
-								if(result) {
-									widgetUrlParameters += "&" + encodeURI(urlParameter.split('/')[0]) + "=" + encodeURI(result); 
-								}
-							});
-							if(widgetUrlParameters) {
-								widgetUrlParameters = "?" + widgetUrlParameters.substr(1);
-								$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + widgetUrlParameters).trigger('change');
-							}
+			getWidgetSettings(filename, path, function(result){
+				if(result.urlParameters.length) {
+					var urlParameterString = "?" + result.urlParameters.join('&');
+					$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + urlParameterString).trigger('change');
+				}
+				for(option in result.options){
+					if(iQontrolRoles["iQontrolWidget"].options[option]){
+						var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+						if (optionsIndex != -1) {
+							dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+						} else {
+							var entry = {option: option, value: result.options[option]};
+							dialogDeviceEditOptions.push(entry);
 						}
-						break;						
-						
-						case "widget-options":
-						if(metaContent) {
-							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
-							if(widgetOptions){
-								var widgetOptionsString = "";
-								var widgetOptionsUnsupportedString;
-								for(option in widgetOptions){
-									if(iQontrolRoles["iQontrolWidget"].options[option]){
-										widgetOptionsString += iQontrolRoles["iQontrolWidget"].options[option].name + ": " + widgetOptions[option] + "\n";
-									} else {
-										widgetOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "\n";
-									}
-								};
-								if(widgetOptionsUnsupportedString) widgetOptionsString += "\n\n" + _("Unsupported settings:") + "\n" + widgetOptionsUnsupportedString;
-								if(confirm(_("Found settings for widget options. Apply?:") + "\n\n" + widgetOptionsString)){
-									for(option in widgetOptions){
-										if(iQontrolRoles["iQontrolWidget"].options[option]){
-											var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-											if (optionsIndex != -1) {
-												dialogDeviceEditOptions[optionsIndex].value = widgetOptions[option];
-											} else {
-												var entry = {option: option, value: widgetOptions[option]};
-												dialogDeviceEditOptions.push(entry);
-											}
-										}
-									};
-									dialogDeviceEditOptionsBuildOptionsContent();
-								}
-							} else {
-								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
-							}
-						}
-						break;
 					}
-				});
-			});			
+				};
+				dialogDeviceEditOptionsBuildOptionsContent();
+			});
 		}
 	}
 	
@@ -4794,6 +4806,7 @@ function load(settings, onChange) {
 		$('#dialogDeviceAutocreatePreviewStates').html('');
 		$('#dialogDeviceAutocreate a.btn-set').addClass('disabled');
 		$('#dialogDeviceAutocreate').modal('open');
+		$('#dialogDeviceAutocreate').css('z-index', modalZIndexCount++);
 	});
 	$('#dialogDeviceAutocreateSourceId').on('input change', function(){
 		dialogDeviceAutocreateResult = {};
@@ -5227,6 +5240,7 @@ function load(settings, onChange) {
 		$('#dialogDeviceCopyFromSourceDevice').select();
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
 		$('#dialogDeviceCopyFrom').modal('open');
+		$('#dialogDeviceCopyFrom').css('z-index', modalZIndexCount++);
 	});
 	$('#dialogDeviceCopyFromSourceView').on('change', function(){
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
@@ -5306,6 +5320,7 @@ function load(settings, onChange) {
 		dialogDevicesAutocreateWidgetOptions = [];
 		dialogDevicesAutocreateWidgetUrlParameters = "";
 		$('#dialogDevicesAutocreateWidget').modal('open');
+		$('#dialogDevicesAutocreateWidget').css('z-index', modalZIndexCount++);
 	});
 	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
 		$('#dialogDevicesAutocreateWidgetDescription').html("")
@@ -5331,33 +5346,145 @@ function load(settings, onChange) {
 			path = userfilesImagePath;
 		}									
 		if(filename && path){
-			downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
-				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){ 
+			getWidgetSettings(filename, path, function(result){
+				if(result.urlParameters.length){
+					dialogDevicesAutocreateWidgetUrlParameters = "?" + result.urlParameters.join('&');
+					var urlParameterString = "<ul class='browser-default'>";
+					result.urlParameters.forEach(function(urlParameter){ urlParameterString += "<li>" + urlParameter + "</li>"; });
+					urlParameterString += "</ul>";
+					$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + urlParameterString);
+				} else {
+					dialogDevicesAutocreateWidgetUrlParameters = "";
+					$('#dialogDevicesAutocreateWidgetUrlParameters').html("");							
+				}
+				var dialogDevicesAutocreateWidgetOptionsString = "<ul class='browser-default'>";
+				for(option in result.options){
+					dialogDevicesAutocreateWidgetOptionsString += "<li><b>" + iQontrolRoles["iQontrolWidget"].options[option].name + "</b>: <u>" + result.options[option] + "</u></li>";
+				}
+				dialogDevicesAutocreateWidgetOptionsString += "</ul>";
+				$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Options:") + "</b><br>" + dialogDevicesAutocreateWidgetOptionsString);
+				dialogDevicesAutocreateWidgetOptions = [];
+				for(roleOption in iQontrolRoles["iQontrolWidget"].options){
+					if(iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
+					var value = result.options[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
+					var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
+					dialogDevicesAutocreateWidgetOptions.push(entry);
+				}
+			});
+		}			
+	}
+
+	//Widget-Settings
+	function getWidgetSettings(filename, path, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
+			if($(htmlAsString).filter('meta[name^="widget-"]').length){					
+				initDialog('dialogWidgetSettings', function(){ //save dialog
+					var result = {};
+					var dialogWidgetSettingsUrlParameters = [];
+					$('.dialogWidgetSettingsUrlParameters').each(function(){
+						var value;
+						if($(this).data('type') == "checkbox"){
+							value = $(this).prop('checked').toString();
+						} else {
+							value = $(this).val();
+						}
+						dialogWidgetSettingsUrlParameters.push(encodeURI($(this).data('option')) + "=" + encodeURI(value));
+					});
+					result.urlParameters = dialogWidgetSettingsUrlParameters;
+					var dialogWidgetSettingsOptions = {};
+					$('.dialogWidgetSettingsOptions').each(function(){
+						if($(this).prop('checked')){
+							dialogWidgetSettingsOptions[$(this).data('option')] = $(this).data('value').toString();
+						}
+					});
+					result.options = dialogWidgetSettingsOptions;
+					callback(result);
+				});
+				$('#dialogWidgetSettingsDescription').html("").show();
+				$('#dialogWidgetSettingsOptions').html("").hide();										
+				$('#dialogWidgetSettingsParameters').html("").hide();
+				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){
 					var metaName = $(this).prop('name');
 					var metaContent = $(this).prop('content');
 					var data = $(this).data() || {};
 					switch(metaName){
 						case "widget-description":
-						if(metaContent) $('#dialogDevicesAutocreateWidgetDescription').html(metaContent);
+						if(metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
 						break;
 						
 						case "widget-urlparameters":
 						if(metaContent){
 							dialogDevicesAutocreateWidgetUrlParameters = "";
-							var dialogDevicesAutocreateWidgetUrlParametersString = "";
+							var dialogWidgetSettingsUrlParametersString = "";
 							var urlParameters = metaContent.split(';');
 							urlParameters.forEach(function(urlParameter){ 
-								urlParameter = urlParameter.trim();
-								var result = prompt(urlParameter.split('/')[2] ||urlParameter.split('/')[0], urlParameter.split('/')[1] || "");
-								if(result) {
-									dialogDevicesAutocreateWidgetUrlParameters += "&" + encodeURI(urlParameter.split('/')[0]) + "=" + encodeURI(result); 
-									dialogDevicesAutocreateWidgetUrlParametersString += urlParameter.split('/')[0] + ": " + result + "<br>";
+								urlParameter = urlParameter.trim().split('/');
+								var entry = urlParameter[0];
+								var name = urlParameter[2] || urlParameter[0];
+								var value = urlParameter[1] || "";
+								var type = urlParameter[3] || "text";
+								var options = urlParameter.slice(4) || [];
+								switch(type){
+									case "number":
+									var min = (options[0] || "").split(',')[0] || 0;
+									var max = (options[0] || "").split(',')[1] || 100;
+									var step = (options[0] || "").split(',')[2] || 1;
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+
+									case "select": case "multipleSelect":
+									var selectOptionsContent = "";
+									options.forEach(function(option){
+										var parts = option.split(',');
+										if (parts.length < 2) parts.push(parts[0]);
+										selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
+									});
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+									
+									case "checkbox":
+									if(value == "true") value = true;
+									if(value == "false") value = false;
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l23'>";
+									dialogWidgetSettingsUrlParametersString += "    <p><label>";
+									dialogWidgetSettingsUrlParametersString += "        <input class='value dialogWidgetSettingsUrlParameters filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "' " + (value?"checked='checked'":"") + " />";
+									dialogWidgetSettingsUrlParametersString += "        <span>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "    </label></p>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+
+									case "color":
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+
+									case "text": default:
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
 								}
 							});
-							if(dialogDevicesAutocreateWidgetUrlParameters) {
-								dialogDevicesAutocreateWidgetUrlParameters = "?" + dialogDevicesAutocreateWidgetUrlParameters.substr(1);
-								$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + dialogDevicesAutocreateWidgetUrlParametersString);
-							}
+							if(dialogWidgetSettingsUrlParametersString) {
+								$('#dialogWidgetSettingsUrlParameters').html(dialogWidgetSettingsUrlParametersString).show();
+								$('select.dialogWidgetSettingsUrlParameters').select();
+								initColorpickers(onChange);
+								if (M) M.updateTextFields();
+							} else {
+								$('#dialogWidgetSettingsUrlParameters').html("").hide();
+							} 
 						}
 						break;
 						
@@ -5365,23 +5492,20 @@ function load(settings, onChange) {
 						if(metaContent) {
 							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
 							if(widgetOptions){
-								var widgetOptionsString = "";
-								var widgetOptionsUnsupportedString;
+								var dialogWidgetSettingsOptionsString = "";
+								var dialogWidgetSettingsOptionsUnsupportedString;
 								for(option in widgetOptions){
 									if(iQontrolRoles["iQontrolWidget"].options[option]){
-										widgetOptionsString += iQontrolRoles["iQontrolWidget"].options[option].name + ": " + widgetOptions[option] + "<br>";
+										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox' checked='checked' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u></span></label><br>";
 									} else {
-										widgetOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
+										dialogWidgetSettingsOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
 									}
 								};
-								if(widgetOptionsUnsupportedString) widgetOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + widgetOptionsUnsupportedString;
-								$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Found settings for widget options:") + "</b><br>" + widgetOptionsString);
-								dialogDevicesAutocreateWidgetOptions = [];
-								for(roleOption in iQontrolRoles["iQontrolWidget"].options){
-									if(iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
-									var value = widgetOptions[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
-									var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
-									dialogDevicesAutocreateWidgetOptions.push(entry);
+								if(dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
+								if(dialogWidgetSettingsOptionsString.length){
+									$('#dialogWidgetSettingsOptions').html("<b>" + _("Apply the following device options:") + "</b><br><br>" + dialogWidgetSettingsOptionsString).show();
+								} else {
+									$('#dialogWidgetSettingsOptions').html("").hide();										
 								}
 							} else {
 								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
@@ -5390,9 +5514,11 @@ function load(settings, onChange) {
 						break;
 					}
 				});
-			});			
-		}
-	}
+				$('#dialogWidgetSettings').modal('open');
+				$('#dialogWidgetSettings').css('z-index', modalZIndexCount++);
+			}
+		});		
+	}			
 
 	//+++++++++ TOOLBAR ++++++++++
 	//Load Toolbar
@@ -5721,6 +5847,7 @@ function load(settings, onChange) {
 				$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is not used at the moment") + "</p>");
 			}
 			$("#dialogImagePopup").modal('open');
+			$("#dialogImagePopup").css('z-index', modalZIndexCount++);
 		});
 		//CodeEditor
 		$('.code').on('click', function(){
@@ -5738,6 +5865,7 @@ function load(settings, onChange) {
 				dialogCodeEditorCodeMirror.refresh();
 			}, 250);
 			$("#dialogCodeEditor").modal('open');
+			$("#dialogCodeEditor").css('z-index', modalZIndexCount++);
 			downloadFileAsString(fileName, userfilesImagePath, function(string){
 				dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
 				dialogCodeEditorCodeMirror.setValue(string);
@@ -6164,6 +6292,7 @@ function load(settings, onChange) {
 					$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
 				});
 				$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
+				$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
 			} else {
 				alert(_("Error: Invalid data."));
 			}
@@ -6276,6 +6405,7 @@ function load(settings, onChange) {
 						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
 					});
 					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
+					$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
 				}
 			} else {
 				alert(_("Error: Invalid data."));

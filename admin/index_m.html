@@ -109,10 +109,10 @@
 						</p>
 					</div>
 				</div>
-				<div class="row hideOnLoad loadingObjects" style="display: none;">
+				<div class="row loadingObjects" style="display: none;">
 					<div class="col s12">
 						<p class="translate">Still loading some objects in the background...</p>
-						<div id="mainLoadingObjectsProgress" class="progress hideOnLoad loadingObjects" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div>
+						<div id="mainLoadingObjectsProgress" class="progress loadingObjects" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div>
 					</div>
 				</div>
 				<div class="row hideOnLoad" style="display: none;">
@@ -1436,6 +1436,57 @@
 
 	<!-- ++++++++++ DIALOGS ++++++++++ -->
     <div class="m material-dialogs">
+		<!-- DIALOG: WidgetSettings  -->
+        <div id="dialogWidgetSettings" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Widget Settings</span>:</h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Description:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div id="dialogWidgetSettingsDescription"></div>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>				
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Parameter:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div id="dialogWidgetSettingsUrlParameters"></div>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">Suggested settings for device options:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div id="dialogWidgetSettingsOptions"></div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
 		<!-- DIALOG: viewsAutocreate -->
         <div id="dialogViewsAutocreate" class="modal modal-fixed-footer">
             <div class="modal-content"> 
@@ -1724,7 +1775,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DeviceAddWidget  -->
+		<!-- DIALOG: DevicesAutocreateWidget  -->
         <div id="dialogDevicesAutocreateWidget" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -1758,12 +1809,12 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<p id="dialogDevicesAutocreateWidgetOptions"></p>
+						<p id="dialogDevicesAutocreateWidgetUrlParameters"></p>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<p id="dialogDevicesAutocreateWidgetUrlParameters"></p>
+						<p id="dialogDevicesAutocreateWidgetOptions"></p>
 					</div>
 				</div>
             </div>
@@ -1774,7 +1825,7 @@
         </div>
 
 		<!-- DIALOG: SelectID -->
-        <div id="dialogSelectId" class="modal modal-fixed-footer" style="z-index:9995 !important;">
+        <div id="dialogSelectId" class="modal modal-fixed-footer" style="z-index:20000 !important;">
             <div class="modal-content">
                 <div class="row">
                     <div class="col s12 title"></div>
