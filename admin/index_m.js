@@ -2747,7 +2747,7 @@ var iobrokerObjectsReady = false;
 var iobrokerObjectsReadyFunctions = [];
 var dialogCodeEditorCodeMirror = false;
 var dialogCodeEditorCodeMirrorChanged = false;
-var modalZIndexCount = 9999;
+var modalZIndexCount = 2000;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
