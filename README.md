@@ -1181,6 +1181,8 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added Flot-Chart widget.
 * (sbormann) Enhanced adding of widgets with a new settings dialog.
 * (sbormann) Added some new options for widget-developers (the meta-tag url-datapoints was enhanced for example to ask for a color with a color-picker, postMessage-answeres now contain the id of the original datapoint).
+* (sbormann) Removed space when using new-line-option.
+* (sbormann) Added role "button" in custom dialog.
 
 ### 1.4.1 (2020-11-01)
 * (sbormann) Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices.

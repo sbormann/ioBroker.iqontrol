@@ -4945,7 +4945,7 @@ function renderView(viewId, triggeredByReconnection){
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
 			//New Line
-			if(device.nativeNewLine) viewContent += "</div><br><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+			if(device.nativeNewLine) viewContent += "</div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			//Heading
 			if (device.nativeHeading) viewContent += "</div><br><h4>" + device.nativeHeading + "</h4><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			//Render Device
