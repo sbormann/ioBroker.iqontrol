@@ -4986,7 +4986,7 @@ function renderView(viewId, triggeredByReconnection){
 				}
 			}
 			//--PressureIndicator
-			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfInactive") == "true"))?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfActive") == "true"))?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 				//--Device
 				var linkedTileEnlargedId = deviceLinkedStateIds["tileEnlarged"];
 				var stateEnlarged = getStateObject(linkedTileEnlargedId);
@@ -10588,7 +10588,8 @@ function renderDialog(deviceIdEscaped){
 										iframe.onload = function(){ 
 											this.onload = function(){};
 											$('.iQontrolDialogIframeWrapper').show();
-											$('#Dialog').popup('reposition', {positionTo: 'window'});
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
 										}
 									}
 								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
@@ -10597,7 +10598,8 @@ function renderDialog(deviceIdEscaped){
 										iframe.onload = function(){ 
 											this.onload = function(){};
 											$('.iQontrolDialogIframeWrapper').show();
-											$('#Dialog').popup('reposition', {positionTo: 'window'});
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
 										}
 									}
 									iframedoc.open();
@@ -10867,6 +10869,7 @@ function renderDialog(deviceIdEscaped){
 							enhanceTextareasWithJqte('.DialogAdditionalControlsString');
 							//Reposition to window
 							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 500);
+							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 750);
 						};
 						//Fetch additional linkedStates from Array and then call createDialogAdditionalControlsFunction:
 						var createDialogAdditionalControlsNumberOfStatesToFetch = _linkedAdditionalControls.length;
