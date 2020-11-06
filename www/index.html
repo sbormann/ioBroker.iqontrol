@@ -82,9 +82,9 @@
 	</div>
 
 	<div data-role="page" id="View" class="swipePage">
-		<!-- <div data-role="header"> -->
-			<!-- <h1 id="ViewHeaderTitle">iQontrol</h1> -->
-		<!-- </div> -->
+		<!--div data-role="header">
+			<h1 id="ViewHeaderTitle">iQontrol</h1>
+		</div-->
 		<div role="main" class="ui-content" id="ViewMain">
 			<h1 id="ViewHeaderTitle">iQontrol</h1>
 			<div id="ViewContent">
@@ -94,9 +94,9 @@
 			<input type="checkbox" id="focusable" style="height:0; margin-left:-200px; clear: both;" />
 		</div>
 		<div data-role="popup"  data-theme="a" data-overlay-theme="b" data-dismissible="true" id="Dialog">
-			<!-- <div data-role="header"> -->
-				<!-- <h1 id="DialogHeaderTitle">iQontrol</h1> -->
-			<!-- </div> -->
+			<!--div data-role="header">
+				<h1 id="DialogHeaderTitle">iQontrol</h1>
+			</div-->
 			<div role="main" class="ui-content">
 				<h4 id="DialogHeaderTitle">iQontrol</h4>
 				<div id="DialogContent"></div>
@@ -105,13 +105,30 @@
 		<div data-role="popup" data-theme="a" data-overlay-theme="b" data-dismissible="true" id="ViewDeviceContextMenu">
 			<ul id="ViewDeviceContextMenuList" data-role="listview" data-inset="true"></ul>
 		</div>
+		<div class="panelOpener left" data-position="left">
+			<div class="panelOpenerArrow"></div>
+		</div>
+		<div class="panelOpener right" data-position="right">
+			<div class="panelOpenerArrow"></div>
+		</div>
+		<div data-role="panel" class="panel" id="Panel" data-position-fixed="true">
+			<div class="panelIframeWrapper" style="opacity: 0;"></div>
+			<div class="panelCloser left" data-position="left">
+				<div class="panelCloserArrow"></div>
+			</div>
+			<div class="panelCloser right" data-position="right">
+				<div class="panelCloserArrow"></div>
+			</div>
+		</div>
+		</div>
 	</div>
 
 	<div data-role="footer" data-fullscreen="true" data-position="fixed" data-tap-toggle="false" data-theme="a" id="Toolbar">
-		<div id="ToolbarContent">...</div>
+		<div id="ToolbarContent"></div>
 		<div data-role="popup" data-theme="a" data-overlay-theme="b" data-dismissible="true" id="ToolbarContextMenu">
 			<ul id="ToolbarContextMenuList" data-role="listview" data-inset="false"></ul>
 		</div>
 	</div>
+
 </body>
 </html>

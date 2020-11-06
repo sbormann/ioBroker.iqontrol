@@ -1,5 +1,7 @@
 /* Some Parts of CSS will be modified by index.js while runtime! */
-
+:root {
+	--panel-large-display-treshold: 51em;
+}
 body {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -185,6 +187,122 @@ body {
 	background-color: transparent !important;
 }
 
+#Panel {
+	z-index: 2000;
+	background: rgba(255,255,255,0.5);
+    clip: unset !important;
+	overflow: hidden;
+}
+.ui-panel-closed {
+	width: 17em !important;
+}
+.ui-panel:not(.ui-panel-open) {
+	transform: translateX(-17em) !important;	
+}
+.ui-panel-wrapper {
+	background: transparent !important;
+}
+.panelOpener, .panelCloser {
+	opacity: 0;
+	width: 20px;
+	height: 100px;
+	top: 40%;
+	top: calc(50vh - 100px);
+	z-index: 1000;
+	-webkit-border-radius: 10px;
+	   -moz-border-radius: 10px;
+			border-radius: 10px;
+	background: rgba(140,140,140,0.5);	
+	-webkit-transition: all 0.5s;
+	   -moz-transition: all 0.5s;
+			transition: all 0.5s;
+}
+.panelOpener:before, .panelCloser:before {
+	content: "";
+	position: absolute;
+	top: -20%;
+	left: -100%;
+	width: 300%;
+	height: 180%;
+	background: transparent;
+}
+.panelOpener:hover, .panelCloser:hover {
+	background: rgba(150,150,150,0.85);	
+	-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+	   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+			box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+}
+.panelOpener.left {
+	position: fixed;	
+	left: -15px;	
+}
+.panelOpener.left:hover {
+	left: -8px;	
+}
+.panelOpener.right {
+	position: fixed;	
+	right: -15px;	
+}
+.panelOpener.right:hover {
+	right: -8px;	
+}
+.panelCloser.left {
+    position: relative;
+    margin-right: -30px;
+    margin-left: auto;
+}
+.panelCloser.left:hover {
+    margin-right: -23px;
+}
+.panelCloser.right {
+    position: relative;
+    margin-left: -30px;
+    margin-right: auto;
+}
+.panelCloser.right:hover {
+    margin-left: -23px;
+}
+.panelOpenerArrow, .panelCloserArrow {
+    position: relative;
+	width: 20px;
+    height: 20px;
+    top: 36px;
+    background: transparent;
+    transform: rotate(45deg);
+    border: 4px solid rgba(255,255,255,0.4);
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+			border-radius: 2px;
+}
+.panelOpener.left .panelOpenerArrow {
+    right: 13px;
+}
+.panelOpener.right .panelOpenerArrow {
+    left: 6px;
+}
+.panelCloser.right .panelCloserArrow {
+    right: 13px;
+}
+.panelCloser.left .panelCloserArrow {
+    left: 6px;
+}
+.panelIframeWrapper {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	position: absolute;	top:0px; left:0px; width:100%; height:100%;
+	display: block;
+	border: none; 
+	overflow: hidden;
+}
+.panelIframe {
+	width: 100%;
+	min-height: 100%;
+	height: 100%;
+	border: none;
+}
+
 #View {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -245,6 +363,12 @@ body {
 	font-weight: normal;
 	margin-top: 30px;
 	margin-bottom: 0px;
+}
+.backstretch {
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
 }
 .viewShuffleContainer {
 	overflow: visible !important;
@@ -691,7 +815,7 @@ body {
 	pointer-events:all !important;
 	cursor: zoom-in;
 	position:absolute; right: -1px; top: 0px; width: 10px; height: 10px;
-	overflow: hidden;
+	xoverflow: hidden;
 	background-image: url("./images/maximize.png");
 	background-position: 1px 4px;
 	background-repeat: no-repeat;
@@ -708,6 +832,15 @@ body {
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
+}
+.iQontrolDeviceEnlargeButton:before {
+	content: "";
+	position: absolute;
+	top: -100%;
+	left: -100%;
+	width: 300%;
+	height: 300%;
+	background: transparent;
 }
 .iQontrolDevice.enlarged .iQontrolDeviceEnlargeButton {
 	cursor: zoom-out;

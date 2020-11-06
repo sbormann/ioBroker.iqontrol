@@ -67,7 +67,7 @@
 					<li class="tab col s2"><a href="#tabMain" class="translate active">Start</a></li>
 					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
 					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
-					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar</a></li>
+					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar/Panel</a></li>
 					<li class="tab col s2"><a href="#tabImages" class="translate">Images/Widgets</a></li>
 					<li class="tab col s2"><a href="#tabOptions" class="translate">Options</a></li>
 				</ul>
@@ -311,9 +311,132 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col s12 m6 l6">
+						<h6 class="translate">Icons</h6>					
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m10 l8">
+						<ul class="collapsible">
+							<li>
+								<div class="collapsible-header"><i class="material-icons">expand_more</i><h6 class="translate">Show Icons:</h6></div>
+								<div class="collapsible-body"><span><img src='jQueryIcons.jpg' alt='jQuery Icons' style='max-width: 100%'></span></div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>			
+				<div class="row">
 					<div class="col s12">
-						<h6 class="translate">Icons</h6>
-						<img src='jQueryIcons.jpg' alt='jQuery Icons'>
+						<h6 class="translate">Panel</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate sub-title">States:</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<table class="table-values" data-panel="0" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="state" class="translate">State</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;array/Array" class="translate">Type</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit" style="width:45px;"></th>
+								</tr>
+							</thead>
+							<tbody class="table-lines" style="">
+								<tr data-state="BACKGROUND_VIEW">
+									<td>BACKGROUND_VIEW</td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundView" id="panelBackgroundViewCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><input class="value panelStates val" data-id="panelBackgroundView"  id="panelBackgroundViewValue" style="width: 100%" type="text" data-name="value"></td>
+									<td><a data-id="panelBackgroundView" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light blue panelStates"><i class="material-icons">edit</i></a></td>
+								</tr>
+								<tr data-state="BACKGROUND_VIEW">
+									<td>BACKGROUND_URL</td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundURL" id="panelBackgroundURLCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><input class="value panelStates val" data-id="panelBackgroundURL" id="panelBackgroundURLValue" style="width: 100%" type="text" data-name="value"></td>
+									<td><a data-id="panelBackgroundURL" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light blue panelStates"><i class="material-icons">edit</i></a></td>
+								</tr>
+								<tr data-state="BACKGROUND_VIEW">
+									<td>BACKGROUND_HTML</td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundHTML" id="panelBackgroundHTMLCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><input class="value panelStates val" data-id="panelBackgroundHTML"  id="panelBackgroundHTMLValue" style="width: 100%" type="text" data-name="value"></td>
+									<td><a data-id="panelBackgroundHTML" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light blue panelStates"><i class="material-icons">edit</i></a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<span class="translate">Note on the data points BACKGROUND_VIEW/URL/HTML: Only one of the three data points can be used at a time. In descending order, first BACKGROUND_VIEW, then BACKGROUND_URL and finally BACKGROUND_HTML is checked for validity and the first valid entry is displayed.</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate sub-title">Options:</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelAllowPostMessage" checked />
+						<label for="panelAllowPostMessage" class="translate">Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML</label>
+						<span class="helper-text"></span>
+					</div>
+					<div class="input-field col s12 m6 l4">
+						<select class="value" name='panelDisplay' id='panelDisplay' value="overlay">
+							<option value="overlay" class="translate selected" selected="selected">Overlay</option>
+							<!--option value="reveal" class="translate">Reveal</option--> <!-- because of custom restyling via css is this the same as push -->
+							<option value="push" class="translate">Push</option>
+						</select>
+						<label for='panelDisplay' class="translate">Display-Mode:</label>
+						<span class="helper-text"></span>
+					</div>
+					<!--div class="input-field col s12 m6 l4">
+						<select class="value" name='panelPosition' id='panelPosition' value="left">
+							<option value="left" class="translate selected" selected="selected">Left</option>
+							<option value="right" class="translate">Right</option>
+						</select>
+						<label for='panelPosition' class="translate">Position:</label>
+						<span class="helper-text"></span>
+					</div--> <!-- jquery bug - position right is not working --> 
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelDismissible" checked />
+						<label for="panelDismissible" class="translate">Close panel when clicking on parent view</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelNoCloseButton" />
+						<label for="panelNoCloseButton" class="translate">No close-button</label>
+					</div>
+					<div class="input-field col s12 m6 l4">
+						<input class="value validate validateOnlyError" type="number" min="200" max="10000" id="panelLargeScreenTreshold" value="600" placeholder="600">
+						<label for="panelLargeScreenTreshold" class="translate">Treshold in pixel for large screen:</label>
+						<span class="helper-text" data-error="200 - 10000" data-success=""></span>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelCompressParentViewOnLargeScreens" checked />
+						<label for="panelCompressParentViewOnLargeScreens" class="translate">Compress parent view on large screens (instead of pushing it to the side)</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelDismissibleOnLargeScreens" checked />
+						<label for="panelDismissibleOnLargeScreens" class="translate">Close panel when clicking on parent view on large screens</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelNoCloseButtonOnLargeScreens" />
+						<label for="panelNoCloseButtonOnLargeScreens" class="translate">No close-button on large screens</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelAutoOpenOnLargeScreens" />
+						<label for="panelAutoOpenOnLargeScreens" class="translate">Automatically open panel on large screens</label>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="panelAutoCloseOnSmallerScreens" />
+						<label for="panelAutoCloseOnSmallerScreens" class="translate">Automatically close panel on smaller screens</label>
 					</div>
 				</div>
 			</div>
@@ -1383,6 +1506,9 @@
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportToolbar"><i class="material-icons left">file_download</i><i class="material-icons left">more_horiz</i><span class="translate">Export Toolbar</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportPanel"><i class="material-icons left">file_download</i><i class="material-icons left">chrome_reader_mode</i><span class="translate">Export Panel</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportOptions"><i class="material-icons left">file_download</i><i class="material-icons left">settings</i><span class="translate">Export Options</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
@@ -1412,6 +1538,9 @@
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (append to exsisting toolbar)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportPanel"><i class="material-icons left">file_upload</i><i class="material-icons left">chrome_reader_mode</i><span class="translate">Import Panel</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportOptions"><i class="material-icons left">file_upload</i><i class="material-icons left">settings</i><span class="translate">Import Options</span></a> 
@@ -1607,7 +1736,8 @@
 				</div>
 				<div class="row">
 					<p><br></p>
-					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).
+					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).<br>
+					<span class="translate">Note on the data points BACKGROUND_VIEW/URL/HTML: Only one of the three data points can be used at a time. In descending order, first BACKGROUND_VIEW, then BACKGROUND_URL and finally BACKGROUND_HTML is checked for validity and the first valid entry is displayed.</span>
 				</div>
             </div>
             <div class="modal-footer">

@@ -63,8 +63,8 @@
 			if(dp == null) return;
 			var id = dp.id;
 			if(getUrlParameter("ignoreMinMax") == "true"){
-				min = "";
-				max = "";
+				var min = "";
+				var max = "";
 			} else {
 				var min = getUrlParameter("min") || dp.min || "";
 				var max = getUrlParameter("max") || dp.max || "";
