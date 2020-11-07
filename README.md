@@ -1192,6 +1192,9 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added BACKGROUND_VIEW, to define a view which will be displayed as background of a tile.
 * (sbormann) Added the option 'Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW' for links to other views. 
 * (sbormann) Added a panel which can be placed on left side of the screen and display a BACKGROUND_VIEW/URL/HTML and is widely configurable.
+* (sbormann) Added showing of swipe goals (can be hidden via option in options/miscellaneous/swiping).
+* (sbormann) Fixed crash when enlarging a hidden tile.
+* (sbormann) Reworked some borders and scrolling parameters.
 
 ### 1.4.1 (2020-11-01)
 * (sbormann) Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices.

@@ -5479,7 +5479,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--tileEnlargeButton
-						if (deviceLinkedStateIds["tileEnlarged"]){ 
+						if (deviceLinkedStateIds["tileEnlarged"] || deviceLinkedStateIds["ENLARGE_TILE"]){ 
 							deviceContent += "<div class='iQontrolDeviceEnlargeButton" + ((getDeviceOptionValue(device, "tileEnlargeShowButtonActive") == "true") ? " showIfActive" : "") + ((getDeviceOptionValue(device, "tileEnlargeShowButtonInactive") == "true") ? " showIfInactive" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='event.stopPropagation(); toggleState(unescape(\"" + escape(deviceLinkedStateIds["tileEnlarged"]) + "\"), \"" + deviceIdEscaped + "\", null, 0);'></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -5509,7 +5509,7 @@ function renderView(viewId, triggeredByReconnection){
 								if(_linkedEnlargeTileId) viewUpdateFunctions[_linkedEnlargeTileId].push(function(){
 									var stateTileEnlarged = getStateObject(_linkedTileEnlargedId);
 									var stateEnlargeTile = getStateObject(_linkedEnlargeTileId);
-									if (typeof stateEnlargeTile !== udef) {
+									if (typeof stateEnlargeTile !== udef && stateEnlargeTile.type) {
 										switch(stateEnlargeTile.type){
 											case "button":
 											if(stateEnlargeTile.ts && new Date() - stateEnlargeTile.ts < 100) toggleState(_linkedTileEnlargedId, _deviceIdEscaped, null, 0);
@@ -7135,6 +7135,19 @@ function renderView(viewId, triggeredByReconnection){
 			applyMarqueeObserver();
 			applyViewDeviceContextMenu();
 			dynamicIframeZoom();
+			//Show ViewSwipeGoals
+			if(!options.LayoutViewHideSwipeGoals && !options.LayoutViewSwipingDisabled && viewHistoryPosition > 0 && getView(viewHistory[viewHistoryPosition - 1]) && getView(viewHistory[viewHistoryPosition - 1]).commonName){
+				$("#ViewSwipeGoalLeft").html(getView(viewHistory[viewHistoryPosition - 1]).commonName);
+				$(".viewSwipeGoal.left").css('visibility', 'visible');
+			} else {
+				$(".viewSwipeGoal.left").css('visibility', 'hidden');	
+			}
+			if(!options.LayoutViewHideSwipeGoals && !options.LayoutViewSwipingDisabled && viewHistoryPosition < viewHistory.length - 1 && getView(viewHistory[viewHistoryPosition + 1]) && getView(viewHistory[viewHistoryPosition + 1]).commonName){
+				$("#ViewSwipeGoalRight").html(getView(viewHistory[viewHistoryPosition + 1]).commonName);
+				$(".viewSwipeGoal.right").css('visibility', 'visible');
+			} else {
+				$(".viewSwipeGoal.right").css('visibility', 'hidden');	
+			}
 			setTimeout(function(){ if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show'); }, 200);
 			//Open Dialog by URL-Parameter
 			if(openDialogId != null){
@@ -7636,13 +7649,14 @@ function changeViewBackground(url){
 	var extention = url.substring(url.lastIndexOf('.'));
 	if(extention == ".avi" || extention == ".mov" || extention == ".mp4") isVideo = true;
 	$.backstretch({url: url, isVideo: isVideo, loop: true, mute: true}, {fade: 300});
+	$('body').addClass('backstretchLoaded');
 }
 
 function viewSwipe(direction){
 	if(direction == "right") {
 		if(viewHistoryPosition > 0){
 			viewHistoryPosition--;
-			renderView(viewHistory[viewHistoryPosition ]);
+			renderView(viewHistory[viewHistoryPosition]);
 		}
 	} else if(direction == "left"){
 		if(viewHistoryPosition < viewHistory.length - 1){
@@ -11460,11 +11474,9 @@ function initPanels(){
 	//Resize after opening and closing
 	$('.panel').on('panelopen', function(){ 
 		resizeDevicesToFitScreen();
-		//viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! panel open");  
 	});
 	$('.panel').on('panelclose', function(){ 
 		resizeDevicesToFitScreen();
-		//viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! panel close");  
 	});
 }
 function createPanelIframe(panelId, panelIndex){
@@ -11504,8 +11516,8 @@ function activatePanel(panelId, panelIndex){
 		customCSS += "}";
 	}
 	customCSS += "}";
-	$('.panelOpener.' + position).css('opacity', '1');
-	if(!panels[panelIndex].NoCloseButton) $('.panelCloser.' + position).css('opacity', '1');
+	$('.panelOpener.' + position).show().css('opacity', '1');
+	if(!panels[panelIndex].NoCloseButton) $('.panelCloser.' + position).show().css('opacity', '1');
 	removeCustomCSS(panelId);
 	addCustomCSS(customCSS, panelId);
 	panels[panelIndex].active = true;
@@ -11514,8 +11526,8 @@ function activatePanel(panelId, panelIndex){
 function deactivatePanel(panelId, panelIndex){
 	panels[panelIndex].active = false;
 	var position = panels[panelIndex].Position;
-	$('.panelOpener.' + position).css('opacity', '0');
-	$('.panelCloser.' + position).css('opacity', '0');
+	$('.panelOpener.' + position).css('opacity', '0').delay(1000).hide();
+	$('.panelCloser.' + position).css('opacity', '0').delay(1000).hide();
 	$('#' + panelId).panel('close'); 
 }
 function openPanel(position){ //openes the first active panel with matching position
@@ -11591,22 +11603,33 @@ function panelsCheckAutoOpenOnLargeScreens(ignoreActiveState){
 })( jQuery, this );
 $(document).one("pagecreate", ".swipePage", function(){ //Swipe view
 	$(document).on("swiperight", ".ui-page", function(event){
+		toolbarContextMenuEnd();
+		viewDeviceContextMenuEnd();
 		if(event.swipestart.coords[0] < 100){
 			if(openPanel("left")){
 				event.preventDefault();
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled) viewSwipe("right");
+		if(!options.LayoutViewSwipingDisabled && !getUrlParameter('isBackgroundView')) viewSwipe("right");
 	});
 	$(document).on("swipeleft", ".ui-page", function(event){
+		toolbarContextMenuEnd();
+		viewDeviceContextMenuEnd();
 		if(window.innerWidth - event.swipestart.coords[0] < 100){
 			if(openPanel("right")){
 				event.preventDefault();
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled) viewSwipe("left");
+		if(!options.LayoutViewSwipingDisabled && !getUrlParameter('isBackgroundView')) viewSwipe("left");
+	});
+	$(document).on('click', function(event){
+		if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !getUrlParameter('isBackgroundView') && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
+			viewSwipe("right");	
+		} else if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !getUrlParameter('isBackgroundView') && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
+			viewSwipe("left");	
+		}
 	});
 });
 $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
@@ -11788,8 +11811,9 @@ function handleVisibilityChange() {
 
 //Document ready - initialization - start connection
 $(document).ready(function(){
-	//Add class isBackgroundView to #View
+	//Add class isBackgroundView to body and #View
 	if(getUrlParameter("isBackgroundView")) $('#View').addClass('isBackgroundView');
+	if(getUrlParameter("isBackgroundView")) $('body').addClass('isBackgroundView');
 		
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true);
@@ -11824,7 +11848,7 @@ $(document).ready(function(){
 		maxPullThreshold: $(window).height(),
 		spinnerTimeout: 100,
 		allowPtrWhenStartedWhileScrolled: false,
-		scrollingDom: $('#View')
+		scrollingDom: $('html')
 	});
 	
 	//Disable context-Menu

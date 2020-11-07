@@ -1,14 +1,26 @@
 /* Some Parts of CSS will be modified by index.js while runtime! */
-:root {
-	--panel-large-display-treshold: 51em;
+document, html {
+	overflow: hidden !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
 }
+
+html {
+	overflow-y: scroll !important;
+}
+
 body {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
-	background-color: white;
-	background-size: cover;
+	background-size: cover !important;
+	overflow: hidden !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
+}
+body:not(.isBackgroundView):not(.backstretchLoaded){
+	background: linear-gradient(347deg, rgba(85,13,69,0.5) 0%, rgba(150,19,152,0.5) 27%, rgba(0,212,255,0.5) 100%) !important;
 }
 
 ::-webkit-scrollbar {
@@ -23,11 +35,15 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #888; 
 }
+.isBackgroundView::-webkit-scrollbar {
+  display: none;
+}
 
 .small {
 	font-size: 70%;
 }
 
+/* ++++++++++ Loader ++++++++++ */ 
 .loader {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -44,6 +60,7 @@ body {
 	position: fixed;
 	top: 50%;
 	left: 50%;
+	left: calc(50% - 16px);
 	margin-top:-40px;
 	margin-left:-40px;
 	z-index: 9999;
@@ -51,7 +68,16 @@ body {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
 }
-
+.isBackgroundView .loader {   
+    border: 5px solid #484848; /* Light grey */	
+    border-top: 5px solid #059; /* Blue */
+    width: 10px;
+	height: 10px;
+	left: 50%;
+	left: calc(50% + 30px);
+	top: 50px;
+}
+/* ++++++++++ Pincode ++++++++++ */ 
 #pincode {
 	display: none;
 	-webkit-user-select: none !important;
@@ -143,6 +169,7 @@ body {
 	color: #fff;
 }
 
+/* ++++++++++ Toolbar ++++++++++ */ 
 #Toolbar {
 	border-width: 0px !important;
 	background: transparent !important;
@@ -187,22 +214,30 @@ body {
 	background-color: transparent !important;
 }
 
+/* ++++++++++ Panel ++++++++++ */ 
 #Panel {
+	position: fixed;
 	z-index: 2000;
 	background: rgba(255,255,255,0.5);
     clip: unset !important;
 	overflow: hidden;
 }
+.ui-panel-wrapper, .ui-panel, .ui-panel-inner {
+	overflow: hidden !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
+}
+.ui-panel-inner {
+	height: 100vh;
+}
 .ui-panel-closed {
 	width: 17em !important;
 }
 .ui-panel:not(.ui-panel-open) {
-	transform: translateX(-17em) !important;	
-}
-.ui-panel-wrapper {
-	background: transparent !important;
+	transform: translate3D(-17em,0,0) !important;	
 }
 .panelOpener, .panelCloser {
+	display: none;
 	opacity: 0;
 	width: 20px;
 	height: 100px;
@@ -220,7 +255,7 @@ body {
 .panelOpener:before, .panelCloser:before {
 	content: "";
 	position: absolute;
-	top: -20%;
+	top: -40%;
 	left: -100%;
 	width: 300%;
 	height: 180%;
@@ -303,13 +338,55 @@ body {
 	border: none;
 }
 
+/* ++++++++++ View ++++++++++ */ 
 #View {
+	overflow: hidden !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+}
+#ViewMain {
+	overflow: hidden !important;
+	overscroll-behavior: contain !important;
+	margin: 0px;
+	padding: 0px;
+	min-height:100vh;
+	color: #FFF;
+	font-size: 11pt;
+	font-weight: bold;
+	font-family: verdana,tahoma,arial,helvetica,sans-serif;
+	text-shadow: none;
 	background-color: transparent;
-	overflow: visible;
+}
+#ViewHeaderTitle {
+	background-color: rgba(0,0,0,0.15);
+	margin-left: -5px;
+	padding-left: 7px;
+	width: 100vw;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+#ViewContent {
+	transform-origin: left top;
+	padding-bottom: 40px;
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+	vertical-align: top;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+#ViewContent h4 {
+	background-color: rgba(0,0,0,0.15);
+	margin: 20px 0px 20px -5px !important;
+	padding: 0px 0px 0px 7px;
+	width: 100vw;
+	font-weight: normal;
 }
 #ViewDeviceContextMenu {
 	background-color: #ffffffbf;
@@ -324,51 +401,38 @@ body {
 	margin: -1px;
 	padding: 20px 40px 20px 10px;
 }
-#ViewMain {
-	overflow-y:hidden;
-	margin: 0px;
-	padding: 0px;
-	min-height:100vh;
-	color: #FFF;
-	font-size: 11pt;
-	font-weight: bold;
-	font-family: verdana,tahoma,arial,helvetica,sans-serif;
-	text-shadow: none;
+.viewSwipeGoal{
+	position: fixed;
+	top: 1px;
+	height: 1.2em;
+	width: 40%;
+	z-index: 1000;
+	overflow: hidden;
+	color: white;
+	font-size: xx-small;
+	text-shadow: 0 0 3px rgba(0,0,0,0.6);
+	opacity: 0.8;
+	visibility: hidden;
 }
-#ViewHeaderTitle {
-	background-color: rgba(0,0,0,0.15);
-	margin-left: -5px;
-	padding-left: 7px;
-	width: 100vw;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
+.isBackgroundView .viewSwipeGoal {
+	display: none;
 }
-#ViewContent {
-	transform-origin: left top;
-	padding-bottom: 300px;
-	display: inline-block;
-	width: 100%;
-	text-align: left;
-	vertical-align: top;
-	-webkit-transition: all 1s;
-	   -moz-transition: all 1s;
-			transition: all 1s;
+.viewSwipeGoal img{
+	position: absolute;
+	top: 0;
+	height:6px;
+	margin: 2px;
 }
-#ViewContent h4 {
-	background-color: rgba(0,0,0,0.15);
-	margin-left: -5px;
-	padding-left: 7px;
-	width: 100vw;
-	font-weight: normal;
-	margin-top: 30px;
-	margin-bottom: 0px;
+.viewSwipeGoal.left, .viewSwipeGoal.left img, .viewSwipeGoal.left span {
+	left: 0;
 }
-.backstretch {
-	-webkit-user-select: none !important;
-	   -moz-user-select: none !important; 
-	        user-select: none !important;
-	-webkit-touch-callout: none !important;
+.viewSwipeGoal.right, .viewSwipeGoal.right img, .viewSwipeGoal.right span{
+	right: 0px;
+	text-align: right;
+}
+.viewSwipeGoal span {
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .viewShuffleContainer {
 	overflow: visible !important;
@@ -413,6 +477,8 @@ body {
 	   -moz-transition: all 0s;
 			transition: all 0s;
 }
+
+/* ++++++++++ View / Device ++++++++++ */ 
 .iQontrolDevice {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -983,10 +1049,26 @@ body {
 	opacity:0 !important;
 }
 
+/* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
 	min-width: 300px;
 	max-width: 100%;
-	margin-bottom: 20px;
+}
+#Dialog-popup {
+	max-width: 90vw!important;
+	margin-bottom: 150px;
+}
+#DialogContent {
+	max-height: calc(80vh - 50px);
+	overflow: scroll;
+	overscroll-behavior: contain;
+}
+.iQontrolDialogTimestampSwitch {
+	position: absolute;
+	right: 3px;
+	top: 2px;
+	width: 16px;	
+	cursor: pointer;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
@@ -1155,6 +1237,7 @@ body {
 	text-shadow: 0 1px 0 grey;
 }
 
+/* ++++++++++ Popup ++++++++++ */ 
 .ui-popup-screen {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -1164,6 +1247,26 @@ body {
 }
 
 /* ++++++++++++++ RESPONSIVE DESIGN FOR BIGGER SCREENS ++++++++++++++ */
+@media screen and (max-width: 17em) {
+	#Dialog {
+		width: 90vw;
+		min-width: 10em;
+		max-width: 16em;
+	}
+	.jqte { 
+		min-width: 10em;
+		max-width: 16em;
+	}
+	.jqte.DialogAdditionalControlsString { 
+		min-width: 10em;
+		max-width: 16em;
+	}
+	.iQontrolDialogIframeWrapper {
+		min-width: 10em;
+		max-width: 16em;
+	}
+}
+
 @media screen and (min-width: 600px) {
 	#Dialog {
 		min-width: 500px;
@@ -1399,4 +1502,5 @@ body {
 		min-width: 800px;
 	}
 }
+
 
