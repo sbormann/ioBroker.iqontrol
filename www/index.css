@@ -7,6 +7,10 @@ document, html {
 
 html {
 	overflow-y: scroll !important;
+	overflow-x: hidden !important;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
 }
 
 body {
@@ -15,7 +19,7 @@ body {
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
 	background-size: cover !important;
-	overflow: hidden !important;
+	overflow: visible !important;
 	overscroll-behavior: contain !important;
 	background: transparent !important;
 }
@@ -27,7 +31,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
   width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: button; 
+  background: #eee;
 }
 ::-webkit-scrollbar-thumb {
   background: #aaa; 
@@ -222,13 +226,24 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
     clip: unset !important;
 	overflow: hidden;
 }
-.ui-panel-wrapper, .ui-panel, .ui-panel-inner {
-	overflow: hidden !important;
+.ui-panel-wrapper {
+	height: 100vh !important;
+	overflow: visible !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
+}
+.ui-panel, .ui-panel-inner {
+	height: 100vh !important;
+	overflow: visible !important;
 	overscroll-behavior: contain !important;
 	background: transparent !important;
 }
 .ui-panel-inner {
-	height: 100vh;
+	height: 100vh !important;
+	overflow-x: hidden !important;
+	overflow-y: visible !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
 }
 .ui-panel-closed {
 	width: 17em !important;
@@ -340,13 +355,14 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 
 /* ++++++++++ View ++++++++++ */ 
 #View {
-	overflow: hidden !important;
+	overflow: visible !important;
 	overscroll-behavior: contain !important;
 	background: transparent !important;
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+	min-height: unset !important;
 }
 #ViewMain {
 	overflow: hidden !important;
@@ -363,16 +379,17 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 #ViewHeaderTitle {
 	background-color: rgba(0,0,0,0.15);
-	margin-left: -5px;
-	padding-left: 7px;
-	width: 100vw;
+	margin: 20px 0px 20px -5px !important;
+	padding: 0px 0px 0px 7px;
+	width: 200vw;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
 #ViewContent {
 	transform-origin: left top;
-	padding-bottom: 40px;
+	padding-bottom: 90vh;
+	padding-bottom: calc(100vh - 230px);
 	display: inline-block;
 	width: 100%;
 	text-align: left;
@@ -385,7 +402,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	background-color: rgba(0,0,0,0.15);
 	margin: 20px 0px 20px -5px !important;
 	padding: 0px 0px 0px 7px;
-	width: 100vw;
+	width: 200vw;
 	font-weight: normal;
 }
 #ViewDeviceContextMenu {
@@ -1502,5 +1519,3 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		min-width: 800px;
 	}
 }
-
-

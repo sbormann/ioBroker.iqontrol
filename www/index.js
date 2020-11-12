@@ -11273,7 +11273,7 @@ function enhanceTextareasWithJqte(selector){
 
 //++++++++++ POPUP (TOAST) ++++++++++
 function initPopup(){
-	fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
+	if(!getUrlParameter("isBackgroundView")) fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
 }
 
 function toast(message, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses){
@@ -11607,7 +11607,6 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view
 		viewDeviceContextMenuEnd();
 		if(event.swipestart.coords[0] < 100){
 			if(openPanel("left")){
-				event.preventDefault();
 				return false;
 			}
 		}
@@ -11618,6 +11617,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view
 		viewDeviceContextMenuEnd();
 		if(window.innerWidth - event.swipestart.coords[0] < 100){
 			if(openPanel("right")){
+				event.stopPropagation();
 				event.preventDefault();
 				return false;
 			}
@@ -11635,6 +11635,10 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view
 $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
 	event.stopPropagation();
 	event.preventDefault();
+});
+$(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Stop Context-Menu on swiping
+	toolbarContextMenuEnd();
+	viewDeviceContextMenuEnd();
 });
 
 //Refresh Background on resize and orientationchange
