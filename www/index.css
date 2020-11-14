@@ -379,7 +379,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 #ViewHeaderTitle {
 	background-color: rgba(0,0,0,0.15);
-	margin: 20px 0px 20px -5px !important;
+	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
 	width: 200vw;
 	-webkit-transition: all 1s;
@@ -388,8 +388,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 #ViewContent {
 	transform-origin: left top;
-	padding-bottom: 90vh;
-	padding-bottom: calc(100vh - 230px);
+	padding-bottom: 0px;
 	display: inline-block;
 	width: 100%;
 	text-align: left;
@@ -400,7 +399,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 #ViewContent h4 {
 	background-color: rgba(0,0,0,0.15);
-	margin: 20px 0px 20px -5px !important;
+	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
 	width: 200vw;
 	font-weight: normal;
@@ -450,6 +449,10 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 .viewSwipeGoal span {
 	padding-left: 10px;
 	padding-right: 10px;
+}
+.viewNewLineSpacer {
+	width: 0;
+	height: 0;
 }
 .viewShuffleContainer {
 	overflow: visible !important;

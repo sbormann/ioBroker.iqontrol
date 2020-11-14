@@ -59,6 +59,10 @@
 			<div class="col s12 m4 l2">
 				<img src="iqontrol.png" class="logo">
 			</div>
+			<div class="col s8 m6 l4 loadingObjects">
+				<p class="translate">Still loading some objects...</p>
+				<div id="mainLoadingObjectsProgress" class="progress loadingObjects" style="position: absolute; bottom: -17px; left: 0px; width: 100%;"><div class="indeterminate"></div></div>
+			</div>
 		</div>
 
 		<div class="row">
@@ -977,6 +981,19 @@
 									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginLeft" placeholder="-5px" />
 									<label for="optionsLayoutViewSubHeaderMarginLeft" class="translate">Sub-Header Margin Left:</label>
 									<span class="helper-text" data-error="-500 - 500 [px]" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">New Line:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewNewLineSpacing" placeholder="0px" />
+									<label for="optionsLayoutViewNewLineSpacing" class="translate">New Line Spacing:</label>
+									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
