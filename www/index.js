@@ -2332,6 +2332,7 @@ var socket;
 var systemConfig = {};							//Contains the system config (like system language)
 var systemLang = "en";							//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
 var timeshift = 0;								//Contains time difference betwen browswe and server for correcting timestamps
+var zoom = 1;									//Zoom-Factor from resizeDevicesToFitScreen()
 
 var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
@@ -6976,7 +6977,7 @@ function renderView(viewId, triggeredByReconnection){
 		//Place content
 		$("#ViewHeaderTitle").html(actualView.commonName);
 		if(actualView.nativeHideName) $("#ViewHeaderTitle").hide(); else $("#ViewHeaderTitle").show();
-		$("#ViewContent").html(viewContent + "<br><br>");
+		$("#ViewContent").html(viewContent);
 		resizeDevicesToFitScreen();
 		//Activate Shuffle	
 		if (!options.LayoutViewShuffleDisabled) {
@@ -7312,6 +7313,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 						){ //fullHeight activated
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								console.log("fullHeight activated");
+								addCustomCSS("#ViewContent { padding-bottom: 100vh; }", "addViewPaddingBottomAfterMinimizingTile");
 								var _$target = $(mutation.target);
 								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
 								var _targetShuffleInstanceIndex = null;
@@ -7330,13 +7332,17 @@ function viewShuffleApplyShuffleResizeObserver(){
 									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
-									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y;
+									viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){ 
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
 										console.log("fullHeight activated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
 										}, 1000);	
 									}, 1300);
+									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
+										resizeDevicesToFitScreen();
+										removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+									}, 2300);
 								}
 							})(); //<--End Closure
 						} else if (
@@ -7347,7 +7353,8 @@ function viewShuffleApplyShuffleResizeObserver(){
 						){ //fullHeight deactivated
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								console.log("fullHeight deactivated");
-								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 230px); }", "addViewPaddingBottomAfterMinimizingTile");
+								removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
+								addCustomCSS("#ViewContent { padding-bottom: 90vh; padding-bottom: calc(100vh - 200px); }", "addViewPaddingBottomAfterMinimizingTile");
 								var _$target = $(mutation.target);
 								var _targetDeviceId = _$target.parent('.iQontrolDevicePressureIndicator').data('iqontrolDeviceId');
 								var _targetShuffleInstanceIndex = null;
@@ -7367,7 +7374,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y;
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
 										console.log("fullHeight deactivated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
@@ -11739,12 +11746,13 @@ function resizeDevicesToFitScreen(){
 	if (!options.LayoutViewResizeDevicesToFitScreenDisabled){
 		resizeFullWidthDevicesToFitScreen();
 		if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenWidth <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
-			var zoom = screenWidth / (columns * deviceSize);
+			zoom = screenWidth / (columns * deviceSize);
 			console.log("resizeDevicesToFitScreen with zoom-factor " + zoom);
 			customCSS = "#ViewContent {";
 			customCSS += "	webkit-transform: scale(" + zoom +");";
 			customCSS += "	   moz-transform: scale(" + zoom +");";
 			customCSS += "	       transform: scale(" + zoom +");";
+			customCSS += "	margin-bottom: " + (($("#ViewContent").height() * (zoom - 1)) + $('#Toolbar').height()) + "px;";
 			customCSS += "}";
 			removeCustomCSS('resizeDevicesToFitScreen');
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
@@ -11765,7 +11773,7 @@ function resizeFullWidthDevicesToFitScreen(){
 	var toolbarHeight = $('#Toolbar').outerHeight();
 	var rows = Math.round((screenHeight - toolbarHeight)/deviceSize);
 	if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenWidth <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
-		var zoom = screenWidth / (columns * deviceSize);
+		zoom = screenWidth / (columns * deviceSize);
 		console.log("resizeFullWidthDevicesToFitScreen with zoom-factor " + zoom);
 		customCSS = ".iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {";
 		customCSS += "	max-width: " + (deviceSize * columns - (2 * deviceMargin) - screenPadding) +"px !important;";
@@ -11947,7 +11955,9 @@ $(document).ready(function(){
 							event.source.postMessage({command: "getState", stateId: event.data.stateId, value: null}, "*");							
 						} else {
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-								var _event = event;
+								var _eventSource = event.source;
+								var _eventDataStateId = event.data.stateId;
+								var _source = event.source;
 								var _stateId = stateId;
 								var _noSubscribe = (event.data.command == "getState" || event.data.command == "getWidgetState" || event.data.command == "getWidgetDeviceState");
 								var _updateFunctionExecuted = false;
@@ -11957,7 +11967,7 @@ $(document).ready(function(){
 											if(usedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
 												var value = getStateObject(_stateId);
 												value.id = _stateId;
-												_event.source.postMessage({command: "getState", stateId: _event.data.stateId, value: value}, "*");
+												_eventSource.postMessage({command: "getState", stateId: _eventDataStateId, value: value}, "*");
 												_updateFunctionExecuted = true;
 											}
 										}
@@ -11984,7 +11994,6 @@ $(document).ready(function(){
 						}
 						console.log("postMessage received: setState " + stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _event = event;
 							var _stateId = stateId;
 							var _value = _event.data.value
 							if(typeof _value != "object"){
