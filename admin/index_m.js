@@ -3016,11 +3016,20 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 		}
 		$(this).data('combobox-onselect', onSelect);			
 		$("ul[id='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "']").remove(); //If there was an old dropdownlist remove it
-		$(targetElement).after("<ul id='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' class='dropdown-content'>" + comboboxContent + "</ul>");
+		$(targetElement).after("<ul id='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' class='dropdown-content'>...</ul>");
 	});
-	$('.comboboxDropdownTrigger').dropdown({alignment: 'right', constrainWidth: false, onItemClick: function(event){
-		enhanceTextInputToComboboxEntryToInput($(event).data('value'));
-	}});		
+	$("ul[id='dropdown_" + encodeURIComponent(targetInput) + "_0']").html(comboboxContent); //Add comboboxContent to first targetInput (because of performance-reasons it is only saved to the first targetInput and not to all!)
+	$('.comboboxDropdownTrigger').dropdown({
+		alignment: 'right', 
+		constrainWidth: false, 
+		onOpenStart: function(event){
+			var target = $(event).data('target');
+			$("ul[id='" + target + "']").html($("ul[id='" + target.substring(0, target.lastIndexOf('_')) + "_0']").html()); //Copy comboboxContent from first targetInput
+		},
+		onItemClick: function(event){
+			enhanceTextInputToComboboxEntryToInput($(event).data('value'));
+		}
+	});		
 }
 function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	var $dropdownlist = $("ul[id='" + dropdownlist + "']");

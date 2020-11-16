@@ -4574,6 +4574,25 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		//Devices - General
+		if(options.LayoutViewDeviceBorderRadius) {
+			customCSS = ".iQontrolDevicePressureIndicator, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+			customCSS += "	 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+			customCSS += "   	-moz-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+			customCSS += "			 border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutViewDeviceBorderRadiusLargeScreen) {
+			customCSS = "@media screen and (min-width: 1500px) {";
+			customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+			customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+			customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+			customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+			customCSS += "	}";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		//Inactive Devices - Background 
 		if(options.LayoutViewDeviceColor) {
 			customCSS = ".iQontrolDeviceBackgroundImage:not(.active){";
@@ -5183,7 +5202,7 @@ function renderView(viewId, triggeredByReconnection){
 										setTimeout(function(){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
-												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true";
+												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "");
 												var timeout = 1000;
 											} else { //URL
 												iframe.src = stateBackgroundURL.val;
@@ -11453,7 +11472,7 @@ function initPanels(){
 						setTimeout(function(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
 							if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //BACKGROUND_VIEW
-								iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true";
+								iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "");
 								var timeout = 1000;
 							} else { //BACKGROUND_URL
 								iframe.src = stateBackgroundURL.val;
@@ -11995,7 +12014,7 @@ $(document).ready(function(){
 						console.log("postMessage received: setState " + stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _stateId = stateId;
-							var _value = _event.data.value
+							var _value = event.data.value
 							if(typeof _value != "object"){
 								_value = {val: _value, ack: false};
 							}

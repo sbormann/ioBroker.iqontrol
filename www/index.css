@@ -1399,15 +1399,28 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 				box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 	}
+	.iQontrolDeviceBackgroundIframeWrapper {
+		-webkit-border-radius: 22px;
+		   -moz-border-radius: 22px;
+				border-radius: 22px;
+	}
 	.iQontrolDeviceBackgroundImage {
 		-webkit-transform: scale3d(1.0,1.0,1);
 		   -moz-transform: scale3d(1.0,1.0,1);
 				transform: scale3d(1.0,1.0,1);
+		-webkit-border-radius: 22px;
+		   -moz-border-radius: 22px;
+				border-radius: 22px;
 	}
 	.iQontrolDeviceBackgroundImage:hover {
 		-webkit-transform: scale3d(1.05,1.05,1);
 		   -moz-transform: scale3d(1.05,1.05,1);
 				transform: scale3d(1.05,1.05,1);
+	}
+	.iQontrolDeviceBackground {
+		-webkit-border-radius: 22px;
+		   -moz-border-radius: 22px;
+				border-radius: 22px;
 	}
 	.iQontrolDeviceIcon {
 		position:absolute; left: 5px; top: 5px; width: 57px; height: 57px;
