@@ -212,7 +212,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
     border-color: #1f1f1f !important;
 	color: #ffffff !important;
     box-shadow: 0 0 12px 1px #0c5088 !important;
-    text-shadow: 0 1px 0 0 #111111 !important;
+    text-shadow: 0 1px 0 #111111 !important;
 }
 .iQontrolToolbarLink.ui-btn:after {
 	background-color: transparent !important;
@@ -898,10 +898,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	opacity: 1;
 }
 .iQontrolDeviceEnlargeButton {
-	pointer-events:all !important;
+	pointer-events:none !important;
 	cursor: zoom-in;
 	position:absolute; right: -1px; top: 0px; width: 10px; height: 10px;
-	xoverflow: hidden;
 	background-image: url("./images/maximize.png");
 	background-position: 1px 4px;
 	background-repeat: no-repeat;
@@ -1078,9 +1077,13 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	max-width: 90vw!important;
 	margin-bottom: 150px;
 }
+#Dialog-popup .ui-content {
+	padding: 0.5em;
+}
 #DialogContent {
 	max-height: calc(80vh - 50px);
-	overflow: scroll;
+	padding: 0.5em;
+	overflow-y: auto;
 	overscroll-behavior: contain;
 }
 .iQontrolDialogTimestampSwitch {

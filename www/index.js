@@ -4315,21 +4315,33 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		if(options.LayoutToolbarTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	color: " + options.LayoutToolbarTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
 		if(options.LayoutToolbarHoverColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
 			customCSS += "	background-color: " + options.LayoutToolbarHoverColor + " !important;";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutToolbarTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	color: " + options.LayoutToolbarTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		if(options.LayoutToolbarHoverTextColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
 			customCSS += "	color: " + options.LayoutToolbarHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarTextShadowColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarHoverTextShadowColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarHoverTextShadowColor + " !important;";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -4340,12 +4352,6 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
-		if(options.LayoutToolbarSelectedTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	color: " + options.LayoutToolbarSelectedTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
 		if(options.LayoutToolbarSelectedHoverColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
 			customCSS += "	background-color: " + options.LayoutToolbarSelectedHoverColor + " !important;";
@@ -4353,9 +4359,27 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutToolbarSelectedTextColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	color: " + options.LayoutToolbarSelectedTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		if(options.LayoutToolbarSelectedHoverTextColor) {
 			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
 			customCSS += "	color: " + options.LayoutToolbarSelectedHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedTextShadowColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutToolbarSelectedHoverTextShadowColor) {
+			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedHoverTextShadowColor + " !important;";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -5210,11 +5234,14 @@ function renderView(viewId, triggeredByReconnection){
 											}
 											if(iframe.onload == null) {
 												iframe.onload = function(){ 
-													setTimeout(function(){
-														if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0') $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+													setTimeout(function(e){
+														if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() != "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 													}, timeout);
 												}
 											}
+											setTimeout(function(){ //Fallback if load event is not triggered
+												if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() != "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+											},1500);
 										}, (isFirefox?100:0));
 									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== ""){ //HTML
 										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
