@@ -4970,7 +4970,7 @@ function toolbarContextMenuStart(callingElement){
 	})(); //<--End Closure
 }
 
-function toolbarContextMenuEnd(endIgnoreStart){
+function toolbarContextMenuEnd(dontEndIgnoreStart){
 	console.log("toolbarContextMenu end function");
 	toolbarContextMenuIgnoreStart = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
@@ -4989,7 +4989,7 @@ function toolbarContextMenuEnd(endIgnoreStart){
 			$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
 		}
 	}, 1);
-	if (!endIgnoreStart) setTimeout(function(){
+	if (!dontEndIgnoreStart) setTimeout(function(){
 		console.log("toolbarContextMenu end function - end ignoreStart");
 		toolbarContextMenuIgnoreStart = false;
 		toolbarContextMenuIgnoreClick = false;
@@ -7709,12 +7709,12 @@ function viewDeviceContextMenuStart(callingElement){
 	})(); //<--End Closure
 }
 
-function viewDeviceContextMenuEnd(endIgnoreStart){
+function viewDeviceContextMenuEnd(dontEndIgnoreStart){
 	console.log("viewDeviceContextMenu end function");
 	viewDeviceContextMenuIgnoreStart = true;
 	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
-	if (!endIgnoreStart) setTimeout(function(){
+	if (!dontEndIgnoreStart) setTimeout(function(){
 		console.log("viewDeviceContextMenu end function - end ignoreStart");
 		viewDeviceContextMenuIgnoreStart = false;
 		viewDeviceContextMenuIgnoreClick = false;
@@ -11746,7 +11746,7 @@ $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable sw
 $(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Stop Context-Menu on swiping
 	toolbarContextMenuEnd();
 	viewDeviceContextMenuEnd();
-});
+}); 
 
 //Refresh Background on resize and orientationchange
 var resizeTimeout = false;
