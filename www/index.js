@@ -11464,7 +11464,7 @@ function toastShowNext(){
 //++++++++++ PANELS ++++++++++
 var panelIds = ["Panel"]; //At the moment there is only one panel present
 function initPanels(){
-	if(getUrlParameter("isBackgroundView")) return;
+	if(getUrlParameter("isBackgroundView") || getUrlParameter("noPanel")) return;
 	var panelLinkedStateIdsToFetchAndUpdate = [];
 	panels.forEach(function(panel, panelIndex){
 		var panelId = panelIds[panelIndex];
