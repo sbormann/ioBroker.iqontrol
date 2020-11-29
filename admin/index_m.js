@@ -3688,25 +3688,24 @@ function load(settings, onChange) {
 			if (M) M.updateTextFields();
 			
 			//Get iobrokerObjects
-			setTimeout(function(){
-				console.log("Getting ioBroker Objects...");
-				$('.loadingObjects').show();
-				socket.emit('getObjects', function (err, _objs) {
-					console.log("Got ioBroker Objects.");
-					iobrokerObjects = _objs;
-					iobrokerObjectsReady = true;
-					if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
-					for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
-						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
-					}
-					iobrokerObjectsReadyFunctions = [];
-					$('.loadingObjects').hide();
-					console.log("ioBroker Objects ready.");
-				});
-			}, 1000);
+			getIoBrokerObjects();
 		});
 	}
 
+	function getIoBrokerObjects(){
+		console.log("Getting ioBroker Objects...");
+		$('.loadingObjects').show();
+		iobrokerObjectsReady = false;
+		iobrokerObjects = Object.assign({}, parent.gMain.objects);
+		iobrokerObjectsReady = true;
+		if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+		for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+			if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+		}
+		iobrokerObjectsReadyFunctions = [];
+		$('.loadingObjects').hide();
+		console.log("ioBroker Objects ready.");		
+	}
 
 	//++++++++++ TABS ++++++++++
 	//Enhance Tabs with onShow-Function
