@@ -3107,21 +3107,14 @@ function getCommonName(object){
 
 //Enumerations
 var enumerations = {};
-function getEnumerations(enumName, callback) {
-	enumName = enumName ? enumName + '.' : '';
-    socket.emit('getObjectView', 'system', 'enum', {startkey: 'enum' + enumName, endkey: 'enum' + enumName + '.\u9999'}, function (err, res) {
-        if (!err && res) {
-            var _res   = {};
-            for (var i = 0; i < res.rows.length; i++) {
-                if (res.rows[i].id !== 'enum.' + enumName) {
-                    _res[res.rows[i].id] = res.rows[i].value;
-                }
-            }
-            callback && callback(null, _res);
-        } else {
-            callback && callback(err, []);
-        }
-    });
+function getEnumerations(callback) {
+	enumerations = {};
+	for(id in iobrokerObjects){
+		if(id.indexOf("enum") == 0) {
+			enumerations[id] = iobrokerObjects[id];
+		}
+	}
+	callback && callback();
 }
 function getEnumerationName(enumeration){
 	var name = _(enumeration);
@@ -3688,11 +3681,11 @@ function load(settings, onChange) {
 			if (M) M.updateTextFields();
 			
 			//Get iobrokerObjects
-			getIoBrokerObjects();
+			getIobrokerObjects();
 		});
 	}
 
-	function getIoBrokerObjects(){
+	function getIobrokerObjects(){
 		console.log("Getting ioBroker Objects...");
 		$('.loadingObjects').show();
 		iobrokerObjectsReady = false;
@@ -3747,10 +3740,9 @@ function load(settings, onChange) {
 		$('#viewsAutocreateButton').addClass('disabled');
 		$('#viewsAutocreateButtonProgress').show();
 		var toDo = function(){
-			getEnumerations('', function(error, result){
-				if(!error && result){
-					enumerations = result;
-					var enumerationsMain = Object.keys(result);
+			getEnumerations(function(){
+				if(enumerations){
+					var enumerationsMain = Object.keys(enumerations);
 					enumerationsMain = enumerationsMain.filter(function(element){ //Filter for main Enumerations (that are elements, that have sub-enumerations)
 						if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
 					});

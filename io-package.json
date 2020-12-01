@@ -1,8 +1,9 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "news": {
+	"1.5.1": {"en": "Added url-paremeter noPanel, Changed fetching-method of ioBroker Objects."},
       "1.5.0": {
         "en": "Added Flot-Chart widget, Enhanced adding of widgets with a new settings dialog, Added some new options for widget-developers (the meta-tag url-datapoints was enhanced for example to ask for a color with a color-picker, postMessage-answeres now contain the id of the original datapoint), Removed space when using new-line-option, Added role button in custom dialog, Enhanced timing of repositioning dialogs after loading, Added noToolbar to URL-parameters, Added BACKGROUND_VIEW, to define a view which will be displayed as background of a tile, Added the option 'Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW' and the option 'close panel after opening link' for links to other views, Added a panel which can be placed on left side of the screen and display a BACKGROUND_VIEW/URL/HTML and is widely configurable, Added showing of swipe goals (can be hidden via option in options/miscellaneous/swiping), Fixed crash when enlarging a hidden tile, Reworked some borders and scrolling parameters, Fixed comboboxes (selecbox with progressbars in admin), Padding bottom is only applied when minimizing a tile to give enough room for scrolling to tiles top, Fixed setState to false for postMessage-Communication, Added option to define border-radius (rounded corners) of tiles, Added option to define text-shadow-color of toolbar, Added fallback to loading iframe content for non fitting mime types.",
         "de": "Flot-Chart-Widget hinzugefügt, Erweitertes Hinzufügen von Widgets mit einem neuen Einstellungsdialog hinzugefügt, Einige neue Optionen für Widget-Entwickler hinzugefügt (die Meta-Tag-URL-Datenpunkte wurden erweitert, um beispielsweise eine Farbe mit einem Farbwähler, postMessage-answeres, anzufordern ",
