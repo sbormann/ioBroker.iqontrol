@@ -1186,6 +1186,7 @@ This device has some special predefined size- and display-settings to show a web
 ### 1.5.1 (2020-12-01)
 * (sbormann) Added url-paremeter noPanel.
 * (sbormann) Changed fetching-method of ioBroker Objects.
+* (sbormann) Design-Adjustments for iPhones without home button and devices with notch and rounded corners.
 
 ### 1.5.0 (2020-11-24)
 * (sbormann) Added Flot-Chart widget.

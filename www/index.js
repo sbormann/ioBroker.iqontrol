@@ -4485,6 +4485,7 @@ function handleOptions(){
 		if(options.LayoutViewMainHeaderPaddingLeft) {
 			customCSS = "#ViewHeaderTitle{";
 			customCSS += "	padding-left: " + options.LayoutViewMainHeaderPaddingLeft + "px;";
+			customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewMainHeaderPaddingLeft + "px);";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -4509,6 +4510,7 @@ function handleOptions(){
 		if(options.LayoutViewMainHeaderMarginLeft) {
 			customCSS = "#ViewHeaderTitle{";
 			customCSS += "	margin-left: " + options.LayoutViewMainHeaderMarginLeft + "px;";
+			customCSS += "	margin-left: calc(" + options.LayoutViewMainHeaderMarginLeft + "px - env(safe-area-inset-left));";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -4564,6 +4566,7 @@ function handleOptions(){
 		if(options.LayoutViewSubHeaderPaddingLeft) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	padding-left: " + options.LayoutViewSubHeaderPaddingLeft + "px;";
+			customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewSubHeaderPaddingLeft + "px);";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -4588,6 +4591,7 @@ function handleOptions(){
 		if(options.LayoutViewSubHeaderMarginLeft) {
 			customCSS = "#ViewContent h4{";
 			customCSS += "	margin-left: " + options.LayoutViewSubHeaderMarginLeft + "px;";
+			customCSS += "	margin-left: calc(" + options.LayoutViewSubHeaderMarginLeft + "px - env(safe-area-inset-left));";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -4917,6 +4921,12 @@ function renderToolbar(){
 function applyToolbarContextMenu(){
 	$('.iQontrolToolbarLink.ui-btn').on('touchstart mousedown', function(event){ 
 		console.log("toolbarContextMenu start via TOUCHSTART/MOUSEDOWN");
+		var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
+		var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
+		if(posY > window.innerHeight - saveAreaInsetBottom){
+			console.log("toolbarContextMenu start aborted, because touch was in safe area");
+			return;
+		}
 		toolbarContextMenuStart(event.target);
 		viewDeviceContextMenuEnd();
 	});	
@@ -11708,7 +11718,7 @@ function panelsCheckAutoOpenOnLargeScreens(ignoreActiveState){
 		};
 	}); 
 })( jQuery, this );
-$(document).one("pagecreate", ".swipePage", function(){ //Swipe view
+$(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open panel if swipe origin is near screen border)
 	$(document).on("swiperight", ".ui-page", function(event){
 		toolbarContextMenuEnd();
 		viewDeviceContextMenuEnd();
@@ -11778,7 +11788,9 @@ $(window).on('orientationchange resize', function(){
 	}
 });
 function resizeDevicesToFitScreen(){
-	var screenPadding = 6;
+	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
+	var viewPadding = (parseInt($('#ViewMain').css('padding-left'), 10) || 0) + (parseInt($('#ViewMain').css('padding-right'), 10) || 0);
+	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
 	var panelMarginRight = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-right').css('margin-left') || "0px").slice(0, -2))
 	var screenWidth = $(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight;
@@ -11808,24 +11820,25 @@ function resizeDevicesToFitScreen(){
 	if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle!"); }, 1250);
 }
 function resizeFullWidthDevicesToFitScreen(){
-	var screenPadding = 6;
+	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
+	var viewPadding = (parseInt($('#ViewMain').css('padding-left'), 10) || 0) + (parseInt($('#ViewMain').css('padding-right'), 10) || 0);
+	var screenPadding = deviceMargin + viewPadding;
 	var panelMarginLeft = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-left').css('margin-right') || "0px").slice(0, -2))
 	var panelMarginRight = parseFloat(($('.ui-panel-page-content-open.ui-panel-page-content-position-right').css('margin-left') || "0px").slice(0, -2))
 	var screenWidth = $(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight;
-	var screenHeight = $(window).innerHeight() - screenPadding;
+	var screenHeight = $(window).innerHeight();
 	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var columns = Math.round(screenWidth/deviceSize);
-	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
 	var toolbarHeight = $('#Toolbar').outerHeight();
 	var rows = Math.round((screenHeight - toolbarHeight)/deviceSize);
 	if(options.LayoutViewResizeDevicesToFitScreenOnBigScreens || screenWidth <= (options.LayoutViewResizeDevicesToFitScreenTreshold || 600)){
 		zoom = screenWidth / (columns * deviceSize);
 		console.log("resizeFullWidthDevicesToFitScreen with zoom-factor " + zoom);
 		customCSS = ".iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {";
-		customCSS += "	max-width: " + (deviceSize * columns - (2 * deviceMargin) - screenPadding) +"px !important;";
-		customCSS += "	width: " + (deviceSize * columns - (2 * deviceMargin) - screenPadding) +"px !important;";
+		customCSS += "	max-width: " + (deviceSize * columns - (3 * deviceMargin)) +"px !important;";
+		customCSS += "	width: " + (deviceSize * columns - (3 * deviceMargin)) +"px !important;";
 		customCSS += "}";
-		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * screenPadding) - 20 - 104);
+		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * deviceMargin) - 20 - 104);
 		customCSS += ".iQontrolDevice.aspect-1-1-limited, .iQontrolDevice:not(.active).aspect-1-1-limitedIfInactive, .iQontrolDevice.active.aspect-1-1-limitedIfActive, .iQontrolDevice.enlarged.aspect-1-1-limitedIfEnlarged {";
 		customCSS += "	padding-bottom: min(calc(100% - 104px), " + (x) + "px) !important;";  
 		customCSS += "}";
@@ -11842,7 +11855,7 @@ function resizeFullWidthDevicesToFitScreen(){
 		customCSS += "	padding-bottom: min(calc(42.86% - 104px), " + (x) + "px) !important;";  
 		customCSS += "}";
 		customCSS += "@media screen and (min-width: 1500px) {";
-		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * screenPadding) - 20 - 156);
+		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * deviceMargin) - 20 - 156);
 		customCSS += "	.iQontrolDevice.aspect-1-1-limited, .iQontrolDevice:not(.active).aspect-1-1-limitedIfInactive, .iQontrolDevice.active.aspect-1-1-limitedIfActive, .iQontrolDevice.enlarged.aspect-1-1-limitedIfEnlarged {";
 		customCSS += "		padding-bottom: min(calc(100% - 104px), " + (x) + "px) !important;";  
 		customCSS += "	}";
@@ -11859,7 +11872,7 @@ function resizeFullWidthDevicesToFitScreen(){
 		customCSS += "		padding-bottom: min(calc(42.86% - 104px), " + (x) + "px) !important;";  
 		customCSS += "	}";
 		customCSS += "}";
-		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * screenPadding) - 20);
+		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * deviceMargin) - 20);
 		customCSS += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {";
 		customCSS += "	height: " + (x) + "px !important; max-height: " + (x) + "px !important;";
 		customCSS += "	padding-bottom: unset !important;";

@@ -1,4 +1,11 @@
 /* Some Parts of CSS will be modified by index.js while runtime! */
+:root {
+    --saveAreaInsetTop: env(safe-area-inset-top);
+    --saveAreaInsetRight: env(safe-area-inset-right);
+    --saveAreaInsetBottom: env(safe-area-inset-bottom);
+    --saveAreaInsetLeft: env(safe-area-inset-left);
+}
+
 document, html {
 	overflow: hidden !important;
 	overscroll-behavior: contain !important;
@@ -194,6 +201,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	margin: -1px;
 	padding: 20px 40px 20px 10px;
 }
+.iQontrolToolbarLink{
+	padding-bottom: max(9px, env(safe-area-inset-bottom)) !important;
+}
 .iQontrolToolbarLink.ui-btn:not(.ui-btn-active) {
 	max-width: 100%;
 	background-color: #333333 !important;
@@ -369,6 +379,8 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	overscroll-behavior: contain !important;
 	margin: 0px;
 	padding: 0px;
+	padding-left: env(safe-area-inset-left);
+	padding-right: env(safe-area-inset-right);
 	min-height:100vh;
 	color: #FFF;
 	font-size: 11pt;
@@ -381,6 +393,8 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	background-color: rgba(0,0,0,0.15);
 	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
+	margin-left: calc(-5px - env(safe-area-inset-left));
+	padding-left: calc(env(safe-area-inset-left) + 7px);
 	width: 200vw;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
@@ -401,6 +415,8 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	background-color: rgba(0,0,0,0.15);
 	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
+	margin-left: calc(-5px - env(safe-area-inset-left));
+	padding-left: calc(env(safe-area-inset-left) + 7px);
 	width: 200vw;
 	font-weight: normal;
 }
@@ -430,6 +446,15 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	opacity: 0.8;
 	visibility: hidden;
 }
+.viewSwipeGoal.left {
+	left: 0px;
+	left: env(safe-area-inset-left);
+}
+.viewSwipeGoal.right {
+	right: 0px;
+	right: env(safe-area-inset-right);
+	text-align: right;
+}
 .isBackgroundView .viewSwipeGoal {
 	display: none;
 }
@@ -439,12 +464,11 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	height:6px;
 	margin: 2px;
 }
-.viewSwipeGoal.left, .viewSwipeGoal.left img, .viewSwipeGoal.left span {
+.viewSwipeGoal.left img, .viewSwipeGoal.left span {
 	left: 0;
 }
-.viewSwipeGoal.right, .viewSwipeGoal.right img, .viewSwipeGoal.right span{
+.viewSwipeGoal.right img, .viewSwipeGoal.right span {
 	right: 0px;
-	text-align: right;
 }
 .viewSwipeGoal span {
 	padding-left: 10px;
