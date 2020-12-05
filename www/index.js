@@ -7664,6 +7664,12 @@ function applyViewDeviceContextMenu(){
 	});
 	$('.iQontrolDeviceLink').on('touchstart mousedown', function(event){ 
 		console.log("viewDeviceContextMenu start via TOUCHSTART/MOUSEDOWN");
+		var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
+		var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
+		if(posY > window.innerHeight - saveAreaInsetBottom){
+			console.log("viewDeviceContextMenu start aborted, because touch was in safe area");
+			return;
+		}
 		viewDeviceContextMenuStart(event.target);
 		toolbarContextMenuEnd();
 	});
