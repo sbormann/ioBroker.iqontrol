@@ -1183,7 +1183,7 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.5.2 (2020-12-06)
 * (sbormann) Design-Adjustments for iPhones without home button and devices with notch and rounded corners.
 * (sbormann) Prevent opening of context menu when closing app.
 
