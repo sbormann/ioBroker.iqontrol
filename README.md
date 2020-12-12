@@ -47,6 +47,10 @@ Fast Web-App for Visualization.
 \
 ![Screenshot](img/screenshot_dslraser.jpg "&copy; by dslraser")
 
+\
+[![Demo-Video](img/play_demo.png "open on youtube")](https://youtu.be/QHgmrzMmcX4)
+
+
 Runs in any Browser. 
 Easy to setup, allthough it's fully customizable and responsive.
 
