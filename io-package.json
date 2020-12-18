@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.5.2",
+        "version": "1.5.3",
         "news": {
             "1.5.2": {
                 "en": "Design-Adjustments for iPhones without home button and devices with notch and rounded corners, Prevent opening of context menu when closing app.",

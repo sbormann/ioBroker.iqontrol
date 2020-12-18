@@ -825,7 +825,7 @@ var iQontrolRoles = {
 	"iQontrolPressure": 			{
 										name: "Pressure-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
-										icon: "/images/icons/humidity.png",
+										icon: "/images/icons/pressure.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png", default: ""},
@@ -3553,11 +3553,11 @@ function load(settings, onChange) {
 		var $key = $(this);
 		var id = $key.attr('id');
 		if ($key.attr('type') === 'checkbox') {
-			if(typeof settings[id] != udef) $key.prop('checked', settings[id]);
+			$key.prop('checked', settings[id]);
 			//do not call onChange direct, because onChange could expect some arguments
 			$key.on('change', () => onChange());
 		} else {
-			if(typeof settings[id] != udef) $key.val(settings[id]);
+			$key.val(settings[id]);
 			//do not call onChange direct, because onChange could expect some arguments
 			$key.on('change', () => onChange()).on('keyup', () => onChange());
 		}

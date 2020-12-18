@@ -756,7 +756,7 @@ var iQontrolRoles = {
 	"iQontrolPressure": 			{
 										name: "Pressure-Sensor",
 										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],  
-										icon: "/images/icons/humidity.png",
+										icon: "/images/icons/pressure.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png", default: ""},
@@ -5217,7 +5217,7 @@ function renderView(viewId, triggeredByReconnection){
 				viewContent += "<div class='iQontrolDevice" + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 					//--Link (to Dialog / Popup / External Link / Other View)
 					switch(device.commonRole){
-						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
+						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure": case "iQontrolBrightness": case "iQontrolMotion":
 						if(getDeviceOptionValue(device, "clickOnTileOpensDialog") == "true"){
 							deviceContent += "<div class='iQontrolDeviceLink dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 						} else {
@@ -5451,6 +5451,11 @@ function renderView(viewId, triggeredByReconnection){
 							case "iQontrolHumidity":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/humidity.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/humidity.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							break;
+
+							case "iQontrolPressure":
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/pressure.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/pressure.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolBrightness":
@@ -5711,7 +5716,7 @@ function renderView(viewId, triggeredByReconnection){
 						viewInfoASliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoA' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity":
+							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
 							if (deviceLinkedStateIds["TEMPERATURE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
@@ -6060,7 +6065,7 @@ function renderView(viewId, triggeredByReconnection){
 						viewInfoBSliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoB' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity":
+							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
 							if (deviceLinkedStateIds["HUMIDITY"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
@@ -11341,7 +11346,7 @@ function renderDialog(deviceIdEscaped){
 
 				default:
 				switch(device.commonRole){
-					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolBrightness": case "iQontrolMotion":
+					case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure": case "iQontrolBrightness": case "iQontrolMotion":
 					showTimestamp = true;
 					$('.iQontrolDialogTimestampSwitch.hide').show();
 					break;
