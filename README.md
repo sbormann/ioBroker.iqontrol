@@ -1192,6 +1192,8 @@ This device has some special predefined size- and display-settings to show a web
 ****
     
 ## Changelog
+### dev
+* (sbormann) Added info if demo-view is loaded.
 
 ### 1.5.3 (2020-12-18)
 * (sbormann) Fix for black-colour-options-bug for new instances.
