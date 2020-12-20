@@ -7,6 +7,7 @@ var connectionLink = location.origin;
 var useCache = true;
 var homeId = getUrlParameter('renderView') || '';	//If not specified, the first toolbar-entry will be used
 var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
+var isBackgroundView = getUrlParameter('isBackgroundView')
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -2637,7 +2638,7 @@ if (!Array.from) {
 /*Initialization of socket is done at the end of the document in the $(document).ready-section*/
 function getStarted(triggeredByReconnection){
 	console.log("* Get started...");
-	if(!getUrlParameter("isBackgroundView")) $('.loader').show(); else $('.loader').hide();
+	if(!isBackgroundView) $('.loader').show(); else $('.loader').hide();
 	$("#ToolbarContextMenu, #ViewDeviceContextMenu, #Dialog").popup("close");
 	$('#pincode').hide(150);
 	states = {};
@@ -5130,6 +5131,13 @@ function renderView(viewId, triggeredByReconnection){
 		$(".iQontrolToolbarLink").removeClass("ui-btn-active");
 		$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
 	}
+	//Show or hide homeButton
+	if(isBackgroundView && actualViewId != homeId){
+		$(".viewHomeButton").show();
+	} else {
+		$(".viewHomeButton").hide();
+	}
+	//Fetch view
 	fetchView(actualViewId, function(){
 		actualView = getView(actualViewId);
 		if(!actualView) return;
@@ -5198,7 +5206,7 @@ function renderView(viewId, triggeredByReconnection){
 				var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
 				if (deviceLinkedViewId && typeof getView(deviceLinkedViewId) !== udef && getView(deviceLinkedViewId) && typeof getView(deviceLinkedViewId).commonName !== udef){
 					var deviceLinkedViewName = getView(deviceLinkedViewId).commonName;
-					if(getUrlParameter("isBackgroundView") && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+					if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
 						var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
 						viewDeviceContextMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); renderViewInParentInstance(unescape("' + escape(deviceLinkedViewId) + '"), ' + closePanel + ');'};
 					} else {
@@ -5222,7 +5230,7 @@ function renderView(viewId, triggeredByReconnection){
 							deviceContent += "<div class='iQontrolDeviceLink dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 						} else {
 							if (typeof device.nativeLinkedView != udef && device.nativeLinkedView != "") { //Link to other view
-								if(getUrlParameter("isBackgroundView") && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+								if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
 									var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
 									deviceContent += "<div class='iQontrolDeviceLink linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
 								} else { //Normal Link to other view
@@ -11472,7 +11480,7 @@ function enhanceTextareasWithJqte(selector){
 
 //++++++++++ POPUP (TOAST) ++++++++++
 function initPopup(){
-	if(!getUrlParameter("isBackgroundView")) fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
+	if(!isBackgroundView) fetchStates([namespace + '.Popup.Message', namespace + '.Popup.Duration', namespace + '.Popup.ClickedValue', namespace + '.Popup.ClickedDestinationState', namespace + '.Popup.ButtonNames', namespace + '.Popup.ButtonValues', namespace + '.Popup.ButtonDestinationStates', namespace + '.Popup.ButtonCloses']);
 }
 
 function toast(message, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses){
@@ -11570,7 +11578,7 @@ function toastShowNext(){
 //++++++++++ PANELS ++++++++++
 var panelIds = ["Panel"]; //At the moment there is only one panel present
 function initPanels(){
-	if(getUrlParameter("isBackgroundView") || getUrlParameter("noPanel")) return;
+	if(isBackgroundView || getUrlParameter("noPanel")) return;
 	var panelLinkedStateIdsToFetchAndUpdate = [];
 	panels.forEach(function(panel, panelIndex){
 		var panelId = panelIds[panelIndex];
@@ -11823,7 +11831,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled && !getUrlParameter('isBackgroundView')) viewSwipe("right");
+		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) viewSwipe("right");
 	});
 	$(document).on("swipeleft", ".ui-page", function(event){
 		toolbarContextMenuEnd();
@@ -11835,12 +11843,12 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled && !getUrlParameter('isBackgroundView')) viewSwipe("left");
+		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) viewSwipe("left");
 	});
 	$(document).on('click', function(event){
-		if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !getUrlParameter('isBackgroundView') && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
+		if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
 			viewSwipe("right");	
-		} else if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !getUrlParameter('isBackgroundView') && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
+		} else if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
 			viewSwipe("left");	
 		}
 	});
@@ -12033,8 +12041,8 @@ function handleVisibilityChange() {
 //Document ready - initialization - start connection
 $(document).ready(function(){
 	//Add class isBackgroundView to body and #View
-	if(getUrlParameter("isBackgroundView")) $('#View').addClass('isBackgroundView');
-	if(getUrlParameter("isBackgroundView")) $('body').addClass('isBackgroundView');
+	if(isBackgroundView) $('#View').addClass('isBackgroundView');
+	if(isBackgroundView) $('body').addClass('isBackgroundView');
 		
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true);
@@ -12053,6 +12061,11 @@ $(document).ready(function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
 		dialogUpdateFunctions = {};
+	});
+	
+	//Enable viewHomeButton
+	$(".viewHomeButton").on('click', function(){
+		renderView(homeId);
 	});
 
 	//PullToRefresh

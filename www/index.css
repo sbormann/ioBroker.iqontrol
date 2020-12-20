@@ -474,6 +474,33 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	padding-left: 10px;
 	padding-right: 10px;
 }
+.viewHomeButton {
+	position: fixed;
+	bottom: 5px;
+	bottom: max(5px, env(safe-area-inset-bottom));
+	right: 5px;
+	right: max(5px, env(safe-area-inset-right));
+	height: 3em;
+	width: 3em;
+	z-index: 1100;
+	overflow: hidden;
+	opacity: 0.7;
+	display: none;
+	text-align: right;
+	-webkit-transition: all 0.5s;
+	   -moz-transition: all 0.5s;
+			transition: all 0.5s;
+}
+.viewHomeButton:hover {
+	opacity: 0.9;
+}
+.viewHomeButton img{
+	position: absolute;
+	top: 0; left: 0;
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+}
 .viewNewLineSpacer {
 	width: 0;
 	height: 0;

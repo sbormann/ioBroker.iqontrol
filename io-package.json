@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.5.3",
+        "version": "1.5.4",
         "news": {
+            "1.5.4": {
+                "en": "Added info if demo-view is loaded, Enhanced widget FLOT_CHART to be able to use an external datapoint, Added homeButton for BACKGROUND_VIEWs, if view has changed to return to home view, You can now edit widget-settings by clicking the pencil icon.",
+                "de": "Informationen hinzugefügt, wenn die Demo-Ansicht geladen ist. Erweitertes Widget FLOT_CHART, um einen externen Datenpunkt verwenden zu können. Hinzugefügt. HomeButton für HINTERGRUND_ANSICHTEN. Wenn die Ansicht geändert wurde, um zur Startansicht zurückzukehren. Sie können jetzt die Widget-Einstellungen bearbeiten, indem Sie auf das Stiftsymbol klicken.",
+                "ru": "Добавлена ​​информация, если демонстрационное представление загружено, Улучшенный виджет FLOT_CHART для возможности использования внешней точки данных, Добавлена ​​кнопка homeButton для BACKGROUND_VIEWs, если вид изменился, чтобы вернуться к домашнему виду, Теперь вы можете редактировать настройки виджета, щелкнув значок карандаша.",
+                "pt": "Informações adicionadas se a visualização de demonstração for carregada, widget aprimorado FLOT_CHART para poder usar um ponto de dados externo, botão inicial adicionado para BACKGROUND_VIEWs, se a visualização tiver mudado para retornar à visualização inicial. Agora você pode editar as configurações do widget clicando no ícone de lápis.",
+                "nl": "Info toegevoegd als demo-weergave is geladen, Verbeterde widget FLOT_CHART om een ​​extern datapunt te kunnen gebruiken, HomeButton toegevoegd voor BACKGROUND_VIEWs, als weergave is gewijzigd om terug te keren naar de startweergave, kunt u nu widget-instellingen bewerken door op het potloodpictogram te klikken.",
+                "fr": "Ajout d'informations si la vue de démonstration est chargée, Widget amélioré FLOT_CHART pour pouvoir utiliser un point de données externe, Ajout du bouton home pour BACKGROUND_VIEWs, si la vue a changé pour revenir à la vue d'accueil, Vous pouvez maintenant modifier les paramètres du widget en cliquant sur l'icône en forme de crayon.",
+                "it": "Aggiunte informazioni se viene caricata la visualizzazione demo, widget migliorato FLOT_CHART per poter utilizzare un datapoint esterno, aggiunto homeButton per BACKGROUND_VIEWs, se la visualizzazione è cambiata per tornare alla visualizzazione home, ora puoi modificare le impostazioni del widget facendo clic sull'icona della matita.",
+                "es": "Información agregada si se carga la vista de demostración, widget mejorado FLOT_CHART para poder usar un punto de datos externo, botón de inicio agregado para BACKGROUND_VIEWs, si la vista ha cambiado para volver a la vista de inicio, ahora puede editar la configuración del widget haciendo clic en el ícono de lápiz.",
+                "pl": "Dodano informacje, jeśli załadowany jest widok demonstracyjny, Ulepszony widget FLOT_CHART, aby móc korzystać z zewnętrznego punktu danych, Dodano przycisk homeButton dla BACKGROUND_VIEWs, jeśli widok zmienił się i powrócił do widoku głównego. Możesz teraz edytować ustawienia widżetu, klikając ikonę ołówka.",
+                "zh-cn": "如果加载了演示视图，则添加了信息；增强了小部件FLOT_CHART以能够使用外部数据点；为Background_VIEWs添加了homeButton；如果视图已更改为返回到主视图，则您现在可以通过单击铅笔图标来编辑小部件设置。"
+            },
             "1.5.2": {
                 "en": "Design-Adjustments for iPhones without home button and devices with notch and rounded corners, Prevent opening of context menu when closing app.",
                 "de": "Design-Anpassungen für iPhones ohne Home-Taste und Geräte mit Kerbe und abgerundeten Ecken. Verhindern Sie das Öffnen des Kontextmenüs beim Schließen der App.",

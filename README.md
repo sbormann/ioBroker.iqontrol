@@ -1193,7 +1193,7 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.5.4 (2020-12-20)
 * (sbormann) Added info if demo-view is loaded.
 * (sbormann) Enhanced widget FLOT_CHART to be able to use an external datapoint.
 * (sbormann) Added homeButton for BACKGROUND_VIEWs, if view has changed to return to home view.
