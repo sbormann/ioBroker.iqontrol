@@ -1196,6 +1196,8 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Added info if demo-view is loaded.
 * (sbormann) Enhanced widget FLOT_CHART to be able to use an external datapoint.
+* (sbormann) Added homeButton for BACKGROUND_VIEWs, if view has changed to return to home view.
+* (sbormann) You can now edit widget-settings by clicking the pencil icon.
 
 ### 1.5.3 (2020-12-18)
 * (sbormann) Fix for black-colour-options-bug for new instances.

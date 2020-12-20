@@ -3564,9 +3564,16 @@ function load(settings, onChange) {
 	});
 
 	//Get Subsettings
-	toolbar = settings.toolbar || settings.demotoolbar || [];
-	views = settings.views || settings.demoviews || [];
-	version = settings.version;
+	if(!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
+		toolbar = settings.toolbar || settings.demotoolbar || [];
+		views = settings.views || settings.demoviews || [];
+		version = settings.version || 0;
+		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
+	} else {
+		toolbar = settings.toolbar || [];
+		views = settings.views || [];
+		version = settings.version || 0;
+	}
 
 	//Set initial values of further variables
 	images = [];
@@ -4674,17 +4681,56 @@ function load(settings, onChange) {
 			if (command === 'edit') {
 				$(this).on('click', function () {
 					var stateIndex = $(this).data('index');
-					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const - open editText dialog
-						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
-							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
-							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
-						});
-						$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-						$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
-						$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
-						$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
-						$('#dialogDeviceEditStateConstant').modal('open');
-						$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
+					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
+						if((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
+						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
+							var filename = null;
+							var path = null;
+							if(stateValue.indexOf("./images/widgets/") == 0){ 
+								filename = stateValue.substr(8);
+								path = imagePath;
+							}
+							if(stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+								filename = stateValue.substr(29);
+								path = userfilesImagePath;
+							}
+							if(filename && path){
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									getWidgetSettings(filename, path, function(result){
+										var _stateIndex = stateIndex;
+										var _stateValue = stateValue;
+										if(result.urlParameters.length) {
+											var urlParameterString = "?" + result.urlParameters.join('&');
+											$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(_stateValue.split('?')[0] + urlParameterString).trigger('change');
+										}
+										for(option in result.options){
+											if(iQontrolRoles["iQontrolWidget"].options[option]){
+												var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+												if (optionsIndex != -1) {
+													dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+												} else {
+													var entry = {option: option, value: result.options[option]};
+													dialogDeviceEditOptions.push(entry);
+												}
+											}
+										};
+										dialogDeviceEditOptionsBuildOptionsContent();
+									});
+								})(); //<--End Closure
+							}
+						} else { //const TEXT - open editText dialog
+							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+								$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+							});
+							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
+							$('#dialogDeviceEditStateConstant').modal('open');
+							$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
+						}
 					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
@@ -5516,6 +5562,8 @@ function load(settings, onChange) {
 
 	//Widget-Settings
 	function getWidgetSettings(filename, path, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+		var querystring = filename.split('?')[1] || "";
+		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
 			if($(htmlAsString).filter('meta[name^="widget-"]').length){					
 				initDialog('dialogWidgetSettings', function(){ //save dialog
@@ -5557,11 +5605,16 @@ function load(settings, onChange) {
 							dialogDevicesAutocreateWidgetUrlParameters = "";
 							var dialogWidgetSettingsUrlParametersString = "";
 							var urlParameters = metaContent.split(';');
+							var querystringParts = querystring.split('&');
+							var queries = {};
+							querystringParts.forEach(function(query){
+								queries[query.split('=')[0]] = query.split('=')[1] || "";
+							});
 							urlParameters.forEach(function(urlParameter){ 
 								urlParameter = urlParameter.trim().split('/');
 								var entry = urlParameter[0];
 								var name = urlParameter[2] || urlParameter[0];
-								var value = urlParameter[1] || "";
+								var value = queries[entry] || urlParameter[1] || "";
 								var type = urlParameter[3] || "text";
 								var options = urlParameter.slice(4) || [];
 								switch(type){
