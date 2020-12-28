@@ -11252,7 +11252,7 @@ function renderDialog(deviceIdEscaped){
 					var type = _(getDeviceOptionValue(device, "additionalInfoCaption") || "Additional Infos");
 					var additionalInfoSectionType = getDeviceOptionValue(device, "additionalInfoSectionType") || "collapsible";
 					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
-						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "<hr>");
+						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "<hr>");
 						dialogContent += "<div id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
 							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></ul>";
 						dialogContent += "</div>";
