@@ -4894,6 +4894,8 @@ function load(settings, onChange) {
 				$(this).parents('td').hide(0);
 			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
 				$(this).parents('td').hide(0);
+			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
+				$(this).parents('td').hide(0);
 			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
 				$(this).parents('td').hide(0);
 			} 
