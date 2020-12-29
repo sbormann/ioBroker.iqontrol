@@ -2565,7 +2565,7 @@ if (!Array.prototype.findIndex) {
       while (k < len) {
         // a. Let Pk be ! ToString(k).
         // b. Let kValue be ? Get(O, Pk).
-        // c. Let testResult be ToBoolean(? Call(predicate, T, Â« kValue, k, O Â»)).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
         // d. If testResult is true, return k.
         var kValue = o[k];
         if (predicate.call(thisArg, kValue, k, o)) {
@@ -2643,7 +2643,7 @@ if (!Array.from) {
 
       // 16. Let k be 0.
       var k = 0;
-      // 17. Repeat, while k < lenâ€¦ (also steps a - h)
+      // 17. Repeat, while k < len… (also steps a - h)
       var kValue;
       while (k < len) {
         kValue = items[k];
@@ -3235,7 +3235,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 						}
 						break;
 						
-						//Weitere mÃ¶gliche - aber noch nicht implementierte - Werte:
+						//Weitere mögliche - aber noch nicht implementierte - Werte:
 						//RHS.STATE (Rotary Handle Transceiver)
 						//CLIMATECONTROL_FLOOR_TRANSCEIVER.STATE
 						//GENERIC_INPUT_TRANSMITTER.STATE
@@ -3374,7 +3374,7 @@ function getUnit(linkedStateId){
 			}
 		}
 	}
-	if(!(unit == "Â°C" || unit == "Â°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
+	if(!(unit == "°C" || unit == "°F" || unit == "%" || unit == "")) unit = "&nbsp;" + unit;
 	return unit;
 }
 
@@ -10964,7 +10964,7 @@ function renderDialog(deviceIdEscaped){
 							var headingIndex = -1;
 							_linkedAdditionalControls.forEach(function(_element, _index){ // --- Loop through all additionalControls ---
 								if(_element.heading) {
-									if(headingIndex > -1) dialogContent += "</div></div>"; //Close last heading section
+									if(headingIndex > -1) dialogAdditionalControlsContent += "</div></div>"; //Close last heading section
 									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _element.heading + ":</h4>" : "");
 									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
@@ -11237,7 +11237,6 @@ function renderDialog(deviceIdEscaped){
 				if(linkedAdditionalInfoIdsAreValid){
 					//get additional linkedStates from Array:
 					linkedAdditionalInfoIds.forEach(function(element){
-						fetchStates
 						if (typeof states[element.value] == udef) {
 							dialogStateIdsToFetch.push(element.value);
 						}
