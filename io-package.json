@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.5.4",
+        "version": "1.5.5",
         "news": {
+            "1.5.5": {
+                "en": "Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option, Added 'No caption' to the option that controls the appereance of ADDITIONAL_CONTROLS-Section, The ADDITIONAL_CONTROLS-Section has been reordered to appear higher up, Virtual enlarge-switch from widgets was renamed from switch to enlarge, Fix for remote control not appearing if REMOTE_CHANNELS was the only used datapoint, Reposition popup, if ADDITIONAL_CONTROLS are present.",
+                "de": "ADDITIONAL_CONTROLS wurden optionale Überschriften hinzugefügt. Die Darstellung kann durch eine Option gesteuert werden. Der Option, die die Darstellung der ADDITIONAL_CONTROLS-Sektion steuert, wurde 'Keine Beschriftung' hinzugefügt. Die ADDITIONAL_CONTROLS-Sektion wurde neu angeordnet, um höher zu erscheinen ",
+                "ru": "Добавлены необязательные заголовки в ADDITIONAL_CONTROLS, внешний вид можно контролировать с помощью параметра, Добавлено «Без заголовка» к параметру, который контролирует внешний вид раздела ADDITIONAL_CONTROLS, Раздел ADDITIONAL_CONTROLS был переупорядочен, чтобы отображаться выше, виртуальное переключение увеличения с виджетов ",
+                "pt": "Adicionados cabeçalhos opcionais a ADDITIONAL_CONTROLS, a aparência pode ser controlada por uma opção, Adicionado 'Sem legenda' para a opção que controla a aparência da seção ADDITIONAL_CONTROLS, A seção ADDITIONAL_CONTROLS foi reordenada para aparecer mais acima, Chave de ampliação virtual dos widgets ",
+                "nl": "Optionele koppen toegevoegd aan ADDITIONAL_CONTROLS, de weergave kan worden gecontroleerd door een optie, 'Geen bijschrift' toegevoegd aan de optie die de weergave van ADDITIONAL_CONTROLS-sectie regelt, De ADDITIONAL_CONTROLS-sectie is opnieuw gerangschikt om hoger te verschijnen, Virtuele vergroting-schakelaar van widgets ",
+                "fr": "Ajout d'en-têtes facultatifs à ADDITIONAL_CONTROLS, l'apparence peut être contrôlée par une option, Ajout de `` Aucune légende '' à l'option qui contrôle l'apparence de la section ADDITIONAL_CONTROLS, La section ADDITIONAL_CONTROLS a été réorganisée pour apparaître plus haut, Agrandissement virtuel des widgets ",
+                "it": "Aggiunte intestazioni opzionali a ADDITIONAL_CONTROLS, l'aspetto può essere controllato da un'opzione, Aggiunta \"Nessuna didascalia\" all'opzione che controlla l'aspetto di ADDITIONAL_CONTROLS-Sezione, La sezione ADDITIONAL_CONTROLS è stata riordinata per apparire più in alto, Cambio di ingrandimento virtuale dai widget ",
+                "es": "Se agregaron encabezados opcionales a ADDITIONAL_CONTROLS, la apariencia se puede controlar mediante una opción, Se agregó 'Sin título' a la opción que controla la apariencia de la sección ADDITIONAL_CONTROLS, La sección ADDITIONAL_CONTROLS se ha reordenado para que aparezca más arriba, Cambio de ampliación virtual de los widgets ",
+                "pl": "Dodano opcjonalne nagłówki do ADDITIONAL_CONTROLS, wyglądem można sterować za pomocą opcji, Dodano opcję `` Brak podpisu '' do opcji kontrolującej wygląd sekcji ADDITIONAL_CONTROLS, Sekcja ADDITIONAL_CONTROLS została zmieniona tak, aby pojawiała się wyżej, Wirtualny przełącznik powiększania z widżetów ",
+                "zh-cn": "向ADDITIONAL_CONTROLS添加了可选标题，外观可以通过选项进行控制，向控制ADDITIONAL_CONTROLS-Section外观的选项添加了“无标题”，ADDITIONAL_CONTROLS-Section已重新排序为从上到下显示，从窗口小部件进行虚拟放大切换"
+            },
             "1.5.4": {
                 "en": "Added info if demo-view is loaded, Enhanced widget FLOT_CHART to be able to use an external datapoint, Added homeButton for BACKGROUND_VIEWs, if view has changed to return to home view, You can now edit widget-settings by clicking the pencil icon.",
                 "de": "Informationen hinzugefügt, wenn die Demo-Ansicht geladen ist. Erweitertes Widget FLOT_CHART, um einen externen Datenpunkt verwenden zu können. Hinzugefügt. HomeButton für HINTERGRUND_ANSICHTEN. Wenn die Ansicht geändert wurde, um zur Startansicht zurückzukehren. Sie können jetzt die Widget-Einstellungen bearbeiten, indem Sie auf das Stiftsymbol klicken.",

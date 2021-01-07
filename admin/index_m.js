@@ -4770,7 +4770,7 @@ function load(settings, onChange) {
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "commonRole";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
 						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);

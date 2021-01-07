@@ -3848,47 +3848,6 @@ function startButton(linkedStateId, linkedSetValueId, linkedOffSetValueId, retur
 }
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
-function pincode(givenPincode, rightPinCallback, wrongPinCallback){
-	pincodeClear();
-	$('#pincode').show(150);
-	$(document).one("keydown", function(event){pincodeKeydown(event.which);});
-	$('#pincodeEnter').off("click").on("click", function(){
-		if($('#pincodePin').val() == givenPincode){
-			if(rightPinCallback) rightPinCallback();
-		} else {
-			if(wrongPinCallback) wrongPinCallback();
-		}
-		$('#pincode').hide(150);
-		//setTimeout(function(){$(document).trigger("keydown");}, 250);
-	});
-}
-
-function pincodeKeydown(which){
-	if($('#pincode').css('display') != "none"){
-		console.log("pincode Keydown: " + which);
-		if (which == 13) {
-			$('#pincodeEnter').trigger("click");
-		} else if(which == 8){
-			$("#pincodePin").val($("#pincodePin").val().slice(0, -1));			
-		} else if(48 <= which && which <= 57){
-			pincodeAddNumber(which - 48);
-		} else if(96 <= which && which <= 105){
-			pincodeAddNumber(which - 96);
-		}
-		$(document).one("keydown", function(event){pincodeKeydown(event.which);});
-	} else {
-		console.log("pincode Keydown end listening");		
-	}
-}
-
-function pincodeAddNumber(number){
-	$("#pincodePin").val($("#pincodePin").val() + number);
-}
-
-function pincodeClear(){
-	$("#pincodePin").val("");	
-}
-
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -4989,6 +4948,48 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 	}
+}
+
+//++++++++++ PINCODE ++++++++++
+function pincode(givenPincode, rightPinCallback, wrongPinCallback){
+	pincodeClear();
+	$('#pincode').show(150);
+	$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	$('#pincodeEnter').off("click").on("click", function(){
+		if($('#pincodePin').val() == givenPincode){
+			if(rightPinCallback) rightPinCallback();
+		} else {
+			if(wrongPinCallback) wrongPinCallback();
+		}
+		$('#pincode').hide(150);
+		//setTimeout(function(){$(document).trigger("keydown");}, 250);
+	});
+}
+
+function pincodeKeydown(which){
+	if($('#pincode').css('display') != "none"){
+		console.log("pincode Keydown: " + which);
+		if (which == 13) {
+			$('#pincodeEnter').trigger("click");
+		} else if(which == 8){
+			$("#pincodePin").val($("#pincodePin").val().slice(0, -1));			
+		} else if(48 <= which && which <= 57){
+			pincodeAddNumber(which - 48);
+		} else if(96 <= which && which <= 105){
+			pincodeAddNumber(which - 96);
+		}
+		$(document).one("keydown", function(event){pincodeKeydown(event.which);});
+	} else {
+		console.log("pincode Keydown end listening");		
+	}
+}
+
+function pincodeAddNumber(number){
+	$("#pincodePin").val($("#pincodePin").val() + number);
+}
+
+function pincodeClear(){
+	$("#pincodePin").val("");	
 }
 
 //++++++++++ TOOLBAR ++++++++++
@@ -8112,6 +8113,7 @@ function renderDialog(deviceIdEscaped){
 							var type = "Switch";
 							if (device.commonRole == "iQontrolMotion") type = "Motion";
 							if (device.commonRole == "iQontrolAlarm") type = "Alarm";
+							if (device.commonRole == "iQontrolWidget") type = "Enlarge";
 							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 								dialogContent += "<option value='false'>0</option>";
@@ -10280,7 +10282,7 @@ function renderDialog(deviceIdEscaped){
 					}
 
 					//----RemoteControl
-					if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != "[]")){
+					if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != "[]") || (dialogStates["REMOTE_CHANNELS"] && typeof dialogStates["REMOTE_CHANNELS"].val != udef && dialogStates["REMOTE_CHANNELS"].val != "[]")){
 						var type = "Remote Control";
 						dialogContent += "<div id='DialogRemote'>";
 						dialogContent += "<hr>";
@@ -10855,84 +10857,9 @@ function renderDialog(deviceIdEscaped){
 					default:
 					//Nothing to do
 				}
-				//--Universal additional Content
-				//----External Link with url
-				if (dialogStates["URL"] && (device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")){
-					dialogContent += "<a href='' target='_blank' data-role='button' data-mini='false' data-icon='action' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogExternalLinkButton' id='DialogExternalLinkButton'>" + _("Open External Link") + "</a>";
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedUrlId = dialogLinkedStateIds["URL"];
-						var updateFunction = function(){
-							if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
-								$('#DialogExternalLinkButton').attr('href', states[_linkedUrlId].val);
-							}
-						}
-						if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
-					})(); //<--End Closure
-				}
-				//----Popup with url or html
-				if ((dialogStates["URL"] && !(device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")) || dialogStates["HTML"]){
-					var style = "display: none; ";
-					var popupWidth = getDeviceOptionValue(device, "popupWidth");
-					if (popupWidth){
-						style += "width: " + popupWidth + "px !important; ";
-						if (popupWidth < 300) style += "min-width: " + popupWidth + "px !important; ";
-					} else if (device.commonRole !== "iQontrolPopup" && device.commonRole !== "iQontrolWidget") {
-						style += "width: unset !important; "
-					}
-					var popupHeight = getDeviceOptionValue(device, "popupHeight");
-					if (popupHeight) {
-						style += "height: " + popupHeight + "px !important; ";
-					} else if (device.commonRole !== "iQontrolPopup" && device.commonRole !== "iQontrolWidget") {
-						style += "height: unset !important; "
-					}
-					dialogContent += "<div class='iQontrolDialogIframeWrapper' id='DialogPopupIframeWrapper' style='" + style + "'>";
-					dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogPopupIframe' scrolling='auto'" + ((getDeviceOptionValue(device, "popupAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + ">" + _("Content not available") + "</iframe>";
-					dialogContent += "	<div id='DialogPopupIframeHandle' style='" + ((getDeviceOptionValue(device, "popupFixed") == "true") ? "display: none; " : "") + "position: absolute; width: 18px; height: 18px; bottom: -9px; right: -9px; background: repeating-linear-gradient(to right, darkgrey, darkgrey 1px, transparent, transparent 25%); transform: rotate(45deg);'></div>";
-					dialogContent += "</div>";
-					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						var _device = device;
-						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedUrlId = dialogLinkedStateIds["URL"];
-						var _linkedHtmlId = dialogLinkedStateIds["HTML"];
-						var updateFunction = function(){
-							setTimeout(function(){
-								var iframe = document.getElementById('DialogPopupIframe');
-								if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "" && getDeviceOptionValue(_device, "openURLExternal") != "true") {
-									iframe.src = states[_linkedUrlId].val;
-									if(iframe.onload == null) {
-										iframe.onload = function(){ 
-											this.onload = function(){};
-											$('.iQontrolDialogIframeWrapper').show();
-											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
-											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
-										}
-									}
-								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
-									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
-									if(iframe.onload == null) {
-										iframe.onload = function(){ 
-											this.onload = function(){};
-											$('.iQontrolDialogIframeWrapper').show();
-											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
-											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
-										}
-									}
-									iframedoc.open();
-									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
-									$(iframedoc).find('body').css('font-family', 'sans-serif');
-									iframedoc.close();
-								} else {
-									$('.iQontrolDialogIframeWrapper').hide();						
-								}
-							}, (isFirefox?100:0));
-						}
-						if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
-						if (_linkedHtmlId) dialogUpdateFunctions[_linkedHtmlId].push(updateFunction);
-					})(); //<--End Closure
-				}
 
-				//-- Additional Controls
+				//--Universal additional Content
+				//----Additional Controls
 				//Special: ADDITIONAL_CONTROLS is an Array: [{"name":"Name", "type":"LinkedState", role:"|readonly|button", icon:"url", "value":"LinkedStateId", "heading":"Caption"}, ...]
 				var linkedAdditionalControls;
 				if (dialogStates["ADDITIONAL_CONTROLS"] && typeof dialogStates["ADDITIONAL_CONTROLS"].val != udef) linkedAdditionalControls = tryParseJSON(dialogStates["ADDITIONAL_CONTROLS"].val);
@@ -11193,6 +11120,7 @@ function renderDialog(deviceIdEscaped){
 							if(dialogAdditionalControlsContent.length > 0) $("#DialogAdditionalControlsContent").append(dialogAdditionalControlsContent);
 							$("#DialogAdditionalControlsContent").enhanceWithin();
 							collapsibleAnimatedInit();
+							setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 20);
 							for(var i = 0; i < dialogAdditionalControlsBindingFunctions.length; i++){ dialogAdditionalControlsBindingFunctions[i](); }
 							for(var i = 0; i < dialogAdditionalControlsLinkedStateIdsToUpdate.length; i++){ updateState(dialogAdditionalControlsLinkedStateIdsToUpdate[i]); } 
 							//Enhance Textareas with jqte
@@ -11224,6 +11152,84 @@ function renderDialog(deviceIdEscaped){
 
 					})(); //<--End Closure
 				}		
+				
+				//----External Link with url
+				if (dialogStates["URL"] && (device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")){
+					dialogContent += "<a href='' target='_blank' data-role='button' data-mini='false' data-icon='action' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogExternalLinkButton' id='DialogExternalLinkButton'>" + _("Open External Link") + "</a>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedUrlId = dialogLinkedStateIds["URL"];
+						var updateFunction = function(){
+							if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "") {
+								$('#DialogExternalLinkButton').attr('href', states[_linkedUrlId].val);
+							}
+						}
+						if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
+					})(); //<--End Closure
+				}
+
+				//----Popup with url or html
+				if ((dialogStates["URL"] && !(device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")) || dialogStates["HTML"]){
+					var style = "display: none; ";
+					var popupWidth = getDeviceOptionValue(device, "popupWidth");
+					if (popupWidth){
+						style += "width: " + popupWidth + "px !important; ";
+						if (popupWidth < 300) style += "min-width: " + popupWidth + "px !important; ";
+					} else if (device.commonRole !== "iQontrolPopup" && device.commonRole !== "iQontrolWidget") {
+						style += "width: unset !important; "
+					}
+					var popupHeight = getDeviceOptionValue(device, "popupHeight");
+					if (popupHeight) {
+						style += "height: " + popupHeight + "px !important; ";
+					} else if (device.commonRole !== "iQontrolPopup" && device.commonRole !== "iQontrolWidget") {
+						style += "height: unset !important; "
+					}
+					dialogContent += "<div class='iQontrolDialogIframeWrapper' id='DialogPopupIframeWrapper' style='" + style + "'>";
+					dialogContent += "	<iframe class='iQontrolDialogIframe' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogPopupIframe' scrolling='auto'" + ((getDeviceOptionValue(device, "popupAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + ">" + _("Content not available") + "</iframe>";
+					dialogContent += "	<div id='DialogPopupIframeHandle' style='" + ((getDeviceOptionValue(device, "popupFixed") == "true") ? "display: none; " : "") + "position: absolute; width: 18px; height: 18px; bottom: -9px; right: -9px; background: repeating-linear-gradient(to right, darkgrey, darkgrey 1px, transparent, transparent 25%); transform: rotate(45deg);'></div>";
+					dialogContent += "</div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedUrlId = dialogLinkedStateIds["URL"];
+						var _linkedHtmlId = dialogLinkedStateIds["HTML"];
+						var updateFunction = function(){
+							setTimeout(function(){
+								var iframe = document.getElementById('DialogPopupIframe');
+								if (states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val != "" && getDeviceOptionValue(_device, "openURLExternal") != "true") {
+									iframe.src = states[_linkedUrlId].val;
+									if(iframe.onload == null) {
+										iframe.onload = function(){ 
+											this.onload = function(){};
+											$('.iQontrolDialogIframeWrapper').show();
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
+										}
+									}
+								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val != "") {
+									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
+									if(iframe.onload == null) {
+										iframe.onload = function(){ 
+											this.onload = function(){};
+											$('.iQontrolDialogIframeWrapper').show();
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 250);
+											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
+										}
+									}
+									iframedoc.open();
+									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
+									$(iframedoc).find('body').css('font-family', 'sans-serif');
+									iframedoc.close();
+								} else {
+									$('.iQontrolDialogIframeWrapper').hide();						
+								}
+							}, (isFirefox?100:0));
+						}
+						if (_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
+						if (_linkedHtmlId) dialogUpdateFunctions[_linkedHtmlId].push(updateFunction);
+					})(); //<--End Closure
+				}				
+				
 				//----Additional Info
 				//Special: ADDITIONAL_INFO is an Array: [{"name":"Name", "type":"LinkedState", "value":"LinkedStateId"}, ...]
 				var linkedAdditionalInfoIds;
