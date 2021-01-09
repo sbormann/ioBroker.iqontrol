@@ -295,6 +295,8 @@
                 "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
             }
         },
+        "connectionType": "local",
+        "dataSource": "push",
         "dependencies": [
             {
                 "admin": ">=3.0.0"
@@ -305,8 +307,7 @@
             {
                 "web": ">=3.0.12"
             }
-        ],
-        "installedFrom": "/opt/iobroker/iobroker.iqontrol"
+        ]
     },
     "native": {
         "demotoolbar": [
