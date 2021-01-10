@@ -2901,14 +2901,14 @@ function getDevice(deviceId){
 }
 
 function getDeviceOptionValue(device, option){
-	var result = null;
-	if(device && typeof device == "object" && typeof device.options != udef){
-		var optionIndex = device.options.findIndex(function(element){ return (element.option == option);})
-		if(optionIndex > -1 && typeof device.options[optionIndex].value != udef){
-			result = device.options[optionIndex].value;
-		}
-	}
-	return result;
+    if (device && typeof device === "object" && typeof device.options !== udef) {
+        const deviceOption = device.options.find(element => element.option === option);
+        if (deviceOption && deviceOption.value !== udef) return deviceOption.value;
+        if (device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
+            return iQontrolRoles[device.commonRole].options[option].default || null;
+        }
+    }
+    return null;
 }
 
 function getLinkedStateId(device, state, stateId){
