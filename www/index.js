@@ -1,4 +1,4 @@
-1//iQontrol - Copyright (c) by Sebatian Bormann
+//iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
 //Settings
