@@ -1194,6 +1194,10 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
+### 1.5.6 dev
+* (sbormann) Fixed toolbar hiding issue if popup with additional controls is closed early.
+* (sbormann) Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time.
+
 ### 1.5.5 (2021-01-07)
 * (sbormann) Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option.
 * (sbormann) Added "No caption" to the option that controls the appereance of ADDITIONAL_CONTROLS-Section.

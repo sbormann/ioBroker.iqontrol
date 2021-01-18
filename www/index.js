@@ -5872,6 +5872,7 @@ function renderView(viewId, triggeredByReconnection){
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
 								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
 									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
@@ -5883,28 +5884,28 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									var _createColouredLightFunction = function(){
 										var _deviceLinkedStateIdsToFetchAndUpdate = [];
-										if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]) switch(alternativeColorspace){
+										if (_linkedAlternativeColorspaceValueId) switch(alternativeColorspace){
 											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
 											if (_linkedCtId == ""){
-												_linkedCtId = createTempLinkedState(deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedCtId = createTempLinkedState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
 											} 
 											
 											case "RGBW": case "#RGBW":
 											if (_linkedWhiteBrightnessId == ""){
-												_linkedWhiteBrightnessId = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedWhiteBrightnessId = createTempLinkedState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											} 
 											
 											case "RGB": case "#RGB":
 											if (_linkedSaturationId == ""){
-												_linkedSaturationId = createTempLinkedState(deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedSaturationId = createTempLinkedState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											if (_linkedColorBrightnessId == ""){
-												_linkedColorBrightnessId = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedColorBrightnessId = createTempLinkedState(_deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 
 											case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
 											if (_linkedHueId == ""){
-												_linkedHueId = createTempLinkedState(deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedHueId = createTempLinkedState(_deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedAlternativeColorspaceValueId);
 											break;
@@ -12105,7 +12106,9 @@ $(document).ready(function(){
 	$("[data-role='header'], [data-role='footer']").toolbar();
 
 	//Init Dialog
-	$('#Dialog').on('popupbeforeposition', function(){$('#Toolbar').toolbar('hide');});
+	$('#Dialog').on('popupbeforeposition', function(){
+		if($(".ui-popup-active").length == 0) $('#Toolbar').toolbar('hide');
+	});
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
