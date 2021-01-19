@@ -3059,6 +3059,12 @@ function removeDuplicates(array) { //Removes duplicates from an array
     });
 }
 
+function isValidColorString(colorString){
+	var style = new Option().style;
+	style.color = colorString;
+	return (style.color && style.color != "");
+}
+
 function updateSymbolicLinks(){
 	var changed = false;
 	if (typeof views != udef && views.length > 0) views.forEach(function(view){
@@ -4758,6 +4764,36 @@ function load(settings, onChange) {
 							} else {
 								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
 							}
+							if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //COLOR - init ColorPicker
+								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);							
+								if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+									var oldVal = $targetInput.val();
+									if(!$targetInput.data('materialize-color-picker-initialized')){
+										$targetInput.colorpicker().on('changeColor', function(event){
+											if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+										});
+										if(oldVal == "") $targetInput.val("");
+										$targetInput.on('change', function(){
+											if ($(this).val() == "") {
+												$(this).css('border-right', '0px solid black');
+											} else {
+												$(this).trigger('changeColor');
+											}
+										});
+										$targetInput.on('blur', function(){
+											dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
+										});
+										$targetInput.data('materialize-color-picker-initialized', true);
+									}
+									if(isValidColorString(oldVal)){
+										$targetInput.trigger('change');
+									}
+								} else {
+									$targetInput.colorpicker('destroy');									
+									$targetInput.data('materialize-color-picker-initialized', false);
+									$targetInput.css('border-right', '0px solid black');
+								}
+							}
 						})(); //<--End Closure
 					}).trigger('change');
 				}
@@ -4808,6 +4844,11 @@ function load(settings, onChange) {
 										dialogDeviceEditOptionsBuildOptionsContent();
 									});
 								})(); //<--End Closure
+							}
+						} else if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //const - COLOR - open Colorpicker
+							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);							
+							if($targetInput.data('materialize-color-picker-initialized')){
+								$targetInput.colorpicker('show');
 							}
 						} else { //const TEXT - open editText dialog
 							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
