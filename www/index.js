@@ -252,7 +252,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
-											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""},
+											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
@@ -4195,7 +4195,12 @@ function convertToAlternativeColorspace(device, linkedHueId, linkedSaturationId,
 		case "HUE_MILIGHT":
 		if (hue == null) break;
 		alternativeColorspaceValue = Math.round(modulo(66 - (hue / 3.60), 100) * 2.55);	
-		break;				
+		break;		
+		
+		case "HHSSBB_TUYA":
+		if (hue == null) break;
+		alternativeColorspaceValue = ("0000" + hue.toString(16)).slice(-4) + ("0000" + (saturation == null ? 1000 : saturation * 10).toString(16)).slice(-4) + ("0000" + (colorBrightness == null ? 1000 : colorBrightness * 10).toString(16)).slice(-4);
+		break;
 	}
 	if(alternativeColorspaceValue !== null && alternativeColorspace.substring(0, 1) == "#") alternativeColorspaceValue = "#" + alternativeColorspaceValue;
 	console.log("...result is " + alternativeColorspaceValue);
@@ -4278,7 +4283,13 @@ function convertFromAlternativeColorspace(device, linkedAlternativeColorspaceVal
 		case "HUE_MILIGHT":
 		if(alternativeColorspaceValue == "") alternativeColorspaceValue = "0";
 		result.hue = Math.round(modulo(-3.60 * (parseFloat(alternativeColorspaceValue/2.55) - 66), 360));
-		break;				
+		break;	
+
+		case "HHSSBB_TUYA":
+		result.hue = parseInt(alternativeColorspaceValue.substr(0, 4) || "0", 16);
+		result.saturation = parseInt(alternativeColorspaceValue.substr(4, 4) || "0", 16) / 10;
+		result.colorBrightness = parseInt(alternativeColorspaceValue.substr(8, 4) || "0", 16) / 10;
+		break;
 	}
 	if(result.hue != null){
 		var stateHue = getStateObject(linkedHueId);
@@ -5284,7 +5295,7 @@ function renderView(viewId, triggeredByReconnection){
 							var stateBadge = getStateObject(_linkedBadgeId);
 							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
 							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){
-								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "red";
+								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.5)";
 								var val = stateBadge.plainText;
 								var unit = stateBadge.unit;
 								if (!isNaN(val)) val = Math.round(val * 10) / 10;
@@ -5945,7 +5956,7 @@ function renderView(viewId, triggeredByReconnection){
 												_linkedWhiteBrightnessId = createTempLinkedState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											} 
 											
-											case "RGB": case "#RGB":
+											case "RGB": case "#RGB": case "HHSSBB_TUYA":
 											if (_linkedSaturationId == ""){
 												_linkedSaturationId = createTempLinkedState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
