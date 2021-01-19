@@ -5008,12 +5008,20 @@ function renderToolbar(){
 	if (homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
 	if (getUrlParameter('noToolbar')) return;
 	var toolbarContent = "";
+	removeCustomCSS("toolbarCustomIcons");
 	toolbarLinksToOtherViews = [];
 	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition != "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
 	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
 		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon ? (config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') == -1 ? config[namespace].toolbar[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		if(config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){
+			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
+			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
+			customCSS += "	background-size:cover;";
+			customCSS += "}";
+			addCustomCSS(customCSS, "toolbarCustomIcons");			
+		}
 		//Create toolbarContextMenu
 		toolbarContextMenu[toolbarIndex] = {};
 		toolbarContextMenuLinksToOtherViews[toolbarIndex] = [];
@@ -5035,7 +5043,18 @@ function renderToolbar(){
 			});
 		})(); //<--End Closure
 	}
-	toolbarContent += "</ul></div>";
+	toolbarContent += "</ul></div>";	
+	if(options.LayoutToolbarSingleLine) {
+		customCSS = "#Toolbar li {";
+		customCSS += "	width: calc(100% / " + config[namespace].toolbar.length + ") !important;";
+		customCSS += "	clear: none !important;";
+		customCSS += "}";
+		customCSS += "#Toolbar li a {";
+		customCSS += "	border-top-width: 1px !important;";
+		customCSS += "}";
+		removeCustomCSS("toolbarSingleLine");
+		addCustomCSS(customCSS, "toolbarSingleLine");
+	};
 	$("#ToolbarContent").html(toolbarContent);
 	$("#ToolbarContent").enhanceWithin();
 	applyToolbarContextMenu();

@@ -77,6 +77,59 @@ var inbuiltWidgets = [
 	{filename:"map/map.html", name:"Map", icon: "map/map.png"}
 ];
 
+var jqueryIcons = [
+	"action",
+	"alert",
+	"arrow-d",
+	"arrow-d-l",
+	"arrow-d-r",
+	"arrow-l",
+	"arrow-r",
+	"arrow-u",
+	"arrow-u-l",
+	"arrow-u-r",
+	"audio",
+	"back",
+	"bars",
+	"bullets",
+	"calendar",
+	"camera",
+	"carat-d",
+	"carat-l",
+	"carat-r",
+	"carat-u",
+	"check",
+	"clock",
+	"cloud",
+	"comment",
+	"delete",
+	"edit",
+	"eye",
+	"forbidden",
+	"forward",
+	"gear",
+	"grid",
+	"heart",
+	"home",
+	"info",
+	"location",
+	"lock",
+	"mail",
+	"minus",
+	"navigation",
+	"phone",
+	"plus",
+	"power",
+	"recycle",
+	"refresh",
+	"search",
+	"shop",
+	"star",
+	"tag",
+	"user",
+	"video"
+]
+
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view", 	
@@ -3900,7 +3953,7 @@ function load(settings, onChange) {
 				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");	
 			}
 		});
-		if (inbuiltSymbols.length > 0){
+		if (inbuiltWallpapers.length > 0){
 			inbuiltWallpapersString = ";[" + _("Inbuilt Wallpapers") + ":]" + inbuiltWallpapersString;
 		}
 		var imagenames = [];
@@ -4185,6 +4238,15 @@ function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
+		var inbuiltWallpapersString = "";
+		inbuiltWallpapers.forEach(function(wallpaper){
+			if (wallpaper != "") {
+				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");	
+			}
+		});
+		if (inbuiltWallpapers.length > 0){
+			inbuiltWallpapersString = ";[" + _("Inbuilt Wallpapers") + ":]" + inbuiltWallpapersString;
+		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
@@ -4215,7 +4277,7 @@ function load(settings, onChange) {
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (link + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
-		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + inbuiltWallpapersString + imagenames.join(";"), true);
 		//Add role and symblic link info as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
@@ -5850,6 +5912,29 @@ function load(settings, onChange) {
 		var $div = $('#tableToolbar');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
+		//Add Images to Selectbox for BackgroundImage
+		var jqueryIconsString = "";
+		jqueryIcons.forEach(function(symbol){
+			if (symbol != "") {
+				jqueryIconsString += ";" + symbol + "/" + symbol + "/" + (link + "/jquery/images/icons-svg/" + symbol + "-black.svg").replace(/\//g, "\\");	
+			}
+		});
+		if (jqueryIcons.length > 0){
+			jqueryIconsString = ";[" + _("Inbuilt Symbols") + ":]" + jqueryIconsString;
+		}
+		var imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+				imagesDir.files.forEach(function(file){
+					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+				});
+			}
+		});
+		if (imagenames.length > 0){
+			imagenames.unshift(";[" + _("User Symbols") + ":]");
+		}
+		enhanceTextInputToCombobox('#tableToolbar input[data-name="nativeIcon"]', "/" + _("(None)") + jqueryIconsString + imagenames.join(";"), true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');

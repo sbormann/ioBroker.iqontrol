@@ -1200,6 +1200,9 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Fixed toolbar hiding issue if popup with additional controls is closed early.
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time.
 * (sbormann) Added badge.
+* (sbormann) Added predefined wallpapers to dropdown for devices background images.
+* (sbormann) Redesigned dropdown for toolbar-icons to show thumbnails and added ability to add custom icons.
+* (sbormann) Added option to show toolbar in one singe line.
 
 ### 1.5.5 (2021-01-07)
 * (sbormann) Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option.
