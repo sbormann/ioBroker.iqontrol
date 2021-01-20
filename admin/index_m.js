@@ -3065,19 +3065,26 @@ function isValidColorString(colorString){
 	return (style.color && style.color != "");
 }
 
+//Symbolic links
 function updateSymbolicLinks(){
 	var changed = false;
 	if (typeof views != udef && views.length > 0) views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
 			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
 				if(views[device.symbolicLinkFrom.sourceView] && views[device.symbolicLinkFrom.sourceView].devices && typeof views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice] == "object"){
+					var newCommonRole = views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].commonRole;
+					if(device.commonRole != newCommonRole){
+						console.log("Update device commonRole from symbolic link");
+						device.commonRole = newCommonRole;
+						changed = true;
+					}
 					var newStates = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].states)); //Creates new array, not just a reference
 					if(JSON.stringify(device.states) != JSON.stringify(newStates)){
 						console.log("Update device states from symbolic link");
 						device.states = newStates;
 						changed = true;
 					}
-					var newOptions = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].options)); //Object.assign creates new object, not just a reference
+					var newOptions = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].options)); //Creates new array, not just a reference
 					if(JSON.stringify(device.options) != JSON.stringify(newOptions)){
 						console.log("Update device options from symbolic link");
 						device.options = newOptions;
@@ -3093,7 +3100,6 @@ function updateSymbolicLinks(){
 	});
 	return changed;	
 }
-
 function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDeviceIndex, skip){
 	//If newViewIndex and newDeviceIndex are null, then all symbolic links to oldViewIndex/oldDeviceIndex are delted (converted to normal devices)
 	//If oldDeviceIndex and newDeviceIndex are "*", then all devices are affected
@@ -3119,7 +3125,6 @@ function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDevi
 	});
 	return changed;		
 }
-
 function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
 	var destinations = [];
 	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){

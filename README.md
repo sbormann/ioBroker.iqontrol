@@ -1206,6 +1206,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added option to show toolbar in one singe line.
 * (sbormann) Added HHSSBB for Tuya to ALTERNATIVE_COLORSPACEs.
 * (sbormann) Added historyInstance to options of FLOT-Chart-Widget.
+* (sbormann) Fixed changing commonRole breaks symbolic links.
 
 ### 1.5.5 (2021-01-07)
 * (sbormann) Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option.
