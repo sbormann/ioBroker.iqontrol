@@ -408,7 +408,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
 		* The user will be asked for these parameter when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
-		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select`` or ``multipleSelect``
+		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect`` or ``historyInstance``
 		    * If type is ``select`` or ``multipleSelect`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...``
 		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
 		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
@@ -1205,6 +1205,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Redesigned dropdown for toolbar-icons to show thumbnails and added ability to add custom icons.
 * (sbormann) Added option to show toolbar in one singe line.
 * (sbormann) Added HHSSBB for Tuya to ALTERNATIVE_COLORSPACEs.
+* (sbormann) Added historyInstance to options of FLOT-Chart-Widget.
 
 ### 1.5.5 (2021-01-07)
 * (sbormann) Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option.

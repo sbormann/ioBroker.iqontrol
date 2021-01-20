@@ -3302,6 +3302,18 @@ function getEnumerationName(enumeration){
 	return name;
 }
 
+//History-Instances
+var historyInstances = [];
+function getHistoryInstances(callback){
+	historyInstances = [];
+	for(var id = 0; id < parent.gMain.instances.length; id++){
+		if(parent.gMain.objects[parent.gMain.instances[id]].common.type === 'storage'){
+			historyInstances.push(parent.gMain.instances[id].substring('system.adapter.'.length));
+		}
+	}
+	callback && callback();
+}
+
 //File-Operations
 function uploadFile(file, path, callback) {
 	if(typeof path == 'function') {
@@ -5779,6 +5791,20 @@ function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									break;
 									
+									case "historyInstance": 
+									getHistoryInstances();
+									var selectOptionsContent = "";
+									selectOptionsContent += "        <option value=''>" + _('default') + "</option>";
+									historyInstances.forEach(function(historyInstance){
+										selectOptionsContent += "        <option value='" + historyInstance + "'" + (historyInstance == value ? " selected" : "") + ">" + historyInstance + "</option>";
+									});
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+									
 									case "checkbox":
 									if(value == "true") value = true;
 									if(value == "false") value = false;
@@ -5961,7 +5987,16 @@ function load(settings, onChange) {
 			}
 		});
 		if (jqueryIcons.length > 0){
-			jqueryIconsString = ";[" + _("Inbuilt Symbols") + ":]" + jqueryIconsString;
+			jqueryIconsString = ";[" + _("Standard Symbols") + ":]" + jqueryIconsString;
+		}
+		var inbuiltSymbolsString = "";
+		inbuiltSymbols.forEach(function(symbol){
+			if (symbol != "") {
+				inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");	
+			}
+		});
+		if (inbuiltSymbols.length > 0){
+			inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
 		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
@@ -5975,7 +6010,7 @@ function load(settings, onChange) {
 		if (imagenames.length > 0){
 			imagenames.unshift(";[" + _("User Symbols") + ":]");
 		}
-		enhanceTextInputToCombobox('#tableToolbar input[data-name="nativeIcon"]', "/" + _("(None)") + jqueryIconsString + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableToolbar input[data-name="nativeIcon"]', "/" + _("(None)") + jqueryIconsString + inbuiltSymbolsString + imagenames.join(";"), true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
