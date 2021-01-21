@@ -2960,6 +2960,7 @@ var channelDetectorMatchTable = {
 const udef = 'undefined';
 var link;
 var connectionLink;
+var newConfig = false;
 var socketWasConnected = false;
 var socketConnectionErrorMessages = "";
 var iobrokerObjects;
@@ -3673,10 +3674,12 @@ function load(settings, onChange) {
 		views = settings.views || settings.demoviews || [];
 		version = settings.version || 0;
 		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
+		newConfig = true;
 	} else {
 		toolbar = settings.toolbar || [];
 		views = settings.views || [];
 		version = settings.version || 0;
+		newConfig = false;
 	}
 
 	//Set initial values of further variables
@@ -3831,7 +3834,7 @@ function load(settings, onChange) {
 		}
 		
 		//Signal to admin, that no changes yet
-		onChange(false);
+		if(!newConfig) onChange(false);
 
 		//Get images
 		console.log("getImages");

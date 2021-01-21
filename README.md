@@ -1197,7 +1197,7 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### 1.5.6 dev
+### 1.5.6 (2021-01-21)
 * (sbormann) Fixed toolbar hiding issue if popup with additional controls is closed early.
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time.
 * (sbormann) Added badge.

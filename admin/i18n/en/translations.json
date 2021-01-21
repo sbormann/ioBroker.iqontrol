@@ -1,5 +1,4 @@
 {
-"Standard Symbols": "Standard Symbols",
     "%s is directory. Only file upload allowed.": "%s is directory. Only file upload allowed.",
     "%sth": "%sth",
     "(Default)": "(Default)",
@@ -502,6 +501,7 @@
     "Slider": "Slider",
     "Source-Device": "Source-Device",
     "Source-View": "Source-View",
+    "Standard Symbols": "Standard Symbols",
     "Start": "Start",
     "Start creating views.": "Start creating views.",
     "Start setting up your interface by:": "Start setting up your interface by:",

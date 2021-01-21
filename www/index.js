@@ -5291,7 +5291,7 @@ function renderView(viewId, triggeredByReconnection){
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedBadgeId = deviceLinkedStateIds["BADGE"];
 						var _linkedBadgeColorId = deviceLinkedStateIds["BADGE_COLOR"];
-						viewUpdateFunctions[_linkedBadgeId].push(function(){
+						var updateFunction = function(){
 							var stateBadge = getStateObject(_linkedBadgeId);
 							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
 							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){
@@ -5306,7 +5306,9 @@ function renderView(viewId, triggeredByReconnection){
 							} else {
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").fadeOut();
 							}
-						});
+						};
+						viewUpdateFunctions[_linkedBadgeId].push(updateFunction);
+						if(_linkedBadgeColorId) viewUpdateFunctions[_linkedBadgeColorId].push(updateFunction);
 					})(); //<--End Closure
 				}
 				//--Device
@@ -7383,9 +7385,9 @@ function renderView(viewId, triggeredByReconnection){
 						var replacement = null;
 						//Replace by value
 						if(state && typeof state.val !== udef) {
-							if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number 
+							if(typeof state.plainText == 'number' && !_noUnit){			//STATE = number 
 								replacement = state.val + state.unit;
-							} else {											//STATE = bool or text
+							} else {													//STATE = bool or text
 								replacement = state.plainText;
 							}
 						} else if (placeholder) {
@@ -7580,7 +7582,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 									viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){ 
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight activated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
@@ -7621,7 +7623,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){ 
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight deactivated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
@@ -11949,8 +11951,6 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 		viewDeviceContextMenuEnd();
 		if(window.innerWidth - event.swipestart.coords[0] < 100){
 			if(openPanel("right")){
-				event.stopPropagation();
-				event.preventDefault();
 				return false;
 			}
 		}
