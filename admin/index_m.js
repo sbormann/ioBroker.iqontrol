@@ -392,6 +392,7 @@ var iQontrolRoles = {
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},

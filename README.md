@@ -1197,6 +1197,15 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
+### dev
+* (sbormann) Fixed missing info.connection object.
+* (sbormann) Fixed INFO_B position for short tiles.
+* (siedi) Added option clickOnTileOpensDialog to all devices. The logic is now: 
+    1. If clickOnTileToggles is true => toggle
+	2. else if clickOnTileOpensDialog is true => open dialog
+	3. else if linked view is given => open link to view
+	4. else do nothing
+
 ### 1.5.6 (2021-01-21)
 * (sbormann) Fixed toolbar hiding issue if popup with additional controls is closed early.
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time.

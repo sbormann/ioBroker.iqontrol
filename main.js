@@ -40,6 +40,28 @@ class Iqontrol extends utils.Adapter {
 	}
 
 	//----------------------------------------------------------------------------
+	async createInfoConnection(){
+		let that = this;
+		let objName = "Adapter Connection";
+		let objId = "info.connection";
+		let obj = {
+			"type": "state",
+			"common": {
+				"name": objName,
+				"desc": "Shows working adapter connection",
+				"type": "boolean",
+				"role": "indicator.connected",
+				"icon": ""
+			},
+			"native": {}
+		};
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(function(){ 
+			that.log.debug("created: " + objId); 
+		}, function(err){
+			that.log.debug("ERROR creating " + objId + ": " + err);
+		});		
+	}
 	
 	async createPopup(){
 		let that = this;
@@ -327,6 +349,7 @@ class Iqontrol extends utils.Adapter {
 	 */
 	async onReady() {
 		// Initialize your adapter here
+		await this.createInfoConnection();
 		this.setState('info.connection', { val: false, ack: true });
 		
 		this.log.info("Creating Popup States...");
