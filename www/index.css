@@ -650,6 +650,22 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	   -moz-box-shadow: none !important;
 			box-shadow: none !important;
 } 
+.iQontrolDeviceBadge {
+	position: absolute;
+	left: -5px;
+	top: -5px;
+    z-index: 1000;
+    height: 16px;
+    min-width: 12px;
+    border-radius: 8px;
+    box-shadow: #0000001f 0 0 2px 2px;
+    text-align: center;
+    background-color: red;
+    padding: 0px 4px 2px 2px;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
 .iQontrolDeviceLink {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 

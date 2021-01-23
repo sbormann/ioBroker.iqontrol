@@ -12,7 +12,7 @@ var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view",
-										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
@@ -65,7 +65,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch",
-										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -154,7 +154,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button",
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -246,7 +246,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -254,7 +254,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
-											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight", default: ""},
+											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
@@ -337,7 +337,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -425,7 +425,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -513,7 +513,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -599,7 +599,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -685,7 +685,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -771,7 +771,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPressure": 			{
 										name: "Pressure-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/pressure.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -857,7 +857,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -943,7 +943,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1029,7 +1029,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1115,7 +1115,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door",
-										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1201,7 +1201,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1289,7 +1289,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1380,7 +1380,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind",
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1480,7 +1480,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1566,7 +1566,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1652,7 +1652,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1741,7 +1741,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery",
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1832,7 +1832,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1918,7 +1918,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2008,7 +2008,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2099,7 +2099,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control",
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2205,7 +2205,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2289,7 +2289,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2368,7 +2368,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWidget": 				{
 										name: "Widget",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -4212,6 +4212,11 @@ function convertToAlternativeColorspace(device, linkedHueId, linkedSaturationId,
 		if (hue == null) break;
 		alternativeColorspaceValue = Math.round(modulo(66 - (hue / 3.60), 100) * 2.55);
 		break;
+
+		case "HHSSBB_TUYA":
+		if (hue == null) break;
+		alternativeColorspaceValue = ("0000" + hue.toString(16)).slice(-4) + ("0000" + (saturation == null ? 1000 : saturation * 10).toString(16)).slice(-4) + ("0000" + (colorBrightness == null ? 1000 : colorBrightness * 10).toString(16)).slice(-4);
+		break;
 	}
 	if(alternativeColorspaceValue !== null && alternativeColorspace.substring(0, 1) == "#") alternativeColorspaceValue = "#" + alternativeColorspaceValue;
 	console.log("...result is " + alternativeColorspaceValue);
@@ -4295,6 +4300,12 @@ function convertFromAlternativeColorspace(device, linkedAlternativeColorspaceVal
 		if(alternativeColorspaceValue == "") alternativeColorspaceValue = "0";
 		result.hue = Math.round(modulo(-3.60 * (parseFloat(alternativeColorspaceValue/2.55) - 66), 360));
 		break;
+
+		case "HHSSBB_TUYA":
+		result.hue = parseInt(alternativeColorspaceValue.substr(0, 4) || "0", 16);
+		result.saturation = parseInt(alternativeColorspaceValue.substr(4, 4) || "0", 16) / 10;
+		result.colorBrightness = parseInt(alternativeColorspaceValue.substr(8, 4) || "0", 16) / 10;
+		break;
 	}
 	if(result.hue != null){
 		var stateHue = getStateObject(linkedHueId);
@@ -4372,6 +4383,12 @@ function rgbToHsv(r, g, b){
 		h /= 6;
 	}
 	return {h: (h == null ? null : h * 360), s: (s == null ? null : s * 100), v: v * 100};
+}
+
+function isValidColorString(colorString){
+	var style = new Option().style;
+	style.color = colorString;
+	return (style.color && style.color != "");
 }
 
 function modulo(n, m){
@@ -5018,12 +5035,20 @@ function renderToolbar(){
 	if (homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
 	if (getUrlParameter('noToolbar')) return;
 	var toolbarContent = "";
+	removeCustomCSS("toolbarCustomIcons");
 	toolbarLinksToOtherViews = [];
 	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition != "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
 	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
 		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon || "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon ? (config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') == -1 ? config[namespace].toolbar[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
+		if(config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){
+			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
+			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
+			customCSS += "	background-size:cover;";
+			customCSS += "}";
+			addCustomCSS(customCSS, "toolbarCustomIcons");
+		}
 		//Create toolbarContextMenu
 		toolbarContextMenu[toolbarIndex] = {};
 		toolbarContextMenuLinksToOtherViews[toolbarIndex] = [];
@@ -5046,6 +5071,17 @@ function renderToolbar(){
 		})(); //<--End Closure
 	}
 	toolbarContent += "</ul></div>";
+	if(options.LayoutToolbarSingleLine) {
+		customCSS = "#Toolbar li {";
+		customCSS += "	width: calc(100% / " + config[namespace].toolbar.length + ") !important;";
+		customCSS += "	clear: none !important;";
+		customCSS += "}";
+		customCSS += "#Toolbar li a {";
+		customCSS += "	border-top-width: 1px !important;";
+		customCSS += "}";
+		removeCustomCSS("toolbarSingleLine");
+		addCustomCSS(customCSS, "toolbarSingleLine");
+	};
 	$("#ToolbarContent").html(toolbarContent);
 	$("#ToolbarContent").enhanceWithin();
 	applyToolbarContextMenu();
@@ -5264,6 +5300,33 @@ function renderView(viewId, triggeredByReconnection){
 			}
 			//--PressureIndicator
 			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfActive") == "true"))?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+				//--Badge
+				if (deviceLinkedStateIds["BADGE"]){
+					viewContent += "<div class='iQontrolDeviceBadge' style='display: none;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedBadgeId = deviceLinkedStateIds["BADGE"];
+						var _linkedBadgeColorId = deviceLinkedStateIds["BADGE_COLOR"];
+						var updateFunction = function(){
+							var stateBadge = getStateObject(_linkedBadgeId);
+							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
+							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){
+								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.5)";
+								var val = stateBadge.plainText;
+								var unit = stateBadge.unit;
+								if (!isNaN(val)) val = Math.round(val * 10) / 10;
+								if (stateBadge.plainText == stateBadge.val) val = val + unit;
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString);
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").html(val);
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").fadeIn();
+							} else {
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").fadeOut();
+							}
+						};
+						viewUpdateFunctions[_linkedBadgeId].push(updateFunction);
+						if(_linkedBadgeColorId) viewUpdateFunctions[_linkedBadgeColorId].push(updateFunction);
+					})(); //<--End Closure
+				}
 				//--Device
 				var linkedTileEnlargedId = deviceLinkedStateIds["tileEnlarged"];
 				var stateEnlarged = getStateObject(linkedTileEnlargedId);
@@ -5881,6 +5944,7 @@ function renderView(viewId, triggeredByReconnection){
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
 								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceId = deviceId;
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
 									var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
@@ -5892,28 +5956,28 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									var _createColouredLightFunction = function(){
 										var _deviceLinkedStateIdsToFetchAndUpdate = [];
-										if (deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]) switch(alternativeColorspace){
+										if (_linkedAlternativeColorspaceValueId) switch(alternativeColorspace){
 											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
 											if (_linkedCtId == ""){
-												_linkedCtId = createTempLinkedState(deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedCtId = createTempLinkedState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 
 											case "RGBW": case "#RGBW":
 											if (_linkedWhiteBrightnessId == ""){
-												_linkedWhiteBrightnessId = createTempLinkedState(deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedWhiteBrightnessId = createTempLinkedState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 
-											case "RGB": case "#RGB":
+											case "RGB": case "#RGB": case "HHSSBB_TUYA":
 											if (_linkedSaturationId == ""){
-												_linkedSaturationId = createTempLinkedState(deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedSaturationId = createTempLinkedState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											if (_linkedColorBrightnessId == ""){
-												_linkedColorBrightnessId = createTempLinkedState(deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedColorBrightnessId = createTempLinkedState(_deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 
 											case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
 											if (_linkedHueId == ""){
-												_linkedHueId = createTempLinkedState(deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
+												_linkedHueId = createTempLinkedState(_deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
 											}
 											_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedAlternativeColorspaceValueId);
 											break;
@@ -7330,9 +7394,9 @@ function renderView(viewId, triggeredByReconnection){
 						var replacement = null;
 						//Replace by value
 						if(state && typeof state.val !== udef) {
-							if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number
+							if(typeof state.plainText == 'number' && !_noUnit){			//STATE = number
 								replacement = state.val + state.unit;
-							} else {											//STATE = bool or text
+							} else {													//STATE = bool or text
 								replacement = state.plainText;
 							}
 						} else if (placeholder) {
@@ -7527,7 +7591,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 									viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight activated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
@@ -7568,7 +7632,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
 									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
 									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){
-										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom);
+										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight deactivated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
@@ -11896,8 +11960,6 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 		viewDeviceContextMenuEnd();
 		if(window.innerWidth - event.swipestart.coords[0] < 100){
 			if(openPanel("right")){
-				event.stopPropagation();
-				event.preventDefault();
 				return false;
 			}
 		}
@@ -12114,7 +12176,9 @@ $(document).ready(function(){
 	$("[data-role='header'], [data-role='footer']").toolbar();
 
 	//Init Dialog
-	$('#Dialog').on('popupbeforeposition', function(){$('#Toolbar').toolbar('hide');});
+	$('#Dialog').on('popupbeforeposition', function(){
+		if($(".ui-popup-active").length == 0) $('#Toolbar').toolbar('hide');
+	});
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');

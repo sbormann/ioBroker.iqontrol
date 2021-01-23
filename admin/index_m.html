@@ -287,6 +287,11 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col s12">
+						<p class="translate sub-title">Entries:</p>
+					</div>
+				</div>
+				<div class="row">
 					<div class="col s12" id="tableToolbar">
 						<div class="row">
 							<div class="col s2 m1 l1 center">
@@ -301,7 +306,7 @@
 									<tr>
 										<th data-name="commonName" class="translate">Name</th>
 										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
-										<th data-name="nativeIcon" data-type="select" class="translate" data-options="/;action/action;alert/alert;arrow-d/arrow-d;arrow-d-l/arrow-d-l;arrow-d-r/arrow-d-r;arrow-l/arrow-l;arrow-r/arrow-r;arrow-u/arrow-u;arrow-u-l/arrow-u-l;arrow-u-r/arrow-u-r;audio/audio;back/back;bars/bars;bullets/bullets;calendar/calendar;camera/camera;carat-d/carat-d;carat-l/carat-l;carat-r/carat-r;carat-u/carat-u;check/check;clock/clock;cloud/cloud;comment/comment;delete/delete;edit/edit;eye/eye;forbidden/forbidden;forward/forward;gear/gear;grid/grid;heart/heart;home/home;info/info;location/location;lock/lock;mail/mail;minus/minus;navigation/navigation;phone/phone;plus/plus;power/power;recycle/recycle;refresh/refresh;search/search;shop/shop;star/star;tag/tag;user/user;video/video;">Icon</th>
+										<th data-name="nativeIcon" class="translate">Icon</th>
 										<th data-buttons="delete drag_handle" style="width:100px;"></th>
 									</tr>
 								</thead>
@@ -311,24 +316,24 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
+						<p class="translate sub-title">Options:</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="optionsLayoutToolbarSingleLine" />
+						<label for="optionsLayoutToolbarSingleLine" class="translate">Show toolbar in one single line (otherwise toolbars with more than 5 entries will be split on several lines)</label>
+						<span class="helper-text"></span>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>			
+				<div class="row">
+					<div class="col s12">
 						<h6 class="translate">Homepage</h6>
 						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
 						<p><span class="translate">You can also use URL-Parameters to determine, which view or even dialog will be loaded at start</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#url-parameters" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12 m6 l6">
-						<h6 class="translate">Icons</h6>					
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12 m10 l8">
-						<ul class="collapsible">
-							<li>
-								<div class="collapsible-header"><i class="material-icons">expand_more</i><h6 class="translate">Show Icons:</h6></div>
-								<div class="collapsible-body"><span><img src='jQueryIcons.jpg' alt='jQuery Icons' style='max-width: 100%'></span></div>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<div class="section">
