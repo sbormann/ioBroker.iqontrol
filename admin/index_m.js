@@ -132,13 +132,13 @@ var jqueryIcons = [
 
 var iQontrolRoles = {
 	"iQontrolView": 				{
-										name: "Link to other view", 	
-										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"], 
+										name: "Link to other view",
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -150,26 +150,26 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -185,16 +185,16 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolSwitch": 				{
-										name: "Switch", 				
-										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Switch",
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -206,28 +206,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -238,12 +239,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -259,9 +260,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -269,22 +270,22 @@ var iQontrolRoles = {
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"}
-				
+
 										}
 									},
 	"iQontrolButton": 				{
-										name: "Button", 
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Button",
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											showState: {name: "Show State", type: "checkbox", default: "false"}, 
+											showState: {name: "Show State", type: "checkbox", default: "false"},
 											buttonCaption: {name: "Caption for button", type: "text", default: ""},
-											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""},
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
@@ -299,27 +300,28 @@ var iQontrolRoles = {
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},								
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -330,12 +332,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -351,9 +353,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -365,18 +367,18 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"}, 
+											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -388,28 +390,28 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -420,12 +422,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -439,11 +441,11 @@ var iQontrolRoles = {
 											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
-											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -455,14 +457,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -475,28 +477,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -507,12 +510,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -528,9 +531,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -542,16 +545,16 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""}, 
+											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -564,26 +567,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -594,12 +598,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -615,9 +619,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -629,14 +633,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -649,26 +653,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -679,12 +684,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -700,9 +705,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -714,14 +719,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -734,27 +739,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -765,12 +770,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -786,9 +791,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -800,14 +805,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -820,27 +825,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -851,12 +856,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -872,9 +877,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -886,14 +891,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolPressure": 			{
 										name: "Pressure-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/pressure.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "pressure.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -906,27 +911,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -937,12 +942,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -958,9 +963,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -972,14 +977,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -992,27 +997,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1023,12 +1028,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1044,9 +1049,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1058,14 +1063,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1078,27 +1083,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1109,12 +1114,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1130,9 +1135,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "SE"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1143,15 +1148,15 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolDoor": 				{
-										name: "Door", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Door",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1164,27 +1169,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1195,12 +1200,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1216,9 +1221,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1229,15 +1234,15 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolGarageDoor": 				{
-										name: "Garage Door", 
-										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Garage Door",
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1250,26 +1255,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1280,12 +1286,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1301,9 +1307,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1315,7 +1321,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1324,7 +1330,7 @@ var iQontrolRoles = {
 											icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 											icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1337,26 +1343,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1367,12 +1374,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1388,9 +1395,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1402,7 +1409,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1410,11 +1417,11 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png", default: ""},
 											icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""}, 
-											stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""}, 
+											stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
+											stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""},
 											stateTiltedValue: {name: "Value of STATE for 'tilted'", type: "text", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1427,27 +1434,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1458,12 +1465,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1479,9 +1486,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1492,8 +1499,8 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolBlind": 				{
-										name: "Blind", 
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Blind",
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1503,16 +1510,16 @@ var iQontrolRoles = {
 											icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png", default: ""},
 											icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"}, 
-											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"}, 
-											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"}, 
+											invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"},
+											directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"},
+											directionClosingValue: {name: "Value of DIRECTION for 'closing'", type: "text", default: "2"},
 											directionUncertainValue: {name: "Value of DIRECTION for 'uncertain'", type: "text", default: "3"},
 											favoritePositionCaption: {name: "Caption for FAVORITE_POSITION", type: "text", default: "Favorite Position"},
 											upCaption: {name: "Caption for UP", type: "text", default: "Up"},
 											stopCaption: {name: "Caption for STOP", type: "text", default: "Stop"},
 											downCaption: {name: "Caption for DOWN", type: "text", default: "Down"},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1525,28 +1532,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1557,12 +1565,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1576,11 +1584,11 @@ var iQontrolRoles = {
 											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
-											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}, 
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1592,14 +1600,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1612,27 +1620,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1643,12 +1651,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1664,9 +1672,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1678,14 +1686,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1698,27 +1706,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"}, 
+											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1729,12 +1737,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1750,9 +1758,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1764,7 +1772,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"], 
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1772,9 +1780,9 @@ var iQontrolRoles = {
 											icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
 											icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}, 
+											controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1787,26 +1795,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1817,12 +1826,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1838,9 +1847,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1851,8 +1860,8 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolBattery": 				{
-										name: "Battery", 
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Battery",
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1864,7 +1873,7 @@ var iQontrolRoles = {
 											icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 											icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1877,26 +1886,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1907,12 +1917,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -1928,9 +1938,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -1942,14 +1952,14 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -1962,26 +1972,27 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -1992,12 +2003,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2013,9 +2024,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -2026,16 +2037,16 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolProgram": 				{
-										name: "Program", 
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Program",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											showState: {name: "Show State", type: "checkbox", default: "false"}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											showState: {name: "Show State", type: "checkbox", default: "false"},
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
@@ -2049,28 +2060,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2081,12 +2093,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2102,9 +2114,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -2115,18 +2127,18 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolScene": 				{
-										name: "Scene", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Scene",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
-											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}, 
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											alwaysSendTrue: {name: "Always send 'true' (do not toggle)", type: "checkbox", default: "false"}, 
-											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}, 
+											alwaysSendTrue: {name: "Always send 'true' (do not toggle)", type: "checkbox", default: "false"},
+											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -2139,28 +2151,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2171,12 +2184,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2192,9 +2205,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -2202,36 +2215,36 @@ var iQontrolRoles = {
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"}
-										} 
+										}
 									},
 	"iQontrolMedia": 				{
-										name: "Media-Player / Remote Control", 	
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Media-Player / Remote Control",
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}, 
+											coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
 											SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section"},
-											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"}, 
-											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"}, 
-											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"}, 
-											hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"}, 
-											hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}, 
+											statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
+											statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"},
+											stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"},
+											hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"},
+											hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"},
 											SECTION_DEVICESPECIFIC_REPEAT: {name: "Repeat", type: "section"},
-											repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"}, 
-											repeatAllValue: {name: "Value of REPEAT for 'repeat all'", type: "text", default: "true"}, 
-											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"}, 
+											repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"},
+											repeatAllValue: {name: "Value of REPEAT for 'repeat all'", type: "text", default: "true"},
+											repeatOneValue: {name: "Value of REPEAT for 'repeat one'", type: "text", default: "2"},
 											SECTION_DEVICESPECIFIC_REMOTE: {name: "Remote", type: "section"},
-											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"}, 
+											remoteKeepSectionsOpen: {name: "Keep sections open", type: "checkbox", default: "false"},
 											remoteSectionsStartOpened: {name: "Start with these sections initially opened", type: "multipleSelect", selectOptions: "REMOTE_PAD/Pad;REMOTE_CONTROL/Volume and Channel Control;REMOTE_ADDITIONAL_BUTTONS/Additional Buttons;REMOTE_CHANNELS/Channels;REMOTE_NUMBERS/Numbers;REMOTE_COLORS/Colors", default: "collapsible"},
-											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"}, 
-											remoteChannelsCaption: {name: "Caption for section 'Channels'", type: "text", default: ""}, 
-											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}, 
+											remoteShowDirectionsInsidePad: {name: "Show Vol and Ch +/- inside Pad", type: "checkbox", default: "false"},
+											remoteChannelsCaption: {name: "Caption for section 'Channels'", type: "text", default: ""},
+											remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
@@ -2244,28 +2257,29 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
-											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2276,12 +2290,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2297,9 +2311,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -2307,11 +2321,11 @@ var iQontrolRoles = {
 											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
 											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"}
-										} 
+										}
 									},
 	"iQontrolPopup": 				{
-										name: "Popup", 	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Popup",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2336,20 +2350,20 @@ var iQontrolRoles = {
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2360,12 +2374,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2381,9 +2395,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -2394,8 +2408,8 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolExternalLink":			{
-										name: "External Link",	
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "External Link",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2420,20 +2434,20 @@ var iQontrolRoles = {
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
 											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"}, 
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2444,12 +2458,12 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
 											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2473,18 +2487,18 @@ var iQontrolRoles = {
 										}
 									},
 	"iQontrolWidget": 				{
-										name: "Widget", 				
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],  
+										name: "Widget",
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
-											noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"}, 
+											noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
-											readonly: {name: "Readonly", type: "checkbox", default: "false"}, 
-											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"}, 
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2496,27 +2510,28 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"}, 
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "true"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "true"},
 											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
 											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: " /Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: "xwideIfInactive highIfInactive"},
 											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
 											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
-											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"}, 
-											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "true"}, 
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "true"},
 											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
-											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},	
-											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},	
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "true"},
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
 											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: " /Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: "fullWidthIfActive fullHeightIfActive"},
 											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
 											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
-											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"}, 
-											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "true"},							
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "true"},
 											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
 											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
@@ -2527,13 +2542,13 @@ var iQontrolRoles = {
 											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: " /Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
 											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
 											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
-											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"}, 
-											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"}, 
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
 											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
-											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "true"}, 
-											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "true"}, 
-											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "true"}, 
-											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "true"}, 
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "true"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "true"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "true"},
+											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "true"},
 											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
 											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
@@ -2548,9 +2563,9 @@ var iQontrolRoles = {
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "N"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
 											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
-											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""}, 
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
-											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"}, 
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
 											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
 											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
@@ -3029,7 +3044,7 @@ function initSelectId(callback) {
 	if (iobrokerObjectsReady) {
 		toDo();
 	} else {
-		iobrokerObjectsReadyFunctions.push(toDo); 
+		iobrokerObjectsReadyFunctions.push(toDo);
 	}
 }
 
@@ -3099,8 +3114,9 @@ function updateSymbolicLinks(){
 			}
 		});
 	});
-	return changed;	
+	return changed;
 }
+
 function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDeviceIndex, skip){
 	//If newViewIndex and newDeviceIndex are null, then all symbolic links to oldViewIndex/oldDeviceIndex are delted (converted to normal devices)
 	//If oldDeviceIndex and newDeviceIndex are "*", then all devices are affected
@@ -3124,8 +3140,9 @@ function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDevi
 			}
 		});
 	});
-	return changed;		
+	return changed;
 }
+
 function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
 	var destinations = [];
 	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){
@@ -3137,7 +3154,7 @@ function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
 			}
 		});
 	});
-	return destinations;		
+	return destinations;
 }
 
 //Combobox
@@ -3155,13 +3172,13 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 			var caption = _(option.substring(1, option.length - 1));
 			comboboxContent += "	<li class='divider' style='padding: 14px 4px 30px 4px; color:grey;' tabindex='-1'>";
 			comboboxContent += "		" + caption + "&nbsp;";
-			comboboxContent += "	</li>";				
+			comboboxContent += "	</li>";
 		} else { //Normal option
 			var optionParts = option.split("/");
 			var value = encodeURIComponent(optionParts[0]);
 			var caption = "";
 			if (optionParts.length > 1){
-				caption = optionParts[1];				
+				caption = optionParts[1];
 			} else {
 				caption = optionParts[0];
 			}
@@ -3179,7 +3196,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 			}
 			comboboxContent += "			" + caption + "&nbsp;";
 			comboboxContent += "		</a>";
-			comboboxContent += "	</li>";				
+			comboboxContent += "	</li>";
 		}
 	});
 	$(targetInput).one('blur', function(){
@@ -3192,14 +3209,14 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 			$(this).add('label').wrap("<div class='combobox'></div>");
 			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' href='#' onclick='console.log(\"Combobox dropdown clicked\"); $enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val());'><i class='material-icons comboboxDropdownTriggerArrow' style='font-size: 25px;'>arrow_drop_down</i></a>");
 		}
-		$(this).data('combobox-onselect', onSelect);			
+		$(this).data('combobox-onselect', onSelect);
 		$("ul[id='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "']").remove(); //If there was an old dropdownlist remove it
 		$(targetElement).after("<ul id='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' class='dropdown-content'>...</ul>");
 	});
 	$("ul[id='dropdown_" + encodeURIComponent(targetInput) + "_0']").html(comboboxContent); //Add comboboxContent to first targetInput (because of performance-reasons it is only saved to the first targetInput and not to all!)
 	$('.comboboxDropdownTrigger').dropdown({
-		alignment: 'right', 
-		constrainWidth: false, 
+		alignment: 'right',
+		constrainWidth: false,
 		onOpenStart: function(event){
 			var target = $(event).data('target');
 			$("ul[id='" + target + "']").html($("ul[id='" + target.substring(0, target.lastIndexOf('_')) + "_0']").html()); //Copy comboboxContent from first targetInput
@@ -3207,7 +3224,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 		onItemClick: function(event){
 			enhanceTextInputToComboboxEntryToInput($(event).data('value'));
 		}
-	});		
+	});
 }
 function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 	var $dropdownlist = $("ul[id='" + dropdownlist + "']");
@@ -3222,7 +3239,7 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 			$(this).removeClass('grey lighten-3');
 			if ($(this).data('value') == encodeURIComponent((value || "").replace(/\//g, "\\"))){
 				$(this).addClass('grey lighten-3');
-				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top); 
+				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top);
 			}
 		});
 	}, 300);
@@ -3338,7 +3355,7 @@ function uploadFile(file, path, callback) {
 	};
 	reader.readAsArrayBuffer(file);
 }
-function uploadStringAsFile(string, filename, path, callback) { 
+function uploadStringAsFile(string, filename, path, callback) {
 	if(typeof path == 'function') {
 		callback = path;
 		path = null;
@@ -3372,7 +3389,7 @@ function downloadFileAsString(filename, path, callback) {
 	socket.emit('readFile', adapter, path, function (error, fileData, mimeType) {
 		if(!error && fileData){
 			if (callback) callback(fileData);
-		}			
+		}
 	});
 }
 async function downloadFileAsStringAsync(filename, path) {
@@ -3402,7 +3419,7 @@ function saveStringAsLocalFile(string, type, mime, filename, addPrefix){ //type:
 		if (m < 10) m = '0' + m;
 		d = date.getDate();
 		if (d < 10) d = '0' + d;
-		var dateText = y + "-" + m + "-" + d;    
+		var dateText = y + "-" + m + "-" + d;
 		filename = dateText + "_" + adapter + "_" + instance + "_" + (filename || ".txt");
 	}
 	filename = encodeURIComponent(filename || "iqontrol.txt");
@@ -3441,7 +3458,7 @@ function loadLocalFileAsString(accept, callback){ //accept: for example ".txt, .
 		};
 		reader.readAsText(event.target.files[0]);
 	}, false);
-    document.body.appendChild(loadInputNode); 
+    document.body.appendChild(loadInputNode);
 	loadInputNode.click();
 	loadInputNode.remove();
 }
@@ -3471,7 +3488,7 @@ function loadLocalFileAsArrayBuffer(accept, callback){ //accept: for example ".t
 		};
 		reader.readAsArrayBuffer(event.target.files[0]);
 	}, false);
-    document.body.appendChild(loadInputNode); 
+    document.body.appendChild(loadInputNode);
 	loadInputNode.click();
 	loadInputNode.remove();
 }
@@ -3495,13 +3512,13 @@ function readDirAsync(path){
 function readDirAsZip(path, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1);
 	if(pathWithoutSlashNamespace.substr(-1) == '/') pathWithoutSlashNamespace = pathWithoutSlashNamespace.substr(0, pathWithoutSlashNamespace.length -1);
-	socket.emit('sendToHost', parent.gMain.currentHost, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){ 
+	socket.emit('sendToHost', parent.gMain.currentHost, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){
 		callback(data.error || null, data.data || null);
 	});
 }
 function writeDirAsZip(path, base64Zip, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
-	socket.emit('sendToHost', parent.gMain.currentHost, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){ 
+	socket.emit('sendToHost', parent.gMain.currentHost, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){
 		callback(data.error || null, null);
 	});
 }
@@ -3537,7 +3554,7 @@ function renameFile(oldPath, newPath, callback) {
 		}
 	});
 }
-function renameFileAsync(oldPath, newPath){ 
+function renameFileAsync(oldPath, newPath){
 	return new Promise(resolve => {
 		renameFile(oldPath, newPath, function(err, obj){
 			resolve(err);
@@ -3584,7 +3601,7 @@ async function checkExistance(path){
 /************** LOAD ********************************************************
 *** This will be called by the admin adapter when the settings page loads ***
 ****************************************************************************/
-function load(settings, onChange) { 
+function load(settings, onChange) {
 //++++++++++ START ++++++++++
 	//Loading begins
 	var loading = true;
@@ -3593,13 +3610,13 @@ function load(settings, onChange) {
 	console.log("Loading iQontrol Settings");
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
-	
-	// Create a helper for sortable tables with preserved width of cells  
+
+	// Create a helper for sortable tables with preserved width of cells
 	var fixHelper = function(e, ui){
-		ui.children().each(function(){  
-			$(this).width($(this).width()).css({"background-color":"rgba(180,180,180,0.75)", "box-shadow":"-5px 5px 5px 0px rgba(180,180,180,0.75)"}); 			
-		});  
-		return ui;  
+		ui.children().each(function(){
+			$(this).width($(this).width()).css({"background-color":"rgba(180,180,180,0.75)", "box-shadow":"-5px 5px 5px 0px rgba(180,180,180,0.75)"});
+		});
+		return ui;
 	};
 
 	//Init Colorpickers
@@ -3613,15 +3630,15 @@ function load(settings, onChange) {
 		indentUnit: 4,
 		indentWithTabs: true
 	});
-	dialogCodeEditorCodeMirror.on("change", function(){ 
+	dialogCodeEditorCodeMirror.on("change", function(){
 		dialogCodeEditorCodeMirrorChanged = true;
-		$('#dialogCodeEditor .btn-set').removeClass('disabled');		
+		$('#dialogCodeEditor .btn-set').removeClass('disabled');
 	});
 	$('#dialogCodeEditor .btn-set').on('click', function(){
 		if(confirm(_("Overwrite file?"))){
 			uploadStringAsFile(dialogCodeEditorCodeMirror.getValue(), $("#dialogCodeEditorFileName").text(), userfilesImagePath, function(name){
 				dialogCodeEditorCodeMirrorChanged = false;
-				$('#dialogCodeEditor .btn-set').addClass('disabled');								
+				$('#dialogCodeEditor .btn-set').addClass('disabled');
 			});
 		}
 	});
@@ -3632,7 +3649,7 @@ function load(settings, onChange) {
 			$('#dialogCodeEditor').modal('close');
 		}
 	});
-	
+
 	//Add function to inputClear-Buttons and selectClear-Buttons
 	$('.inputClear').on('click', function(){
 		if($(this).data('default')){
@@ -3686,7 +3703,7 @@ function load(settings, onChange) {
 	images = [];
 	imagesDirs = [];
 	devicesSelectedView = -1;
-	
+
 	//Get inbuiltIcons
 	var inbuiltIcons = [];
 	for (iQontrolRole in iQontrolRoles){
@@ -3699,7 +3716,7 @@ function load(settings, onChange) {
 
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change');
-	
+
 	//Init imageUpload
 	initImageUpload();
 
@@ -3728,7 +3745,7 @@ function load(settings, onChange) {
 					if (!goalSecureFound) {
 						goalSecureFound = true;
 						bestInstance = i;
-					}	
+					}
 					if (result[i].native.socketio == ""){
 						if (!goalSocketFound) {
 							goalSocketFound = true;
@@ -3751,7 +3768,7 @@ function load(settings, onChange) {
 			//Create Link from best fitting web-adapter
 			if (isIobrokerPro){ //Connection over iobroker.net or iobroker.pro - connect without ports!
 				link = location.protocol + "//" + location.hostname + "/iqontrol";
-				connectionLink = location.protocol + "//"  + location.hostname;			
+				connectionLink = location.protocol + "//"  + location.hostname;
 			} else { //Direct connection
 				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
 				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
@@ -3768,11 +3785,11 @@ function load(settings, onChange) {
 			if(location.protocol == 'https:' && !result[bestInstance].native.secure && !isIobrokerPro){
 				console.log("Admin runs in https, but web-adpater in http");
 				socketConnectionErrorMessages = _("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.");
-				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
+				goOnAfterSocketIsConnectedOrAfterSocketInitError();
 			} else if (location.protocol == 'http:' && result[bestInstance].native.secure && !isIobrokerPro){
 				console.log("Admin runs in http, but web-adapter in https");
 				socketConnectionErrorMessages = _("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.");
-				goOnAfterSocketIsConnectedOrAfterSocketInitError(); 
+				goOnAfterSocketIsConnectedOrAfterSocketInitError();
 			} else {
 				try {
 					console.log("Try to init socket.io");
@@ -3825,14 +3842,14 @@ function load(settings, onChange) {
 			alert(_("Error: No web-adapter found!"));
 		}
 	});
-	
+
 	function goOnAfterSocketIsConnectedOrAfterSocketInitError(){
 		//Error?
 		if (socketConnectionErrorMessages != ""){
 			socketConnectionErrorMessages += "\n\n\n" + _("Trying to use fallback. Some functions and file-operations may not work.");
 			alert(socketConnectionErrorMessages);
 		}
-		
+
 		//Signal to admin, that no changes yet
 		if(!newConfig) onChange(false);
 
@@ -3848,7 +3865,7 @@ function load(settings, onChange) {
 				console.log("...userfiles moved.")
 				alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
 			} else console.log("...nothing to move (" + err + ").");
-			
+
 			//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
 			console.log("Adjusting image links to new userfiles location");
 			var oldImagePathRelative = ".\\userimages";
@@ -3878,7 +3895,7 @@ function load(settings, onChange) {
 
 			//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 			if (M) M.updateTextFields();
-			
+
 			//Get iobrokerObjects
 			getIobrokerObjects();
 		});
@@ -3896,7 +3913,7 @@ function load(settings, onChange) {
 		}
 		iobrokerObjectsReadyFunctions = [];
 		$('.loadingObjects').hide();
-		console.log("ioBroker Objects ready.");		
+		console.log("ioBroker Objects ready.");
 	}
 
 	//++++++++++ TABS ++++++++++
@@ -3933,7 +3950,7 @@ function load(settings, onChange) {
 	function loadViews(){
 		//Fill Table
 		values2table('tableViews', views, onChange, onTableViewsReady);
-		
+
 		//Fill Selectbox ViewsAutocreateEnumerations
 		console.log("Loading Enumerations...");
 		$('#viewsAutocreateButton').addClass('disabled');
@@ -3946,9 +3963,9 @@ function load(settings, onChange) {
 						if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
 					});
 					$('#dialogViewsAutocreateEnumerationMain').empty().append("<option disabled selected value>" + _("Select Enumeration") + "</option>");
-					enumerationsMain.forEach(function(enumeration, index){ 
+					enumerationsMain.forEach(function(enumeration, index){
 						var name = getEnumerationName(enumeration);
-						$('#dialogViewsAutocreateEnumerationMain').append("<option value='" + enumeration + "'>" + name + "</option>"); 
+						$('#dialogViewsAutocreateEnumerationMain').append("<option value='" + enumeration + "'>" + name + "</option>");
 					});
 					$('#dialogViewsAutocreateEnumerationMain').select();
 					$('#viewsAutocreateButton').removeClass('disabled');
@@ -3976,7 +3993,7 @@ function load(settings, onChange) {
 		var inbuiltWallpapersString = "";
 		inbuiltWallpapers.forEach(function(wallpaper){
 			if (wallpaper != "") {
-				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");	
+				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltWallpapers.length > 0){
@@ -3989,7 +4006,7 @@ function load(settings, onChange) {
 				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
 					|| file.filenameBS.endsWith(".css")
 					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
-					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
 		});
@@ -4006,11 +4023,11 @@ function load(settings, onChange) {
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, "*", null, null);
 					if(changedSymbolicLinks.length > 0) {
 						var deletedSymbolicLinksString = "";
-						changedSymbolicLinks.forEach(function(destination){ 
+						changedSymbolicLinks.forEach(function(destination){
 							var deviceNumber = parseInt(destination.device) + 1;
 							//1st 2nd 3rd 4th...
 							var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
-							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")"; 
+							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")";
 						});
 						alert(_("The following devices were symbolic links of a device from the view you deleted. They were converted to normal devices:") + deletedSymbolicLinksString);
 					}
@@ -4020,7 +4037,7 @@ function load(settings, onChange) {
 						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
 					}
 				});
-			}			
+			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
@@ -4063,7 +4080,7 @@ function load(settings, onChange) {
 			start: function(event, ui){
 				console.log("Drag started...");
 			},
-			stop: function(event, ui){ 
+			stop: function(event, ui){
 				console.log("Drag ended, start resorting...");
 				$("#tableViews tbody").sortable('disable');
 				var sequence = [];
@@ -4089,7 +4106,7 @@ function load(settings, onChange) {
 			},
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
-		});	
+		});
 	}
 
 	//Check for duplicates
@@ -4161,7 +4178,7 @@ function load(settings, onChange) {
 						toolbarCount++;
 					}
 				}
-			});	
+			});
 			if($('#dialogViewsAutocreateCreateMasterView').prop('checked') && masterView !== false){
 				if(typeof viewsAutocreateResult.views[masterView].devices == udef) viewsAutocreateResult.views[masterView].devices = [];
 				viewsAutocreateResult.views[masterView].devices = iQontrolViewDevices.concat(viewsAutocreateResult.views[masterView].devices);
@@ -4207,10 +4224,10 @@ function load(settings, onChange) {
 					listContent += "		</span>";
 				}
 				listContent += "	</div>";
-				listContent += "</li>";			
+				listContent += "</li>";
 			}
-		};		
-		listContent += "</ul>";			
+		};
+		listContent += "</ul>";
 		$('#dialogViewsAutocreateEnumerationList').html(listContent);
 		$('.collapsible').collapsible();
 		$('.dialogViewsAutocreateEnumerationListItem').off('change').on('change', function(e){
@@ -4267,7 +4284,7 @@ function load(settings, onChange) {
 		var inbuiltWallpapersString = "";
 		inbuiltWallpapers.forEach(function(wallpaper){
 			if (wallpaper != "") {
-				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");	
+				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltWallpapers.length > 0){
@@ -4280,7 +4297,7 @@ function load(settings, onChange) {
 				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
 					|| file.filenameBS.endsWith(".css")
 					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
-					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
 		});
@@ -4376,7 +4393,7 @@ function load(settings, onChange) {
 								var entry = {option: option, type: type, value: value};
 								dialogDeviceEditOptions.push(entry);
 							});
-							views[_viewIndex].devices[_deviceIndex].options = dialogDeviceEditOptions; 
+							views[_viewIndex].devices[_deviceIndex].options = dialogDeviceEditOptions;
 							updateSymbolicLinks();
 							onTableDevicesReady();
 						});
@@ -4407,11 +4424,11 @@ function load(settings, onChange) {
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, _deviceIndex, null, null);
 					if(changedSymbolicLinks.length > 0) {
 						var deletedSymbolicLinksString = "";
-						changedSymbolicLinks.forEach(function(destination){ 
+						changedSymbolicLinks.forEach(function(destination){
 							var deviceNumber = parseInt(destination.device) + 1;
 							//1st 2nd 3rd 4th...
 							var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
-							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")"; 
+							deletedSymbolicLinksString += "\n" + views[destination.view].commonName + ": " + deviceNumberString + " " + _("Device") + " (" + views[destination.view].devices[destination.device].commonName + ")";
 						});
 						alert(_("The following devices were symbolic links of the device you deleted. They were converted to normal devices:") + deletedSymbolicLinksString);
 					}
@@ -4420,7 +4437,7 @@ function load(settings, onChange) {
 						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
 					}
 				});
-			}			
+			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
@@ -4429,7 +4446,7 @@ function load(settings, onChange) {
 		//Make table sortable
 		$("#tableDevices tbody").sortable({
 			helper: fixHelper,
-			stop: function( event, ui ) { 
+			stop: function( event, ui ) {
 				console.log("Drag ended, start resorting...");
 				$("#tableDevices tbody").sortable('disable');
 				var sequence = [];
@@ -4519,7 +4536,7 @@ function load(settings, onChange) {
 			var dialogDeviceEditOptionsContent = "<ul class='collapsible' id='dialogDeviceEditOptionsContentCollapsible'>";
 			var dialogDeviceEditOptionsContentCollapsibleOpen = false;
 			for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //push all corresponding options for the selected role into the table
-				var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;				
+				var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;
 				var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
 				var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
 				switch(type){
@@ -4562,7 +4579,7 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
-					
+
 					case "checkbox":
 					if(value == "true") value = true;
 					if(value == "false") value = false;
@@ -4594,7 +4611,7 @@ function load(settings, onChange) {
 							if (index == 0){ //First Default Icon
 								options += ";/" + option.replace(/\//g, "\\") + " " + _("(Default)") + "/" + (link + "/images/icons/" + option).replace(/\//g, "\\");
 							} else { //Alternative Default Icon
-								options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");	
+								options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
 							}
 						}
 					});
@@ -4622,16 +4639,16 @@ function load(settings, onChange) {
 					options += ";[" + _("Inbuilt Icons") + ":]";
 					inbuiltIcons.forEach(function(inbuiltIcon){
 						if (inbuiltIcon != "") {
-							options += ";" + ("./images/icons/" + inbuiltIcon).replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");	
+							options += ";" + ("./images/icons/" + inbuiltIcon).replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
 						}
 					});
 					//User Icons
 					var imagenames = [];
 					imagesDirs.forEach(function(imagesDir){
 						if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-							imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+							imagenames.push("[" + imagesDir.dirnameBS + ":]");
 							imagesDir.files.forEach(function(file){
-								 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+								 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 							});
 						}
 					});
@@ -4648,7 +4665,7 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
-					
+
 					case "text": default:
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
@@ -4678,11 +4695,11 @@ function load(settings, onChange) {
 			}
 			$('select.dialogDeviceEditOption').select();
 			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
-				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);	
+				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);
 			});
 			initColorpickers(onChange);
 			if (M) M.updateTextFields();
-		}		
+		}
 	}
 
 	//Enhance tableDialogDeviceEditStates with functions
@@ -4716,7 +4733,7 @@ function load(settings, onChange) {
 		var inbuiltWidgetsString = "";
 		inbuiltWidgets.forEach(function(widget){
 			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -4785,7 +4802,7 @@ function load(settings, onChange) {
 								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
 							}
 							if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //COLOR - init ColorPicker
-								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);							
+								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
 								if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
 									var oldVal = $targetInput.val();
 									if(!$targetInput.data('materialize-color-picker-initialized')){
@@ -4809,7 +4826,7 @@ function load(settings, onChange) {
 										$targetInput.trigger('change');
 									}
 								} else {
-									$targetInput.colorpicker('destroy');									
+									$targetInput.colorpicker('destroy');
 									$targetInput.data('materialize-color-picker-initialized', false);
 									$targetInput.css('border-right', '0px solid black');
 								}
@@ -4833,7 +4850,7 @@ function load(settings, onChange) {
 						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
 							var filename = null;
 							var path = null;
-							if(stateValue.indexOf("./images/widgets/") == 0){ 
+							if(stateValue.indexOf("./images/widgets/") == 0){
 								filename = stateValue.substr(8);
 								path = imagePath;
 							}
@@ -4866,7 +4883,7 @@ function load(settings, onChange) {
 								})(); //<--End Closure
 							}
 						} else if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //const - COLOR - open Colorpicker
-							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);							
+							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
 							if($targetInput.data('materialize-color-picker-initialized')){
 								$targetInput.colorpicker('show');
 							}
@@ -4952,14 +4969,14 @@ function load(settings, onChange) {
 	function dialogDeviceEditStatesWidgetSelected(value){
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){ 
+		if(value.indexOf("./images/widgets/") == 0){
 			filename = value.substr(8);
 			path = imagePath;
 		}
 		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.substr(29);
 			path = userfilesImagePath;
-		}									
+		}
 		if(filename && path){
 			getWidgetSettings(filename, path, function(result){
 				if(result.urlParameters.length) {
@@ -4981,7 +4998,7 @@ function load(settings, onChange) {
 			});
 		}
 	}
-	
+
 	//Enhance TableDialogDeviceEditStateArrayReady
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
@@ -5004,7 +5021,7 @@ function load(settings, onChange) {
 				$(this).hide(0);
 			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
 				$(this).hide(0);
-			} 
+			}
 		});
 		if(showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
 		$lines.find('.values-input[data-name]').each(function () {
@@ -5021,7 +5038,7 @@ function load(settings, onChange) {
 				$(this).parents('td').hide(0);
 			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
 				$(this).parents('td').hide(0);
-			} 
+			}
 		});
 		//Add id for selectId-Dialog
 		$lines.find('input[data-name]').each(function () {
@@ -5037,7 +5054,7 @@ function load(settings, onChange) {
 			var inbuiltSymbolsString = "";
 			inbuiltSymbols.forEach(function(symbol){
 				if (symbol != "") {
-					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");	
+					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
 				}
 			});
 			if (inbuiltSymbols.length > 0){
@@ -5046,9 +5063,9 @@ function load(settings, onChange) {
 			var imagenames = [];
 			imagesDirs.forEach(function(imagesDir){
 				if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-					imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+					imagenames.push("[" + imagesDir.dirnameBS + ":]");
 					imagesDir.files.forEach(function(file){
-						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 					});
 				}
 			});
@@ -5097,7 +5114,7 @@ function load(settings, onChange) {
 		//Make table sortable
 		$("#tableDialogDeviceEditStateArray tbody").sortable({
 			helper: fixHelper,
-			stop: function( event, ui ) { 
+			stop: function( event, ui ) {
 				console.log("Drag ended, start resorting...");
 				$("#tableDialogDeviceEditStateArray tbody").sortable('disable');
 				var sequence = [];
@@ -5116,7 +5133,7 @@ function load(settings, onChange) {
 			},
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
-		});	
+		});
 	}
 	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
 		var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
@@ -5244,7 +5261,7 @@ function load(settings, onChange) {
 			//Use ChannelDetector to find out role and matching states
 			var channelDetectorUsedDeviceTypeForCommonRole;
 			var channelDetectorResult = channelDetector.detect({
-				objects: objects, 
+				objects: objects,
 				id: sourceId,
 				ignoreIndicators: ["STICKY_UNREACH"]
 			});
@@ -5273,12 +5290,12 @@ function load(settings, onChange) {
 										console.log("      " + state.name + " (" + state.id + ") fits to " + channelDetectorMatchTable[device.type].matchingStates[state.name] + " but this was already matched before.");
 									}
 								} else {
-									console.log("      " + state.name + " (" + state.id + ") no match.");								
+									console.log("      " + state.name + " (" + state.id + ") no match.");
 								}
 							}
 						});
 					}
-				});	
+				});
 			} else {
 				console.log("No Device detected.");
 			}
@@ -5325,7 +5342,7 @@ function load(settings, onChange) {
 					case ".SATURATION": case ".saturation": case ".sat":
 					if (!resultStatesObj['SATURATION']) resultStatesObj['SATURATION'] = id;
 					break;
-					
+
 					case ".RGB":
 					if (!resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE']) resultStatesObj['ALTERNATIVE_COLORSPACE_VALUE'] = id;
 					break;
@@ -5623,9 +5640,9 @@ function load(settings, onChange) {
 		//Add widgets and websites to Selectbox
 		$('#dialogDevicesAutocreateWidgetSource').val("");
 		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){ 
+		inbuiltWidgets.forEach(function(widget){
 			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -5679,14 +5696,14 @@ function load(settings, onChange) {
 	function dialogDevicesAutocreateWidgetWidgetSelected(value){
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){ 
+		if(value.indexOf("./images/widgets/") == 0){
 			filename = value.substr(8);
 			path = imagePath;
 		}
 		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.substr(29);
 			path = userfilesImagePath;
-		}									
+		}
 		if(filename && path){
 			getWidgetSettings(filename, path, function(result){
 				if(result.urlParameters.length){
@@ -5697,7 +5714,7 @@ function load(settings, onChange) {
 					$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + urlParameterString);
 				} else {
 					dialogDevicesAutocreateWidgetUrlParameters = "";
-					$('#dialogDevicesAutocreateWidgetUrlParameters').html("");							
+					$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
 				}
 				var dialogDevicesAutocreateWidgetOptionsString = "<ul class='browser-default'>";
 				for(option in result.options){
@@ -5713,7 +5730,7 @@ function load(settings, onChange) {
 					dialogDevicesAutocreateWidgetOptions.push(entry);
 				}
 			});
-		}			
+		}
 	}
 
 	//Widget-Settings
@@ -5721,7 +5738,7 @@ function load(settings, onChange) {
 		var querystring = filename.split('?')[1] || "";
 		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
-			if($(htmlAsString).filter('meta[name^="widget-"]').length){					
+			if($(htmlAsString).filter('meta[name^="widget-"]').length){
 				initDialog('dialogWidgetSettings', function(){ //save dialog
 					var result = {};
 					var dialogWidgetSettingsUrlParameters = [];
@@ -5745,7 +5762,7 @@ function load(settings, onChange) {
 					callback(result);
 				});
 				$('#dialogWidgetSettingsDescription').html("").show();
-				$('#dialogWidgetSettingsOptions').html("").hide();										
+				$('#dialogWidgetSettingsOptions').html("").hide();
 				$('#dialogWidgetSettingsParameters').html("").hide();
 				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){
 					var metaName = $(this).prop('name');
@@ -5755,7 +5772,7 @@ function load(settings, onChange) {
 						case "widget-description":
 						if(metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
 						break;
-						
+
 						case "widget-urlparameters":
 						if(metaContent){
 							dialogDevicesAutocreateWidgetUrlParameters = "";
@@ -5766,7 +5783,7 @@ function load(settings, onChange) {
 							querystringParts.forEach(function(query){
 								queries[query.split('=')[0]] = query.split('=')[1] || "";
 							});
-							urlParameters.forEach(function(urlParameter){ 
+							urlParameters.forEach(function(urlParameter){
 								urlParameter = urlParameter.trim().split('/');
 								var entry = urlParameter[0];
 								var name = urlParameter[2] || urlParameter[0];
@@ -5798,8 +5815,8 @@ function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									break;
-									
-									case "historyInstance": 
+
+									case "historyInstance":
 									getHistoryInstances();
 									var selectOptionsContent = "";
 									selectOptionsContent += "        <option value=''>" + _('default') + "</option>";
@@ -5812,7 +5829,7 @@ function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									break;
-									
+
 									case "checkbox":
 									if(value == "true") value = true;
 									if(value == "false") value = false;
@@ -5847,10 +5864,10 @@ function load(settings, onChange) {
 								if (M) M.updateTextFields();
 							} else {
 								$('#dialogWidgetSettingsUrlParameters').html("").hide();
-							} 
+							}
 						}
 						break;
-						
+
 						case "widget-options":
 						if(metaContent) {
 							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
@@ -5868,7 +5885,7 @@ function load(settings, onChange) {
 								if(dialogWidgetSettingsOptionsString.length){
 									$('#dialogWidgetSettingsOptions').html("<b>" + _("Apply the following device options:") + "</b><br><br>" + dialogWidgetSettingsOptionsString).show();
 								} else {
-									$('#dialogWidgetSettingsOptions').html("").hide();										
+									$('#dialogWidgetSettingsOptions').html("").hide();
 								}
 							} else {
 								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
@@ -5880,8 +5897,8 @@ function load(settings, onChange) {
 				$('#dialogWidgetSettings').modal('open');
 				$('#dialogWidgetSettings').css('z-index', modalZIndexCount++);
 			}
-		});		
-	}			
+		});
+	}
 
 	//+++++++++ TOOLBAR ++++++++++
 	//Load Toolbar
@@ -5910,7 +5927,7 @@ function load(settings, onChange) {
 		var inbuiltWidgetsString = "";
 		inbuiltWidgets.forEach(function(widget){
 			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");	
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltWidgets.length > 0){
@@ -5938,7 +5955,7 @@ function load(settings, onChange) {
 			websitenames.unshift(";[" + _("User Widgets") + ":]");
 		}
 		enhanceTextInputToCombobox("#panelBackgroundURLValue", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true);
-		
+
 		//Enhande commonRole with functions
 		$('select.panelStates.commonRole').off('input change').on('input change', function(){
 			var id = $(this).data('id');
@@ -5951,7 +5968,7 @@ function load(settings, onChange) {
 				$value.next("a").prop('style','display: none !important;');
 			}
 		}).trigger('change');
-		
+
 		//Enhance Panel edit-buttons with functions
 		$('a.panelStates[data-command="edit"]').off('click').on('click', function(){
 			var id = $(this).data('id');
@@ -5991,7 +6008,7 @@ function load(settings, onChange) {
 		var jqueryIconsString = "";
 		jqueryIcons.forEach(function(symbol){
 			if (symbol != "") {
-				jqueryIconsString += ";" + symbol + "/" + symbol + "/" + (link + "/jquery/images/icons-svg/" + symbol + "-black.svg").replace(/\//g, "\\");	
+				jqueryIconsString += ";" + symbol + "/" + symbol + "/" + (link + "/jquery/images/icons-svg/" + symbol + "-black.svg").replace(/\//g, "\\");
 			}
 		});
 		if (jqueryIcons.length > 0){
@@ -6000,7 +6017,7 @@ function load(settings, onChange) {
 		var inbuiltSymbolsString = "";
 		inbuiltSymbols.forEach(function(symbol){
 			if (symbol != "") {
-				inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");	
+				inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
 			}
 		});
 		if (inbuiltSymbols.length > 0){
@@ -6009,9 +6026,9 @@ function load(settings, onChange) {
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagenames.push("[" + imagesDir.dirnameBS + ":]");							
+				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS); 
+					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				});
 			}
 		});
@@ -6031,7 +6048,7 @@ function load(settings, onChange) {
 		//Make table sortable
 		$("#tableToolbar tbody").sortable({
 			helper: fixHelper,
-			stop: function( event, ui ) { 
+			stop: function( event, ui ) {
 				console.log("Drag ended, start resorting...");
 				$("#tableToolbar tbody").sortable('disable');
 				var sequence = [];
@@ -6050,7 +6067,7 @@ function load(settings, onChange) {
 			},
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
-		});	
+		});
 	}
 
 
@@ -6113,7 +6130,7 @@ function load(settings, onChange) {
 						$('#imagesUploadFileFormProgress').hide();
 					});
 				}
-			});	
+			});
 		}
 	}
 
@@ -6167,7 +6184,7 @@ function load(settings, onChange) {
 					imagesDirFiles.sort(function(a, b){
 						return ((a.filename.toLowerCase() > b.filename.toLowerCase()) ? 1 : ((b.filename.toLowerCase() > a.filename.toLowerCase()) ? -1 : 0));
 					});
-					imagesDir.files = imagesDirFiles; 
+					imagesDir.files = imagesDirFiles;
 				});
 				console.log("Got all images.");
 				$('.hideOnLoad').show();
@@ -6204,7 +6221,7 @@ function load(settings, onChange) {
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml, text/html, text/css, text/javascript');
 			$('.imagesUploadCreateFile').removeClass('hide');
 		} else {
-			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml');			
+			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml');
 			$('.imagesUploadCreateFile').addClass('hide');
 		}
 		var $div = $('#tableImages');
@@ -6336,12 +6353,12 @@ function load(settings, onChange) {
 		$('.code').on('click', function(){
 			initDialog('dialogCodeEditor', function(){});
 			var fileName = $(this).data('filename');
-			$("#dialogCodeEditorFileName").text(fileName); 
-			$("#dialogCodeEditorFileType").text($(this).data('filetype')); 
+			$("#dialogCodeEditorFileName").text(fileName);
+			$("#dialogCodeEditorFileType").text($(this).data('filetype'));
 			dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
 			dialogCodeEditorCodeMirror.setValue("");
 			dialogCodeEditorCodeMirrorChanged = false;
-			$('#dialogCodeEditor .btn-set').addClass('disabled');		
+			$('#dialogCodeEditor .btn-set').addClass('disabled');
 			dialogCodeEditorCodeMirror.execCommand('goDocStart');
 			dialogCodeEditorCodeMirror.refresh();
 			setTimeout(function(){
@@ -6353,7 +6370,7 @@ function load(settings, onChange) {
 				dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
 				dialogCodeEditorCodeMirror.setValue(string);
 				dialogCodeEditorCodeMirrorChanged = false;
-				$('#dialogCodeEditor .btn-set').addClass('disabled');		
+				$('#dialogCodeEditor .btn-set').addClass('disabled');
 				dialogCodeEditorCodeMirror.execCommand('goDocStart');
 				dialogCodeEditorCodeMirror.refresh();
 				setTimeout(function(){
@@ -6363,7 +6380,7 @@ function load(settings, onChange) {
 		});
 		imagesSelectedDirFilterList();
 	}
-	
+
 	//Create Dir
 	$('#imagesUploadCreateDir').on('click', function(){
 		var newName = (($('#imagesSelectedDir').val() == "/") ? "" : $('#imagesSelectedDir').val()) + "/New Folder";
@@ -6386,7 +6403,7 @@ function load(settings, onChange) {
 			});
 		}
 	});
-	
+
 	//Rename Dir
 	$('#imagesUploadRenameDir').on('click', function(){
 		var oldName = $('#imagesSelectedDir').val();
@@ -6415,7 +6432,7 @@ function load(settings, onChange) {
 			})(); //<--End Closure
 		}
 	});
-	
+
 	//Delete Dir
 	$('#imagesUploadDeleteDir').on('click', function(){
 		if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
@@ -6432,7 +6449,7 @@ function load(settings, onChange) {
 			});
 		}
 	});
-	
+
 	//Refresh
 	$('#imagesUploadRefresh').on('click', function(){
 		getImages(function(){
@@ -6442,7 +6459,7 @@ function load(settings, onChange) {
 			$('#imagesSelectedDir').select();
 		});
 	});
-	
+
 	//Download Dir As Zip
 	$('#imagesUploadDownloadDirAsZip').on('click', function(){
 		$('#imagesUploadDownloadDirAsZip').addClass('disabled');
@@ -6467,7 +6484,7 @@ function load(settings, onChange) {
 			$('#imagesUploadDownloadDirAsZip').removeClass('disabled');
 		$('#imagesUploadDownloadDirAsZipProgress').hide();
 		}
-	});	
+	});
 
 	//CreateFile-Buttons
 	$('.imagesUploadCreateFile').on('click', function(){
@@ -6476,10 +6493,10 @@ function load(settings, onChange) {
 		if(filename){
 			uploadStringAsFile("", filename + "." + filetype, userfilesImagePath + $('#imagesSelectedDir').val(), function(name){
 				$('#imagesUploadRefresh').click();
-			});			
+			});
 		}
-	});	
-	
+	});
+
 	//Change ImageNames in views and devices and options
 	function changeImageName(oldName, newName){
 		oldName = "./.." + oldName.replace(/\\/g, "/");
@@ -6538,7 +6555,7 @@ function load(settings, onChange) {
 	$('#optionsBackupRestoreExportToolbar').on('click', function(){
 		saveStringAsLocalFile(JSON.stringify(toolbar), "charset=utf-8", "text/json", "toolbar.json", true);
 	});
-	
+
 	//Export Panel
 	$('#optionsBackupRestoreExportPanel').on('click', function(){
 		//Select elements with class=value and build settings object
@@ -6555,7 +6572,7 @@ function load(settings, onChange) {
 		});
 		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "panel.json", true);
 	});
-	
+
 	//Export Options
 	$('#optionsBackupRestoreExportOptions').on('click', function(){
 		//Select elements with class=value and build settings object
@@ -6572,7 +6589,7 @@ function load(settings, onChange) {
 		});
 		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
 	});
-	
+
 	//Export Custom
 	$('#optionsBackupRestoreExportCustoms').on('click', function(){
 		var customs = [];
@@ -6629,8 +6646,8 @@ function load(settings, onChange) {
 			$('#optionsBackupRestoreExportUserfiles').removeClass('disabled');
 			$('#optionsBackupRestoreExportUserfilesProgress').hide();
 		}
-	});	
-	
+	});
+
 	//Import Views
 	$('#optionsBackupRestoreImportViewsOverwrite, #optionsBackupRestoreImportViewsAppend').on('click', function(){
 		var overwrite = ($(this).data('overwrite') == true);
@@ -6638,7 +6655,7 @@ function load(settings, onChange) {
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
 			if(resultObj && typeof resultObj.forEach == "function"){
-				resultObj.forEach(function(entry, index){ 
+				resultObj.forEach(function(entry, index){
 					if(typeof entry.commonName == "undefined") entry.commonName = "View";
 					if(!overwrite){
 						var viewNames = [];
@@ -6671,7 +6688,7 @@ function load(settings, onChange) {
 			}
 		});
 	});
-	
+
 	//Import Toolbar
 	$('#optionsBackupRestoreImportToolbarOverwrite, #optionsBackupRestoreImportToolbarAppend').on('click', function(){
 		var overwrite = ($(this).data('overwrite') == true);
@@ -6679,7 +6696,7 @@ function load(settings, onChange) {
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
 			if(resultObj && typeof resultObj.forEach == "function"){
-				resultObj.forEach(function(entry, index){ 
+				resultObj.forEach(function(entry, index){
 					if(typeof entry.nativeLinkedView == "undefined"){
 						resultObjValid = false;
 					} else {
@@ -6707,7 +6724,7 @@ function load(settings, onChange) {
 			}
 		});
 	});
-	
+
 	//Import Panel
 	$('#optionsBackupRestoreImportPanel').on('click', function(){
 		loadLocalFileAsString(".json", function(result){
@@ -6739,7 +6756,7 @@ function load(settings, onChange) {
 			}
 		});
 	});
-	
+
 	//Import Options
 	$('#optionsBackupRestoreImportOptions').on('click', function(){
 		loadLocalFileAsString(".json", function(result){
@@ -6771,14 +6788,14 @@ function load(settings, onChange) {
 			}
 		});
 	});
-	
+
 	//Import Customs
 	$('#optionsBackupRestoreImportCustoms').on('click', function(){
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
 			if(resultObj && typeof resultObj.forEach == "function"){
-				resultObj.forEach(function(entry, index){ 
+				resultObj.forEach(function(entry, index){
 					if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
 						resultObjValid = false;
 					}
@@ -6824,8 +6841,8 @@ function load(settings, onChange) {
 				});
 				$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
 				$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-				resultObj.forEach(function(custom, index){ 
-					$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
+				resultObj.forEach(function(custom, index){
+					$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
 				});
 				$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
 				$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
@@ -6843,7 +6860,7 @@ function load(settings, onChange) {
 			if(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
 				//Views
 				if(resultObj.views && typeof resultObj.views.forEach == "function") {
-					resultObj.views.forEach(function(entry, index){ 
+					resultObj.views.forEach(function(entry, index){
 						if(typeof entry.commonName == "undefined") entry.commonName = "View";
 					});
 				} else {
@@ -6851,7 +6868,7 @@ function load(settings, onChange) {
 				}
 				//Toolbar
 				if(resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
-					resultObj.toolbar.forEach(function(entry, index){ 
+					resultObj.toolbar.forEach(function(entry, index){
 						if(typeof entry.nativeLinkedView == "undefined"){
 							resultObjValid = false;
 						} else {
@@ -6868,7 +6885,7 @@ function load(settings, onChange) {
 				}
 				//Customs
 				if(resultObj.customs && typeof resultObj.customs.forEach == "function"){
-					resultObj.customs.forEach(function(entry, index){ 
+					resultObj.customs.forEach(function(entry, index){
 						if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
 							resultObjValid = false;
 						}
@@ -6952,8 +6969,8 @@ function load(settings, onChange) {
 					});
 					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
 					$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-					resultObj.customs.forEach(function(custom, index){ 
-						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>"); 
+					resultObj.customs.forEach(function(custom, index){
+						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
 					});
 					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
 					$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
@@ -6993,7 +7010,7 @@ function load(settings, onChange) {
 				alert(_("Error: Invalid data."));
 			}
 		});
-	});	
+	});
 }
 
 /************** SAVE *****************************************************************
@@ -7001,8 +7018,8 @@ function load(settings, onChange) {
 *************************************************************************************/
 function save(callback) {
 	//Update symbolic links
-	updateSymbolicLinks();	
-	
+	updateSymbolicLinks();
+
 	//Check for linkedViews that don't exist anymore and delete them
 	var existingViews = [];
 	if (typeof views != udef) views.forEach(function(view){
@@ -7016,7 +7033,7 @@ function save(callback) {
 			}
 		});
 	});
-	
+
 	//Select elements with class=value and build settings object
 	var obj = {};
 	$('.value').each(function () {
@@ -7044,14 +7061,14 @@ function save(callback) {
 				if((state.state == "URL" ||state.state == "BACKGROUND_URL") && state.commonRole == "const" && state.value != "") {
 					var filename = null;
 					var path = null;
-					if(state.value.indexOf("./images/widgets/") == 0){ 
+					if(state.value.indexOf("./images/widgets/") == 0){
 						filename = state.value.slice(8, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = imagePath;
 					}
 					if(state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 						filename = state.value.slice(29, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = userfilesImagePath;
-					}									
+					}
 					if(filename && path){
 						widgetsToDownload.push({filename: filename, path: path});
 					}
@@ -7063,14 +7080,14 @@ function save(callback) {
 		var value = $("#panelBackgroundURLValue").val();
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){ 
+		if(value.indexOf("./images/widgets/") == 0){
 			filename = value.slice(8, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = imagePath;
 		}
 		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.slice(29, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = userfilesImagePath;
-		}									
+		}
 		if(filename && path){
 			widgetsToDownload.push({filename: filename, path: path});
 		}
@@ -7082,7 +7099,7 @@ function save(callback) {
 		widgetsToDownload.forEach(function(widget){
 			downloadFileAsStringAsync(widget.filename, widget.path).then(function(htmlAsString){
 				widgetsToDownloadCount--;
-				$(htmlAsString).filter('meta[name="widget-datapoint"]').each(function(){ 
+				$(htmlAsString).filter('meta[name="widget-datapoint"]').each(function(){
 					var id = $(this).prop('content');
 					var data = $(this).data() || {};
 					var type = data.type || "string";
@@ -7101,7 +7118,7 @@ function save(callback) {
 					//Save settings
 					callback(obj);
 				}
-			});			
+			});
 		});
 	} else {
 		obj.widgetsDatapoints = [];
