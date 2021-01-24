@@ -1,8 +1,9 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.5.6",
+        "version": "1.5.7",
         "news": {
+			"1.5.7": {"en": "Fixed missing info.connection object, Fixed INFO_B position for short tiles, Added option clickOnTileOpensDialog to all devices (see readme, Fixed FLOT for short tiles."},
             "1.5.6": {
                 "en": "Fixed toolbar hiding issue if popup with additional controls is closed early, Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time, Added badge, Added predefined wallpapers to dropdown for devices background images, Redesigned dropdown for toolbar-icons to show thumbnails and added ability to add custom icons, Added option to show toolbar in one singe line, Added HHSSBB for Tuya to ALTERNATIVE_COLORSPACEs, Added historyInstance to options of FLOT-Chart-Widget, Fixed changing commonRole breaks symbolic links.",
                 "de": "Problem beim Ausblenden der Symbolleiste behoben, wenn das Popup mit zusätzlichen Steuerelementen vorzeitig geschlossen wurde. Behoben, dass ALTERNATIVE_COLORSPACE nur nach einem zweiten Öffnen der Ansicht funktioniert ",
