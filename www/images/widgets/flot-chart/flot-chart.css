@@ -63,6 +63,13 @@ div, span, p, td {
 			transition: all 1s;
 }
 
+@media screen and (max-height: 70px) {
+	.chart-placeholder {	
+		margin: 12px 0px 0px -8px;
+		height: calc(100% - 5px);
+	}
+}
+
 @media screen and (min-height: 120px) {
 	.chart-placeholder {	
 		margin: 90px 0px 0px -8px;

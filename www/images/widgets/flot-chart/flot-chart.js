@@ -1430,7 +1430,7 @@ console.log(location.href);
         })
     }),
     U.prototype.resize = function (e, t) {
-        if (e <= 0 || t <= 0)
+        if (e <= 0 || t < 0)
             throw new Error("Invalid dimensions for plot, width = " + e + ", height = " + t);
         var n = this.element,
         i = this.context,

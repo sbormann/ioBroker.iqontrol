@@ -1570,6 +1570,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	.iQontrolDevice.bigIcon .iQontrolDeviceInfoBIcon, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoBIcon, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoBIcon, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoBIcon {
 		left: 161px; 
 	}
+	.iQontrolDevice.short .iQontrolDeviceInfoBIcon, .iQontrolDevice:not(.active):not(.enlarged).shortIfInactive .iQontrolDeviceInfoBIcon, .iQontrolDevice.active:not(.enlarged).shortIfActive .iQontrolDeviceInfoBIcon, .iQontrolDevice.enlarged.shortIfEnlarged .iQontrolDeviceInfoBIcon {
+		top: 49px;
+	}
 	.iQontrolDeviceInfoBText {
 		position:absolute; left: 90px; top: 58px; height: 22px;
 		width: 72px; width: calc(100% - 89px); 
@@ -1578,6 +1581,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	.iQontrolDevice.bigIcon .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoBText, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoBText {
 		left: 179px; 
 		width: calc(100% - 178px); 
+	}
+	.iQontrolDevice.short .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active):not(.enlarged).shortIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active:not(.enlarged).shortIfActive .iQontrolDeviceInfoBText, .iQontrolDevice.enlarged.shortIfEnlarged .iQontrolDeviceInfoBText {
+		top: 49px;
 	}
 	.iQontrolDeviceName {
 		position:absolute; left: 10px; top: 84px; height: 45px;
