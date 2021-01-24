@@ -1197,7 +1197,7 @@ This device has some special predefined size- and display-settings to show a web
     
 ## Changelog
 
-### dev
+### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.
 * (sbormann) Fixed INFO_B position for short tiles.
 * (siedi) Added option clickOnTileOpensDialog to all devices. The logic is now: 
