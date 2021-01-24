@@ -4827,8 +4827,10 @@ function load(settings, onChange) {
 										$targetInput.trigger('change');
 									}
 								} else {
-									$targetInput.colorpicker('destroy');
-									$targetInput.data('materialize-color-picker-initialized', false);
+									if($targetInput.data('materialize-color-picker-initialized')){
+										$targetInput.colorpicker('destroy');
+										$targetInput.data('materialize-color-picker-initialized', false);
+									}
 									$targetInput.css('border-right', '0px solid black');
 								}
 							}
