@@ -51,6 +51,7 @@ Runs in any Browser.
 Easy to setup, allthough it's fully customizable and responsive.
 
 \
+
 ## Video-Tutorial (German Language):
 [![Demo-Video](img/play_demo.png "Open Tutorial on Youtube")](https://youtube.com/playlist?list=PL8epyNz8pGEv6-R8dnfXm-m5aBlZFKOBG)
 
