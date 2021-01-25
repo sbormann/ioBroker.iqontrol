@@ -1207,7 +1207,7 @@ This device has some special predefined size- and display-settings to show a web
 ### dev
 * (sbormann) Changed standard badge-color to red, 20% transparency.
 * (sbormann) Added optional glow-effect for tiles.
-* (sbormann) Fixed edit-dialog of device not opening in some circumstances.
+* (sbormann) Fixed edit-dialog of device not opening under some circumstances.
 
 ### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.
