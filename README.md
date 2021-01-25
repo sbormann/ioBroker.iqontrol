@@ -434,7 +434,89 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``icon_off`` (Icon off):
 		* Default: ""
 * Device Specific Options:
-	* ``noVirtualState`` (Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)):
+	* ``showState`` (Show State) - only valid for role Button and Program:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``buttonCaption`` (Caption for button) - only valid for role Button:
+		* Default: "" 
+	* ``returnToOffSetValueAfter`` (Return to 'OFF_SET_VALUE' after [ms]) - only valid for role Button:
+		* Possible values: number from 10 to 60000
+		* Default: "" 
+	* ``alwaysSendTrue`` (Always send 'true' (do not toggle)) - only valid for role Scene:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``closeDialogAfterExecution`` (Close dialog after execution) - only valid for role Button, Program and Scene:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``invertCt`` (Invert CT (use Kelvin instead of Mired)) - only valid for role Light:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``alternativeColorspace`` (Colorspace for ALTERNATIVE_COLORSPACE_VALUE") - only valid for role Light:
+		* Possible values: ""|"RGB"|"#RGB"|"RGBW"|"#RGBW"|"RGBWWCW"|"#RGBWWCW"|"RGBCWWW"|"#RGBCWWW"|"RGB_HUEONLY"|"#RGB_HUEONLY"|"HUE_MILIGHT"|"HHSSBB_TUYA"
+		* Default: "" 
+	* ``linkGlowActiveColorToHue`` (Use color of lamp as GLOW_ACTIVE_COLOR) - only valid for role Light:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``controlModeDisabledValue`` (Value of CONTROL_MODE for 'disabled') - only valid for role Thermostat:
+		* Default: "" 
+	* ``stateClosedValue`` (Value of STATE for 'closed') - only valid for role Window:
+		* Default: "" 
+	* ``stateOpenedValue`` (Value of STATE for 'opened') - only valid for role Window:
+		* Default: "" 
+	* ``stateTiltedValue`` (Value of STATE for 'tilted') - only valid for role Window:
+		* Default: "" 
+	* ``invertActuatorLevel`` (Invert LEVEL (0 = open)) - only valid for role Blind:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``directionOpeningValue`` (Value of DIRECTION for 'opening') - only valid for role Window:
+		* Default: "1" 
+	* ``directionOpeningValue`` (Value of DIRECTION for 'opening') - only valid for role Window:
+		* Default: "2" 
+	* ``directionUncertainValue`` (Value of DIRECTION for 'uncertain') - only valid for role Window:
+		* Default: "3" 
+	* ``favoritePositionCaption`` (Caption for FAVORITE_POSITION) - only valid for role Window:
+		* Default: "Favorite Position" 
+	* ``stopCaption`` (Caption for STOP) - only valid for role Window:
+		* Default: "Stop" 
+	* ``downCaption`` (Caption for DOWN) - only valid for role Window:
+		* Default: "Down" 
+	* ``controlModeDisarmedValue`` (Value of CONTROL_MODE for 'disarmed') - only valid for role Alarm:
+		* Default: "0" 
+	* ``coverImageReloadDelay`` (Delay reload of cover-image [ms]) - only valid for role Media:
+		* Possible values: number from 0 to 5000
+		* Default: "" 
+	* ``statePlayValue`` (Value of STATE for 'play') - only valid for role Media:
+		* Default: "play" 
+	* ``statePauseValue`` (Value of STATE for 'pause') - only valid for role Media:
+		* Default: "pause" 
+	* ``stateStopValue`` (Value of STATE for 'stop') - only valid for role Media:
+		* Default: "stop" 
+	* ``hidePlayOverlay`` (Hide play icon) - only valid for role Media:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``hidePauseAndStopOverlay`` (Hide pause and stop icon) - only valid for role Media:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``repeatOffValue`` (Value of REPEAT for 'off') - only valid for role Media:
+		* Default: "false" 
+	* ``repeatAllValue`` (Value of REPEAT for 'repeat all') - only valid for role Media:
+		* Default: "true" 
+	* ``repeatOneValue`` (Value of REPEAT for 'repeat one') - only valid for role Media:
+		* Default: "2" 
+	* ``remoteKeepSectionsOpen`` (Keep sections open) - only valid for role Media:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``remoteSectionsStartOpened`` (Start with these sections initially opened) - only valid for role Media:
+		* Possible values: array with "REMOTE_PAD", "REMOTE_CONTROL", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_CHANNELS", "REMOTE_NUMBERS" and/or "REMOTE_COLORS"
+		* Default: "false" 
+	* ``remoteShowDirectionsInsidePad`` (Show Vol and Ch +/- inside Pad) - only valid for role Media:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``remoteChannelsCaption`` (Caption for section 'Channels') - only valid for role Media:
+		* Default: "" 
+	* ``remoteAdditionalButtonsCaption`` (Caption for section 'Additional Buttons') - only valid for role Media:
+		* Default: "" 
+	* ``noVirtualState`` (Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)) - only valid for role Widget:
 		* Possible values: "true"|"false"
 		* Default: "false" 
 * General:
@@ -444,16 +526,28 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``invertUnreach`` (Invert UNREACH (use connected instead of unreach)):
 		* Possible values: "true"|"false"
 		* Default: "false" 
+	* ``invertGlowHide`` (Invert GLOW_HIDE):
+		* Possible values: "true"|"false"
+		* Default: "false" 
 	* ``additionalControlsSectionType`` (Appereance of ADDITIONAL_CONTROLS):
 		* Possible values: "none"|"collapsible"|"collapsible open"
 		* Default: "collapsible"
 	* ``additionalControlsCaption`` (Caption for ADDITIONAL_CONTROLS):
 		* Default: "Additional Controls"
+	* ``additionalControlsHeadingType`` (Appereance of ADDITIONAL_CONTROLS Headings):
+		* Possible values: "none"|"collapsible"|"collapsible open"
+		* Default: "collapsible"
 	* ``additionalInfoSectionType`` (Appereance of ADDITIONAL_INFO):
 		* Possible values: "none"|"collapsible"|"collapsible open"
 		* Default: "collapsible"
 	* ``additionalInfoCaption`` (Caption for ADDITIONAL_INFO):
 		* Default: "Additional Infos"
+	* ``renderLinkedViewInParentInstance`` (Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``renderLinkedViewInParentInstanceClosesPanel`` (After opening linked view in parent instance, close panel (if it is dismissible)):
+		* Possible values: "true"|"false"
+		* Default: "false" 
 * BATTERY Empty Icon:
 	* ``batteryActiveCondition`` (Condition):
 		* Possible values: ""|"at"|"af"|"eqt"|"eqf"|"eq"|"ne"|"gt"|"ge"|"lt"|"le"
@@ -464,6 +558,12 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``clickOnIconOpensDialog`` (Click on icon opens dialog (instead of toggling)):
 		* Possible values: "true"|"false"
 		* Default: "false" 
+	* ``clickOnTileToggles`` (Click on tile toggles (instead of opening dialog))):
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``clickOnTileOpensDialog`` (Click on tile opens dialog):
+		* Possible values: "true"|"false"
+		* Default: "true" (for most devices)
 	* ``noZoomOnHover`` (Disable zoom-effect on hover):
 		* Possible values: "true"|"false"
 		* Default: "true"
@@ -480,6 +580,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``iconNoPointerEventsInactive`` (Ignore mouse events for the icon, if device is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``transparentIfInactive`` (Make background transparent, if device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``noOverlayInactive`` (Remove overlay of tile, if device is inactive):
 		* Possible values: "true"|"false"
 		* Default: "true" 
@@ -489,9 +592,15 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideDeviceNameIfInactive`` (Hide device name, if the device is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``hideInfoAIfInactive`` (Hide INFO_A, if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideInfoBIfInactive`` (Hide INFO_B, if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``hideStateIfInactive`` (Hide state, if the device is inactive):
 		* Possible values: "true"|"false"
-		* Default: "true"	* ``
+		* Default: "false"
 	* ``hideDeviceIfInactive`` (Hide device, if it is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"	* ``
@@ -504,6 +613,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``iconNoPointerEventsActive`` (Ignore mouse events for the icon, if device is active):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``transparentIfActive`` (Make background transparent, if device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``noOverlayActive`` (Remove overlay of tile, if device is active):
 		* Possible values: "true"|"false"
 		* Default: "true"
@@ -511,6 +623,12 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``hideDeviceNameIfActive`` (Hide device name, if the device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideInfoAIfActive`` (Hide INFO_A, if the device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideInfoBIfActive`` (Hide INFO_B, if the device is active):
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``hideStateIfActive`` (Hide state, if the device is active):
@@ -526,6 +644,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Possible values: "true"|"false"
 		* Default: "true"
 	* ``iconNoPointerEventsEnlarged`` (Ignore mouse events for the icon, if device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``transparentIfEnlarged`` (Make background transparent, if device is enlarged):
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``noOverlayEnlarged`` (Remove overlay of tile, if device is enlarged):
@@ -550,6 +671,12 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Possible values: ""|"visibleIfEnlarged"|"hideIfEnlarged"
 		* Default: ""
 	* ``hideDeviceNameIfEnlarged`` (Hide device name, if the device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideInfoAIfEnlarged`` (Hide INFO_A, if the device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideInfoBIfEnlarged`` (Hide INFO_B, if the device is enlarged):
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``hideStateIfEnlarged`` (Hide state, if the device is enlarged):
@@ -587,10 +714,19 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``popupAllowPostMessage`` (Allow postMessage-Communication for URL/HTML):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``backgroundURLDynamicIframeZoom`` (Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)):
+		* Possible values: number from 0.01 to 200
+		* Default: ""
+	* ``backgroundURLPadding`` (Apply padding to BACKGROUND_VIEW/URL/HTML):
+		* Possible values: number from 0 to 50 [pixel]
+		* Default: ""
 	* ``backgroundURLAllowPostMessage`` (Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML):
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``backgroundURLNoPointerEvents`` (Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``overlayAboveBackgroundURL`` (Position Overlay above BACKGROUND_VIEW/URL/HTML):
 		* Possible values: "true"|"false"
 		* Default: "false"
 </details>
