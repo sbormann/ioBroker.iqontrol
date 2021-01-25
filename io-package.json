@@ -3,7 +3,18 @@
         "name": "iqontrol",
         "version": "1.5.7",
         "news": {
-			"1.5.7": {"en": "Fixed missing info.connection object, Fixed INFO_B position for short tiles, Added option clickOnTileOpensDialog to all devices (see readme, Fixed FLOT for short tiles."},
+            "1.5.7": {
+                "en": "Fixed missing info.connection object, Fixed INFO_B position for short tiles, Added option clickOnTileOpensDialog to all devices (see readme, Fixed FLOT for short tiles.",
+                "de": "Fehlendes info.connection-Objekt behoben, INFO_B-Position für kurze Kacheln behoben, Option clickOnTileOpensDialog zu allen Geräten hinzugefügt (siehe Readme, Flot für kurze Kacheln behoben.",
+                "ru": "Исправлен отсутствующий объект info.connection, Исправлено положение INFO_B для коротких плиток, Добавлена ​​опция clickOnTileOpensDialog для всех устройств (см. Readme, Исправлено FLOT для коротких плиток.",
+                "pt": "Corrigido objeto info.connection ausente, posição INFO_B corrigida para blocos curtos, opção clickOnTileOpensDialog adicionada para todos os dispositivos (consulte o leiame, FLOT corrigido para blocos curtos.",
+                "nl": "Ontbrekend info.connection-object opgelost, INFO_B-positie voor korte tegels gerepareerd, optie clickOnTileOpensDialog toegevoegd aan alle apparaten (zie readme, Fixed FLOT voor korte tegels.",
+                "fr": "Correction de l'objet info.connection manquant, Correction de la position INFO_B pour les tuiles courtes, Ajout de l'option clickOnTileOpensDialog à tous les appareils (voir readme, Correction du FLOT pour les tuiles courtes.",
+                "it": "Risolto il problema con l'oggetto info.connection mancante, fissa la posizione INFO_B per le tessere corte, aggiunta l'opzione clickOnTileOpensDialog a tutti i dispositivi (vedi readme, FLOT fisso per tessere corte.",
+                "es": "Se corrigió el objeto de conexión de información que faltaba, Se corrigió la posición INFO_B para mosaicos cortos, Se agregó la opción clickOnTileOpensDialog a todos los dispositivos (consulte el archivo Léame, FLOT fijo para mosaicos cortos.",
+                "pl": "Naprawiono brakujący obiekt info.connection, Naprawiono pozycję INFO_B dla krótkich kafelków, Dodano opcję clickOnTileOpensDialog do wszystkich urządzeń (patrz plik readme, Naprawiono FLOT dla krótkich kafelków.",
+                "zh-cn": "修复了丢失的info.connection对象的问题，修复了短块的INFO_B位置，向所有设备添加了clickOnTileOpensDialog选项（请参见自述文件，修复了短块的FLOT。"
+            },
             "1.5.6": {
                 "en": "Fixed toolbar hiding issue if popup with additional controls is closed early, Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time, Added badge, Added predefined wallpapers to dropdown for devices background images, Redesigned dropdown for toolbar-icons to show thumbnails and added ability to add custom icons, Added option to show toolbar in one singe line, Added HHSSBB for Tuya to ALTERNATIVE_COLORSPACEs, Added historyInstance to options of FLOT-Chart-Widget, Fixed changing commonRole breaks symbolic links.",
                 "de": "Problem beim Ausblenden der Symbolleiste behoben, wenn das Popup mit zusätzlichen Steuerelementen vorzeitig geschlossen wurde. Behoben, dass ALTERNATIVE_COLORSPACE nur nach einem zweiten Öffnen der Ansicht funktioniert ",
