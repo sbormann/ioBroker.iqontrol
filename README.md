@@ -257,7 +257,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * See below for an example widget-website:
 
 <details>
-<summary>Show example widget-website to be displayed as widget with postMessage-communication:</summary>
+<summary>Show example widget-website to be displayed as widget with postMessage-communication: (<ins>klick to open</ins>)</summary>
 
 * You can use the following HTML code and copy it to the BACKGROUND_HTML-State of a widget (which then needs to be configured as "Constant") 
 * As an alternative you can upload this code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then also needs to be configured as "Constant")
@@ -406,7 +406,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* The content will be displayed when chosing the widget as URL or BACKGROUND_URL or if you autocreate a widget
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
-		* The user will be asked for these parameter when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
+		* The user will be asked for these parameters when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
 		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect`` or ``historyInstance``
 		    * If type is ``select`` or ``multipleSelect`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...``
 		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
@@ -426,7 +426,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* See the expandable section below for the possible options that can be configured by this meta-tag
 
 <details>
-<summary>Show possible options that can be configured by the meta-tag 'widget-options':</summary>
+<summary>Show possible options that can be configured by the meta-tag 'widget-options': (<ins>klick to open</ins>)</summary>
 
 * Icons:
 	* ``icon_on`` (Icon on):
@@ -596,7 +596,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 
 <details>
-<summary>Show example widget-website that creates a map with the above settings:</summary>
+<summary>Show example widget-website that creates a map with the above settings: (<ins>klick to open</ins>)</summary>
 
 * You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
 * When adding the widget a description is displayed
@@ -686,7 +686,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 
 <details>
-<summary>Show a more edvanced example:</summary>
+<summary>Show a more edvanced example: (<ins>klick to open</ins>)</summary>
 
 * You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
 * When adding the widget a description is displayed
@@ -1502,7 +1502,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Corrected a few translations.
 
 <details>
-<summary>Older Changelog:</summary>
+<summary>Older Changelog: (<ins>klick to open</ins>)</summary>
 
 ### 0.4.1 (2020-05-15)
 * (sbormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position.
