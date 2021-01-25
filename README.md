@@ -976,6 +976,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 
 #### Further general states:
 * **INFO_A** and **INFO_B**: *array* - an array of datapoints and icons, that will be cyclical displayed in the upper right side of the tile
+    ![Badge](img/badge.png)
 * **ADDITIONAL_CONTROLS**: *array* - an array of datapoints, that define additional control elements that will be displayed inside info-dialog
 * **ADDITIONAL_INFO**: *array* - an array of datapoints, that will be displayed at the bottom of the info-dialog
 * **URL**: CONSTANT or DATAPOINT *string* - this url will be opened as iframe inside the dialog
