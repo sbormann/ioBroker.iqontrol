@@ -12,12 +12,13 @@ var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view",
-										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["INFO_A", "INFO_B", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -65,7 +66,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolSwitch": 				{
 										name: "Switch",
-										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "POWER", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/switch_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -74,6 +75,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -154,7 +156,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolButton": 				{
 										name: "Button",
-										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/button.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -167,6 +169,7 @@ var iQontrolRoles = {
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -246,7 +249,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolLight": 				{
 										name: "Light",
-										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/light_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -255,9 +258,11 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 											alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
+											linkGlowActiveColorToHue: {name: "Link GLOW_ACTIVE_COLOR to the color of the light", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -337,7 +342,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFan": 					{
 										name: "Fan",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "POWER", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/fan_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -346,6 +351,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -425,7 +431,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolThermostat": 			{
 										name: "Thermostat",
-										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -436,6 +442,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -513,7 +520,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHomematicThermostat": 	{
 										name: "Homematic-Thermostat",
-										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/radiator.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -522,6 +529,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -599,7 +607,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolTemperature": 			{
 										name: "Temperature-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/temperature.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -608,6 +616,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -685,7 +694,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolHumidity": 			{
 										name: "Humidity-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/humidity.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -694,6 +703,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -771,7 +781,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPressure": 			{
 										name: "Pressure-Sensor",
-										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/pressure.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -780,6 +790,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -857,7 +868,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBrightness": 			{
 										name: "Brightness-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/brightness_light.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -866,6 +877,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -943,7 +955,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMotion": 				{
 										name: "Motion-Sensor",
-										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/motion_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -952,6 +964,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1029,7 +1042,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoor": 				{
 										name: "Door",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/door_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1038,6 +1051,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1115,7 +1129,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolGarageDoor": 				{
 										name: "Garage Door",
-										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/garagedoor_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1124,6 +1138,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1201,7 +1216,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolDoorWithLock": 		{
 										name: "Door with lock",
-										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/door_locked.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1212,6 +1227,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1289,7 +1305,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWindow": 				{
 										name: "Window",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/window_closed.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1303,6 +1319,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1380,7 +1397,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind",
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1401,6 +1418,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1480,7 +1498,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFire": 				{
 										name: "Fire-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/fire_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1489,6 +1507,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1566,7 +1585,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolFlood": 				{
 										name: "Flood-Sensor",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/flood_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1575,6 +1594,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1652,7 +1672,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolAlarm": 				{
 										name: "Alarm",
-										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/alarm_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1664,6 +1684,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1741,7 +1762,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBattery": 				{
 										name: "Battery",
-										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/battery_full.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1755,6 +1776,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1832,7 +1854,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolValue": 				{
 										name: "Value",
-										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/value_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1841,6 +1863,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -1918,7 +1941,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolProgram": 				{
 										name: "Program",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/play_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -1929,6 +1952,7 @@ var iQontrolRoles = {
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2008,7 +2032,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolScene": 				{
 										name: "Scene",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/play.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2020,6 +2044,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2099,7 +2124,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolMedia": 				{
 										name: "Media-Player / Remote Control",
-										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/media_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2126,6 +2151,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2205,7 +2231,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolPopup": 				{
 										name: "Popup",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/popup.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2213,6 +2239,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2289,7 +2316,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolExternalLink":			{
 										name: "External Link",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/link.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2297,6 +2324,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -2368,7 +2396,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolWidget": 				{
 										name: "Widget",
-										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR"],
+										states: ["STATE", "INFO_A", "INFO_B", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE"],
 										icon: "/images/icons/widget_on.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -2379,6 +2407,7 @@ var iQontrolRoles = {
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
 											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
 											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
@@ -4712,7 +4741,7 @@ function handleOptions(){
 		};
 		//Devices - General
 		if(options.LayoutViewDeviceBorderRadius) {
-			customCSS = ".iQontrolDevicePressureIndicator, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+			customCSS = ".iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
 			customCSS += "	 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
 			customCSS += "   	-moz-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
 			customCSS += "			 border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
@@ -4721,7 +4750,7 @@ function handleOptions(){
 		};
 		if(options.LayoutViewDeviceBorderRadiusLargeScreen) {
 			customCSS = "@media screen and (min-width: 1500px) {";
-			customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+			customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
 			customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 			customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 			customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
@@ -5300,9 +5329,80 @@ function renderView(viewId, triggeredByReconnection){
 			}
 			//--PressureIndicator
 			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfActive") == "true"))?"style='visibility: hidden;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+				//--Glow
+				if (deviceLinkedStateIds["GLOW_INACTIVE_COLOR"]){
+					viewContent += "<div class='iQontrolDeviceGlow' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedGlowInactiveColorId = deviceLinkedStateIds["GLOW_INACTIVE_COLOR"];
+						var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
+						var updateFunction = function(){
+							var stateGlowInactiveColor = getStateObject(_linkedGlowInactiveColorId);
+							var stateGlowHide = getStateObject(_linkedGlowHideId);
+							var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
+							var glow = !(stateGlowHide && stateGlowHide.val || false);
+							if (invertGlowHide) glow = !glow;
+							var colorString = stateGlowInactiveColor && isValidColorString(stateGlowInactiveColor.val) && stateGlowInactiveColor.val || null;
+							if(glow && colorString){
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow").css('box-shadow', colorString + " 0 0 10px 2px");
+							} else {
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow").css('box-shadow', "none");
+							}
+						};
+						viewUpdateFunctions[_linkedGlowInactiveColorId].push(updateFunction);
+						if(_linkedGlowHideId) viewUpdateFunctions[_linkedGlowHideId].push(updateFunction);
+					})(); //<--End Closure
+				}
+				//--Glow active
+				var linkGlowActiveColorToHue = (getDeviceOptionValue(device, "linkGlowActiveColorToHue") == "true");
+				if (deviceLinkedStateIds["GLOW_ACTIVE_COLOR"] || linkGlowActiveColorToHue){
+					viewContent += "<div class='iQontrolDeviceGlow active' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedGlowActiveColorId = deviceLinkedStateIds["GLOW_ACTIVE_COLOR"];
+						var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
+						var _linkGlowActiveColorToHue = linkGlowActiveColorToHue;
+						var _linkedHueId = deviceLinkedStateIds["HUE"];
+						var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+						var updateFunction = function(){
+							var stateGlowActiveColor = getStateObject(_linkedGlowActiveColorId);
+							var stateGlowHide = getStateObject(_linkedGlowHideId);
+							var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
+							var glow = !(stateGlowHide && stateGlowHide.val || false);
+							if (invertGlowHide) glow = !glow;
+							var stateHue = getStateObject(_linkedHueId);
+							if (_linkGlowActiveColorToHue && stateHue && stateHue.val !== ""){
+								var hueMin = stateHue.min || 0;
+								var hueMax = stateHue.max || 359;
+								var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+								var	saturation = 100;
+								var stateSaturation = getStateObject(_linkedSaturationId);
+								if (stateSaturation && typeof stateSaturation.val != udef) {
+									var saturationMin = stateSaturation.min || 0;
+									var saturationMax = stateSaturation.max || 100;
+									saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+								}
+								var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+							} else {
+								var colorString = stateGlowActiveColor && isValidColorString(stateGlowActiveColor.val) && stateGlowActiveColor.val || null;
+							}
+							if(glow && colorString){
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', colorString + " 0 0 10px 2px");
+							} else {
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', "none");
+							}
+						};
+						viewUpdateFunctions[_linkedGlowActiveColorId].push(updateFunction);
+						if(_linkedGlowHideId) viewUpdateFunctions[_linkedGlowHideId].push(updateFunction);
+						if(_linkGlowActiveColorToHue && _linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+						if(_linkGlowActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
+					})(); //<--End Closure
+				}
 				//--Badge
 				if (deviceLinkedStateIds["BADGE"]){
-					viewContent += "<div class='iQontrolDeviceBadge' style='display: none;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
+					viewContent += "<div class='iQontrolDeviceBadge' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedBadgeId = deviceLinkedStateIds["BADGE"];
@@ -5311,16 +5411,16 @@ function renderView(viewId, triggeredByReconnection){
 							var stateBadge = getStateObject(_linkedBadgeId);
 							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
 							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){
-								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.5)";
+								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
 								var val = stateBadge.plainText;
 								var unit = stateBadge.unit;
 								if (!isNaN(val)) val = Math.round(val * 10) / 10;
 								if (stateBadge.plainText == stateBadge.val) val = val + unit;
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString);
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").html(val);
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").fadeIn();
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").addClass('active');
 							} else {
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").fadeOut();
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").removeClass('active');
 							}
 						};
 						viewUpdateFunctions[_linkedBadgeId].push(updateFunction);
