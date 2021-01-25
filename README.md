@@ -993,7 +993,7 @@ However, not every type makes sense to every role. So the STATE of a switch for 
 
     ![Badge](img/badge.png)
 * **GLOW_INACTIVE_COLOR** and **GLOW_ACTIVE_COLOR**: *string* - any valid html-color-string (like 'green', '#00FF00', 'rgba(0,255,0,0.5)' and so on) that represents the color of the a glow-effect around the tile (depending on whether the tile is active of inactive)
-	* **GLOW_HIDE*': *boolean* - if true, the glow-effect is hidden (can be inverted in device options)	
+	* **GLOW_HIDE*': *boolean* - if true, the glow-effect is hidden (can be inverted in the 'General' section of options)	
 	* For Lights you can also use the option "Use color of lamp as GLOW_ACTIVE_COLOR" which can be found in the devicespecific options. 
 
     ![Glow](img/glow.png)
