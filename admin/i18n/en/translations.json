@@ -1,5 +1,4 @@
 {
-"Use color of lamp as GLOW_ACTIVE_COLOR": "Use color of lamp as GLOW_ACTIVE_COLOR",
     "%s is directory. Only file upload allowed.": "%s is directory. Only file upload allowed.",
     "%sth": "%sth",
     "(Default)": "(Default)",
@@ -605,6 +604,7 @@
     "Unselected Text-Schadow-Color:": "Unselected Text-Schadow-Color:",
     "Unsupported settings:": "Unsupported settings:",
     "Upload file(s) here": "Upload file(s) here",
+    "Use color of lamp as GLOW_ACTIVE_COLOR": "Use color of lamp as GLOW_ACTIVE_COLOR",
     "User Icons": "User Icons",
     "User Images": "User Images",
     "User Symbols": "User Symbols",
