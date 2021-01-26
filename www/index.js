@@ -3918,6 +3918,7 @@ function removeDuplicates(array) { //Removes duplicates from an array
 }
 
 function checkCondition(value, condition, conditionValue){
+	value = value || "";
 	switch(condition){
 		case "at":
 		return true;
