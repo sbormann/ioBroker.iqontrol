@@ -4700,7 +4700,7 @@ function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m12 l12'>";
 					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='text' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' />";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
-					dialogDeviceEditOptionsContent += "	<a class='dialogDeviceEditOption inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogDeviceEditOption_" + entry + "'><i class='material-icons'>edit</i></a>";
+					dialogDeviceEditOptionsContent += "	<a class='dialogDeviceEditOptionButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogDeviceEditOption_" + entry + "'><i class='material-icons'>edit</i></a>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
 
@@ -4735,7 +4735,7 @@ function load(settings, onChange) {
 			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
 				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);
 			});
-			$('.dialogDeviceEditOption.inputEdit').off('click').on('click', function(){
+			$('.dialogDeviceEditOptionButton.inputEdit').off('click').on('click', function(){
 				$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
 				initSelectId(function (sid) {
 					sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
@@ -5945,7 +5945,7 @@ function fixedEncodeURIComponent(str) {
 									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParameters inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
+									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									break;
 
@@ -5963,7 +5963,7 @@ function fixedEncodeURIComponent(str) {
 								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
 									enhanceTextInputToCombobox('#' + entry.id, entry.options, true);
 								});
-								$('.dialogWidgetSettingsUrlParameters.inputEdit').off('click').on('click', function(){
+								$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
 									$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
 									initSelectId(function (sid) {
 										sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {

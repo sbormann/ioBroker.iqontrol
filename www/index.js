@@ -5599,7 +5599,7 @@ function renderView(viewId, triggeredByReconnection){
 						if(typeof device.options != udef){
 							for (var optionIndex = 0; optionIndex < device.options.length; optionIndex++) {
 								var option = device.options[optionIndex];
-								if (option.option.substring(0, 5).toLowerCase() == "icon_"){
+								if (option.option && option.option.substring(0, 5).toLowerCase() == "icon_"){
 									var iconClass = option.option.substring(5);
 									if (iconClass && typeof device.options[optionIndex].value != udef && device.options[optionIndex].value != null) {
 										var src = device.options[optionIndex].value;
