@@ -677,6 +677,7 @@
     "Show Timestamp": "显示时间戳",
     "Show Timestamp in dialog": "在对话框中显示时间戳",
     "Show Vol and Ch +/- inside Pad": "显示Pad内部的Vol和Ch +/-",
+    "Show badge value without unit": "显示徽章价值（不含单位）",
     "Show big icon, if device is active": "如果设备处于活动状态，则显示大图标",
     "Show big icon, if device is enlarged": "如果设备放大，则显示大图标",
     "Show big icon, if device is inactive": "如果设备处于非活动状态，则显示大图标",

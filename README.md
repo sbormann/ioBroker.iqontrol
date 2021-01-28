@@ -1356,6 +1356,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Fixed edit-dialog of device not opening under some circumstances.
 * (sbormann) Added type icon and type datapoint to widget-url-parameters.
 * (sbormann) Added OVERLAY_INACTIVE_COLOR and OVERLAY_ACTIVE_COLOR.
+* (sbormann) Added option to show badge value without unit.
 
 ### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.
