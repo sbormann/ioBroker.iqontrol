@@ -1164,6 +1164,7 @@ var iQontrolRoles = {
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -5753,8 +5754,8 @@ function renderView(viewId, triggeredByReconnection){
 							break;
 
 							case "iQontrolGarageDoor":
-							//if(deviceLinkedStateIds["STATE"]) onclick = "startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
-							//linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
+							if(deviceLinkedStateIds["STATE"]) onclick = "if(confirm(_("Toggle?"))) startProgram(\"" + deviceLinkedStateIds["STATE"] + "\", \"" + deviceIdEscaped + "\");";
+							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/garagedoor_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/garagedoor_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 								if (icons["tilted"] !== "none") iconContent += "<image class='iQontrolDeviceIcon tilted" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "")  + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "")  + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["tilted"] || "./images/icons/garagedoor_opened.png") + "' " + (variableSrc["tilted"] ? "data-variablesrc='" + variableSrc["tilted"] + "' " : "") + "/>";

@@ -1357,6 +1357,7 @@ This device has some special predefined size- and display-settings to show a web
 * (sbormann) Added type icon and type datapoint to widget-url-parameters.
 * (sbormann) Added OVERLAY_INACTIVE_COLOR and OVERLAY_ACTIVE_COLOR.
 * (sbormann) Added option to show badge value without unit.
+* (sbormann) Added toggle by icon for garage door (after confirmation).
 
 ### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.
