@@ -507,11 +507,14 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 .viewShuffleContainer {
 	overflow: visible !important;
+	height: 0;
+	margin: 0;
 }
 /* ++++++++++ View / Device ++++++++++ */ 
 .iQontrolDeviceShuffleSizer {
 	display: none;
 	height: 0px;
+	margin: 0;
 	width: 61px;
 	-webkit-transition: all 0s;
 	   -moz-transition: all 0s;
@@ -539,12 +542,14 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 .iQontrolDevicePressureIndicator.hideDeviceIfInactive:not(.active), .iQontrolDevicePressureIndicator.hideDeviceIfActive.active {
 	visibility: hidden !important; 
+	height: 0 !important;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
 .iQontrolDevicePressureIndicator.hideDeviceIfInactive.active, .iQontrolDevicePressureIndicator.hideDeviceIfActive:not(.active) {
 	visibility: visible !important; 
+	height: unset !important;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
@@ -588,7 +593,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	display: block;
 	top: 0; left:0;
 	width: 104px; max-width: 104px;
-	height: 104px; max-height: 104px;
+	height: 104px; max-height: 104px; min-height: 104px;
 	margin: 0px;
 	padding: 3px 3px 3px 3px;
 	background: transparent;
@@ -621,16 +626,16 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	width: 348px; max-width: 348px;
 }
 .iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive, .iQontrolDevice.enlarged.shortIfEnlarged {
-	height: 43px; max-height: 43px;
+	height: 43px; max-height: 43px; min-height: 43px;
 }
 .iQontrolDevice.enlarged.normalIfEnlarged {
-	height: 104px; max-height: 104px;
+	height: 104px; max-height: 104px; min-height: 104px;
 }
 .iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive, .iQontrolDevice.enlarged.highIfEnlarged {
-	height: 226px; max-height: 226px;
+	height: 226px; max-height: 226px; min-height: 226px;
 }
-.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive, .iQontrolDevice.enlargedxhighIfEnlarged {
-	height: 348px; max-height: 348px;
+.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive, .iQontrolDevice.enlarged.xhighIfEnlarged {
+	height: 348px; max-height: 348px; min-height: 348px;
 }
 .iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {
 	width: 95vw; width: calc(100vw - 40px); max-width: 95vw; max-width: calc(100vw - 40px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
@@ -666,8 +671,11 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	padding-bottom: 42.86%; padding-bottom: calc(42.86% - 104px); padding-bottom: min(calc(42.86% - 104px), calc(100vh - 174px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 }
 .iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {
-	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+	height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); min-height: 85vh; min-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 	padding-bottom: unset !important;
+}
+.iQontrolDevice.adaptsHeight, .iQontrolDevice:not(.active).adaptsHeightIfInactive, .iQontrolDevice.active.adaptsHeightIfActive, .iQontrolDevice.enlarged.adaptsHeightIfEnlarged {
+	height: unset; max-height: unset;
 }
 .iQontrolDevice:hover {
 	border: 0px solid rgba(255, 255, 255, 0.8);
@@ -1074,6 +1082,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
+.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceInfoAText {
+	color: white;
+}
 .iQontrolDevice.bigIcon .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoAText, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoAText {
 	left: 121px; 
 	width: calc(100% - 120px); 
@@ -1118,6 +1129,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
+.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceInfoBText {
+	color: white;
+}
 .iQontrolDevice.bigIcon .iQontrolDeviceInfoBText, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoBText, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoBText, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoBText {
 	left: 121px;
 	width: calc(100% - 120px); 
@@ -1143,6 +1157,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	   -moz-transition: all 1s;
 			transition: all 1s;
 }
+.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceName, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceName {
+	color: white;
+}
 .iQontrolDevice.bigIcon .iQontrolDeviceName, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceName, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceName, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceName {
 	top: 114px; 
 }
@@ -1166,6 +1183,13 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	display: block;
 	word-wrap: break-word;
 }
+.iQontrolDeviceState.bigFont, .iQontrolDevice.active .iQontrolDeviceState.bigFontIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceState.bigFontIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceState.bigFontIfEnlarged {
+	font-size: 12pt;
+	font-weight: bold;
+}
+.iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceState {
+	color: white;
+}
 .iQontrolDevice.high .iQontrolDeviceState, .iQontrolDevice:not(.active).highIfInactive .iQontrolDeviceState, .iQontrolDevice.active.highIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.highIfEnlarged .iQontrolDeviceState,
 .iQontrolDevice.xhigh .iQontrolDeviceState, .iQontrolDevice:not(.active).xhighIfInactive .iQontrolDeviceState, .iQontrolDevice.active.xhighIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.xhighIfEnlarged .iQontrolDeviceState {
 	word-wrap: break-word;
@@ -1174,9 +1198,42 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	top: 146px; 
 	height: calc(100% - 146px); 
 }
+.iQontrolDeviceState.stateFillsDevice, .iQontrolDevice:not(.active) .iQontrolDeviceState.stateFillsDeviceIfInactive, .iQontrolDevice.active .iQontrolDeviceState.stateFillsDeviceIfActive, .iQontrolDevice.enlarged .iQontrolDeviceState.stateFillsDeviceIfEnlarged {
+	top: 0px; 
+	height: 100%; 
+}
+.iQontrolDeviceState.adaptsHeight, .iQontrolDevice:not(.active) .iQontrolDeviceState.adaptsHeightIfInactive, .iQontrolDevice.active .iQontrolDeviceState.adaptsHeightIfActive, .iQontrolDevice.enlarged .iQontrolDeviceState.adaptsHeightIfEnlarged {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin: 87px 0 0 3px;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.iQontrolDevice.bigIcon .iQontrolDeviceState.adaptsHeight, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceState.adaptsHeightIfInactive, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceState.adaptsHeightIfActive, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceState.adaptsHeightIfEnlarged {
+    top: 0;
+    margin: 143px 0 0 3px;
+}
+.iQontrolDeviceState.adaptsHeight.stateFillsDevice, .iQontrolDevice:not(.active) .iQontrolDeviceState.adaptsHeightIfInactive.stateFillsDeviceIfInactive, .iQontrolDevice.active .iQontrolDeviceState.adaptsHeightIfActive.stateFillsDeviceIfActive, .iQontrolDevice.enlarged .iQontrolDeviceState.adaptsHeightIfEnlarged.stateFillsDeviceIfEnlarged {
+	margin-top: 3px;
+}
 .iQontrolDevice.active .iQontrolDeviceState.hideIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceState.hideIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceState.hideIfEnlarged {
 	opacity:0 !important;
 }
+.iQontrolDeviceStateIconFloatPlaceholder {
+	float: left; 
+	pointer-events:none !important;
+	-webkit-user-select: none !important;
+	   -moz-user-select: none !important; 
+	        user-select: none !important;
+	-webkit-touch-callout: none !important;
+	width: 43px; height: 39px;
+}
+.iQontrolDevice.bigIcon .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceStateIconFloatPlaceholder {
+	width: 94px; height: 94px;
+}
+
 
 /* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
@@ -1442,7 +1499,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	}
 	.iQontrolDevice {
 		width: 156px; max-width: 156px;
-		height: 156px; max-height: 156px;
+		height: 156px; max-height: 156px; min-height: 156px;
 		padding: 3px 3px 3px 3px;
 		-webkit-border-radius: 22px;
 		   -moz-border-radius: 22px;
@@ -1464,16 +1521,16 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		width: 528px; max-width: 528px;
 	}
 	.iQontrolDevice.short, .iQontrolDevice:not(.active).shortIfInactive, .iQontrolDevice.active.shortIfActive, .iQontrolDevice.enlarged.shortIfEnlarged {
-		height: 63px; max-height: 63px;
+		height: 63px; max-height: 63px; min-height: 63px;
 	}
 	.iQontrolDevice.enlarged.normalIfEnlarged {
-		height: 156px; max-height: 156px;
+		height: 156px; max-height: 156px; min-height: 156px;
 	}
 	.iQontrolDevice.high, .iQontrolDevice:not(.active).highIfInactive, .iQontrolDevice.active.highIfActive, .iQontrolDevice.enlarged.highIfEnlarged {
-		height: 342px; max-height: 342px;
+		height: 342px; max-height: 342px; min-height: 342px;
 	}
 	.iQontrolDevice.xhigh, .iQontrolDevice:not(.active).xhighIfInactive, .iQontrolDevice.active.xhighIfActive, .iQontrolDevice.enlarged.xhighIfEnlarged {
-		height: 528px; max-height: 528px;
+		height: 528px; max-height: 528px; min-height: 528px;
 	}
 	.iQontrolDevice.fullWidth, .iQontrolDevice:not(.active).fullWidthIfInactive, .iQontrolDevice.active.fullWidthIfActive, .iQontrolDevice.enlarged.fullWidthIfEnlarged {
 		width: 95vw; width: calc(100vw - 40px); max-width: 95vw; max-width: calc(100vw - 40px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
@@ -1509,8 +1566,11 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		padding-bottom: calc(42.86% - 156px); padding-bottom: min(calc(42.86% - 156px), calc(100vh - 226px)); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 	}
 	.iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {
-		height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
+		height: 85vh; height: calc(100vh - 70px); max-height: 85vh; max-height: calc(100vh - 70px); min-height: 85vh; min-height: calc(100vh - 70px); /* is activly changed by resizeFullWidthDevicesToFitScreen() */
 		padding-bottom: unset !important;
+	}
+	.iQontrolDevice.adaptsHeight, .iQontrolDevice:not(.active).adaptsHeightIfInactive, .iQontrolDevice.active.adaptsHeightIfActive, .iQontrolDevice.enlarged.adaptsHeightIfEnlarged {
+		height: unset; max-height: unset;
 	}
 	.iQontrolDevice:hover {
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
@@ -1641,9 +1701,28 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		height: 30px; height: calc(100% - 131px);
 		font-size: 13pt;
 	}
+	.iQontrolDeviceState.bigFont, .iQontrolDevice.active .iQontrolDeviceState.bigFontIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceState.bigFontIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceState.bigFontIfEnlarged {
+		font-size: 17pt;
+		font-weight: bold;
+	}
 	.iQontrolDevice.bigIcon .iQontrolDeviceState, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceState, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceState {
 		top: 221px; 
 		height: 30px; height: calc(100% - 220px);		
+	}
+	.iQontrolDeviceState.adaptsHeight, .iQontrolDevice:not(.active) .iQontrolDeviceState.adaptsHeightIfInactive, .iQontrolDevice.active .iQontrolDeviceState.adaptsHeightIfActive, .iQontrolDevice.enlarged .iQontrolDeviceState.adaptsHeightIfEnlarged {
+		position: relative;
+		left: 0;
+		top: 0;
+		margin: 129px 0 0 7px;
+	}
+	.iQontrolDevice.bigIcon .iQontrolDeviceState.adaptsHeight, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceState.adaptsHeightIfInactive, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceState.adaptsHeightIfActive, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceState.adaptsHeightIfEnlarged {
+		margin-top: 218px;
+	}
+	.iQontrolDeviceStateIconFloatPlaceholder {
+		width: 57px; height: 57px;
+	}
+	.iQontrolDevice.bigIcon .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceStateIconFloatPlaceholder, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceStateIconFloatPlaceholder {
+		width: 146px; height: 146px;
 	}
 
 	#Dialog {
