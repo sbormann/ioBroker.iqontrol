@@ -689,17 +689,17 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 			box-shadow: none !important;
 } 
 .iQontrolDeviceBadge {
-	position: absolute;
-	left: -5px;
-	top: -5px;
+	pointer-events:none !important;
+	position: absolute;	left: -5px;	top: -5px;
+    height: 18px;
+	overflow: hidden;
     z-index: 1000;
-    height: 16px;
-    min-width: 12px;
+    min-width: 18px; max-width: 61px;
     border-radius: 8px;
     box-shadow: #0000001f 0 0 2px 2px;
     text-align: center;
     background-color: red;
-    padding: 0px 4px 2px 2px;
+    xpadding: 0px 4px 2px 2px;
     font-family: sans-serif;
     font-weight: 500;
     font-size: 14px;
@@ -707,6 +707,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
+	word-wrap: break-word;
 }
 .iQontrolDeviceBadge.active {
 	opacity: 1;
@@ -1576,6 +1577,9 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 		-webkit-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 		   -moz-box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
 				box-shadow: 0px 1px 2px 2px rgba(0,0,0,0.3);
+	}
+	.iQontrolDeviceBadge {
+		max-width: 80px;
 	}
 	.iQontrolDeviceBackgroundIframeWrapper {
 		-webkit-border-radius: 22px;

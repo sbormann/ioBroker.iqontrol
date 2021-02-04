@@ -3553,7 +3553,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 
 			case "boolean":
 			if (typeof result.val !== 'boolean'){
-				if (result.val.toString().toLowerCase() == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "") result.val = false; else result.val = true;
+				if (result.val.toString().toLowerCase() == "false" || result.val == 0 || result.val == "0" || result.val == -1 || result.val == "-1" || result.val == "" || result.val == "off") result.val = false; else result.val = true;
 			}
 			break;
 		}
@@ -8389,7 +8389,7 @@ function applyadaptHeightOrMarqueeObserver(){
 			}
 		});
 	}
-	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText').each(function(){
+	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){
 		adaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
