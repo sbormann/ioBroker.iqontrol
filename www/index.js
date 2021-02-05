@@ -5396,25 +5396,25 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInfoInactiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
+			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
 			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentTextColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
+			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
 			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInfoActiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
+			customCSS = ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
 			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentTextColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
+			customCSS = ".iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
 			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
