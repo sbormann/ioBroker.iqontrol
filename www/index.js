@@ -6160,9 +6160,11 @@ function renderView(viewId, triggeredByReconnection){
 								var unit = stateBadge.unit;
 								if (!isNaN(val)) val = Math.round(val * 10) / 10;
 								if (!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).html(val).delay(500).queue('fx', function() { $(this).addClass('active'); });
+								var delay = 0;
+								if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString) delay = 750;
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).html(val).data('background-color-string', colorString).delay(delay).queue('fx', function() { $(this).addClass('active').dequeue('fx'); });
 							} else {
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").removeClass('active');
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").dequeue('fx').removeClass('active');
 							}
 						};
 						viewUpdateFunctions[_linkedBadgeId].push(updateFunction);
