@@ -1416,6 +1416,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option, to invert Error Icon.
 * (sbormann) Rearranged device option for a better overview.
 * (sbormann) Added option noZoomOnHover for Icon (in device-options, section tile-behaviour (general) and, for all devices, in settings, section tile).
+* (sbormann) Added delay to visibility of badge to allow color-change happen before it appears.
 
 ### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.
