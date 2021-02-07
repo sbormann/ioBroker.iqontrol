@@ -931,7 +931,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 .iQontrolDeviceIcon.overlay {
 	pointer-events:none !important;
 }
-.iQontrolDeviceIcon:hover {
+.iQontrolDeviceIcon:not(.noZoomOnHover):hover {
 	-webkit-transform: scale3d(1.2,1.2,1);
 	   -moz-transform: scale3d(1.2,1.2,1);
 			transform: scale3d(1.2,1.2,1);
