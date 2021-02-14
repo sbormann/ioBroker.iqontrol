@@ -6500,6 +6500,7 @@ function fixedEncodeURIComponent(str) {
 								var value = decodeURIComponent(queries[entry] || urlParameter[1] || "");
 								var type = decodeURIComponent(urlParameter[3] || "text");
 								var options = decodeURIComponent(urlParameter.slice(4) || []);
+								if(!Array.isArray(options)) options = [options];
 								switch(type){
 									case "number":
 									var min = (options[0] || "").split(',')[0] || 0;

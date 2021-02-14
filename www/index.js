@@ -12629,9 +12629,10 @@ function initPanels(){
 		panel.states.push({state: "BACKGROUND_VIEW", commonRole: panel.BackgroundViewCommonRole, value: panel.BackgroundViewValue});
 		panel.states.push({state: "BACKGROUND_URL", commonRole: panel.BackgroundURLCommonRole, value: panel.BackgroundURLValue});
 		panel.states.push({state: "BACKGROUND_HTML", commonRole: panel.BackgroundHTMLCommonRole, value: panel.BackgroundHTMLValue});
+		panel.states.push({state: "PANEL_HIDE", commonRole: panel.HideCommonRole, value: panel.HideValue});
 		var panelLinkedStateIds = {};
 		//Get linkedStates (resp. create a constant one if commonRole is const)
-		["BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML"].forEach(function(panelState){
+		["BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "PANEL_HIDE"].forEach(function(panelState){
 			var stateId = panelId + ".states." + panelState;
 			var linkedStateId = getLinkedStateId(panel, panelState, stateId);
 			if (linkedStateId) { //Call updateFunction after rendering View
@@ -12646,11 +12647,15 @@ function initPanels(){
 				var _linkedBackgroundViewId = panelLinkedStateIds["BACKGROUND_VIEW"];
 				var _linkedBackgroundURLId = panelLinkedStateIds["BACKGROUND_URL"];
 				var _linkedBackgroundHTMLId = panelLinkedStateIds["BACKGROUND_HTML"];
+				var _linkedPanelHideId = panelLinkedStateIds["PANEL_HIDE"];
 				var updateFunction = function(){
 					var stateBackgroundView = getStateObject(_linkedBackgroundViewId);
 					var stateBackgroundURL = getStateObject(_linkedBackgroundURLId);
 					var stateBackgroundHTML = getStateObject(_linkedBackgroundHTMLId);
-					if((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")){
+					var statePanelHide = getStateObject(_linkedPanelHideId);
+					var panelHide = (statePanelHide && statePanelHide.val !== udef && statePanelHide.val) || false;
+					if(panels[_panelIndex].HideInvert) panelHide = !panelHide;
+					if(((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")) && !panelHide){
 						createPanelIframe(_panelId, _panelIndex);
 						setTimeout(function(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
@@ -12670,7 +12675,7 @@ function initPanels(){
 								}
 							}
 						}, (isFirefox?100:0));
-					} else if(stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== ""){
+					} else if((stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== "") && !panelHide){
 						createPanelIframe(_panelId, _panelIndex);
 						setTimeout(function(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
@@ -12693,6 +12698,7 @@ function initPanels(){
 				if (_linkedBackgroundViewId) panelUpdateFunctions[_linkedBackgroundViewId].push(updateFunction);
 				if (_linkedBackgroundURLId) panelUpdateFunctions[_linkedBackgroundURLId].push(updateFunction);
 				if (_linkedBackgroundHTMLId) panelUpdateFunctions[_linkedBackgroundHTMLId].push(updateFunction);
+				if (_linkedPanelHideId) panelUpdateFunctions[_linkedPanelHideId].push(updateFunction);
 			})(); //<--End Closure
 		}
 	});
