@@ -5067,7 +5067,7 @@ function load(settings, onChange) {
 							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
 							var _deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 							views[_viewIndex].devices[_deviceIndex].commonRole = $('#dialogDeviceEditCommonRole').val();
-							table2values('tableDialogDeviceEditStates');
+							$('.colorpicker-element').trigger('blur');
 							views[_viewIndex].devices[_deviceIndex].states = dialogDeviceEditStatesTable;
 							dialogDeviceEditOptions = [];
 							$('.dialogDeviceEditOption').each(function(){ //save the options entrys
@@ -5521,6 +5521,7 @@ function load(settings, onChange) {
 										});
 										$targetInput.on('blur', function(){
 											dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
+											console.log("Saved color-picker value " + $(this).val());
 										});
 										$targetInput.data('materialize-color-picker-initialized', true);
 									}
