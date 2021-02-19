@@ -1420,6 +1420,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed min/max/step for number of url-parameters of widgets (which fixed range for FLOT-Chart).
 * (sbormann) Added PANEL_HIDE and the corresponding option Invert PANEL_HIDE to panel.
 * (sbormann) Added manifest.json.
+* (sbormann) Fixed saving values of color-picker.
 
 ### 1.5.7 (2021-01-24)
 * (sbormann) Fixed missing info.connection object.

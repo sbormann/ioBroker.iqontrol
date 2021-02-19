@@ -694,12 +694,12 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
     height: 18px;
 	overflow: hidden;
     z-index: 1000;
-    min-width: 18px; max-width: 61px;
+    min-width: 14px; max-width: 61px;
     border-radius: 8px;
     box-shadow: #0000001f 0 0 2px 2px;
     text-align: center;
     background-color: red;
-    xpadding: 0px 4px 2px 2px;
+    padding: 0px 2px 0px 2px;
     font-family: sans-serif;
     font-weight: 500;
     font-size: 14px;
