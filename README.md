@@ -1397,7 +1397,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.6.0 (2021-02-19)
 * (sbormann) Changed standard badge-color to red, 20% transparency.
 * (sbormann) Added optional glow-effect for tiles.
 * (sbormann) Fixed edit-dialog of device not opening under some circumstances.
