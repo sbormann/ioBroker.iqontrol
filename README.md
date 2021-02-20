@@ -1397,6 +1397,11 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Fixed sentry error in main.js.
+* (sbormann) Reworked shuffle-process.
+* (sbormann) Fixed can't scroll to bottom issue (1st trial).
+
 ### 1.6.0 (2021-02-19)
 * (sbormann) Changed standard badge-color to red, 20% transparency.
 * (sbormann) Added optional glow-effect for tiles.
@@ -1414,7 +1419,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed option font-size for sub-header.
 * (sbormann) Moved option, to show toolbar in one single line, into the options-tab.
 * (sbormann) Added option, to invert Error Icon.
-* (sbormann) Rearranged device option for a better overview.
+* (sbormann) Rearranged device options for a better overview.
 * (sbormann) Added option noZoomOnHover for Icon (in device-options, section tile-behaviour (general) and, for all devices, in settings, section tile).
 * (sbormann) Added delay to visibility of badge to allow color-change happen before it appears.
 * (sbormann) Fixed min/max/step for number of url-parameters of widgets (which fixed range for FLOT-Chart).

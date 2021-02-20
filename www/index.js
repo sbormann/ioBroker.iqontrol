@@ -8409,8 +8409,6 @@ function viewShuffleApplyShuffleResizeObserver(){
 	console.log("Starting shuffle resize observer");
 	var viewShuffleApplyShuffleResizeObserverTimeout1 = false;
 	var viewShuffleApplyShuffleResizeObserverTimeout2 = false;
-	var viewShuffleApplyShuffleResizeObserverTimeout3 = false;
-	var viewShuffleApplyShuffleResizeObserverTimeout4 = false;
 	if(viewShuffleResizeObserver){
 		viewShuffleResizeObserver.disconnect();
 	} else {
@@ -8447,14 +8445,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 							}, 1500);
 						}
 						//Shuffle two times
-						if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
-						viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){
-							viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! resizeObserver 100");
-						}, 100);
-						if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
-						viewShuffleApplyShuffleResizeObserverTimeout2 = setTimeout(function(){
-							viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! resizeObserver 1250");
-						}, 1250);
+						viewShuffleReshuffle([100, 1250]);
 						if(
 							added.indexOf('fullHeight') != -1
 							|| (added.indexOf('active') != -1 && oldAndNew.indexOf('fullHeightIfActive') != -1)
@@ -8480,16 +8471,16 @@ function viewShuffleApplyShuffleResizeObserver(){
 								}
 								if(_targetShuffleInstanceIndex != null){
 									console.log("fullHeight activated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
-									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
-									viewShuffleApplyShuffleResizeObserverTimeout4 = setTimeout(function(){
+									if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
+									if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
+									viewShuffleApplyShuffleResizeObserverTimeout2 = setTimeout(function(){
 										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight activated - scroll to " + scrollTop);
 										$('html,body').animate({
 											scrollTop: scrollTop
 										}, 1000);
 									}, 1300);
-									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){
+									viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){
 										resizeDevicesToFitScreen();
 										removeCustomCSS("addViewPaddingBottomAfterMinimizingTile");
 									}, 2300);
@@ -8521,9 +8512,9 @@ function viewShuffleApplyShuffleResizeObserver(){
 								}
 								if(_targetShuffleInstanceIndex != null){
 									console.log("fullHeight deactivated - deviceId: " + _targetDeviceId + " | Shuffle instance/item: " + _targetShuffleInstanceIndex + "/" + _targetShuffleItemIndex);
-									if(viewShuffleApplyShuffleResizeObserverTimeout3) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout3);
-									if(viewShuffleApplyShuffleResizeObserverTimeout4) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout4);
-									viewShuffleApplyShuffleResizeObserverTimeout3 = setTimeout(function(){
+									if(viewShuffleApplyShuffleResizeObserverTimeout1) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout1);
+									if(viewShuffleApplyShuffleResizeObserverTimeout2) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeout2);
+									viewShuffleApplyShuffleResizeObserverTimeout1 = setTimeout(function(){
 										var scrollTop = $(viewShuffleInstances[_targetShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[_targetShuffleInstanceIndex].items[_targetShuffleItemIndex].point.y * zoom) - 5;
 										console.log("fullHeight deactivated - scroll to " + scrollTop);
 										$('html,body').animate({
@@ -8541,6 +8532,43 @@ function viewShuffleApplyShuffleResizeObserver(){
 	$('.iQontrolDevice').each(function(){
 		viewShuffleResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
 	});
+}
+
+var viewShuffleReshuffleTimeouts = {};
+function viewShuffleReshuffle(delays){
+	console.log("viewShuffleReshuffle " + JSON.stringify(viewShuffleReshuffleTimeouts));
+	if(options.LayoutViewShuffleDisabled) return;
+	if(!Array.isArray(delays)) delays = [(delays || 0)];
+	var delay = delays.shift();
+	var now = new Date().getTime();
+	var destinationTime = now + delay;
+	var nearbyTimer = false;
+	for(id in viewShuffleReshuffleTimeouts){
+		var diff = viewShuffleReshuffleTimeouts[id].destinationTime - destinationTime;
+		console.log("viewShuffleReshuffle: searching for nearby ReshuffleTimers - id: " + id + " - diff: " + diff);			
+		if(diff >= 0 && diff < 500) {
+			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in future (id " + id + " - setting of the new timer is ignored");
+			nearbyTimer = true;
+		} else if (diff < 0 && diff > -500) {
+			console.log("viewShuffleReshuffle: Found nearby ReshuffleTimer in past - deleting found timer id " + id);
+			clearInterval(id);
+			delete viewShuffleReshuffleTimeouts[id];
+		}
+	}	
+	if(!nearbyTimer){
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _id = setTimeout(function(){ 
+				console.log("viewShuffleReshuffle: Shuffle! id: " + _id); 
+				viewShuffleInstances.forEach(function(shuffleInstance, i){ 
+					if(shuffleInstance.isEnabled) shuffleInstance.update(); else shuffleInstance.enable(); 
+				}); 
+				delete viewShuffleReshuffleTimeouts[_id]; 
+			}, delay);
+			viewShuffleReshuffleTimeouts[_id] = {destinationTime: destinationTime};
+			console.log("viewShuffleReshuffle: set timer id " + _id + " to destinationTime " + destinationTime);
+		})(); //<--End Closure
+	}
+	if(delays.length > 0) viewShuffleReshuffle(delays);
 }
 
 function addTimestamp(stateString, states, linkedStates, device, active){
@@ -8701,17 +8729,8 @@ function adaptHeightOrStartMarqueeOnOverflow(element){
 	if($element.hasClass('iQontrolDeviceState')) stateFillsDeviceCheckForIconToFloat($element);
 	if($element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfEnlarged') || $element.hasClass('adaptsHeightIfEnlarged')){ //adapt height
 		console.log("adaptHeight");
-		var adaptHeightOrStartMarqueeOnOverflowTimeout1 = false;
-		var adaptHeightOrStartMarqueeOnOverflowTimeout2 = false;
 		//Shuffle two times
-		if(adaptHeightOrStartMarqueeOnOverflowTimeout1) clearTimeout(adaptHeightOrStartMarqueeOnOverflowTimeout1);
-		adaptHeightOrStartMarqueeOnOverflowTimeout1 = setTimeout(function(){
-			viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! adaptHeight 100");
-		}, 100);
-		if(adaptHeightOrStartMarqueeOnOverflowTimeout2) clearTimeout(adaptHeightOrStartMarqueeOnOverflowTimeout2);
-		adaptHeightOrStartMarqueeOnOverflowTimeout2 = setTimeout(function(){
-			viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle! adaptHeight 1250");
-		}, 1250);
+		viewShuffleReshuffle([100, 1250]);
 	} else if (!options.LayoutViewMarqueeDisabled && (element[0].scrollHeight > element.innerHeight() || element[0].scrollWidth > element.innerWidth())) { //element has overflowing content
 		console.log("Starting marquee");
 		var direction = 'left';
@@ -12966,8 +12985,8 @@ function resizeDevicesToFitScreen(){
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
 		}
 	}
-	if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.enable(); }); console.log("Shuffle!"); }, 500);
-	if (!options.LayoutViewShuffleDisabled) setTimeout(function(){ viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.update(); }); console.log("Shuffle!"); }, 1250);
+	viewShuffleReshuffle(500);
+	viewShuffleReshuffle(1250);
 }
 function resizeFullWidthDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;

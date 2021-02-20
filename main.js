@@ -332,12 +332,14 @@ class Iqontrol extends utils.Adapter {
 				if(createdObjects.indexOf(name) >= 0 || filter.indexOf(name) >= 0){
 					that.log.debug("DeviceObject " + name + " ist still in use - not deleting.")
 				} else {
-					that.log.debug("<<<deleteObject " + name);
-					that.delObjectAsync(name).then(function(){ 
-						that.log.debug("deleted Object " + name);
-					}, function(err){
-						that.log.debug("ERROR deleting Object " + name + ": " + err); 
-					});
+					if(name.substr(-1) !== '.'){
+						that.log.debug("<<<deleteObject " + name);
+						that.delObjectAsync(name).then(function(){ 
+							that.log.debug("deleted Object " + name);
+						}, function(err){
+							that.log.debug("ERROR deleting Object " + name + ": " + err); 
+						});
+					}
 				}
 			}
 		});

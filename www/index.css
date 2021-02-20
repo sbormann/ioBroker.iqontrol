@@ -507,7 +507,6 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 }
 .viewShuffleContainer {
 	overflow: visible !important;
-	height: 0;
 	margin: 0;
 }
 /* ++++++++++ View / Device ++++++++++ */ 
