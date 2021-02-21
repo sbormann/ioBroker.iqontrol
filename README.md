@@ -1397,10 +1397,11 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.6.1 (2021-02-21)
 * (sbormann) Fixed sentry error in main.js.
 * (sbormann) Reworked shuffle-process.
-* (sbormann) Fixed can't scroll to bottom issue (1st trial).
+* (sbormann) Fixed can't scroll to bottom issue.
+* (sbormann) Added possibility to change many icons and options at once (under options, change device-options).
 
 ### 1.6.0 (2021-02-19)
 * (sbormann) Changed standard badge-color to red, 20% transparency.
