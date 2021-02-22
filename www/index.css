@@ -697,7 +697,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
     border-radius: 8px;
     box-shadow: #0000001f 0 0 2px 2px;
     text-align: center;
-    background-color: red;
+    background-color: rgba(255,0,0,0.8);
     padding: 0px 2px 0px 2px;
     font-family: sans-serif;
     font-weight: 500;
@@ -706,7 +706,6 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
-	word-wrap: break-word;
 }
 .iQontrolDeviceBadge.active {
 	opacity: 1;

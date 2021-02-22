@@ -1397,6 +1397,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Enhanced rendering of badge to avoid color flickering.
+
 ### 1.6.1 (2021-02-21)
 * (sbormann) Fixed sentry error in main.js.
 * (sbormann) Reworked shuffle-process.

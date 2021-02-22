@@ -3183,6 +3183,7 @@ var viewDeviceContextMenuIgnoreStart = false;	//Set to true, if the toolbarConte
 var viewTimestampElapsedTimer = false; 			//Containes the timer that updates timestamps with elapsed time
 var viewTimestampElapsedTimerStates = []; 		//Containes the stateIds that need to be updated periodically because they display a timestamp with elapsed time
 var viewShuffleInstances = [];					//Instances of shuffle-Objects
+var viewShuffleReshuffleTimeouts = {};			//Contains timouts to reshuffle
 var viewShuffleResizeObserver;					//Contains MutationObserver for class changes in Devices to trigger shuffle-update
 var viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled = []; //Timeouts for disabling Marquee-Observer while resizing
 
@@ -6154,17 +6155,41 @@ function renderView(viewId, triggeredByReconnection){
 							var stateBadge = getStateObject(_linkedBadgeId);
 							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
 							var badgeWithoutUnit = (getDeviceOptionValue(_device, "badgeWithoutUnit") == "true");
-							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){
-								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
+							var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
+							var restartActivateDelay = false;
+							if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
+								restartActivateDelay = true;
+							}
+							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){ //Active
 								var val = stateBadge.plainText;
 								var unit = stateBadge.unit;
 								if (!isNaN(val)) val = Math.round(val * 10) / 10;
 								if (!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
-								var delay = 0;
-								if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString) delay = 750;
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).html(val).data('background-color-string', colorString).delay(delay).queue('fx', function() { $(this).addClass('active').dequeue('fx'); });
-							} else {
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").dequeue('fx').removeClass('active');
+								if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('val') != val){ //New val
+									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").html(val).data('val', val);
+								}
+								if(!$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").hasClass('active')){ //Not active until now
+									if(restartActivateDelay || $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+										restartActivateDelay = true;
+									} else { //ActivateDelay is over
+										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").addClass('active');
+									}
+								}
+							} else { //Inactive
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").removeClass('active');
+								if(!restartActivateDelay){
+									clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout'));
+									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', null);
+								}
+							}
+							if(restartActivateDelay){
+								clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout'));
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', setTimeout(function(){
+									console.log("Badge activateDelay-Timeout is over - recall updateFunction");
+									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', 'over');
+									updateFunction();
+								}, 500));
 							}
 						};
 						viewUpdateFunctions[_linkedBadgeId].push(updateFunction);
@@ -8534,7 +8559,6 @@ function viewShuffleApplyShuffleResizeObserver(){
 	});
 }
 
-var viewShuffleReshuffleTimeouts = {};
 function viewShuffleReshuffle(delays){
 	console.log("viewShuffleReshuffle " + JSON.stringify(viewShuffleReshuffleTimeouts));
 	if(options.LayoutViewShuffleDisabled) return;
