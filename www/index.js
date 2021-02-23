@@ -6158,6 +6158,7 @@ function renderView(viewId, triggeredByReconnection){
 							var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
 							var restartActivateDelay = false;
 							if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
+								console.log("Badge - new color - restartActivateDelay");
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
 								restartActivateDelay = true;
 							}
@@ -6171,8 +6172,10 @@ function renderView(viewId, triggeredByReconnection){
 								}
 								if(!$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").hasClass('active')){ //Not active until now
 									if(restartActivateDelay || $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+										console.log("Badge - new active - restartActivateDelay");
 										restartActivateDelay = true;
 									} else { //ActivateDelay is over
+										console.log("Badge - new active - activateDelayTimeout is over - activate now");
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").addClass('active');
 									}
 								}
@@ -6186,7 +6189,7 @@ function renderView(viewId, triggeredByReconnection){
 							if(restartActivateDelay){
 								clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout'));
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', setTimeout(function(){
-									console.log("Badge activateDelay-Timeout is over - recall updateFunction");
+									console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
 									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', 'over');
 									updateFunction();
 								}, 500));
