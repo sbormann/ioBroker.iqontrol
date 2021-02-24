@@ -739,6 +739,15 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 .iQontrolDeviceLinkToToggle.dialog {
 	cursor: default;
 }
+.iQontrolDeviceLinkToToggle.linkedView {
+	cursor: alias;
+}
+.iQontrolDeviceLinkToToggle.externalLink {
+	cursor: copy;
+}
+.iQontrolDeviceLinkToToggle.toggle {
+	cursor: pointer;
+}
 .iQontrolDeviceBackgroundIframeWrapper {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 

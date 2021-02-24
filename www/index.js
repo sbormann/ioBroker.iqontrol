@@ -20,6 +20,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -104,6 +105,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -216,12 +218,13 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
-											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
-											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
-											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
+											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
 											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
 											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "datapoint", default: ""},
 											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
@@ -328,6 +331,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -436,6 +440,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -546,6 +551,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -652,6 +658,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -758,6 +765,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -864,6 +872,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -970,6 +979,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1076,6 +1086,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1182,6 +1193,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1288,6 +1300,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1396,6 +1409,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
  											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
@@ -1505,6 +1519,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1616,6 +1631,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1734,6 +1750,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -1842,6 +1859,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -1948,6 +1966,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
 											clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -2057,6 +2076,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -2168,6 +2188,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -2274,6 +2295,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -2382,6 +2404,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -2493,6 +2516,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -2619,6 +2643,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
 											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
@@ -2726,6 +2751,8 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "true"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
 											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
@@ -2937,6 +2964,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
 											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "true"},
@@ -3044,6 +3072,7 @@ var iQontrolRoles = {
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
 											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog", type: "checkbox", default: "false"},
             								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "false"},
 											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "true"},
 											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
@@ -6402,6 +6431,7 @@ function renderView(viewId, triggeredByReconnection){
 						var linkContent = "";
 						var iconContent = "";
 						var onclick = "";
+						var clickOnIconToggles = (getDeviceOptionValue(device, "clickOnIconToggles") == "true");
 						var clickOnIconOpensDialog = (getDeviceOptionValue(device, "clickOnIconOpensDialog") == "true");
 						var icons = {};
 						var variableSrc = {};
@@ -6612,6 +6642,28 @@ function renderView(viewId, triggeredByReconnection){
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off activ" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 						}
+
+						if(clickOnIconToggles && linkContent != ""){ //clickOnIconToggles
+							deviceContent += linkContent + iconContent + "</a>";
+						} else if(clickOnIconOpensDialog){ //clickOnIconOpensDialog
+							linkContent = "<a class='iQontrolDeviceLinkToToggle dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
+							deviceContent += linkContent + iconContent + "</a>";
+						} else {
+							if (typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
+								if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+									var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+									linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
+								} else { //Normal Link to other view
+									linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
+								}
+							} else { //No Link to other view
+								linkContent = "<a class='iQontrolDeviceLinkToToggle noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick=''>";
+							}
+							deviceContent += linkContent + iconContent + "</a>";
+						}
+						/* if(!clickOnIconToggles) { //Remove linkContent
+							linkContent = "<a class='iQontrolDeviceLinkToToggle noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick=''>";
+						}
 						if(clickOnIconOpensDialog) { //Overwrite linkContent with linkToDialog
 							linkContent = "<a class='iQontrolDeviceLinkToToggle dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
 						}
@@ -6619,7 +6671,7 @@ function renderView(viewId, triggeredByReconnection){
 							deviceContent += linkContent + iconContent + "</a>";
 						} else {
 							deviceContent += iconContent;
-						}
+						} */
 						if(onclick != "") viewDeviceContextMenu[deviceIdEscaped].toggle = {name: _("Toggle"), icon:'power', href: '', target: '', onclick: onclick + ' $("#ViewDeviceContextMenu").popup("close");'};
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
