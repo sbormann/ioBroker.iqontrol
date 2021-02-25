@@ -6157,6 +6157,8 @@ function renderView(viewId, triggeredByReconnection){
 									saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
 								}
 								var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+							} else if(_linkGlowActiveColorToHue){
+								var colorString = "rgb(255,245,157)";
 							} else {
 								var colorString = stateGlowActiveColor && isValidColorString(stateGlowActiveColor.val) && stateGlowActiveColor.val || null;
 							}
@@ -6166,9 +6168,10 @@ function renderView(viewId, triggeredByReconnection){
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', "none");
 							}
 						};
-						viewUpdateFunctions[_linkedGlowActiveColorId].push(updateFunction);
+						if(_linkedGlowActiveColorId) viewUpdateFunctions[_linkedGlowActiveColorId].push(updateFunction);
 						if(_linkedGlowHideId) viewUpdateFunctions[_linkedGlowHideId].push(updateFunction);
 						if(_linkGlowActiveColorToHue && _linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+						if(_linkGlowActiveColorToHue && !_linkedHueId) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 						if(_linkGlowActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
 					})(); //<--End Closure
 				}
@@ -6275,11 +6278,11 @@ function renderView(viewId, triggeredByReconnection){
 								if(href && href.val){
 									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
 									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
-									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', href.val);
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].externalLink").attr('href', href.val);
 								} else {
 									viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = "";
 									viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = true;
-									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLink").attr('href', '');
+									if(_device.commonRole == "iQontrolExternalLink") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].externalLink").attr('href', '');
 								}
 							});
 						})(); //<--End Closure
@@ -6642,36 +6645,34 @@ function renderView(viewId, triggeredByReconnection){
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/switch_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off activ" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/switch_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 						}
-
-						if(clickOnIconToggles && linkContent != ""){ //clickOnIconToggles
-							deviceContent += linkContent + iconContent + "</a>";
-						} else if(clickOnIconOpensDialog){ //clickOnIconOpensDialog
-							linkContent = "<a class='iQontrolDeviceLinkToToggle dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
-							deviceContent += linkContent + iconContent + "</a>";
-						} else {
-							if (typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
-								if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
-									var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
-									linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
-								} else { //Normal Link to other view
-									linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
-								}
-							} else { //No Link to other view
-								linkContent = "<a class='iQontrolDeviceLinkToToggle noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick=''>";
+						switch(device.commonRole){
+							case "iQontrolExternalLink": //External Link
+							if (deviceLinkedStateIds["URL"]){
+								linkContent = "<a class='iQontrolDeviceLinkToToggle externalLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' target='_blank'>";
+								deviceContent += linkContent + iconContent + "</a>";
 							}
-							deviceContent += linkContent + iconContent + "</a>";
+							break;
+
+							default: //Other devices
+							if(clickOnIconToggles && linkContent != ""){ //clickOnIconToggles
+								deviceContent += linkContent + iconContent + "</a>";
+							} else if(clickOnIconOpensDialog){ //clickOnIconOpensDialog
+								linkContent = "<a class='iQontrolDeviceLinkToToggle dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
+								deviceContent += linkContent + iconContent + "</a>";
+							} else {
+								if (typeof device.nativeLinkedView !== udef && device.nativeLinkedView !== "") { //Link to other view
+									if(isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
+										var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
+										linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderViewInParentInstance(unescape(\"" + escape(device.nativeLinkedView) + "\"), " + closePanel + ");'>";
+									} else { //Normal Link to other view
+										linkContent = "<a class='iQontrolDeviceLinkToToggle linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
+									}
+								} else { //No Link to other view
+									linkContent = "<a class='iQontrolDeviceLinkToToggle noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick=''>";
+								}
+								deviceContent += linkContent + iconContent + "</a>";
+							}
 						}
-						/* if(!clickOnIconToggles) { //Remove linkContent
-							linkContent = "<a class='iQontrolDeviceLinkToToggle noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick=''>";
-						}
-						if(clickOnIconOpensDialog) { //Overwrite linkContent with linkToDialog
-							linkContent = "<a class='iQontrolDeviceLinkToToggle dialog' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='renderDialog(\"" + deviceIdEscaped + "\"); $(\"#Dialog\").popup(\"open\", {transition: \"pop\", positionTo: \"window\"});'>";
-						}
-						if(linkContent !== "") {
-							deviceContent += linkContent + iconContent + "</a>";
-						} else {
-							deviceContent += iconContent;
-						} */
 						if(onclick != "") viewDeviceContextMenu[deviceIdEscaped].toggle = {name: _("Toggle"), icon:'power', href: '', target: '', onclick: onclick + ' $("#ViewDeviceContextMenu").popup("close");'};
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
@@ -8836,7 +8837,7 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 	var active = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('active');
 	var enlarged = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('enlarged');
 	if(((!active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfInactive')) || (active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfActive')) || (enlarged && $iQontrolDeviceState.hasClass('stateFillsDeviceIfEnlarged')))
-		&& !(($iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).prop('src').endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
+		&& !((($iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
 		console.log("stateFillsDevice and icon is visible - add iQontrolDeviceStateIconFloatPlaceholder");
 		if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length == 0) $iQontrolDeviceState.html("<div class='iQontrolDeviceStateIconFloatPlaceholder'></div>" + $iQontrolDeviceState.html());
 	} else if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length > 0) { //state does not fillDevice or Icon is invisible (blank.png or hidden) and iQontrolDeviceStateIconFloatPlaceholder is present
@@ -12977,7 +12978,10 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) viewSwipe("right");
+		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) {
+			setTimeout(function(){ viewSwipe("right"); }, 100);
+			return false;
+		}
 	});
 	$(document).on("swipeleft", ".ui-page", function(event){
 		toolbarContextMenuEnd();
@@ -12987,7 +12991,10 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 				return false;
 			}
 		}
-		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) viewSwipe("left");
+		if(!options.LayoutViewSwipingDisabled && !isBackgroundView) {
+			setTimeout(function(){ viewSwipe("left"); }, 100);
+			return false;
+		}
 	});
 	$(document).on('click', function(event){
 		if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
@@ -12995,7 +13002,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 		} else if(!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
 			viewSwipe("left");
 		}
-	});
+	}); 
 });
 $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
 	event.stopPropagation();
@@ -13202,10 +13209,14 @@ $(document).ready(function(){
 	//Init Dialog
 	$('#Dialog').on('popupbeforeposition', function(){
 		if($(".ui-popup-active").length == 0) $('#Toolbar').toolbar('hide');
+		$('#ViewMain').data('plugin_ptrLight').options.paused = true;
+		$('html').addClass('noscroll');
 	});
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
+		$('#ViewMain').data('plugin_ptrLight').options.paused = false;
+		$('html').removeClass('noscroll');
 		dialogUpdateFunctions = {};
 	});
 
@@ -13226,7 +13237,7 @@ $(document).ready(function(){
 		ignoreThreshold: 20,
 		pullThreshold: $(window).height() / 2,
 		maxPullThreshold: $(window).height(),
-		spinnerTimeout: 100,
+		spinnerTimeout: 1000,
 		allowPtrWhenStartedWhileScrolled: false,
 		scrollingDom: $('html')
 	});
