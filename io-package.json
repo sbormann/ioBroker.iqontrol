@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.6.1",
+        "version": "1.6.2",
         "news": {
+            "1.6.2": {
+                "en": "Enhanced rendering of badge to avoid color flickering, Added option clickOnIconToggles and clickOnIconOpensDialog to all devices (see readme), Fixed slider sometimes not working after swiping, Prevent scrolling and flickering of background when dialog is opened. Lights without hue but with active option linkGlowActiveColorToHue now glow in a slightly yellow."
+            },
             "1.6.1": {
                 "en": "Fixed sentry error in main_js, Reworked shuffle-process, Fixed can't scroll to bottom issue, Added possibility to change many icons and options at once (under options, change device-options).",
                 "de": "Sentry-Fehler in main_js behoben, Shuffle-Prozess überarbeitet, Behoben, dass nicht zum unteren Bildlauf gescrollt werden kann, Möglichkeit hinzugefügt, viele Symbole und Optionen gleichzeitig zu ändern (unter Optionen Geräteoptionen ändern).",
