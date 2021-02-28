@@ -6191,8 +6191,8 @@ function renderView(viewId, triggeredByReconnection){
 							var restartActivateDelay = false;
 							if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
 								console.log("Badge - new color - restartActivateDelay");
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
 								restartActivateDelay = true;
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
 							}
 							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val){ //Active
 								var val = stateBadge.plainText;

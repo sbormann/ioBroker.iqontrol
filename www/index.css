@@ -6,7 +6,7 @@
     --saveAreaInsetLeft: env(safe-area-inset-left);
 }
 
-document, html {
+document {
 	overflow: hidden !important;
 	overscroll-behavior: contain !important;
 	background: transparent !important;
@@ -15,9 +15,14 @@ document, html {
 html {
 	overflow-y: scroll !important;
 	overflow-x: hidden !important;
+	overscroll-behavior: contain !important;
+	background: transparent !important;
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
+}
+html.noscroll {
+	overflow: hidden !important;
 }
 
 body {
@@ -32,6 +37,10 @@ body {
 }
 body:not(.isBackgroundView):not(.backstretchLoaded){
 	background: linear-gradient(347deg, rgba(85,13,69,0.5) 0%, rgba(150,19,152,0.5) 27%, rgba(0,212,255,0.5) 100%) !important;
+}
+html.noscroll body {
+	touch-action: none;
+	-ms-touch-action: none;
 }
 
 ::-webkit-scrollbar {
@@ -1259,7 +1268,7 @@ body:not(.isBackgroundView):not(.backstretchLoaded){
 	max-height: calc(80vh - 50px);
 	padding: 0.5em;
 	overflow-y: auto;
-	overscroll-behavior: contain;
+	overscroll-behavior: contain !important;
 }
 .iQontrolDialogTimestampSwitch {
 	position: absolute;
