@@ -3919,7 +3919,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	$(targetInput).trigger('blur');
 	$(targetInput).each(function(index, targetElement){
 		if(!$(this).parent('div').hasClass('combobox')){
-			$(this).add('label').wrap("<div class='combobox'></div>");
+			$(this).next('label').addBack().wrapAll("<div class='combobox'></div>");
 			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' href='#' onclick='console.log(\"Combobox dropdown clicked\"); $enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val());'><i class='material-icons comboboxDropdownTriggerArrow' style='font-size: 25px;'>arrow_drop_down</i></a>");
 		}
 		$(this).data('combobox-onselect', onSelect);
@@ -7350,36 +7350,15 @@ function fixedEncodeURIComponent(str) {
 		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsSource', optionsString, true);
 		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsDestination', optionsString, true);
 		
-		//Fill Combobox for ChangeDeviceOptions with deviceOptions
-		var deviceOptions = {};
-		var optionsString = "";
-		var actualSection = "";
-		for (iQontrolRole in iQontrolRoles){
-			for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
-				if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "section"){
-					actualSection = iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name;
-					if(typeof deviceOptions[actualSection] == udef) deviceOptions[actualSection] = [];
-				} else {
-					deviceOptions[actualSection].push(iQontrolRoleOption + "/" + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name.replace(/\//g, "\\")));
-				}				
-			}
-		}
-		for(section in deviceOptions){
-			optionsString += ";[" + _(section) + "]";
-			deviceOptions[section] = removeDuplicates(deviceOptions[section], '/')
-			optionsString += ";" + deviceOptions[section].join(';')
-		}
-		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsSourceOption', optionsString, false);
-		
 		//Fill Combobox for ChangeDeviceOptionsFilterRoles with roles
-		$('.optionsChangeDeviceOptionsRoles').html();
+		$('.optionsChangeDeviceOptionsRoles').html("");
 		for (iQontrolRole in iQontrolRoles){
 			$('.optionsChangeDeviceOptionsRoles').append("<option value='" + iQontrolRole + "' data-icon='" + (iQontrolRoles[iQontrolRole].icon ? link + iQontrolRoles[iQontrolRole].icon : "") + "'>" + _(iQontrolRoles[iQontrolRole].name) + "</select>");
 		}
-		$('select').select();
+		$('select.optionsChangeDeviceOptionsRoles').select();		
 		
 		//Fill Combobox for ChangeDeviceOptionsFilterDevices with devices
-		$('.optionsChangeDeviceOptionsDevices').html();
+		$('.optionsChangeDeviceOptionsDevices').html("");
 		if (typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName || "";
 			$('.optionsChangeDeviceOptionsDevices').append("<optgroup class='optionsChangeDeviceOptionsDevices_View' data-view='" + escape(viewName) + "' label='" + viewName + "'></optgroup>");
@@ -7388,7 +7367,7 @@ function fixedEncodeURIComponent(str) {
 				$('.optionsChangeDeviceOptionsDevices_View[data-view="' + escape(viewName) + '"]').append("<option value='[" + viewName + "]" + deviceName + "'>" + deviceName + "</select>");
 			});
 		});		
-		$('select').select();
+		$('select.optionsChangeDeviceOptionsDevices').select();
 		$('.optionsChangeDeviceOptionsDevices').prevAll('ul').children('.optgroup').data('selectall', false).on('click', function(){
 			console.log("SELECTALL"); 
 			$(this).data("selectall", !$(this).data("selectall")); 
@@ -7401,19 +7380,69 @@ function fixedEncodeURIComponent(str) {
 		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
 	}
 
+	//Fill Combobox for ChangeDeviceOptions with deviceOptions
+	var deviceOptions = {};
+	var optionsString = "";
+	var actualSection = "";
+	for (iQontrolRole in iQontrolRoles){
+		for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
+			if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "section"){
+				actualSection = iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name;
+				if(typeof deviceOptions[actualSection] == udef) deviceOptions[actualSection] = [];
+			} else {
+				deviceOptions[actualSection].push(iQontrolRoleOption + "/" + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name.replace(/\//g, "\\")));
+			}				
+		}
+	}
+	for(section in deviceOptions){
+		optionsString += ";[" + _(section) + "]";
+		deviceOptions[section] = removeDuplicates(deviceOptions[section], '/')
+		optionsString += ";" + deviceOptions[section].join(';')
+	}
+	enhanceTextInputToCombobox('#optionsChangeDeviceOptionsSourceOption', optionsString, false);
+	
+	//Fill Combobox for ChangeDeviceStates with deviceStates
+	var deviceStates = [];
+	for (iQontrolRole in iQontrolRoles){
+		for (iQontrolRoleState in iQontrolRoles[iQontrolRole].states){
+			deviceStates.push(iQontrolRoles[iQontrolRole].states[iQontrolRoleState]);
+		}
+	}
+	deviceStates = removeDuplicates(deviceStates);
+	$('.optionsChangeDeviceOptionsStates').html("");
+	for (deviceState in deviceStates){
+		$('.optionsChangeDeviceOptionsStates').append("<option value='" + deviceStates[deviceState] + "'>" + deviceStates[deviceState] + "</select>");
+	}
+	$('select.optionsChangeDeviceOptionsStates').select();
+
+	//Add function to showChanges-Buttons
+	$('.optionsChangeDeviceOptionsShowChanges').on('click', function(){
+		initDialog('dialogGeneric');
+		$('#dialogGenericTitle').html(_("Matches") + ":");
+		$('#dialogGenericContent').html($(this).data('changes-list'));
+		$('#dialogGeneric').modal('open');
+		$('#dialogGeneric').css('z-index', modalZIndexCount++);		
+	});
+
 	//ChangeDeviceOptionsIcons
 	$('.optionsChangeDeviceOptionsIcons').on('change', function(){
-		var count = optionsChangeDeviceOptionsIcons("countOnly");
-		$('#optionsChangeDeviceOptionsIconsExecuteCount').html("&nbsp;(" + count + " " + _("matches") + ")");
-		if(count > 0 && $('#optionsChangeDeviceOptionsIconsSource').val() != $('#optionsChangeDeviceOptionsIconsDestination').val()){
+		var result = optionsChangeDeviceOptionsIcons("countOnly");
+		$('#optionsChangeDeviceOptionsIconsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
+		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsIconsSource').val() != $('#optionsChangeDeviceOptionsIconsDestination').val()){
 			$('#optionsChangeDeviceOptionsIconsExecute').removeClass('disabled');
+			$('#optionsChangeDeviceOptionsIconsShowChanges').removeClass('disabled').data('changes-list', '<ul><li>' + result.changeList.join('</li><li>') + '</li></ul>');
 		} else {
 			$('#optionsChangeDeviceOptionsIconsExecute').addClass('disabled');				
+			$('#optionsChangeDeviceOptionsIconsShowChanges').addClass('disabled');				
 		}
 	});
-	$('#optionsChangeDeviceOptionsIconsExecute').on('click', function(){ optionsChangeDeviceOptionsIcons(false); });
+	$('#optionsChangeDeviceOptionsIconsExecute').on('click', function(){ 
+		optionsChangeDeviceOptionsIcons(false);
+		$('#optionsChangeDeviceOptionsIconsSource').trigger('change');
+	});
 	function optionsChangeDeviceOptionsIcons(countOnly){
 		var changeCount = 0;
+		var changeList = [];
 		if ((countOnly || confirm(_("Really change all Icons?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
@@ -7440,6 +7469,7 @@ function fixedEncodeURIComponent(str) {
 									)
 								) {
 									changeCount++;
+									changeList.push(viewName + " - " + device.commonName);
 									if(!countOnly){
 										console.log("CHANGE SETTING");
 										option.value = $('#optionsChangeDeviceOptionsIconsDestination').val();
@@ -7447,9 +7477,6 @@ function fixedEncodeURIComponent(str) {
 										if(!(deviceOptionIndex > -1)) device.options.push(option);
 									}
 								}
-								
-								
-								
 							}
 						}
 					}
@@ -7460,9 +7487,9 @@ function fixedEncodeURIComponent(str) {
 			alert(_("%s icons have been exchanged. Don't forget to save your changes!", changeCount));
 			onChange();
 		}		
-		return changeCount;
+		return {changeCount: changeCount, changeList: changeList};
 	}
-
+	
 	//ChangeDeviceOptions
 	//Fill Comboboxes with settings
 	$('#optionsChangeDeviceOptionsSourceOption').on('change', function(){
@@ -7539,17 +7566,23 @@ function fixedEncodeURIComponent(str) {
 		$('#optionsChangeDeviceOptionsDestinationValue').siblings('ul').find('li[data-value="*"]').remove();
 	});
 	$('.optionsChangeDeviceOptions').on('change', function(){
-		var count = optionsChangeDeviceOptions("countOnly");
-		$('#optionsChangeDeviceOptionsExecuteCount').html("&nbsp;(" + count + " " + _("matches") + ")");
-		if(count > 0 && $('#optionsChangeDeviceOptionsSourceOption').val() && $('#optionsChangeDeviceOptionsSourceValue').val() != $('#optionsChangeDeviceOptionsDestinationValue').val()){
+		var result = optionsChangeDeviceOptions("countOnly");
+		$('#optionsChangeDeviceOptionsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
+		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsSourceOption').val() && $('#optionsChangeDeviceOptionsSourceValue').val() != $('#optionsChangeDeviceOptionsDestinationValue').val()){
 			$('#optionsChangeDeviceOptionsExecute').removeClass('disabled');
+			$('#optionsChangeDeviceOptionsShowChanges').removeClass('disabled').data('changes-list', '<ul><li>' + result.changeList.join('</li><li>') + '</li></ul>');
 		} else {
-			$('#optionsChangeDeviceOptionsExecute').addClass('disabled');				
+			$('#optionsChangeDeviceOptionsExecute').addClass('disabled');
+			$('#optionsChangeDeviceOptionsShowChanges').addClass('disabled');
 		}
 	});
-	$('#optionsChangeDeviceOptionsExecute').on('click', function(){ optionsChangeDeviceOptions(false); });
+	$('#optionsChangeDeviceOptionsExecute').on('click', function(){ 
+		optionsChangeDeviceOptions(false); 
+		$('#optionsChangeDeviceOptionsSourceValue').trigger('change');
+	});
 	function optionsChangeDeviceOptions(countOnly){
 		var changeCount = 0;
+		var changeList = [];
 		if ((countOnly || confirm(_("Really change all Settings?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
@@ -7576,6 +7609,7 @@ function fixedEncodeURIComponent(str) {
 							)
 						) {
 							changeCount++;
+							changeList.push(viewName + " - " + device.commonName);
 							if(!countOnly){
 								console.log("CHANGE SETTING");
 								option.value = $('#optionsChangeDeviceOptionsDestinationValue').val();
@@ -7591,7 +7625,116 @@ function fixedEncodeURIComponent(str) {
 			alert(_("%s settings have been exchanged. Don't forget to save your changes!", changeCount));
 			onChange();
 		}		
-		return changeCount;
+		return {changeCount: changeCount, changeList: changeList };
+	}
+
+	//ChangeDeviceStates
+	$('.optionsChangeDeviceStates').on('change input', function(){
+		var result = optionsChangeDeviceStates("countOnly");
+		$('#optionsChangeDeviceStatesExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
+		if(result.changeCount > 0 
+			&& ($('#optionsChangeDeviceStatesSourceValue').val() != $('#optionsChangeDeviceStatesDestinationValue').val() 
+				|| $('#optionsChangeDeviceStatesDestinationCommonRole').val() != "*"
+			)
+			&& ($('#optionsChangeDeviceStatesDestinationValue').val() != "*" 
+				|| $('#optionsChangeDeviceStatesDestinationCommonRole').val() != "*"
+			)
+		){
+			$('#optionsChangeDeviceStatesExecute').removeClass('disabled');
+			$('#optionsChangeDeviceStatesShowChanges').removeClass('disabled').data('changes-list', '<ul><li>' + result.changeList.join('</li><li>') + '</li></ul>');
+		} else {
+			$('#optionsChangeDeviceStatesExecute').addClass('disabled');				
+			$('#optionsChangeDeviceStatesShowChanges').addClass('disabled');				
+		}
+	});
+	$('#optionsChangeDeviceStatesExecute').on('click', function(){ 
+		optionsChangeDeviceStates(false); 
+		$('#optionsChangeDeviceStatesSourceValue').trigger('change');
+	});
+	function optionsChangeDeviceStates(countOnly){
+		var changeCount = 0;
+		var changeList = [];
+		if ((countOnly || confirm(_("Really change all States?"))) && typeof views != udef) views.forEach(function(view){
+			var viewName = view.commonName;
+			if (typeof view.devices != udef) view.devices.forEach(function(device){
+				if($('#optionsChangeDeviceStatesFilterDevices').val() == "" || $('#optionsChangeDeviceStatesFilterDevices').val().indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+					var role = device.commonRole || "";
+					if($('#optionsChangeDeviceStatesFilterRoles').val() == "" || $('#optionsChangeDeviceStatesFilterRoles').val().indexOf(role) > -1){ 
+						if (iQontrolRoles[role] && iQontrolRoles[role].states) iQontrolRoles[role].states.forEach(function(roleState){
+							if ($('#optionsChangeDeviceStatesFilterStates').val().length == 0 || $('#optionsChangeDeviceStatesFilterStates').val().indexOf(roleState) != -1) {
+								var deviceStateIndex = device.states && device.states.findIndex(function(state){ return state.state == roleState; });
+								if (deviceStateIndex > -1){ //state exists
+									var deviceState = device.states[deviceStateIndex];
+								} else { //take default from iQontrolRoles
+									switch(roleState){ 
+										case "VALVE_STATES": case "INFO_A": case "INFO_B": case "ADDITIONAL_CONTROLS": case "ADDITIONAL_INFO": case "REMOTE_CHANNELS": case "REMOTE_ADDITIONAL_BUTTONS":
+										var commonRole = "array";
+										var value = [];
+										break;
+										
+										case "SET_VALUE": case "OFF_SET_VALUE": case "UP_SET_VALUE": case "DOWN_SET_VALUE": case "FAVORITE_POSITION_SET_VALUE": case "URL": case "HTML": case "BACKGROUND_VIEW": case "BACKGROUND_URL": case "BACKGROUND_HTML": case "BADGE_COLOR": case "OVERLAY_INACTIVE_COLOR": case "OVERLAY_ACTIVE_COLOR": case "GLOW_INACTIVE_COLOR": case "GLOW_ACTIVE_COLOR":
+										var commonRole = "const";
+										var value = "";
+										break;
+										
+										default:
+										var commonRole = "linkedState";
+										var value = "";
+									}
+									var deviceState = {
+										state: roleState,
+										commonRole: commonRole,
+										value: value
+									};
+								}
+								if(deviceState){
+									if(deviceState.commonRole && deviceState.commonRole == "array"){
+										var stateList = tryParseJSON(deviceState.value);
+										if(Array.isArray(stateList) == false) stateList = [];
+									} else {
+										var stateList = [deviceState];
+									}
+								}
+								stateList.forEach(function(state){
+									if(state 
+										&& (($('#optionsChangeDeviceStatesSourceValue').val() != "" && state.value.indexOf($('#optionsChangeDeviceStatesSourceValue').val()) != -1)
+											|| ($('#optionsChangeDeviceStatesSourceValue').val() == "" && state.value == "")
+											|| $('#optionsChangeDeviceStatesSourceValue').val() == "*"
+										)
+									) {
+										changeCount++;
+										changeList.push(viewName + " - " + device.commonName + " - " + roleState + " (" + state.value + ")");
+										if(!countOnly){
+											console.log("CHANGE STATE");
+											if($('#optionsChangeDeviceStatesDestinationValue').val() != "*"){
+												if($('#optionsChangeDeviceStatesSourceValue').val() == "*"){
+													state.value = $('#optionsChangeDeviceStatesDestinationValue').val();
+												} else {
+													state.value = state.value.replace($('#optionsChangeDeviceStatesSourceValue').val(), $('#optionsChangeDeviceStatesDestinationValue').val());
+												}
+											}
+											if(deviceState.commonRole != "array" && $('#optionsChangeDeviceStatesDestinationCommonRole').val() != "*"){
+												state.commonRole = $('#optionsChangeDeviceStatesDestinationCommonRole').val();
+											}
+											if(typeof device.states == udef) device.states = [];
+											if(!(deviceStateIndex > -1)) device.states.push(state);
+										}
+									}
+								});
+								if(deviceState.commonRole == "array"){
+									deviceState.value = JSON.stringify(stateList);
+								}
+							}
+						});
+					}
+				}
+			});
+		});		
+		if(!countOnly && changeCount > 0) {
+			alert(_("%s states have been exchanged. Don't forget to save your changes!", changeCount));
+			onChange();
+		}		
+		return {changeCount: changeCount, changeList: changeList};
 	}
 
 	//Export All Views

@@ -579,10 +579,9 @@
 							<div class="row">
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn disabled" id="optionsChangeDeviceOptionsIconsExecute"><i class="material-icons left">find_replace</i><span class="translate">Execute</span><span id="optionsChangeDeviceOptionsIconsExecuteCount"></span></a>
+									<a class="waves-effect waves-light btn-flat disabled optionsChangeDeviceOptionsShowChanges" id="optionsChangeDeviceOptionsIconsShowChanges"><i class="material-icons">list</i></a>
 								</div>
 							</div>
-						</div>
-						<div class="collapsible-body">
 							<div class="row">
 								<div class="col s12">
 									<p class="translate sub-title">Change Device-Options:</p>
@@ -620,6 +619,56 @@
 							<div class="row">
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn disabled" id="optionsChangeDeviceOptionsExecute"><i class="material-icons left">find_replace</i><span class="translate">Execute</span><span id="optionsChangeDeviceOptionsExecuteCount"></span></a>
+									<a class="waves-effect waves-light btn-flat disabled optionsChangeDeviceOptionsShowChanges" id="optionsChangeDeviceOptionsShowChanges"><i class="material-icons">list</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Change Device-States:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<select multiple class="optionsChangeDeviceStates optionsChangeDeviceOptionsStates" id="optionsChangeDeviceStatesFilterStates"></select>
+									<label for="optionsChangeDeviceStatesFilterStates" class="translate">For these datapoints...</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="optionsChangeDeviceStates" type="text" id="optionsChangeDeviceStatesSourceValue"  value="*"/>
+									<label for="optionsChangeDeviceStatesSourceValue" class="translate">...replace this string (* = any)...</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="optionsChangeDeviceStates" type="text" id="optionsChangeDeviceStatesDestinationValue" value="*"/>
+									<label for="optionsChangeDeviceStatesDestinationValue" class="translate">...with this string (* = no change)...</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="optionsChangeDeviceStates" id="optionsChangeDeviceStatesDestinationCommonRole">
+										<option selected value='*'><span class="translate">Do not change type</option>
+										<option value='linkedState'><span class="translate">linkedState</option>
+										<option value='const'><span class="translate">const</option>
+									</select>
+									<label for="optionsChangeDeviceStatesDestinationCommonRole" class="translate">...and change type to this (note: array can't be changed).</label>
+									<span class="helper-text"></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<select multiple class="optionsChangeDeviceStates optionsChangeDeviceOptionsRoles" id="optionsChangeDeviceStatesFilterRoles"></select>
+									<label for="optionsChangeDeviceStatesFilterRoles" class="translate">Do that only for these roles...</label>
+									<span class="helper-text"></span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select multiple class="optionsChangeDeviceStates optionsChangeDeviceOptionsDevices" id="optionsChangeDeviceStatesFilterDevices"></select>
+									<label for="optionsChangeDeviceStatesFilterDevices" class="translate">...and these devices.</label>
+									<span class="helper-text"></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn disabled" id="optionsChangeDeviceStatesExecute"><i class="material-icons left">find_replace</i><span class="translate">Execute</span><span id="optionsChangeDeviceStatesExecuteCount"></span></a>
+									<a class="waves-effect waves-light btn-flat disabled optionsChangeDeviceOptionsShowChanges" id="optionsChangeDeviceStatesShowChanges"><i class="material-icons">list</i></a>
 								</div>
 							</div>
 						</div>
@@ -2290,6 +2339,25 @@
             <div class="modal-footer">
                 <a class="modal-action waves-effect waves-green btn btn-set"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Close</span></a>
+            </div>
+        </div>
+
+ 		<!-- DIALOG: Generic -->
+        <div id="dialogGeneric" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title" id="dialogGenericTitle"></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogGenericContent"></div>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
             </div>
         </div>		
     </div>
