@@ -637,11 +637,13 @@
 									<input class="optionsChangeDeviceStates" type="text" id="optionsChangeDeviceStatesSourceValue"  value="*"/>
 									<label for="optionsChangeDeviceStatesSourceValue" class="translate">...replace this string (* = any)...</label>
 									<span class="helper-text"></span>
+									<a class="optionsChangeDeviceStatesEditButton inputEdit waves-effect waves-light btn-small btn-floating" data-selectidfor="optionsChangeDeviceStatesSourceValue"><i class="material-icons">edit</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="optionsChangeDeviceStates" type="text" id="optionsChangeDeviceStatesDestinationValue" value="*"/>
 									<label for="optionsChangeDeviceStatesDestinationValue" class="translate">...with this string (* = no change)...</label>
 									<span class="helper-text"></span>
+									<a class="optionsChangeDeviceStatesEditButton inputEdit waves-effect waves-light btn-small btn-floating" data-selectidfor="optionsChangeDeviceStatesDestinationValue"><i class="material-icons">edit</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="optionsChangeDeviceStates" id="optionsChangeDeviceStatesDestinationCommonRole">
@@ -649,8 +651,8 @@
 										<option value='linkedState'><span class="translate">linkedState</option>
 										<option value='const'><span class="translate">const</option>
 									</select>
-									<label for="optionsChangeDeviceStatesDestinationCommonRole" class="translate">...and change type to this (note: array can't be changed).</label>
-									<span class="helper-text"></span>
+									<label for="optionsChangeDeviceStatesDestinationCommonRole" class="translate">...and change type to this.</label>
+									<span class="helper-text translate">(Arrays can't be changed)</span>
 								</div>
 							</div>
 							<div class="row">

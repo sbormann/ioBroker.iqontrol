@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.6.3",
+        "version": "1.6.4",
         "news": {
+            "1.6.4": {
+                "en": "Added select id dialog to change-device-states function.",
+                "de": "Dialogfeld \"ID auswählen\" zur Funktion zum Ändern des Gerätezustands hinzugefügt.",
+                "ru": "Добавлен диалог выбора идентификатора для функции изменения состояний устройства.",
+                "pt": "Adicionada caixa de diálogo de seleção de id para alterar a função de estados do dispositivo",
+                "nl": "Selecteer id-dialoogvenster toegevoegd aan de functie voor het wijzigen van apparaatstatussen.",
+                "fr": "Ajout d'une boîte de dialogue de sélection d'identifiant pour la fonction de modification des états de périphérique.",
+                "it": "Aggiunta la finestra di dialogo di selezione dell'ID alla funzione di modifica degli stati del dispositivo.",
+                "es": "Se agregó el cuadro de diálogo de selección de identificación a la función de cambio de estado de dispositivo.",
+                "pl": "Dodano okno dialogowe wyboru identyfikatora do funkcji zmiany stanów urządzenia.",
+                "zh-cn": "添加了“选择ID”对话框以更改设备状态功能。"
+            },
             "1.6.3": {
                 "en": "Added match-list to change device-options-function, Added change device-states-function to options, Fixed comparing to 0 for tile active conditions, Enhanced speed of admin ui.",
                 "de": "Übereinstimmungsliste zum Ändern der Geräteoptionsfunktion hinzugefügt, Gerätezustandsfunktion zu Optionen hinzugefügt, Vergleich mit 0 für aktive Kachelbedingungen behoben, Verbesserte Geschwindigkeit der Administrator-Benutzeroberfläche.",

@@ -7629,6 +7629,16 @@ function fixedEncodeURIComponent(str) {
 	}
 
 	//ChangeDeviceStates
+	$('.optionsChangeDeviceStatesEditButton.inputEdit').on('click', function(){
+		$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
+		initSelectId(function (sid) {
+			sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
+				if (newId) {
+					$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+				}
+			});
+		});									
+	})
 	$('.optionsChangeDeviceStates').on('change input', function(){
 		var result = optionsChangeDeviceStates("countOnly");
 		$('#optionsChangeDeviceStatesExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
