@@ -663,6 +663,7 @@
     "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.": "不支持通过zip文件还原用户文件。",
     "Return after time:": "时间返回：",
     "Return to 'OFF_SET_VALUE' after [ms]": "[ms]后返回'OFF_SET_VALUE'",
+    "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)": "[ms]后返回“ OFF_SET_VALUE”（0 =永不切换）",
     "Return to this view (if empty the first toolbar-entry is used):": "返回此视图（如果为空，则使用第一个工具栏条目）：",
     "Reveal": "揭示",
     "Right": "对",

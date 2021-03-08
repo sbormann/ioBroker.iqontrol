@@ -490,6 +490,7 @@
     "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.": "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.",
     "Return after time:": "Return after time:",
     "Return to 'OFF_SET_VALUE' after [ms]": "Return to 'OFF_SET_VALUE' after [ms]",
+    "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)": "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)",
     "Return to this view (if empty the first toolbar-entry is used):": "Return to this view (if empty the first toolbar-entry is used):",
     "Reveal": "Reveal",
     "Right": "Right",

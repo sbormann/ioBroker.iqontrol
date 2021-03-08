@@ -490,6 +490,7 @@
     "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.": "Herstel van gebruikersbestanden via zip-bestand wordt niet ondersteund. ",
     "Return after time:": "Terug na tijd:",
     "Return to 'OFF_SET_VALUE' after [ms]": "Keer terug naar 'OFF_SET_VALUE' na [ms]",
+    "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)": "Keer terug naar 'OFF_SET_VALUE' na [ms] (0 = nooit, wisselen)",
     "Return to this view (if empty the first toolbar-entry is used):": "Keer terug naar deze weergave (als deze leeg is, wordt het eerste item op de werkbalk gebruikt):",
     "Reveal": "Onthullen",
     "Right": "Rechtsaf",

@@ -1397,6 +1397,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.6.5 dev
+* (sbormann) If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now. 
+
 ### 1.6.4 (2021-03-06)
 * (sbormann) Added select id dialog to change-device-states function.
 

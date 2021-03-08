@@ -333,7 +333,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											showState: {name: "Show State", type: "checkbox", default: "false"},
 											buttonCaption: {name: "Caption for button", type: "text", default: ""},
-											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""},
+											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)", type: "number", min: "0", max: "60000", default: ""},
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},

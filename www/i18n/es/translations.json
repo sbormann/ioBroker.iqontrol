@@ -663,6 +663,7 @@
     "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.": "No se admite la restauración de archivos de usuario a través de un archivo zip. ",
     "Return after time:": "Regreso después de tiempo:",
     "Return to 'OFF_SET_VALUE' after [ms]": "Regrese a 'OFF_SET_VALUE' después de [ms]",
+    "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)": "Regrese a 'OFF_SET_VALUE' después de [ms] (0 = nunca, alternar)",
     "Return to this view (if empty the first toolbar-entry is used):": "Regrese a esta vista (si está vacía, se usa la primera entrada de la barra de herramientas):",
     "Reveal": "Revelar",
     "Right": "Derecho",

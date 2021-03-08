@@ -663,6 +663,7 @@
     "Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.": "Die Wiederherstellung der benutzerdefinierten Dateien über eine Zip-Datei wird nicht unterstützt. Sie müssen die Dateien ggf. manuell im Bilder/Widgets-Tab hochladen.",
     "Return after time:": "Automatischer Seitenwechsel:",
     "Return to 'OFF_SET_VALUE' after [ms]": "Auf den 'OFF_SET_VALUE' zurückstellen nach [ms]",
+    "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)": "Auf den 'OFF_SET_VALUE' zurückstellen nach [ms] (0 = nie, umschalten)",
     "Return to this view (if empty the first toolbar-entry is used):": "Zu dieser Seite wechseln (falls leer, wird zum ersten Toolbar-Eintrag gewechselt):",
     "Reveal": "Enthüllen",
     "Right": "Rechts",

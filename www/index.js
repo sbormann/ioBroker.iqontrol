@@ -212,7 +212,7 @@ var iQontrolRoles = {
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											showState: {name: "Show State", type: "checkbox", default: "false"},
 											buttonCaption: {name: "Caption for button", type: "text", default: ""},
-											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms]", type: "number", min: "10", max: "60000", default: ""},
+											returnToOffSetValueAfter: {name: "Return to 'OFF_SET_VALUE' after [ms] (0 = never, toggle)", type: "number", min: "0", max: "60000", default: ""},
 											closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
@@ -4555,24 +4555,41 @@ function startProgram(linkedStateId, deviceIdEscaped, callback){
 }
 
 function startButton(linkedStateId, linkedSetValueId, linkedOffSetValueId, returnToOffSetValueAfter, deviceIdEscaped, callback){
-	var newValue = states[linkedSetValueId].val || "";
-	console.log("Button " + linkedStateId + " --> " + newValue);
-	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-		var _linkedStateId = linkedStateId;
-		var _deviceIdEscaped = deviceIdEscaped;
-		var _linkedOffSetValueId = linkedOffSetValueId;
-		var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
-		var _returnToOffSetValueAfter = returnToOffSetValueAfter;
-		setState(linkedStateId, deviceIdEscaped, newValue, true, function(){
-			if (states[_linkedOffSetValueId] && states[_linkedOffSetValueId].val && states[_linkedOffSetValueId].val != "") {
-				setTimeout(function(){
-					console.log("Button " + _linkedStateId + " return --> " + _newOffSetValue);
-					setStateWithoutVerification(_linkedStateId, _deviceIdEscaped, _newOffSetValue, false);
-				}, (_returnToOffSetValueAfter || 100) * 1);
-			}
+	if(returnToOffSetValueAfter == 0){
+		if(states[linkedStateId].val  == (states[linkedSetValueId] && states[linkedSetValueId].val || true)){
+			var newValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || false;
+		} else {
+			var newValue = (states[linkedSetValueId] && states[linkedSetValueId].val) || true;
+		}
+		console.log("Button " + linkedStateId + " --> " + newValue);
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _linkedStateId = linkedStateId;
+			var _deviceIdEscaped = deviceIdEscaped;
+			var _linkedOffSetValueId = linkedOffSetValueId;
+			var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
+			var _returnToOffSetValueAfter = returnToOffSetValueAfter;
+			setState(_linkedStateId, _deviceIdEscaped, newValue, true);
+		})(); //<--End Closure
+	} else {
+		var newValue = states[linkedSetValueId] && states[linkedSetValueId].val || "";
+		console.log("Button " + linkedStateId + " --> " + newValue);
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _linkedStateId = linkedStateId;
+			var _deviceIdEscaped = deviceIdEscaped;
+			var _linkedOffSetValueId = linkedOffSetValueId;
+			var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
+			var _returnToOffSetValueAfter = returnToOffSetValueAfter;
+			setState(_linkedStateId, _deviceIdEscaped, newValue, true, function(){
+				if (states[_linkedOffSetValueId] && states[_linkedOffSetValueId].val && states[_linkedOffSetValueId].val != "") {
+					setTimeout(function(){
+						console.log("Button " + _linkedStateId + " return --> " + _newOffSetValue);
+						setStateWithoutVerification(_linkedStateId, _deviceIdEscaped, _newOffSetValue, false);
+					}, (_returnToOffSetValueAfter || 100) * 1);
+				}
 
-		});
-	})(); //<--End Closure
+			});
+		})(); //<--End Closure
+	}
 }
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
