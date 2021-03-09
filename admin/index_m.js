@@ -7394,7 +7394,7 @@ function fixedEncodeURIComponent(str) {
 			}				
 		}
 	}
-	for(section in deviceOptions){
+	for(section of Object.keys(deviceOptions).sort()){
 		optionsString += ";[" + _(section) + "]";
 		deviceOptions[section] = removeDuplicates(deviceOptions[section], '/')
 		optionsString += ";" + deviceOptions[section].join(';')
