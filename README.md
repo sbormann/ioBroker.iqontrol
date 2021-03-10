@@ -1401,6 +1401,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now. 
 * (sbormann) Fixed noZoomOnHover for device icon on large screens. 
 * (sbormann) The options of the change device-options-function are now sorted alphabetically. 
+* (sbormann) Added option to configure appereance of VALVE_STATES for thermostats. 
 
 ### 1.6.4 (2021-03-06)
 * (sbormann) Added select id dialog to change-device-states function.

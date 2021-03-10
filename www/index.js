@@ -546,6 +546,7 @@ var iQontrolRoles = {
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
+											valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
@@ -653,6 +654,8 @@ var iQontrolRoles = {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
@@ -10321,9 +10324,10 @@ function renderDialog(deviceIdEscaped){
 							}
 							dialogLinkedStateIdsToUpdate.push(element.value);
 						});
-						dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true'>";
-							dialogContent += "<h4><image src='./images/symbols/setpoint.png' / style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>";
-							dialogContent += "<div id='DialogThermostatValveStatesContent'>";
+						var valveStatesSectionType = getDeviceOptionValue(device, "valveStatesSectionType") || "collapsible";
+						dialogContent += "<div" + (valveStatesSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (valveStatesSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
+							dialogContent += (valveStatesSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/setpoint.png' style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>" : "<hr>");
+							dialogContent += "<div id='DialogThermostatValveStatesContent'" + (valveStatesSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
 								dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogThermostatValveStatesContentList' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></ul>";
 							dialogContent += "</div>";
 						dialogContent += "</div>";
