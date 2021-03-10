@@ -8857,7 +8857,7 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 	var active = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('active');
 	var enlarged = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('enlarged');
 	if(((!active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfInactive')) || (active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfActive')) || (enlarged && $iQontrolDeviceState.hasClass('stateFillsDeviceIfEnlarged')))
-		&& !((($iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
+		&& !((($("[data-iQontrol-Device-ID='" + $iQontrolDeviceState.data('iqontrol-device-id') + "'].iQontrolDeviceIcon" + (active ? '.active' : ':not(.active)')).prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
 		console.log("stateFillsDevice and icon is visible - add iQontrolDeviceStateIconFloatPlaceholder");
 		if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length == 0) $iQontrolDeviceState.html("<div class='iQontrolDeviceStateIconFloatPlaceholder'></div>" + $iQontrolDeviceState.html());
 	} else if($iQontrolDeviceState.children('.iQontrolDeviceStateIconFloatPlaceholder').length > 0) { //state does not fillDevice or Icon is invisible (blank.png or hidden) and iQontrolDeviceStateIconFloatPlaceholder is present

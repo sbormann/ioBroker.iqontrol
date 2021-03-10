@@ -7429,7 +7429,7 @@ function fixedEncodeURIComponent(str) {
 
 	//ChangeDeviceOptionsIcons
 	$('.optionsChangeDeviceOptionsIcons').on('change', function(){
-		var result = optionsChangeDeviceOptionsIcons("countOnly");
+		var result = optionsChangeDeviceOptionsIcons($('#optionsChangeDeviceOptionsIconsSource').val(), $('#optionsChangeDeviceOptionsIconsDestination').val(), $('#optionsChangeDeviceOptionsIconsFilterRoles').val(), $('#optionsChangeDeviceOptionsIconsFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceOptionsIconsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
 		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsIconsSource').val() != $('#optionsChangeDeviceOptionsIconsDestination').val()){
 			$('#optionsChangeDeviceOptionsIconsExecute').removeClass('disabled');
@@ -7440,18 +7440,18 @@ function fixedEncodeURIComponent(str) {
 		}
 	});
 	$('#optionsChangeDeviceOptionsIconsExecute').on('click', function(){ 
-		optionsChangeDeviceOptionsIcons(false);
+		optionsChangeDeviceOptionsIcons($('#optionsChangeDeviceOptionsIconsSource').val(), $('#optionsChangeDeviceOptionsIconsDestination').val(), $('#optionsChangeDeviceOptionsIconsFilterRoles').val(), $('#optionsChangeDeviceOptionsIconsFilterDevices').val(), false);
 		$('#optionsChangeDeviceOptionsIconsSource').trigger('change');
 	});
-	function optionsChangeDeviceOptionsIcons(countOnly){
+	function optionsChangeDeviceOptionsIcons(source, destination, filterRoles, filterDevices, countOnly, quiet){
 		var changeCount = 0;
 		var changeList = [];
-		if ((countOnly || confirm(_("Really change all Icons?"))) && typeof views != udef) views.forEach(function(view){
+		if ((quiet || countOnly || confirm(_("Really change all Icons?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if($('#optionsChangeDeviceOptionsIconsFilterDevices').val() == "" || $('#optionsChangeDeviceOptionsIconsFilterDevices').val().indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if($('#optionsChangeDeviceOptionsIconsFilterRoles').val() == "" || $('#optionsChangeDeviceOptionsIconsFilterRoles').val().indexOf(role) > -1){ 
+					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
 						if (iQontrolRoles[role] && iQontrolRoles[role].options) for(roleOption in iQontrolRoles[role].options){
 							if (iQontrolRoles[role].options[roleOption].type == "icon") {
 								var deviceOptionIndex = device.options && device.options.findIndex(function(option){ return option.option == roleOption; });
@@ -7465,17 +7465,17 @@ function fixedEncodeURIComponent(str) {
 									};
 								}
 								if(option 
-									&& (option.value == $('#optionsChangeDeviceOptionsIconsSource').val() 
-										|| (option.value == "" && ("./images/icons/" + iQontrolRoles[role].options[roleOption].defaultIcons.split(';')[0]) == $('#optionsChangeDeviceOptionsIconsSource').val())
-										|| (option.value == "" && iQontrolRoles[role].options[roleOption].default == $('#optionsChangeDeviceOptionsIconsSource').val())
-										|| ($('#optionsChangeDeviceOptionsIconsSource').val() == "" && option.value == iQontrolRoles[role].options[roleOption].default)
+									&& (option.value == source 
+										|| (option.value == "" && ("./images/icons/" + iQontrolRoles[role].options[roleOption].defaultIcons.split(';')[0]) == source)
+										|| (option.value == "" && iQontrolRoles[role].options[roleOption].default == source)
+										|| (source == "" && option.value == iQontrolRoles[role].options[roleOption].default)
 									)
 								) {
 									changeCount++;
 									changeList.push(viewName + " - " + device.commonName);
 									if(!countOnly){
 										console.log("CHANGE SETTING");
-										option.value = $('#optionsChangeDeviceOptionsIconsDestination').val();
+										option.value = destination;
 										if(typeof device.options == udef) device.options = [];
 										if(!(deviceOptionIndex > -1)) device.options.push(option);
 									}
@@ -7569,7 +7569,7 @@ function fixedEncodeURIComponent(str) {
 		$('#optionsChangeDeviceOptionsDestinationValue').siblings('ul').find('li[data-value="*"]').remove();
 	});
 	$('.optionsChangeDeviceOptions').on('change', function(){
-		var result = optionsChangeDeviceOptions("countOnly");
+		var result = optionsChangeDeviceOptions($('#optionsChangeDeviceOptionsSourceOption').val(), $('#optionsChangeDeviceOptionsSourceValue').val(), $('#optionsChangeDeviceOptionsDestinationValue').val(), $('#optionsChangeDeviceOptionsFilterRoles').val(), $('#optionsChangeDeviceOptionsFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceOptionsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
 		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsSourceOption').val() && $('#optionsChangeDeviceOptionsSourceValue').val() != $('#optionsChangeDeviceOptionsDestinationValue').val()){
 			$('#optionsChangeDeviceOptionsExecute').removeClass('disabled');
@@ -7580,42 +7580,42 @@ function fixedEncodeURIComponent(str) {
 		}
 	});
 	$('#optionsChangeDeviceOptionsExecute').on('click', function(){ 
-		optionsChangeDeviceOptions(false); 
+		optionsChangeDeviceOptions($('#optionsChangeDeviceOptionsSourceOption').val(), $('#optionsChangeDeviceOptionsSourceValue').val(), $('#optionsChangeDeviceOptionsDestinationValue').val(), $('#optionsChangeDeviceOptionsFilterRoles').val(), $('#optionsChangeDeviceOptionsFilterDevices').val(), false);
 		$('#optionsChangeDeviceOptionsSourceValue').trigger('change');
 	});
-	function optionsChangeDeviceOptions(countOnly){
+	function optionsChangeDeviceOptions(sourceOption, sourceValue, destinationValue, filterRoles, filterDevices, countOnly, quiet){
 		var changeCount = 0;
 		var changeList = [];
-		if ((countOnly || confirm(_("Really change all Settings?"))) && typeof views != udef) views.forEach(function(view){
+		if ((quiet || countOnly || confirm(_("Really change all Settings?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if($('#optionsChangeDeviceOptionsFilterDevices').val() == "" || $('#optionsChangeDeviceOptionsFilterDevices').val().indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if($('#optionsChangeDeviceOptionsFilterRoles').val() == "" || $('#optionsChangeDeviceOptionsFilterRoles').val().indexOf(role) > -1){ 
-						var deviceOptionIndex = device.options && device.options.findIndex(function(option){ return option.option == $('#optionsChangeDeviceOptionsSourceOption').val(); });
+					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
+						var deviceOptionIndex = device.options && device.options.findIndex(function(option){ return option.option == sourceOption; });
 						if (deviceOptionIndex > -1){ //option exists
 							var option = device.options[deviceOptionIndex];
-						} else if (iQontrolRoles[role] && iQontrolRoles[role].options && typeof iQontrolRoles[role].options[$('#optionsChangeDeviceOptionsSourceOption').val()] != udef){
+						} else if (iQontrolRoles[role] && iQontrolRoles[role].options && typeof iQontrolRoles[role].options[sourceOption] != udef){
 							var option = { //take default from iQontrolRoles
-								option: $('#optionsChangeDeviceOptionsSourceOption').val(),
-								type: iQontrolRoles[role].options[$('#optionsChangeDeviceOptionsSourceOption').val()].type,
-								value: iQontrolRoles[role].options[$('#optionsChangeDeviceOptionsSourceOption').val()].default
+								option: sourceOption,
+								type: iQontrolRoles[role].options[sourceOption].type,
+								value: iQontrolRoles[role].options[sourceOption].default
 							};
 						} else { //option not found
 							var option = null;
 						}
 						if(option 
-							&& (option.value == $('#optionsChangeDeviceOptionsSourceValue').val() 
-								|| (option.value == "" && iQontrolRoles[role].options[$('#optionsChangeDeviceOptionsSourceOption').val()].default == $('#optionsChangeDeviceOptionsSourceValue').val())
-								|| ($('#optionsChangeDeviceOptionsSourceValue').val() == "" && option.value == iQontrolRoles[role].options[$('#optionsChangeDeviceOptionsSourceOption').val()].default)
-								|| ($('#optionsChangeDeviceOptionsSourceValue').val() == "*")
+							&& (option.value == sourceValue 
+								|| (option.value == "" && iQontrolRoles[role].options[sourceOption].default == sourceValue)
+								|| (sourceValue == "" && option.value == iQontrolRoles[role].options[sourceOption].default)
+								|| (sourceValue == "*")
 							)
 						) {
 							changeCount++;
 							changeList.push(viewName + " - " + device.commonName);
 							if(!countOnly){
 								console.log("CHANGE SETTING");
-								option.value = $('#optionsChangeDeviceOptionsDestinationValue').val();
+								option.value = destinationValue;
 								if(typeof device.options == udef) device.options = [];
 								if(!(deviceOptionIndex > -1)) device.options.push(option);
 							}
@@ -7643,7 +7643,7 @@ function fixedEncodeURIComponent(str) {
 		});									
 	})
 	$('.optionsChangeDeviceStates').on('change input', function(){
-		var result = optionsChangeDeviceStates("countOnly");
+		var result = optionsChangeDeviceStates($('#optionsChangeDeviceStatesSourceValue').val(), $('#optionsChangeDeviceStatesDestinationValue').val(), $('#optionsChangeDeviceStatesDestinationCommonRole').val(), $('#optionsChangeDeviceStatesFilterStates').val(), $('#optionsChangeDeviceStatesFilterRoles').val(), $('#optionsChangeDeviceStatesFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceStatesExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
 		if(result.changeCount > 0 
 			&& ($('#optionsChangeDeviceStatesSourceValue').val() != $('#optionsChangeDeviceStatesDestinationValue').val() 
@@ -7661,20 +7661,20 @@ function fixedEncodeURIComponent(str) {
 		}
 	});
 	$('#optionsChangeDeviceStatesExecute').on('click', function(){ 
-		optionsChangeDeviceStates(false); 
+		optionsChangeDeviceStates($('#optionsChangeDeviceStatesSourceValue').val(), $('#optionsChangeDeviceStatesDestinationValue').val(), $('#optionsChangeDeviceStatesDestinationCommonRole').val(), $('#optionsChangeDeviceStatesFilterStates').val(), $('#optionsChangeDeviceStatesFilterRoles').val(), $('#optionsChangeDeviceStatesFilterDevices').val(), false);
 		$('#optionsChangeDeviceStatesSourceValue').trigger('change');
 	});
-	function optionsChangeDeviceStates(countOnly){
+	function optionsChangeDeviceStates(sourceValue, destinationValue, destinationCommonRole, filterStates, filterRoles, filterDevices, countOnly, quiet){
 		var changeCount = 0;
 		var changeList = [];
-		if ((countOnly || confirm(_("Really change all States?"))) && typeof views != udef) views.forEach(function(view){
+		if ((quiet || countOnly || confirm(_("Really change all States?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if($('#optionsChangeDeviceStatesFilterDevices').val() == "" || $('#optionsChangeDeviceStatesFilterDevices').val().indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if($('#optionsChangeDeviceStatesFilterRoles').val() == "" || $('#optionsChangeDeviceStatesFilterRoles').val().indexOf(role) > -1){ 
+					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
 						if (iQontrolRoles[role] && iQontrolRoles[role].states) iQontrolRoles[role].states.forEach(function(roleState){
-							if ($('#optionsChangeDeviceStatesFilterStates').val().length == 0 || $('#optionsChangeDeviceStatesFilterStates').val().indexOf(roleState) != -1) {
+							if (filterStates.length == 0 || filterStates.indexOf(roleState) != -1) {
 								var deviceStateIndex = device.states && device.states.findIndex(function(state){ return state.state == roleState; });
 								if (deviceStateIndex > -1){ //state exists
 									var deviceState = device.states[deviceStateIndex];
@@ -7710,24 +7710,24 @@ function fixedEncodeURIComponent(str) {
 								}
 								stateList.forEach(function(state){
 									if(state 
-										&& (($('#optionsChangeDeviceStatesSourceValue').val() != "" && state.value.indexOf($('#optionsChangeDeviceStatesSourceValue').val()) != -1)
-											|| ($('#optionsChangeDeviceStatesSourceValue').val() == "" && state.value == "")
-											|| $('#optionsChangeDeviceStatesSourceValue').val() == "*"
+										&& ((sourceValue != "" && state.value.indexOf(sourceValue) != -1)
+											|| (sourceValue == "" && state.value == "")
+											|| sourceValue == "*"
 										)
 									) {
 										changeCount++;
 										changeList.push(viewName + " - " + device.commonName + " - " + roleState + " (" + state.value + ")");
 										if(!countOnly){
 											console.log("CHANGE STATE");
-											if($('#optionsChangeDeviceStatesDestinationValue').val() != "*"){
-												if($('#optionsChangeDeviceStatesSourceValue').val() == "*"){
-													state.value = $('#optionsChangeDeviceStatesDestinationValue').val();
+											if(destinationValue != "*"){
+												if(sourceValue == "*"){
+													state.value = destinationValue;
 												} else {
-													state.value = state.value.replace($('#optionsChangeDeviceStatesSourceValue').val(), $('#optionsChangeDeviceStatesDestinationValue').val());
+													state.value = state.value.replace(sourceValue, destinationValue);
 												}
 											}
-											if(deviceState.commonRole != "array" && $('#optionsChangeDeviceStatesDestinationCommonRole').val() != "*"){
-												state.commonRole = $('#optionsChangeDeviceStatesDestinationCommonRole').val();
+											if(deviceState.commonRole != "array" && destinationCommonRole != "*"){
+												state.commonRole = destinationCommonRole;
 											}
 											if(typeof device.states == udef) device.states = [];
 											if(!(deviceStateIndex > -1)) device.states.push(state);
