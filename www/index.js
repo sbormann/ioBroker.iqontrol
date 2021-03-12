@@ -60,6 +60,9 @@ var iQontrolRoles = {
 											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -169,6 +172,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -282,6 +288,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -395,6 +404,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -504,6 +516,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -614,6 +629,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -723,6 +741,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -830,6 +851,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -937,6 +961,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1044,6 +1071,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1151,6 +1181,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1258,6 +1291,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "SE"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1365,6 +1401,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1475,6 +1514,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1584,6 +1626,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1696,6 +1741,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1817,6 +1865,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1924,6 +1975,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2031,6 +2085,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2141,6 +2198,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2253,6 +2313,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2360,6 +2423,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2471,6 +2537,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2583,6 +2652,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2710,6 +2782,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2816,6 +2891,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2920,6 +2998,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3030,6 +3111,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: "N"},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3137,6 +3221,9 @@ var iQontrolRoles = {
 											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
 											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -6827,6 +6914,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedTemperatureId = deviceLinkedStateIds["TEMPERATURE"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedTemperatureId].push(function(){
@@ -6834,7 +6922,8 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateTemperature && typeof stateTemperature.val !== udef){
 											var val = stateTemperature.plainText;
 											var unit = stateTemperature.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
+											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateTemperature.plainText == stateTemperature.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -6854,6 +6943,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedBrightnessId = deviceLinkedStateIds["BRIGHTNESS"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedBrightnessId].push(function(){
@@ -6861,7 +6951,8 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateBrightness && typeof stateBrightness.val !== udef){
 											var val = stateBrightness.plainText;
 											var unit = stateBrightness.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
+											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateBrightness.plainText == stateBrightness.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -6881,6 +6972,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedSlatsLevelId = deviceLinkedStateIds["SLATS_LEVEL"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedSlatsLevelId].push(function(){
@@ -6888,7 +6980,8 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateSlatsLevel && typeof stateSlatsLevel.val !== udef){
 											var val = stateSlatsLevel.plainText;
 											var unit = stateSlatsLevel.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
+											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateSlatsLevel.plainText == stateSlatsLevel.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -6908,6 +7001,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedVoltageId = deviceLinkedStateIds["VOLTAGE"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedVoltageId].push(function(){
@@ -6915,7 +7009,8 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateVoltage && typeof stateVoltage.val !== udef){
 											var val = stateVoltage.plainText;
 											var unit = stateVoltage.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
+											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateVoltage.plainText == stateVoltage.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -7098,8 +7193,9 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateVolume && typeof stateVolume.val !== udef){
 											var val = stateVolume.plainText;
 											var unit = stateVolume.unit;
+											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
 											if (!isNaN(val)) {
-												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											}
 											if (stateVolume.plainText == stateVolume.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
@@ -7143,8 +7239,9 @@ function renderView(viewId, triggeredByReconnection){
 											if (statElement && typeof statElement.val !== udef){
 												var val = statElement.plainText;
 												var unit = statElement.unit;
+												var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
 												if (statElement.plainText == statElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
@@ -7177,6 +7274,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedHumidityId = deviceLinkedStateIds["HUMIDITY"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedHumidityId].push(function(){
@@ -7184,7 +7282,8 @@ function renderView(viewId, triggeredByReconnection){
 										if (stateHumidity && typeof stateHumidity.val !== udef){
 											var val = stateHumidity.plainText;
 											var unit = stateHumidity.unit;
-											if (!isNaN(val)) val = Math.round(val * 10) / 10;
+											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
+											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateHumidity.plainText == stateHumidity.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
@@ -7204,6 +7303,7 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
 									var _linkedPowerId = deviceLinkedStateIds["POWER"];
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedPowerId].push(function(){
@@ -7211,8 +7311,9 @@ function renderView(viewId, triggeredByReconnection){
 										if (statePower && typeof statePower.val !== udef){
 											var val = statePower.plainText;
 											var unit = statePower.unit;
+											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
 											if (!isNaN(val)) {
-												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+												if (val < -100 || val > 100) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 											}
 											if (statePower.plainText == statePower.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
@@ -7284,8 +7385,9 @@ function renderView(viewId, triggeredByReconnection){
 											if (statElement && typeof statElement.val !== udef){
 												var val = statElement.plainText;
 												var unit = statElement.unit;
+												var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * 10) / 10;
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
 												if (statElement.plainText == statElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
