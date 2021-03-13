@@ -1404,6 +1404,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to configure appereance of VALVE_STATES for thermostats. 
 * (sbormann) Fixed recognition of blank icon for device-filling states. 
 * (sbormann) Added option to INFO_A/B to define the number of digits to be rounded to. 
+* (sbormann) Added option to customs-dialog to define the number of digits to be rounded to. 
+* (sbormann) Now also numerical values are treatet as strings, if common.role is string (before it was converted to level).
 
 ### 1.6.4 (2021-03-06)
 * (sbormann) Added select id dialog to change-device-states function.

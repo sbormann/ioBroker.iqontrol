@@ -3935,7 +3935,10 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		//--Modify typeof val to match to common.type
 		switch(result.type){
 			case "string":
-			if (typeof result.val !== 'string') result.val = result.val.toString();
+			if (typeof result.val !== 'string') {
+				result.val = result.val.toString();
+				result.plainText = result.val;
+			}
 			break;
 
 			case "number":
@@ -4126,7 +4129,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			}
 		}
 		//--Add TargetValues
-		if(typeof result.custom.targetValues && result.custom.targetValues) {
+		if(typeof result.custom.targetValues != udef && result.custom.targetValues) {
 			var targetValuesSet = true;
 			var targetValues = result.custom.targetValues;
 			//Check format of targetValues
@@ -4155,7 +4158,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			if(typeof result.val == 'number'){
 				result.type = "level";
 				result.valFull = result.val;
-				var n = 2;
+				var n = (typeof result.custom.roundDigits != udef && result.custom.roundDigits !== "" ? result.custom.roundDigits : 2);
 				result.val =  Math.round(result.val * Math.pow(10, n)) / Math.pow(10, n);
 			} else {
 				result.type = "string";
@@ -6923,7 +6926,7 @@ function renderView(viewId, triggeredByReconnection){
 											var val = stateTemperature.plainText;
 											var unit = stateTemperature.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+											if (!isNaN(val)) val = Math.round(stateTemperature.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateTemperature.plainText == stateTemperature.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -6952,7 +6955,7 @@ function renderView(viewId, triggeredByReconnection){
 											var val = stateBrightness.plainText;
 											var unit = stateBrightness.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+											if (!isNaN(val)) val = Math.round(stateBrightness.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateBrightness.plainText == stateBrightness.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -6981,7 +6984,7 @@ function renderView(viewId, triggeredByReconnection){
 											var val = stateSlatsLevel.plainText;
 											var unit = stateSlatsLevel.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+											if (!isNaN(val)) val = Math.round(stateSlatsLevel.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateSlatsLevel.plainText == stateSlatsLevel.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -7010,7 +7013,7 @@ function renderView(viewId, triggeredByReconnection){
 											var val = stateVoltage.plainText;
 											var unit = stateVoltage.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
-											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+											if (!isNaN(val)) val = Math.round(stateVoltage.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateVoltage.plainText == stateVoltage.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
@@ -7195,7 +7198,7 @@ function renderView(viewId, triggeredByReconnection){
 											var unit = stateVolume.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
 											if (!isNaN(val)) {
-												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+												if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateVolume.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											}
 											if (stateVolume.plainText == stateVolume.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
@@ -7241,7 +7244,7 @@ function renderView(viewId, triggeredByReconnection){
 												var unit = statElement.unit;
 												var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(statElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
 												if (statElement.plainText == statElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
@@ -7283,7 +7286,7 @@ function renderView(viewId, triggeredByReconnection){
 											var val = stateHumidity.plainText;
 											var unit = stateHumidity.unit;
 											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
-											if (!isNaN(val)) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+											if (!isNaN(val)) val = Math.round(stateHumidity.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											if (stateHumidity.plainText == stateHumidity.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
@@ -7313,7 +7316,7 @@ function renderView(viewId, triggeredByReconnection){
 											var unit = statePower.unit;
 											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
 											if (!isNaN(val)) {
-												if (val < -100 || val > 100) val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+												if (val < -100 || val > 100) val = Math.round(statePower.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 											}
 											if (statePower.plainText == statePower.val) val = val + unit;
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
@@ -7387,7 +7390,7 @@ function renderView(viewId, triggeredByReconnection){
 												var unit = statElement.unit;
 												var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(val * Math.pow(10, digits)) / Math.pow(10, digits);
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(statElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
 												if (statElement.plainText == statElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();

@@ -101,6 +101,16 @@
 	<div class="row">
 		<div class="col s4">
 		</div>
+		<div class="input-field col s8">
+			<input type="number" class="enableOnChange" min="0" max="10" step="1" data-field="roundDigits">
+			<span class="translate">Round to this number of digits</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported for numbers)</span>			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
         <div class="input-field col s8">
             <select data-field="type" class="enableOnChange" >
                 <option value=""          		class="translate"></option>
@@ -254,6 +264,7 @@
 				min:					(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
 				max:					(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
 				step:					"",
+				roundDigits:			2,
 				type:					(obj && obj.common && obj.common.type) || "",
 				role:					(obj && obj.common && obj.common.role) || "",
 				targetValueId:			"",
