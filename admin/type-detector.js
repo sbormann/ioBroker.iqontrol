@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2019 bluefox <dogafox@gmail.com>
+ * Copyright 2018-2020 bluefox <dogafox@gmail.com>
  *
  * The MIT License (MIT)
  *
@@ -29,8 +29,10 @@
 var Types = {
     unknown: 'unknown',
 
+    airCondition: 'airCondition',
     blind: 'blind',
     button: 'button',
+    buttonSensor: 'buttonSensor',
     camera: 'camera',
     url: 'url',
     image: 'image',
@@ -57,6 +59,7 @@ var Types = {
     thermostat: 'thermostat',
     valve: 'valve',
     volume: 'volume',
+    vacuumCleaner: 'vacuumCleaner',
     volumeGroup: 'volumeGroup',
     window: 'window',
     windowTilt: 'windowTilt',
@@ -88,7 +91,9 @@ var Types = {
 // defaultRole - is for detection irrelevant, but will be used by iobroker.devices.
 
 function ChannelDetector() {
-    if (!(this instanceof ChannelDetector)) return new ChannelDetector();
+    if (!(this instanceof ChannelDetector)) {
+        return new ChannelDetector();
+    }
 
     var patternWorking   = {role: /^indicator\.working$/,                 indicator: true,                                            name: 'WORKING',            required: false, defaultRole: 'indicator.working'};
     var patternUnreach   = {role: /^indicator(\.maintenance)?\.unreach$/, indicator: true,  type: 'boolean',                          name: 'UNREACH',            required: false, defaultRole: 'indicator.maintenance.unreach'};
@@ -120,8 +125,8 @@ function ChannelDetector() {
                     {role: /^media.cover$|^media.cover.big$/, indicator: false,     write: false, type: 'string',  name: 'COVER',    required: false, notSingle: true,   defaultRole: 'media.cover'},
                     {role: /^media.cover(\..*)$/,             indicator: false,     write: false, type: 'string',  name: 'COVER',    required: false, notSingle: true},
                 ],
-                {role: /^media.duration(\..*)?$/,       indicator: false,     write: false, type: 'number',  name: 'DURATION', required: false, noSubscribe: true,   defaultRole: 'media.duration'},
-                {role: /^media.elapsed(\..*)?$/,        indicator: false,                   type: 'number',  name: 'ELAPSED',  required: false, noSubscribe: true,   defaultRole: 'media.elapsed'},
+                {role: /^media.duration(\..*)?$/,       indicator: false,     write: false, type: 'number',  name: 'DURATION', required: false, noSubscribe: true,   defaultRole: 'media.duration', defaultUnit: 'sec'},
+                {role: /^media.elapsed(\..*)?$/,        indicator: false,                   type: 'number',  name: 'ELAPSED',  required: false, noSubscribe: true,   defaultRole: 'media.elapsed', defaultUnit: 'sec'},
                 {role: /^media.seek(\..*)?$/,           indicator: false,     write: true,  type: 'number',  name: 'SEEK',     required: false, noSubscribe: true,   defaultRole: 'media.seek'},
                 {role: /^media.track(\..*)?$/,          indicator: false,                   type: 'string',  name: 'TRACK',    required: false, noSubscribe: true,   defaultRole: 'media.track'},
                 {role: /^media.episode(\..*)?$/,        indicator: false,                   type: 'string',  name: 'EPISODE',  required: false, noSubscribe: true,   defaultRole: 'media.episode'},
@@ -194,12 +199,12 @@ function ChannelDetector() {
                 {role: /^level\.color\.green$/,                           indicator: false, type: 'number',  write: true,           name: 'GREEN',         required: true,   defaultRole: 'level.color.green'},
                 {role: /^level\.color\.blue$/,                            indicator: false, type: 'number',  write: true,           name: 'BLUE',          required: true,   defaultRole: 'level.color.blue'},
                 {role: /^level\.color\.white$/,                           indicator: false, type: 'number',  write: true,           name: 'WHITE',         required: false,  defaultRole: 'level.color.white'},
-                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false,  defaultRole: 'level.dimmer'},
+                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false,  defaultRole: 'level.dimmer', defaultUnit: '%'},
                 {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
-                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false,  defaultRole: 'level.color.temperature'},
-                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON_LIGHT',      required: false,  defaultRole: 'switch.light'},
-                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false},
+                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false,  defaultRole: 'level.color.temperature', defaultUnit: '°K'},
+                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false,  defaultRole: 'switch.light'},
+                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false,  defaultRole: 'switch.light'},
                 {role: /^state(\.light)?$/,                               indicator: false, type: 'boolean', write: false,          name: 'ON_ACTUAL',     required: false,  defaultRole: 'state.light'},
                 patternWorking,
                 patternUnreach,
@@ -218,8 +223,8 @@ function ChannelDetector() {
                 {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false},
                 {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
-                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false},
-                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON_LIGHT',      required: false},
+                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false,  defaultUnit: '°K'},
+                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false,  defaultRole: 'switch.light'},
                 {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false},
                 patternWorking,
                 patternUnreach,
@@ -233,11 +238,11 @@ function ChannelDetector() {
             states: [
                 {role: /^level\.color\.rgb$/,                             indicator: false, type: 'string',  write: true,           name: 'RGB',           required: true,   defaultRole: 'level.color.rgb'},
                 {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false,  defaultRole: 'level.dimmer'},
-                {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
+                {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false, defaultUnit: '%'},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
-                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false,  defaultRole: 'level.color.temperature'},
-                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON_LIGHT',      required: false,  defaultRole: 'switch.light'},
-                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false},
+                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false,  defaultRole: 'level.color.temperature', defaultUnit: '°K'},
+                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false,  defaultRole: 'switch.light'},
+                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false,  defaultRole: 'switch.light'},
                 {role: /^state(\.light)?$/,                               indicator: false, type: 'boolean', write: false,          name: 'ON_ACTUAL',     required: false,  defaultRole: 'state.light'},
                 patternWorking,
                 patternUnreach,
@@ -249,13 +254,13 @@ function ChannelDetector() {
         },
         hue: {
             states: [
-                {role: /^level\.color\.hue$/,                             indicator: false, type: 'number',  write: true,           name: 'HUE',           required: true,  defaultRole: 'level.color.hue'},
-                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false, searchInParent: true, defaultRole: 'level.dimmer'},
+                {role: /^level\.color\.hue$/,                             indicator: false, type: 'number',  write: true,           name: 'HUE',           required: true,  defaultRole: 'level.color.hue', defaultUnit: '°'},
+                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false, searchInParent: true, defaultRole: 'level.dimmer', defaultUnit: '°C'},
                 {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
-                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false, defaultRole: 'level.color.temperature'},
-                {role: /^switch.light$/,                                  indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
-                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false},
+                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: false, defaultRole: 'level.color.temperature', defaultUnit: '°K'},
+                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
+                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
                 {role: /^state(\.light)?$/,                               indicator: false, type: 'boolean', write: false,          name: 'ON_ACTUAL',     required: false,  defaultRole: 'state.light'},
                 patternWorking,
                 patternUnreach,
@@ -267,12 +272,12 @@ function ChannelDetector() {
         },
         ct: {
             states: [
-                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: true,  defaultRole: 'level.color.temperature'},
-                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false, defaultRole: 'level.dimmer'},
+                {role: /^level\.color\.temperature$/,                     indicator: false, type: 'number',  write: true,           name: 'TEMPERATURE',   required: true,  defaultRole: 'level.color.temperature', defaultUnit: '°K'},
+                {role: /^level\.dimmer$/,                                 indicator: false, type: 'number',  write: true,           name: 'DIMMER',        required: false, defaultRole: 'level.dimmer', defaultUnit: '%'},
                 {role: /^level\.brightness$/,                             indicator: false, type: 'number',  write: true,           name: 'BRIGHTNESS',    required: false},
                 {role: /^level\.color\.saturation$/,                      indicator: false, type: 'number',  write: true,           name: 'SATURATION',    required: false},
-                {role: /^switch.light$/,                                  indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
-                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false},
+                {role: /^switch\.light$/,                                 indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
+                {role: /^switch$/,                                        indicator: false, type: 'boolean', write: true,           name: 'ON',            required: false, defaultRole: 'switch.light'},
                 patternWorking,
                 patternUnreach,
                 patternLowbat,
@@ -297,14 +302,34 @@ function ChannelDetector() {
             ],
             type: Types.warning
         },
+        // most full description could be found here: https://yandex.ru/dev/dialogs/alice/doc/smart-home/concepts/device-type-thermostat-ac-docpage/
+        airCondition: {
+            states: [
+                {role: /temperature(\..*)?$/,          indicator: false,     write: true,  type: 'number',                                                    name: 'SET',                required: true,  defaultRole: 'level.temperature',     defaultUnit: '°C'},
+                // AUTO, COOL, HEAT, ECO, OFF, DRY, FAN_ONLY
+                {role: /thermostat$/,                  indicator: false,     write: true,  type: 'number',    searchInParent: true,                           name: 'MODE',               required: true,  defaultRole: 'level.mode.thermostat', defaultStates: {0: 'OFF', 1: 'AUTO', 2: 'COOL', 3: 'HEAT', 4: 'ECO', 5: 'FAN_ONLY', 6: 'DRY'}},
+                // optional
+                {role: /speed\.fan$/,                  indicator: false,     write: true,  type: 'number',                                                    name: 'SPEED',              required: false, defaultRole: 'level.mode.fan',        defaultStates: {0: 'AUTO', 1: 'HIGH', 2: 'LOW', 3: 'MEDIUM', 4: 'QUIET', 5: 'TURBO'}},
+                {role: /^switch\.power$/,              indicator: false,     write: true,  type: ['boolean', 'number'],   searchInParent: true,               name: 'POWER',              required: false, defaultRole: 'switch.power'},
+                {role: /^switch$/,                     indicator: false,     write: true,  type: 'boolean',   searchInParent: true,                           name: 'POWER',              required: false},
+                {role: /temperature(\..*)?$/,          indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'ACTUAL',             required: false, defaultRole: 'value.temperature',     defaultUnit: '°C'},
+                {role: /humidity(\..*)?$/,             indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'HUMIDITY',           required: false, defaultRole: 'value.humidity',        defaultUnit: '%'},
+                {role: /^switch\.boost(\..*)?$/,       indicator: false,     write: true,  type: ['boolean', 'number'],   searchInParent: true,               name: 'BOOST',              required: false, defaultRole: 'switch.boost'},
+                {role: /swing$/,                       indicator: false,     write: true,  type: 'number',    searchInParent: true,                           name: 'SWING',              required: false, defaultRole: 'level.mode.swing',      defaultStates: {0: 'AUTO', 1: 'HORIZONTAL', 2: 'STATIONARY', 3: 'VERTICAL'}},
+                patternUnreach,
+                patternMaintain,
+                patternError
+            ],
+            type: Types.airCondition
+        },
         thermostat: {
             states: [
-                {role: /temperature(\..*)?$/,          indicator: false,     write: true,  type: 'number',                                                    name: 'SET',                required: true, defaultRole: 'level.temperature'},
+                {role: /temperature(\..*)?$/,          indicator: false,     write: true,  type: 'number',                                                    name: 'SET',                required: true,  defaultRole: 'level.temperature', defaultUnit: '°C'},
                 // optional
-                {role: /temperature(\..*)?$/,          indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'ACTUAL',             required: false, defaultRole: 'value.temperature'},
-                {role: /humidity(\..*)?$/,             indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'HUMIDITY',           required: false, defaultRole: 'value.humidity'},
-                {role: /^switch\.boost(\..*)?$/,       indicator: false,     write: true,  type: 'number',    searchInParent: true,                           name: 'BOOST',              required: false, defaultRole: 'switch.boost'},
-                {role: /^switch\.power$/,              indicator: false,     write: true,  type: 'number',    searchInParent: true,                           name: 'POWER',              required: false, defaultRole: 'switch.power'},
+                {role: /temperature(\..*)?$/,          indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'ACTUAL',             required: false, defaultRole: 'value.temperature', defaultUnit: '°C'},
+                {role: /humidity(\..*)?$/,             indicator: false,     write: false, type: 'number',    searchInParent: true,                           name: 'HUMIDITY',           required: false, defaultRole: 'value.humidity', defaultUnit: '%'},
+                {role: /^switch\.boost(\..*)?$/,       indicator: false,     write: true,  type: ['boolean', 'number'],   searchInParent: true,               name: 'BOOST',              required: false, defaultRole: 'switch.boost'},
+                {role: /^switch\.power$/,              indicator: false,     write: true,  type: ['boolean', 'number'],   searchInParent: true,               name: 'POWER',              required: false, defaultRole: 'switch.power'},
                 patternWorking,
                 patternUnreach,
                 patternLowbat,
@@ -313,11 +338,32 @@ function ChannelDetector() {
             ],
             type: Types.thermostat
         },
+        vacuumCleaner: {
+            states: [
+                {role: /^switch\.power$/,              indicator: false,     write: true,  type: ['boolean', 'number'],   searchInParent: true,               name: 'POWER',              required: true,  defaultRole: 'switch.power'},
+                // AUTO, ECO, EXPRESS, NORMAL, QUIET
+                {role: /mode\.cleanup$/,               indicator: false,     write: true,  type: 'number',                                                    name: 'MODE',               required: true,  defaultRole: 'level.mode.cleanup', defaultStates: {0: 'AUTO', 1: 'NORMAL', 2: 'QUIET', 3: 'ECO', 4: 'EXPRESS'}},
+                // optional
+                {role: /mode\.work$/,                  indicator: false,     write: true,  type: 'number',                                                    name: 'WORK_MODE',          required: false, defaultRole: 'level.mode.work',    defaultStates: {0: 'AUTO', 1: 'FAST', 2: 'MEDIUM', 3: 'SLOW', 4: 'TURBO'}},
+                {role: /^value\.water$/,               indicator: false,     write: true,  type: 'number',               unit: '%',                           name: 'WATER',              required: false, defaultRole: 'value.water', defaultUnit: '%'},
+                {role: /^value\.waste$/,               indicator: false,     write: true,  type: 'number',               unit: '%',                           name: 'WASTE',              required: false, defaultRole: 'value.waste', defaultUnit: '%'},
+                {role: /^value\.battery$/,             indicator: false,     write: true,  type: 'number',               unit: '%',                           name: 'BATTERY',            required: false, defaultRole: 'value.battery', defaultUnit: '%'},
+                {role: /^value\.state$/,               indicator: false,     write: true,  type: ['number', 'string'],                                        name: 'STATE',              required: false, defaultRole: 'value.state'},
+                {role: /^switch\.pause$/,              indicator: false,     write: true,  type: 'boolean',               searchInParent: true,               name: 'PAUSE',              required: false, defaultRole: 'switch.pause'},
+                {role: /^indicator(\.maintenance)?\.waste$|^indicator(\.alarm)?\.waste/,  indicator: true,  type: 'boolean',                                  name: 'WASTE_ALARM',        required: false, defaultRole: 'indicator.maintenance.waste'},
+                {role: /^indicator(\.maintenance)?\.water$|^indicator(\.alarm)?\.water/,  indicator: true,  type: 'boolean',                                  name: 'WATER_ALARM',        required: false, defaultRole: 'indicator.maintenance.water'},
+                patternUnreach,
+                patternLowbat,
+                patternMaintain,
+                patternError
+            ],
+            type: Types.vacuumCleaner
+        },
         blinds: {
             states: [
-                {role: /^level(\.blind)?$/,                   indicator: false, type: 'number',  write: true, enums: roleOrEnumBlind, name: 'SET',                 required: true, defaultRole: 'level.blind'},
+                {role: /^level(\.blind)?$/,                   indicator: false, type: 'number',  write: true, enums: roleOrEnumBlind, name: 'SET',                 required: true, defaultRole: 'level.blind', defaultUnit: '%'},
                 // optional
-                {role: /^value(\.blind)?$/,                   indicator: false, type: 'number',               enums: roleOrEnumBlind, name: 'ACTUAL',              required: false, defaultRole: 'value.blind'},
+                {role: /^value(\.blind)?$/,                   indicator: false, type: 'number',               enums: roleOrEnumBlind, name: 'ACTUAL',              required: false, defaultRole: 'value.blind', defaultUnit: '%'},
                 {role: /^button\.stop$|^action\.stop$/,       indicator: false, type: 'boolean', write: true, enums: roleOrEnumBlind, name: 'STOP',                required: false, noSubscribe: true, defaultRole: 'button.stop'},
                 patternDirection,
                 patternWorking,
@@ -401,9 +447,9 @@ function ChannelDetector() {
         },
         dimmer: {
             states: [
-                {role: /^level(\.dimmer)?|^level\.brightness$/, indicator: false, type: 'number',  write: true,       enums: roleOrEnumLight, name: 'SET',        required: true, defaultRole: 'level.dimmer'},
+                {role: /^level(\.dimmer)?$|^level\.brightness$/, indicator: false, type: 'number',  write: true,       enums: roleOrEnumLight, name: 'SET',        required: true, defaultRole: 'level.dimmer', ignoreRole: /^level\.dimspeed$/, defaultUnit: '%'},
                 // optional
-                {role: /^value(\.dimmer)?$/,                   indicator: false, type: 'number',  write: false,      enums: roleOrEnumLight, name: 'ACTUAL',      required: false, defaultRole: 'value.dimmer'},
+                {role: /^value(\.dimmer)?$/,                   indicator: false, type: 'number',  write: false,      enums: roleOrEnumLight, name: 'ACTUAL',      required: false, defaultRole: 'value.dimmer', defaultUnit: '%'},
                 {role: /^switch(\.light)?$|^state$/,           indicator: false, type: 'boolean', write: true,       enums: roleOrEnumLight, name: 'ON_SET',      required: false, defaultRole: 'switch.light'},
                 {role: /^switch(\.light)?$|^state$/,           indicator: false, type: 'boolean', write: false,      enums: roleOrEnumLight, name: 'ON_ACTUAL',   required: false, defaultRole: 'switch.light'},
                 patternWorking,
@@ -416,7 +462,7 @@ function ChannelDetector() {
         },
         light: {
             states: [
-                {role: /^switch(\.light)?$|^state$/,           indicator: false, type: 'boolean', write: true,       enums: roleOrEnumLight, name: 'SET',         required: true, defaultRole: 'switch.light'},
+                {role: /^switch(\.light)?$|^state$/,           indicator: false, type: 'boolean', write: true,       enums: roleOrEnumLight, name: 'SET',         required: true,  defaultRole: 'switch.light'},
                 // optional
                 {role: /^switch(\.light)?$|^state$/,           indicator: false, type: 'boolean', write: false,      enums: roleOrEnumLight, name: 'ACTUAL',      required: false, defaultRole: 'switch.light'},
                 patternWorking,
@@ -429,7 +475,7 @@ function ChannelDetector() {
         },
         volume: {
             states: [
-                {role: /^level\.volume$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: true,       name: 'SET',         required: true,  defaultRole: 'level.volume'},
+                {role: /^level\.volume$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: true,       name: 'SET',         required: true,   defaultRole: 'level.volume'},
                 // optional
                 {role: /^value\.volume$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: false,      name: 'ACTUAL',      required: false,  defaultRole: 'value.volume'},
                 {role: /^media\.mute$/,                     indicator: false, type: 'boolean',                               write: true,       name: 'MUTE',        required: false,  defaultRole: 'media.mute'},
@@ -457,8 +503,8 @@ function ChannelDetector() {
         },
         location: {
             states: [
-                {role: /^value\.gps\.longitude$/,                  indicator: false, type: 'number',  write: false,      name: 'LONGITUDE',     required: true,  defaultRole: 'value.gps.longitude'},
-                {role: /^value\.gps\.latitude$/,                   indicator: false, type: 'number',  write: false,      name: 'LATITUDE',      required: true,  defaultRole: 'value.gps.latitude'},
+                {role: /^value\.gps\.longitude$/,                  indicator: false, type: 'number',  write: false,      name: 'LONGITUDE',     required: true,  defaultRole: 'value.gps.longitude', defaultUnit: '°'},
+                {role: /^value\.gps\.latitude$/,                   indicator: false, type: 'number',  write: false,      name: 'LATITUDE',      required: true,  defaultRole: 'value.gps.latitude', defaultUnit: '°'},
                 // optional
                 {role: /^value\.gps\.elevation$/,                  indicator: false, type: 'number',  write: false,      name: 'ELEVATION',     required: false,  defaultRole: 'value.gps.elevation'},
                 {role: /^value\.radius$|value\.gps\.radius$/,      indicator: false, type: 'number',  write: false,      name: 'RADIUS',        required: false,  defaultRole: 'value.gps.radius'},
@@ -485,7 +531,7 @@ function ChannelDetector() {
         },
         levelSlider: {
             states: [
-                {role: /^level(\..*)?$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: true,       name: 'SET',         required: true, defaultRole: 'level'},
+                {role: /^level(\..*)?$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: true,       name: 'SET',         required: true, defaultRole: 'level', defaultUnit: '%'},
                 {role: /^value(\..*)?$/,                   indicator: false, type: 'number',  min: 'number', max: 'number', write: false,      name: 'ACTUAL',      required: false, defaultRole: 'value'},
                 patternWorking,
                 patternUnreach,
@@ -517,10 +563,22 @@ function ChannelDetector() {
             ],
             type: Types.button
         },
+        buttonSensor: {
+            states: [
+                {role: /^button(\.[.\w]+)?$/,           indicator: false, type: 'boolean', read: true, write: false,       name: 'PRESS',         required: true,  defaultRole: 'button.press'},
+                // optional
+                {role: /^button\.long/,                 indicator: false, type: 'boolean', read: true, write: false,       name: 'PRESS_LONG',    required: false, defaultRole: 'button.long'},
+                patternUnreach,
+                patternLowbat,
+                patternMaintain,
+                patternError
+            ],
+            type: Types.buttonSensor
+        },
         temperature: {
             states: [
-                {role: /temperature$/,             indicator: false, write: false, type: 'number',  name: 'ACTUAL',     required: true,  defaultRole: 'value.temperature'},
-                {role: /humidity$/,                indicator: false, write: false, type: 'number',  name: 'SECOND',     required: false, defaultRole: 'value.humidity'},
+                {role: /temperature$/,             indicator: false, write: false, type: 'number',  name: 'ACTUAL',     required: true,  defaultRole: 'value.temperature', defaultUnit: '°C'},
+                {role: /humidity$/,                indicator: false, write: false, type: 'number',  name: 'SECOND',     required: false, defaultRole: 'value.humidity', defaultUnit: '%'},
                 patternUnreach,
                 patternLowbat,
                 patternMaintain,
@@ -530,7 +588,7 @@ function ChannelDetector() {
         },
         humidity: {
             states: [
-                {role: /humidity$/,                indicator: false, write: false, type: 'number',  name: 'ACTUAL',     required: true, defaultRole: 'value.humidity'},
+                {role: /humidity$/,                indicator: false, write: false, type: 'number',  name: 'ACTUAL',     required: true, defaultRole: 'value.humidity', defaultUnit: '%'},
                 patternUnreach,
                 patternLowbat,
                 patternMaintain,
@@ -632,7 +690,7 @@ function ChannelDetector() {
 
     function getAllStatesInChannel(keys, channelId) {
         var list = [];
-        var reg = new RegExp('^' + channelId.replace(/\./g, '\\.') + '\\.[^.]+$');
+        var reg = new RegExp('^' + channelId.replace(/([$^.)(\[\]{}])/g, '\\$1') + '\\.[^.]+$');
         keys.forEach(function(_id) {
             if (reg.test(_id)) list.push(_id);
         });
@@ -640,7 +698,7 @@ function ChannelDetector() {
     }
     function getAllStatesInDevice(keys, channelId) {
         var list = [];
-        var reg = new RegExp('^' + channelId.replace(/\./g, '\\.') + '\\.[^.]+\\.[^.]+$');
+        var reg = new RegExp('^' + channelId.replace(/([$^.)(\[\]{}])/g, '\\$1') + '\\.[^.]+\\.[^.]+$');
         keys.forEach(function(_id) {
             if (reg.test(_id)) list.push(_id);
         });

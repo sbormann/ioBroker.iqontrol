@@ -6215,6 +6215,26 @@ function renderView(viewId, triggeredByReconnection){
 			}
 			//--PressureIndicator
 			viewContent += "<div data-groups='" + device.commonRole + "' class='viewShuffleTile iQontrolDevicePressureIndicator" + ((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true")?" hideDeviceIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceIfActive") == "true")?" hideDeviceIfActive":"") + "' " + (((getDeviceOptionValue(device, "hideDeviceIfInactive") == "true") || (getDeviceOptionValue(device, "hideDeviceIfActive") == "true"))?"style='visibility: hidden; height:0px;' ":"") + "data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+				//--Hide
+				/* if (deviceLinkedStateIds["HIDE"]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _device = device;
+						var _deviceIdEscaped = deviceIdEscaped;
+						var _linkedHideId = deviceLinkedStateIds["HIDE"];
+						var updateFunction = function(){
+							var stateHide = getStateObject(_linkedGlowHideId);
+							var invertHide = (getDeviceOptionValue(_device, "invertHide") == "true");
+							var hide = !(stateHide && stateHide.val || false);
+							if (invertHide) hide = !hide;
+							if(hide){
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("hideDevice");
+							} else {
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("hideDevice");
+							}
+						};
+						viewUpdateFunctions[_linkedHideId].push(updateFunction);
+					})(); //<--End Closure
+				} */
 				//--Glow
 				if (deviceLinkedStateIds["GLOW_INACTIVE_COLOR"]){
 					viewContent += "<div class='iQontrolDeviceGlow' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
@@ -6928,7 +6948,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedTemperatureId].push(function(){
 										var stateTemperature = getStateObject(_linkedTemperatureId);
-										if (stateTemperature && typeof stateTemperature.val !== udef){
+										if (stateTemperature && typeof stateTemperature.val !== udef && stateTemperature.val !== ""){
 											var val = stateTemperature.plainText;
 											var unit = stateTemperature.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
@@ -6957,7 +6977,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedBrightnessId].push(function(){
 										var stateBrightness = getStateObject(_linkedBrightnessId);
-										if (stateBrightness && typeof stateBrightness.val !== udef){
+										if (stateBrightness && typeof stateBrightness.val !== udef && stateBrightness.val !== ""){
 											var val = stateBrightness.plainText;
 											var unit = stateBrightness.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
@@ -6986,7 +7006,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedSlatsLevelId].push(function(){
 										var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
-										if (stateSlatsLevel && typeof stateSlatsLevel.val !== udef){
+										if (stateSlatsLevel && typeof stateSlatsLevel.val !== udef && stateSlatsLevel.val !== ""){
 											var val = stateSlatsLevel.plainText;
 											var unit = stateSlatsLevel.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
@@ -7015,7 +7035,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedVoltageId].push(function(){
 										var stateVoltage = getStateObject(_linkedVoltageId);
-										if (stateVoltage && typeof stateVoltage.val !== udef){
+										if (stateVoltage && typeof stateVoltage.val !== udef && stateVoltage.val !== ""){
 											var val = stateVoltage.plainText;
 											var unit = stateVoltage.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
@@ -7199,7 +7219,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
 										var stateVolume = getStateObject(_linkedVolumeId);
-										if (stateVolume && typeof stateVolume.val !== udef){
+										if (stateVolume && typeof stateVolume.val !== udef && stateVolume.val !== ""){
 											var val = stateVolume.plainText;
 											var unit = stateVolume.unit;
 											var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
@@ -7244,15 +7264,15 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedElementId = element.value;
 										var _sliderIndex = sliderIndex;
 										var updateFunction = function(){
-											var statElement = getStateObject(_linkedElementId);
-											if (statElement && typeof statElement.val !== udef){
-												var val = statElement.plainText;
-												var unit = statElement.unit;
+											var stateElement = getStateObject(_linkedElementId);
+											if (stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
+												var val = stateElement.plainText;
+												var unit = stateElement.unit;
 												var digits = getDeviceOptionValue(_device, "infoARoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(statElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
-												if (statElement.plainText == statElement.val) val = val + unit;
+												if (stateElement.plainText == stateElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show();
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAText").html(val);
 											} else {
@@ -7288,7 +7308,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedHumidityId].push(function(){
 										var stateHumidity = getStateObject(_linkedHumidityId);
-										if (stateHumidity && typeof stateHumidity.val !== udef){
+										if (stateHumidity && typeof stateHumidity.val !== udef && stateHumidity.val !== ""){
 											var val = stateHumidity.plainText;
 											var unit = stateHumidity.unit;
 											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
@@ -7317,7 +7337,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _sliderIndex = sliderIndex;
 									viewUpdateFunctions[_linkedPowerId].push(function(){
 										var statePower = getStateObject(_linkedPowerId);
-										if (statePower && typeof statePower.val !== udef){
+										if (statePower && typeof statePower.val !== udef && statePower.val !== ""){
 											var val = statePower.plainText;
 											var unit = statePower.unit;
 											var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
@@ -7350,7 +7370,7 @@ function renderView(viewId, triggeredByReconnection){
 									var updateFunction = function(){
 										var stateElapsed = getStateObject(_linkedElapsedId);
 										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active");
-										if (active && stateElapsed && typeof stateElapsed.val !== udef && !isNaN(stateElapsed.val)){
+										if (active && stateElapsed && typeof stateElapsed.val !== udef && stateElapsed.val !== "" && !isNaN(stateElapsed.val)){
 											var val = secondsToHHMMSS(stateElapsed.val);
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
@@ -7390,15 +7410,15 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedElementId = element.value;
 										var _sliderIndex = sliderIndex;
 										var updateFunction = function(){
-											var statElement = getStateObject(_linkedElementId);
-											if (statElement && typeof statElement.val !== udef){
-												var val = statElement.plainText;
-												var unit = statElement.unit;
+											var stateElement = getStateObject(_linkedElementId);
+											if (stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
+												var val = stateElement.plainText;
+												var unit = stateElement.unit;
 												var digits = getDeviceOptionValue(_device, "infoBRoundDigits") || 1;
 												if (!isNaN(val)) {
-													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(statElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
+													if (val < -100 || val > 100) val = Math.round(val); else val = Math.round(stateElement.valFull * Math.pow(10, digits)) / Math.pow(10, digits);
 												}
-												if (statElement.plainText == statElement.val) val = val + unit;
+												if (stateElement.plainText == stateElement.val) val = val + unit;
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
 											} else {
@@ -8621,7 +8641,8 @@ function viewShuffleFilterHideDeviceIfInactive(){
 		shuffleInstance.filter(function(shuffleElement){
 			return !(
 				($(shuffleElement).hasClass('hideDeviceIfInactive') && !$(shuffleElement).hasClass('active'))
-				||	($(shuffleElement).hasClass('hideDeviceIfActive') && $(shuffleElement).hasClass('active'))
+				|| ($(shuffleElement).hasClass('hideDeviceIfActive') && $(shuffleElement).hasClass('active'))
+				|| $(shuffleElement).hasClass('hideDevice')
 			);
 		});
 	});
@@ -12966,21 +12987,21 @@ function initPanels(){
 		panelLinkedStateIdsToFetchAndUpdate = [];
 	});
 	//Make PanelOpener clickable
-	$('.panelOpener').on('click', function(){
+	$('.panelOpener').off('click').on('click', function(){
 		openPanel($(this).data('position'));
 	});
 	//Make PanelCloser clickable
-	$('.panelCloser').on('click', function(){
+	$('.panelCloser').off('click').on('click', function(){
 		closePanel($(this).data('position'));
 	});
 	//Hide PanelOpener when opened
-	$('.panel').on('panelbeforeopen', function(){ $('.panelOpener.' + $(this).data('position')).css('width', '0'); });
-	$('.panel').on('panelbeforeclose', function(){ $('.panelOpener.' + $(this).data('position')).css('width', ''); });
+	$('.panel').off('panelbeforeopen').on('panelbeforeopen', function(){ $('.panelOpener.' + $(this).data('position')).css('width', '0'); });
+	$('.panel').off('panelbeforeclose').on('panelbeforeclose', function(){ $('.panelOpener.' + $(this).data('position')).css('width', ''); });
 	//Resize after opening and closing
-	$('.panel').on('panelopen', function(){
+	$('.panel').off('panelopen').on('panelopen', function(){
 		resizeDevicesToFitScreen();
 	});
-	$('.panel').on('panelclose', function(){
+	$('.panel').off('panelclose').on('panelclose', function(){
 		resizeDevicesToFitScreen();
 	});
 }

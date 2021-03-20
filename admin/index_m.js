@@ -3389,6 +3389,20 @@ var channelDetectorMatchTable = {
 								"ERROR": "ERROR"
 							}
 						},
+	"airCondition": 	{
+							matchingRole: "iQontrolThermostat",
+							matchingStates: {
+								"SET": "SET_TEMPERATURE",
+								"MODE": "CONTROL_MODE",
+								"ACTUAL": "TEMPERATURE",
+								"HUMIDITY": "HUMIDITY",
+								"BOOST": "BOOST_STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},		
     "blind": 			{
 							matchingRole: "iQontrolBlind",
 							matchingStates: {
@@ -3405,6 +3419,16 @@ var channelDetectorMatchTable = {
 							matchingRole: "iQontrolButton",
 							matchingStates: {
 								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+	"buttonSensor":		{
+							matchingRole: "iQontrolButton",
+							matchingStates: {
+								"PRESS": "STATE",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
@@ -3708,6 +3732,15 @@ var channelDetectorMatchTable = {
 							matchingRole: "iQontrolValue",
 							matchingStates: {
 								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+	"vacuumCleaner": 	{
+							matchingRole: null,
+							matchingStates: {
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
@@ -4820,7 +4853,13 @@ function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
-			if (command === 'delete') {
+			if (command === 'edit') {
+				$(this).on('click', function (event) {
+					var _viewIndex = $(this).data('index');
+					M.Tabs.getInstance($('.tabs')).select('tabDevices');
+					setTimeout(function(){ $('#devicesSelectedView').val(_viewIndex).select().trigger('change'); }, 10);
+				});
+			} else if (command === 'delete') {
 				$(this).on('click', function (event) {
 					var _viewIndex = $(this).data('index');
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, "*", null, null);

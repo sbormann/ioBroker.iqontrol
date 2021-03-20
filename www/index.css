@@ -776,15 +776,7 @@ html.noscroll body {
 			transition: all 1s;
 	overflow: hidden;
 }
-.iQontrolDevice:not(.active) .iQontrolDeviceBackgroundIframeWrapper.hideIfInactive {
-	pointer-events:none !important;
-	opacity: 0 !important;
-}
-.iQontrolDevice.active .iQontrolDeviceBackgroundIframeWrapper.hideIfActive {
-	pointer-events:none !important;
-	opacity: 0 !important;
-}
-.iQontrolDevice.enlarged .iQontrolDeviceBackgroundIframeWrapper.hideIfEnlarged {
+.iQontrolDevice:not(.active) .iQontrolDeviceBackgroundIframeWrapper.hideIfInactive, .iQontrolDevice.active .iQontrolDeviceBackgroundIframeWrapper.hideIfActive, .iQontrolDevice.enlarged .iQontrolDeviceBackgroundIframeWrapper.hideIfEnlarged {
 	pointer-events:none !important;
 	opacity: 0 !important;
 }
@@ -838,14 +830,7 @@ html.noscroll body {
 	   -moz-transform: scale3d(1.0,1.0,1);
 			transform: scale3d(1.0,1.0,1);
 }
-.iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active) {
-	pointer-events:none !important;
-	opacity: 0 !important;
-	-webkit-transition: opacity 1.25s ease-in;
-	   -moz-transition: opacity 1.25s ease-in;
-			transition: opacity 1.25s ease-in;
-}
-.iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
+.iQontrolDevice.active .iQontrolDeviceBackgroundImage:not(.active), .iQontrolDevice:not(.active) .iQontrolDeviceBackgroundImage.active {
 	pointer-events:none !important;
 	opacity: 0 !important;
 	-webkit-transition: opacity 1.25s ease-in;
@@ -891,10 +876,7 @@ html.noscroll body {
 			transition: all 1s;
 	overflow: hidden;
 }
-.iQontrolDevice.active .iQontrolDeviceBackground:not(.active) {
-	opacity: 0 !important;
-}
-.iQontrolDevice:not(.active) .iQontrolDeviceBackground.active {
+.iQontrolDevice.active .iQontrolDeviceBackground:not(.active), .iQontrolDevice:not(.active) .iQontrolDeviceBackground.active {
 	opacity: 0 !important;
 }
 .iQontrolDevice.enlarged .iQontrolDeviceBackground.hideIfEnlarged {

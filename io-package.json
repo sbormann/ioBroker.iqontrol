@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.6.4",
+        "version": "1.6.5",
         "news": {
+            "1.6.5": {
+                "en": "If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now, Fixed noZoomOnHover for device icon on large screens, The options of the change device-options-function are now sorted alphabetically, Added option to configure appereance of VALVE_STATES for thermostats, Fixed recognition of blank icon for device-filling states and added padding, if badge is present, Added option to INFO_A/B to define the number of digits to be rounded to, Added option to customs-dialog to define the number of digits to be rounded to, Now also numerical values are treatet as strings, if common.role is string (before it was converted to level), Now empty values on a value-list are not longer ignored, Some fine adjustments to panel, Updated type-detector, Added edit button to views, INFO_A/B will be hidden if value is empty.",
+                "de": "Wenn Sie die gerätespezifische Option 'Zurück zu OFF_SET_VALUE nach [ms]' der Schaltflächen auf 0 ändern, wechselt die Schaltfläche jetzt. Das Problem noZoomOnHover für Gerätesymbol auf großen Bildschirmen wurde behoben. Die Optionen der Funktion zum Ändern der Geräteoptionen sind jetzt alphabetisch sortiert ",
+                "ru": "Если вы измените для конкретного устройства параметр «Вернуться к OFF_SET_VALUE через [мс]» кнопок на 0, кнопка теперь переключается, Исправлено noZoomOnHover для значка устройства на больших экранах, Параметры функции изменения параметров устройства теперь отсортированы в алфавитном порядке ",
+                "pt": "Se você alterar a opção específica do dispositivo 'Retornar para OFF_SET_VALUE após [ms]' dos botões para 0, o botão alterna agora, Fixed noZoomOnHover para o ícone do dispositivo em telas grandes, As opções para alterar a função de opções do dispositivo agora são classificadas em ordem alfabética ",
+                "nl": "Als je de apparaatspecifieke optie 'Terug naar OFF_SET_VALUE na [ms]' van knoppen verandert in 0, schakelt de knop nu, Fixed noZoomOnHover voor apparaatpictogram op grote schermen, De opties van de wijzig apparaat-opties-functie zijn nu alfabetisch gesorteerd ",
+                "fr": "Si vous modifiez l'option spécifique à l'appareil 'Revenir à OFF_SET_VALUE après [ms]' des boutons sur 0, le bouton bascule maintenant, Correction de noZoomOnHover pour l'icône de l'appareil sur les grands écrans, Les options de la fonction de modification des options de l'appareil sont maintenant triées par ordre alphabétique ",
+                "it": "Se si modifica su 0 l'opzione specifica del dispositivo \"Ritorna a OFF_SET_VALUE dopo [ms]\" dei pulsanti, il pulsante si attiva ora, Fixed noZoomOnHover per l'icona del dispositivo su schermi di grandi dimensioni, Le opzioni della funzione di modifica delle opzioni del dispositivo sono ora ordinate alfabeticamente ",
+                "es": "Si cambia la opción específica del dispositivo 'Volver a OFF_SET_VALUE después de [ms]' de los botones a 0, el botón cambia ahora, NoZoomOnHover fijo para el icono del dispositivo en pantallas grandes, Las opciones de la función cambiar opciones de dispositivo ahora están ordenadas alfabéticamente ",
+                "pl": "Jeśli zmienisz opcję specyficzną dla urządzenia „Return to OFF_SET_VALUE after [ms]” przycisków na 0, przycisk przełącza się teraz, Naprawiono noZoomOnHover dla ikony urządzenia na dużych ekranach, Opcje funkcji zmiany opcji urządzenia są teraz posortowane alfabetycznie ",
+                "zh-cn": "如果将设备特定的选项“在[ms]后返回到OFF_SET_VALUE”按钮更改为0，则该按钮现在切换，固定了大屏幕上设备图标的noZoomOnHover，更改设备选项功能的选项现在按字母顺序排序"
+            },
             "1.6.4": {
                 "en": "Added select id dialog to change-device-states function.",
                 "de": "Dialogfeld \"ID auswählen\" zur Funktion zum Ändern des Gerätezustands hinzugefügt.",
