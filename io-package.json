@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.6.5",
+        "version": "1.6.6",
         "news": {
+            "1.6.6": {
+                "en": "Fix for double admin page.",
+                "de": "Fix für doppelte Admin-Seite.",
+                "ru": "Исправление для двойной страницы администратора.",
+                "pt": "Correção para página de administração dupla.",
+                "nl": "Oplossing voor dubbele admin-pagina.",
+                "fr": "Correction de la double page d'administration.",
+                "it": "Risolto il problema con la doppia pagina di amministrazione.",
+                "es": "Corrección de la página de administración doble.",
+                "pl": "Naprawiono podwójną stronę administratora.",
+                "zh-cn": "修复了双重管理页面。"
+            },
             "1.6.5": {
                 "en": "If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now, Fixed noZoomOnHover for device icon on large screens, The options of the change device-options-function are now sorted alphabetically, Added option to configure appereance of VALVE_STATES for thermostats, Fixed recognition of blank icon for device-filling states and added padding, if badge is present, Added option to INFO_A/B to define the number of digits to be rounded to, Added option to customs-dialog to define the number of digits to be rounded to, Now also numerical values are treatet as strings, if common.role is string (before it was converted to level), Now empty values on a value-list are not longer ignored, Some fine adjustments to panel, Updated type-detector, Added edit button to views, INFO_A/B will be hidden if value is empty.",
                 "de": "Wenn Sie die gerätespezifische Option 'Zurück zu OFF_SET_VALUE nach [ms]' der Schaltflächen auf 0 ändern, wechselt die Schaltfläche jetzt. Das Problem noZoomOnHover für Gerätesymbol auf großen Bildschirmen wurde behoben. Die Optionen der Funktion zum Ändern der Geräteoptionen sind jetzt alphabetisch sortiert ",
@@ -283,7 +295,8 @@
             {
                 "web": ">=3.0.12"
             }
-        ]
+        ],
+        "installedFrom": "sbormann/ioBroker.iqontrol#master"
     },
     "native": {
         "demotoolbar": [

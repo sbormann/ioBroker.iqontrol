@@ -1397,6 +1397,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.6.6 (2021-03-21)
+* (sbormann) Fix for double admin page.
+
 ### 1.6.5 (2021-03-20)
 * (sbormann) If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now. 
 * (sbormann) Fixed noZoomOnHover for device icon on large screens. 
