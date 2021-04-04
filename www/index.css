@@ -1266,6 +1266,7 @@ html.noscroll body {
 	width: 16px;	
 	cursor: pointer;
 }
+/* -- jqte */
 .jqte { 
     width:300px; 
     max-width:100%;
@@ -1322,6 +1323,24 @@ html.noscroll body {
 	   -moz-box-shadow: none !important;
 	        box-shadow: none !important; 
 }
+/* --- anypicker -- */
+.ap-theme-ios .ap-button:last-child, .ap-theme-ios .ap-button:not(:last-child)  {
+	color: #000000;
+}
+.ap-theme-ios .ap-content-switch-tab {
+	border: 1px solid #5a5a5a;
+	font-size: 0.7em;
+	color: #5a5a5a;
+	text-shadow: none;
+}
+.ap-theme-ios .ap-content-switch-selected {
+	background: #5a5a5a;
+	color: #FFFFFF;
+	text-shadow: none;
+}
+.ap-theme-ios .ap-component-label {
+	color: #5a5a5a;
+}
 .iQontrolDialogIframeWrapper {
 	-webkit-overflow-scrolling: touch;
 	height: 85vh;
@@ -1349,6 +1368,14 @@ html.noscroll body {
 	width: 100%;
 	height: 100%;
 	border: none;
+}
+.iQontrolDialogTime, .iQontrolDialogSecondTime {
+	font-weight: bold;
+}
+.iQontrolDialogTimeDistance, .iQontrolDialogSecondTimeDistance {
+	position: absolute; 
+	right: 18px; 
+	margin-top: -7px;
 }
 .iQontrolDialogMediaText.artist {
 	font-weight: bold;

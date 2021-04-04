@@ -130,6 +130,433 @@ var jqueryIcons = [
 	"video"
 ]
 
+var channelDetectorMatchTable = {
+    "unknown": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+	"airCondition": 	{
+							matchingRole: "iQontrolThermostat",
+							matchingStates: {
+								"SET": "SET_TEMPERATURE",
+								"MODE": "CONTROL_MODE",
+								"ACTUAL": "TEMPERATURE",
+								"HUMIDITY": "HUMIDITY",
+								"BOOST": "BOOST_STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},		
+    "blind": 			{
+							matchingRole: "iQontrolBlind",
+							matchingStates: {
+								"SET": "LEVEL",
+								"STOP": "STOP",
+								"DIRECTION": "DIRECTION",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "button": 			{
+							matchingRole: "iQontrolButton",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+	"buttonSensor":		{
+							matchingRole: "iQontrolButton",
+							matchingStates: {
+								"PRESS": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "camera": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "url": 				{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "image": 			{
+							matchingRole: "iQontrolExternalLink",
+							matchingStates: {
+								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "dimmer": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "LEVEL",
+								"ON_SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "door": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "fireAlarm": 		{
+							matchingRole: "iQontrolFire",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "floodAlarm": 		{
+							matchingRole: "iQontrolFlood",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "gate": 			{
+							matchingRole: "iQontrolDoor",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "humidity": 		{
+							matchingRole: "iQontrolHumidity",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "info": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "instance": 		{
+							matchingRole: null,
+							matchingStates:  {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "light": 			{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "lock": 			{
+							matchingRole: "iQontrolDoorWithLock",
+							matchingStates: {
+								"SET": "LOCK_STATE",
+								"OPEN": "LOCK_OPEN",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "location": 		{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "media": 			{
+							matchingRole: "iQontrolMedia",
+							matchingStates: {
+								"ACTUAL": "POWER_SWITCH",
+								"STATE": "STATE",
+								"PLAY": "PLAY",
+								"PAUSE": "PAUSE",
+								"STOP": "STOP",
+								"NEXT": "NEXT",
+								"PREV": "PREV",
+								"SHUFFLE": "SHUFFLE",
+								"REPEAT": "REPEAT",
+								"ARTIST": "ARTIST",
+								"ALBUM": "ALBUM",
+								"TITLE": "TITLE",
+								"EPISODE": "EPISODE",
+								"SEASON": "SEASON",
+								"COVER": "COVER_URL",
+								"DURATION": "DURATION",
+								"ELAPSED": "ELAPSED",
+								"SEEK": "ELAPSED",
+								"TRACK": "TRACK_NUMBER",
+								"VOLUME_ACTUAL": "VOLUME",
+								"VOLUME": "VOLUME",
+								"MUTE": "MUTE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "motion": 			{
+							matchingRole: "iQontrolMotion",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "BRIGHTNESS",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgb": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "ct": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"TEMPERATURE": "CT",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "rgbSingle": 		{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"RGB": "ALTERNATIVE_COLORSPACE_VALUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "hue": 				{
+							matchingRole: "iQontrolLight",
+							matchingStates: {
+								"HUE": "HUE",
+								"DIMMER": "LEVEL",
+								"BRIGHTNESS": "COLOR_BRIGHTNESS",
+								"SATURATION": "SATURATION",
+								"TEMPERATURE": "CT",
+								"ON": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "slider": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "socket": 			{
+							matchingRole: "iQontrolSwitch",
+							matchingStates: {
+								"SET": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "temperature": 		{
+							matchingRole: "iQontrolTemperature",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"SECOND": "HUMIDITY",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "thermostat": 		{
+							matchingRole: "iQontrolThermostat",
+							matchingStates: {
+								"SET": "SET_TEMPERATURE",
+								"ACTUAL": "TEMPERATURE",
+								"HUMIDITY": "HUMIDITY",
+								"BOOST": "BOOST_STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "valve": 			{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volume": 			{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+	"vacuumCleaner": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "volumeGroup": 		{
+							matchingRole: "iQontrolValue",
+							matchingStates: {
+								"SET": "LEVEL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "window": 			{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "windowTilt": 		{
+							matchingRole: "iQontrolWindow",
+							matchingStates: {
+								"ACTUAL": "STATE",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherCurrent": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "weatherForecast": 	{
+							matchingRole: null,
+							matchingStates: {
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "warning": 			{
+							matchingRole: null,
+							matchingStates:{
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						}
+}
+
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view",
@@ -2469,6 +2896,126 @@ var iQontrolRoles = {
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"}
 										}
 									},
+	"iQontrolDateAndTime":			{
+										name: "Date and Time",
+										states: ["STATE", "SUBJECT", "TIME", "RINGING", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+										icon: "/images/icons/time_alarmclock_on.png",
+										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "time_alarmclock_on.png;time_clock_on.png;time_timer_on.png;time_duration_on.png;time_calendar_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png", default: ""},
+											icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_on.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											timeCaption: {name: "Caption for TIME", type: "text", default: ""},
+											timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "x"},
+											timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "dddd, DD.MM.YYYY HH:mm:ss"},
+											dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
+											dateAndTimeTileActiveWhenRinging: {name: "Tile is always active when RINGING is active", type: "checkbox", default: "true"},
+											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive"},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
+											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
+											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
+											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "datapoint", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
+											stateHeightAdaptsContentInactive: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is inactive", type: "checkbox", default: "false"},
+											stateFillsDeviceInactive: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is inactive", type: "checkbox", default: "false"},
+											stateBigFontInactive: {name: "Use big font for STATE, if the device is inactive", type: "checkbox", default: "false"},
+											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
+											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
+											stateHeightAdaptsContentActive: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is active", type: "checkbox", default: "false"},
+											stateFillsDeviceActive: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is active", type: "checkbox", default: "false"},
+											stateBigFontActive: {name: "Use big font for STATE, if the device is active", type: "checkbox", default: "false"},
+											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
+											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
+											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
+											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
+											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
+											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
+											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
+											stateHeightAdaptsContentEnlarged: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is enlarged", type: "checkbox", default: "false"},
+											stateFillsDeviceEnlarged: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is enlarged", type: "checkbox", default: "false"},
+											stateBigFontEnlarged: {name: "Use big font for STATE, if the device is enlarged", type: "checkbox", default: "false"},
+											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
+											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
+											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
+											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
+											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
+											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
+											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
+											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_UNREACH: {name: "UNREACH Icon", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_ERROR: {name: "ERROR Icon", type: "section"},
+											invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"},
+											SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section"},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_VIEW/URL/HTML", type: "number", min: "0", max: "50", default: ""},
+											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											SECTION_BADGE: {name: "BADGE", type: "section"},
+											badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"},
+											SECTION_GLOW: {name: "GLOW", type: "section"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
+											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											SECTION_ADDITIONAL_CONTROLS: {name: "ADDITIONAL_CONTROLS", type: "section"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
+											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
+											SECTION_ADDITIONAL_INFO: {name: "ADDITIONAL_INFO", type: "section"},
+											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"}
+										}
+									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
@@ -3379,433 +3926,6 @@ var iQontrolRoles = {
 									}
 };
 
-var channelDetectorMatchTable = {
-    "unknown": 			{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-	"airCondition": 	{
-							matchingRole: "iQontrolThermostat",
-							matchingStates: {
-								"SET": "SET_TEMPERATURE",
-								"MODE": "CONTROL_MODE",
-								"ACTUAL": "TEMPERATURE",
-								"HUMIDITY": "HUMIDITY",
-								"BOOST": "BOOST_STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},		
-    "blind": 			{
-							matchingRole: "iQontrolBlind",
-							matchingStates: {
-								"SET": "LEVEL",
-								"STOP": "STOP",
-								"DIRECTION": "DIRECTION",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "button": 			{
-							matchingRole: "iQontrolButton",
-							matchingStates: {
-								"SET": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-	"buttonSensor":		{
-							matchingRole: "iQontrolButton",
-							matchingStates: {
-								"PRESS": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "camera": 			{
-							matchingRole: "iQontrolExternalLink",
-							matchingStates: {
-								"URL": "URL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "url": 				{
-							matchingRole: "iQontrolExternalLink",
-							matchingStates: {
-								"URL": "URL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "image": 			{
-							matchingRole: "iQontrolExternalLink",
-							matchingStates: {
-								"URL": "URL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "dimmer": 			{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"SET": "LEVEL",
-								"ON_SET": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "door": 			{
-							matchingRole: "iQontrolDoor",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "fireAlarm": 		{
-							matchingRole: "iQontrolFire",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "floodAlarm": 		{
-							matchingRole: "iQontrolFlood",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "gate": 			{
-							matchingRole: "iQontrolDoor",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "humidity": 		{
-							matchingRole: "iQontrolHumidity",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "info": 			{
-							matchingRole: "iQontrolValue",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "instance": 		{
-							matchingRole: null,
-							matchingStates:  {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "light": 			{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"SET": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "lock": 			{
-							matchingRole: "iQontrolDoorWithLock",
-							matchingStates: {
-								"SET": "LOCK_STATE",
-								"OPEN": "LOCK_OPEN",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "location": 		{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "media": 			{
-							matchingRole: "iQontrolMedia",
-							matchingStates: {
-								"ACTUAL": "POWER_SWITCH",
-								"STATE": "STATE",
-								"PLAY": "PLAY",
-								"PAUSE": "PAUSE",
-								"STOP": "STOP",
-								"NEXT": "NEXT",
-								"PREV": "PREV",
-								"SHUFFLE": "SHUFFLE",
-								"REPEAT": "REPEAT",
-								"ARTIST": "ARTIST",
-								"ALBUM": "ALBUM",
-								"TITLE": "TITLE",
-								"EPISODE": "EPISODE",
-								"SEASON": "SEASON",
-								"COVER": "COVER_URL",
-								"DURATION": "DURATION",
-								"ELAPSED": "ELAPSED",
-								"SEEK": "ELAPSED",
-								"TRACK": "TRACK_NUMBER",
-								"VOLUME_ACTUAL": "VOLUME",
-								"VOLUME": "VOLUME",
-								"MUTE": "MUTE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "motion": 			{
-							matchingRole: "iQontrolMotion",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"SECOND": "BRIGHTNESS",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "rgb": 				{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"DIMMER": "LEVEL",
-								"BRIGHTNESS": "COLOR_BRIGHTNESS",
-								"SATURATION": "SATURATION",
-								"TEMPERATURE": "CT",
-								"ON": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "ct": 				{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"TEMPERATURE": "CT",
-								"DIMMER": "LEVEL",
-								"BRIGHTNESS": "COLOR_BRIGHTNESS",
-								"SATURATION": "SATURATION",
-								"ON": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "rgbSingle": 		{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"RGB": "ALTERNATIVE_COLORSPACE_VALUE",
-								"DIMMER": "LEVEL",
-								"BRIGHTNESS": "COLOR_BRIGHTNESS",
-								"SATURATION": "SATURATION",
-								"TEMPERATURE": "CT",
-								"ON": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "hue": 				{
-							matchingRole: "iQontrolLight",
-							matchingStates: {
-								"HUE": "HUE",
-								"DIMMER": "LEVEL",
-								"BRIGHTNESS": "COLOR_BRIGHTNESS",
-								"SATURATION": "SATURATION",
-								"TEMPERATURE": "CT",
-								"ON": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "slider": 			{
-							matchingRole: "iQontrolValue",
-							matchingStates: {
-								"SET": "LEVEL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "socket": 			{
-							matchingRole: "iQontrolSwitch",
-							matchingStates: {
-								"SET": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "temperature": 		{
-							matchingRole: "iQontrolTemperature",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"SECOND": "HUMIDITY",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "thermostat": 		{
-							matchingRole: "iQontrolThermostat",
-							matchingStates: {
-								"SET": "SET_TEMPERATURE",
-								"ACTUAL": "TEMPERATURE",
-								"HUMIDITY": "HUMIDITY",
-								"BOOST": "BOOST_STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "valve": 			{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "volume": 			{
-							matchingRole: "iQontrolValue",
-							matchingStates: {
-								"SET": "LEVEL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-	"vacuumCleaner": 	{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "volumeGroup": 		{
-							matchingRole: "iQontrolValue",
-							matchingStates: {
-								"SET": "LEVEL",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "window": 			{
-							matchingRole: "iQontrolWindow",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "windowTilt": 		{
-							matchingRole: "iQontrolWindow",
-							matchingStates: {
-								"ACTUAL": "STATE",
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "weatherCurrent": 	{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "weatherForecast": 	{
-							matchingRole: null,
-							matchingStates: {
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						},
-    "warning": 			{
-							matchingRole: null,
-							matchingStates:{
-								"UNREACH": "UNREACH",
-								"CONNECTED": "UNREACH",
-								"LOWBAT": "BATTERY",
-								"ERROR": "ERROR"
-							}
-						}
-}
-
 //Delcarations
 const udef = 'undefined';
 var link;
@@ -4171,6 +4291,13 @@ function getHistoryInstances(callback){
 		}
 	}
 	callback && callback();
+}
+
+//fixedEncodeURIComponents (encodes !, ', (, ), and *)	
+function fixedEncodeURIComponent(str) {
+	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+		return '%' + c.charCodeAt(0).toString(16);
+	});
 }
 
 //File-Operations
@@ -5177,7 +5304,7 @@ function load(settings, onChange) {
 				} else { //Normal device
 					if (views[devicesSelectedView].devices[deviceIndex].commonRole){
 						$(this).next('span').remove();
-						$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name) + '</span>');
+						$(this).after('<span style="font-size:x-small;">' + _(iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole] && iQontrolRoles[views[devicesSelectedView].devices[deviceIndex].commonRole].name || "") + '</span>');
 					} else {
 						$(this).next('span').remove();
 						$(this).after('<span style="font-size:x-small; color: red;">' + _('Please assign a role in device settings') + '</span>');
@@ -5414,12 +5541,22 @@ function load(settings, onChange) {
 					selectOptions.forEach(function(option){
 						var parts = option.split('/');
 						if (parts.length < 2) parts.push(parts[0]);
-						selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
+						selectOptionsContent += "        <option value='" + parts[0] + "' " + (type == "multipleSelect" ? ((value.indexOf(parts[0]) > -1)?'selected':'') : ((parts[0] == value)?'selected':'') ) + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
 					});
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
 					dialogDeviceEditOptionsContent += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='select' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'>" + selectOptionsContent + "</select>";
 					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'></label>";
 					dialogDeviceEditOptionsContent += "    <span class='translate'>" + _(name) + "</span>";
+					dialogDeviceEditOptionsContent += "</div>";
+					break;
+					
+					case "combobox":
+					var options = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].selectOptions;
+					var iconsFromOption = (typeof iQontrolRoles[dialogDeviceEditCommonRole].options[entry].iconsFromOption != udef ? iQontrolRoles[dialogDeviceEditCommonRole].options[entry].iconsFromOption : false)
+					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options, iconsFromOption: iconsFromOption});
+					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m6 l6'>";
+					dialogDeviceEditOptionsContent += "    <input class='value dialogDeviceEditOption' data-option='" + entry + "' data-type='combobox' type='text' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "'  value='" + value + "' placeholder='' />";
+					dialogDeviceEditOptionsContent += "    <label for='dialogDeviceEditOption_" + entry + "' class='translate'>" + _(name) + "</label>";
 					dialogDeviceEditOptionsContent += "</div>";
 					break;
 
@@ -5546,7 +5683,7 @@ function load(settings, onChange) {
 			}
 			$('select.dialogDeviceEditOption').select();
 			dialogDeviceEditOptionsComboboxes.forEach(function(entry){
-				enhanceTextInputToCombobox('#' + entry.id, entry.options, true);
+				enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true), entry.onSelect);
 			});
 			$('.dialogDeviceEditOptionButton.inputEdit').off('click').on('click', function(){
 				$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
@@ -6597,12 +6734,6 @@ function load(settings, onChange) {
 		}
 	}
 
-//fixedEncodeURIComponents (encodes !, ', (, ), and *)	
-function fixedEncodeURIComponent(str) {
-	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
-		return '%' + c.charCodeAt(0).toString(16);
-	});
-}
 	//Widget-Settings
 	function getWidgetSettings(filename, path, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
 		var querystring = filename.split('?')[1] || "";
@@ -6685,6 +6816,14 @@ function fixedEncodeURIComponent(str) {
 									dialogWidgetSettingsUrlParametersString += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									break;
+									
+									case "combobox":
+									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: options.join(';'), iconsFromOption: false});
+									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m6 l6'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									break;
 
@@ -6776,7 +6915,7 @@ function fixedEncodeURIComponent(str) {
 								$('#dialogWidgetSettingsUrlParameters').html(dialogWidgetSettingsUrlParametersString).show();
 								$('select.dialogWidgetSettingsUrlParameters').select();
 								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
-									enhanceTextInputToCombobox('#' + entry.id, entry.options, true);
+									enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));
 								});
 								$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
 									$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));

@@ -295,8 +295,7 @@
             {
                 "web": ">=3.0.12"
             }
-        ],
-        "installedFrom": "sbormann/ioBroker.iqontrol#master"
+        ]
     },
     "native": {
         "demotoolbar": [

@@ -9,6 +9,113 @@ var homeId = getUrlParameter('renderView') || '';	//If not specified, the first 
 var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
 var isBackgroundView = getUrlParameter('isBackgroundView')
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+var momentToAnypickerDisplayFormatTokens = {
+	yyyy:		"",
+	yyy:		"",
+	yy:			"",
+	yo:			"",
+	y:			"",
+	NNNNN:		"",
+	NNNN:		"",
+	NNN:		"",
+	NN:			"",
+	N:			"",
+
+	gggg:		"",
+	gg:			"",
+	ww:			"",
+	wo:			"",
+	w:			"",
+	e:			"",
+	dddd:		"DDDD",
+	ddd:		"DDD",
+	dd:			"DD",
+	d:			"",
+	do:			"",
+	GGGG:		"",
+	GG:			"",
+	WW:			"",
+	Wo:			"",
+	WW:			"",
+	W:			"",
+	E:			"",
+
+	YYYYYY:		"yyyy",
+	YYYY:		"yyyy",
+	YY:			"yy",
+	Y:			"y",
+	Q:			"",
+	Qo:			"",
+	MMMM:		"MMMM",
+	MM:			"MM",
+	Mo:			"M",
+	MMM:		"MMM",
+	M:			"M",
+	DDDD:		"",
+	DDD:		"",
+	DD:			"dd",
+	Do:			"d",
+	D:			"d",
+	X:			"",
+	x:			"",
+
+	LLLL:		"",
+	LLL:		"",
+	LTS:		"",
+	LT:			"",
+	LL:			"",
+	L:			"",
+
+	HH:			"HH",
+	H:			"H",
+	hh:			"hh",
+	h:			"h",
+	kk:			"HH",
+	k:			"h",
+	a:			"aa",
+	A:			"AA",
+	mm:			"mm",
+	m:			"m",
+	ss:			"ss",
+	s:			"s",
+	SSSSSSSSS:	"",
+	SSSSSSSS:	"",
+	SSSSSSS:	"",
+	SSSSSS:		"",
+	SSSSS:		"",
+	SSSS:		"",
+	SSS:		"",
+	SS:			"",
+	S:			"",
+	ZZ:			"",
+	Z:			""
+}
+var anypickerDisplayFormatToAnypickerPickerFormatTokens = {
+	DDDD:		"",
+	DDD:		"",
+	DD:			"",
+	yyyy:		"yyyy",
+	yy:			"yy",
+	y:			"y",
+	MMMM:		"MMMM",
+	MMM:		"MMM",
+	MM:			"MM",
+	M:			"M",
+	dd:			"dd",
+	d:			"d",
+	HH:			"HH",
+	H:			"H",
+	hh:			"hh",
+	h:			"h",
+	aa:			"aa",
+	a:			"a",
+	AA:			"AA",
+	A:			"A",
+	mm:			"mm",
+	m:			"m",
+	ss:			"ss",
+	s:			"s",
+}
 var iQontrolRoles = {
 	"iQontrolView": 				{
 										name: "Link to other view",
@@ -2348,6 +2455,126 @@ var iQontrolRoles = {
 											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"}
 										}
 									},
+	"iQontrolDateAndTime":			{
+										name: "Date and Time",
+										states: ["STATE", "SUBJECT", "TIME", "RINGING", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+										icon: "/images/icons/time_alarmclock_on.png",
+										options: {
+											SECTION_ICONS: {name: "Icons", type: "section"},
+											icon_on: {name: "Icon on", type: "icon", defaultIcons: "time_alarmclock_on.png;time_clock_on.png;time_timer_on.png;time_duration_on.png;time_calendar_on.png", default: ""},
+											icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png", default: ""},
+											icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_on.png", default: ""},
+											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
+											timeCaption: {name: "Caption for TIME", type: "text", default: ""},
+											timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "x"},
+											timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "dddd, DD.MM.YYYY HH:mm:ss"},
+											dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
+											dateAndTimeTileActiveWhenRinging: {name: "Tile is always active when RINGING is active", type: "checkbox", default: "true"},
+											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive"},
+											SECTION_GENERAL: {name: "General", type: "section"},
+											readonly: {name: "Readonly", type: "checkbox", default: "false"},
+											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
+											renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"},
+											SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section"},
+											clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
+											clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
+											clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
+            								clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
+											noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
+											iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
+											hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE_CONDITION: {name: "Conditions for an Active Tile", type: "section"},
+											tileActiveStateId: {name: "State ID (empty = STATE/LEVEL will be used)", type: "datapoint", default: ""},
+											tileActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											tileActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_TILE_INACTIVE: {name: "Tile-Behaviour if device is inactive", type: "section"},
+											sizeInactive: {name: "Size of tile, if device is inactive", type: "select", selectOptions: "/Normal (1x1);narrowIfInactive shortIfInactive/Just Icon (0.5x0.5);narrowIfInactive/Narrow (0.5x1);narrowIfInactive highIfInactive/Narrow High (0.5x2);narrowIfInactive xhighIfInactive/Narrow Extra High(0.5x3);shortIfInactive/Short (1x0.5);shortIfInactive wideIfInactive/Short Wide (2x0.5);shortIfInactive xwideIfInactive/Short Extra Wide (3x0.5);wideIfInactive/Wide (2x1);xwideIfInactive/Extra Wide (3x1);highIfInactive/High (1x2);xhighIfInactive/Extra High (1x3);wideIfInactive highIfInactive/Big (2x2);xwideIfInactive highIfInactive/Big Wide (3x2);wideIfInactive xhighIfInactive/Big High (2x3);xwideIfInactive xhighIfInactive/Extra Big (3x3);fullWidthIfInactive aspect-1-1IfInactive/Full Width, 1:1;fullWidthIfInactive aspect-4-3IfInactive/Full Width, 4:3;fullWidthIfInactive aspect-3-2IfInactive/Full Width, 3:2;fullWidthIfInactive aspect-16-9IfInactive/Full Width, 16:9;fullWidthIfInactive aspect-21-9IfInactive/Full Width, 21:9;fullWidthIfInactive aspect-1-1-limitedIfInactive/Full Width, 1:1 (limited to screen height);fullWidthIfInactive aspect-4-3-limitedIfInactive/Full Width, 4:3 (limited to screen height);fullWidthIfInactive aspect-3-2-limitedIfInactive/Full Width, 3:2 (limited to screen height);fullWidthIfInactive aspect-16-9-limitedIfInactive/Full Width, 16:9 (limited to screen height);fullWidthIfInactive aspect-21-9-limitedIfInactive/Full Width, 21:9 (limited to screen height);fullWidthIfInactive fullHeightIfInactive/Full Screen", default: ""},
+											stateHeightAdaptsContentInactive: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is inactive", type: "checkbox", default: "false"},
+											stateFillsDeviceInactive: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is inactive", type: "checkbox", default: "false"},
+											stateBigFontInactive: {name: "Use big font for STATE, if the device is inactive", type: "checkbox", default: "false"},
+											bigIconInactive: {name: "Show big icon, if device is inactive", type: "checkbox", default: "false"},
+											iconNoPointerEventsInactive: {name: "Ignore mouse events for the icon, if device is inactive", type: "checkbox", default: "false"},
+											transparentIfInactive: {name: "Make background transparent, if device is inactive", type: "checkbox", default: "false"},
+											noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
+											hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
+											hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
+											hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
+											hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
+											hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"},
+											SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section"},
+											sizeActive: {name: "Size of tile, if device is active", type: "select", selectOptions: "/Normal (1x1);narrowIfActive shortIfActive/Just Icon (0.5x0.5);narrowIfActive/Narrow (0.5x1);narrowIfActive highIfActive/Narrow High (0.5x2);narrowIfActive xhighIfActive/Narrow Extra High(0.5x3);shortIfActive/Short (1x0.5);shortIfActive wideIfActive/Short Wide (2x0.5);shortIfActive xwideIfActive/Short Extra Wide (3x0.5);wideIfActive/Wide (2x1);xwideIfActive/Extra Wide (3x1);highIfActive/High (1x2);xhighIfActive/Extra High (1x3);wideIfActive highIfActive/Big (2x2);xwideIfActive highIfActive/Big Wide (3x2);wideIfActive xhighIfActive/Big High (2x3);xwideIfActive xhighIfActive/Extra Big (3x3);fullWidthIfActive aspect-1-1IfActive/Full Width, 1:1;fullWidthIfActive aspect-4-3IfActive/Full Width, 4:3;fullWidthIfActive aspect-3-2IfActive/Full Width, 3:2;fullWidthIfActive aspect-16-9IfActive/Full Width, 16:9;fullWidthIfActive aspect-21-9IfActive/Full Width, 21:9;fullWidthIfActive aspect-1-1-limitedIfActive/Full Width, 1:1 (limited to screen height);fullWidthIfActive aspect-4-3-limitedIfActive/Full Width, 4:3 (limited to screen height);fullWidthIfActive aspect-3-2-limitedIfActive/Full Width, 3:2 (limited to screen height);fullWidthIfActive aspect-16-9-limitedIfActive/Full Width, 16:9 (limited to screen height);fullWidthIfActive aspect-21-9-limitedIfActive/Full Width, 21:9 (limited to screen height);fullWidthIfActive fullHeightIfActive/Full Screen", default: ""},
+											stateHeightAdaptsContentActive: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is active", type: "checkbox", default: "false"},
+											stateFillsDeviceActive: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is active", type: "checkbox", default: "false"},
+											stateBigFontActive: {name: "Use big font for STATE, if the device is active", type: "checkbox", default: "false"},
+											bigIconActive: {name: "Show big icon, if device is active", type: "checkbox", default: "false"},
+											iconNoPointerEventsActive: {name: "Ignore mouse events for the icon, if device is active", type: "checkbox", default: "false"},
+											transparentIfActive: {name: "Make background transparent, if device is active", type: "checkbox", default: "false"},
+											noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
+											hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
+											hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+											hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
+											hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
+											hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
+											hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"},
+											SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section"},
+											sizeEnlarged: {name: "Size of tile, if device is enlarged", type: "select", selectOptions: "/Normal (1x1);narrowIfEnlarged shortIfEnlarged/Just Icon (0.5x0.5);narrowIfEnlarged/Narrow (0.5x1);narrowIfEnlarged highIfEnlarged/Narrow High (0.5x2);narrowIfEnlarged xhighIfEnlarged/Narrow Extra High(0.5x3);shortIfEnlarged/Short (1x0.5);shortIfEnlarged wideIfEnlarged/Short Wide (2x0.5);shortIfEnlarged xwideIfEnlarged/Short Extra Wide (3x0.5);wideIfEnlarged/Wide (2x1);xwideIfEnlarged/Extra Wide (3x1);highIfEnlarged/High (1x2);xhighIfEnlarged/Extra High (1x3);wideIfEnlarged highIfEnlarged/Big (2x2);xwideIfEnlarged highIfEnlarged/Big Wide (3x2);wideIfEnlarged xhighIfEnlarged/Big High (2x3);xwideIfEnlarged xhighIfEnlarged/Extra Big (3x3);fullWidthIfEnlarged aspect-1-1IfEnlarged/Full Width, 1:1;fullWidthIfEnlarged aspect-4-3IfEnlarged/Full Width, 4:3;fullWidthIfEnlarged aspect-3-2IfEnlarged/Full Width, 3:2;fullWidthIfEnlarged aspect-16-9IfEnlarged/Full Width, 16:9;fullWidthIfEnlarged aspect-21-9IfEnlarged/Full Width, 21:9;fullWidthIfEnlarged aspect-1-1-limitedIfEnlarged/Full Width, 1:1 (limited to screen height);fullWidthIfEnlarged aspect-4-3-limitedIfEnlarged/Full Width, 4:3 (limited to screen height);fullWidthIfEnlarged aspect-3-2-limitedIfEnlarged/Full Width, 3:2 (limited to screen height);fullWidthIfEnlarged aspect-16-9-limitedIfEnlarged/Full Width, 16:9 (limited to screen height);fullWidthIfEnlarged aspect-21-9-limitedIfEnlarged/Full Width, 21:9 (limited to screen height);fullWidthIfEnlarged fullHeightIfEnlarged/Full Screen", default: "fullWidthIfEnlarged fullHeightIfEnlarged"},
+											stateHeightAdaptsContentEnlarged: {name: "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is enlarged", type: "checkbox", default: "false"},
+											stateFillsDeviceEnlarged: {name: "Size of STATE fills the complete device (this may interfere with other content), if the device is enlarged", type: "checkbox", default: "false"},
+											stateBigFontEnlarged: {name: "Use big font for STATE, if the device is enlarged", type: "checkbox", default: "false"},
+											bigIconEnlarged: {name: "Show big icon, if device is enlarged", type: "checkbox", default: "true"},
+											iconNoPointerEventsEnlarged: {name: "Ignore mouse events for the icon, if device is enlarged", type: "checkbox", default: "false"},
+											transparentIfEnlarged: {name: "Make background transparent, if device is enlarged", type: "checkbox", default: "false"},
+											noOverlayEnlarged: {name: "Remove overlay of tile, if device is enlarged", type: "checkbox", default: "false"},
+											tileEnlargeStartEnlarged: {name: "Tile is enlarged on start", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonInactive: {name: "Show Enlarge-Button, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowButtonActive: {name: "Show Enlarge-Button, if device is active", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuInactive: {name: "Show Enlarge in Menu, if device is inactive", type: "checkbox", default: "false"},
+											tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
+											visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
+											hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
+											hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
+											hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
+											hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"},
+											SECTION_TIMESTAMP: {name: "Timestamp", type: "section"},
+											addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+											showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""},
+											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
+											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
+											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
+											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
+											SECTION_UNREACH: {name: "UNREACH Icon", type: "section"},
+											invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
+											SECTION_ERROR: {name: "ERROR Icon", type: "section"},
+											invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"},
+											SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section"},
+											backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
+											backgroundURLPadding: {name: "Apply padding to BACKGROUND_VIEW/URL/HTML", type: "number", min: "0", max: "50", default: ""},
+											backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											backgroundURLNoPointerEvents: {name: "Direct mouse events to the tile instead to the content of BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
+											SECTION_BADGE: {name: "BADGE", type: "section"},
+											badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"},
+											SECTION_GLOW: {name: "GLOW", type: "section"},
+											invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"},
+											SECTION_URLHTML: {name: "URL/HTML", type: "section"},
+											popupWidth: {name: "Width [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
+											popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
+											openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
+											popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"},
+											SECTION_ADDITIONAL_CONTROLS: {name: "ADDITIONAL_CONTROLS", type: "section"},
+											additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
+											additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
+											SECTION_ADDITIONAL_INFO: {name: "ADDITIONAL_INFO", type: "section"},
+											additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
+											additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"}
+										}
+									},
 	"iQontrolValue": 				{
 										name: "Value",
 										states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
@@ -3480,6 +3707,64 @@ if (!Array.from) {
   }());
 }
 
+//Check if browser supports passive event listeners
+var supportsPassive = false;
+try {
+	var opts = Object.defineProperty({}, 'passive', {
+		get: function() {
+			supportsPassive = true;
+		}
+	});
+	window.addEventListener("testPassive", null, opts);
+	window.removeEventListener("testPassive", null, opts);
+} catch (e) {}
+
+//Extend moment.js to format durations
+moment.duration.fn.format = function (input) {
+    var output = input;
+    var milliseconds = this.asMilliseconds();
+    var totalMilliseconds = 0;
+    var replaceRegexps = {
+        years: /Y(?!Y)/g,
+        months: /M(?!M)/g,
+        weeks: /W(?!W)/g,
+        days: /D(?!D)/g,
+        hours: /H(?!H)/g,
+        minutes: /m(?!m)/g,
+        seconds: /s(?!s)/g,
+        milliseconds: /S(?!S)/g
+    }
+    var matchRegexps = {
+        years: /Y/g,
+        months: /M/g,
+        weeks: /W/g,
+        days: /D/g,
+        hours: /H/g,
+        minutes: /m/g,
+        seconds: /s/g,
+        milliseconds: /S/g
+    }
+    for (var r in replaceRegexps) {
+        if (replaceRegexps[r].test(output)) {
+            var as = 'as'+r.charAt(0).toUpperCase() + r.slice(1);
+            var value = new String(Math.floor(moment.duration(milliseconds - totalMilliseconds)[as]()));
+            var replacements = output.match(matchRegexps[r]).length - value.length;
+            output = output.replace(replaceRegexps[r], value);
+
+            while (replacements > 0 && replaceRegexps[r].test(output)) {
+                output = output.replace(replaceRegexps[r], '0');
+                replacements--;
+            }
+            output = output.replace(matchRegexps[r], '');
+
+            var temp = {};
+            temp[r] = value;
+            totalMilliseconds += moment.duration(temp).asMilliseconds();
+        }
+    }
+    return output;
+}
+
 //++++++++++ SOCKET  FUNCTIONS ++++++++++
 /*Initialization of socket is done at the end of the document in the $(document).ready-section*/
 function getStarted(triggeredByReconnection){
@@ -3703,14 +3988,17 @@ function getDevice(deviceId){
 }
 
 function getDeviceOptionValue(device, option){
+	var value = null;
     if (device && typeof device === "object" && typeof device.options !== udef) {
         const deviceOption = device.options.find(element => element.option === option);
-        if (deviceOption && deviceOption.value !== udef) return deviceOption.value;
-        if (device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
-            return iQontrolRoles[device.commonRole].options[option].default || null;
+        if (deviceOption && deviceOption.value !== udef) {
+			value = deviceOption.value;
+		} else if (device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
+			value = iQontrolRoles[device.commonRole].options[option].default || "";
         }
     }
-    return null;
+	if (typeof value == "string" && iQontrolRoles[device.commonRole].options[option].type == "multipleSelect") value = value.split(',');
+    return value;
 }
 
 function getLinkedStateId(device, state, stateId){
@@ -4831,7 +5119,7 @@ function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an e
 	var iframeStylePointerEvent;
 	// otherwise, move the DIV from anywhere inside the DIV:
 	dragHandle.addEventListener('mousedown', dragStart);
-	dragHandle.addEventListener('touchstart', dragStart);
+	dragHandle.addEventListener('touchstart', dragStart, (supportsPassive ? { passive: true } : false));
 	function dragStart(e) {
 		console.log("DRAG START");
 		e = e || window.event;
@@ -5221,6 +5509,36 @@ function isValidColorString(colorString){
 function modulo(n, m){
 	return ((n % m) + m) %m;
 }
+
+function replaceTokens(string, tokenObject){
+	for(token in tokenObject){
+		var re = new RegExp(token.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + "(?![^{]*})", "g");
+		string = string.replace(re, "{" + tokenObject[token] + "}");
+	}
+	string = string.replace(/{/g, "").replace(/}/g, "");
+	return string;
+}
+
+function getTimeFormat(string, anyPickerMode){
+	var flagsToken = ["P", "tb", "tn", "to"];
+	var flags = [];
+	flagsToken.forEach(function(token){
+		if(string.indexOf(token) > -1){
+			flags.push(token);
+			var re = new regex(token, "g");
+			string = string.replace(re, "");
+		}
+	});
+	var type = "";
+	if(anyPickerMode){
+		if(string.indexOf("y") > -1 && string.indexOf("M") > -1 && string.indexOf("d") > -1) type += "date";
+		if(((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) type += "time";
+	} else {
+		if((string.indexOf("Y") > -1 && string.indexOf("M") > -1 && string.indexOf("D") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("L") > -1) type += "date";
+		if((((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("LLL") > -1 || string.indexOf("LT") > -1) type += "time";
+	}
+	return {type: type, flags: flags, string: string};
+};
 
 //++++++++++ OPTIONS ++++++++++
 function handleOptions(){
@@ -6176,7 +6494,7 @@ function renderView(viewId, triggeredByReconnection){
 			//--Get linked States
 			//  While getting the LinkedStateId the correspondig usedObject is also fetched
 			var deviceLinkedStateIds = {};
-			if(device.commonRole && typeof iQontrolRoles[device.commonRole].states != udef){
+			if(device.commonRole && iQontrolRoles[device.commonRole] && typeof iQontrolRoles[device.commonRole].states != udef){
 				iQontrolRoles[device.commonRole].states.forEach(function(roleState){
 					var stateId = deviceId + "." + roleState;
 					var linkedStateId = getLinkedStateId(device, roleState, stateId);
@@ -6722,6 +7040,12 @@ function renderView(viewId, triggeredByReconnection){
 							if (icons["25"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged25" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged25"] || "./images/icons/battery_25.png") + "' " + (variableSrc["charged25"] ? "data-variablesrc='" + variableSrc["charged25"] + "' " : "") + "/>";
 							if (icons["10"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged10" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged10"] || "./images/icons/battery_10.png") + "' " + (variableSrc["charged10"] ? "data-variablesrc='" + variableSrc["charged10"] + "' " : "") + "/>";
 							if (icons["charging"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charging overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charging"] || "./images/icons/battery_charging_overlay.png") + "' " + (variableSrc["charging"] ? "data-variablesrc='" + variableSrc["charging"] + "' " : "") + "/>";
+							break;
+
+							case "iQontrolDateAndTime":
+							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/time_alarmclock_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
+							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/time_alarmclock_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
+							if (icons["ringing"] !== "none") iconContent += "<image class='iQontrolDeviceIcon ringing overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["ringing"] || "./images/icons/bell_ringing_on.png") + "' " + (variableSrc["ringing"] ? "data-variablesrc='" + variableSrc["ringing"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolValue":
@@ -7866,23 +8190,7 @@ function renderView(viewId, triggeredByReconnection){
 												result = level.val;
 												resultText = level.plainText;
 											}
-											if(level && typeof level.val !== udef && val == min){ //Closed
-												tileActiveStandard = false;
-												if(level && typeof level.plainText == 'number') resultText = _("closed");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
-											} else if(level && typeof level.val !== udef && val == max){ //Opened
-												tileActiveStandard = true;
-												if(level && typeof level.plainText == 'number') resultText = _("opened");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
-											} else if(direction && typeof direction.val !== udef && direction.val.toString() == directionOpeningValue.toString()){ //Middle, but opening
+											if(direction && typeof direction.val !== udef && direction.val.toString() == directionOpeningValue.toString()){ //Middle, but opening
 												tileActiveStandard = true;
 												resultText = _("opening");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
@@ -7898,6 +8206,22 @@ function renderView(viewId, triggeredByReconnection){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").addClass("active");
+											} else if(level && typeof level.val !== udef && val == min){ //Closed
+												tileActiveStandard = false;
+												if(level && typeof level.plainText == 'number') resultText = _("closed");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
+											} else if(level && typeof level.val !== udef && val == max){ //Opened
+												tileActiveStandard = true;
+												if(level && typeof level.plainText == 'number') resultText = _("opened");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.middle").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.opening").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.closing").removeClass("active");
 											} else { //Middle with no movement
 												tileActiveStandard = true;
 												if(direction && typeof direction.val !== udef && direction.val.toString() == directionUncertainValue.toString()) resultText = "<i>" + resultText + "</i>";
@@ -8104,7 +8428,7 @@ function renderView(viewId, triggeredByReconnection){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
 											}
-											if(charging && typeof charging.val !== udef && charging.val){ //Empty
+											if(charging && typeof charging.val !== udef && charging.val){ //Charging
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charging").addClass("active");
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charging").removeClass("active");
@@ -8116,6 +8440,127 @@ function renderView(viewId, triggeredByReconnection){
 										if(_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
 										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 										if(!_linkedStateId && !_linkedChargingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
+									})(); //<--End Closure
+								}
+								break;
+								
+								case "iQontrolDateAndTime":
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['SUBJECT'] || deviceLinkedStateIds['TIME'] || deviceLinkedStateIds['RINGING'] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _device = device;
+										var _deviceIdEscaped = deviceIdEscaped;
+										var _linkedStateId = deviceLinkedStateIds["STATE"];
+										var _linkedSubjectId = deviceLinkedStateIds["SUBJECT"];
+										var _linkedTimeId = deviceLinkedStateIds["TIME"];
+										var _linkedRingingId = deviceLinkedStateIds["RINGING"];
+										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
+										var _timeFormat = getTimeFormat(getDeviceOptionValue(_device, "timeFormat") || "x");
+										var _timeDisplayFormat = getTimeFormat(getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss");
+										var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens("" + _timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+										var _anypickerTimePickerFormat = getTimeFormat(replaceTokens("" + _anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
+										var updateFunction = function(){
+											var state = getStateObject(_linkedStateId);
+											var subject = getStateObject(_linkedSubjectId);
+											var time = getStateObject(_linkedTimeId);
+											var ringing = getStateObject(_linkedRingingId);
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var result = true;
+											var resultText;
+											//state
+											if(state){
+												if(state && typeof state.plainText == 'number'){
+													result = state.val;
+													resultText = result + state.unit;
+												} else if(state){
+													result = state.val;
+													resultText = state.plainText;
+												}
+											}
+											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
+											var tileActiveConditionValue = getDeviceOptionValue(_device, "tileActiveConditionValue");
+											var tileActiveValue = result || 0;
+											if(tileActiveStateId && typeof tileActiveStateId.val != udef){
+												tileActiveValue = tileActiveStateId.val;
+											}
+											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
+											//time
+											var timeMoment = moment(time.val, _timeFormat.string);
+											//distance
+											var nowMoment = moment(new Date());
+											var timeDistanceMoment = timeMoment.clone();
+											if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+												timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											}
+											var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+											var distanceSeconds = distanceMoment.asSeconds();
+											//tileActive
+											if(tileActive == null){
+												var dateAndTimeTileActiveConditions = getDeviceOptionValue(_device, "dateAndTimeTileActiveConditions") || [];
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfStateActive") > -1) tileActive = !(tileActiveValue == false);
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInFuture") > -1 && distanceSeconds < 0) tileActive = false;
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInPast") > -1 && distanceSeconds >= 0) tileActive = false;
+												var dateAndTimeTileActiveWhenRinging = getDeviceOptionValue(_device, "dateAndTimeTileActiveWhenRinging");
+												if(dateAndTimeTileActiveWhenRinging && ringing && typeof ringing.val !== udef && ringing.val) tileActive = true;
+											}
+											if(tileActive){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+											}
+											//resultText
+											var resultTextParts = [];
+											var dateAndTimeShowInState = getDeviceOptionValue(_device, "dateAndTimeShowInState") || "";
+											//--state
+											if((tileActive && dateAndTimeShowInState.indexOf("showStateIfActive") > -1) || (!tileActive && dateAndTimeShowInState.indexOf("showStateIfInactive") > -1)) resultTextParts.push(resultText);
+											//--time
+											if((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
+											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
+											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
+											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
+											) resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+											//--distance
+											//--time
+											if((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
+											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
+											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
+											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
+											) resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+											//--subject
+											var subjectText;
+											if(subject){
+												if(subject && typeof subject.plainText == 'number'){
+													subjectText = result + subject.unit;
+												} else if(subject){
+													subjectText = subject.plainText;
+												}
+												if(subjectText && ((tileActive && dateAndTimeShowInState.indexOf("showSubjectIfActive") > -1) || (!tileActive && dateAndTimeShowInState.indexOf("showSubjectIfInactive") > -1))) resultTextParts.push(subjectText);
+											}
+											resultText = resultTextParts.join(' - ');
+											resultText = addTimestamp(resultText, [state, ringing, subject], [_linkedStateId, _linkedRingingId, _linkedSubjectId], _device, tileActive);
+											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
+											}
+											if(ringing && typeof ringing.val !== udef && ringing.val){ //Ringing
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.ringing").addClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.ringing").removeClass("active");
+											}
+											viewShuffleFilterHideDeviceIfInactive();
+											stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
+										};
+										if(_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
+										if(_linkedSubjectId) viewUpdateFunctions[_linkedSubjectId].push(updateFunction);
+										if(_linkedTimeId) viewUpdateFunctions[_linkedTimeId].push(updateFunction);
+										if(_linkedRingingId) viewUpdateFunctions[_linkedRingingId].push(updateFunction);
+										if(_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
+										if(!_linkedStateId && !_linkedRingingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
@@ -9176,6 +9621,7 @@ function renderDialog(deviceIdEscaped){
 	console.log("renderDialog " + deviceIdEscaped);
 	if (typeof deviceIdEscaped == udef || deviceIdEscaped == "") return;
 	var deviceId = unescape(deviceIdEscaped);
+	$("#DialogContent").html("");
 	fetchConfig(getNamespace(deviceId), function(){
 		var device = getDevice(deviceId);
 		actualDialogId = deviceId;
@@ -9376,6 +9822,7 @@ function renderDialog(deviceIdEscaped){
 							var type = "Switch";
 							if (device.commonRole == "iQontrolMotion") type = "Motion";
 							if (device.commonRole == "iQontrolAlarm") type = "Alarm";
+							if (device.commonRole == "iQontrolDateAndTime") type = "Status";
 							if (device.commonRole == "iQontrolWidget") type = "Enlarge";
 							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
@@ -9704,6 +10151,232 @@ function renderDialog(deviceIdEscaped){
 
 				//--Additional Content
 				switch(device.commonRole){
+					case "iQontrolDateAndTime":
+					//----Subject
+					if(dialogStates["SUBJECT"]){
+						switch(dialogStates["SUBJECT"].type){
+							case "valueList":
+							var type = "Description";
+							dialogContent += "<br>";
+							dialogContent += "<label for='DialogSubjectValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogSubjectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectValueList' id='DialogSubjectValueList' data-native-menu='false'>";
+							for(val in dialogStates["SUBJECT"].valueList){
+								if (dialogStates["SUBJECT"].targetValues && dialogStates["SUBJECT"].custom.showOnlyTargetValues && !dialogStates["SUBJECT"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+								dialogContent += "<option value='" + val + "'>" + _(dialogStates["SUBJECT"].valueList[val]) + "</option>";
+							}
+							if(dialogStates["SUBJECT"].custom.statesAddInput) {
+								dialogContent += "<option value='[INPUT]'>" + (dialogStates["SUBJECT"].custom.statesAddInputCaption || _("Enter other value...")) + "</option>";
+							}
+							dialogContent += "</select>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedSubjectId = dialogLinkedStateIds["SUBJECT"];
+								var updateFunction = function(){
+									var subject = getStateObject(_linkedSubjectId);
+									if (subject){
+										if(typeof subject.val != udef) {
+											var val = subject.val.toString();
+											$("#DialogSubjectValueList").val(val).selectmenu('refresh');
+											if($("#DialogSubjectValueList").val() !== val){ //val is not in option-list
+												if(subject.valueList && typeof subject.valueList[val] !== udef){
+													$("#DialogSubjectValueList").prev("span").html(subject.valueList[val]);
+												} else {
+													$("#DialogSubjectValueList").prev("span").html(val + "&nbsp;");
+												}
+											}
+										}
+										dialogUpdateTimestamp(states[_linkedSubjectId]);
+									}
+								};
+								dialogUpdateFunctions[_linkedSubjectId].push(updateFunction);
+								var bindingFunction = function(){
+									$('.DialogSubjectValueList').on('change', function(e) {
+										var val = $("#DialogSubjectValueList option:selected").val();
+										if(val == "[INPUT]") {
+											val = prompt((dialogStates["SUBJECT"].custom.statesAddInputCaption || _("Enter other value...")));
+											if(val == null) {
+												updateState(_linkedSubjectId);
+												return;
+											}
+											$("#DialogSubjectValueList").prev("span").html(val + "&nbsp;");
+										}
+										setState(_linkedSubjectId, _deviceIdEscaped, val);
+										dialogUpdateTimestamp(states[_linkedSubjectId]);
+									});
+								};
+								dialogBindingFunctions.push(bindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "string": default:
+							var type = "Description";
+							dialogContent += "<br>";
+							dialogContent += "<label for='DialogSubjectString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<textarea class='iQontrolDialogString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectString' id='DialogSubjectString'></textarea>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedSubjectId = dialogLinkedStateIds["SUBJECT"];
+								var updateFunction = function(){
+									var subject = getStateObject(_linkedSubjectId);
+									if (subject){
+										if($("#DialogSubjectString").parent('.jqte_source').length == 0){
+											$("#DialogSubjectString").val(subject.val);
+											$("#DialogSubjectString").textinput('refresh');
+										} else {
+											$("#DialogSubjectString").jqteVal(subject.val);
+										}
+										dialogUpdateTimestamp(states[_linkedSubjectId]);
+									}
+								};
+								dialogUpdateFunctions[_linkedSubjectId].push(updateFunction);
+								var bindingFunction = function(){
+									$('#DialogSubjectString').on('change', function(e) {
+										setState(_linkedSubjectId, _deviceIdEscaped, $("#DialogSubjectString").val(), true);
+										dialogUpdateTimestamp(states[_linkedSubjectId]);
+									});
+								};
+								dialogBindingFunctions.push(bindingFunction);
+							})(); //<--End Closure
+							break;
+						}
+					}
+					//----Time
+					if(dialogStates["TIME"]){
+						var isDuration = false; //++++++++ for further development
+						var type = getDeviceOptionValue(device, "timeCaption") || (isDuration ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
+						dialogContent += "<hr>";
+						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
+						dialogContent += "<span class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogTimeDistance'></span>";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _device = device;
+							var _linkedTimeId = dialogLinkedStateIds["TIME"];
+							var _timeFormat = getTimeFormat(getDeviceOptionValue(_device, "timeFormat") || "x");
+							var _timeDisplayFormat = getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss";
+							var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+							var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
+							if(_timeFormat.type == "date") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[hHaAms]/g, "");
+							if(_timeFormat.type == "time") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[yMd]/g, "");
+							var _anypickerModifyOutput = function(oldMoment, newMoment){
+								var nowMoment = moment();
+								if(_timeFormat.type == "date"){
+									newMoment.hour(0).minute(0).second(0).millisecond(0);
+								} else if(_timeFormat.type == "time"){
+									newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+								} else if(_timeFormat.type == "datetime" && _anypickerTimeDisplayFormat.flags.indexOf("to") == -1){
+									if(_anypickerTimeDisplayFormat.type == "date"){
+										if(_anypickerTimeDisplayFormat.flags.indexOf("tn") > -1){
+											newMoment.hour(nowMoment.hour()).minute(nowMoment.minute()).second(nowMoment.second()).millisecond(0);
+										} else {
+											newMoment.hour(0).minute(0).second(0).millisecond(0);
+										}
+									} else if(_anypickerTimeDisplayFormat.type == "time"){
+										if(_anypickerTimePickerFormat.flags.indexOf("tb") > -1) {
+											newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+										} else if(_anypickerTimePickerFormat.flags.indexOf("tn") > -1) {
+											newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+										} else if (oldMoment.toDate().getTime() > 86400000) {
+											newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+										} else {
+											newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+										}										
+									}
+								}
+								return newMoment;
+							}
+							var updateFunction = function(_stateId, _onlyUpdateDistance){
+								var time = getStateObject(_linkedTimeId);
+								var startDistanceTimer = false;
+								if (time){
+									var timeMoment = moment(time.val, _timeFormat.string);
+									if(!timeMoment.isValid()) timeMoment = moment(0);
+									if(!_onlyUpdateDistance){
+										if(typeof $("#DialogTimeString").data('anypicker') == udef){ //Init AnyPicker
+											$("#DialogTimeString").data('date', timeMoment.toDate());
+											$("#DialogTimeString").AnyPicker({ 
+												mode: "datetime",
+												rowsNavigation: "scroller",
+												showComponentLabel: true,
+												theme: "iOS", // "Default", "iOS", "Android", "Windows"
+												lang: systemLang,
+												onInit: function(){ 
+													$("#DialogTimeString").data('anypicker', this); 
+												},
+												dateTimeFormat: _anypickerTimePickerFormat.string,
+												inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+												selectedDate: timeMoment.toDate(),
+												formatOutput: function (selectedValues){
+													var newMoment = _anypickerModifyOutput(moment($("#DialogTimeString").data('date')), moment(selectedValues.date));
+													$("#DialogTimeString").data('date', newMoment.toDate());
+													return this.formatOutputDates(newMoment.toDate());
+												},
+												onSetOutput: function(label, selectedValues){ 
+													$("#DialogTimeString").trigger('change'); 
+												},
+												nowButton: {
+													markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
+													markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
+													type: "Button",
+													action: function(){ 
+														var newMoment = _anypickerModifyOutput(moment($("#DialogTimeString").data('date')), moment());
+														$("#DialogTimeString").data('date', newMoment.toDate());
+														$("#DialogTimeString").data('anypicker').setSelectedDate(newMoment.toDate());
+														$("#DialogTimeString").data('anypicker').showOrHidePicker();
+														$("#DialogTimeString").trigger('change'); 
+													}
+												},
+												viewSections: {
+													header: [],
+													contentTop: [],
+													contentBottom: [],
+													footer: ["cancelButton", "nowButton", "setButton"]
+												}
+											});
+											startDistanceTimer = true;
+										} else { //Only update time (AnyPicker is already initialized)
+											$("#DialogTimeString").data('date', timeMoment.toDate());
+											$("#DialogTimeString").data('anypicker').setSelectedDate(timeMoment.toDate());
+										}
+									}									
+									//Distance
+									var nowMoment = moment(new Date());
+									var timeDistanceMoment = moment($("#DialogTimeString").data('date'));
+									if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+										timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+									}
+									var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+									var distanceText = "";
+									var distanceSeconds = distanceMoment.asSeconds();
+									if(distanceSeconds >= 86400 || distanceSeconds < 0){
+										distanceText += distanceMoment.locale(systemLang).humanize(true);
+									} else {
+										distanceText += distanceMoment.locale(systemLang).humanize(true);
+										distanceText += ": " + distanceMoment.format("HH:mm:ss");
+									}
+									if(distanceText) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
+									if(_onlyUpdateDistance || startDistanceTimer){ 
+										//Special: Call itsself periodicyally to update distance
+										if(typeof dialogUpdateFunctions[_linkedTimeId] != udef) dialogUpdateFunctions[_linkedTimeId].forEach(function(dialogUpdateFunction){
+											setTimeout(function(){ dialogUpdateFunction(_linkedTimeId, "onlyUpdateDistance"); }, 1000);
+										});
+									}
+									dialogUpdateTimestamp(states[_linkedTimeId]);
+								}
+							};
+							dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
+							var bindingFunction = function(){
+								$('#DialogTimeString').on('change', function(e) {
+									var timeMoment = moment($("#DialogTimeString").data('date'), _timeDisplayFormat);
+									setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
+									dialogUpdateTimestamp(states[_linkedTimeId]);
+								});
+							};
+							dialogBindingFunctions.push(bindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
 					case "iQontrolLight":
 					//----ColorPicker
 					var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || null;
@@ -13384,6 +14057,8 @@ $(document).ready(function(){
 		$('#ViewMain').data('plugin_ptrLight').options.paused = true;
 		$('html').addClass('noscroll');
 	});
+	
+	//Clear everything when Dialog is closed
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";
 		if($('#Toolbar').hasClass('ui-fixed-hidden')) $('#Toolbar').toolbar('show');
