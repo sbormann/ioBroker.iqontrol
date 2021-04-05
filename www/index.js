@@ -8484,9 +8484,13 @@ function renderView(viewId, triggeredByReconnection){
 											}
 											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
 											//time
-											var timeMoment = moment(time.val, _timeFormat.string);
-											//distance
 											var nowMoment = moment(new Date());
+											var timeMoment = moment(time.val, _timeFormat.string);
+											if(!timeMoment.isValid()) timeMoment = moment(0);
+											if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+												timeMoment.year(1970).month(0).date(1);
+											}									
+											//distance
 											var timeDistanceMoment = timeMoment.clone();
 											if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
 												timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
@@ -10289,8 +10293,12 @@ function renderDialog(deviceIdEscaped){
 								var time = getStateObject(_linkedTimeId);
 								var startDistanceTimer = false;
 								if (time){
+									var nowMoment = moment(new Date());
 									var timeMoment = moment(time.val, _timeFormat.string);
 									if(!timeMoment.isValid()) timeMoment = moment(0);
+									if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+										timeMoment.year(1970).month(0).date(1);
+									}									
 									if(!_onlyUpdateDistance){
 										if(typeof $("#DialogTimeString").data('anypicker') == udef){ //Init AnyPicker
 											$("#DialogTimeString").data('date', timeMoment.toDate());
@@ -10340,7 +10348,6 @@ function renderDialog(deviceIdEscaped){
 										}
 									}									
 									//Distance
-									var nowMoment = moment(new Date());
 									var timeDistanceMoment = moment($("#DialogTimeString").data('date'));
 									if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
 										timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
