@@ -3997,7 +3997,7 @@ function getDeviceOptionValue(device, option){
 			value = iQontrolRoles[device.commonRole].options[option].default || "";
         }
     }
-	if (typeof value == "string" && iQontrolRoles[device.commonRole].options[option].type == "multipleSelect") value = value.split(',');
+	if (typeof value == "string" && device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef && iQontrolRoles[device.commonRole].options[option].type == "multipleSelect") value = value.split(',');
     return value;
 }
 
