@@ -1183,7 +1183,7 @@ html.noscroll body {
 	word-wrap: break-word;
 }
 .iQontrolDeviceState.bigFont, .iQontrolDevice.active .iQontrolDeviceState.bigFontIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceState.bigFontIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceState.bigFontIfEnlarged {
-	font-size: 12pt;
+	font-size: 11pt;
 	font-weight: bold;
 }
 .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.transparentIfEnlarged .iQontrolDeviceState {
@@ -1731,7 +1731,7 @@ html.noscroll body {
 		font-size: 13pt;
 	}
 	.iQontrolDeviceState.bigFont, .iQontrolDevice.active .iQontrolDeviceState.bigFontIfActive, .iQontrolDevice:not(.active) .iQontrolDeviceState.bigFontIfInactive, .iQontrolDevice.enlarged .iQontrolDeviceState.bigFontIfEnlarged {
-		font-size: 17pt;
+		font-size: 15pt;
 		font-weight: bold;
 	}
 	.iQontrolDevice.bigIcon .iQontrolDeviceState, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceState, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceState, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceState {

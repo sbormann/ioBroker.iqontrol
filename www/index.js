@@ -2463,14 +2463,14 @@ var iQontrolRoles = {
 											SECTION_ICONS: {name: "Icons", type: "section"},
 											icon_on: {name: "Icon on", type: "icon", defaultIcons: "time_alarmclock_on.png;time_clock_on.png;time_timer_on.png;time_duration_on.png;time_calendar_on.png", default: ""},
 											icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png", default: ""},
-											icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_on.png", default: ""},
+											icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_overlay.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											timeCaption: {name: "Caption for TIME", type: "text", default: ""},
 											timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "x"},
 											timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "dddd, DD.MM.YYYY HH:mm:ss"},
-											dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
+											dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeNotZero/If TIME is not zero;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
 											dateAndTimeTileActiveWhenRinging: {name: "Tile is always active when RINGING is active", type: "checkbox", default: "true"},
-											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive"},
+											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future;showTimeDistanceIfInactiveAndInPast/Show distance to TIME if inactive and in past;showTimeDistanceIfInactiveAndInFuture/Show distance to TIME if inactive and in future;showTimeDistanceIfActiveAndInPast/Show distance to TIME if active and in past;showTimeDistanceIfActiveAndInFuture/Show distance to TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
@@ -7045,7 +7045,7 @@ function renderView(viewId, triggeredByReconnection){
 							case "iQontrolDateAndTime":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/time_alarmclock_on.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/time_alarmclock_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
-							if (icons["ringing"] !== "none") iconContent += "<image class='iQontrolDeviceIcon ringing overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["ringing"] || "./images/icons/bell_ringing_on.png") + "' " + (variableSrc["ringing"] ? "data-variablesrc='" + variableSrc["ringing"] + "' " : "") + "/>";
+							if (icons["ringing"] !== "none") iconContent += "<image class='iQontrolDeviceIcon ringing overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["ringing"] || "./images/icons/bell_ringing_overlay.png") + "' " + (variableSrc["ringing"] ? "data-variablesrc='" + variableSrc["ringing"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolValue":
@@ -8491,16 +8491,23 @@ function renderView(viewId, triggeredByReconnection){
 												timeMoment.year(1970).month(0).date(1);
 											}									
 											//distance
-											var timeDistanceMoment = timeMoment.clone();
-											if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
-												timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											var distanceText = "";
+											if(time.val != 0){
+												var timeDistanceMoment = timeMoment.clone();
+												if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+													timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+												}
+												var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+												var distanceSeconds = distanceMoment.asSeconds();
+												var distanceText = distanceMoment.locale(systemLang).humanize(true);
 											}
-											var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
-											var distanceSeconds = distanceMoment.asSeconds();
 											//tileActive
 											if(tileActive == null){
 												var dateAndTimeTileActiveConditions = getDeviceOptionValue(_device, "dateAndTimeTileActiveConditions") || [];
+												tileActive = true;
+												if(dateAndTimeTileActiveConditions.length == 0) tileActive = false;
 												if(dateAndTimeTileActiveConditions.indexOf("activeIfStateActive") > -1) tileActive = !(tileActiveValue == false);
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeNotZero") > -1 && time.val == 0) tileActive = false;
 												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInFuture") > -1 && distanceSeconds < 0) tileActive = false;
 												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInPast") > -1 && distanceSeconds >= 0) tileActive = false;
 												var dateAndTimeTileActiveWhenRinging = getDeviceOptionValue(_device, "dateAndTimeTileActiveWhenRinging");
@@ -8521,20 +8528,30 @@ function renderView(viewId, triggeredByReconnection){
 											var resultTextParts = [];
 											var dateAndTimeShowInState = getDeviceOptionValue(_device, "dateAndTimeShowInState") || "";
 											//--state
-											if((tileActive && dateAndTimeShowInState.indexOf("showStateIfActive") > -1) || (!tileActive && dateAndTimeShowInState.indexOf("showStateIfInactive") > -1)) resultTextParts.push(resultText);
+											if(resultText && 
+											((tileActive && dateAndTimeShowInState.indexOf("showStateIfActive") > -1) 
+											|| (!tileActive && dateAndTimeShowInState.indexOf("showStateIfInactive") > -1))) resultTextParts.push(resultText);
 											//--time
-											if((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
+											if(timeMoment.isValid &&
+											((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
 											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
 											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
 											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
-											) resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+											)){
+												resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+											}
 											//--distance
-											//--time
-											if((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
-											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
-											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
-											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
-											) resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+											if(distanceText &&
+											((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInFuture") > -1) 
+											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInPast") > -1)
+											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceeIfInactiveAndInFuture") > -1)
+											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfInactiveAndInPast") > -1)
+											)){
+												resultTextParts.push(distanceText);
+												if (_linkedTimeId && viewTimestampElapsedTimerStates.indexOf(_linkedTimeId) == -1){
+													viewTimestampElapsedTimerStates.push(_linkedTimeId);
+												}
+											}
 											//--subject
 											var subjectText;
 											if(subject){
@@ -10348,18 +10365,20 @@ function renderDialog(deviceIdEscaped){
 										}
 									}									
 									//Distance
-									var timeDistanceMoment = moment($("#DialogTimeString").data('date'));
-									if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
-										timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
-									}
-									var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
 									var distanceText = "";
-									var distanceSeconds = distanceMoment.asSeconds();
-									if(distanceSeconds >= 86400 || distanceSeconds < 0){
-										distanceText += distanceMoment.locale(systemLang).humanize(true);
-									} else {
-										distanceText += distanceMoment.locale(systemLang).humanize(true);
-										distanceText += ": " + distanceMoment.format("HH:mm:ss");
+									if(time.val != 0){
+										var timeDistanceMoment = moment($("#DialogTimeString").data('date'));
+										if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+											timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+										}
+										var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+										var distanceSeconds = distanceMoment.asSeconds();
+										if(distanceSeconds >= 86400 || distanceSeconds < 0){
+											distanceText += distanceMoment.locale(systemLang).humanize(true);
+										} else {
+											distanceText += distanceMoment.locale(systemLang).humanize(true);
+											distanceText += ": " + distanceMoment.format("HH:mm:ss");
+										}
 									}
 									if(distanceText) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
 									if(_onlyUpdateDistance || startDistanceTimer){ 
