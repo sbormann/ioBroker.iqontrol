@@ -11345,7 +11345,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedStopSetValueId = dialogLinkedStateIds["STOP_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateStopButton').on('click', function(e) {
-										var stopSetValue = getStateObject(_linkedDownSetValueId);
+										var stopSetValue = getStateObject(_linkedStopSetValueId);
 										setState(_linkedStopId, _deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val !== udef) ? stopSetValue.val : true), true);
 									});
 								};
