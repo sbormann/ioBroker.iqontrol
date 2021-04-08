@@ -1885,7 +1885,7 @@ var iQontrolRoles = {
 									},
 	"iQontrolBlind": 				{
 										name: "Blind",
-										states: ["LEVEL", "DIRECTION", "STOP", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+										states: ["LEVEL", "DIRECTION", "STOP", "STOP_SET_VALUE", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 										icon: "/images/icons/blind_middle.png",
 										options: {
 											SECTION_ICONS: {name: "Icons", type: "section"},
@@ -11311,7 +11311,7 @@ function renderDialog(deviceIdEscaped){
 							var _linkedFavoritePositionSetValueId = dialogLinkedStateIds["FAVORITE_POSITION_SET_VALUE"];
 							var bindingFunction = function(){
 								$('#DialogStateFavoritePositionButton').on('click', function(e) {
-									favoritePositionSetValue = getStateObject(_linkedFavoritePositionSetValueId);
+									var favoritePositionSetValue = getStateObject(_linkedFavoritePositionSetValueId);
 									setState(_linkedFavoritePositionId, _deviceIdEscaped, ((favoritePositionSetValue && favoritePositionSetValue.val) || true), true);
 								});
 							};
@@ -11329,7 +11329,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedDownSetValueId = dialogLinkedStateIds["DOWN_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateDownButton').on('click', function(e) {
-										downSetValue = getStateObject(_linkedDownSetValueId);
+										var downSetValue = getStateObject(_linkedDownSetValueId);
 										setState(_linkedDownId, _deviceIdEscaped, ((downSetValue && typeof downSetValue.val !== udef) ? downSetValue.val : true), true);
 									});
 								};
@@ -11342,9 +11342,11 @@ function renderDialog(deviceIdEscaped){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStopId = dialogLinkedStateIds["STOP"];
+								var _linkedStopSetValueId = dialogLinkedStateIds["STOP_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateStopButton').on('click', function(e) {
-										setState(_linkedStopId, _deviceIdEscaped, true, true);
+										var stopSetValue = getStateObject(_linkedDownSetValueId);
+										setState(_linkedStopId, _deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val !== udef) ? stopSetValue.val : true), true);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -11359,7 +11361,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedUpSetValueId = dialogLinkedStateIds["UP_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateUPButton').on('click', function(e) {
-										upSetValue = getStateObject(_linkedUpSetValueId);
+										var upSetValue = getStateObject(_linkedUpSetValueId);
 										setState(_linkedUpId, _deviceIdEscaped, ((upSetValue && typeof upSetValue.val !== udef) ? upSetValue.val : true), true);
 									});
 								};
