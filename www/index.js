@@ -90,6 +90,92 @@ var momentToAnypickerDisplayFormatTokens = {
 	ZZ:			"",
 	Z:			""
 }
+var momentToDurationDisplayFormatTokens = {
+	yyyy:		"",
+	yyy:		"",
+	yy:			"",
+	yo:			"",
+	y:			"",
+	NNNNN:		"",
+	NNNN:		"",
+	NNN:		"",
+	NN:			"",
+	N:			"",
+
+	gggg:		"",
+	gg:			"",
+	ww:			"",
+	wo:			"",
+	w:			"",
+	e:			"",
+	"dddd,":	"",
+	dddd:		"",
+	"ddd,":		"",
+	ddd:		"",
+	"dd,":		"",
+	dd:			"",
+	"d,":		"",
+	d:			"",
+	do:			"",
+	GGGG:		"",
+	GG:			"",
+	WW:			"",
+	Wo:			"",
+	WW:			"",
+	W:			"",
+	E:			"",
+
+	YYYYYY:		"YYYYYY",
+	YYYY:		"YYYY",
+	YY:			"YY",
+	Y:			"Y",
+	Q:			"",
+	Qo:			"",
+	MMMM:		"MMMM",
+	MM:			"MM",
+	Mo:			"M",
+	MMM:		"MMM",
+	M:			"M",
+	DDDD:		"DDDD",
+	DDD:		"DDD",
+	DD:			"DD",
+	Do:			"D",
+	D:			"D",
+	X:			"s",
+	x:			"ms",
+
+	LLLL:		"",
+	LLL:		"",
+	LTS:		"",
+	LT:			"",
+	LL:			"",
+	L:			"",
+
+	HH:			"HH",
+	H:			"H",
+	hh:			"hh",
+	h:			"h",
+	kk:			"HH",
+	k:			"h",
+	a:			"",
+	A:			"",
+	ms:			"ms",
+	mm:			"mm",
+	m:			"m",
+	ss:			"ss",
+	s:			"s",
+	SSSSSSSSS:	"",
+	SSSSSSSS:	"",
+	SSSSSSS:	"",
+	SSSSSS:		"",
+	SSSSS:		"",
+	SSSS:		"",
+	SSS:		"",
+	SS:			"",
+	S:			"",
+	ZZ:			"",
+	Z:			""
+}
 var anypickerDisplayFormatToAnypickerPickerFormatTokens = {
 	DDDD:		"",
 	DDD:		"",
@@ -2466,11 +2552,11 @@ var iQontrolRoles = {
 											icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_overlay.png", default: ""},
 											SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"},
 											timeCaption: {name: "Caption for TIME", type: "text", default: ""},
-											timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "x"},
-											timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a", default: "dddd, DD.MM.YYYY HH:mm:ss"},
+											timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;P/Period;Pms/Period in milliseconds;Ps/Period in seconds;Pm/Period in minutes", default: "x"},
+											timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;D [Day(s)], H:m:s/D [Day(s)], H:m:s (for Periods);D [Day(s)], HH:mm:ss/D [Day(s)], HH:mm:ss (for Periods)", default: "dddd, DD.MM.YYYY HH:mm:ss"},
 											dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeNotZero/If TIME is not zero;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
 											dateAndTimeTileActiveWhenRinging: {name: "Tile is always active when RINGING is active", type: "checkbox", default: "true"},
-											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future;showTimeDistanceIfInactiveAndInPast/Show distance to TIME if inactive and in past;showTimeDistanceIfInactiveAndInFuture/Show distance to TIME if inactive and in future;showTimeDistanceIfActiveAndInPast/Show distance to TIME if active and in past;showTimeDistanceIfActiveAndInFuture/Show distance to TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive"},
+											dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future;showTimeDistanceIfInactiveAndInPast/Show distance to TIME if inactive and in past;showTimeDistanceIfInactiveAndInFuture/Show distance to TIME if inactive and in future;showTimeDistanceIfActiveAndInPast/Show distance to TIME if active and in past;showTimeDistanceIfActiveAndInFuture/Show distance to TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive,showTimeDistanceIfActiveAndInFuture"},
 											SECTION_GENERAL: {name: "General", type: "section"},
 											readonly: {name: "Readonly", type: "checkbox", default: "false"},
 											renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
@@ -3721,29 +3807,31 @@ try {
 
 //Extend moment.js to format durations
 moment.duration.fn.format = function (input) {
-    var output = input;
+    var output = input || "";
     var milliseconds = this.asMilliseconds();
+	if(output == "") return milliseconds;
     var totalMilliseconds = 0;
     var replaceRegexps = {
-        years: /Y(?!Y)/g,
-        months: /M(?!M)/g,
-        weeks: /W(?!W)/g,
-        days: /D(?!D)/g,
-        hours: /H(?!H)/g,
-        minutes: /m(?!m)/g,
-        seconds: /s(?!s)/g,
-        milliseconds: /S(?!S)/g
+        years: /Y(?!Y)(?![^\[]*\])/g,
+        months: /M(?!M)(?![^\[]*\])/g,
+        weeks: /W(?!W)(?![^\[]*\])/g,
+        days: /D(?!D)(?![^\[]*\])/g,
+        hours: /H(?!H)(?![^\[]*\])/g,
+        minutes: /m(?!m)(?![^\[]*\])/g,
+        seconds: /s(?!s)(?![^\[]*\])/g,
+        milliseconds: /S(?!S)(?![^\[]*\])/g
     }
     var matchRegexps = {
-        years: /Y/g,
-        months: /M/g,
-        weeks: /W/g,
-        days: /D/g,
-        hours: /H/g,
-        minutes: /m/g,
-        seconds: /s/g,
-        milliseconds: /S/g
+        years: /Y(?![^\[]*\])/g,
+        months: /M(?![^\[]*\])/g,
+        weeks: /W(?![^\[]*\])/g,
+        days: /D(?![^\[]*\])/g,
+        hours: /H(?![^\[]*\])/g,
+        minutes: /m(?![^\[]*\])/g,
+        seconds: /s(?![^\[]*\])/g,
+        milliseconds: /S(?![^\[]*\])/g
     }
+	//(?![^\[]*\]) stands for 'not inside []'
     for (var r in replaceRegexps) {
         if (replaceRegexps[r].test(output)) {
             var as = 'as'+r.charAt(0).toUpperCase() + r.slice(1);
@@ -3762,6 +3850,7 @@ moment.duration.fn.format = function (input) {
             totalMilliseconds += moment.duration(temp).asMilliseconds();
         }
     }
+	output = translateTextInsideBrackets(output).replace(/\[/g, "").replace(/\]/g, "");
     return output;
 }
 
@@ -5520,25 +5609,40 @@ function replaceTokens(string, tokenObject){
 }
 
 function getTimeFormat(string, anyPickerMode){
-	var flagsToken = ["P", "tb", "tn", "to"];
+	var flagsToken = ["tb", "tn", "to"];
 	var flags = [];
+	string = translateTextInsideBrackets(string);
 	flagsToken.forEach(function(token){
 		if(string.indexOf(token) > -1){
 			flags.push(token);
-			var re = new regex(token, "g");
+			var re = new RegExp(token, "g");
 			string = string.replace(re, "");
 		}
 	});
 	var type = "";
 	if(anyPickerMode){
-		if(string.indexOf("y") > -1 && string.indexOf("M") > -1 && string.indexOf("d") > -1) type += "date";
-		if(((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) type += "time";
+		if(string.indexOf("P") == "0"){
+			type += "period";
+			string = string.substr(1);
+		} else {
+			if(string.indexOf("y") > -1 && string.indexOf("M") > -1 && string.indexOf("d") > -1) type += "date";
+			if(((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) type += "time";
+		}
 	} else {
-		if((string.indexOf("Y") > -1 && string.indexOf("M") > -1 && string.indexOf("D") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("L") > -1) type += "date";
-		if((((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("LLL") > -1 || string.indexOf("LT") > -1) type += "time";
+		if(string.indexOf("P") == "0"){
+			type += "period";
+			if(isNaN(string[1]) && string[1] != "T") string = string.substr(1); //Not ISO 8601 Format			
+		} else {
+			if((string.indexOf("Y") > -1 && string.indexOf("M") > -1 && string.indexOf("D") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("L") > -1) type += "date";
+			if((((string.indexOf("h") > -1 && (string.indexOf("a") > -1 || string.indexOf("A") > -1)) || string.indexOf("H") > -1) && string.indexOf("m") > -1) || string.indexOf("X") > -1 || string.indexOf("x") > -1 || string.indexOf("LLL") > -1 || string.indexOf("LT") > -1) type += "time";
+		}
 	}
 	return {type: type, flags: flags, string: string};
 };
+
+function translateTextInsideBrackets(string){
+	return string.replace(/\[[\s\S]*?\]/, function(match){return "[" + _(match.slice(1, match.length -1)) + "]";});
+}
 
 //++++++++++ OPTIONS ++++++++++
 function handleOptions(){
@@ -8456,6 +8560,7 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var _timeFormat = getTimeFormat(getDeviceOptionValue(_device, "timeFormat") || "x");
 										var _timeDisplayFormat = getTimeFormat(getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss");
+										var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
 										var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens("" + _timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
 										var _anypickerTimePickerFormat = getTimeFormat(replaceTokens("" + _anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
 										var updateFunction = function(){
@@ -8485,21 +8590,32 @@ function renderView(viewId, triggeredByReconnection){
 											var tileActive = checkCondition(tileActiveValue, tileActiveCondition, tileActiveConditionValue);
 											//time
 											var nowMoment = moment(new Date());
-											var timeMoment = moment(time.val, _timeFormat.string);
+											if(!(time && typeof time.val != udef)) time = {val: 0};
+											if(_timeFormat.type == "period"){
+												var timeMoment = moment.duration(time.val, _timeFormat.string);
+											} else {
+												var timeMoment = moment(time.val, _timeFormat.string);
+											}
 											if(!timeMoment.isValid()) timeMoment = moment(0);
 											if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
 												timeMoment.year(1970).month(0).date(1);
 											}									
 											//distance
 											var distanceText = "";
-											if(time.val != 0){
-												var timeDistanceMoment = timeMoment.clone();
-												if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
-													timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											var distanceSeconds = 0;
+											if(_timeFormat.type != "period"){
+												if(time.val != 0){
+													var timeDistanceMoment = timeMoment.clone();
+													if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+														timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+													}
+													var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+													distanceSeconds = distanceMoment.asSeconds();
+													distanceText = distanceMoment.locale(systemLang).humanize(true);
 												}
-												var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
-												var distanceSeconds = distanceMoment.asSeconds();
-												var distanceText = distanceMoment.locale(systemLang).humanize(true);
+											} else { //period
+												distanceSeconds = timeMoment.asSeconds();
+												distanceText = timeMoment.locale(systemLang).humanize();
 											}
 											//tileActive
 											if(tileActive == null){
@@ -8508,8 +8624,8 @@ function renderView(viewId, triggeredByReconnection){
 												if(dateAndTimeTileActiveConditions.length == 0) tileActive = false;
 												if(dateAndTimeTileActiveConditions.indexOf("activeIfStateActive") > -1) tileActive = !(tileActiveValue == false);
 												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeNotZero") > -1 && time.val == 0) tileActive = false;
-												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInFuture") > -1 && distanceSeconds < 0) tileActive = false;
-												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInPast") > -1 && distanceSeconds >= 0) tileActive = false;
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInFuture") > -1 && distanceSeconds <= 0) tileActive = false;
+												if(dateAndTimeTileActiveConditions.indexOf("activeIfTimeInPast") > -1 && distanceSeconds > 0) tileActive = false;
 												var dateAndTimeTileActiveWhenRinging = getDeviceOptionValue(_device, "dateAndTimeTileActiveWhenRinging");
 												if(dateAndTimeTileActiveWhenRinging && ringing && typeof ringing.val !== udef && ringing.val) tileActive = true;
 											}
@@ -8532,20 +8648,24 @@ function renderView(viewId, triggeredByReconnection){
 											((tileActive && dateAndTimeShowInState.indexOf("showStateIfActive") > -1) 
 											|| (!tileActive && dateAndTimeShowInState.indexOf("showStateIfInactive") > -1))) resultTextParts.push(resultText);
 											//--time
-											if(timeMoment.isValid &&
-											((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
-											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
-											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
-											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
+											if(timeMoment.isValid() &&
+											((tileActive && distanceSeconds > 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInFuture") > -1) 
+											|| (tileActive && distanceSeconds <= 0 && dateAndTimeShowInState.indexOf("showTimeIfActiveAndInPast") > -1)
+											|| (!tileActive && distanceSeconds > 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInFuture") > -1)
+											|| (!tileActive && distanceSeconds <= 0 && dateAndTimeShowInState.indexOf("showTimeIfInactiveAndInPast") > -1)
 											)){
-												resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+												if(_timeFormat.type != "period"){
+													resultTextParts.push(timeMoment.locale(systemLang).format(_timeDisplayFormat.string));
+												} else {
+													resultTextParts.push(timeMoment.locale(systemLang).format(_periodDisplayFormat.string));
+												}
 											}
 											//--distance
 											if(distanceText &&
-											((tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInFuture") > -1) 
-											|| (tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInPast") > -1)
-											|| (!tileActive && distanceSeconds >= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceeIfInactiveAndInFuture") > -1)
-											|| (!tileActive && distanceSeconds < 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfInactiveAndInPast") > -1)
+											((tileActive && distanceSeconds > 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInFuture") > -1) 
+											|| (tileActive && distanceSeconds <= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfActiveAndInPast") > -1)
+											|| (!tileActive && distanceSeconds > 0 && dateAndTimeShowInState.indexOf("showTimeDistanceeIfInactiveAndInFuture") > -1)
+											|| (!tileActive && distanceSeconds <= 0 && dateAndTimeShowInState.indexOf("showTimeDistanceIfInactiveAndInPast") > -1)
 											)){
 												resultTextParts.push(distanceText);
 												if (_linkedTimeId && viewTimestampElapsedTimerStates.indexOf(_linkedTimeId) == -1){
@@ -10263,8 +10383,9 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Time
 					if(dialogStates["TIME"]){
-						var isDuration = false; //++++++++ for further development
-						var type = getDeviceOptionValue(device, "timeCaption") || (isDuration ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
+						var timeFormat = getTimeFormat(getDeviceOptionValue(device, "timeFormat") || "x")
+						var isPeriod = (timeFormat.type == "period")
+						var type = getDeviceOptionValue(device, "timeCaption") || (isPeriod ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
 						dialogContent += "<hr>";
 						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
@@ -10273,13 +10394,14 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
 							var _linkedTimeId = dialogLinkedStateIds["TIME"];
-							var _timeFormat = getTimeFormat(getDeviceOptionValue(_device, "timeFormat") || "x");
-							var _timeDisplayFormat = getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss";
-							var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+							var _timeFormat = timeFormat;
+							var _timeDisplayFormat = getTimeFormat(getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss");
+							var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
+							var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
 							var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
 							if(_timeFormat.type == "date") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[hHaAms]/g, "");
 							if(_timeFormat.type == "time") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[yMd]/g, "");
-							var _anypickerModifyOutput = function(oldMoment, newMoment){
+							var _anypickerModifyDateOutput = function(oldMoment, newMoment){
 								var nowMoment = moment();
 								if(_timeFormat.type == "date"){
 									newMoment.hour(0).minute(0).second(0).millisecond(0);
@@ -10311,74 +10433,159 @@ function renderDialog(deviceIdEscaped){
 								var startDistanceTimer = false;
 								if (time){
 									var nowMoment = moment(new Date());
-									var timeMoment = moment(time.val, _timeFormat.string);
+									if(!(time && typeof time.val != udef)) time = {val: 0};
+									if(_timeFormat.type == "period"){
+										var timeMoment = moment.duration(time.val, _timeFormat.string);
+									} else {
+										var timeMoment = moment(time.val, _timeFormat.string);
+									}
 									if(!timeMoment.isValid()) timeMoment = moment(0);
 									if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
 										timeMoment.year(1970).month(0).date(1);
 									}									
 									if(!_onlyUpdateDistance){
 										if(typeof $("#DialogTimeString").data('anypicker') == udef){ //Init AnyPicker
-											$("#DialogTimeString").data('date', timeMoment.toDate());
-											$("#DialogTimeString").AnyPicker({ 
-												mode: "datetime",
-												rowsNavigation: "scroller",
-												showComponentLabel: true,
-												theme: "iOS", // "Default", "iOS", "Android", "Windows"
-												lang: systemLang,
-												onInit: function(){ 
-													$("#DialogTimeString").data('anypicker', this); 
-												},
-												dateTimeFormat: _anypickerTimePickerFormat.string,
-												inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
-												selectedDate: timeMoment.toDate(),
-												formatOutput: function (selectedValues){
-													var newMoment = _anypickerModifyOutput(moment($("#DialogTimeString").data('date')), moment(selectedValues.date));
-													$("#DialogTimeString").data('date', newMoment.toDate());
-													return this.formatOutputDates(newMoment.toDate());
-												},
-												onSetOutput: function(label, selectedValues){ 
-													$("#DialogTimeString").trigger('change'); 
-												},
-												nowButton: {
-													markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
-													markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
-													type: "Button",
-													action: function(){ 
-														var newMoment = _anypickerModifyOutput(moment($("#DialogTimeString").data('date')), moment());
-														$("#DialogTimeString").data('date', newMoment.toDate());
-														$("#DialogTimeString").data('anypicker').setSelectedDate(newMoment.toDate());
-														$("#DialogTimeString").data('anypicker').showOrHidePicker();
+											if(_timeFormat.type != "period"){
+												$("#DialogTimeString").data('moment', timeMoment);
+												$("#DialogTimeString").AnyPicker({ 
+													mode: "datetime",
+													rowsNavigation: "scroller",
+													showComponentLabel: true,
+													theme: "iOS", // "Default", "iOS", "Android", "Windows"
+													lang: systemLang,
+													onInit: function(){ 
+														$("#DialogTimeString").data('anypicker', this); 
+													},
+													dateTimeFormat: _anypickerTimePickerFormat.string,
+													inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+													selectedDate: timeMoment.toDate(),
+													formatOutput: function (selectedValues){
+														var newMoment = _anypickerModifyDateOutput($("#DialogTimeString").data('moment'), moment(selectedValues.date));
+														$("#DialogTimeString").data('moment', newMoment);
+														return this.formatOutputDates(newMoment.toDate());
+													},
+													onSetOutput: function(label, selectedValues){ 
 														$("#DialogTimeString").trigger('change'); 
+													},
+													nowButton: {
+														markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
+														markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
+														type: "Button",
+														action: function(){ 
+															var newMoment = _anypickerModifyDateOutput($("#DialogTimeString").data('moment'), moment());
+															$("#DialogTimeString").data('moment', newMoment);
+															$("#DialogTimeString").data('anypicker').setSelectedDate(newMoment.toDate());
+															$("#DialogTimeString").data('anypicker').showOrHidePicker();
+															$("#DialogTimeString").trigger('change'); 
+														}
+													},
+													viewSections: {
+														header: [],
+														contentTop: [],
+														contentBottom: [],
+														footer: ["cancelButton", "nowButton", "setButton"]
 													}
-												},
-												viewSections: {
-													header: [],
-													contentTop: [],
-													contentBottom: [],
-													footer: ["cancelButton", "nowButton", "setButton"]
-												}
-											});
-											startDistanceTimer = true;
+												});
+												startDistanceTimer = true;
+											} else { //period
+												$("#DialogTimeString").data('moment', timeMoment);
+												$("#DialogTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+												var anypickerDataSourceArray = [[],[],[],[]];
+												for(var i = 0; i < 365; i++){ anypickerDataSourceArray[0].push({ label: i.toString(), val: i.toString() }) };
+												for(var i = 0; i < 24; i++){ anypickerDataSourceArray[1].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+												for(var i = 0; i < 60; i++){ anypickerDataSourceArray[2].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+												for(var i = 0; i < 60; i++){ anypickerDataSourceArray[3].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+												$("#DialogTimeString").AnyPicker({ 
+													mode: "select",
+													rowsNavigation: "scroller",
+													showComponentLabel: true,
+													theme: "iOS", // "Default", "iOS", "Android", "Windows"
+													lang: systemLang,
+													onInit: function(){ 
+														$("#DialogTimeString").data('anypicker', this); 
+													},
+													components: [
+														{ component: 0,	name: "days", label: _("Days"),	width: "40%", textAlign: "left" }, 
+														{ component: 1, name: "hours", label: _("Hours"), width: "20%", textAlign: "right" },
+														{ component: 2, name: "minutes", label: _("Minutes"), width: "20%", textAlign: "center" },
+														{ component: 3, name: "seconds", label: _("Seconds"), width: "20%", textAlign: "left" }
+													],
+													dataSource: [
+														{ compontent: 0, data: anypickerDataSourceArray[0] },
+														{ compontent: 1, data: anypickerDataSourceArray[1] },
+														{ compontent: 1, data: anypickerDataSourceArray[2] },
+														{ compontent: 1, data: anypickerDataSourceArray[3] }
+													],
+													//dateTimeFormat: _anypickerTimePickerFormat.string,
+													//inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+													//selectedDate: timeMoment.toDate(),
+													parseInput: function(elementValue){
+														var elementMoment = $("#DialogTimeString").data('moment');
+														return [Math.floor(elementMoment.asDays()).toString(), ("00" + elementMoment.hours()).slice(-2), ("00" + elementMoment.minutes()).slice(-2), ("00" + elementMoment.seconds()).slice(-2)];
+													},
+													formatOutput: function (selectedValues){
+														var newMoment = moment.duration({
+															days: selectedValues.values[0].val || 0,
+															hours: selectedValues.values[1].val || 0,
+															minutes: selectedValues.values[2].val || 0,
+															seconds: selectedValues.values[3].val || 0
+														});
+														$("#DialogTimeString").data('moment', newMoment);
+														return newMoment.format(_periodDisplayFormat.string);
+													},
+													onSetOutput: function(label, selectedValues){ 
+														$("#DialogTimeString").trigger('change'); 
+													},
+													zeroButton: {
+														markup: "<a id='ap-button-zero' class='ap-button'>&gt;0&lt;</a>",
+														markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>&gt;0&lt;</span>",
+														type: "Button",
+														action: function(){ 
+															var newMoment = moment.duration(0);
+															$("#DialogTimeString").data('moment', newMoment);
+															$("#DialogTimeString").val(newMoment.format(_periodDisplayFormat.string));
+															$("#DialogTimeString").data('anypicker').showOrHidePicker();
+															$("#DialogTimeString").trigger('change'); 
+														}
+													},
+													viewSections: {
+														header: [],
+														contentTop: [],
+														contentBottom: [],
+														footer: ["cancelButton", "zeroButton", "setButton"]
+													}
+												});
+											}
 										} else { //Only update time (AnyPicker is already initialized)
-											$("#DialogTimeString").data('date', timeMoment.toDate());
-											$("#DialogTimeString").data('anypicker').setSelectedDate(timeMoment.toDate());
+											if(_timeFormat.type != "period"){
+												$("#DialogTimeString").data('moment', timeMoment);
+												$("#DialogTimeString").data('anypicker').setSelectedDate(timeMoment.toDate());
+											} else { //period
+												$("#DialogTimeString").data('moment', timeMoment);
+												$("#DialogTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+											}
 										}
 									}									
 									//Distance
 									var distanceText = "";
-									if(time.val != 0){
-										var timeDistanceMoment = moment($("#DialogTimeString").data('date'));
-										if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
-											timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+									var distanceSeconds = 0;
+									if(_timeFormat.type != "period"){
+										if(time.val != 0){
+											var timeDistanceMoment = $("#DialogTimeString").data('moment');
+											if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+												timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											}
+											var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+											distanceSeconds = distanceMoment.asSeconds();
+											if(distanceSeconds >= 86400 || distanceSeconds < 0){
+												distanceText += distanceMoment.locale(systemLang).humanize(true);
+											} else {
+												distanceText += distanceMoment.locale(systemLang).humanize(true);
+												distanceText += ": " + distanceMoment.format("HH:mm:ss");
+											}
 										}
-										var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
-										var distanceSeconds = distanceMoment.asSeconds();
-										if(distanceSeconds >= 86400 || distanceSeconds < 0){
-											distanceText += distanceMoment.locale(systemLang).humanize(true);
-										} else {
-											distanceText += distanceMoment.locale(systemLang).humanize(true);
-											distanceText += ": " + distanceMoment.format("HH:mm:ss");
-										}
+									} else {
+										distanceSeconds = timeMoment.asSeconds();
 									}
 									if(distanceText) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
 									if(_onlyUpdateDistance || startDistanceTimer){ 
@@ -10393,7 +10600,7 @@ function renderDialog(deviceIdEscaped){
 							dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
 							var bindingFunction = function(){
 								$('#DialogTimeString').on('change', function(e) {
-									var timeMoment = moment($("#DialogTimeString").data('date'), _timeDisplayFormat);
+									var timeMoment = $("#DialogTimeString").data('moment');
 									setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
 									dialogUpdateTimestamp(states[_linkedTimeId]);
 								});
