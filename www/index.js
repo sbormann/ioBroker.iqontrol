@@ -5600,8 +5600,10 @@ function modulo(n, m){
 }
 
 function replaceTokens(string, tokenObject){
+	string = string.replace(/\[/g, "{[").replace(/\]/g, "]}");
 	for(token in tokenObject){
 		var re = new RegExp(token.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + "(?![^{]*})", "g");
+		//var re = new RegExp(token.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + "(?![^{|\[]*}|\])", "g");
 		string = string.replace(re, "{" + tokenObject[token] + "}");
 	}
 	string = string.replace(/{/g, "").replace(/}/g, "");
