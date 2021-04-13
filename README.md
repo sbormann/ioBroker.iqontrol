@@ -1120,13 +1120,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 </details>
 
-## Description of roles and associated states
-Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding iobroker state.
-If you use the auto-create-function, you can choose an existing device from the iobroker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
-This will only work for known devices. For unknown devices, and to give devices advanced features, you can add them manually via the (+)-Button or edit the devices that were created by autocreate.
-To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
-
-### Modifying Datapoint Configuration
+## Modifying Datapoint Configuration
 You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the device-configuration dialog or in objects-tab of iobroker. 
 
 ![CustomDialog Call](img/custom_call.png)
@@ -1152,6 +1146,13 @@ Here you can:
 	    * Key: ``TuneIn-Playlist: *``, Target-Datapoint ID: ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``, Target-Value: ``*``
 	    * If the user enters ``TuneIn-Playlist: Ambient`` the value ``Ambient`` will be written to ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``
         ![Concept of Target-Value-List](img/target-value-list_concept.png)
+
+
+## Description of roles and associated states
+Every device has a role, which defines the function of the device. Every role generates a set of states, which can be linked to a corresponding iobroker state.
+If you use the auto-create-function, you can choose an existing device from the iobroker-object tree.  Autocreate tries to find out the role and to match as many states as possible.
+This will only work for known devices. For unknown devices, and to give devices advanced features, you can add them manually via the (+)-Button or edit the devices that were created by autocreate.
+To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
   
 ### General states:
 #### STATE and LEVEL
