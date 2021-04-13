@@ -192,7 +192,10 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 
 ![Popup Screenshot](img/widget_screenshot.png)
 
-### postMessage-Communication (for experts only)
+<details>
+<summary>Widget development (for experts only): (<ins>klick to open</ins>)</summary>
+
+### postMessage-Communication
 * Technically the content of BACKGROUND_VIEW/URL/HTML is placed inside a HTML-Element called iframe, which is a website inside a website
 * By enabling the option "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML" you can enable postMessage-Communication between the website inside this iframe and iQontrol itself
 * To send commands to iQontrol you can use the following javascript-command: ``window.parent.postMessage(message, "*");`` 
@@ -1114,6 +1117,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </body>
 </html>
 ````
+</details>
 </details>
 
 ## Description of roles and associated states
