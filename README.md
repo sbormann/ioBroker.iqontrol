@@ -1151,7 +1151,7 @@ Here you can:
 	* Example: 
 	    * Key: ``TuneIn-Playlist: *``, Target-Datapoint ID: ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``, Target-Value: ``*``
 	    * If the user enters ``TuneIn-Playlist: Ambient`` the value ``Ambient`` will be written to ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``
-        * ![Concept of Target-Value-List](img/target-value-list_concept.png)
+        ![Concept of Target-Value-List](img/target-value-list_concept.png)
   
 ### General states:
 #### STATE and LEVEL
