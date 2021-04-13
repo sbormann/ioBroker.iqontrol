@@ -1127,7 +1127,12 @@ This will only work for known devices. For unknown devices, and to give devices 
 To edit the role and the states of a device, click on the pencil behind the device. You will find a short description of the roles and the used states below:
 
 ### Modifying Datapoint Configuration
-You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the device-configuration dialog or in objects-tab of iobroker. Here you can:
+You can modify the configuration of datapoints via the wrench-icon behind a datapoint in the device-configuration dialog or in objects-tab of iobroker. 
+
+![CustomDialog Call](img/custom_call.png)
+![CustomDialog Example](img/custom_dialog.png)
+
+Here you can:
 * Set Readonly-Flag
 * Set Invert-Flag
 * Set Confirm-Flag (forces the user to confirm before a change is written to a datapoint)
@@ -1146,10 +1151,7 @@ You can modify the configuration of datapoints via the wrench-icon behind a data
 	* Example: 
 	    * Key: ``TuneIn-Playlist: *``, Target-Datapoint ID: ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``, Target-Value: ``*``
 	    * If the user enters ``TuneIn-Playlist: Ambient`` the value ``Ambient`` will be written to ``alexa2.0.Echo-Devices.XYZ.Music-Provider.TuneIn-Playlist``
-
-![CustomDialog Call](img/custom_call.png)
-![CustomDialog Example](img/custom_dialog.png)
-![Concept of Target-Value-List](img/target-value-list_concept.png)
+        * ![Concept of Target-Value-List](img/target-value-list_concept.png)
   
 ### General states:
 #### STATE and LEVEL
