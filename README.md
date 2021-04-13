@@ -1645,6 +1645,9 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added url-paremeter noPanel.
 * (sbormann) Changed fetching-method of ioBroker Objects.
 
+<details>
+<summary>Older Changelog: (<ins>klick to open</ins>)</summary>
+
 ### 1.5.0 (2020-11-24)
 * (sbormann) Added Flot-Chart widget.
 * (sbormann) Enhanced adding of widgets with a new settings dialog.
@@ -1888,9 +1891,6 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added a few captions to admin.
 * (sbormann) Prevent pressure menu when scrolling and after opening menu.
 * (sbormann) Corrected a few translations.
-
-<details>
-<summary>Older Changelog: (<ins>klick to open</ins>)</summary>
 
 ### 0.4.1 (2020-05-15)
 * (sbormann) Added icons for toplight and tilted to window and enhanced window to recognize tilted position.
