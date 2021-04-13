@@ -111,8 +111,95 @@
 	<div class="row">
 		<div class="col s4">
 		</div>
+		<div class="input-field col s6">
+			<input type="text" class="enableOnChange hasTemplate" data-field="timeFormat">
+			<span class="translate">Format of Time (as stored in the datapoint, see readme)</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported if datapoint has the role time)</span>			
+		</div>
+		<div class="input-field col s2">
+			<i class="material-icons" style="position: absolute; left: -5px; top: 13px;">keyboard_arrow_left</i>
+            <select data-template-field="timeFormat" class="template" >
+                <option value="" disabled selected 					class="translate">Templates</option>
+                <option value="x"          							class="translate">Timestamp</option>
+                <option value="YYYY-MM-DDTHH:mm:ss.SSSZ"          	class="translate">YYYY-MM-DDTHH:mm:ss.SSSZ</option>
+                <option value="ddd MMM DD YYYY HH:mm:ss ZZ"         class="translate">ddd MMM DD YYYY HH:mm:ss ZZ</option>
+                <option value="HH:mm"          						class="translate">HH:mm</option>
+                <option value="HH:mm:ss"          					class="translate">HH:mm:ss</option>
+                <option value="DD.MM.YYYY"          				class="translate">DD.MM.YYYY</option>
+                <option value="DD.MM.YYYY HH:mm"          			class="translate">DD.MM.YYYY HH:mm</option>
+                <option value="DD.MM.YYYY HH:mm:ss"          		class="translate">DD.MM.YYYY HH:mm:ss</option>
+                <option value="ddd, DD.MM.YYYY"          			class="translate">ddd, DD.MM.YYYY</option>
+                <option value="ddd, DD.MM.YYYY HH:mm"          		class="translate">ddd, DD.MM.YYYY HH:mm</option>
+                <option value="ddd, DD.MM.YYYY HH:mm:ss"          	class="translate">ddd, DD.MM.YYYY HH:mm:ss</option>
+                <option value="dddd, DD.MM.YYYY"          			class="translate"><dddd, DD.MM.YYYY/option>
+                <option value="dddd, DD.MM.YYYY HH:mm"          	class="translate">dddd, DD.MM.YYYY HH:mm</option>
+                <option value="dddd, DD.MM.YYYY HH:mm:ss"          	class="translate">dddd, DD.MM.YYYY HH:mm:ss</option>
+                <option value="hh:mm a"          					class="translate">hh:mm a</option>
+                <option value="hh:mm:ss a"          				class="translate">hh:mm:ss a</option>
+                <option value="YYYY-MM-DD"          				class="translate">YYYY-MM-DD</option>
+                <option value="YYYY-MM-DD hh:mm a"          		class="translate">YYYY-MM-DD hh:mm a</option>
+                <option value="YYYY-MM-DD hh:mm:ss a"          		class="translate">YYYY-MM-DD hh:mm:ss a</option>
+                <option value="ddd, YYYY-MM-DD"          			class="translate">ddd, YYYY-MM-DD</option>
+                <option value="ddd, YYYY-MM-DD hh:mm a"          	class="translate">ddd, YYYY-MM-DD hh:mm a</option>
+                <option value="ddd, YYYY-MM-DD hh:mm:ss a"          class="translate">ddd, YYYY-MM-DD hh:mm:ss a</option>
+                <option value="dddd, YYYY-MM-DD"          			class="translate">dddd, YYYY-MM-DD</option>
+                <option value="dddd, YYYY-MM-DD hh:mm a"          	class="translate">dddd, YYYY-MM-DD hh:mm a</option>
+                <option value="dddd, YYYY-MM-DD hh:mm:ss a"			class="translate">dddd, YYYY-MM-DD hh:mm:ss a</option>
+                <option value="P"          							class="translate">Period</option>
+                <option value="Pms"          						class="translate">Period in milliseconds</option>
+                <option value="Ps"          						class="translate">Period in seconds</option>
+                <option value="Pm"          						class="translate">Period in minutes</option>
+            </select>
+            <span class="translate">Templates for Format of Time</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
+		<div class="input-field col s6">
+			<input type="text" class="enableOnChange hasTemplate" data-field="timeDisplayFormat">
+			<span class="translate">Display-Format of Time (how it should be displayed, see readme)</span>
+			<br>
+			<span class="translate" style="font-size: 75%;">(this is only supported if datapoint has the role time)</span>			
+		</div>
+		<div class="input-field col s2">
+			<i class="material-icons" style="position: absolute; left: -5px; top: 13px;">keyboard_arrow_left</i>
+            <select data-template-field="timeDisplayFormat" class="template" >
+                <option value="" disabled selected 					class="translate">Templates</option>
+                <option value="HH:mm"          						class="translate">HH:mm</option>
+                <option value="HH:mm:ss"          					class="translate">HH:mm:ss</option>
+                <option value="DD.MM.YYYY"          				class="translate">DD.MM.YYYY</option>
+                <option value="DD.MM.YYYY HH:mm"          			class="translate">DD.MM.YYYY HH:mm</option>
+                <option value="DD.MM.YYYY HH:mm:ss"          		class="translate">DD.MM.YYYY HH:mm:ss</option>
+                <option value="ddd, DD.MM.YYYY"          			class="translate">ddd, DD.MM.YYYY</option>
+                <option value="ddd, DD.MM.YYYY HH:mm"          		class="translate">ddd, DD.MM.YYYY HH:mm</option>
+                <option value="ddd, DD.MM.YYYY HH:mm:ss"       		class="translate">ddd, DD.MM.YYYY HH:mm:ss</option>
+                <option value="dddd, DD.MM.YYYY"          			class="translate">dddd, DD.MM.YYYY</option>
+                <option value="dddd, DD.MM.YYYY HH:mm"          	class="translate">dddd, DD.MM.YYYY HH:mm</option>
+                <option value="dddd, DD.MM.YYYY HH:mm:ss"          	class="translate">dddd, DD.MM.YYYY HH:mm:ss</option>
+                <option value="hh:mm a"          					class="translate">hh:mm a</option>
+                <option value="hh:mm:ss a"          				class="translate">hh:mm:ss a</option>
+                <option value="YYYY-MM-DD"          				class="translate">YYYY-MM-DD</option>
+                <option value="YYYY-MM-DD hh:mm a"          		class="translate">YYYY-MM-DD hh:mm a</option>
+                <option value="YYYY-MM-DD hh:mm:ss a"          		class="translate">YYYY-MM-DD hh:mm:ss a</option>
+                <option value="ddd, YYYY-MM-DD"          			class="translate">ddd, YYYY-MM-DD</option>
+                <option value="ddd, YYYY-MM-DD hh:mm a"          	class="translate">ddd, YYYY-MM-DD hh:mm a</option>
+                <option value="ddd, YYYY-MM-DD hh:mm:ss a"          class="translate">ddd, YYYY-MM-DD hh:mm:ss a</option>
+                <option value="dddd, YYYY-MM-DD"          			class="translate">dddd, YYYY-MM-DD</option>
+                <option value="dddd, YYYY-MM-DD hh:mm a"          	class="translate">dddd, YYYY-MM-DD hh:mm a</option>
+                <option value="dddd, YYYY-MM-DD hh:mm:ss a"         class="translate"></option>
+                <option value="D [Day(s)], H:m:s"          			class="translate">D [Day(s)], H:m:s (for Periods)</option>
+                <option value="D [Day(s)], HH:mm:ss"          		class="translate">D [Day(s)], HH:mm:ss (for Periods)</option>
+            </select>
+            <span class="translate">Templates for Display-Format of Time</span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s4">
+		</div>
         <div class="input-field col s8">
-            <select data-field="type" class="enableOnChange" >
+            <select data-field="type" class="enableOnChange " >
                 <option value=""          		class="translate"></option>
                 <option value="string"          class="translate">String</option>
                 <option value="number"    		class="translate">Number</option>
@@ -140,6 +227,7 @@
                 <option value="sensor.alarm"    		class="translate">Alarmsensor (sensor.alarm)</option>
                 <option value="sensor.alarm.fire" 		class="translate">Firesensor (sensor.alarm.fire)</option>
                 <option value="value.time" 				class="translate">Time (value.time)</option>
+                <option value="level.timer" 				class="translate">Timer (level.timer)</option>
                 <!--option value="indicator.state"      class="translate">Indicator (indicator.state)</option-->
             </select>
             <span class="translate">Role</span>
@@ -266,6 +354,8 @@
 				max:					(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
 				step:					"",
 				roundDigits:			2,
+				timeFormat:				"x",
+				timeDisplayFormat:		"dddd, DD.MM.YYYY HH:mm:ss",
 				type:					(obj && obj.common && obj.common.type) || "",
 				role:					(obj && obj.common && obj.common.role) || "",
 				targetValueId:			"",
@@ -360,6 +450,14 @@
 			$('#tab-customs-settings li[data-adapter="' + adapter + '"] .tableTargetValues .table-button-add').on('click', function(){
 				tableTargetValuesAdd(adapter);
 			});
+			//Templates
+			$('.template').on('change', function(){
+				$('.hasTemplate[data-field="' + $(this).data('template-field') + '"]').val($(this).val());	
+			});
+			$('.hasTemplate').on('change', function(){
+				$('.template[data-template-field="' + $(this).data('field') + '"]').val($(this).val()).select();	
+			});
+			setTimeout(function(){ $('.hasTemplate').trigger('change'); }, 100);
 			//Enable onChange
 			$('.enableOnChange').on('change', function(){
 				$('#tab-customs-settings li[data-adapter="' + adapter + '"] input[data-field="enabled"]').prop("checked", true);			

@@ -30,8 +30,8 @@ var momentToAnypickerDisplayFormatTokens = {
 	dddd:		"DDDD",
 	ddd:		"DDD",
 	dd:			"DD",
-	d:			"",
 	do:			"",
+	d:			"",
 	GGGG:		"",
 	GG:			"",
 	WW:			"",
@@ -115,8 +115,8 @@ var momentToDurationDisplayFormatTokens = {
 	"dd,":		"",
 	dd:			"",
 	"d,":		"",
-	d:			"",
 	do:			"",
+	d:			"",
 	GGGG:		"",
 	GG:			"",
 	WW:			"",
@@ -201,6 +201,89 @@ var anypickerDisplayFormatToAnypickerPickerFormatTokens = {
 	m:			"m",
 	ss:			"ss",
 	s:			"s",
+}
+momentRemoveDateTokens = {
+	"dddd,":	"",
+	dddd:		"",
+	"ddd,":		"",
+	ddd:		"",
+	"do [of]":	"",
+	do:			"",
+	"dd,":		"",
+	dd:			"",
+	"d,":		"",
+	d:			"",
+	"DD.":		"",
+	"DD-":		"",
+	"-DD":		"",
+	DD:			"",
+	"Do [of]":	"",
+	Do:			"",
+	"D.":		"",
+	"D-":		"",
+	"-D":		"",
+	D:			"",
+	"MMMM,":	"",
+	MMMM:		"",
+	"MMM,":		"",
+	MMM:		"",
+	Mo:			"",
+	"MM.":		"",
+	"MM-":		"",
+	"-MM":		"",
+	MM:			"",
+	"M.":		"",
+	"M-":		"",
+	"-M":		"",
+	M:			"",
+	YYYYYY:		"",
+	".YYYY":	"",
+	"YYYY-":	"",
+	"-YYYY":	"",
+	YYYY:		"",
+	".YY":		"",
+	"YY-":		"",
+	"-YY":		"",
+	YY:			"",
+	".Y":		"",
+	"Y-":		"",
+	"-Y":		"",
+	Y:			"",
+	"E,":		"",
+	E:			"",
+	"e,":		"",
+	e:			"",
+	Qo:			"",
+	Q:			"",
+	ww:			"",
+	wo:			"",
+	w:			"",
+	WW:			"",
+	Wo:			"",
+	W:			"",
+	yo:			"",
+	y:			"",
+	NNNNN:		"",
+	NNNN:		"",
+	NNN:		"",
+	NN:			"",
+	N:			"",
+	".gggg":	"",
+	"gggg-":	"",
+	"-gggg":	"",
+	gggg:		"",
+	".gg":		"",
+	"gg-":		"",
+	"-gg":		"",
+	gg:			"",
+	".GGGG":	"",
+	"GGGG-":	"",
+	"-GGGG":	"",
+	GGGG:		"",
+	".GG":		"",
+	"GG-":		"",
+	"-GG":		"",
+	GG:			""
 }
 var iQontrolRoles = {
 	"iQontrolView": 				{
@@ -3606,7 +3689,7 @@ var viewHistory = [];							//History for navigation between views via swipe
 var viewHistoryPosition = 0;					//Position in history
 var viewLinkedStateIdsToFetchAndUpdate = [];	//Contains all linkedStateIds after rendering a view, where updateFunctions were created - the corresponding updateFunctions are called after rendering the view
 var viewUpdateFunctions = {};					//Used to save all in the view-page currently visible state-ids and how updates have to be handled in the form of {State-ID:[functions(State-ID)]}
-var adaptHeightOrMarqueeObserver;							//Contains MutationObserver for marquee-enabled elements
+var viewAdaptHeightOrMarqueeObserver;			//Contains MutationObserver for marquee-enabled elements
 var viewDeviceContextMenu = {};					//Contains Items for Context Menu in the form of viewDeviceContextMenu[deviceIdEscaped] = {linkedView, externalLink, ...} linkedView and externalLink are Objects in the form of {name, href, target, onclick}
 var viewDeviceContextMenuInterval = false;		//Contains the id of the running setInterval that raises the level = duration of long click of the contextMenu
 var viewDeviceContextMenuLevel = 0;				//Contains the level = duration of long click of the contextMenu
@@ -3629,7 +3712,9 @@ var actualDialogId;								//Contains the ID of the actual Dialog
 var dialogStateIdsToFetch = [];					//Contains all missing stateIds after rendering a dialog - they will be fetched and if ready, the dialog ist rendered again
 var dialogLinkedStateIdsToUpdate = [];			//Contains all linkedStateIds after rendering a dialog, where updateFunctions were created - the corresponding updateFunctions are called after rendering the dialog
 var dialogUpdateFunctions = {}; 				//Same as viewUpdateFunctions, but for dialog-page
-var renderDialogCount = 0;						//When rendering a view from a foreign namespace there may be some datapoints that need to be fetched. The dialog is re-rendered. To avoid an endless loop, this variable contains nummer of re-rendering.
+var dialogIdsToUpdateEverySecond = [];			//Contains IDs that schould update every second (e.g. to update a timer)
+var dialogIdsToUpdateEverySecondInterval;		//Corresponding IntervalID
+var dialogRenderCount = 0;						//When rendering a view from a foreign namespace there may be some datapoints that need to be fetched. The dialog is re-rendered. To avoid an endless loop, this variable contains nummer of re-rendering.
 
 var toastStack = [];							//Contains the toast messages that are waiting in queue to be displayed
 
@@ -4076,13 +4161,13 @@ function getDevice(deviceId){
 	return config[_namespace].views[viewIndex].devices[deviceIndex];
 }
 
-function getDeviceOptionValue(device, option){
+function getDeviceOptionValue(device, option, nullForDefault){
 	var value = null;
     if (device && typeof device === "object" && typeof device.options !== udef) {
         const deviceOption = device.options.find(element => element.option === option);
         if (deviceOption && deviceOption.value !== udef) {
 			value = deviceOption.value;
-		} else if (device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
+		} else if (!nullForDefault && device.commonRole !== udef && typeof iQontrolRoles[device.commonRole] !== udef && typeof iQontrolRoles[device.commonRole].options[option] !== udef) {
 			value = iQontrolRoles[device.commonRole].options[option].default || "";
         }
     }
@@ -4442,19 +4527,30 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 				}
 				break;
 
-				case "value.time":
-				result.type = "string";
-				if(result.val == "" || isNaN(result.val)){
+				case "value.time": case "value.date": case "value.datetime": case "level.timer": case "level.timer.sleep": 
+				result.type = "time";
+				var timeFormat = getTimeFormat(typeof result.custom.timeFormat !== udef && result.custom.timeFormat !== "" && result.custom.timeFormat || "x");
+				var timeDisplayFormat = getTimeFormat(typeof result.custom.timeDisplayFormat !== udef && result.custom.timeDisplayFormat !== "" && result.custom.timeDisplayFormat || "dddd, DD.MM.YYYY HH:mm:ss");
+				var nowMoment = moment(new Date());
+				if(timeFormat.type == "period"){
+					var timeMoment = moment.duration(result.val, timeFormat.string);
+				} else {
+					var timeMoment = moment(result.val, timeFormat.string);
+				}
+				if(result.val == "" || !timeMoment.isValid()){
 					result.plainText = "";
 				} else {
-					var timestamp = new Date(parseInt(result.val) + timeshift) ;
-					var timestampText = ('0' + timestamp.getHours()).slice(-2) + ":" + ('0' + timestamp.getMinutes()).slice(-2);
-					var now = new Date();
-					if(now.getFullYear() != timestamp.getFullYear() || now.getMonth() != timestamp.getMonth() || now.getDate() != timestamp.getDate()){
-						timestampText = ('0' + timestamp.getDate()).slice(-2) + "." + ('0' + (timestamp.getMonth() + 1)).slice(-2) + "." + timestamp.getFullYear() + ", " + timestampText;
+					if(timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+						timeMoment.year(1970).month(0).date(1);
+					}									
+					if(timeMoment.isValid()){
+						if(timeFormat.type != "period"){
+							result.plainText = timeMoment.locale(systemLang).format((timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")) ? replaceTokens(timeDisplayFormat.string, momentRemoveDateTokens) : timeDisplayFormat.string);
+						} else {
+							result.plainText = timeMoment.locale(systemLang).format(timeDisplayFormat.string);
+						}
 					}
 				}
-				result.plainText = timestampText;
 				break;
 			}
 		}
@@ -7865,12 +7961,12 @@ function renderView(viewId, triggeredByReconnection){
 						}
 						deviceContent += "</div>";
 						//--Name
-						var name = encodeURI(device.commonName.split('|')[0]);
+						var name = device.commonName.split('|')[0];
 						var variablename = encodeURI(device.commonName.split('|').slice(1).join('|'));
 						var hideDeviceName = (getDeviceOptionValue(device, "hideDeviceName") == "true");
 						deviceContent += "<div class='iQontrolDeviceName" + ((getDeviceOptionValue(device, "hideDeviceNameIfInactive") == "true")?" hideIfInactive":"") + ((getDeviceOptionValue(device, "hideDeviceNameIfActive") == "true")?" hideIfActive":"") + ((getDeviceOptionValue(device, "hideDeviceNameIfEnlarged") == "true")?" hideIfEnlarged":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' " + ((variablename && !hideDeviceName) ? "data-variablename='" + variablename + "' " : "") + ">";
 							if (!hideDeviceName){
-								deviceContent += decodeURI(name);
+								deviceContent += name;
 							}
 						deviceContent += "</div>";
 						//--State
@@ -9151,7 +9247,7 @@ function renderView(viewId, triggeredByReconnection){
 				}
 			}
 			viewLinkedStateIdsToFetchAndUpdate = [];
-			applyadaptHeightOrMarqueeObserver();
+			applyViewAdaptHeightOrMarqueeObserver();
 			applyViewDeviceContextMenu();
 			dynamicIframeZoom();
 			//Show ViewSwipeGoals
@@ -9530,24 +9626,24 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 	return stateString;
 }
 
-function applyadaptHeightOrMarqueeObserver(){
+function applyViewAdaptHeightOrMarqueeObserver(){
 	console.log("Starting marquee observer");
-	if(adaptHeightOrMarqueeObserver){
-		adaptHeightOrMarqueeObserver.disconnect();
+	if(viewAdaptHeightOrMarqueeObserver){
+		viewAdaptHeightOrMarqueeObserver.disconnect();
 	} else {
-		adaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
+		viewAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
 			if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
 				if(!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
 			}
 		});
 	}
 	$('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText, .iQontrolDeviceBadge').each(function(){
-		adaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+		viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
 	if(!options.LayoutViewMarqueeDisabled && options.LayoutViewMarqueeNamesEnabled){
 		$('.iQontrolDeviceName').each(function(){
-			adaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+			viewAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
 			adaptHeightOrStartMarqueeOnOverflow($(this));
 		});
 	}
@@ -9799,8 +9895,8 @@ function renderDialog(deviceIdEscaped){
 				for (elementState in dialogLinkedStateIds) {
 					if(dialogLinkedStateIds[elementState] && !usedObjects[dialogLinkedStateIds[elementState]]) { //If a dialog is rendered without the view being rendered before, there might be some objects that are beeing fetched at this moment. If this is the case, the dialog is re-rendered after a little delay.
 						console.log("Render Dialog - Missing Object: " + elementState + " | " + dialogLinkedStateIds[elementState]);
-						if(renderDialogCount < 20){
-							renderDialogCount++;
+						if(dialogRenderCount < 20){
+							dialogRenderCount++;
 							console.log("Re-Render Dialog");
 							setTimeout(function(){ renderDialog(deviceIdEscaped); }, 50);
 							return;
@@ -9810,7 +9906,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					dialogStates[elementState] = getStateObject(dialogLinkedStateIds[elementState]);
 				}
-				renderDialogCount = 0;
+				dialogRenderCount = 0;
 				//--State & Level
 				switch(device.commonRole){
 					case "iQontrolButton":
@@ -10169,6 +10265,228 @@ function renderDialog(deviceIdEscaped){
 								dialogBindingFunctions.push(bindingFunction);
 							})(); //<--End Closure
 							break;
+
+							case "time":
+							var timeFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeFormat) || "x");
+							var timeDisplayFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+							var isPeriod = (timeFormat.type == "period")
+							var type = (isPeriod ? "Duration" : "Time");
+							dialogContent += "<label for='DialogStateTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
+							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _device = device;
+								var _linkedTimeId = dialogLinkedStateIds["STATE"];
+								var _timeFormat = timeFormat;
+								var _timeDisplayFormat = timeDisplayFormat;
+								var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
+								var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+								var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
+								if(_timeFormat.type == "date") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[hHaAms]/g, "");
+								if(_timeFormat.type == "time") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[yMd]/g, "");
+								var _anypickerModifyDateOutput = function(oldMoment, newMoment){
+									var nowMoment = moment();
+									if(_timeFormat.type == "date"){
+										newMoment.hour(0).minute(0).second(0).millisecond(0);
+									} else if(_timeFormat.type == "time"){
+										newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+									} else if(_timeFormat.type == "datetime" && _anypickerTimeDisplayFormat.flags.indexOf("to") == -1){
+										if(_anypickerTimeDisplayFormat.type == "date"){
+											if(_anypickerTimeDisplayFormat.flags.indexOf("tn") > -1){
+												newMoment.hour(nowMoment.hour()).minute(nowMoment.minute()).second(nowMoment.second()).millisecond(0);
+											} else {
+												newMoment.hour(0).minute(0).second(0).millisecond(0);
+											}
+										} else if(_anypickerTimeDisplayFormat.type == "time"){
+											if(_anypickerTimePickerFormat.flags.indexOf("tb") > -1) {
+												newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+											} else if(_anypickerTimePickerFormat.flags.indexOf("tn") > -1) {
+												newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											} else if (oldMoment.toDate().getTime() > 86400000) {
+												newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											} else {
+												newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+											}										
+										}
+									}
+									return newMoment;
+								}
+								var updateFunction = function(_stateId, _onlyUpdateDistance){
+									var time = getStateObject(_linkedTimeId);
+									var startDistanceTimer = false;
+									if (time){
+										var nowMoment = moment(new Date());
+										if(!(time && typeof time.val != udef)) time = {val: 0};
+										if(_timeFormat.type == "period"){
+											var timeMoment = moment.duration(time.val, _timeFormat.string);
+										} else {
+											var timeMoment = moment(time.val, _timeFormat.string);
+										}
+										if(!timeMoment.isValid()) timeMoment = moment(0);
+										if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+											timeMoment.year(1970).month(0).date(1);
+										}									
+										if(!_onlyUpdateDistance){
+											if(typeof $("#DialogStateTimeString").data('anypicker') == udef){ //Init AnyPicker
+												if(_timeFormat.type != "period"){
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").AnyPicker({ 
+														mode: "datetime",
+														rowsNavigation: "scroller",
+														showComponentLabel: true,
+														theme: "iOS", // "Default", "iOS", "Android", "Windows"
+														lang: systemLang,
+														onInit: function(){ 
+															$("#DialogStateTimeString").data('anypicker', this); 
+														},
+														dateTimeFormat: _anypickerTimePickerFormat.string,
+														inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+														selectedDate: timeMoment.toDate(),
+														formatOutput: function (selectedValues){
+															var newMoment = _anypickerModifyDateOutput($("#DialogStateTimeString").data('moment'), moment(selectedValues.date));
+															$("#DialogStateTimeString").data('moment', newMoment);
+															return this.formatOutputDates(newMoment.toDate());
+														},
+														onSetOutput: function(label, selectedValues){ 
+															$("#DialogStateTimeString").trigger('change'); 
+														},
+														nowButton: {
+															markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
+															markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
+															type: "Button",
+															action: function(){ 
+																var newMoment = _anypickerModifyDateOutput($("#DialogStateTimeString").data('moment'), moment());
+																$("#DialogStateTimeString").data('moment', newMoment);
+																$("#DialogStateTimeString").data('anypicker').setSelectedDate(newMoment.toDate());
+																$("#DialogStateTimeString").data('anypicker').showOrHidePicker();
+																$("#DialogStateTimeString").trigger('change'); 
+															}
+														},
+														viewSections: {
+															header: [],
+															contentTop: [],
+															contentBottom: [],
+															footer: ["cancelButton", "nowButton", "setButton"]
+														}
+													});
+													startDistanceTimer = true;
+												} else { //period
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+													var anypickerDataSourceArray = [[],[],[],[]];
+													for(var i = 0; i < 365; i++){ anypickerDataSourceArray[0].push({ label: i.toString(), val: i.toString() }) };
+													for(var i = 0; i < 24; i++){ anypickerDataSourceArray[1].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													for(var i = 0; i < 60; i++){ anypickerDataSourceArray[2].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													for(var i = 0; i < 60; i++){ anypickerDataSourceArray[3].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													$("#DialogStateTimeString").AnyPicker({ 
+														mode: "select",
+														rowsNavigation: "scroller",
+														showComponentLabel: true,
+														theme: "iOS", // "Default", "iOS", "Android", "Windows"
+														lang: systemLang,
+														onInit: function(){ 
+															$("#DialogStateTimeString").data('anypicker', this); 
+														},
+														components: [
+															{ component: 0,	name: "days", label: _("Days"),	width: "40%", textAlign: "left" }, 
+															{ component: 1, name: "hours", label: _("Hours"), width: "20%", textAlign: "right" },
+															{ component: 2, name: "minutes", label: _("Minutes"), width: "20%", textAlign: "center" },
+															{ component: 3, name: "seconds", label: _("Seconds"), width: "20%", textAlign: "left" }
+														],
+														dataSource: [
+															{ compontent: 0, data: anypickerDataSourceArray[0] },
+															{ compontent: 1, data: anypickerDataSourceArray[1] },
+															{ compontent: 1, data: anypickerDataSourceArray[2] },
+															{ compontent: 1, data: anypickerDataSourceArray[3] }
+														],
+														parseInput: function(elementValue){
+															var elementMoment = $("#DialogStateTimeString").data('moment');
+															return [Math.floor(elementMoment.asDays()).toString(), ("00" + elementMoment.hours()).slice(-2), ("00" + elementMoment.minutes()).slice(-2), ("00" + elementMoment.seconds()).slice(-2)];
+														},
+														formatOutput: function (selectedValues){
+															var newMoment = moment.duration({
+																days: selectedValues.values[0].val || 0,
+																hours: selectedValues.values[1].val || 0,
+																minutes: selectedValues.values[2].val || 0,
+																seconds: selectedValues.values[3].val || 0
+															});
+															$("#DialogStateTimeString").data('moment', newMoment);
+															return newMoment.format(_periodDisplayFormat.string);
+														},
+														onSetOutput: function(label, selectedValues){ 
+															$("#DialogStateTimeString").trigger('change'); 
+														},
+														zeroButton: {
+															markup: "<a id='ap-button-zero' class='ap-button'>&gt;0&lt;</a>",
+															markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>&gt;0&lt;</span>",
+															type: "Button",
+															action: function(){ 
+																var newMoment = moment.duration(0);
+																$("#DialogStateTimeString").data('moment', newMoment);
+																$("#DialogStateTimeString").val(newMoment.format(_periodDisplayFormat.string));
+																$("#DialogStateTimeString").data('anypicker').showOrHidePicker();
+																$("#DialogStateTimeString").trigger('change'); 
+															}
+														},
+														viewSections: {
+															header: [],
+															contentTop: [],
+															contentBottom: [],
+															footer: ["cancelButton", "zeroButton", "setButton"]
+														}
+													});
+												}
+											} else { //Only update time (AnyPicker is already initialized)
+												if(_timeFormat.type != "period"){
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").data('anypicker').setSelectedDate(timeMoment.toDate());
+												} else { //period
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+												}
+											}
+										}									
+										//Distance
+										var distanceText = "";
+										var distanceSeconds = 0;
+										if(_timeFormat.type != "period"){
+											if(time.val != 0){
+												var timeDistanceMoment = $("#DialogStateTimeString").data('moment');
+												if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+													timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+												}
+												var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+												distanceSeconds = distanceMoment.asSeconds();
+												if(distanceSeconds >= 86400 || distanceSeconds < 0){
+													distanceText += distanceMoment.locale(systemLang).humanize(true);
+												} else {
+													distanceText += distanceMoment.locale(systemLang).humanize(true);
+													distanceText += ": " + distanceMoment.format("HH:mm:ss");
+												}
+											}
+										} else {
+											distanceSeconds = timeMoment.asSeconds();
+										}
+										if(distanceText) $("#DialogStateTimeDistance").html("(" + distanceText + ")"); else $("#DialogStateTimeDistance").html("");
+										if(_onlyUpdateDistance || startDistanceTimer){ 
+											//Special: Call itsself periodicyally to update distance
+											if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
+										}
+										dialogUpdateTimestamp(states[_linkedTimeId]);
+									}
+								};
+								dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
+								var bindingFunction = function(){
+									$('#DialogStateTimeString').on('change', function(e) {
+										var timeMoment = $("#DialogStateTimeString").data('moment');
+										setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
+										dialogUpdateTimestamp(states[_linkedTimeId]);
+									});
+								};
+								dialogBindingFunctions.push(bindingFunction);
+							})(); //<--End Closure
+							break;
 						}
 					}
 					//----Default Level
@@ -10385,19 +10703,20 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Time
 					if(dialogStates["TIME"]){
-						var timeFormat = getTimeFormat(getDeviceOptionValue(device, "timeFormat") || "x")
+						var timeFormat = getTimeFormat(getDeviceOptionValue(device, "timeFormat", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeFormat) || "x");
+						var timeDisplayFormat = getTimeFormat(getDeviceOptionValue(device, "timeDisplayFormat", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
 						var isPeriod = (timeFormat.type == "period")
 						var type = getDeviceOptionValue(device, "timeCaption") || (isPeriod ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
 						dialogContent += "<hr>";
 						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
-						dialogContent += "<span class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogTimeDistance'></span>";
+						dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogTimeDistance'></div>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _device = device;
 							var _linkedTimeId = dialogLinkedStateIds["TIME"];
 							var _timeFormat = timeFormat;
-							var _timeDisplayFormat = getTimeFormat(getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss");
+							var _timeDisplayFormat = timeDisplayFormat;
 							var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
 							var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
 							var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
@@ -10518,9 +10837,6 @@ function renderDialog(deviceIdEscaped){
 														{ compontent: 1, data: anypickerDataSourceArray[2] },
 														{ compontent: 1, data: anypickerDataSourceArray[3] }
 													],
-													//dateTimeFormat: _anypickerTimePickerFormat.string,
-													//inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
-													//selectedDate: timeMoment.toDate(),
 													parseInput: function(elementValue){
 														var elementMoment = $("#DialogTimeString").data('moment');
 														return [Math.floor(elementMoment.asDays()).toString(), ("00" + elementMoment.hours()).slice(-2), ("00" + elementMoment.minutes()).slice(-2), ("00" + elementMoment.seconds()).slice(-2)];
@@ -10592,9 +10908,7 @@ function renderDialog(deviceIdEscaped){
 									if(distanceText) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
 									if(_onlyUpdateDistance || startDistanceTimer){ 
 										//Special: Call itsself periodicyally to update distance
-										if(typeof dialogUpdateFunctions[_linkedTimeId] != udef) dialogUpdateFunctions[_linkedTimeId].forEach(function(dialogUpdateFunction){
-											setTimeout(function(){ dialogUpdateFunction(_linkedTimeId, "onlyUpdateDistance"); }, 1000);
-										});
+										if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
 									}
 									dialogUpdateTimestamp(states[_linkedTimeId]);
 								}
@@ -13061,13 +13375,16 @@ function renderDialog(deviceIdEscaped){
 							$("#DialogAdditionalControlsContent").html("");
 							var dialogAdditionalControlsBindingFunctions = [];
 							var dialogAdditionalControlsLinkedStateIdsToUpdate = [];
+							var dialogAdditionalControlsLinkedStateIdsToFetchAndUpdate = [];
 							var dialogAdditionalControlsContent = "";
 							var headingIndex = -1;
 							_linkedAdditionalControls.forEach(function(_element, _index){ // --- Loop through all additionalControls ---
 								if(_element.heading) {
+									var heading = _(_element.heading.split('|')[0] || "");
+									var variableheading = encodeURI(_element.heading.split('|').slice(1).join('|'));
 									if(headingIndex > -1) dialogAdditionalControlsContent += "</div></div>"; //Close last heading section
 									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
-									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _element.heading + ":</h4>" : "");
+									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;<span" + (variableheading ? " data-variablehtml='" + variableheading + "'" : "") + ">" + heading + "</span>:</h4>" : "");
 									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
 									headingIndex = 0;
 								} else if(headingIndex > -1) {
@@ -13081,15 +13398,17 @@ function renderDialog(deviceIdEscaped){
 									var readonly = false;
 									switch(_element.role || ""){
 										case "button":
-										var type = _element.name || "Button";
-										var buttonCaption = _element.caption || "push";
-										dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-										dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + (dialogReadonly ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'>" + _(buttonCaption) + "</a>";
+										var type = _(_element.name.split('|')[0] || "Button");
+										var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+										var buttonCaption = _(_element.caption.split('|')[0] || "push");
+										var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
+										dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
+										dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + (dialogReadonly ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 											var _deviceIdEscaped = deviceIdEscaped;
 											var _device = device;
 											var _linkedStateId = linkedStateId;
-											var _name = _element.name;
+											var _name = _element.name.split('|')[0];
 											var bindingFunction = function(){
 												$("#DialogAdditionalControlsButton_" + _index).on('click', function(e) {
 													setState(_linkedStateId, _deviceIdEscaped, (_name || true), true);
@@ -13106,8 +13425,9 @@ function renderDialog(deviceIdEscaped){
 										readonly = readonly || stateValue.readonly || false;
 										switch(stateValue.type){
 											case "switch":
-											var type = _element.name || "Switch";
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSwitch_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/switch.png") + "' style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+											var type = _(_element.name.split('|')[0] || "Switch");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSwitch_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/switch.png") + "' style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 											dialogAdditionalControlsContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsSwitch_" + _index + "' id='DialogAdditionalControlsSwitch_" + _index + "'>";
 												dialogAdditionalControlsContent += "<option value='false'>0</option>";
 												dialogAdditionalControlsContent += "<option value='true'>I</option>";
@@ -13140,10 +13460,12 @@ function renderDialog(deviceIdEscaped){
 											break;
 
 											case "button":
-											var type = _element.name || "Button";
-											var buttonCaption = _element.caption || "push";
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-											dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'>" + _(buttonCaption) + "</a>";
+											var type = _(_element.name.split('|')[0] || "Button");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+											var buttonCaption = _(_element.caption.split('|')[0] || "push");
+											var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
+											dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _device = device;
@@ -13165,9 +13487,10 @@ function renderDialog(deviceIdEscaped){
 											if (max - min < 10) step = "0.01";
 											if (max - min < 1) step = "0.001";
 											if(stateValue.custom && stateValue.custom.step && stateValue.custom.step != "" && isNaN(stateValue.custom.step) == false) step = stateValue.custom.step.toString();
-											var type = _element.name || "Level";
+											var type = _(_element.name.split('|')[0] || "Level");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											var sliderSendRate = 500;
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSlider_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/slider.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsSlider_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/slider.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 											dialogAdditionalControlsContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogAdditionalControlsSlider_" + _index + "' id='DialogAdditionalControlsSlider_" + _index + "' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
@@ -13205,8 +13528,9 @@ function renderDialog(deviceIdEscaped){
 											break;
 
 											case "valueList":
-											var type = _element.name || "Selection";
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsValueList_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+											var type = _(_element.name.split('|')[0] || "Selection");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsValueList_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 											dialogAdditionalControlsContent += "<select  class='iQontrolDialogValueList DialogAdditionalControlsValueList_" + _index + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsValueList_" + _index + "' id='DialogAdditionalControlsValueList_" + _index + "' data-native-menu='false'>";
 											for(val in stateValue.valueList){
 												if (stateValue.targetValues && stateValue.custom.showOnlyTargetValues && !stateValue.targetValues.hasOwnProperty(val)) continue; //Show only targetValues
@@ -13255,12 +13579,14 @@ function renderDialog(deviceIdEscaped){
 											break;
 
 											case "string":
-											var type = _element.name || "Text";
-											var buttonCaption = _element.caption || "Submit";
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsString_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+											var type = _(_element.name.split('|')[0] || "Text");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+											var buttonCaption = _(_element.caption.split('|')[0] || "Submit");
+											var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsString_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/variable.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 											dialogAdditionalControlsContent += "<textarea class='iQontrolDialogString DialogAdditionalControlsString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsString_" + _index + "' id='DialogAdditionalControlsString_" + _index + "'></textarea>";
 											if (!readonly && !dialogReadonly) {
-												dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsString_" + _index + "Submit' id='DialogAdditionalControlsString_" + _index + "Submit'>" + _(buttonCaption) + "</a>";
+												dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsString_" + _index + "Submit' id='DialogAdditionalControlsString_" + _index + "Submit'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 											}
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
@@ -13285,6 +13611,227 @@ function renderDialog(deviceIdEscaped){
 												dialogAdditionalControlsBindingFunctions.push(bindingFunction);
 											})(); //<--End Closure
 											break;
+
+											case "time":
+											var type = _(_element.name.split('|')[0] || "Time");
+											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
+											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsTimeString_" + _index + "' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
+											dialogAdditionalControlsContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (readonly || dialogReadonly).toString() + "' name='DialogAdditionalControlsTimeString_" + _index + "' id='DialogAdditionalControlsTimeString_" + _index + "' readonly/>";
+											dialogAdditionalControlsContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogAdditionalControlsTimeDistance_" + _index + "'></div>";
+											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+												var _deviceIdEscaped = deviceIdEscaped;
+												var _linkedTimeId = linkedStateId;
+												var updateFunction = function(_stateId, _onlyUpdateDistance){
+													var time = getStateObject(_linkedTimeId);
+													var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
+													var _timeDisplayFormat = getTimeFormat((time.custom && time.custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+													var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
+													var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+													var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
+													if(_timeFormat.type == "date") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[hHaAms]/g, "");
+													if(_timeFormat.type == "time") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[yMd]/g, "");
+													var _anypickerModifyDateOutput = function(oldMoment, newMoment){
+														var nowMoment = moment();
+														if(_timeFormat.type == "date"){
+															newMoment.hour(0).minute(0).second(0).millisecond(0);
+														} else if(_timeFormat.type == "time"){
+															newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+														} else if(_timeFormat.type == "datetime" && _anypickerTimeDisplayFormat.flags.indexOf("to") == -1){
+															if(_anypickerTimeDisplayFormat.type == "date"){
+																if(_anypickerTimeDisplayFormat.flags.indexOf("tn") > -1){
+																	newMoment.hour(nowMoment.hour()).minute(nowMoment.minute()).second(nowMoment.second()).millisecond(0);
+																} else {
+																	newMoment.hour(0).minute(0).second(0).millisecond(0);
+																}
+															} else if(_anypickerTimeDisplayFormat.type == "time"){
+																if(_anypickerTimePickerFormat.flags.indexOf("tb") > -1) {
+																	newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+																} else if(_anypickerTimePickerFormat.flags.indexOf("tn") > -1) {
+																	newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+																} else if (oldMoment.toDate().getTime() > 86400000) {
+																	newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+																} else {
+																	newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+																}										
+															}
+														}
+														return newMoment;
+													}
+													var startDistanceTimer = false;
+													if (time){
+														var nowMoment = moment(new Date());
+														if(!(time && typeof time.val != udef)) time = {val: 0};
+														if(_timeFormat.type == "period"){
+															var timeMoment = moment.duration(time.val, _timeFormat.string);
+														} else {
+															var timeMoment = moment(time.val, _timeFormat.string);
+														}
+														if(!timeMoment.isValid()) timeMoment = moment(0);
+														if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+															timeMoment.year(1970).month(0).date(1);
+														}									
+														if(!_onlyUpdateDistance){
+															if(typeof $("#DialogAdditionalControlsTimeString_" + _index).data('anypicker') == udef){ //Init AnyPicker
+																if(_timeFormat.type != "period"){
+																	$("#DialogAdditionalControlsTimeString_" + _index).data('moment', timeMoment);
+																	$("#DialogAdditionalControlsTimeString_" + _index).AnyPicker({ 
+																		mode: "datetime",
+																		rowsNavigation: "scroller",
+																		showComponentLabel: true,
+																		theme: "iOS", // "Default", "iOS", "Android", "Windows"
+																		lang: systemLang,
+																		onInit: function(){ 
+																			$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker', this); 
+																		},
+																		dateTimeFormat: _anypickerTimePickerFormat.string,
+																		inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+																		selectedDate: timeMoment.toDate(),
+																		formatOutput: function (selectedValues){
+																			var newMoment = _anypickerModifyDateOutput($("#DialogAdditionalControlsTimeString_" + _index).data('moment'), moment(selectedValues.date));
+																			$("#DialogAdditionalControlsTimeString_" + _index).data('moment', newMoment);
+																			return this.formatOutputDates(newMoment.toDate());
+																		},
+																		onSetOutput: function(label, selectedValues){ 
+																			$("#DialogAdditionalControlsTimeString_" + _index).trigger('change'); 
+																		},
+																		nowButton: {
+																			markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
+																			markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
+																			type: "Button",
+																			action: function(){ 
+																				var newMoment = _anypickerModifyDateOutput($("#DialogAdditionalControlsTimeString_" + _index).data('moment'), moment());
+																				$("#DialogAdditionalControlsTimeString_" + _index).data('moment', newMoment);
+																				$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker').setSelectedDate(newMoment.toDate());
+																				$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker').showOrHidePicker();
+																				$("#DialogAdditionalControlsTimeString_" + _index).trigger('change'); 
+																			}
+																		},
+																		viewSections: {
+																			header: [],
+																			contentTop: [],
+																			contentBottom: [],
+																			footer: ["cancelButton", "nowButton", "setButton"]
+																		}
+																	});
+																	startDistanceTimer = true;
+																} else { //period
+																	$("#DialogAdditionalControlsTimeString_" + _index).data('moment', timeMoment);
+																	$("#DialogAdditionalControlsTimeString_" + _index).val(timeMoment.format(_periodDisplayFormat.string));
+																	var anypickerDataSourceArray = [[],[],[],[]];
+																	for(var i = 0; i < 365; i++){ anypickerDataSourceArray[0].push({ label: i.toString(), val: i.toString() }) };
+																	for(var i = 0; i < 24; i++){ anypickerDataSourceArray[1].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+																	for(var i = 0; i < 60; i++){ anypickerDataSourceArray[2].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+																	for(var i = 0; i < 60; i++){ anypickerDataSourceArray[3].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+																	$("#DialogAdditionalControlsTimeString_" + _index).AnyPicker({ 
+																		mode: "select",
+																		rowsNavigation: "scroller",
+																		showComponentLabel: true,
+																		theme: "iOS", // "Default", "iOS", "Android", "Windows"
+																		lang: systemLang,
+																		onInit: function(){ 
+																			$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker', this); 
+																		},
+																		components: [
+																			{ component: 0,	name: "days", label: _("Days"),	width: "40%", textAlign: "left" }, 
+																			{ component: 1, name: "hours", label: _("Hours"), width: "20%", textAlign: "right" },
+																			{ component: 2, name: "minutes", label: _("Minutes"), width: "20%", textAlign: "center" },
+																			{ component: 3, name: "seconds", label: _("Seconds"), width: "20%", textAlign: "left" }
+																		],
+																		dataSource: [
+																			{ compontent: 0, data: anypickerDataSourceArray[0] },
+																			{ compontent: 1, data: anypickerDataSourceArray[1] },
+																			{ compontent: 1, data: anypickerDataSourceArray[2] },
+																			{ compontent: 1, data: anypickerDataSourceArray[3] }
+																		],
+																		parseInput: function(elementValue){
+																			var elementMoment = $("#DialogAdditionalControlsTimeString_" + _index).data('moment');
+																			return [Math.floor(elementMoment.asDays()).toString(), ("00" + elementMoment.hours()).slice(-2), ("00" + elementMoment.minutes()).slice(-2), ("00" + elementMoment.seconds()).slice(-2)];
+																		},
+																		formatOutput: function (selectedValues){
+																			var newMoment = moment.duration({
+																				days: selectedValues.values[0].val || 0,
+																				hours: selectedValues.values[1].val || 0,
+																				minutes: selectedValues.values[2].val || 0,
+																				seconds: selectedValues.values[3].val || 0
+																			});
+																			$("#DialogAdditionalControlsTimeString_" + _index).data('moment', newMoment);
+																			return newMoment.format(_periodDisplayFormat.string);
+																		},
+																		onSetOutput: function(label, selectedValues){ 
+																			$("#DialogAdditionalControlsTimeString_" + _index).trigger('change'); 
+																		},
+																		zeroButton: {
+																			markup: "<a id='ap-button-zero' class='ap-button'>&gt;0&lt;</a>",
+																			markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>&gt;0&lt;</span>",
+																			type: "Button",
+																			action: function(){ 
+																				var newMoment = moment.duration(0);
+																				$("#DialogAdditionalControlsTimeString_" + _index).data('moment', newMoment);
+																				$("#DialogAdditionalControlsTimeString_" + _index).val(newMoment.format(_periodDisplayFormat.string));
+																				$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker').showOrHidePicker();
+																				$("#DialogAdditionalControlsTimeString_" + _index).trigger('change'); 
+																			}
+																		},
+																		viewSections: {
+																			header: [],
+																			contentTop: [],
+																			contentBottom: [],
+																			footer: ["cancelButton", "zeroButton", "setButton"]
+																		}
+																	});
+																}
+															} else { //Only update time (AnyPicker is already initialized)
+																if(_timeFormat.type != "period"){
+																	$("#DialogAdditionalControlsTimeString_" + _index).data('moment', timeMoment);
+																	$("#DialogAdditionalControlsTimeString_" + _index).data('anypicker').setSelectedDate(timeMoment.toDate());
+																} else { //period
+																	$("#DialogAdditionalControlsTimeString_" + _index).data('moment', timeMoment);
+																	$("#DialogAdditionalControlsTimeString_" + _index).val(timeMoment.format(_periodDisplayFormat.string));
+																}
+															}
+														}									
+														//Distance
+														var distanceText = "";
+														var distanceSeconds = 0;
+														if(_timeFormat.type != "period"){
+															if(time.val != 0){
+																var timeDistanceMoment = $("#DialogAdditionalControlsTimeString_" + _index).data('moment');
+																if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+																	timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+																}
+																var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+																distanceSeconds = distanceMoment.asSeconds();
+																if(distanceSeconds >= 86400 || distanceSeconds < 0){
+																	distanceText += distanceMoment.locale(systemLang).humanize(true);
+																} else {
+																	distanceText += distanceMoment.locale(systemLang).humanize(true);
+																	distanceText += ": " + distanceMoment.format("HH:mm:ss");
+																}
+															}
+														} else {
+															distanceSeconds = timeMoment.asSeconds();
+														}
+														if(distanceText) $("#DialogAdditionalControlsTimeDistance_" + _index).html("(" + distanceText + ")"); else $("#DialogAdditionalControlsTimeDistance_" + _index).html("");
+														if(_onlyUpdateDistance || startDistanceTimer){ 
+															//Special: Call itsself periodicyally to update distance
+															if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
+														}
+														dialogUpdateTimestamp(states[_linkedTimeId]);
+													}
+												};
+												dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
+												var bindingFunction = function(){
+													$("#DialogAdditionalControlsTimeString_" + _index).on('change', function(e) {
+														var time = getStateObject(_linkedTimeId);
+														var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
+														var timeMoment = $("#DialogAdditionalControlsTimeString_" + _index).data('moment');
+														setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
+														dialogUpdateTimestamp(states[_linkedTimeId]);
+													});
+												};
+												dialogAdditionalControlsBindingFunctions.push(bindingFunction);
+											})(); //<--End Closure
+											break;
 										}
 									}
 									dialogAdditionalControlsLinkedStateIdsToUpdate.push(linkedStateId);
@@ -13302,6 +13849,71 @@ function renderDialog(deviceIdEscaped){
 							//Reposition to window
 							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 500);
 							setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 750);
+							//Find variablehtml in spans
+							$("span[data-variablehtml]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
+								var that = $(this);
+								var variablehtml = that.data('variablehtml');
+								var a = variablehtml.indexOf('%7B'), b = variablehtml.lastIndexOf('%7D');
+								if (a > -1 && a < b) {
+									var variable = variablehtml.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+									var linkedStateId = variable[0];
+									var noUnit = false;
+									if (linkedStateId.substr(0, 3) == "%5B" && linkedStateId.substr(-3) == "%5D"){ // [ and ] are escaped by %5B and %5D
+										linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
+										noUnit = true;
+									}
+									var placeholder = null;
+									if (variable.length > 1) placeholder = variable[1];
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										var _that = that;
+										var _variablehtml = variablehtml;
+										var _noUnit = noUnit;
+										var _a = a;
+										var _b = b;
+										var _linkedStateId = linkedStateId;
+										var _placeholder = placeholder;
+										var updateFunction = function(){
+											var state = getStateObject(_linkedStateId);
+											var replacement = null;
+											//Replace by value
+											if(state && typeof state.val !== udef) {
+												if(typeof state.plainText == 'number' && !_noUnit){			//STATE = number
+													replacement = state.val + state.unit;
+												} else {													//STATE = bool or text
+													replacement = state.plainText;
+												}
+											} else if (placeholder) {
+												//Replace by placeholder
+												replacement = placeholder;
+											}
+											if(replacement != null){
+												var newName = decodeURI(_variablehtml.substring(_variablehtml.indexOf('?') + 1, _a) + replacement + _variablehtml.substring(_b + 3));
+												if($(_that).html() != newName){
+													console.log("Set new Name: " + newName);
+													$(_that).html(newName);
+												}
+											}
+										};
+										if(!dialogUpdateFunctions[_linkedStateId]) dialogUpdateFunctions[_linkedStateId] = [];
+										dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+									})(); //<--End Closure
+									dialogAdditionalControlsLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
+								}
+							});
+							dialogAdditionalControlsLinkedStateIdsToFetchAndUpdate.forEach(function(id){
+								fetchStates(id, function(){
+									if (typeof usedObjects[id] == udef) {
+										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+											var _id = id;
+											fetchObject(_id, function(error){
+												updateState(_id);
+											});
+										})(); //<--End Closure
+									} else {
+										updateState(id);
+									}
+								});
+							});
 						};
 						//Fetch additional linkedStates from Array and then call createDialogAdditionalControlsFunction:
 						var createDialogAdditionalControlsNumberOfStatesToFetch = _linkedAdditionalControls.length;
@@ -13310,7 +13922,7 @@ function renderDialog(deviceIdEscaped){
 								if (typeof usedObjects[element.value] == udef) {
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _elementValue = element.value;
-										var _linkedAdditionalControlsId = dialogLinkedStateIds["ADDITIONAL_CONTROLS"];
+										var _linkedAdditionalControlsId = dialogLinkedStateIds["ADDITIONAL_CONTROLS"]; //-----nötig????
 										fetchObject(_elementValue, function(error){
 											createDialogAdditionalControlsNumberOfStatesToFetch--;
 											if(createDialogAdditionalControlsNumberOfStatesToFetch == 0) createDialogAdditionalControlsFunction();
@@ -13602,6 +14214,15 @@ function renderDialog(deviceIdEscaped){
 			});
 			//Reposition to window
 			setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 250);
+			//Start dialogIdsToUpdateEverySecondInterval
+			if(dialogIdsToUpdateEverySecondInterval) clearInterval(dialogIdsToUpdateEverySecondInterval);
+			dialogIdsToUpdateEverySecondInterval = setInterval(function(){
+				dialogIdsToUpdateEverySecond.forEach(function(id){
+					if(typeof dialogUpdateFunctions[id] != udef) dialogUpdateFunctions[id].forEach(function(dialogUpdateFunction){
+						dialogUpdateFunction(id, "updateEverySecond");
+					});
+				});
+			}, 1000);
 		});
 	});
 }

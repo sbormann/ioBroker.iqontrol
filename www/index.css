@@ -1373,9 +1373,10 @@ html.noscroll body {
 	font-weight: bold;
 }
 .iQontrolDialogTimeDistance, .iQontrolDialogSecondTimeDistance {
-	position: absolute; 
-	right: 18px; 
-	margin-top: -7px;
+	position: relative;
+    margin-top: -7px;
+    width: 100%;
+    text-align: right;
 }
 .iQontrolDialogMediaText.artist {
 	font-weight: bold;
