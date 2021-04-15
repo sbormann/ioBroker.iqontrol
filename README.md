@@ -1520,6 +1520,10 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.7.1 dev
+* (sbormann) Updated dependencies.
+* (sbormann) Added option to show name of INFO_A/B.
+
 ### 1.7.0 (2021-04-13)
 * (sbormann) Added combobox as possible option type.
 * (sbormann) Added Date and Time as new device for dates, times and periods (durations).

@@ -555,6 +555,8 @@
     "Show Enlarge-Button, if device is active": "如果设备处于活动状态，则显示放大按钮",
     "Show Enlarge-Button, if device is inactive": "如果设备不活动，则显示放大按钮",
     "Show Icons:": "显示图标：",
+    "Show Name of INFO_A": "显示名称INFO_A",
+    "Show Name of INFO_B": "显示名称INFO_B",
     "Show STATE if active": "如果处于活动状态，则显示STATE",
     "Show STATE if inactive": "如果未激活，则显示STATE",
     "Show SUBJECT if active": "如果激活则显示SUBJECT",

@@ -555,6 +555,8 @@
     "Show Enlarge-Button, if device is active": "Показать кнопку увеличения, если устройство активно",
     "Show Enlarge-Button, if device is inactive": "Показать кнопку увеличения, если устройство неактивно",
     "Show Icons:": "Показать значки:",
+    "Show Name of INFO_A": "Показать имя INFO_A",
+    "Show Name of INFO_B": "Показать имя INFO_B",
     "Show STATE if active": "Показать СОСТОЯНИЕ, если активно",
     "Show STATE if inactive": "Показать СОСТОЯНИЕ, если неактивен",
     "Show SUBJECT if active": "Показать SUBJECT, если активен",

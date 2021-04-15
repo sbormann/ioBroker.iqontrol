@@ -555,6 +555,8 @@
     "Show Enlarge-Button, if device is active": "Zeige Vergrößern-Knopf, wenn das Gerät aktiv ist",
     "Show Enlarge-Button, if device is inactive": "Zeige Vergrößern-Knopf, wenn das Gerät inaktiv ist",
     "Show Icons:": "Zeige Icons:",
+    "Show Name of INFO_A": "Zeige den Namen von INFO_A",
+    "Show Name of INFO_B": "Zeige den Namen von INFO_B",
     "Show STATE if active": "Zeige STATE, wenn aktiv",
     "Show STATE if inactive": "Zeige STATE, wenn inaktiv",
     "Show SUBJECT if active": "Zeige SUBJECT, wenn aktiv",

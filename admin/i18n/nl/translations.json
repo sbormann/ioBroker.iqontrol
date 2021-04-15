@@ -555,6 +555,8 @@
     "Show Enlarge-Button, if device is active": "Vergroten-knop weergeven, als het apparaat actief is",
     "Show Enlarge-Button, if device is inactive": "Toon vergrotingsknop als het apparaat inactief is",
     "Show Icons:": "Pictogrammen weergeven:",
+    "Show Name of INFO_A": "Toon naam van INFO_A",
+    "Show Name of INFO_B": "Toon naam van INFO_B",
     "Show STATE if active": "Toon STATE indien actief",
     "Show STATE if inactive": "Toon STATE indien inactief",
     "Show SUBJECT if active": "Toon ONDERWERP indien actief",

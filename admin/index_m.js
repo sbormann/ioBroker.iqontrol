@@ -611,6 +611,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -723,6 +725,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -839,6 +843,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -955,6 +961,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1067,6 +1075,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1180,6 +1190,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1292,6 +1304,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1402,6 +1416,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1512,6 +1528,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1622,6 +1640,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1732,6 +1752,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1842,6 +1864,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1952,6 +1976,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2065,6 +2091,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2177,6 +2205,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2292,6 +2322,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2416,6 +2448,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2526,6 +2560,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2636,6 +2672,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2749,6 +2787,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2864,6 +2904,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2984,6 +3026,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3094,6 +3138,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3208,6 +3254,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3323,6 +3371,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3453,6 +3503,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3562,6 +3614,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3669,6 +3723,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3782,6 +3838,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3892,6 +3950,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
+											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -4564,7 +4624,7 @@ async function checkExistance(path){
 /************** LOAD ********************************************************
 *** This will be called by the admin adapter when the settings page loads ***
 ****************************************************************************/
-function load(settings, onChange) {
+async function load(settings, onChange) {
 //++++++++++ START ++++++++++
 	//Loading begins
 	var loading = true;
@@ -8507,7 +8567,7 @@ function load(settings, onChange) {
 /************** SAVE *****************************************************************
 *** This will be called by the admin adapter when the user presses the save button ***
 *************************************************************************************/
-function save(callback) {
+async function save(callback) {
 	//Update symbolic links
 	updateSymbolicLinks();
 
@@ -8607,6 +8667,7 @@ function save(callback) {
 				if(widgetsToDownloadCount == 0){
 					obj.widgetsDatapoints = widgetsDatapoints;
 					//Save settings
+					console.log("Save settings");
 					callback(obj);
 				}
 			});
@@ -8614,6 +8675,7 @@ function save(callback) {
 	} else {
 		obj.widgetsDatapoints = [];
 		//Save settings
+		console.log("Save settings");
 		callback(obj);
 	}
 }
