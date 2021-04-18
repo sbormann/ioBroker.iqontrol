@@ -2,7 +2,6 @@
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
 //Settings
-//connectionLink are defined later inside load-function, because relevant informations are missing at this moment
 var namespace = "iqontrol.meta";
 var useCache = true;
 var imagePath = "/iqontrol/images";
@@ -611,8 +610,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -725,8 +724,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -843,8 +842,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -961,8 +960,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1075,8 +1074,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1190,8 +1189,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1304,8 +1303,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1416,8 +1415,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1528,8 +1527,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1640,8 +1639,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1752,8 +1751,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1864,8 +1863,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -1976,8 +1975,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2091,8 +2090,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2205,8 +2204,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2322,8 +2321,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2448,8 +2447,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2560,8 +2559,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2672,8 +2671,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2787,8 +2786,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -2904,8 +2903,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3026,8 +3025,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3138,8 +3137,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3254,8 +3253,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3371,8 +3370,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3503,8 +3502,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3614,8 +3613,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3723,8 +3722,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3838,8 +3837,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3950,8 +3949,8 @@ var iQontrolRoles = {
 											SECTION_INFO_A_B: {name: "INFO_A/B", type: "section"},
 											infoARoundDigits: {name: "Round INFO_A to this number of digits", type: "number", min: "0", max: "10", default: "1"},
 											infoBRoundDigits: {name: "Round INFO_B to this number of digits", type: "number", min: "0", max: "10", default: "1"},
-											infoAShowName: {name: "Show Name in INFO_A", type: "checkbox", default: "false"},
-											infoBShowName: {name: "Show Name in INFO_B", type: "checkbox", default: "false"},
+											infoAShowName: {name: "Show Name of INFO_A", type: "checkbox", default: "false"},
+											infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"},
 											SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section"},
 											batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 											batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""},
@@ -3989,7 +3988,6 @@ var iQontrolRoles = {
 //Delcarations
 const udef = 'undefined';
 var link;
-var connectionLink;
 var newConfig = false;
 var socketWasConnected = false;
 var socketConnectionErrorMessages = "";
@@ -4286,18 +4284,22 @@ function initColorpickers(onChange){
 		if(!$(this).data('materialize-color-picker-initialized')){
 			$(this).colorpicker().on('changeColor', function(event){
 				if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+			});
+			$(this).colorpicker().on('hidePicker', function(event){
+				if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
 				onChange();
 			});
-			$(this).on('change', function(){
+			$(this).on('change', function(event, noOnChange){
 				if ($(this).val() == "") {
 					$(this).css('border-right', '0px solid black');
 				} else {
-					$(this).trigger('changeColor');
+					$(this).trigger('changeColor', noOnChange);
 				}
+				if(!noOnChange) onChange();
 			});
 			$(this).data('materialize-color-picker-initialized', true);
 		}
-		$(this).trigger('change');
+		$(this).trigger('change', 'noOnChange');
 	});
 }
 
@@ -4516,14 +4518,10 @@ function loadLocalFileAsArrayBuffer(accept, callback){ //accept: for example ".t
 	loadInputNode.remove();
 }
 function readDir(path, callback) { //callback(err, obj)
-	if(servConn.getIsConnected()) {
-		servConn.readDir(path, callback);
-	} else {
 		var parts = path.split('/');
 		var adapter = parts[1];
 		parts.splice(0, 2);
 		socket.emit('readDir', adapter, parts.join('/'), callback);
-	}
 }
 function readDirAsync(path){
 	return new Promise(resolve => {
@@ -4546,35 +4544,29 @@ function writeDirAsZip(path, base64Zip, callback) {
 	});
 }
 function deleteFile(path, callback) {
-	if(servConn.getIsConnected()){
-		servConn.unlink(path, function(err){ if (callback) callback(err); });
-	} else {
-		alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
 		var parts = path.split('/');
 		var adapter = parts[1];
 		parts.splice(0, 2);
-		//socket.emit('unlink', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
-	}
+		socket.emit('deleteFile', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
 }
-function renameFile(oldPath, newPath, callback) {
+function renameFile(path, newPath, callback) {
 	var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
 	createDir(newDir, function(){
-		var oldParts = oldPath.split('/');
-		var oldAdapter = oldParts[1];
+		var parts = path.split('/');
+		var adapter = parts[1];
 		var newParts = newPath.split('/');
 		var newAdapter = newParts[1];
-		if(oldAdapter != newAdapter){
-			newParts.splice(1, 0, oldAdapter, ".."); //inserts oldadapter and ".." at index 1 (and removes 0 elements)
-			newPath = newParts.join('/'); //results in /oldadapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
+		if(adapter != newAdapter){
+			newParts.splice(1, 0, adapter, ".."); //inserts adapter and ".." at index 1 (and removes 0 elements)
+			newPath = newParts.join('/'); //results in /adapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
 		}
-		if(servConn.getIsConnected()){
-			servConn.renameFile(oldPath, newPath, function(err){ if (callback) callback(err); });
-		} else {
-			alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-			oldParts.splice(0, 2);
-			newParts.splice(0, 2);
-			//socket.emit('rename', adapter, oldParts.join('/'), newParts.join('/'), function (err) {
-		}
+		parts.splice(0, 2);
+		newParts.splice(0, 2);
+		//needs admin >5.0.3
+		if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= 503) alert("This operation is only supported by admin versions > 5.0.3. Please update your admin-adapter!");
+		socket.emit('renameFile', adapter, parts.join('/'), newParts.join('/'), function (err) { 
+			if (callback) callback(err); 
+		});
 	});
 }
 function renameFileAsync(oldPath, newPath){
@@ -4584,6 +4576,17 @@ function renameFileAsync(oldPath, newPath){
 		});
 	});
 }
+async function createDir(path, callback){ /* This is a workaround, because socket.emit('mkdir' was not working */
+	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _path = path;
+		var _callback = callback;
+		uploadStringAsFile("This is only a temporary file", "createPath.tmp", path, function(filename){
+			deleteFile(_path + "/" + filename, _callback);
+		})
+	})(); //<--End Closure
+}
+/*
 async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
 	if (typeof index != 'number') index = 0;
 	pathSubdirs = path.split('/');
@@ -4591,34 +4594,31 @@ async function createDir(path, callback, index) { //index is just for recoursive
 		if(callback) callback();
 	} else {
 		pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
-		var pathSubdirExists = await checkExistance(pathSubdir);
+		var pathSubdirExists = await checkDirExistance(pathSubdir);
 		if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
 			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 				var _path = path;
 				var _callback = callback;
 				var _index = index;
-				if(servConn.getIsConnected()){
-					servConn.mkdir(pathSubdir, function(err){
-						createDir(_path, _callback, _index + 1);
-					});
-				} else {
-					alert(_("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!"));
-					var parts = path.split('/');
-					var adapter = parts[1];
-					parts.splice(0, 2);
-					// socket.emit('mkdir', adapter, pathSubdir, function(err){	createDir(_path, _callback, _index + 1); });
-				}
+				var parts = path.split('/');
+				var adapter = parts[1];
+				parts.splice(0, 2);
+				//needs admin >5.0.3
+				if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= 503) alert("This operation is only supported by admin versions > 5.0.3. Please update your admin-adapter!");
+				socket.emit('mkdir', adapter, pathSubdir, function(err){
+					createDir(_path, _callback, _index + 1);
+				});
 			})(); //<--End Closure
 		} else { //Subdir exists - iterate to next subdir
 			createDir(path, callback, index + 1);
 		}
 	}
 }
-async function checkExistance(path){
+*/
+async function checkDirExistance(path){
 	var result = await readDirAsync(path);
 	if(result == null) return true; else return false;
 }
-
 
 
 /************** LOAD ********************************************************
@@ -4704,7 +4704,9 @@ async function load(settings, onChange) {
 		} else {
 			$key.val(settings[id]);
 			//do not call onChange direct, because onChange could expect some arguments
-			$key.on('change', () => onChange()).on('keyup', () => onChange());
+			$key.on('change keyup', function(event, noOnChange){ 
+				if(!noOnChange) onChange(); 
+			});
 		}
 	});
 
@@ -4738,7 +4740,7 @@ async function load(settings, onChange) {
 	inbuiltIcons.sort();
 
 	//Update all Colorpickers
-	$('.MaterializeColorPicker').trigger('change');
+	$('.MaterializeColorPicker').trigger('change', 'noOnChange');
 
 	//Init imageUpload
 	initImageUpload();
@@ -4791,10 +4793,12 @@ async function load(settings, onChange) {
 			//Create Link from best fitting web-adapter
 			if (isIobrokerPro){ //Connection over iobroker.net or iobroker.pro - connect without ports!
 				link = location.protocol + "//" + location.hostname + "/iqontrol";
-				connectionLink = location.protocol + "//"  + location.hostname;
+				var connectionLink = location.protocol + "//"  + location.hostname;
+				var forceWebSocket = false;
 			} else { //Direct connection
 				link = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port + "/iqontrol";
-				connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
+				var connectionLink = (result[bestInstance].native.secure ? "https://" : "http://") + location.hostname + ":" + result[bestInstance].native.port;
+				var forceWebSockets = result[bestInstance].native.forceWebSockets;
 			}
 			console.log("Got Link: " + link);
 			$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
@@ -4804,125 +4808,59 @@ async function load(settings, onChange) {
 			for (var element in iQontrolRoles){ $('#dialogDeviceEditCommonRole').append("<option value='" + element + "' data-icon='" + (iQontrolRoles[element].icon ? link + iQontrolRoles[element].icon : "") + "'>" + _(iQontrolRoles[element].name) + "</option>"); }
 			$('#dialogDeviceEditCommonRole').select();
 
-			//Try to init socket.io via conn.js and servConn-Object
-			if(location.protocol == 'https:' && !result[bestInstance].native.secure && !isIobrokerPro){
-				console.log("Admin runs in https, but web-adpater in http");
-				socketConnectionErrorMessages = _("Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.");
-				goOnAfterSocketIsConnectedOrAfterSocketInitError();
-			} else if (location.protocol == 'http:' && result[bestInstance].native.secure && !isIobrokerPro){
-				console.log("Admin runs in http, but web-adapter in https");
-				socketConnectionErrorMessages = _("Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.");
-				goOnAfterSocketIsConnectedOrAfterSocketInitError();
-			} else {
-				try {
-					console.log("Try to init socket.io");
-					var _connectionLink = connectionLink;
-					var _namespace = namespace;
-					var _connOptions = {
-						name:          _namespace,  		// optional - default 'vis.0'
-						connLink:      _connectionLink,  	// optional URL of the socket.io adapter
-						socketSession: ''           		// optional - used by authentication
-					};
-					var _connCallbacks = {
-						onConnChange: function(isConnected) {
-							if(isConnected) {
-								console.log('Socket connected');
-								if (!socketWasConnected){
-									socketWasConnected = true;
-									socketConnectionErrorMessages = "";
-									goOnAfterSocketIsConnectedOrAfterSocketInitError();
-								}
-							} else {
-								console.log('Socket disconnected');
-							}
-						},
-						onRefresh: function() {
-							console.log('Socket refresh');
-						},
-						onError: function(err) {
-							console.log('Socket connection error:' + err.command + " - " + err.arg);
-							if (!socketWasConnected){
-								socketConnectionErrorMessages += "\n" + _('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg);
-								goOnAfterSocketIsConnectedOrAfterSocketInitError();
-							} else {
-								alert(_('Cannot execute %s for %s, because of insufficient permissions', err.command, err.arg));
-							}
+			//Signal to admin, that no changes yet
+			if(!newConfig) onChange(false);
+
+			//Get images
+			console.log("getImages");
+			getImages(async function(){
+				/* The following part was for backwads-compatibility - but it is broken (i think, the socket.io-function rename has changed, as it doesn't allow to transfer betwen iqontrol and iqontrol.meta directory any more - therefore this is disabled now
+				//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
+				console.log("Moving userfiles to new location...");
+				var oldImagePath = "/" + adapter + "/userimages";
+				var err = await renameFileAsync(oldImagePath + "/", userfilesImagePath + "/");
+				if(typeof err == udef) {
+					console.log("...userfiles moved.")
+					alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
+				} else console.log("...nothing to move (" + err + ").");
+
+				//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
+				console.log("Adjusting image links to new userfiles location");
+				var oldImagePathRelative = ".\\userimages";
+				var fileLocationChanged = false;
+				if (typeof views != udef) views.forEach(function(view){
+					if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
+						view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
+						console.log("Adjusted view-backgroundimage: " + view.nativeBackgroundImage);
+						fileLocationChanged = true;
+					}
+					if (typeof view.devices != udef) view.devices.forEach(function(device){
+						if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
+							device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
+							console.log("Adjusted device-backgroundimage: " + device.nativeBackgroundImage);
+							fileLocationChanged = true;
 						}
-					};
-					servConn.init(_connOptions, _connCallbacks);
-					servConn.namespace = _namespace;
-					servConn.setReconnectInterval(5000);
-					servConn.setReloadTimeout(300);
-					console.log("Inited socket.io");
-				} catch {
-					//Error initing socket.io - Fallback to inbuilt socket of admin - wich has difficulties with file operations
-					console.log("Error initing socket.io");
-					socketConnectionErrorMessages += "\n" + _("No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!");
-					goOnAfterSocketIsConnectedOrAfterSocketInitError();
-				}
-			}
+					});
+				});
+				if (fileLocationChanged) onChange(true);
+				*/
+
+				//Show Settings
+				console.log("All settings loaded. Adapter ready.");
+				$('.hideOnLoad').show();
+				$('.showOnLoad').hide();
+				loading = false;
+
+				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+				if (M) M.updateTextFields();
+
+				//Get iobrokerObjects
+				getIobrokerObjects();
+			});
 		} else {
 			alert(_("Error: No web-adapter found!"));
 		}
 	});
-
-	function goOnAfterSocketIsConnectedOrAfterSocketInitError(){
-		//Error?
-		if (socketConnectionErrorMessages != ""){
-			socketConnectionErrorMessages += "\n\n\n" + _("Trying to use fallback. Some functions and file-operations may not work.");
-			alert(socketConnectionErrorMessages);
-		}
-
-		//Signal to admin, that no changes yet
-		if(!newConfig) onChange(false);
-
-		//Get images
-		console.log("getImages");
-		getImages(async function(){
-			/* The following part was for backwads-compatibility - but it is broken (i think, the socket.io-function rename has changed, as it doesn't allow to transfer betwen iqontrol and iqontrol.meta directory any more - therefore this is disabled now
-			//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
-			console.log("Moving userfiles to new location...");
-			var oldImagePath = "/" + adapter + "/userimages";
-			var err = await renameFileAsync(oldImagePath + "/", userfilesImagePath + "/");
-			if(typeof err == udef) {
-				console.log("...userfiles moved.")
-				alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
-			} else console.log("...nothing to move (" + err + ").");
-
-			//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
-			console.log("Adjusting image links to new userfiles location");
-			var oldImagePathRelative = ".\\userimages";
-			var fileLocationChanged = false;
-			if (typeof views != udef) views.forEach(function(view){
-				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
-					view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
-					console.log("Adjusted view-backgroundimage: " + view.nativeBackgroundImage);
-					fileLocationChanged = true;
-				}
-				if (typeof view.devices != udef) view.devices.forEach(function(device){
-					if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
-						device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
-						console.log("Adjusted device-backgroundimage: " + device.nativeBackgroundImage);
-						fileLocationChanged = true;
-					}
-				});
-			});
-			if (fileLocationChanged) onChange(true);
-			*/
-
-			//Show Settings
-			console.log("All settings loaded. Adapter ready.");
-			$('.hideOnLoad').show();
-			$('.showOnLoad').hide();
-			loading = false;
-
-			//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
-			if (M) M.updateTextFields();
-
-			//Get iobrokerObjects
-			getIobrokerObjects();
-		});
-	}
 
 	function getIobrokerObjects(){
 		console.log("Getting ioBroker Objects...");
@@ -7277,7 +7215,7 @@ async function load(settings, onChange) {
 			}];
 		};
 		socketCallback = function(err, obj){
-			obj.forEach(function(element){
+			if(obj) obj.forEach(function(element){
 				if(element.isDir) {
 					imagesDirs.push({
 						dirname:		path.substring(userfilesImagePath.length) + "/" + element.file,
@@ -7718,7 +7656,7 @@ async function load(settings, onChange) {
 				actualSection = iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name;
 				if(typeof deviceOptions[actualSection] == udef) deviceOptions[actualSection] = [];
 			} else {
-				deviceOptions[actualSection].push(iQontrolRoleOption + "/" + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name.replace(/\//g, "\\")));
+				deviceOptions[actualSection].push(iQontrolRoleOption + "/" + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name).replace(/\//g, "\\"));
 			}				
 		}
 	}

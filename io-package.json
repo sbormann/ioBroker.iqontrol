@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.7.0",
+        "version": "1.7.1",
         "news": {
+            "1.7.1": {
+                "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
+                "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
+                "ru": "Исправление для работы с Admin v5-0-3 (переименование файлов и папок будет работать только с предстоящим следующим административным обновлением), обновлены зависимости, добавлена ​​опция для отображения имени INFO_A / B.",
+                "pt": "Correção para trabalhar com o Admin v5-0-3 (renomear arquivos e pastas só funcionará com a próxima atualização do administrador), Dependências atualizadas, opção adicionada para mostrar o nome de INFO_A / B.",
+                "nl": "Herstel om te werken met Admin v5-0-3 (hernoemen van bestanden en mappen werkt alleen met de aanstaande volgende admin-update), Bijgewerkte afhankelijkheden, Optie toegevoegd om de naam van INFO_A / B weer te geven.",
+                "fr": "Correctif pour fonctionner avec Admin v5-0-3 (renommer les fichiers et les dossiers ne fonctionnera qu'avec la prochaine mise à jour de l'administrateur), Dépendances mises à jour, option ajoutée pour afficher le nom de INFO_A / B",
+                "it": "Risolto il problema con Admin v5-0-3 (la ridenominazione di file e cartelle funzionerà solo con il prossimo prossimo aggiornamento dell'amministratore), dipendenze aggiornate, opzione aggiunta per mostrare il nome di INFO_A / B.",
+                "es": "Corrección para trabajar con Admin v5-0-3 (el cambio de nombre de archivos y carpetas solo funcionará con la próxima actualización de administrador), dependencias actualizadas, opción agregada para mostrar el nombre de INFO_A / B.",
+                "pl": "Poprawka do pracy z administratorem v5-0-3 (zmiana nazw plików i folderów będzie działać tylko z nadchodzącą następną aktualizacją administratora), zaktualizowane zależności, dodano opcję wyświetlania nazwy INFO_A / B.",
+                "zh-cn": "已修复，可与Admin v5-0-3一起使用（重新命名文件和文件夹仅适用于即将进行的下一次admin更新），已更新的相关性，已添加选项以显示INFO_A / B的名称。"
+            },
             "1.7.0": {
                 "en": "Added combobox as possible option type, Added Date and Time as new device for dates, times and periods (durations), Added time-format and time-display-format to custom settings of datapoints, Added time-picker for every datapoint - including ADDITIONAL_CONTROLS - of role value.time, value.date, value.datetime, level.timer and level.timer.sleep, Enhanced blind to better show opening and closing, even if level is 0 or 100, Added STOP_SET_VALUE for blinds, You can now use variables in device-names, button-captions and headings of ADDITIONAL_CONTROLS.",
                 "de": "Combobox als möglicher Optionstyp hinzugefügt, Datum und Uhrzeit als neues Gerät für Datum, Uhrzeit und Zeitraum (Dauer) hinzugefügt, Zeitformat und Zeitanzeigeformat zu benutzerdefinierten Einstellungen von Datenpunkten hinzugefügt, Zeitauswahl für jeden Datenpunkt hinzugefügt - einschließlich ADDITIONAL_CONTROLS ",
