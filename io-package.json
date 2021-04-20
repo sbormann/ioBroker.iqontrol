@@ -1,8 +1,9 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.7.1",
+        "version": "1.7.2",
         "news": {
+			"1.7.2": {"en": "Added compatibility to new react-ui of admin-adapter, Changed background-images in autocreate views function."},
             "1.7.1": {
                 "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
                 "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
@@ -264,6 +265,7 @@
         "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
+		"tier": 3,
         "type": "visualization",
         "highlight": true,
         "compact": true,
@@ -298,7 +300,7 @@
                 "pl": "iQontrol",
                 "zh-cn": "iQontrol"
             },
-            "link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+            "link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.0",
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,

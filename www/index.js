@@ -4061,6 +4061,7 @@ function fetchSystemConfig(callback){
 
 function fetchConfig(_namespace, callback, forceFetch){
 	if (typeof _namespace == "function") {
+		forceFetch = callback;
 		callback = _namespace;
 		_namespace = null;
 	}

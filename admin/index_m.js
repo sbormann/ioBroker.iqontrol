@@ -4346,13 +4346,23 @@ function getEnumerationName(enumeration){
 //History-Instances
 var historyInstances = [];
 function getHistoryInstances(callback){
-	historyInstances = [];
-	for(var id = 0; id < parent.gMain.instances.length; id++){
-		if(parent.gMain.objects[parent.gMain.instances[id]].common.type === 'storage'){
-			historyInstances.push(parent.gMain.instances[id].substring('system.adapter.'.length));
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _callback = callback;
+		var _toDo = function(){
+			historyInstances = [];
+			for(id in iobrokerObjects){ 
+				if(id.indexOf('system.adapter.') == 0 && !isNaN(id.substr(id.lastIndexOf('.') + 1)) && iobrokerObjects[id] && iobrokerObjects[id].common && iobrokerObjects[id].common.type === 'storage'){
+					historyInstances.push(id.substring('system.adapter.'.length));
+				}
+			}
+			_callback && _callback(historyInstances);		
 		}
-	}
-	callback && callback();
+		if(iobrokerObjectsReady) {
+			_toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(_toDo);
+		}
+	})(); //<--End Closure
 }
 
 //fixedEncodeURIComponents (encodes !, ', (, ), and *)	
@@ -4533,13 +4543,13 @@ function readDirAsync(path){
 function readDirAsZip(path, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1);
 	if(pathWithoutSlashNamespace.substr(-1) == '/') pathWithoutSlashNamespace = pathWithoutSlashNamespace.substr(0, pathWithoutSlashNamespace.length -1);
-	socket.emit('sendToHost', parent.gMain.currentHost, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){
+	socket.emit('sendToHost', common.host, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){
 		callback(data.error || null, data.data || null);
-	});
+	});		
 }
 function writeDirAsZip(path, base64Zip, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
-	socket.emit('sendToHost', parent.gMain.currentHost, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){
+	socket.emit('sendToHost', common.host, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){
 		callback(data.error || null, null);
 	});
 }
@@ -4866,15 +4876,34 @@ async function load(settings, onChange) {
 		console.log("Getting ioBroker Objects...");
 		$('.loadingObjects').show();
 		iobrokerObjectsReady = false;
-		iobrokerObjects = Object.assign({}, parent.gMain.objects);
-		iobrokerObjectsReady = true;
-		if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
-		for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
-			if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+		if(parent && parent.gMain && typeof parent.gMain.objects == "object"){
+			console.log("...assigning ioBroker Objects via parent.gMain.objects...");
+			iobrokerObjects = Object.assign({}, parent.gMain.objects);
+			iobrokerObjectsReady = true;
+			if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+			for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+				if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+			}
+			iobrokerObjectsReadyFunctions = [];
+			$('.loadingObjects').hide();
+			console.log("ioBroker Objects ready.");
+		} else {
+			setTimeout(function(){
+				console.log("...fetching ioBroker Objects via socket...");
+				$('.loadingObjects').show();
+				socket.emit('getObjects', function (err, _objs) {
+					iobrokerObjects = _objs;
+					iobrokerObjectsReady = true;
+					if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+					for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
+						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
+					}
+					iobrokerObjectsReadyFunctions = [];
+					$('.loadingObjects').hide();
+					console.log("ioBroker Objects ready.");
+				});
+			}, 1000);
 		}
-		iobrokerObjectsReadyFunctions = [];
-		$('.loadingObjects').hide();
-		console.log("ioBroker Objects ready.");
 	}
 
 	//++++++++++ TABS ++++++++++
@@ -5115,7 +5144,13 @@ async function load(settings, onChange) {
 					var existingNameIndex = 0;
 					while(viewNames.indexOf(name + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
 					if(existingNameIndex) name = name + " " + existingNameIndex;
-					var view = {commonName: name, nativeBackgroundImage: './images/wallpaper/orangedrops.jpg', devices: []}
+					var backgroundImage = './images/wallpaper/orangedrops.jpg';
+					if(enumeration.indexOf('enum.rooms') == 0) {
+						backgroundImage = './images/wallpaper/bottle.jpg';
+					} else if(enumeration.indexOf('enum.functions') == 0) {
+						backgroundImage = './images/wallpaper/grass.jpg';
+					}
+					var view = {commonName: name, nativeBackgroundImage: backgroundImage, devices: []}
 					if(enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function") enumerations[enumeration].common.members.forEach(function(member){
 						if($('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + enumeration + '"][data-member="' + member + '"]').prop('checked')){
 							var result = deviceAutocreate(member, iobrokerObjects);
@@ -5134,7 +5169,7 @@ async function load(settings, onChange) {
 						viewCount++;
 					}
 					if(view.devices.length && enumeration != enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked')) {
-						iQontrolViewDevices.push({commonName: name, commonRole: "iQontrolView", nativeLinkedView: name, nativeBackgroundImage: './images/wallpaper/orangedrops.jpg'});
+						iQontrolViewDevices.push({commonName: name, commonRole: "iQontrolView", nativeLinkedView: name, nativeBackgroundImage: backgroundImage});
 						deviceCount++;
 					}
 					if(enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterViewToolbarEntry').prop('checked')){
@@ -5949,20 +5984,27 @@ async function load(settings, onChange) {
 		});
 	}
 	function tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex){
-		if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
-			var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
-			var stateObject = parent.gMain.objects[stateId];
-			if (typeof stateObject != udef) {
-				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+		var toDo = function(){
+			if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
+				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
+				var stateObject = iobrokerObjects[stateId];
+				if (typeof stateObject != udef) {
+					if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+					} else {
+						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+					}
 				} else {
-					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 				}
 			} else {
 				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 			}
+		}
+		if(iobrokerObjectsReady) {
+			toDo();
 		} else {
-			$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			iobrokerObjectsReadyFunctions.push(toDo);
 		}
 	}
 	function dialogDeviceEditStatesWidgetSelected(value){
@@ -6135,16 +6177,23 @@ async function load(settings, onChange) {
 		});
 	}
 	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
-		var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
-		var stateObject = parent.gMain.objects[stateId];
-		if (typeof stateObject != udef) {
-			if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+		var toDo = function(){
+			var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
+			var stateObject = iobrokerObjects[stateId];
+			if (typeof stateObject != udef) {
+				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+				} else {
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+				}
 			} else {
-				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
-			}
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			}			
+		}
+		if(iobrokerObjectsReady) {
+			toDo();
 		} else {
-			$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			iobrokerObjectsReadyFunctions.push(toDo);
 		}
 	}
 
@@ -8081,35 +8130,49 @@ async function load(settings, onChange) {
 
 	//Export Custom
 	$('#optionsBackupRestoreExportCustoms').on('click', function(){
-		var customs = [];
-		for(objectId in parent.gMain.objects){
-			if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
-		};
-		saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
+		var toDo = function(){
+			var customs = [];
+			for(objectId in iobrokerObjects){
+				if(typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
+			};
+			saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
+		}
+		if(iobrokerObjectsReady) {
+			toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
 	});
 
 	//Export Everything (but userfiles)
 	$('#optionsBackupRestoreExportEverything').on('click', function(){
-		var obj = {};
-		obj.views = views;
-		obj.toolbar = toolbar;
-		//Select elements with class=value and build settings object
-		var options = {};
-		$('.value').each(function () {
-			var $this = $(this);
-			if ($this.attr('type') === 'checkbox') {
-				options[$this.attr('id')] = $this.prop('checked');
-			} else {
-				options[$this.attr('id')] = $this.val();
-			}
-		});
-		obj.options = options;
-		var customs = [];
-		for(objectId in parent.gMain.objects){
-			if(typeof parent.gMain.objects[objectId].common != udef && typeof parent.gMain.objects[objectId].common.custom  != udef && typeof parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != udef && parent.gMain.objects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: parent.gMain.objects[objectId].common.custom[adapter + "." + instance]});
-		};
-		obj.customs = customs;
-		saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
+		var toDo = function(){
+			var obj = {};
+			obj.views = views;
+			obj.toolbar = toolbar;
+			//Select elements with class=value and build settings object
+			var options = {};
+			$('.value').each(function () {
+				var $this = $(this);
+				if ($this.attr('type') === 'checkbox') {
+					options[$this.attr('id')] = $this.prop('checked');
+				} else {
+					options[$this.attr('id')] = $this.val();
+				}
+			});
+			obj.options = options;
+			var customs = [];
+			for(objectId in iobrokerObjects){
+				if(typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
+			};
+			obj.customs = customs;
+			saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
+		}
+		if(iobrokerObjectsReady) {
+			toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
 	});
 
 	//Export Userfiles

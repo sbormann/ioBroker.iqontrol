@@ -1520,6 +1520,10 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.7.2 
+* (sbormann) Added compatibility to new react-ui of admin-adapter.
+* (sbormann) Changed background-images in autocreate views function.
+
 ### 1.7.1 (2021-04-18)
 * (sbormann) Fix to work with Admin v5.0.3 (renaming files and folders will only work with the upcoming next admin-update).
 * (sbormann) Updated dependencies.
