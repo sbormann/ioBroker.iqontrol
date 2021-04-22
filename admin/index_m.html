@@ -113,6 +113,14 @@
 						</p>
 					</div>
 				</div>
+				<div class="row hideOnLoad" style="display: none;">
+					<div class="col s12">
+						<h6><i class="material-icons" style="vertical-align: middle; font-size: 1rem; margin-right: 6px;">warning</i>&nbsp;<span class="translate">Warning: make shure you have a backup!</span>&nbsp;<span class="translate">You can create backups under Options - Backup/Restore.</span></h6>
+					</div>
+				</div>
+				
+				
+				
 				<div class="row loadingObjects" style="display: none;">
 					<div class="col s12">
 						<p class="translate">Still loading some objects in the background...</p>
@@ -549,7 +557,7 @@
 						<div class="collapsible-body">
 							<div class="row">
 								<div class="col s12">
-									<h6><i class="material-icons">warning</i>&nbsp;<span class="translate">Warning: make shure you have a backup!</span></h6>
+									<h6><i class="material-icons" style="vertical-align: middle; font-size: 1rem; margin-right: 6px;">warning</i>&nbsp;<span class="translate">Warning: make shure you have a backup!</span>&nbsp;<span class="translate">You can create backups under Options - Backup/Restore.</span></h6>
 								</div>
 							</div>
 							<div class="row">
@@ -2116,6 +2124,24 @@
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: DeviceEditStateCustom -->
+        <div id="dialogDeviceEditStateCustom" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogDeviceEditStateCustomIndex" />
+                <div class="row" style="height: 100%; overflow: hidden; margin: 0px;">
+                    <div class="col s12">
+						<h6 class="title"><span class="translate">Edit Custom:</span> <span id="dialogDeviceEditStateCustomName"></span></h6>
+					</div>
+                    <div class="input-field col s12">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>
 

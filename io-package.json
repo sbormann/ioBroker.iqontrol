@@ -221,18 +221,18 @@
                 "zh-cn": "添加了自动创建视图，可帮助您从ioBroker列表中创建整个配置（例如房间或功能），添加了状态ENLARGE_TILE，可用于通过外部数据点触发图块放大，BACKGROUND_URL / HTML的增强型动态缩放功能更多"
             }
         },
-        "title": "iQontrol",
+        "title": "iQontrol Vis",
         "titleLang": {
-            "en": "iQontrol",
-            "de": "iQontrol",
-            "ru": "iQontrol",
-            "pt": "iQontrol",
-            "nl": "iQontrol",
-            "fr": "iQontrol",
-            "it": "iQontrol",
-            "es": "iQontrol",
-            "pl": "iQontrol",
-            "zh-cn": "iQontrol"
+            "en": "iQontrol Vis",
+            "de": "iQontrol Vis",
+            "ru": "iQontrol Vis",
+            "pt": "iQontrol Vis",
+            "nl": "iQontrol Vis",
+            "fr": "iQontrol Vis",
+            "it": "iQontrol Vis",
+            "es": "iQontrol Vis",
+            "pl": "iQontrol Vis",
+            "zh-cn": "iQontrol Vis"
         },
         "desc": {
             "en": "Fast Web-App for Visualization",
@@ -304,6 +304,7 @@
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
+		"jsonCustom": true,
         "plugins": {
             "sentry": {
                 "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"

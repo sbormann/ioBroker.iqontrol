@@ -1,0 +1,199 @@
+{
+	"i18n": true,
+	"items": {
+		"readonly": {
+			"type": "checkbox",
+			"sm": 12,
+			"label":"Readonly",
+			"default": "instanceObj && instanceObj.native && instanceObj.native.write == false) || (instanceObj && instanceObj.common && instanceObj.common.write == false) || false"
+		},
+		"invert": {
+			"type": "checkbox",
+			"sm": 12,
+			"label":"Invert",
+			"help": "(this is only supported for booleans and for numbers with defined min and max)",
+			"default": false
+		},
+		"confirm": {
+			"type": "checkbox",
+			"sm": 12,
+			"label":"Confirm",
+			"help": "(before sending a state a confirmation-box is showed)",
+			"default": false
+		},
+		"pincode": {
+			"type": "text",
+			"sm": 12,
+			"label":"PIN-Code",
+			"help": "(before sending a state you have to enter this code)",
+			"default": ""
+		},
+		"unit": {
+			"type": "text",
+			"sm": 12,
+			"label":"Unit",
+			"default": "(instanceObj && instanceObj.common && instanceObj.common.unit) || ''"
+		},
+		"unit_zero": {
+			"type": "text",
+			"sm": 12,
+			"label":"Unit (if value is 0)",
+			"help": "(this is only supported for numbers)",
+			"default": "(instanceObj && instanceObj.common && instanceObj.common.unit) || ''"
+		},
+		"unit_one": {
+			"type": "text",
+			"sm": 12,
+			"label":"Unit (if value is 1)",
+			"help": "(this is only supported for numbers)",
+			"default": "(instanceObj && instanceObj.common && instanceObj.common.unit) || ''"
+		},
+		"min": {
+			"type": "number",
+			"sm": 12,
+			"label":"Minimum",
+			"help": "(this is only supported for numbers)",
+			"default": "(instanceObj && instanceObj.common && typeof instanceObj.common.min !== 'undefined' && !isNaN(Number(instanceObj.common.min))) ? Number(instanceObj.common.min) : ''"
+		},
+		"max": {
+			"type": "number",
+			"sm": 12,
+			"label":"Maximum",
+			"help": "(this is only supported for numbers)",
+			"default": "(instanceObj && instanceObj.common && typeof instanceObj.common.max !== 'undefined' && !isNaN(Number(instanceObj.common.max))) ? Number(instanceObj.common.max) : ''"
+		},
+		"step": {
+			"type": "number",
+			"min": 0,
+			"max": 100000,
+			"step": 0.0001,
+			"sm": 12,
+			"label":"Step",
+			"help": "(this is only supported for numbers)",
+			"default": ""
+		},
+		"roundDigits": {
+			"type": "number",
+			"min": 0,
+			"max": 10,
+			"sm": 12,
+			"label":"Round to this number of digits",
+			"help": "(this is only supported for numbers)",
+			"default": 2
+		},
+		"timeFormat": {
+			"type": "text",
+			"sm": 12,
+			"label":"Format of Time (as stored in the datapoint, see readme)",
+			"help": "(this is only supported if datapoint has the role time)",
+			"default": "x"
+		},
+		"timeDisplayFormat": {
+			"type": "text",
+			"sm": 12,
+			"label":"Display-Format of Time (how it should be displayed, see readme)",
+			"help": "(this is only supported if datapoint has the role time)",
+			"default": "dddd, DD.MM.YYYY HH:mm:ss"
+		},
+		"type": {
+			"type": "select",
+			"options": [{
+					"value": "",
+					"label": ""
+				}, {
+					"value": "string",
+					"label": "String"
+				}, {
+					"value": "number",
+					"label": "Number"
+				}, {
+					"value": "boolean",
+					"label": "Boolean"
+				}
+			],
+			"sm": 12,
+			"label":"Type",
+			"help": "(overwrites common.type property)",
+			"default": "(instanceObj && instanceObj.common && instanceObj.common.type) || ''"
+		},
+		"role": {
+			"type": "select",
+			"options": [{
+					"value": "",
+					"label": ""
+				}, {
+					"value": "state",
+					"label": "State (state)"
+				}, {
+					"value": "level",
+					"label": "Level (level)"
+				}, {
+					"value": "switch",
+					"label": "Switch (switch)"
+				}, {
+					"value": "button",
+					"label": "Button (button)"
+				}, {
+					"value": "sensor.window",
+					"label": "Window/Door sensor (sensor.window)"
+				}, {
+					"value": "sensor.alarm",
+					"label": "Alarmsensor (sensor.alarm)"
+				}, {
+					"value": "sensor.alarm.fire",
+					"label": "Firesensor (sensor.alarm.fire)"
+				}, {
+					"value": "value.time",
+					"label": "Time (value.time)"
+				}, {
+					"value": "level.timer",
+					"label": "Timer (level.timer)"
+				}
+			],
+			"sm": 12,
+			"label":"Role",
+			"help": "(overwrites common.role property)",
+			"default": "(instanceObj && instanceObj.common && instanceObj.common.role) || ''"
+		},
+		"targetValueId": {
+			"type": "text",
+			"sm": 12,
+			"label":"Write target values to this Datapoint ID",
+			"help": "(if you have different data points for the actual and the target value)",
+			"default": ""
+		},
+		"states": {
+			"type": "json",
+			"sm": 12,
+			"label":"Value-List",
+			"help": "",
+			"default": "(instanceObj && instanceObj.native && instanceObj.native.states) || (instanceObj && instanceObj.common && instanceObj.common.states)"
+		},
+		"statesAddInput": {
+			"type": "checkbox",
+			"sm": 12,
+			"label":"Add option to enter free text",
+			"default": false
+		},
+		"statesAddInputCaption": {
+			"type": "text",
+			"sm": 12,
+			"label":"Name of this option",
+			"default": "Enter other value..."
+		},
+		"targetValues": {
+			"type": "json",
+			"sm": 12,
+			"label":"Target-Value-List",
+			"help": "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID, wildcard * is allowed)",
+			"default": ""
+		},
+		"showOnlyTargetValues": {
+			"type": "checkbox",
+			"sm": 12,
+			"label":"Show only these keys in dropdown-fiels",
+			"help": "(otherwise all keys from the value-list are shown in drop-downs)",
+			"default": false
+		}
+	}
+}
