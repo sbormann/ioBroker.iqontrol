@@ -1726,7 +1726,9 @@ function uploadFile(file, path, callback) {
 		var parts = path.split('/');
 		var adapter = parts[1];
 		parts.splice(0, 2);
-		socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
+		var data = e.target.result;
+		const base64 = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+		socket.emit('writeFile64', adapter, parts.join('/'), base64, function () {
 			if (callback) callback(file.name);
 		});
 	};
@@ -1744,7 +1746,9 @@ function uploadStringAsFile(string, filename, path, callback) {
 		var parts = path.split('/');
 		var adapter = parts[1];
 		parts.splice(0, 2);
-		socket.emit('writeFile', adapter, parts.join('/'), e.target.result, function () {
+		var data = e.target.result;
+		const base64 = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+		socket.emit('writeFile', adapter, parts.join('/'), base64, function () {
 			if (callback) callback(filename);
 		});
 	};
@@ -1915,7 +1919,6 @@ function renameFile(path, newPath, callback) {
 		parts.splice(0, 2);
 		newParts.splice(0, 2);
 		//needs admin >5.0.3
-		if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= 503) alert("This operation is only supported by admin versions > 5.0.3. Please update your admin-adapter!");
 		socket.emit('renameFile', adapter, parts.join('/'), newParts.join('/'), function (err) { 
 			if (callback) callback(err); 
 		});
@@ -1928,7 +1931,7 @@ function renameFileAsync(oldPath, newPath){
 		});
 	});
 }
-async function createDir(path, callback){ /* This is a workaround, because socket.emit('mkdir' was not working */
+async function createDir(path, callback){ /* This is a workaround, because socket.emit('mkdir' was not working (should be fixed meanwhile, but i haven't tested yet) */
 	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
 	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 		var _path = path;
@@ -1967,6 +1970,13 @@ async function createDir(path, callback, index) { //index is just for recoursive
 	}
 }
 */
+function createDirAsync(path){
+	return new Promise(resolve => {
+		createDir(path, function(err, obj){
+			resolve(err);
+		});
+	});
+}
 async function checkDirExistance(path){
 	var result = await readDirAsync(path);
 	if(result == null) return true; else return false;
@@ -2102,7 +2112,7 @@ async function load(settings, onChange) {
 
 	//Get Link of best fitting web-adapter
 	console.log("getLink of best fitting web-adapter");
-	getExtendableInstances(function (result) {
+	getExtendableInstances(async function (result) {
 		if (result) {
 			//Detect connection over iobroker.net or iobroker.pro
 			var isIobrokerPro = false;
@@ -2163,40 +2173,22 @@ async function load(settings, onChange) {
 			//Signal to admin, that no changes yet
 			if(!newConfig) onChange(false);
 
+			//Create /usericons /usersymbols and /userwidgets
+			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets"];
+			for(i = 0; i < createSpecialDirs.length; i++){
+				var dirname = createSpecialDirs[i];
+				console.log("Check directory " + userfilesImagePath + dirname);
+				var result = await checkDirExistance(userfilesImagePath + dirname);
+				console.log(result);
+				if(!result) {
+					console.log("Creating directory " + userfilesImagePath + dirname);
+					await createDirAsync(userfilesImagePath + dirname);
+				}
+			};
+
 			//Get images
 			console.log("getImages");
 			getImages(async function(){
-				/* The following part was for backwads-compatibility - but it is broken (i think, the socket.io-function rename has changed, as it doesn't allow to transfer betwen iqontrol and iqontrol.meta directory any more - therefore this is disabled now
-				//Backward-Compatibility: Move images from old local location to new userfilesImagePath-location
-				console.log("Moving userfiles to new location...");
-				var oldImagePath = "/" + adapter + "/userimages";
-				var err = await renameFileAsync(oldImagePath + "/", userfilesImagePath + "/");
-				if(typeof err == udef) {
-					console.log("...userfiles moved.")
-					alert(_("The uploaded images have been moved to a new location. This is only done once and allowes automatic backup of these files by iobroker. Please reload this site and save the settings, so all filenames can be updated!"));
-				} else console.log("...nothing to move (" + err + ").");
-
-				//Backward-Compatibility: Check for image-links in views and devices that point to old local location but that were moved to new userfilesImagePath-location previously
-				console.log("Adjusting image links to new userfiles location");
-				var oldImagePathRelative = ".\\userimages";
-				var fileLocationChanged = false;
-				if (typeof views != udef) views.forEach(function(view){
-					if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == view.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
-						view.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + view.nativeBackgroundImage.substring(oldImagePathRelative.length);
-						console.log("Adjusted view-backgroundimage: " + view.nativeBackgroundImage);
-						fileLocationChanged = true;
-					}
-					if (typeof view.devices != udef) view.devices.forEach(function(device){
-						if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.indexOf(oldImagePathRelative) == 0 && images.find(function(element){return element.filenameBS == device.nativeBackgroundImage.substring(oldImagePathRelative.length);})) {
-							device.nativeBackgroundImage = ".\\.." + userfilesImagePathBS + device.nativeBackgroundImage.substring(oldImagePathRelative.length);
-							console.log("Adjusted device-backgroundimage: " + device.nativeBackgroundImage);
-							fileLocationChanged = true;
-						}
-					});
-				});
-				if (fileLocationChanged) onChange(true);
-				*/
-
 				//Show Settings
 				console.log("All settings loaded. Adapter ready.");
 				$('.hideOnLoad').show();
@@ -2208,6 +2200,17 @@ async function load(settings, onChange) {
 
 				//Get iobrokerObjects
 				getIobrokerObjects();
+				
+				//Warn if Admin-Version is too low
+				var toDo = function(){
+					var warnIfLE = "5.0.6";
+					if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= warnIfLE.split('.').join('')) alert(_("Some operations are only supported by admin versions > %s. Please update your admin-adapter!", warnIfLE));
+				}
+				if(iobrokerObjectsReady) {
+					toDo();
+				} else {
+					iobrokerObjectsReadyFunctions.push(toDo);
+				}
 			});
 		} else {
 			alert(_("Error: No web-adapter found!"));
@@ -4542,7 +4545,7 @@ async function load(settings, onChange) {
 		$('#imagesUploadFileSubmit').on('click', imagesUploadHandleSubmit);
 	}
 	function imagesUploadHandleFileSelect() {
-		$('#imagesUploadFileSubmit').addClass('disabled');
+		$('#imagesUploadFileSubmit').addClass('disabled').removeClass('pulse');
 		var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
 		if (!files.length) return;
 		for (i=0; i<files.length; i++){
@@ -4559,21 +4562,20 @@ async function load(settings, onChange) {
 				alert(_("File %s has wrong filetype. Allowed file types: ", escape(file.name)) + $('#imagesUploadFile').prop('accept'));
 				return;
 			}
-			$('#imagesUploadFileSubmit').removeClass('disabled');
+			$('#imagesUploadFileSubmit').removeClass('disabled').addClass('pulse');
 		}
 	}
 	var imagesUploadFileHandleCount = 0;
 	function imagesUploadHandleSubmit() {
 		var files = $('#imagesUploadFile')[0].files || $('#imagesUploadFile')[0].dataTransfer.files; // FileList object
 		if (!files.length) return;
-		$('#imagesUploadFileSubmit').addClass('disabled');
+		$('#imagesUploadFileSubmit').addClass('disabled').removeClass('pulse');
 		$('#imagesUploadFileFormProgress').show();
 		for (i=0; i<files.length; i++){
 			var file = files[i];
 			imagesUploadFileHandleCount++;
 			uploadFile(file, userfilesImagePath + $('#imagesSelectedDir').val(), function (name) {
 				$('#imagesUploadFileForm')[0].reset();
-				$('#imagesUploadFileSubmit').addClass('disabled');
 				imagesUploadFileHandleCount--;
 				if (imagesUploadFileHandleCount == 0) {
 					getImages(function(){
@@ -4582,7 +4584,6 @@ async function load(settings, onChange) {
 						imagesSelectedDirFillSelectbox();
 						$('#imagesSelectedDir').val(dummy).trigger('change');
 						$('#imagesSelectedDir').select();
-						$('#imagesUploadFileSubmit').removeClass('disabled');
 						$('#imagesUploadFileFormProgress').hide();
 					});
 				}

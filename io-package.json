@@ -3,7 +3,18 @@
         "name": "iqontrol",
         "version": "1.7.2",
         "news": {
-			"1.7.2": {"en": "Added compatibility to new react-ui of admin-adapter, Changed background-images in autocreate views function."},
+            "1.7.2": {
+                "en": "Added compatibility to new react-ui of admin-adapter, Changed background-images in autocreate views function.",
+                "de": "Kompatibilität zu neuer Reaktions-Benutzeroberfläche des Admin-Adapters hinzugefügt. Hintergrundbilder in der Funktion zum automatischen Erstellen von Ansichten wurden geändert.",
+                "ru": "Добавлена ​​совместимость с новым response-ui админ-адаптера, изменены фоновые изображения в функции автосоздания представлений.",
+                "pt": "Adicionada compatibilidade com o novo react-ui do adaptador admin. Alteradas as imagens de fundo na função de criação automática de visualizações.",
+                "nl": "Compatibiliteit toegevoegd aan nieuwe react-ui van admin-adapter, Achtergrondafbeeldingen gewijzigd in functie voor automatisch aanmaken van weergaven.",
+                "fr": "Ajout de la compatibilité avec le nouveau react-ui de l'adaptateur d'administration, modification des images d'arrière-plan dans la fonction de création automatique de vues",
+                "it": "Aggiunta compatibilità alla nuova interfaccia utente di reazione dell'adattatore di amministrazione, immagini di sfondo modificate nella funzione di visualizzazione automatica delle visualizzazioni.",
+                "es": "Se agregó compatibilidad con el nuevo react-ui de admin-adapter, se cambiaron las imágenes de fondo en la función de creación automática de vistas.",
+                "pl": "Dodano kompatybilność z nowym interfejsem reagowania adaptera administratora, Zmieniono obrazy tła w funkcji automatycznego tworzenia widoków.",
+                "zh-cn": "新增了对admin-adapter的新react-ui的兼容性，并在自动创建视图功能中更改了背景图片。"
+            },
             "1.7.1": {
                 "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
                 "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
@@ -265,7 +276,7 @@
         "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
-		"tier": 3,
+        "tier": 3,
         "type": "visualization",
         "highlight": true,
         "compact": true,
@@ -304,7 +315,7 @@
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
-		"jsonCustom": true,
+        "jsonCustom": true,
         "plugins": {
             "sentry": {
                 "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"

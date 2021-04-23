@@ -1,5 +1,4 @@
 {
-	"You can create backups under Options - Backup/Restore.": "Sie können Backups unter Optionen - Sichern/Wiederherstellen erstellen.",
     "%s icons have been exchanged. Don't forget to save your changes!": "%s Icons wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",
     "%s settings have been exchanged. Don't forget to save your changes!": "%s Einstellungen wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
@@ -601,6 +600,7 @@
     "Size of tile, if device is enlarged": "Größe der Kachel, wenn das Gerät vergrößert ist",
     "Size of tile, if device is inactive": "Größe der Kachel, wenn das Gerät inaktiv ist",
     "Slider": "Schieberegler",
+    "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Einige Operationen werden nur von Admin-Adapter-Versionen > %s unterstützt. Bitte führen Sie ein Update des Admin-Adapters durch!",
     "Source-Device": "Quell-Gerät",
     "Source-View": "Quell-Ansicht",
     "Standard Symbols": "Standard Symbole",
@@ -764,6 +764,7 @@
     "You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.": "Sie können auch versuchen, Geräte automatisch erstellen zu lassen. Wählen Sie dazu ein vorhandenes Gerät aus dem iobroker-Objekt-Baum aus. Die Automatik versucht dann den zugehörigen Gerätetyp herauszufinden und so viele passende Datenpunkte wie möglich anzulegen.",
     "You can also use URL-Parameters to determine, which view or even dialog will be loaded at start": "Es können auch URL-Parameter genutzt werden, um festzulegen, welche Seite oder welcher Dialog beim Start geöffnet werden soll",
     "You can consider views as something like a page.": "Ansichten kann man sich auch als Seiten eines Buchs vorstellen.",
+    "You can create backups under Options - Backup/Restore.": "Sie können Backups unter Optionen - Sichern/Wiederherstellen erstellen.",
     "You can create this device now if you want.": "Sie können dieses Gerät nun erstellen.",
     "You can upload your own icons to the folder '/usericons'": "Sie können ihre eigenen Icons in das Verzeichnis '/usericons' laden",
     "You can use variables in device-names and image-filenames": "In den Gerätenamen und in den Dateinamen von Bildern können Variablen verwendet werden",

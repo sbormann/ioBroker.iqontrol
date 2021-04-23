@@ -1,5 +1,4 @@
 {
-	"You can create backups under Options - Backup/Restore.": "You can create backups under Options - Backup/Restore.",
     "%s icons have been exchanged. Don't forget to save your changes!": "%s icons have been exchanged. Don't forget to save your changes!",
     "%s is directory. Only file upload allowed.": "%s is directory. Only file upload allowed.",
     "%s settings have been exchanged. Don't forget to save your changes!": "%s settings have been exchanged. Don't forget to save your changes!",
@@ -601,6 +600,7 @@
     "Size of tile, if device is enlarged": "Size of tile, if device is enlarged",
     "Size of tile, if device is inactive": "Size of tile, if device is inactive",
     "Slider": "Slider",
+    "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Some operations are only supported by admin versions > %s. Please update your admin-adapter!",
     "Source-Device": "Source-Device",
     "Source-View": "Source-View",
     "Standard Symbols": "Standard Symbols",
@@ -764,6 +764,7 @@
     "You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.": "You can also try to use the Autocreate-Function to choose an existing device from the iobroker-object-tree. Autocreate tries to find out the role and to match as many states as possible.",
     "You can also use URL-Parameters to determine, which view or even dialog will be loaded at start": "You can also use URL-Parameters to determine, which view or even dialog will be loaded at start",
     "You can consider views as something like a page.": "You can consider views as something like a page.",
+    "You can create backups under Options - Backup/Restore.": "You can create backups under Options - Backup/Restore.",
     "You can create this device now if you want.": "You can create this device now if you want.",
     "You can upload your own icons to the folder '/usericons'": "You can upload your own icons to the folder '/usericons'",
     "You can use variables in device-names and image-filenames": "You can use variables in device-names and image-filenames",
