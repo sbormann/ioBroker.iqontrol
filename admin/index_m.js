@@ -1360,6 +1360,7 @@ function initDialog(id, callback) {
 }
 
 var selectId;
+//SelectId
 function initSelectId(callback) {
 	setTimeout(function(){ $('#dialogSelectId').css('z-index', modalZIndexCount++); }, 100);
 	if (selectId) {
@@ -1403,6 +1404,7 @@ function initSelectId(callback) {
 	}
 }
 
+//Helper-Functions
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
     try {
         var o = JSON.parse(jsonString);
@@ -1435,6 +1437,16 @@ function isValidColorString(colorString){
 	var style = new Option().style;
 	style.color = colorString;
 	return (style.color && style.color != "");
+}
+
+function addCustomCSS(customCSS, customID){
+	customID = customID || "default";
+	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
+}
+
+function removeCustomCSS(customID){
+	customID = customID || "default";
+	$('.customCSS_' + customID).remove();
 }
 
 //Symbolic links
@@ -2201,16 +2213,27 @@ async function load(settings, onChange) {
 				//Get iobrokerObjects
 				getIobrokerObjects();
 				
-				//Warn if Admin-Version is too low
+				//If react, make some css adjustments
 				var toDo = function(){
-					var warnIfLE = "5.0.6";
+					if(iobrokerObjects["system.adapter.admin.0"]?.native?.react){
+						var customCSS = "";
+						customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
+						customCSS += ".table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.08) !important; }";
+						customCSS += ".table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.08) !important; }";
+						customCSS += ".table-values th { background-color: rgba(0,0,0,0.1) !important; color: #1d1d1d !important; }";
+						addCustomCSS(customCSS, "reactCSS");
+						var warnIfLE = "5.0.8";
+					} else {
+						var warnIfLE = "5.0.6";
+					}
+					//Warn if Admin-Version is too low
 					if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= warnIfLE.split('.').join('')) alert(_("Some operations are only supported by admin versions > %s. Please update your admin-adapter!", warnIfLE));
 				}
 				if(iobrokerObjectsReady) {
 					toDo();
 				} else {
 					iobrokerObjectsReadyFunctions.push(toDo);
-				}
+				}				
 			});
 		} else {
 			alert(_("Error: No web-adapter found!"));
