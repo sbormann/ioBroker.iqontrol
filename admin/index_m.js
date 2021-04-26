@@ -1339,6 +1339,7 @@ var iobrokerObjectsReadyFunctions = [];
 var dialogCodeEditorCodeMirror = false;
 var dialogCodeEditorCodeMirrorChanged = false;
 var modalZIndexCount = 2000;
+var isReact = false;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 function initDialog(id, callback) {
@@ -1359,8 +1360,9 @@ function initDialog(id, callback) {
 	$dialog.data('callback', callback);
 }
 
-var selectId;
 //SelectId
+var selectId;
+var selectIdImgPath = '../../lib/css/fancytree/';
 function initSelectId(callback) {
 	setTimeout(function(){ $('#dialogSelectId').css('z-index', modalZIndexCount++); }, 100);
 	if (selectId) {
@@ -1368,7 +1370,7 @@ function initSelectId(callback) {
 	}
 	var options = {
 		noMultiselect: true,
-		imgPath:       '../../lib/css/fancytree/',
+		imgPath:       selectIdImgPath,
 		filter:        {type: 'state'},
 		name:          'scenes-select-state',
 		texts: {
@@ -2216,14 +2218,18 @@ async function load(settings, onChange) {
 				//If react, make some css adjustments
 				var toDo = function(){
 					if(iobrokerObjects["system.adapter.admin.0"]?.native?.react){
+						isReact = true;
 						var customCSS = "";
 						customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
 						customCSS += ".table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.08) !important; }";
 						customCSS += ".table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.08) !important; }";
 						customCSS += ".table-values th { background-color: rgba(0,0,0,0.1) !important; color: #1d1d1d !important; }";
 						addCustomCSS(customCSS, "reactCSS");
+						var selectIdImgPath = './fancytree/react/';
+						$('#fancytreeCSSLink').attr('href', './fancytree/react/ui.fancytree.min.css');
 						var warnIfLE = "5.0.8";
 					} else {
+						isReact = false;
 						var warnIfLE = "5.0.6";
 					}
 					//Warn if Admin-Version is too low
