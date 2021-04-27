@@ -1,13 +1,25 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.7.2",
+        "version": "1.7.3",
         "news": {
+            "1.7.3": {
+                "en": "Fixed admin-tab for react.",
+                "de": "Admin-Tab für Reagieren behoben.",
+                "ru": "Исправлена ​​админ-вкладка для реакции.",
+                "pt": "Guia de administração corrigido para reagir.",
+                "nl": "Vaste admin-tab voor reageren.",
+                "fr": "Correction de l'onglet d'administration pour réagir.",
+                "it": "Risolto il problema con la scheda di amministrazione per la reazione.",
+                "es": "Se corrigió la pestaña de administración para reaccionar.",
+                "pl": "Naprawiono zakładkę administratora do reagowania.",
+                "zh-cn": "修复了反应的管理选项卡。"
+            },
             "1.7.2": {
                 "en": "Added compatibility to new react-ui of admin-adapter, Fixed uploading of larger files, Changed background-images in autocreate views function, Internal definition and handling of device options changed, The directories /usericons, /usersymbols and /userwidgets are now automatically created, if not existant, Some design-adjustments for react.",
                 "de": "Kompatibilität zu neuer Reaktions-Benutzeroberfläche des Admin-Adapters hinzugefügt, Upload größerer Dateien behoben, Hintergrundbilder in der Funktion zum automatischen Erstellen von Ansichten geändert, Interne Definition und Behandlung von Geräteoptionen geändert, Verzeichnisse / Benutzericons, / Benutzersymbole und / Benutzerwidgets werden jetzt automatisch erstellt ",
                 "ru": "Добавлена ​​совместимость с новым response-ui админ-адаптера, Исправлена ​​загрузка файлов большего размера, Изменены фоновые изображения в функции автосоздания представлений, Изменено внутреннее определение и обработка параметров устройства, Каталоги / usericons, / usersymbols и / userwidgets теперь создаются автоматически ",
-                "pt": "Adicionada compatibilidade para o novo react-ui do adaptador admin, Carregamento corrigido de arquivos maiores, Imagens de fundo alteradas na função de criação automática de visualizações, Definição interna e manipulação de opções de dispositivo alteradas, Os diretórios / usericons, / usersymbols e / userwidgets agora são criados automaticamente ",
+                "pt": "Adicionada compatibilidade para o novo react-ui do adaptador admin, Carregamento fixo de arquivos maiores, Imagens de fundo alteradas na função de criação automática de visualizações, Definição interna e manipulação de opções de dispositivo alteradas, Os diretórios / usericons, / usersymbols e / userwidgets são agora criados automaticamente ",
                 "nl": "Compatibiliteit toegevoegd aan nieuwe react-ui van admin-adapter, Vaste upload van grotere bestanden, Gewijzigde achtergrondafbeeldingen in autocreate views-functie, Interne definitie en afhandeling van apparaatopties veranderd, De directories / usericons, / gebruikerssymbolen en / userwidgets worden nu automatisch aangemaakt ",
                 "fr": "Ajout de la compatibilité avec le nouveau react-ui de l'adaptateur admin, Correction du téléchargement de fichiers plus volumineux, Modification des images d'arrière-plan dans la fonction de création automatique de vues, Définition interne et gestion des options de l'appareil modifiées, Les répertoires / usericons, / usersymbols et / userwidgets sont maintenant créés automatiquement ",
                 "it": "Aggiunta compatibilità con la nuova interfaccia utente reattiva dell'adattatore amministratore, corretto caricamento di file più grandi, immagini di sfondo modificate nella funzione di visualizzazione automatica, definizione interna e gestione delle opzioni del dispositivo modificate, directory / usericons, / usersymbols e / userwidgets vengono ora creati automaticamente ",
@@ -311,7 +323,7 @@
                 "pl": "iQontrol",
                 "zh-cn": "iQontrol"
             },
-            "link": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.0",
+            "link": "/adapter/iqontrol/tab_m.html?webPort=%web_port%",
             "fa-icon": "blur_on"
         },
         "supportCustoms": true,
