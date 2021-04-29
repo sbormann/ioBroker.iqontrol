@@ -1,887 +1,778 @@
 {
-  "common": {
-    "name": "iqontrol",
-    "version": "1.8.0",
-    "news": {
-      "1.8.0": {
-        "en": "Some design-adjustments for react-ui.",
-        "de": "Einige Designanpassungen für React-UI.",
-        "ru": "Некоторые корректировки дизайна для react-ui.",
-        "pt": "Alguns ajustes de design para react-ui.",
-        "nl": "Enkele ontwerpaanpassingen voor react-ui.",
-        "fr": "Quelques ajustements de conception pour react-ui.",
-        "it": "Alcuni aggiustamenti di progettazione per React-ui.",
-        "es": "Algunos ajustes de diseño para react-ui.",
-        "pl": "Kilka zmian w projekcie dla React-UI.",
-        "zh-cn": "react-ui的一些设计调整。"
-      },
-      "1.7.3": {
-        "en": "Fixed admin-tab for react.",
-        "de": "Admin-Tab für Reagieren behoben.",
-        "ru": "Исправлена ​​админ-вкладка для реакции.",
-        "pt": "Guia de administração corrigido para reagir.",
-        "nl": "Vaste admin-tab voor reageren.",
-        "fr": "Correction de l'onglet d'administration pour réagir.",
-        "it": "Risolto il problema con la scheda di amministrazione per la reazione.",
-        "es": "Se corrigió la pestaña de administración para reaccionar.",
-        "pl": "Naprawiono zakładkę administratora do reagowania.",
-        "zh-cn": "修复了反应的管理选项卡。"
-      },
-      "1.7.2": {
-        "en": "Added compatibility to new react-ui of admin-adapter, Fixed uploading of larger files, Changed background-images in autocreate views function, Internal definition and handling of device options changed, The directories /usericons, /usersymbols and /userwidgets are now automatically created, if not existant, Some design-adjustments for react.",
-        "de": "Kompatibilität zu neuer Reaktions-Benutzeroberfläche des Admin-Adapters hinzugefügt, Upload größerer Dateien behoben, Hintergrundbilder in der Funktion zum automatischen Erstellen von Ansichten geändert, Interne Definition und Behandlung von Geräteoptionen geändert, Verzeichnisse / Benutzericons, / Benutzersymbole und / Benutzerwidgets werden jetzt automatisch erstellt ",
-        "ru": "Добавлена ​​совместимость с новым response-ui админ-адаптера, Исправлена ​​загрузка файлов большего размера, Изменены фоновые изображения в функции автосоздания представлений, Изменено внутреннее определение и обработка параметров устройства, Каталоги / usericons, / usersymbols и / userwidgets теперь создаются автоматически ",
-        "pt": "Adicionada compatibilidade para o novo react-ui do adaptador admin, Carregamento fixo de arquivos maiores, Imagens de fundo alteradas na função de criação automática de visualizações, Definição interna e manipulação de opções de dispositivo alteradas, Os diretórios / usericons, / usersymbols e / userwidgets são agora criados automaticamente ",
-        "nl": "Compatibiliteit toegevoegd aan nieuwe react-ui van admin-adapter, Vaste upload van grotere bestanden, Gewijzigde achtergrondafbeeldingen in autocreate views-functie, Interne definitie en afhandeling van apparaatopties veranderd, De directories / usericons, / gebruikerssymbolen en / userwidgets worden nu automatisch aangemaakt ",
-        "fr": "Ajout de la compatibilité avec le nouveau react-ui de l'adaptateur admin, Correction du téléchargement de fichiers plus volumineux, Modification des images d'arrière-plan dans la fonction de création automatique de vues, Définition interne et gestion des options de l'appareil modifiées, Les répertoires / usericons, / usersymbols et / userwidgets sont maintenant créés automatiquement ",
-        "it": "Aggiunta compatibilità con la nuova interfaccia utente reattiva dell'adattatore amministratore, corretto caricamento di file più grandi, immagini di sfondo modificate nella funzione di visualizzazione automatica, definizione interna e gestione delle opzioni del dispositivo modificate, directory / usericons, / usersymbols e / userwidgets vengono ora creati automaticamente ",
-        "es": "Se agregó compatibilidad con el nuevo react-ui de admin-adapter, Se corrigió la carga de archivos más grandes, Se cambiaron las imágenes de fondo en la función de creación automática de vistas, Se modificó la definición interna y el manejo de las opciones del dispositivo, Los directorios / usericons, / usersymbols y / userwidgets ahora se crean automáticamente ",
-        "pl": "Dodano kompatybilność z nowym interfejsem użytkownika administratora, Naprawiono przesyłanie większych plików, Zmieniono obrazy tła w funkcji automatycznego tworzenia widoków, Zmieniono wewnętrzną definicję i obsługę opcji urządzenia, Katalogi / ikony użytkownika, / userymbols i / userwidgets są teraz tworzone automatycznie ",
-        "zh-cn": "新增了对admin-adapter的新react-ui的兼容性，修复了较大文件的上载，在自动创建视图功能中更改了背景图像，更改了设备选项的内部定义和处理，现在已自动创建目录/ usericons，/ usersymbols和/ userwidgets "
-      },
-      "1.7.1": {
-        "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
-        "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
-        "ru": "Исправление для работы с Admin v5-0-3 (переименование файлов и папок будет работать только с предстоящим следующим административным обновлением), обновлены зависимости, добавлена ​​опция для отображения имени INFO_A / B.",
-        "pt": "Correção para trabalhar com o Admin v5-0-3 (renomear arquivos e pastas só funcionará com a próxima atualização do administrador), Dependências atualizadas, opção adicionada para mostrar o nome de INFO_A / B.",
-        "nl": "Herstel om te werken met Admin v5-0-3 (hernoemen van bestanden en mappen werkt alleen met de aanstaande volgende admin-update), Bijgewerkte afhankelijkheden, Optie toegevoegd om de naam van INFO_A / B weer te geven.",
-        "fr": "Correctif pour fonctionner avec Admin v5-0-3 (renommer les fichiers et les dossiers ne fonctionnera qu'avec la prochaine mise à jour de l'administrateur), Dépendances mises à jour, option ajoutée pour afficher le nom de INFO_A / B",
-        "it": "Risolto il problema con Admin v5-0-3 (la ridenominazione di file e cartelle funzionerà solo con il prossimo prossimo aggiornamento dell'amministratore), dipendenze aggiornate, opzione aggiunta per mostrare il nome di INFO_A / B.",
-        "es": "Corrección para trabajar con Admin v5-0-3 (el cambio de nombre de archivos y carpetas solo funcionará con la próxima actualización de administrador), dependencias actualizadas, opción agregada para mostrar el nombre de INFO_A / B.",
-        "pl": "Poprawka do pracy z administratorem v5-0-3 (zmiana nazw plików i folderów będzie działać tylko z nadchodzącą następną aktualizacją administratora), zaktualizowane zależności, dodano opcję wyświetlania nazwy INFO_A / B.",
-        "zh-cn": "已修复，可与Admin v5-0-3一起使用（重新命名文件和文件夹仅适用于即将进行的下一次admin更新），已更新的相关性，已添加选项以显示INFO_A / B的名称。"
-      },
-      "1.7.0": {
-        "en": "Added combobox as possible option type, Added Date and Time as new device for dates, times and periods (durations), Added time-format and time-display-format to custom settings of datapoints, Added time-picker for every datapoint - including ADDITIONAL_CONTROLS - of role value.time, value.date, value.datetime, level.timer and level.timer.sleep, Enhanced blind to better show opening and closing, even if level is 0 or 100, Added STOP_SET_VALUE for blinds, You can now use variables in device-names, button-captions and headings of ADDITIONAL_CONTROLS.",
-        "de": "Combobox als möglicher Optionstyp hinzugefügt, Datum und Uhrzeit als neues Gerät für Datum, Uhrzeit und Zeitraum (Dauer) hinzugefügt, Zeitformat und Zeitanzeigeformat zu benutzerdefinierten Einstellungen von Datenpunkten hinzugefügt, Zeitauswahl für jeden Datenpunkt hinzugefügt - einschließlich ADDITIONAL_CONTROLS ",
-        "ru": "Добавлено поле со списком в качестве возможного типа параметра, Дата и время добавлены в качестве нового устройства для дат, времени и периодов (продолжительности), Добавлены формат времени и формат отображения времени в пользовательские настройки точек данных, Добавлен выбор времени для каждой точки данных, включая ADDITIONAL_CONTROLS ",
-        "pt": "Adicionado combobox como tipo de opção possível, Adicionado Data e Hora como novo dispositivo para datas, horas e períodos (durações), Adicionado formato de hora e formato de exibição de hora para configurações personalizadas de pontos de dados, Selecionador de tempo adicionado para cada ponto de dados - incluindo ADDITIONAL_CONTROLS ",
-        "nl": "Toegevoegd combobox als mogelijk optietype, Datum en tijd toegevoegd als nieuw apparaat voor datums, tijden en periodes (duur), Tijdformaat en tijdweergave-formaat toegevoegd aan aangepaste instellingen van datapunten, Tijdkiezer toegevoegd voor elk datapunt - inclusief ADDITIONAL_CONTROLS ",
-        "fr": "Ajout d'une liste déroulante comme type d'option possible, Ajout de la date et de l'heure en tant que nouvel appareil pour les dates, heures et périodes (durées), Ajout du format d'heure et du format d'affichage de l'heure aux paramètres personnalisés des points de données, Ajout du sélecteur d'heure pour chaque point de données - y compris ADDITIONAL_CONTROLS ",
-        "it": "Aggiunta casella combinata come possibile tipo di opzione, Data e ora aggiunte come nuovo dispositivo per date, orari e periodi (durate), Formato ora e formato di visualizzazione dell'ora aggiunti alle impostazioni personalizzate dei punti dati, Selezione dell'ora per ogni punto dati, inclusi ADDITIONAL_CONTROLS ",
-        "es": "Se agregó un cuadro combinado como tipo de opción posible, Fecha y hora agregadas como nuevo dispositivo para fechas, horas y períodos (duraciones), Se agregó formato de hora y formato de visualización de hora a la configuración personalizada de puntos de datos, Se agregó un selector de tiempo para cada punto de datos, incluidos ADDITIONAL_CONTROLS ",
-        "pl": "Dodano pole wyboru jako możliwy typ opcji, Dodano datę i godzinę jako nowe urządzenie dla dat, godzin i okresów (czasu trwania), Dodano format czasu i format wyświetlania czasu do niestandardowych ustawień punktów danych, Dodano selektor czasu dla każdego punktu danych - w tym ADDITIONAL_CONTROLS ",
-        "zh-cn": "将组合框添加为可能的选项类型，将日期和时间添加为日期，时间和期间（持续时间）的新设备，为数据点的自定义设置添加了时间格式和时间显示格式，为每个数据点添加了时间选择器-包括ADDITIONAL_CONTROLS "
-      },
-      "1.6.6": {
-        "en": "Fix for double admin page.",
-        "de": "Fix für doppelte Admin-Seite.",
-        "ru": "Исправление для двойной страницы администратора.",
-        "pt": "Correção para página de administração dupla.",
-        "nl": "Oplossing voor dubbele admin-pagina.",
-        "fr": "Correction de la double page d'administration.",
-        "it": "Risolto il problema con la doppia pagina di amministrazione.",
-        "es": "Corrección de la página de administración doble.",
-        "pl": "Naprawiono podwójną stronę administratora.",
-        "zh-cn": "修复了双重管理页面。"
-      },
-      "1.6.5": {
-        "en": "If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now, Fixed noZoomOnHover for device icon on large screens, The options of the change device-options-function are now sorted alphabetically, Added option to configure appereance of VALVE_STATES for thermostats, Fixed recognition of blank icon for device-filling states and added padding, if badge is present, Added option to INFO_A/B to define the number of digits to be rounded to, Added option to customs-dialog to define the number of digits to be rounded to, Now also numerical values are treatet as strings, if common.role is string (before it was converted to level), Now empty values on a value-list are not longer ignored, Some fine adjustments to panel, Updated type-detector, Added edit button to views, INFO_A/B will be hidden if value is empty.",
-        "de": "Wenn Sie die gerätespezifische Option 'Zurück zu OFF_SET_VALUE nach [ms]' der Schaltflächen auf 0 ändern, wechselt die Schaltfläche jetzt. Das Problem noZoomOnHover für Gerätesymbol auf großen Bildschirmen wurde behoben. Die Optionen der Funktion zum Ändern der Geräteoptionen sind jetzt alphabetisch sortiert ",
-        "ru": "Если вы измените для конкретного устройства параметр «Вернуться к OFF_SET_VALUE через [мс]» кнопок на 0, кнопка теперь переключается, Исправлено noZoomOnHover для значка устройства на больших экранах, Параметры функции изменения параметров устройства теперь отсортированы в алфавитном порядке ",
-        "pt": "Se você alterar a opção específica do dispositivo 'Retornar para OFF_SET_VALUE após [ms]' dos botões para 0, o botão alterna agora, Fixed noZoomOnHover para o ícone do dispositivo em telas grandes, As opções para alterar a função de opções do dispositivo agora são classificadas em ordem alfabética ",
-        "nl": "Als je de apparaatspecifieke optie 'Terug naar OFF_SET_VALUE na [ms]' van knoppen verandert in 0, schakelt de knop nu, Fixed noZoomOnHover voor apparaatpictogram op grote schermen, De opties van de wijzig apparaat-opties-functie zijn nu alfabetisch gesorteerd ",
-        "fr": "Si vous modifiez l'option spécifique à l'appareil 'Revenir à OFF_SET_VALUE après [ms]' des boutons sur 0, le bouton bascule maintenant, Correction de noZoomOnHover pour l'icône de l'appareil sur les grands écrans, Les options de la fonction de modification des options de l'appareil sont maintenant triées par ordre alphabétique ",
-        "it": "Se si modifica su 0 l'opzione specifica del dispositivo \"Ritorna a OFF_SET_VALUE dopo [ms]\" dei pulsanti, il pulsante si attiva ora, Fixed noZoomOnHover per l'icona del dispositivo su schermi di grandi dimensioni, Le opzioni della funzione di modifica delle opzioni del dispositivo sono ora ordinate alfabeticamente ",
-        "es": "Si cambia la opción específica del dispositivo 'Volver a OFF_SET_VALUE después de [ms]' de los botones a 0, el botón cambia ahora, NoZoomOnHover fijo para el icono del dispositivo en pantallas grandes, Las opciones de la función cambiar opciones de dispositivo ahora están ordenadas alfabéticamente ",
-        "pl": "Jeśli zmienisz opcję specyficzną dla urządzenia „Return to OFF_SET_VALUE after [ms]” przycisków na 0, przycisk przełącza się teraz, Naprawiono noZoomOnHover dla ikony urządzenia na dużych ekranach, Opcje funkcji zmiany opcji urządzenia są teraz posortowane alfabetycznie ",
-        "zh-cn": "如果将设备特定的选项“在[ms]后返回到OFF_SET_VALUE”按钮更改为0，则该按钮现在切换，固定了大屏幕上设备图标的noZoomOnHover，更改设备选项功能的选项现在按字母顺序排序"
-      },
-      "1.6.4": {
-        "en": "Added select id dialog to change-device-states function.",
-        "de": "Dialogfeld \"ID auswählen\" zur Funktion zum Ändern des Gerätezustands hinzugefügt.",
-        "ru": "Добавлен диалог выбора идентификатора для функции изменения состояний устройства.",
-        "pt": "Adicionada caixa de diálogo de seleção de id para alterar a função de estados do dispositivo",
-        "nl": "Selecteer id-dialoogvenster toegevoegd aan de functie voor het wijzigen van apparaatstatussen.",
-        "fr": "Ajout d'une boîte de dialogue de sélection d'identifiant pour la fonction de modification des états de périphérique.",
-        "it": "Aggiunta la finestra di dialogo di selezione dell'ID alla funzione di modifica degli stati del dispositivo.",
-        "es": "Se agregó el cuadro de diálogo de selección de identificación a la función de cambio de estado de dispositivo.",
-        "pl": "Dodano okno dialogowe wyboru identyfikatora do funkcji zmiany stanów urządzenia.",
-        "zh-cn": "添加了“选择ID”对话框以更改设备状态功能。"
-      },
-      "1.6.3": {
-        "en": "Added match-list to change device-options-function, Added change device-states-function to options, Fixed comparing to 0 for tile active conditions, Enhanced speed of admin ui.",
-        "de": "Übereinstimmungsliste zum Ändern der Geräteoptionsfunktion hinzugefügt, Gerätezustandsfunktion zu Optionen hinzugefügt, Vergleich mit 0 für aktive Kachelbedingungen behoben, Verbesserte Geschwindigkeit der Administrator-Benutzeroberfläche.",
-        "ru": "Добавлен список соответствий для изменения функции параметров устройства, добавлена ​​функция изменения состояний устройства в параметры, Исправлено сравнение с 0 для активных состояний плитки, Повышена скорость интерфейса администратора.",
-        "pt": "Adicionada lista de correspondência para alterar a função de opções do dispositivo, Adicionada função de alteração de estados do dispositivo às opções, corrigido em comparação a 0 para condições ativas do bloco, Velocidade aprimorada da interface do usuário administrativa.",
-        "nl": "Matchlijst toegevoegd om apparaat-opties-functie te veranderen, Verander apparaat-statussen-functie toegevoegd aan opties, Vaste vergelijking met 0 voor tegel actieve voorwaarden, Verbeterde snelheid van admin ui.",
-        "fr": "Ajout de la liste de correspondance pour changer la fonction des options de l'appareil, Ajout de la fonction de changement des états de l'appareil aux options, Correction de la comparaison à 0 pour les conditions actives des tuiles, Vitesse améliorée de l'interface utilisateur.",
-        "it": "Aggiunto elenco di corrispondenze per modificare la funzione delle opzioni del dispositivo, Aggiunta la funzione di modifica dello stato del dispositivo alle opzioni, Risolto il confronto a 0 per le condizioni attive delle tessere, Velocità migliorata dell'interfaccia utente di amministrazione.",
-        "es": "Se agregó una lista de coincidencias para cambiar la función de opciones del dispositivo, Se agregó la función de cambio de estado del dispositivo a las opciones, Se corrigió la comparación con 0 para las condiciones activas del mosaico, Se mejoró la velocidad de la interfaz de usuario de administración.",
-        "pl": "Dodano listę dopasowań, aby zmienić funkcję opcji urządzenia, Dodano funkcję zmiany stanów urządzenia do opcji, Naprawiono porównywanie do 0 dla warunków aktywnych kafelków, Zwiększono szybkość interfejsu administratora.",
-        "zh-cn": "添加了匹配列表以更改设备选项功能，向选项添加了更改设备状态功能，固定了与活动状态相比为0的固定值，增强了管理速度。"
-      },
-      "1.6.2": {
-        "en": "Enhanced rendering of badge to avoid color flickering, Added option clickOnIconToggles and clickOnIconOpensDialog to all devices (see readme), Fixed slider sometimes not working after swiping, Prevent scrolling and flickering of background when dialog is opened. Lights without hue but with active option linkGlowActiveColorToHue now glow in a slightly yellow.",
-        "de": "Verbessertes Rendern des Ausweises, um Farbflackern zu vermeiden. Option clickOnIconToggles und clickOnIconOpensDialog für alle Geräte hinzugefügt (siehe Readme-Datei). Behoben, dass der Schieberegler nach dem Wischen manchmal nicht funktioniert. Scrollen und Flackern des Hintergrunds beim Öffnen des Dialogfelds verhindern. ",
-        "ru": "Улучшен рендеринг значка, чтобы избежать мерцания цвета, Добавлена ​​опция clickOnIconToggles и clickOnIconOpensDialog для всех устройств (см. Readme), Исправлен ползунок, иногда не работающий после пролистывания, Предотвращение прокрутки и мерцания фона при открытии диалога. ",
-        "pt": "Renderização aprimorada de crachá para evitar oscilação de cor, opção adicionada clickOnIconToggles e clickOnIconOpensDialog para todos os dispositivos (consulte o readme), controle deslizante corrigido às vezes não funciona após deslizar, Evita rolagem e oscilação do fundo quando a caixa de diálogo é aberta. ",
-        "nl": "Verbeterde weergave van badge om kleurflikkering te voorkomen, Optie clickOnIconToggles en clickOnIconOpensDialog toegevoegd aan alle apparaten (zie readme), Vaste schuifregelaar werkt soms niet na swipen, Voorkomt scrollen en flikkeren van achtergrond wanneer een dialoogvenster wordt geopend. ",
-        "fr": "Amélioration du rendu du badge pour éviter le scintillement des couleurs, Ajout de l'option clickOnIconToggles et clickOnIconOpensDialog sur tous les appareils (voir readme), Curseur fixe ne fonctionnant parfois pas après le glissement, Empêcher le défilement et le scintillement de l'arrière-plan lorsque la boîte de dialogue est ouverte. ",
-        "it": "Rendering migliorato del badge per evitare lo sfarfallio del colore, Aggiunta l'opzione clickOnIconToggles e clickOnIconOpensDialog su tutti i dispositivi (vedi readme), Il cursore fisso a volte non funziona dopo lo scorrimento, Impedisci lo scorrimento e lo sfarfallio dello sfondo all'apertura della finestra di dialogo. ",
-        "es": "Representación mejorada de la insignia para evitar el parpadeo del color, opción agregada clickOnIconToggles y clickOnIconOpensDialog en todos los dispositivos (ver léame), control deslizante fijo que a veces no funciona después de deslizar el dedo, evitar el desplazamiento y el parpadeo del fondo cuando se abre el diálogo. ",
-        "pl": "Ulepszone renderowanie plakietki, aby uniknąć migotania kolorów, Dodano opcję clickOnIconToggles i clickOnIconOpensDialog do wszystkich urządzeń (patrz plik Readme), Naprawiono niedziałający suwak czasami po przesunięciu, Zapobiegaj przewijaniu i migotaniu tła po otwarciu okna dialogowego. ",
-        "zh-cn": "增强了徽章的呈现效果，避免了颜色的闪烁，向所有设备添加了clickOnIconToggles和clickOnIconOpensDialog选项（请参阅自述文件），修复了滑动后有时无法使用的滑块，防止在打开对话框时滚动和闪烁背景的问题。"
-      },
-      "1.6.1": {
-        "en": "Fixed sentry error in main_js, Reworked shuffle-process, Fixed can't scroll to bottom issue, Added possibility to change many icons and options at once (under options, change device-options).",
-        "de": "Sentry-Fehler in main_js behoben, Shuffle-Prozess überarbeitet, Behoben, dass nicht zum unteren Bildlauf gescrollt werden kann, Möglichkeit hinzugefügt, viele Symbole und Optionen gleichzeitig zu ändern (unter Optionen Geräteoptionen ändern).",
-        "ru": "Исправлена ​​ошибка часового в main_js, Переработан процесс перемешивания, Исправлена ​​проблема с невозможностью прокрутки вниз, Добавлена ​​возможность изменить сразу несколько значков и параметров (в разделе «Параметры» изменить параметры устройства).",
-        "pt": "Corrigido o erro de sentinela em main_js, Reestruturado processo de embaralhamento, Corrigido não é possível rolar para o problema inferior, Adicionada a possibilidade de alterar muitos ícones e opções de uma vez (em opções, alterar opções de dispositivo).",
-        "nl": "Vaste sentry-fout in main_js, Herwerkt shuffle-proces, Probleem opgelost dat niet naar beneden kan scrollen, Mogelijkheid toegevoegd om veel pictogrammen en opties tegelijk te wijzigen (onder opties, apparaatopties wijzigen).",
-        "fr": "Correction d'une erreur de sentinelle dans main_js, Processus de mélange retravaillé, Correction du problème de défilement vers le bas, Ajout de la possibilité de changer de nombreuses icônes et options à la fois (sous options, changer les options de l'appareil).",
-        "it": "Risolto errore di sentinella in main_js, processo di riproduzione rielaborato, Risolto problema di scorrimento fino al fondo, Aggiunta possibilità di cambiare molte icone e opzioni contemporaneamente (sotto opzioni, cambia le opzioni del dispositivo).",
-        "es": "Se corrigió el error de centinela en main_js, proceso de reproducción aleatoria reelaborado, se corrigió el problema de no se puede desplazar al fondo, se agregó la posibilidad de cambiar muchos íconos y opciones a la vez (en opciones, cambiar opciones de dispositivo)",
-        "pl": "Naprawiono błąd wartownika w main_js, Przerobiono proces przetasowania, Naprawiono problem z przewijaniem do dołu, Dodano możliwość zmiany wielu ikon i opcji naraz (w opcjach zmień opcje urządzenia).",
-        "zh-cn": "修复了main_js中的哨兵错误，重做了随机播放过程，修复了无法滚动到最底层的问题，增加了一次更改多个图标和选项的可能性（在选项下，更改设备选项）。"
-      },
-      "1.6.0": {
-        "en": "Changed standard badge-color to red, 20% transparency, Added optional glow-effect for tiles, Fixed edit-dialog of device not opening under some circumstances, Added type icon and type datapoint to widget-url-parameters, Added OVERLAY_INACTIVE_COLOR and OVERLAY_ACTIVE_COLOR, Added option to show badge value without unit, Badge has now a maximum-width and uses marquee-effect, Added toggle by icon for garage door (after optional confirmation), Fixed not to open Dialog if clickOnTileOpensDialog is set to false, Added new device: Info-Text, which can be used to display plain Text on views, therefore some new options were created (stateHeightAdaptsContent, stateFillsDevice, stateBigFont), Text on transparent tiles is now white (can be configured), When converting to bool, 'off' is interpreted as false now, Added option to center device name and/or state, Fixed option font-size for sub-header, Moved option, to show toolbar in one single line, into the options-tab, Added option, to invert Error Icon, Rearranged device option for a better overview, Added option noZoomOnHover for Icon (in device-options, section tile-behaviour (general) and, for all devices, in settings, section tile), Added delay to visibility of badge to allow color-change happen before it appears, Fixed min/max/step for number of url-parameters of widgets (which fixed range for FLOT-Chart), Added PANEL_HIDE and the corresponding option Invert PANEL_HIDE to panel, Added manifest.json, Fixed saving values of color-picker.",
-        "de": "Standard-Badge-Farbe auf rot geändert, 20% Transparenz, optionaler Glow-Effekt für Kacheln hinzugefügt, Editier-Dialog des Geräts öffnete sich unter bestimmten Umständen nicht, Typ-Icon und Typ-Datenpunkt zu Widget-url-Parametern hinzugefügt, OVERLAY_INACTIVE_COLOR und OVERLAY_ACTIVE_COLOR hinzugefügt, Option zur Anzeige des Badge-Wertes ohne Einheit hinzugefügt, Badge hat jetzt eine Maximalbreite und verwendet den Marquee-Effekt, Toggle durch Icon für Garagentor hinzugefügt (nach optionaler Bestätigung), Behoben, dass Dialog nicht geöffnet wird, wenn clickOnTileOpensDialog auf false gesetzt ist, Neues Device hinzugefügt: Info-Text, mit dem einfacher Text in Ansichten angezeigt werden kann, dafür wurden einige neue Optionen erstellt (stateHeightAdaptsContent, stateFillsDevice, stateBigFont), Text auf transparenten Kacheln ist jetzt weiß (kann konfiguriert werden), Bei Konvertierung in bool wird 'off' jetzt als false interpretiert, Option hinzugefügt, um Gerätenamen und/oder Status zu zentrieren, Option Schriftgröße für Sub-Header korrigiert, Option, um Symbolleiste in einer einzigen Zeile anzuzeigen, in den Optionen-Reiter verschoben, Option hinzugefügt, um Fehlersymbol zu invertieren, Geräteoptionen zur besseren Übersicht neu angeordnet, Option noZoomOnHover für Symbol hinzugefügt (in Geräteoptionen, Abschnitt Kachelverhalten (allgemein) und, für alle Geräte, in Einstellungen, Abschnitt Kachel), Verzögerung der Sichtbarkeit des Badges hinzugefügt, um Farbwechsel zu ermöglichen, bevor es erscheint, Min/Max/Schritt für die Anzahl der url-Parameter von Widgets korrigiert (was den Bereich für FLOT-Chart festlegt), PANEL_HIDE und die entsprechende Option Invert PANEL_HIDE zum Panel hinzugefügt, manifest. json hinzugefügt, Speichern der Werte von Color-Picker korrigiert.",
-        "ru": "Изменен стандартный цвет значка на красный, прозрачность 20%, Добавлен дополнительный эффект свечения для плиток, Исправлено диалоговое окно редактирования устройства, не открывающееся при некоторых обстоятельствах, Добавлен значок типа и точка данных типа в параметры URL-адреса виджета, Добавлены OVERLAY_INACTIVE_COLOR и OVERLAY_ACTIVE_COLOR, Текст на прозрачных плитках теперь белый (можно настроить), при преобразовании в bool, 'off' теперь интерпретируется как false, добавлена ​​опция для центрирования имени устройства и / или состояния, фиксированный размер шрифта для подзаголовка, опция перемещена.",
-        "pt": "Cor do emblema padrão alterada para vermelho, 20% de transparência, efeito de brilho opcional adicionado para blocos, diálogo de edição fixo do dispositivo que não abre em algumas circunstâncias, ícone de tipo e ponto de dados de tipo adicionados aos parâmetros do widget-url, Adicionado OVERLAY_INACTIVE_COLOR e OVERLAY_ACTIVE_COLOR, O texto em blocos transparentes agora é branco (pode ser configurado), Ao converter para bool, 'off' é interpretado como falso agora, Opção adicionada para centralizar o nome e / ou estado do dispositivo, Opção fixa de tamanho da fonte para subcabeçalho, opção movida.",
-        "nl": "Standaardbadge-kleur gewijzigd in rood, 20% transparantie, optioneel gloei-effect voor tegels toegevoegd, Vaste bewerkingsdialoog van het apparaat dat onder bepaalde omstandigheden niet wordt geopend, Type-pictogram en type datapunt toegevoegd aan widget-url-parameters, OVERLAY_INACTIVE_COLOR en OVERLAY_ACTIVE_COLOR toegevoegd, Tekst op transparante tegels is nu wit (kan worden geconfigureerd), bij het converteren naar bool wordt 'uit' nu als onwaar geïnterpreteerd, optie toegevoegd om apparaatnaam en / of staat te centreren, vaste optie lettergrootte voor subkop, optie verplaatst.",
-        "fr": "Changement de la couleur du badge standard en rouge, 20% de transparence, Ajout d'un effet de lueur optionnel pour les tuiles, Correction de la boîte de dialogue d'édition de l'appareil ne s'ouvrant pas dans certaines circonstances, Ajout d'une icône de type et d'un point de données de type aux paramètres widget-url, Ajout de OVERLAY_INACTIVE_COLOR et OVERLAY_ACTIVE_COLOR, Le texte sur les tuiles transparentes est maintenant blanc (peut être configuré), lors de la conversion en booléen, `` off '' est interprété comme faux maintenant, option ajoutée pour centrer le nom et / ou l'état de l'appareil, option fixe taille de la police pour le sous-en-tête, option déplacée.",
-        "it": "Cambiato il colore del badge standard in rosso, 20% di trasparenza, Aggiunto effetto bagliore opzionale per le tessere, Risolto il problema con la finestra di dialogo di modifica del dispositivo che non si apriva in alcune circostanze, Aggiunta l'icona del tipo e il tipo di datapoint ai parametri dell'URL del widget, Aggiunti OVERLAY_INACTIVE_COLOR e OVERLAY_ACTIVE_COLOR, Il testo sui riquadri trasparenti ora è bianco (può essere configurato), Durante la conversione in bool, \"off\" viene interpretato come falso ora, Opzione aggiunta per centrare il nome del dispositivo e / o lo stato, Dimensione carattere opzione fissa per sottotitolo, Opzione spostata.",
-        "es": "Se cambió el color de la insignia estándar a rojo, 20% de transparencia, Se agregó un efecto de brillo opcional para mosaicos, Se corrigió el diálogo de edición del dispositivo que no se abre en algunas circunstancias, Se agregó un ícono de tipo y un punto de datos de tipo a los parámetros de url de widget, Se agregó OVERLAY_INACTIVE_COLOR y OVERLAY_ACTIVE_COLOR, El texto en los mosaicos transparentes ahora es blanco (se puede configurar), cuando se convierte a bool, 'off' se interpreta como falso ahora, opción agregada para centrar el nombre y / o estado del dispositivo, opción fija de tamaño de fuente para el subencabezado, opción movida.",
-        "pl": "Zmieniono standardowy kolor znaczka na czerwony, 20% przezroczystości, Dodano opcjonalny efekt blasku dla kafelków, Naprawiono okno edycji urządzenia, które nie otwierało się w pewnych okolicznościach, Dodano ikonę typu i typ punktu danych do parametrów adresu URL widgetu, Dodano OVERLAY_INACTIVE_COLOR i OVERLAY_ACTIVE_COLOR, Tekst na przezroczystych kafelkach jest teraz biały (można go skonfigurować), Podczas konwersji na bool, `` wyłączone '' jest teraz interpretowane jako fałszywe, Dodano opcję wyśrodkowania nazwy urządzenia i / lub stanu, Stały rozmiar czcionki opcji dla nagłówka pomocniczego, Opcja przeniesiona.",
-        "zh-cn": "将标准标志颜色更改为红色，透明度为20％，添加了可选的磁贴发光效果，修复了在某些情况下设备无法打开的编辑对话框，在控件URL参数中添加了类型图标和类型数据点，添加了OVERLAY_INACTIVE_COLOR和OVERLAY_ACTIVE_COLOR，透明磁贴上的文本现在为白色（可以配置），当转换为bool时，“ off”现在被解释为false，为中心设备名称和/或状态添加了选项，固定了副标题的字体大小，已移动选项."
-      },
-      "1.5.7": {
-        "en": "Fixed missing info.connection object, Fixed INFO_B position for short tiles, Added option clickOnTileOpensDialog to all devices (see readme, Fixed FLOT for short tiles.",
-        "de": "Fehlendes info.connection-Objekt behoben, INFO_B-Position für kurze Kacheln behoben, Option clickOnTileOpensDialog zu allen Geräten hinzugefügt (siehe Readme, Flot für kurze Kacheln behoben.",
-        "ru": "Исправлен отсутствующий объект info.connection, Исправлено положение INFO_B для коротких плиток, Добавлена ​​опция clickOnTileOpensDialog для всех устройств (см. Readme, Исправлено FLOT для коротких плиток.",
-        "pt": "Corrigido objeto info.connection ausente, posição INFO_B corrigida para blocos curtos, opção clickOnTileOpensDialog adicionada para todos os dispositivos (consulte o leiame, FLOT corrigido para blocos curtos.",
-        "nl": "Ontbrekend info.connection-object opgelost, INFO_B-positie voor korte tegels gerepareerd, optie clickOnTileOpensDialog toegevoegd aan alle apparaten (zie readme, Fixed FLOT voor korte tegels.",
-        "fr": "Correction de l'objet info.connection manquant, Correction de la position INFO_B pour les tuiles courtes, Ajout de l'option clickOnTileOpensDialog à tous les appareils (voir readme, Correction du FLOT pour les tuiles courtes.",
-        "it": "Risolto il problema con l'oggetto info.connection mancante, fissa la posizione INFO_B per le tessere corte, aggiunta l'opzione clickOnTileOpensDialog a tutti i dispositivi (vedi readme, FLOT fisso per tessere corte.",
-        "es": "Se corrigió el objeto de conexión de información que faltaba, Se corrigió la posición INFO_B para mosaicos cortos, Se agregó la opción clickOnTileOpensDialog a todos los dispositivos (consulte el archivo Léame, FLOT fijo para mosaicos cortos.",
-        "pl": "Naprawiono brakujący obiekt info.connection, Naprawiono pozycję INFO_B dla krótkich kafelków, Dodano opcję clickOnTileOpensDialog do wszystkich urządzeń (patrz plik readme, Naprawiono FLOT dla krótkich kafelków.",
-        "zh-cn": "修复了丢失的info.connection对象的问题，修复了短块的INFO_B位置，向所有设备添加了clickOnTileOpensDialog选项（请参见自述文件，修复了短块的FLOT。"
-      },
-      "1.5.6": {
-        "en": "Fixed toolbar hiding issue if popup with additional controls is closed early, Fixed ALTERNATIVE_COLORSPACE only working after opening the view a second time, Added badge, Added predefined wallpapers to dropdown for devices background images, Redesigned dropdown for toolbar-icons to show thumbnails and added ability to add custom icons, Added option to show toolbar in one singe line, Added HHSSBB for Tuya to ALTERNATIVE_COLORSPACEs, Added historyInstance to options of FLOT-Chart-Widget, Fixed changing commonRole breaks symbolic links.",
-        "de": "Problem beim Ausblenden der Symbolleiste behoben, wenn das Popup mit zusätzlichen Steuerelementen vorzeitig geschlossen wurde. Behoben, dass ALTERNATIVE_COLORSPACE nur nach einem zweiten Öffnen der Ansicht funktioniert ",
-        "ru": "Исправлена ​​проблема с скрытием панели инструментов, если всплывающее окно с дополнительными элементами управления закрывается раньше. ",
-        "pt": "Corrigido o problema de ocultação da barra de ferramentas se o pop-up com controles adicionais fosse fechado mais cedo, Corrigido ALTERNATIVE_COLORSPACE só funcionando depois de abrir a visualização uma segunda vez, Selo adicionado, Papéis de parede predefinidos adicionados à lista suspensa para imagens de fundo dos dispositivos, lista suspensa redesenhada para ícones da barra de ferramentas para mostrar miniaturas e capacidade adicional ",
-        "nl": "Probleem met verbergen van werkbalk opgelost als pop-up met extra bedieningselementen vroegtijdig werd gesloten, Vaste ALTERNATIVE_COLORSPACE werkt alleen nadat de weergave een tweede keer is geopend, Badge toegevoegd, Voorgedefinieerde achtergronden toegevoegd aan vervolgkeuzemenu voor achtergrondafbeeldingen van apparaten, Opnieuw ontworpen vervolgkeuzelijst voor werkbalkpictogrammen om miniaturen en extra mogelijkheden ",
-        "fr": "Correction du problème de masquage de la barre d'outils si la fenêtre contextuelle avec des contrôles supplémentaires est fermée tôt, Correction de ALTERNATIVE_COLORSPACE ne fonctionnant qu'après avoir ouvert la vue une deuxième fois, Ajout d'un badge, Ajout de fonds d'écran prédéfinis dans la liste déroulante pour les images d'arrière-plan des appareils, Liste déroulante repensée pour les icônes de la barre d'outils pour afficher les vignettes et capacité supplémentaire ",
-        "it": "Risolto il problema di nascondere la barra degli strumenti se il popup con controlli aggiuntivi veniva chiuso in anticipo, Risolto il problema con ALTERNATIVE_COLORSPACE che funzionava solo dopo aver aperto la vista una seconda volta, Aggiunto badge, Aggiunti sfondi predefiniti al menu a discesa per le immagini di sfondo dei dispositivi, Menu a discesa ridisegnato per le icone della barra degli strumenti per mostrare le miniature e capacità aggiunta ",
-        "es": "Se corrigió el problema de ocultación de la barra de herramientas si la ventana emergente con controles adicionales se cerraba temprano, se corrigió que ALTERNATIVE_COLORSPACE solo funcionara después de abrir la vista por segunda vez, se agregó una insignia, se agregaron fondos de pantalla predefinidos al menú desplegable para las imágenes de fondo de los dispositivos, menú desplegable rediseñado para que los íconos de la barra de herramientas muestren miniaturas y capacidad adicional ",
-        "pl": "Naprawiono problem z ukrywaniem paska narzędzi, jeśli wyskakujące okienko z dodatkowymi elementami sterującymi jest zamykane wcześniej, Naprawiono ALTERNATIVE_COLORSPACE działający tylko po otwarciu widoku po raz drugi, Dodano odznakę, Dodano predefiniowane tapety do menu rozwijanego dla obrazów tła urządzeń, Przeprojektowane menu rozwijane dla ikon paska narzędzi do wyświetlania miniatur i dodanej możliwości ",
-        "zh-cn": "修复了如果提早关闭了带有其他控件的弹出窗口时工具栏隐藏的问题，修复了ALTERNATIVE_COLORSPACE仅在第二次打开视图后才起作用的问题，添加了徽章，为设备背景图像的下拉菜单添加了预定义的墙纸，为工具栏图标显示了缩略图重新设计了下拉菜单并增加了功能"
-      },
-      "1.5.5": {
-        "en": "Added optional headings to ADDITIONAL_CONTROLS, the appereance can be controlled by an option, Added 'No caption' to the option that controls the appereance of ADDITIONAL_CONTROLS-Section, The ADDITIONAL_CONTROLS-Section has been reordered to appear higher up, Virtual enlarge-switch from widgets was renamed from switch to enlarge, Fix for remote control not appearing if REMOTE_CHANNELS was the only used datapoint, Reposition popup, if ADDITIONAL_CONTROLS are present.",
-        "de": "ADDITIONAL_CONTROLS wurden optionale Überschriften hinzugefügt. Die Darstellung kann durch eine Option gesteuert werden. Der Option, die die Darstellung der ADDITIONAL_CONTROLS-Sektion steuert, wurde 'Keine Beschriftung' hinzugefügt. Die ADDITIONAL_CONTROLS-Sektion wurde neu angeordnet, um höher zu erscheinen ",
-        "ru": "Добавлены необязательные заголовки в ADDITIONAL_CONTROLS, внешний вид можно контролировать с помощью параметра, Добавлено «Без заголовка» к параметру, который контролирует внешний вид раздела ADDITIONAL_CONTROLS, Раздел ADDITIONAL_CONTROLS был переупорядочен, чтобы отображаться выше, виртуальное переключение увеличения с виджетов ",
-        "pt": "Adicionados cabeçalhos opcionais a ADDITIONAL_CONTROLS, a aparência pode ser controlada por uma opção, Adicionado 'Sem legenda' para a opção que controla a aparência da seção ADDITIONAL_CONTROLS, A seção ADDITIONAL_CONTROLS foi reordenada para aparecer mais acima, Chave de ampliação virtual dos widgets ",
-        "nl": "Optionele koppen toegevoegd aan ADDITIONAL_CONTROLS, de weergave kan worden gecontroleerd door een optie, 'Geen bijschrift' toegevoegd aan de optie die de weergave van ADDITIONAL_CONTROLS-sectie regelt, De ADDITIONAL_CONTROLS-sectie is opnieuw gerangschikt om hoger te verschijnen, Virtuele vergroting-schakelaar van widgets ",
-        "fr": "Ajout d'en-têtes facultatifs à ADDITIONAL_CONTROLS, l'apparence peut être contrôlée par une option, Ajout de `` Aucune légende '' à l'option qui contrôle l'apparence de la section ADDITIONAL_CONTROLS, La section ADDITIONAL_CONTROLS a été réorganisée pour apparaître plus haut, Agrandissement virtuel des widgets ",
-        "it": "Aggiunte intestazioni opzionali a ADDITIONAL_CONTROLS, l'aspetto può essere controllato da un'opzione, Aggiunta \"Nessuna didascalia\" all'opzione che controlla l'aspetto di ADDITIONAL_CONTROLS-Sezione, La sezione ADDITIONAL_CONTROLS è stata riordinata per apparire più in alto, Cambio di ingrandimento virtuale dai widget ",
-        "es": "Se agregaron encabezados opcionales a ADDITIONAL_CONTROLS, la apariencia se puede controlar mediante una opción, Se agregó 'Sin título' a la opción que controla la apariencia de la sección ADDITIONAL_CONTROLS, La sección ADDITIONAL_CONTROLS se ha reordenado para que aparezca más arriba, Cambio de ampliación virtual de los widgets ",
-        "pl": "Dodano opcjonalne nagłówki do ADDITIONAL_CONTROLS, wyglądem można sterować za pomocą opcji, Dodano opcję `` Brak podpisu '' do opcji kontrolującej wygląd sekcji ADDITIONAL_CONTROLS, Sekcja ADDITIONAL_CONTROLS została zmieniona tak, aby pojawiała się wyżej, Wirtualny przełącznik powiększania z widżetów ",
-        "zh-cn": "向ADDITIONAL_CONTROLS添加了可选标题，外观可以通过选项进行控制，向控制ADDITIONAL_CONTROLS-Section外观的选项添加了“无标题”，ADDITIONAL_CONTROLS-Section已重新排序为从上到下显示，从窗口小部件进行虚拟放大切换"
-      },
-      "1.5.4": {
-        "en": "Added info if demo-view is loaded, Enhanced widget FLOT_CHART to be able to use an external datapoint, Added homeButton for BACKGROUND_VIEWs, if view has changed to return to home view, You can now edit widget-settings by clicking the pencil icon.",
-        "de": "Informationen hinzugefügt, wenn die Demo-Ansicht geladen ist. Erweitertes Widget FLOT_CHART, um einen externen Datenpunkt verwenden zu können. Hinzugefügt. HomeButton für HINTERGRUND_ANSICHTEN. Wenn die Ansicht geändert wurde, um zur Startansicht zurückzukehren. Sie können jetzt die Widget-Einstellungen bearbeiten, indem Sie auf das Stiftsymbol klicken.",
-        "ru": "Добавлена ​​информация, если демонстрационное представление загружено, Улучшенный виджет FLOT_CHART для возможности использования внешней точки данных, Добавлена ​​кнопка homeButton для BACKGROUND_VIEWs, если вид изменился, чтобы вернуться к домашнему виду, Теперь вы можете редактировать настройки виджета, щелкнув значок карандаша.",
-        "pt": "Informações adicionadas se a visualização de demonstração for carregada, widget aprimorado FLOT_CHART para poder usar um ponto de dados externo, botão inicial adicionado para BACKGROUND_VIEWs, se a visualização tiver mudado para retornar à visualização inicial. Agora você pode editar as configurações do widget clicando no ícone de lápis.",
-        "nl": "Info toegevoegd als demo-weergave is geladen, Verbeterde widget FLOT_CHART om een ​​extern datapunt te kunnen gebruiken, HomeButton toegevoegd voor BACKGROUND_VIEWs, als weergave is gewijzigd om terug te keren naar de startweergave, kunt u nu widget-instellingen bewerken door op het potloodpictogram te klikken.",
-        "fr": "Ajout d'informations si la vue de démonstration est chargée, Widget amélioré FLOT_CHART pour pouvoir utiliser un point de données externe, Ajout du bouton home pour BACKGROUND_VIEWs, si la vue a changé pour revenir à la vue d'accueil, Vous pouvez maintenant modifier les paramètres du widget en cliquant sur l'icône en forme de crayon.",
-        "it": "Aggiunte informazioni se viene caricata la visualizzazione demo, widget migliorato FLOT_CHART per poter utilizzare un datapoint esterno, aggiunto homeButton per BACKGROUND_VIEWs, se la visualizzazione è cambiata per tornare alla visualizzazione home, ora puoi modificare le impostazioni del widget facendo clic sull'icona della matita.",
-        "es": "Información agregada si se carga la vista de demostración, widget mejorado FLOT_CHART para poder usar un punto de datos externo, botón de inicio agregado para BACKGROUND_VIEWs, si la vista ha cambiado para volver a la vista de inicio, ahora puede editar la configuración del widget haciendo clic en el ícono de lápiz.",
-        "pl": "Dodano informacje, jeśli załadowany jest widok demonstracyjny, Ulepszony widget FLOT_CHART, aby móc korzystać z zewnętrznego punktu danych, Dodano przycisk homeButton dla BACKGROUND_VIEWs, jeśli widok zmienił się i powrócił do widoku głównego. Możesz teraz edytować ustawienia widżetu, klikając ikonę ołówka.",
-        "zh-cn": "如果加载了演示视图，则添加了信息；增强了小部件FLOT_CHART以能够使用外部数据点；为Background_VIEWs添加了homeButton；如果视图已更改为返回到主视图，则您现在可以通过单击铅笔图标来编辑小部件设置。"
-      },
-      "1.5.2": {
-        "en": "Design-Adjustments for iPhones without home button and devices with notch and rounded corners, Prevent opening of context menu when closing app.",
-        "de": "Design-Anpassungen für iPhones ohne Home-Taste und Geräte mit Kerbe und abgerundeten Ecken. Verhindern Sie das Öffnen des Kontextmenüs beim Schließen der App.",
-        "ru": "Дизайн-Настройки для iPhone без кнопки «Домой» и устройств с выемкой и закругленными углами, Запретить открытие контекстного меню при закрытии приложения.",
-        "pt": "Ajustes de design para iPhones sem botão inicial e dispositivos com entalhes e cantos arredondados, Impedir a abertura do menu de contexto ao fechar o aplicativo.",
-        "nl": "Ontwerpaanpassingen voor iPhones zonder homeknop en apparaten met inkeping en afgeronde hoeken, Voorkom openen van contextmenu bij het sluiten van app.",
-        "fr": "Ajustements de conception pour les iPhones sans bouton d'accueil et les appareils avec encoche et coins arrondis, empêchent l'ouverture du menu contextuel lors de la fermeture de l'application.",
-        "it": "Regolazione del design per iPhone senza pulsante home e dispositivi con tacca e angoli arrotondati, impedisce l'apertura del menu contestuale alla chiusura dell'app.",
-        "es": "Ajustes de diseño para iPhones sin botón de inicio y dispositivos con muesca y esquinas redondeadas, evitan la apertura del menú contextual al cerrar la aplicación.",
-        "pl": "Dostosowanie projektu dla iPhone'ów bez przycisku Home i urządzeń z wycięciem i zaokrąglonymi rogami, Zapobiegaj otwieraniu menu kontekstowego podczas zamykania aplikacji.",
-        "zh-cn": "适用于没有主页按钮的iPhone的设计调整，以及带有缺口和圆角的设备，请在关闭应用程序时防止打开上下文菜单。"
-      },
-      "1.5.1": {
-        "en": "Added url-paremeter noPanel, Changed fetching-method of ioBroker Objects.",
-        "de": "URL-Paremeter noPanel hinzugefügt, Abrufmethode von ioBroker-Objekten geändert.",
-        "ru": "Добавлен url-параметр noPanel, изменен метод выборки объектов ioBroker.",
-        "pt": "Adicionado url-paremeter noPanel, método de busca alterado de objetos ioBroker.",
-        "nl": "URL-paremeter noPanel toegevoegd, ophaalmethode van ioBroker-objecten gewijzigd.",
-        "fr": "Ajout du paramètre url noPanel, méthode de récupération modifiée des objets ioBroker.",
-        "it": "Aggiunto url-paremeter noPanel, Cambiato il metodo di recupero degli oggetti ioBroker.",
-        "es": "Se agregó url-paremeter noPanel, se modificó el método de búsqueda de ioBroker Objects.",
-        "pl": "Dodano url-paremeter noPanel, Zmieniono metodę pobierania obiektów ioBroker.",
-        "zh-cn": "添加了URL参数表noPanel，更改了ioBroker对象的获取方法。"
-      },
-      "1.5.0": {
-        "en": "Added Flot-Chart widget, Enhanced adding of widgets with a new settings dialog, Added some new options for widget-developers (the meta-tag url-datapoints was enhanced for example to ask for a color with a color-picker, postMessage-answeres now contain the id of the original datapoint), Removed space when using new-line-option, Added role button in custom dialog, Enhanced timing of repositioning dialogs after loading, Added noToolbar to URL-parameters, Added BACKGROUND_VIEW, to define a view which will be displayed as background of a tile, Added the option 'Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW' and the option 'close panel after opening link' for links to other views, Added a panel which can be placed on left side of the screen and display a BACKGROUND_VIEW/URL/HTML and is widely configurable, Added showing of swipe goals (can be hidden via option in options/miscellaneous/swiping), Fixed crash when enlarging a hidden tile, Reworked some borders and scrolling parameters, Fixed comboboxes (selecbox with progressbars in admin), Padding bottom is only applied when minimizing a tile to give enough room for scrolling to tiles top, Fixed setState to false for postMessage-Communication, Added option to define border-radius (rounded corners) of tiles, Added option to define text-shadow-color of toolbar, Added fallback to loading iframe content for non fitting mime types.",
-        "de": "Flot-Chart-Widget hinzugefügt, Erweitertes Hinzufügen von Widgets mit einem neuen Einstellungsdialog hinzugefügt, Einige neue Optionen für Widget-Entwickler hinzugefügt (die Meta-Tag-URL-Datenpunkte wurden erweitert, um beispielsweise eine Farbe mit einem Farbwähler, postMessage-answeres, anzufordern ",
-        "ru": "Добавлен виджет Flot-Chart, Улучшено добавление виджетов с новым диалоговым окном настроек, Добавлены некоторые новые параметры для разработчиков виджетов (мета-теги url-datapoints были улучшены, например, чтобы запрашивать цвет с помощью палитры цветов, ответов postMessage ",
-        "pt": "Adicionado widget Flot-Chart, Adição aprimorada de widgets com um novo diálogo de configurações, Adicionadas algumas novas opções para desenvolvedores de widgets (a meta-tag url-datapoints foi aprimorada, por exemplo, para pedir uma cor com um seletor de cores, postMessage-answeres ",
-        "nl": "Flot-Chart widget toegevoegd, Verbeterde toevoeging van widgets met een nieuw instellingendialoogvenster, Enkele nieuwe opties toegevoegd voor widget-ontwikkelaars (de meta-tag url-datapunten zijn verbeterd om bijvoorbeeld een kleur te vragen met een kleurkiezer, postMessage-antwoorden ",
-        "fr": "Ajout du widget Flot-Chart, Ajout amélioré de widgets avec une nouvelle boîte de dialogue de paramètres, Ajout de nouvelles options pour les développeurs de widgets (le meta-tag url-datapoints a été amélioré par exemple pour demander une couleur avec un sélecteur de couleur, postMessage-answeres ",
-        "it": "Aggiunto widget Flot-Chart, Aggiunta migliorata di widget con una nuova finestra di dialogo delle impostazioni, Aggiunte alcune nuove opzioni per gli sviluppatori di widget (il meta-tag url-datapoints è stato migliorato ad esempio per chiedere un colore con un color-picker, risposte postMessage ",
-        "es": "Se agregó el widget Flot-Chart, se mejoró la adición de widgets con un nuevo diálogo de configuración, se agregaron algunas opciones nuevas para los desarrolladores de widgets (los puntos de datos de URL de metaetiquetas se mejoraron, por ejemplo, para solicitar un color con un selector de color, postMessage-answeres ",
-        "pl": "Dodano widżet Flot-Chart, Ulepszone dodawanie widżetów z nowym oknem dialogowym ustawień, Dodano kilka nowych opcji dla twórców widżetów (meta-tag url-datapoints został ulepszony, na przykład, aby pytać o kolor za pomocą selektora kolorów, postMessage-answeres ",
-        "zh-cn": "添加了Flot-Chart小部件，使用新的设置对话框增强了小部件的添加，为小部件开发人员添加了一些新选项（例如，增强了元标记url-datapoints的颜色以请求带有颜色选择器的颜色，postMessage-answeres"
-      },
-      "1.4.1": {
-        "en": "Fixed drag-sorting or tables and usage of comboboxes on mobile (touch) devices, Enhanced demo for new instances, Enhanced autocreate views function.",
-        "de": "Behoben: Drag-Sortierung oder Tabellen und Verwendung von Comboboxen auf mobilen (Touch-) Geräten, Erweiterte Demo für neue Instanzen, Erweiterte Funktion zum automatischen Erstellen von Ansichten.",
-        "ru": "Исправлена ​​сортировка перетаскиванием таблиц и использование комбинированных списков на мобильных (сенсорных) устройствах, Улучшенная демонстрация для новых экземпляров, Улучшенная функция автоматического создания представлений.",
-        "pt": "Arrastar classificação ou tabelas e uso de comboboxes em dispositivos móveis (toque) fixos, demonstração aprimorada para novas instâncias, função de criação automática de visualizações aprimorada",
-        "nl": "Vaste slepen-sorteren of tabellen en gebruik van comboboxen op mobiele (aanraak) apparaten, verbeterde demo voor nieuwe instanties, verbeterde autocreate weergavefunctie.",
-        "fr": "Correction du tri par glisser ou des tables et de l'utilisation des combobox sur les appareils mobiles (tactiles), démo améliorée pour les nouvelles instances, fonction de création automatique améliorée des vues.",
-        "it": "Risolto il problema con l'ordinamento tramite trascinamento o le tabelle e l'utilizzo di caselle combinate su dispositivi mobili (touch), demo migliorata per nuove istanze, funzione di visualizzazione automatica avanzata.",
-        "es": "Se corrigió la clasificación de arrastre o tablas y el uso de cuadros combinados en dispositivos móviles (táctiles), demostración mejorada para nuevas instancias, función de creación automática mejorada de vistas.",
-        "pl": "Naprawiono sortowanie przez przeciąganie lub tabele i używanie comboboxów na urządzeniach mobilnych (dotykowych), ulepszone demo dla nowych instancji, ulepszona funkcja automatycznego tworzenia widoków.",
-        "zh-cn": "修复了移动（触摸）设备上的拖动排序或表格以及组合框的用法，新实例的增强型演示，增强的自动创建视图功能。"
-      },
-      "1.4.0": {
-        "en": "Added Autocreate views, which will help you create entire configurations out of ioBroker lists (for example rooms or functions), Added state ENLARGE_TILE, which can be used to trigger enlargement of tile via external datapoint, Enhanced dynamic zoom for BACKGROUND_URL/HTML to be more accurate when resizing the tile, Drag-Sort of lists should now work on touch devices too.",
-        "de": "Autocreate-Ansichten hinzugefügt, mit denen Sie ganze Konfigurationen aus ioBroker-Listen (z. B. Räumen oder Funktionen) erstellen können. Status ENLARGE_TILE hinzugefügt, mit dem die Vergrößerung der Kachel über einen externen Datenpunkt ausgelöst werden kann. Verbesserter dynamischer Zoom für BACKGROUND_URL / HTML ",
-        "ru": "Добавлены представления Autocreate, которые помогут вам создавать целые конфигурации из списков ioBroker (например, комнаты или функции), Добавлено состояние ENLARGE_TILE, которое можно использовать для запуска увеличения плитки через внешнюю точку данных, Расширенное динамическое масштабирование для BACKGROUND_URL / HTML, чтобы быть больше ",
-        "pt": "Adicionadas visualizações Autocreate, que irão ajudá-lo a criar configurações inteiras de listas ioBroker (por exemplo, salas ou funções), estado adicionado ENLARGE_TILE, que pode ser usado para acionar a ampliação do ladrilho por meio de datapoint externo, zoom dinâmico aprimorado para BACKGROUND_URL / HTML para ser mais ",
-        "nl": "Toegevoegde Autocreate-weergaven, waarmee u volledige configuraties kunt maken uit ioBroker-lijsten (bijvoorbeeld kamers of functies), Staat toegevoegd ENLARGE_TILE, die kan worden gebruikt om vergroting van tegel te activeren via een extern datapunt, Verbeterde dynamische zoom voor BACKGROUND_URL / HTML om meer te zijn ",
-        "fr": "Ajout de vues de création automatique, qui vous aideront à créer des configurations entières à partir de listes ioBroker (par exemple, des salles ou des fonctions), Ajout de l'état ENLARGE_TILE, qui peut être utilisé pour déclencher l'agrandissement de la tuile via un point de données externe, Zoom dynamique amélioré pour BACKGROUND_URL / HTML pour être plus ",
-        "it": "Aggiunte viste di creazione automatica, che ti aiuteranno a creare intere configurazioni da elenchi ioBroker (ad esempio stanze o funzioni), Stato aggiunto ENLARGE_TILE, che può essere utilizzato per attivare l'ingrandimento del riquadro tramite datapoint esterno, Zoom dinamico migliorato per BACKGROUND_URL / HTML per essere più ",
-        "es": "Se agregaron vistas de creación automática, que lo ayudarán a crear configuraciones completas a partir de listas de ioBroker (por ejemplo, salas o funciones), estado agregado ENLARGE_TILE, que se puede usar para activar la ampliación del mosaico a través de un punto de datos externo, zoom dinámico mejorado para que BACKGROUND_URL / HTML sea más ",
-        "pl": "Dodano widoki Autocreate, które pomogą Ci stworzyć całe konfiguracje z list ioBroker (na przykład pokoje lub funkcje), Dodano stan ENLARGE_TILE, który może być użyty do wywołania powiększania kafelka przez zewnętrzny punkt danych, Ulepszony dynamiczny zoom dla BACKGROUND_URL / HTML, aby był bardziej ",
-        "zh-cn": "添加了自动创建视图，可帮助您从ioBroker列表中创建整个配置（例如房间或功能），添加了状态ENLARGE_TILE，可用于通过外部数据点触发图块放大，BACKGROUND_URL / HTML的增强型动态缩放功能更多"
-      }
+    "common": {
+        "name": "iqontrol",
+        "version": "1.8.0",
+        "news": {
+            "1.8.0": {
+                "en": "Some design-adjustments for react-ui.",
+                "de": "Einige Designanpassungen für React-UI.",
+                "ru": "Некоторые корректировки дизайна для react-ui.",
+                "pt": "Alguns ajustes de design para react-ui.",
+                "nl": "Enkele ontwerpaanpassingen voor react-ui.",
+                "fr": "Quelques ajustements de conception pour react-ui.",
+                "it": "Alcuni aggiustamenti di progettazione per React-ui.",
+                "es": "Algunos ajustes de diseño para react-ui.",
+                "pl": "Kilka zmian w projekcie dla React-UI.",
+                "zh-cn": "react-ui的一些设计调整。"
+            },
+            "1.7.3": {
+                "en": "Fixed admin-tab for react.",
+                "de": "Admin-Tab für Reagieren behoben.",
+                "ru": "Исправлена ​​админ-вкладка для реакции.",
+                "pt": "Guia de administração corrigido para reagir.",
+                "nl": "Vaste admin-tab voor reageren.",
+                "fr": "Correction de l'onglet d'administration pour réagir.",
+                "it": "Risolto il problema con la scheda di amministrazione per la reazione.",
+                "es": "Se corrigió la pestaña de administración para reaccionar.",
+                "pl": "Naprawiono zakładkę administratora do reagowania.",
+                "zh-cn": "修复了反应的管理选项卡。"
+            },
+            "1.7.2": {
+                "en": "Added compatibility to new react-ui of admin-adapter, Fixed uploading of larger files, Changed background-images in autocreate views function, Internal definition and handling of device options changed, The directories /usericons, /usersymbols and /userwidgets are now automatically created, if not existant, Some design-adjustments for react.",
+                "de": "Kompatibilität zu neuer Reaktions-Benutzeroberfläche des Admin-Adapters hinzugefügt, Upload größerer Dateien behoben, Hintergrundbilder in der Funktion zum automatischen Erstellen von Ansichten geändert, Interne Definition und Behandlung von Geräteoptionen geändert, Verzeichnisse / Benutzericons, / Benutzersymbole und / Benutzerwidgets werden jetzt automatisch erstellt ",
+                "ru": "Добавлена ​​совместимость с новым response-ui админ-адаптера, Исправлена ​​загрузка файлов большего размера, Изменены фоновые изображения в функции автосоздания представлений, Изменено внутреннее определение и обработка параметров устройства, Каталоги / usericons, / usersymbols и / userwidgets теперь создаются автоматически ",
+                "pt": "Adicionada compatibilidade para o novo react-ui do adaptador admin, Carregamento fixo de arquivos maiores, Imagens de fundo alteradas na função de criação automática de visualizações, Definição interna e manipulação de opções de dispositivo alteradas, Os diretórios / usericons, / usersymbols e / userwidgets são agora criados automaticamente ",
+                "nl": "Compatibiliteit toegevoegd aan nieuwe react-ui van admin-adapter, Vaste upload van grotere bestanden, Gewijzigde achtergrondafbeeldingen in autocreate views-functie, Interne definitie en afhandeling van apparaatopties veranderd, De directories / usericons, / gebruikerssymbolen en / userwidgets worden nu automatisch aangemaakt ",
+                "fr": "Ajout de la compatibilité avec le nouveau react-ui de l'adaptateur admin, Correction du téléchargement de fichiers plus volumineux, Modification des images d'arrière-plan dans la fonction de création automatique de vues, Définition interne et gestion des options de l'appareil modifiées, Les répertoires / usericons, / usersymbols et / userwidgets sont maintenant créés automatiquement ",
+                "it": "Aggiunta compatibilità con la nuova interfaccia utente reattiva dell'adattatore amministratore, corretto caricamento di file più grandi, immagini di sfondo modificate nella funzione di visualizzazione automatica, definizione interna e gestione delle opzioni del dispositivo modificate, directory / usericons, / usersymbols e / userwidgets vengono ora creati automaticamente ",
+                "es": "Se agregó compatibilidad con el nuevo react-ui de admin-adapter, Se corrigió la carga de archivos más grandes, Se cambiaron las imágenes de fondo en la función de creación automática de vistas, Se modificó la definición interna y el manejo de las opciones del dispositivo, Los directorios / usericons, / usersymbols y / userwidgets ahora se crean automáticamente ",
+                "pl": "Dodano kompatybilność z nowym interfejsem użytkownika administratora, Naprawiono przesyłanie większych plików, Zmieniono obrazy tła w funkcji automatycznego tworzenia widoków, Zmieniono wewnętrzną definicję i obsługę opcji urządzenia, Katalogi / ikony użytkownika, / userymbols i / userwidgets są teraz tworzone automatycznie ",
+                "zh-cn": "新增了对admin-adapter的新react-ui的兼容性，修复了较大文件的上载，在自动创建视图功能中更改了背景图像，更改了设备选项的内部定义和处理，现在已自动创建目录/ usericons，/ usersymbols和/ userwidgets "
+            },
+            "1.7.1": {
+                "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
+                "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
+                "ru": "Исправление для работы с Admin v5-0-3 (переименование файлов и папок будет работать только с предстоящим следующим административным обновлением), обновлены зависимости, добавлена ​​опция для отображения имени INFO_A / B.",
+                "pt": "Correção para trabalhar com o Admin v5-0-3 (renomear arquivos e pastas só funcionará com a próxima atualização do administrador), Dependências atualizadas, opção adicionada para mostrar o nome de INFO_A / B.",
+                "nl": "Herstel om te werken met Admin v5-0-3 (hernoemen van bestanden en mappen werkt alleen met de aanstaande volgende admin-update), Bijgewerkte afhankelijkheden, Optie toegevoegd om de naam van INFO_A / B weer te geven.",
+                "fr": "Correctif pour fonctionner avec Admin v5-0-3 (renommer les fichiers et les dossiers ne fonctionnera qu'avec la prochaine mise à jour de l'administrateur), Dépendances mises à jour, option ajoutée pour afficher le nom de INFO_A / B",
+                "it": "Risolto il problema con Admin v5-0-3 (la ridenominazione di file e cartelle funzionerà solo con il prossimo prossimo aggiornamento dell'amministratore), dipendenze aggiornate, opzione aggiunta per mostrare il nome di INFO_A / B.",
+                "es": "Corrección para trabajar con Admin v5-0-3 (el cambio de nombre de archivos y carpetas solo funcionará con la próxima actualización de administrador), dependencias actualizadas, opción agregada para mostrar el nombre de INFO_A / B.",
+                "pl": "Poprawka do pracy z administratorem v5-0-3 (zmiana nazw plików i folderów będzie działać tylko z nadchodzącą następną aktualizacją administratora), zaktualizowane zależności, dodano opcję wyświetlania nazwy INFO_A / B.",
+                "zh-cn": "已修复，可与Admin v5-0-3一起使用（重新命名文件和文件夹仅适用于即将进行的下一次admin更新），已更新的相关性，已添加选项以显示INFO_A / B的名称。"
+            },
+            "1.7.0": {
+                "en": "Added combobox as possible option type, Added Date and Time as new device for dates, times and periods (durations), Added time-format and time-display-format to custom settings of datapoints, Added time-picker for every datapoint - including ADDITIONAL_CONTROLS - of role value.time, value.date, value.datetime, level.timer and level.timer.sleep, Enhanced blind to better show opening and closing, even if level is 0 or 100, Added STOP_SET_VALUE for blinds, You can now use variables in device-names, button-captions and headings of ADDITIONAL_CONTROLS.",
+                "de": "Combobox als möglicher Optionstyp hinzugefügt, Datum und Uhrzeit als neues Gerät für Datum, Uhrzeit und Zeitraum (Dauer) hinzugefügt, Zeitformat und Zeitanzeigeformat zu benutzerdefinierten Einstellungen von Datenpunkten hinzugefügt, Zeitauswahl für jeden Datenpunkt hinzugefügt - einschließlich ADDITIONAL_CONTROLS ",
+                "ru": "Добавлено поле со списком в качестве возможного типа параметра, Дата и время добавлены в качестве нового устройства для дат, времени и периодов (продолжительности), Добавлены формат времени и формат отображения времени в пользовательские настройки точек данных, Добавлен выбор времени для каждой точки данных, включая ADDITIONAL_CONTROLS ",
+                "pt": "Adicionado combobox como tipo de opção possível, Adicionado Data e Hora como novo dispositivo para datas, horas e períodos (durações), Adicionado formato de hora e formato de exibição de hora para configurações personalizadas de pontos de dados, Selecionador de tempo adicionado para cada ponto de dados - incluindo ADDITIONAL_CONTROLS ",
+                "nl": "Toegevoegd combobox als mogelijk optietype, Datum en tijd toegevoegd als nieuw apparaat voor datums, tijden en periodes (duur), Tijdformaat en tijdweergave-formaat toegevoegd aan aangepaste instellingen van datapunten, Tijdkiezer toegevoegd voor elk datapunt - inclusief ADDITIONAL_CONTROLS ",
+                "fr": "Ajout d'une liste déroulante comme type d'option possible, Ajout de la date et de l'heure en tant que nouvel appareil pour les dates, heures et périodes (durées), Ajout du format d'heure et du format d'affichage de l'heure aux paramètres personnalisés des points de données, Ajout du sélecteur d'heure pour chaque point de données - y compris ADDITIONAL_CONTROLS ",
+                "it": "Aggiunta casella combinata come possibile tipo di opzione, Data e ora aggiunte come nuovo dispositivo per date, orari e periodi (durate), Formato ora e formato di visualizzazione dell'ora aggiunti alle impostazioni personalizzate dei punti dati, Selezione dell'ora per ogni punto dati, inclusi ADDITIONAL_CONTROLS ",
+                "es": "Se agregó un cuadro combinado como tipo de opción posible, Fecha y hora agregadas como nuevo dispositivo para fechas, horas y períodos (duraciones), Se agregó formato de hora y formato de visualización de hora a la configuración personalizada de puntos de datos, Se agregó un selector de tiempo para cada punto de datos, incluidos ADDITIONAL_CONTROLS ",
+                "pl": "Dodano pole wyboru jako możliwy typ opcji, Dodano datę i godzinę jako nowe urządzenie dla dat, godzin i okresów (czasu trwania), Dodano format czasu i format wyświetlania czasu do niestandardowych ustawień punktów danych, Dodano selektor czasu dla każdego punktu danych - w tym ADDITIONAL_CONTROLS ",
+                "zh-cn": "将组合框添加为可能的选项类型，将日期和时间添加为日期，时间和期间（持续时间）的新设备，为数据点的自定义设置添加了时间格式和时间显示格式，为每个数据点添加了时间选择器-包括ADDITIONAL_CONTROLS "
+            },
+            "1.6.6": {
+                "en": "Fix for double admin page.",
+                "de": "Fix für doppelte Admin-Seite.",
+                "ru": "Исправление для двойной страницы администратора.",
+                "pt": "Correção para página de administração dupla.",
+                "nl": "Oplossing voor dubbele admin-pagina.",
+                "fr": "Correction de la double page d'administration.",
+                "it": "Risolto il problema con la doppia pagina di amministrazione.",
+                "es": "Corrección de la página de administración doble.",
+                "pl": "Naprawiono podwójną stronę administratora.",
+                "zh-cn": "修复了双重管理页面。"
+            },
+            "1.6.5": {
+                "en": "If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now, Fixed noZoomOnHover for device icon on large screens, The options of the change device-options-function are now sorted alphabetically, Added option to configure appereance of VALVE_STATES for thermostats, Fixed recognition of blank icon for device-filling states and added padding, if badge is present, Added option to INFO_A/B to define the number of digits to be rounded to, Added option to customs-dialog to define the number of digits to be rounded to, Now also numerical values are treatet as strings, if common.role is string (before it was converted to level), Now empty values on a value-list are not longer ignored, Some fine adjustments to panel, Updated type-detector, Added edit button to views, INFO_A/B will be hidden if value is empty.",
+                "de": "Wenn Sie die gerätespezifische Option 'Zurück zu OFF_SET_VALUE nach [ms]' der Schaltflächen auf 0 ändern, wechselt die Schaltfläche jetzt. Das Problem noZoomOnHover für Gerätesymbol auf großen Bildschirmen wurde behoben. Die Optionen der Funktion zum Ändern der Geräteoptionen sind jetzt alphabetisch sortiert ",
+                "ru": "Если вы измените для конкретного устройства параметр «Вернуться к OFF_SET_VALUE через [мс]» кнопок на 0, кнопка теперь переключается, Исправлено noZoomOnHover для значка устройства на больших экранах, Параметры функции изменения параметров устройства теперь отсортированы в алфавитном порядке ",
+                "pt": "Se você alterar a opção específica do dispositivo 'Retornar para OFF_SET_VALUE após [ms]' dos botões para 0, o botão alterna agora, Fixed noZoomOnHover para o ícone do dispositivo em telas grandes, As opções para alterar a função de opções do dispositivo agora são classificadas em ordem alfabética ",
+                "nl": "Als je de apparaatspecifieke optie 'Terug naar OFF_SET_VALUE na [ms]' van knoppen verandert in 0, schakelt de knop nu, Fixed noZoomOnHover voor apparaatpictogram op grote schermen, De opties van de wijzig apparaat-opties-functie zijn nu alfabetisch gesorteerd ",
+                "fr": "Si vous modifiez l'option spécifique à l'appareil 'Revenir à OFF_SET_VALUE après [ms]' des boutons sur 0, le bouton bascule maintenant, Correction de noZoomOnHover pour l'icône de l'appareil sur les grands écrans, Les options de la fonction de modification des options de l'appareil sont maintenant triées par ordre alphabétique ",
+                "it": "Se si modifica su 0 l'opzione specifica del dispositivo \"Ritorna a OFF_SET_VALUE dopo [ms]\" dei pulsanti, il pulsante si attiva ora, Fixed noZoomOnHover per l'icona del dispositivo su schermi di grandi dimensioni, Le opzioni della funzione di modifica delle opzioni del dispositivo sono ora ordinate alfabeticamente ",
+                "es": "Si cambia la opción específica del dispositivo 'Volver a OFF_SET_VALUE después de [ms]' de los botones a 0, el botón cambia ahora, NoZoomOnHover fijo para el icono del dispositivo en pantallas grandes, Las opciones de la función cambiar opciones de dispositivo ahora están ordenadas alfabéticamente ",
+                "pl": "Jeśli zmienisz opcję specyficzną dla urządzenia „Return to OFF_SET_VALUE after [ms]” przycisków na 0, przycisk przełącza się teraz, Naprawiono noZoomOnHover dla ikony urządzenia na dużych ekranach, Opcje funkcji zmiany opcji urządzenia są teraz posortowane alfabetycznie ",
+                "zh-cn": "如果将设备特定的选项“在[ms]后返回到OFF_SET_VALUE”按钮更改为0，则该按钮现在切换，固定了大屏幕上设备图标的noZoomOnHover，更改设备选项功能的选项现在按字母顺序排序"
+            },
+            "1.6.4": {
+                "en": "Added select id dialog to change-device-states function.",
+                "de": "Dialogfeld \"ID auswählen\" zur Funktion zum Ändern des Gerätezustands hinzugefügt.",
+                "ru": "Добавлен диалог выбора идентификатора для функции изменения состояний устройства.",
+                "pt": "Adicionada caixa de diálogo de seleção de id para alterar a função de estados do dispositivo",
+                "nl": "Selecteer id-dialoogvenster toegevoegd aan de functie voor het wijzigen van apparaatstatussen.",
+                "fr": "Ajout d'une boîte de dialogue de sélection d'identifiant pour la fonction de modification des états de périphérique.",
+                "it": "Aggiunta la finestra di dialogo di selezione dell'ID alla funzione di modifica degli stati del dispositivo.",
+                "es": "Se agregó el cuadro de diálogo de selección de identificación a la función de cambio de estado de dispositivo.",
+                "pl": "Dodano okno dialogowe wyboru identyfikatora do funkcji zmiany stanów urządzenia.",
+                "zh-cn": "添加了“选择ID”对话框以更改设备状态功能。"
+            },
+            "1.6.3": {
+                "en": "Added match-list to change device-options-function, Added change device-states-function to options, Fixed comparing to 0 for tile active conditions, Enhanced speed of admin ui.",
+                "de": "Übereinstimmungsliste zum Ändern der Geräteoptionsfunktion hinzugefügt, Gerätezustandsfunktion zu Optionen hinzugefügt, Vergleich mit 0 für aktive Kachelbedingungen behoben, Verbesserte Geschwindigkeit der Administrator-Benutzeroberfläche.",
+                "ru": "Добавлен список соответствий для изменения функции параметров устройства, добавлена ​​функция изменения состояний устройства в параметры, Исправлено сравнение с 0 для активных состояний плитки, Повышена скорость интерфейса администратора.",
+                "pt": "Adicionada lista de correspondência para alterar a função de opções do dispositivo, Adicionada função de alteração de estados do dispositivo às opções, corrigido em comparação a 0 para condições ativas do bloco, Velocidade aprimorada da interface do usuário administrativa.",
+                "nl": "Matchlijst toegevoegd om apparaat-opties-functie te veranderen, Verander apparaat-statussen-functie toegevoegd aan opties, Vaste vergelijking met 0 voor tegel actieve voorwaarden, Verbeterde snelheid van admin ui.",
+                "fr": "Ajout de la liste de correspondance pour changer la fonction des options de l'appareil, Ajout de la fonction de changement des états de l'appareil aux options, Correction de la comparaison à 0 pour les conditions actives des tuiles, Vitesse améliorée de l'interface utilisateur.",
+                "it": "Aggiunto elenco di corrispondenze per modificare la funzione delle opzioni del dispositivo, Aggiunta la funzione di modifica dello stato del dispositivo alle opzioni, Risolto il confronto a 0 per le condizioni attive delle tessere, Velocità migliorata dell'interfaccia utente di amministrazione.",
+                "es": "Se agregó una lista de coincidencias para cambiar la función de opciones del dispositivo, Se agregó la función de cambio de estado del dispositivo a las opciones, Se corrigió la comparación con 0 para las condiciones activas del mosaico, Se mejoró la velocidad de la interfaz de usuario de administración.",
+                "pl": "Dodano listę dopasowań, aby zmienić funkcję opcji urządzenia, Dodano funkcję zmiany stanów urządzenia do opcji, Naprawiono porównywanie do 0 dla warunków aktywnych kafelków, Zwiększono szybkość interfejsu administratora.",
+                "zh-cn": "添加了匹配列表以更改设备选项功能，向选项添加了更改设备状态功能，固定了与活动状态相比为0的固定值，增强了管理速度。"
+            },
+            "1.6.2": {
+                "en": "Enhanced rendering of badge to avoid color flickering, Added option clickOnIconToggles and clickOnIconOpensDialog to all devices (see readme), Fixed slider sometimes not working after swiping, Prevent scrolling and flickering of background when dialog is opened. Lights without hue but with active option linkGlowActiveColorToHue now glow in a slightly yellow.",
+                "de": "Verbessertes Rendern des Ausweises, um Farbflackern zu vermeiden. Option clickOnIconToggles und clickOnIconOpensDialog für alle Geräte hinzugefügt (siehe Readme-Datei). Behoben, dass der Schieberegler nach dem Wischen manchmal nicht funktioniert. Scrollen und Flackern des Hintergrunds beim Öffnen des Dialogfelds verhindern. ",
+                "ru": "Улучшен рендеринг значка, чтобы избежать мерцания цвета, Добавлена ​​опция clickOnIconToggles и clickOnIconOpensDialog для всех устройств (см. Readme), Исправлен ползунок, иногда не работающий после пролистывания, Предотвращение прокрутки и мерцания фона при открытии диалога. ",
+                "pt": "Renderização aprimorada de crachá para evitar oscilação de cor, opção adicionada clickOnIconToggles e clickOnIconOpensDialog para todos os dispositivos (consulte o readme), controle deslizante corrigido às vezes não funciona após deslizar, Evita rolagem e oscilação do fundo quando a caixa de diálogo é aberta. ",
+                "nl": "Verbeterde weergave van badge om kleurflikkering te voorkomen, Optie clickOnIconToggles en clickOnIconOpensDialog toegevoegd aan alle apparaten (zie readme), Vaste schuifregelaar werkt soms niet na swipen, Voorkomt scrollen en flikkeren van achtergrond wanneer een dialoogvenster wordt geopend. ",
+                "fr": "Amélioration du rendu du badge pour éviter le scintillement des couleurs, Ajout de l'option clickOnIconToggles et clickOnIconOpensDialog sur tous les appareils (voir readme), Curseur fixe ne fonctionnant parfois pas après le glissement, Empêcher le défilement et le scintillement de l'arrière-plan lorsque la boîte de dialogue est ouverte. ",
+                "it": "Rendering migliorato del badge per evitare lo sfarfallio del colore, Aggiunta l'opzione clickOnIconToggles e clickOnIconOpensDialog su tutti i dispositivi (vedi readme), Il cursore fisso a volte non funziona dopo lo scorrimento, Impedisci lo scorrimento e lo sfarfallio dello sfondo all'apertura della finestra di dialogo. ",
+                "es": "Representación mejorada de la insignia para evitar el parpadeo del color, opción agregada clickOnIconToggles y clickOnIconOpensDialog en todos los dispositivos (ver léame), control deslizante fijo que a veces no funciona después de deslizar el dedo, evitar el desplazamiento y el parpadeo del fondo cuando se abre el diálogo. ",
+                "pl": "Ulepszone renderowanie plakietki, aby uniknąć migotania kolorów, Dodano opcję clickOnIconToggles i clickOnIconOpensDialog do wszystkich urządzeń (patrz plik Readme), Naprawiono niedziałający suwak czasami po przesunięciu, Zapobiegaj przewijaniu i migotaniu tła po otwarciu okna dialogowego. ",
+                "zh-cn": "增强了徽章的呈现效果，避免了颜色的闪烁，向所有设备添加了clickOnIconToggles和clickOnIconOpensDialog选项（请参阅自述文件），修复了滑动后有时无法使用的滑块，防止在打开对话框时滚动和闪烁背景的问题。"
+            },
+            "1.6.1": {
+                "en": "Fixed sentry error in main_js, Reworked shuffle-process, Fixed can't scroll to bottom issue, Added possibility to change many icons and options at once (under options, change device-options).",
+                "de": "Sentry-Fehler in main_js behoben, Shuffle-Prozess überarbeitet, Behoben, dass nicht zum unteren Bildlauf gescrollt werden kann, Möglichkeit hinzugefügt, viele Symbole und Optionen gleichzeitig zu ändern (unter Optionen Geräteoptionen ändern).",
+                "ru": "Исправлена ​​ошибка часового в main_js, Переработан процесс перемешивания, Исправлена ​​проблема с невозможностью прокрутки вниз, Добавлена ​​возможность изменить сразу несколько значков и параметров (в разделе «Параметры» изменить параметры устройства).",
+                "pt": "Corrigido o erro de sentinela em main_js, Reestruturado processo de embaralhamento, Corrigido não é possível rolar para o problema inferior, Adicionada a possibilidade de alterar muitos ícones e opções de uma vez (em opções, alterar opções de dispositivo).",
+                "nl": "Vaste sentry-fout in main_js, Herwerkt shuffle-proces, Probleem opgelost dat niet naar beneden kan scrollen, Mogelijkheid toegevoegd om veel pictogrammen en opties tegelijk te wijzigen (onder opties, apparaatopties wijzigen).",
+                "fr": "Correction d'une erreur de sentinelle dans main_js, Processus de mélange retravaillé, Correction du problème de défilement vers le bas, Ajout de la possibilité de changer de nombreuses icônes et options à la fois (sous options, changer les options de l'appareil).",
+                "it": "Risolto errore di sentinella in main_js, processo di riproduzione rielaborato, Risolto problema di scorrimento fino al fondo, Aggiunta possibilità di cambiare molte icone e opzioni contemporaneamente (sotto opzioni, cambia le opzioni del dispositivo).",
+                "es": "Se corrigió el error de centinela en main_js, proceso de reproducción aleatoria reelaborado, se corrigió el problema de no se puede desplazar al fondo, se agregó la posibilidad de cambiar muchos íconos y opciones a la vez (en opciones, cambiar opciones de dispositivo)",
+                "pl": "Naprawiono błąd wartownika w main_js, Przerobiono proces przetasowania, Naprawiono problem z przewijaniem do dołu, Dodano możliwość zmiany wielu ikon i opcji naraz (w opcjach zmień opcje urządzenia).",
+                "zh-cn": "修复了main_js中的哨兵错误，重做了随机播放过程，修复了无法滚动到最底层的问题，增加了一次更改多个图标和选项的可能性（在选项下，更改设备选项）。"
+            },
+            "1.6.0": {
+                "en": "Changed standard badge-color to red, 20% transparency, Added optional glow-effect for tiles, Fixed edit-dialog of device not opening under some circumstances, Added type icon and type datapoint to widget-url-parameters, Added OVERLAY_INACTIVE_COLOR and OVERLAY_ACTIVE_COLOR, Added option to show badge value without unit, Badge has now a maximum-width and uses marquee-effect, Added toggle by icon for garage door (after optional confirmation), Fixed not to open Dialog if clickOnTileOpensDialog is set to false, Added new device: Info-Text, which can be used to display plain Text on views, therefore some new options were created (stateHeightAdaptsContent, stateFillsDevice, stateBigFont), Text on transparent tiles is now white (can be configured), When converting to bool, 'off' is interpreted as false now, Added option to center device name and/or state, Fixed option font-size for sub-header, Moved option, to show toolbar in one single line, into the options-tab, Added option, to invert Error Icon, Rearranged device option for a better overview, Added option noZoomOnHover for Icon (in device-options, section tile-behaviour (general) and, for all devices, in settings, section tile), Added delay to visibility of badge to allow color-change happen before it appears, Fixed min/max/step for number of url-parameters of widgets (which fixed range for FLOT-Chart), Added PANEL_HIDE and the corresponding option Invert PANEL_HIDE to panel, Added manifest.json, Fixed saving values of color-picker.",
+                "de": "Standard-Badge-Farbe auf rot geändert, 20% Transparenz, optionaler Glow-Effekt für Kacheln hinzugefügt, Editier-Dialog des Geräts öffnete sich unter bestimmten Umständen nicht, Typ-Icon und Typ-Datenpunkt zu Widget-url-Parametern hinzugefügt, OVERLAY_INACTIVE_COLOR und OVERLAY_ACTIVE_COLOR hinzugefügt, Option zur Anzeige des Badge-Wertes ohne Einheit hinzugefügt, Badge hat jetzt eine Maximalbreite und verwendet den Marquee-Effekt, Toggle durch Icon für Garagentor hinzugefügt (nach optionaler Bestätigung), Behoben, dass Dialog nicht geöffnet wird, wenn clickOnTileOpensDialog auf false gesetzt ist, Neues Device hinzugefügt: Info-Text, mit dem einfacher Text in Ansichten angezeigt werden kann, dafür wurden einige neue Optionen erstellt (stateHeightAdaptsContent, stateFillsDevice, stateBigFont), Text auf transparenten Kacheln ist jetzt weiß (kann konfiguriert werden), Bei Konvertierung in bool wird 'off' jetzt als false interpretiert, Option hinzugefügt, um Gerätenamen und/oder Status zu zentrieren, Option Schriftgröße für Sub-Header korrigiert, Option, um Symbolleiste in einer einzigen Zeile anzuzeigen, in den Optionen-Reiter verschoben, Option hinzugefügt, um Fehlersymbol zu invertieren, Geräteoptionen zur besseren Übersicht neu angeordnet, Option noZoomOnHover für Symbol hinzugefügt (in Geräteoptionen, Abschnitt Kachelverhalten (allgemein) und, für alle Geräte, in Einstellungen, Abschnitt Kachel), Verzögerung der Sichtbarkeit des Badges hinzugefügt, um Farbwechsel zu ermöglichen, bevor es erscheint, Min/Max/Schritt für die Anzahl der url-Parameter von Widgets korrigiert (was den Bereich für FLOT-Chart festlegt), PANEL_HIDE und die entsprechende Option Invert PANEL_HIDE zum Panel hinzugefügt, manifest. json hinzugefügt, Speichern der Werte von Color-Picker korrigiert.",
+                "ru": "Изменен стандартный цвет значка на красный, прозрачность 20%, Добавлен дополнительный эффект свечения для плиток, Исправлено диалоговое окно редактирования устройства, не открывающееся при некоторых обстоятельствах, Добавлен значок типа и точка данных типа в параметры URL-адреса виджета, Добавлены OVERLAY_INACTIVE_COLOR и OVERLAY_ACTIVE_COLOR, Текст на прозрачных плитках теперь белый (можно настроить), при преобразовании в bool, 'off' теперь интерпретируется как false, добавлена ​​опция для центрирования имени устройства и / или состояния, фиксированный размер шрифта для подзаголовка, опция перемещена.",
+                "pt": "Cor do emblema padrão alterada para vermelho, 20% de transparência, efeito de brilho opcional adicionado para blocos, diálogo de edição fixo do dispositivo que não abre em algumas circunstâncias, ícone de tipo e ponto de dados de tipo adicionados aos parâmetros do widget-url, Adicionado OVERLAY_INACTIVE_COLOR e OVERLAY_ACTIVE_COLOR, O texto em blocos transparentes agora é branco (pode ser configurado), Ao converter para bool, 'off' é interpretado como falso agora, Opção adicionada para centralizar o nome e / ou estado do dispositivo, Opção fixa de tamanho da fonte para subcabeçalho, opção movida.",
+                "nl": "Standaardbadge-kleur gewijzigd in rood, 20% transparantie, optioneel gloei-effect voor tegels toegevoegd, Vaste bewerkingsdialoog van het apparaat dat onder bepaalde omstandigheden niet wordt geopend, Type-pictogram en type datapunt toegevoegd aan widget-url-parameters, OVERLAY_INACTIVE_COLOR en OVERLAY_ACTIVE_COLOR toegevoegd, Tekst op transparante tegels is nu wit (kan worden geconfigureerd), bij het converteren naar bool wordt 'uit' nu als onwaar geïnterpreteerd, optie toegevoegd om apparaatnaam en / of staat te centreren, vaste optie lettergrootte voor subkop, optie verplaatst.",
+                "fr": "Changement de la couleur du badge standard en rouge, 20% de transparence, Ajout d'un effet de lueur optionnel pour les tuiles, Correction de la boîte de dialogue d'édition de l'appareil ne s'ouvrant pas dans certaines circonstances, Ajout d'une icône de type et d'un point de données de type aux paramètres widget-url, Ajout de OVERLAY_INACTIVE_COLOR et OVERLAY_ACTIVE_COLOR, Le texte sur les tuiles transparentes est maintenant blanc (peut être configuré), lors de la conversion en booléen, `` off '' est interprété comme faux maintenant, option ajoutée pour centrer le nom et / ou l'état de l'appareil, option fixe taille de la police pour le sous-en-tête, option déplacée.",
+                "it": "Cambiato il colore del badge standard in rosso, 20% di trasparenza, Aggiunto effetto bagliore opzionale per le tessere, Risolto il problema con la finestra di dialogo di modifica del dispositivo che non si apriva in alcune circostanze, Aggiunta l'icona del tipo e il tipo di datapoint ai parametri dell'URL del widget, Aggiunti OVERLAY_INACTIVE_COLOR e OVERLAY_ACTIVE_COLOR, Il testo sui riquadri trasparenti ora è bianco (può essere configurato), Durante la conversione in bool, \"off\" viene interpretato come falso ora, Opzione aggiunta per centrare il nome del dispositivo e / o lo stato, Dimensione carattere opzione fissa per sottotitolo, Opzione spostata.",
+                "es": "Se cambió el color de la insignia estándar a rojo, 20% de transparencia, Se agregó un efecto de brillo opcional para mosaicos, Se corrigió el diálogo de edición del dispositivo que no se abre en algunas circunstancias, Se agregó un ícono de tipo y un punto de datos de tipo a los parámetros de url de widget, Se agregó OVERLAY_INACTIVE_COLOR y OVERLAY_ACTIVE_COLOR, El texto en los mosaicos transparentes ahora es blanco (se puede configurar), cuando se convierte a bool, 'off' se interpreta como falso ahora, opción agregada para centrar el nombre y / o estado del dispositivo, opción fija de tamaño de fuente para el subencabezado, opción movida.",
+                "pl": "Zmieniono standardowy kolor znaczka na czerwony, 20% przezroczystości, Dodano opcjonalny efekt blasku dla kafelków, Naprawiono okno edycji urządzenia, które nie otwierało się w pewnych okolicznościach, Dodano ikonę typu i typ punktu danych do parametrów adresu URL widgetu, Dodano OVERLAY_INACTIVE_COLOR i OVERLAY_ACTIVE_COLOR, Tekst na przezroczystych kafelkach jest teraz biały (można go skonfigurować), Podczas konwersji na bool, `` wyłączone '' jest teraz interpretowane jako fałszywe, Dodano opcję wyśrodkowania nazwy urządzenia i / lub stanu, Stały rozmiar czcionki opcji dla nagłówka pomocniczego, Opcja przeniesiona.",
+                "zh-cn": "将标准标志颜色更改为红色，透明度为20％，添加了可选的磁贴发光效果，修复了在某些情况下设备无法打开的编辑对话框，在控件URL参数中添加了类型图标和类型数据点，添加了OVERLAY_INACTIVE_COLOR和OVERLAY_ACTIVE_COLOR，透明磁贴上的文本现在为白色（可以配置），当转换为bool时，“ off”现在被解释为false，为中心设备名称和/或状态添加了选项，固定了副标题的字体大小，已移动选项."
+            }
+        },
+        "title": "iQontrol Vis",
+        "titleLang": {
+            "en": "iQontrol Vis",
+            "de": "iQontrol Vis",
+            "ru": "iQontrol Vis",
+            "pt": "iQontrol Vis",
+            "nl": "iQontrol Vis",
+            "fr": "iQontrol Vis",
+            "it": "iQontrol Vis",
+            "es": "iQontrol Vis",
+            "pl": "iQontrol Vis",
+            "zh-cn": "iQontrol Vis"
+        },
+        "desc": {
+            "en": "Fast Web-App for Visualization",
+            "de": "Schnelle Web-App zur Visualisierung",
+            "ru": "Быстрое веб-приложение для визуализации",
+            "pt": "Fast Web-App para visualização",
+            "nl": "Snelle web-app voor visualisatie",
+            "fr": "Web-App rapide pour la visualisation",
+            "it": "App Web veloce per visualizzazione",
+            "es": "Rápida aplicación web para visualización",
+            "pl": "Szybka aplikacja internetowa do wizualizacji",
+            "zh-cn": "用于可视化的快速Web应用程序"
+        },
+        "authors": [
+            "Sebastian Bormann <sebastian@bormann.net>"
+        ],
+        "keywords": [
+            "visualization",
+            "user",
+            "interface",
+            "webapp",
+            "ui"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "iqontrol.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
+        "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "tier": 3,
+        "type": "visualization",
+        "highlight": true,
+        "compact": true,
+        "singleton": false,
+        "materialize": true,
+        "materializeTab": true,
+        "blockly": true,
+        "messagebox": true,
+        "subscribe": "messagebox",
+        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+        "welcomeScreen": false,
+        "welcomeScreenPro": {
+            "link": "iqontrol/index.html",
+            "name": "iQontrol",
+            "img": "iqontrol.admin/iqontrol.png",
+            "color": "gray",
+            "order": 1,
+            "localLink": false
+        },
+        "noIntro": false,
+        "adminTab": {
+            "singleton": true,
+            "name": {
+                "en": "iQontrol",
+                "de": "iQontrol",
+                "ru": "iQontrol",
+                "pt": "iQontrol",
+                "nl": "iQontrol",
+                "fr": "iQontrol",
+                "it": "iQontrol",
+                "es": "iQontrol",
+                "pl": "iQontrol",
+                "zh-cn": "iQontrol"
+            },
+            "link": "/adapter/iqontrol/tab_m.html?webPort=%web_port%",
+            "fa-icon": "blur_on"
+        },
+        "supportCustoms": true,
+        "jsonCustom": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+            }
+        },
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "admin": ">=3.0.0"
+            },
+            {
+                "js-controller": ">=1.4.2"
+            },
+            {
+                "web": ">=3.0.12"
+            }
+        ]
     },
-    "title": "iQontrol Vis",
-    "titleLang": {
-      "en": "iQontrol Vis",
-      "de": "iQontrol Vis",
-      "ru": "iQontrol Vis",
-      "pt": "iQontrol Vis",
-      "nl": "iQontrol Vis",
-      "fr": "iQontrol Vis",
-      "it": "iQontrol Vis",
-      "es": "iQontrol Vis",
-      "pl": "iQontrol Vis",
-      "zh-cn": "iQontrol Vis"
+    "native": {
+        "demotoolbar": [
+            {
+                "commonName": "Home",
+                "nativeLinkedView": "Home",
+                "nativeIcon": "home"
+            },
+            {
+                "commonName": "Rooms",
+                "nativeLinkedView": "Rooms",
+                "nativeIcon": "grid"
+            },
+            {
+                "commonName": "Functions",
+                "nativeLinkedView": "Functions",
+                "nativeIcon": "gear"
+            }
+        ],
+        "demoviews": [
+            {
+                "commonName": "Home",
+                "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
+                "devices": [
+                    {
+                        "commonName": "Clock",
+                        "nativeHeading": "Clock",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolWidget",
+                        "options": [
+                            {
+                                "option": "icon_on",
+                                "type": "icon",
+                                "value": ""
+                            },
+                            {
+                                "option": "icon_off",
+                                "type": "icon",
+                                "value": ""
+                            },
+                            {
+                                "option": "transparentIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "noOverlayInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "hideDeviceNameIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "hideStateIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "sizeEnlarged",
+                                "type": "select",
+                                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
+                            },
+                            {
+                                "option": "tileEnlargeShowButtonInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowButtonActive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowInPressureMenuInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowInPressureMenuActive",
+                                "type": "checkbox",
+                                "value": "true"
+                            }
+                        ],
+                        "states": [
+                            {
+                                "state": "BACKGROUND_URL",
+                                "commonRole": "const",
+                                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "ioBroker uptime",
+                        "nativeHeading": "ioBroker",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+                        "commonRole": "iQontrolValue",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": "system.adapter.admin.0.uptime"
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Rooms",
+                "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "1st floor",
+                        "nativeLinkedView": "Living-Room",
+                        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "2nd floor",
+                        "nativeLinkedView": "Kitchen",
+                        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Functions",
+                "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
+                "devices": [
+                    {
+                        "commonName": "Lights",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Lights",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Climate-Control",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Climate-Control",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Living-Room",
+                "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+                "devices": [
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Heater",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "TV",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolSwitch",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Kitchen",
+                "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+                "devices": [
+                    {
+                        "commonName": "Fan",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolFan",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Lights",
+                "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Climate-Control",
+                "nativeBackgroundImage": "./images/wallpaper/green.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     },
-    "desc": {
-      "en": "Fast Web-App for Visualization",
-      "de": "Schnelle Web-App zur Visualisierung",
-      "ru": "Быстрое веб-приложение для визуализации",
-      "pt": "Fast Web-App para visualização",
-      "nl": "Snelle web-app voor visualisatie",
-      "fr": "Web-App rapide pour la visualisation",
-      "it": "App Web veloce per visualizzazione",
-      "es": "Rápida aplicación web para visualización",
-      "pl": "Szybka aplikacja internetowa do wizualizacji",
-      "zh-cn": "用于可视化的快速Web应用程序"
-    },
-    "authors": [
-      "Sebastian Bormann <sebastian@bormann.net>"
+    "objects": [
+        {
+            "_id": "iqontrol.meta",
+            "type": "meta",
+            "common": {
+                "name": "userfiles and images for iQontrol",
+                "type": "meta.user",
+                "expert": true
+            },
+            "native": {}
+        }
     ],
-    "keywords": [
-      "visualization",
-      "user",
-      "interface",
-      "webapp",
-      "ui"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "iqontrol.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
-    "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "tier": 3,
-    "type": "visualization",
-    "highlight": true,
-    "compact": true,
-    "singleton": false,
-    "materialize": true,
-    "materializeTab": true,
-    "blockly": true,
-    "messagebox": true,
-    "subscribe": "messagebox",
-    "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
-    "welcomeScreen": false,
-    "welcomeScreenPro": {
-      "link": "iqontrol/index.html",
-      "name": "iQontrol",
-      "img": "iqontrol.admin/iqontrol.png",
-      "color": "gray",
-      "order": 1,
-      "localLink": false
-    },
-    "noIntro": false,
-    "adminTab": {
-      "singleton": true,
-      "name": {
-        "en": "iQontrol",
-        "de": "iQontrol",
-        "ru": "iQontrol",
-        "pt": "iQontrol",
-        "nl": "iQontrol",
-        "fr": "iQontrol",
-        "it": "iQontrol",
-        "es": "iQontrol",
-        "pl": "iQontrol",
-        "zh-cn": "iQontrol"
-      },
-      "link": "/adapter/iqontrol/tab_m.html?webPort=%web_port%",
-      "fa-icon": "blur_on"
-    },
-    "supportCustoms": true,
-    "jsonCustom": true,
-    "plugins": {
-      "sentry": {
-        "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
-      }
-    },
-    "connectionType": "local",
-    "dataSource": "push",
-    "dependencies": [
-      {
-        "admin": ">=3.0.0"
-      },
-      {
-        "js-controller": ">=1.4.2"
-      },
-      {
-        "web": ">=3.0.12"
-      }
-    ],
-    "installedFrom": "/opt/iobroker/iobroker.iqontrol"
-  },
-  "native": {
-    "demotoolbar": [
-      {
-        "commonName": "Home",
-        "nativeLinkedView": "Home",
-        "nativeIcon": "home"
-      },
-      {
-        "commonName": "Rooms",
-        "nativeLinkedView": "Rooms",
-        "nativeIcon": "grid"
-      },
-      {
-        "commonName": "Functions",
-        "nativeLinkedView": "Functions",
-        "nativeIcon": "gear"
-      }
-    ],
-    "demoviews": [
-      {
-        "commonName": "Home",
-        "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
-        "devices": [
-          {
-            "commonName": "Clock",
-            "nativeHeading": "Clock",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolWidget",
-            "options": [
-              {
-                "option": "icon_on",
-                "type": "icon",
-                "value": ""
-              },
-              {
-                "option": "icon_off",
-                "type": "icon",
-                "value": ""
-              },
-              {
-                "option": "transparentIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "noOverlayInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "hideDeviceNameIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "hideStateIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "sizeEnlarged",
-                "type": "select",
-                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
-              },
-              {
-                "option": "tileEnlargeShowButtonInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowButtonActive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowInPressureMenuInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowInPressureMenuActive",
-                "type": "checkbox",
-                "value": "true"
-              }
-            ],
-            "states": [
-              {
-                "state": "BACKGROUND_URL",
-                "commonRole": "const",
-                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
-              }
-            ]
-          },
-          {
-            "commonName": "ioBroker uptime",
-            "nativeHeading": "ioBroker",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-            "commonRole": "iQontrolValue",
-            "states": [
-              {
-                "state": "STATE",
-                "value": "system.adapter.admin.0.uptime"
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Rooms",
-        "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "1st floor",
-            "nativeLinkedView": "Living-Room",
-            "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Kitchen",
-            "nativeHeading": "2nd floor",
-            "nativeLinkedView": "Kitchen",
-            "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Functions",
-        "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
-        "devices": [
-          {
-            "commonName": "Lights",
-            "nativeHeading": "",
-            "nativeLinkedView": "Lights",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Climate-Control",
-            "nativeHeading": "",
-            "nativeLinkedView": "Climate-Control",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Living-Room",
-        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-        "devices": [
-          {
-            "commonName": "Light",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Heater",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolThermostat",
-            "states": [
-              {
-                "state": "SET_TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "HUMIDITY",
-                "value": ""
-              },
-              {
-                "state": "CONTROL_MODE",
-                "value": ""
-              },
-              {
-                "state": "VALVE_STATES",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "TV",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolSwitch",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Kitchen",
-        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-        "devices": [
-          {
-            "commonName": "Fan",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolFan",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Light",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Lights",
-        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Kitchen",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Climate-Control",
-        "nativeBackgroundImage": "./images/wallpaper/green.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolThermostat",
-            "states": [
-              {
-                "state": "SET_TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "HUMIDITY",
-                "value": ""
-              },
-              {
-                "state": "CONTROL_MODE",
-                "value": ""
-              },
-              {
-                "state": "VALVE_STATES",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "objects": [
-    {
-      "_id": "iqontrol.meta",
-      "type": "meta",
-      "common": {
-        "name": "userfiles and images for iQontrol",
-        "type": "meta.user",
-        "expert": true
-      },
-      "native": {}
-    }
-  ],
-  "instanceObjects": []
+    "instanceObjects": []
 }
