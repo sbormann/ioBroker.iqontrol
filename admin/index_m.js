@@ -1331,8 +1331,6 @@ for(iQontrolRole in iQontrolRoles){
 const udef = 'undefined';
 var link;
 var newConfig = false;
-var socketWasConnected = false;
-var socketConnectionErrorMessages = "";
 var iobrokerObjects;
 var iobrokerObjectsReady = false;
 var iobrokerObjectsReadyFunctions = [];
@@ -1435,12 +1433,6 @@ function removeDuplicates(array, ignoreEverythingAfterThisString) { //Removes du
     });
 }
 
-function isValidColorString(colorString){
-	var style = new Option().style;
-	style.color = colorString;
-	return (style.color && style.color != "");
-}
-
 function addCustomCSS(customCSS, customID){
 	customID = customID || "default";
 	$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
@@ -1449,6 +1441,12 @@ function addCustomCSS(customCSS, customID){
 function removeCustomCSS(customID){
 	customID = customID || "default";
 	$('.customCSS_' + customID).remove();
+}
+
+function isValidColorString(colorString){
+	var style = new Option().style;
+	style.color = colorString;
+	return (style.color && style.color != "");
 }
 
 //Symbolic links
@@ -2163,7 +2161,6 @@ async function load(settings, onChange) {
 			}
 			if (!(goalSocketFound && goalForceWebSocketsFound) && !isIobrokerPro){
 				console.log("Could not find any web-adapter with integrated socketIO and disabled Force Web-Sockets");
-				socketConnectionErrorMessages += "\n" + _("You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!");
 			}
 
 			//Create Link from best fitting web-adapter
@@ -2212,12 +2209,9 @@ async function load(settings, onChange) {
 				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 				if (M) M.updateTextFields();
 
-				//Get iobrokerObjects
-				getIobrokerObjects();
-				
 				//If react, make some css adjustments
-				var toDo = function(){
-					if(iobrokerObjects["system.adapter.admin.0"]?.native?.react){
+				socket.emit('getObject', 'system.adapter.admin.0', function(err, obj){
+					if(!err && obj?.native?.react){
 						isReact = true;
 						var customCSS = "";
 						customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
@@ -2267,19 +2261,28 @@ async function load(settings, onChange) {
 						$('.table-button-add').addClass('grey lighten-2');
 						var selectIdImgPath = './fancytree/react/';
 						$('#fancytreeCSSLink').attr('href', './fancytree/react/ui.fancytree.min.css');
-						var warnIfLE = "5.0.8";
 					} else {
 						isReact = false;
+					}						
+				});
+
+				//Get iobrokerObjects
+				getIobrokerObjects();
+				
+				//Warn if Admin-Version is too low
+				var toDo = function(){
+					if(isReact){
+						var warnIfLE = "5.0.8";
+					} else {
 						var warnIfLE = "5.0.6";
 					}
-					//Warn if Admin-Version is too low
 					if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= warnIfLE.split('.').join('')) alert(_("Some operations are only supported by admin versions > %s. Please update your admin-adapter!", warnIfLE));
 				}
 				if(iobrokerObjectsReady) {
 					toDo();
 				} else {
 					iobrokerObjectsReadyFunctions.push(toDo);
-				}				
+				}
 			});
 		} else {
 			alert(_("Error: No web-adapter found!"));
@@ -2289,6 +2292,15 @@ async function load(settings, onChange) {
 	function getIobrokerObjects(){
 		console.log("Getting ioBroker Objects...");
 		$('.loadingObjects').show();
+		if(!iobrokerObjectsReady){
+			var toDo = function(){
+				console.log("Subscribing to objectChange");
+				socket.on('objectChange', function(id, obj){
+					iobrokerObjects[id] = obj;
+				});
+			}
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
 		iobrokerObjectsReady = false;
 		if(parent && parent.gMain && typeof parent.gMain.objects == "object"){
 			console.log("...assigning ioBroker Objects via parent.gMain.objects...");

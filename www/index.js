@@ -4086,7 +4086,7 @@ function renderView(viewId, triggeredByReconnection){
 			removeCustomCSS('addViewPaddingBottomAfterMinimizingTile');
 		}
 		var viewContent = "<div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
-		for (var deviceIndex = 0; deviceIndex < actualView.devices.length; deviceIndex++){
+		if(actualView.devices) for (var deviceIndex = 0; deviceIndex < actualView.devices.length; deviceIndex++){
 			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
