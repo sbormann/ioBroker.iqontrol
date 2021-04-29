@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.7.3",
+        "version": "1.8.0",
         "news": {
+            "1.8.0": {
+                "en": "Some design-adjustments for react-ui.",
+                "de": "Einige Designanpassungen für React-UI.",
+                "ru": "Некоторые корректировки дизайна для react-ui.",
+                "pt": "Alguns ajustes de design para react-ui.",
+                "nl": "Enkele ontwerpaanpassingen voor react-ui.",
+                "fr": "Quelques ajustements de conception pour react-ui.",
+                "it": "Alcuni aggiustamenti di progettazione per React-ui.",
+                "es": "Algunos ajustes de diseño para react-ui.",
+                "pl": "Kilka zmian w projekcie dla React-UI.",
+                "zh-cn": "react-ui的一些设计调整。"
+            },
             "1.7.3": {
                 "en": "Fixed admin-tab for react.",
                 "de": "Admin-Tab für Reagieren behoben.",
