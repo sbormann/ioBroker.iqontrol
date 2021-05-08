@@ -249,8 +249,7 @@
       {
         "web": ">=3.0.12"
       }
-    ],
-    "installedFrom": "/opt/iobroker/iobroker.iqontrol"
+    ]
   },
   "native": {
     "demotoolbar": [
