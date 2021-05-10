@@ -199,6 +199,24 @@
     "singleton": false,
     "materialize": true,
     "materializeTab": true,
+    "adminTab": {
+      "name": {
+        "en": "iQontrol",
+        "de": "iQontrol",
+        "ru": "iQontrol",
+        "pt": "iQontrol",
+        "nl": "iQontrol",
+        "fr": "iQontrol",
+        "it": "iQontrol",
+        "es": "iQontrol",
+        "pl": "iQontrol",
+        "zh-cn": "iQontrol"
+      },
+      "singleton": true,
+      "fa-icon": "blur_on",
+      "link": "/adapter/iqontrol/tab_m.html?webPort=%web_port%"
+    },
+	"onlyWWW": false,
     "blockly": true,
     "messagebox": true,
     "subscribe": "messagebox",
@@ -213,23 +231,6 @@
       "localLink": false
     },
     "noIntro": false,
-    "adminTab": {
-      "singleton": true,
-      "name": {
-        "en": "iQontrol",
-        "de": "iQontrol",
-        "ru": "iQontrol",
-        "pt": "iQontrol",
-        "nl": "iQontrol",
-        "fr": "iQontrol",
-        "it": "iQontrol",
-        "es": "iQontrol",
-        "pl": "iQontrol",
-        "zh-cn": "iQontrol"
-      },
-      "link": "/adapter/iqontrol/tab_m.html?webPort=%web_port%",
-      "fa-icon": "blur_on"
-    },
     "supportCustoms": true,
     "jsonCustom": true,
     "plugins": {
