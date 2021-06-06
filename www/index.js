@@ -8874,8 +8874,8 @@ function renderDialog(deviceIdEscaped){
 							var updateFunction = function(){
 								var stateBoostMode = getStateObject(_linkedBoostModeId);
 								var stateControlMode = getStateObject(_linkedControlModeId);
-								if (stateBoostMode && stateBoostMode.val && _valueList.indexOf("BOOST-MODE") > -1) {
-									$("#DialogThermostatControlModeCheckboxradio_" + _valueList.indexOf("BOOST-MODE")).prop("checked", true);
+								if (stateBoostMode && stateBoostMode.val && Object.keys(_valueList).indexOf("BOOST-MODE") > -1) {
+									$("#DialogThermostatControlModeCheckboxradio_" + Object.keys(_valueList).find(key => _valueList[key] === "BOOST-MODE")).prop("checked", true);
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 								} else if (stateControlMode){
 									$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
