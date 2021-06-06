@@ -8893,7 +8893,12 @@ function renderDialog(deviceIdEscaped){
 								if (_valueList && typeof _valueList[value] !== udef && _valueList[value] == "BOOST-MODE"){
 									var unit = getUnit(_linkedBoostStateId);
 									if (states[_linkedBoostStateId] && typeof states[_linkedBoostStateId].val != udef){
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + states[_linkedBoostStateId].val + unit + "</span>");
+										var val = states[_linkedBoostStateId].val;
+										if(device.commonRole == "iQontrolHomematicIpThermostat" && !unit) {
+											val = Math.floor(val/60) + 1;
+											unit = " " + _("minutes");
+										}
+										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("<span class='small'>" + _("Remaining Boost Time") + ": " + val + unit + "</span>");
 									}
 								} else {
 									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogThermostatControlModeText").html("");
@@ -8901,6 +8906,9 @@ function renderDialog(deviceIdEscaped){
 							};
 							if(!dialogUpdateFunctions[_linkedBoostStateId]) dialogUpdateFunctions[_linkedBoostStateId] = [];
 							dialogUpdateFunctions[_linkedBoostStateId].push(updateFunction);
+							dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
+							if(_linkedBoostModeId) dialogUpdateFunctions[_linkedBoostModeId].push(updateFunction);
+							}
 							var bindingFunction = function(){
 								$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
 									var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
