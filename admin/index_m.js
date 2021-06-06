@@ -670,6 +670,25 @@ var iQontrolRoles = {
 			}}
 		}
 	},
+	"iQontrolHomematicIpThermostat": {
+		name: "HomematicIP-Thermostat",
+		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		icon: "/images/icons/radiator.png",
+		deviceSpecificOptions: {
+			SECTION_ICONS: {options: {
+				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
+			}},
+			SECTION_TILE: {options: {
+				clickOnIconToggles: "delete",
+				clickOnTileToggles: "delete",
+				clickOnIconOpensDialog: {default: "true"}
+			}}
+		}
+	},
 	"iQontrolTemperature": {
 		name: "Temperature-Sensor",
 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
@@ -2296,7 +2315,7 @@ async function load(settings, onChange) {
 			var toDo = function(){
 				console.log("Subscribing to objectChange");
 				socket.on('objectChange', function(id, obj){
-					iobrokerObjects[id] = obj;
+					if(obj) iobrokerObjects[id] = obj; else if (obj == null) delete iobrokerObjects[id];
 				});
 			}
 			iobrokerObjectsReadyFunctions.push(toDo);

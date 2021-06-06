@@ -1524,6 +1524,9 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Some design-adjustments for react-ui.
 * (sbormann) Keep track of ioBroker object changes in admin.
 * (sbormann) Fixed crash if active view has no devices.
+* (sbormann) Removed old conn.js from admin.
+* (sbormann) Added HomematicIP-Thermostat.
+* (sbormann) Enhanced max-height of dialog.
 
 ### 1.8.0 (2021-04-29)
 * (sbormann) Some design-adjustments for react-ui.

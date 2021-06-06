@@ -399,6 +399,25 @@ var iQontrolRoles = {
 			}}
 		}
 	},
+	"iQontrolHomematicIpThermostat": {
+		name: "HomematicIP-Thermostat",
+		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		icon: "/images/icons/radiator.png",
+		deviceSpecificOptions: {
+			SECTION_ICONS: {options: {
+				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
+			}},
+			SECTION_TILE: {options: {
+				clickOnIconToggles: "delete",
+				clickOnTileToggles: "delete",
+				clickOnIconOpensDialog: {default: "true"}
+			}}
+		}
+	},
 	"iQontrolTemperature": {
 		name: "Temperature-Sensor",
 		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
@@ -2694,7 +2713,7 @@ function isHTML(testString){
 	return /<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(testString);
 }
 
-function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an element draggable
+function dragElement(dragElementId, dragHandleId, cursor, resize, setMaxHeightElementId, setMaxHeightOffset) { //Makes an element draggable
 	var dragElement = document.getElementById(dragElementId);
 	if(!dragElement) return;
 	dragHandle = document.getElementById(dragHandleId);
@@ -2756,6 +2775,10 @@ function dragElement(dragElementId, dragHandleId, cursor, resize) { //Makes an e
 		} else {
 			dragElement.style.left = (dragElement.offsetLeft - posMoveX) + "px";
 			dragElement.style.top = (dragElement.offsetTop - posMoveY) + "px";
+			if(setMaxHeightElementId) {
+				var setMaxHeightElement = document.getElementById(setMaxHeightElementId);
+				if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY - posMoveY + setMaxHeightOffset) + "px)";
+			}
 		}
 	}
 	function dragStop() {
@@ -8788,7 +8811,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					break;
 
-					case "iQontrolHomematicThermostat":
+					case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat": 
 					//----Homematic-Thermostat (ONLY Homematic!)
 					//------Control Mode
 					//get additional linkedStates for HomematicThermostat:
@@ -8798,9 +8821,14 @@ function renderDialog(deviceIdEscaped){
 					if(dialogLinkedStateIds["CONTROL_MODE"]){
 						var linkedParentId = dialogLinkedStateIds["CONTROL_MODE"].substring(0, dialogLinkedStateIds["CONTROL_MODE"].lastIndexOf("."));
 						var additionalLinkedStates = [];
-						additionalLinkedStates.push(linkedParentId + ".MANU_MODE");
-						additionalLinkedStates.push(linkedParentId + ".AUTO_MODE");
-						additionalLinkedStates.push(linkedParentId + ".BOOST_MODE");
+						if(device.commonRole == "iQontrolHomematicThermostat"){
+							additionalLinkedStates.push(linkedParentId + ".MANU_MODE");
+							additionalLinkedStates.push(linkedParentId + ".AUTO_MODE");
+							additionalLinkedStates.push(linkedParentId + ".BOOST_MODE");
+						} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
+							additionalLinkedStates.push(linkedParentId + ".SET_POINT_MODE");
+							additionalLinkedStates.push(linkedParentId + ".BOOST_MODE");
+						}
 						for(var i = 0; i < additionalLinkedStates.length; i++){
 							if (typeof states[additionalLinkedStates[i]] == udef) {
 								dialogStateIdsToFetch.push(additionalLinkedStates[i]);
@@ -8814,13 +8842,17 @@ function renderDialog(deviceIdEscaped){
 						}
 					}
 					if(dialogStates["CONTROL_MODE"]){
+						if(device.commonRole == "iQontrolHomematicIpThermostat") { //For HmIP valueList is not provided
+							if(!dialogStates["CONTROL_MODE"].valueList) dialogStates["CONTROL_MODE"].valueList = {};
+							dialogStates["CONTROL_MODE"].valueList[0] = "AUTO-MODE";
+							dialogStates["CONTROL_MODE"].valueList[1] = "MANU-MODE";
+							dialogStates["CONTROL_MODE"].valueList[2] = "PARTY-MODE";
+							dialogStates["CONTROL_MODE"].valueList[3] = "BOOST-MODE";
+						}
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
 							dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _("Mode") + ":</legend>";
 							for(val in dialogStates["CONTROL_MODE"].valueList){
-								if(dialogStates["CONTROL_MODE"].valueList[val] == "PARTY-MODE"){
-									var controlModeParty = val;
-									continue;
-								}
+								if(dialogStates["CONTROL_MODE"].valueList[val] == "PARTY-MODE") continue;
 								dialogStates["CONTROL_MODE"].readonly = false; //SPECIAL: Homematic control mode IS readonly, because it writes to another targetValueId but the new targetValueId-Feature is not yet implemented for Homematic-Themostats. Therefore - as workaround - the readonly-mode is disabled here.
 								dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
 								dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
@@ -8829,7 +8861,12 @@ function renderDialog(deviceIdEscaped){
 						dialogContent += "<div class='DialogThermostatControlModeText' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
+							if(device.commonRole == "iQontrolHomematicThermostat"){
+								var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
+							} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
+								var linkedParentId = dialogLinkedStateIds["CONTROL_MODE"].substring(0, dialogLinkedStateIds["CONTROL_MODE"].lastIndexOf("."));
+								var _linkedControlModeId = linkedParentId + ".SET_POINT_MODE";
+							}
 							var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
 							var _valueList = dialogStates["CONTROL_MODE"].valueList;
 							var updateFunction = function(){
@@ -8860,9 +8897,15 @@ function renderDialog(deviceIdEscaped){
 									var setValue = "";
 									var modeStateId = "";
 									var SET_TEMPERATURE = $("#DialogStateSlider").val() * 1;
-									if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
-									if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
-									if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+									if(device.commonRole == "iQontrolHomematicThermostat"){
+										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
+										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+									} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
+										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".SET_POINT_MODE";  setValue = 0; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".SET_POINT_MODE";  setValue = 1; }
+										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+									}
 									if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
 									setState(modeStateId, _deviceIdEscaped, setValue, true);
 								});
@@ -8969,7 +9012,7 @@ function renderDialog(deviceIdEscaped){
 										if(partyModeTemperature >= 6.0){ //Party-Mode active
 											$("#DialogThermostatPartyModeText").html("<br>" + _("programmed to") + " " + partyModeTemperature + state.unit);
 											var partyModeStartTimeObject = getStateObject(_linkedParentId + ".PARTY_START_TIME");
-											if (partyModeStartTimeObject) {
+											if (partyModeStartTimeObject.val) {
 												var partyModeStartTime = getTimeFromHMTimeCode(partyModeStartTimeObject.val);
 												var partyModeStartHour = partyModeStartTime.split(":")[0];
 												var partyModeStartMin = partyModeStartTime.split(":")[1];
@@ -8977,13 +9020,13 @@ function renderDialog(deviceIdEscaped){
 												partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_TIME");
 											}
 											var partyModeStartDayObject = getStateObject(_linkedParentId + ".PARTY_START_DAY")
-											if (partyModeStartDayObject) var partyModeStartDay = partyModeStartDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_DAY");
+											if (partyModeStartDayObject.val) var partyModeStartDay = partyModeStartDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_DAY");
 											var partyModeStartMonthObject = getStateObject(_linkedParentId + ".PARTY_START_MONTH")
-											if (partyModeStartMonthObject) var partyModeStartMonth = partyModeStartMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_MONTH");
+											if (partyModeStartMonthObject.val) var partyModeStartMonth = partyModeStartMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_MONTH");
 											var partyModeStartYEARObject = getStateObject(_linkedParentId + ".PARTY_START_YEAR")
-											if (partyModeStartYEARObject) var partyModeStartYEAR = partyModeStartYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_YEAR");
+											if (partyModeStartYEARObject.val) var partyModeStartYEAR = partyModeStartYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_YEAR");
 											var partyModeStopTimeObject = getStateObject(_linkedParentId + ".PARTY_STOP_TIME");
-											if (partyModeStopTimeObject) {
+											if (partyModeStopTimeObject.val) {
 												var partyModeStopTime = getTimeFromHMTimeCode(partyModeStopTimeObject.val);
 												var partyModeStopHour = partyModeStopTime.split(":")[0];
 												var partyModeStopMin = partyModeStopTime.split(":")[1];
@@ -8991,11 +9034,11 @@ function renderDialog(deviceIdEscaped){
 												partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_TIME");
 											}
 											var partyModeStopDayObject = getStateObject(_linkedParentId + ".PARTY_STOP_DAY")
-											if (partyModeStopDayObject) var partyModeStopDay = partyModeStopDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_DAY");
+											if (partyModeStopDayObject.val) var partyModeStopDay = partyModeStopDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_DAY");
 											var partyModeStopMonthObject = getStateObject(_linkedParentId + ".PARTY_STOP_MONTH")
-											if (partyModeStopMonthObject) var partyModeStopMonth = partyModeStopMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_MONTH");
+											if (partyModeStopMonthObject.val) var partyModeStopMonth = partyModeStopMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_MONTH");
 											var partyModeStopYEARObject = getStateObject(_linkedParentId + ".PARTY_STOP_YEAR")
-											if (partyModeStopYEARObject) var partyModeStopYEAR = partyModeStopYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_YEAR");
+											if (partyModeStopYEARObject.val) var partyModeStopYEAR = partyModeStopYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_YEAR");
 										} else { //Party-Mode inactive
 											$("#DialogThermostatPartyModeText").html("<br>" + _("inactive"));
 											partyModeTemperature = "21";
@@ -12306,7 +12349,7 @@ $(document).ready(function(){
 	if(isBackgroundView) $('body').addClass('isBackgroundView');
 
 	//Make Dialog draggable
-	dragElement('Dialog-popup', 'DialogHeaderTitle', true);
+	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 60);
 
 	//jQuery fix for autofocus on first input when clicking on popup
 	$('#Dialog').on('mousemove', function(event){
@@ -12321,6 +12364,12 @@ $(document).ready(function(){
 		if($(".ui-popup-active").length == 0) $('#Toolbar').toolbar('hide');
 		$('#ViewMain').data('plugin_ptrLight').options.paused = true;
 		$('html').addClass('noscroll');
+		setTimeout(function(){
+			var setMaxHeightOffset = 60;
+			var dragElement = document.getElementById('Dialog-popup');
+			var setMaxHeightElement = document.getElementById('DialogContent');
+			if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY + setMaxHeightOffset) + "px)";
+		}, 50);
 	});
 	
 	//Clear everything when Dialog is closed
