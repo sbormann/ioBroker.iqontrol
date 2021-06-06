@@ -8866,7 +8866,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedBoostModeId = false;
 							} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
 								var linkedParentId = dialogLinkedStateIds["CONTROL_MODE"].substring(0, dialogLinkedStateIds["CONTROL_MODE"].lastIndexOf("."));
-								var _linkedBoostModeId = linkedParentId + ".SET_POINT_MODE";
+								var _linkedBoostModeId = linkedParentId + ".BOOST_MODE";
 								var _linkedControlModeId = linkedParentId + ".SET_POINT_MODE";
 							}
 							var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
