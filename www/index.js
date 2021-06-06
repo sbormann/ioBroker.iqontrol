@@ -5535,12 +5535,15 @@ function renderView(viewId, triggeredByReconnection){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedSetTemperatureId = deviceLinkedStateIds["SET_TEMPERATURE"];
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
+										var linkedParentId = _linkedControlModeId.substring(0, _linkedControlModeId.lastIndexOf("."));
+										var _linkedBoostModeId = linkedParentId + ".BOOST_MODE"; //Only for HmIP
 										var _linkedPartyTemperatureId = deviceLinkedStateIds["PARTY_TEMPERATURE"];
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var setTemperature = getStateObject(_linkedSetTemperatureId);
 											var controlMode = getStateObject(_linkedControlModeId);
+											var boostMode = getStateObject(_linkedBoostModeId); //Only for HmIP
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var min = setTemperature && setTemperature.min || 0;
 											var max = setTemperature && setTemperature.max || 100;
@@ -5554,6 +5557,18 @@ function renderView(viewId, triggeredByReconnection){
 												if(controlMode && typeof controlMode.val !== udef) {
 													mode = controlMode.val;
 													modeText = controlMode.plainText;
+													if(device.commonRole == "iQontrolHomematicIpThermostat") { //For HmIP valueList is not provided
+														if(!controlMode.valueList){
+															controlMode.valueList = {};
+															controlMode.valueList[0] = "AUTO-MODE";
+															controlMode.valueList[1] = "MANU-MODE";
+															controlMode.valueList[2] = "PARTY-MODE";
+															controlMode.valueList[3] = "BOOST-MODE";
+															var plainText = _(controlMode.valueList[controlMode.val]);
+															if(plainText) modeText = plainText;
+															if(boostMode && boostMode.val) modeText = _("BOOST-MODE");
+														}														
+													}
 												}
 											}
 											if (result !== "") modeText = "<span class='small'>&nbsp;" + modeText + "</span>";
