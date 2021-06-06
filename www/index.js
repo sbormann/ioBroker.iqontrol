@@ -8876,6 +8876,7 @@ function renderDialog(deviceIdEscaped){
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 								}
 							};
+							if(typeof dialogUpdateFunctions[_linkedControlModeId] == udef) dialogUpdateFunctions[_linkedControlModeId] = [];
 							dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
 							var updateFunction = function(){
 								var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
@@ -11664,6 +11665,7 @@ function renderDialog(deviceIdEscaped){
 			});
 			//Reposition to window
 			setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 250);
+			setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 350);
 			//Start dialogIdsToUpdateEverySecondInterval
 			if(dialogIdsToUpdateEverySecondInterval) clearInterval(dialogIdsToUpdateEverySecondInterval);
 			dialogIdsToUpdateEverySecondInterval = setInterval(function(){
