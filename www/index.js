@@ -8866,13 +8866,13 @@ function renderDialog(deviceIdEscaped){
 								var _linkedBoostModeId = false;
 							} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
 								var linkedParentId = dialogLinkedStateIds["CONTROL_MODE"].substring(0, dialogLinkedStateIds["CONTROL_MODE"].lastIndexOf("."));
-								var _linkedControlModeId = linkedParentId + ".SET_POINT_MODE";
 								var _linkedBoostModeId = linkedParentId + ".SET_POINT_MODE";
+								var _linkedControlModeId = linkedParentId + ".SET_POINT_MODE";
 							}
 							var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
 							var _valueList = dialogStates["CONTROL_MODE"].valueList;
 							var updateFunction = function(){
-								var stateBoostMode = getStateObject(_linkedControlModeId);
+								var stateBoostMode = getStateObject(_linkedBoostModeId);
 								var stateControlMode = getStateObject(_linkedControlModeId);
 								if (stateBoostMode && stateBoostMode.val && _valueList.indexOf("BOOST-MODE") > -1) {
 									$("#DialogThermostatControlModeCheckboxradio_" + _valueList.indexOf("BOOST-MODE")).prop("checked", true);
