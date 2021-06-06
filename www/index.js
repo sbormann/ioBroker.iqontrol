@@ -4576,7 +4576,7 @@ function renderView(viewId, triggeredByReconnection){
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/fan_off.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
 
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat":
+							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat":
 							if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon on active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/radiator.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 							if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon off" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/radiator.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
 							break;
@@ -4887,7 +4887,7 @@ function renderView(viewId, triggeredByReconnection){
 						viewInfoASliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoA' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
+							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
 							if (deviceLinkedStateIds["TEMPERATURE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
@@ -5249,7 +5249,7 @@ function renderView(viewId, triggeredByReconnection){
 						viewInfoBSliderIndex[deviceIdEscaped] = 0;
 						deviceContent += "<div class='iQontrolDeviceInfoB' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 						switch(device.commonRole){
-							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
+							case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure":
 							if (deviceLinkedStateIds["HUMIDITY"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
@@ -5528,7 +5528,7 @@ function renderView(viewId, triggeredByReconnection){
 								}
 								break;
 
-								case "iQontrolThermostat": case "iQontrolHomematicThermostat":
+								case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat":
 								if (deviceLinkedStateIds["SET_TEMPERATURE"] || deviceLinkedStateIds["CONTROL_MODE"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
@@ -8908,7 +8908,6 @@ function renderDialog(deviceIdEscaped){
 							dialogUpdateFunctions[_linkedBoostStateId].push(updateFunction);
 							dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
 							if(_linkedBoostModeId) dialogUpdateFunctions[_linkedBoostModeId].push(updateFunction);
-							}
 							var bindingFunction = function(){
 								$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
 									var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
