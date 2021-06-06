@@ -2230,7 +2230,7 @@ async function load(settings, onChange) {
 
 				//If react, make some css adjustments
 				socket.emit('getObject', 'system.adapter.admin.0', function(err, obj){
-					if(!err && obj?.native?.react){
+					if(!err && (typeof obj?.native?.material == "undefined" ? !!obj?.native?.react : !obj?.native?.material)){
 						isReact = true;
 						var customCSS = "";
 						customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
@@ -3950,7 +3950,9 @@ async function load(settings, onChange) {
 					break;
 
 					case "level.temperature":
-					if (resultStatesObj['PARTY_TEMPERATURE']) {
+					if (resultStatesObj['SET_POINT_MODE']) {
+						result.resultObject.commonRole = 'iQontrolHomematicIpThermostat';
+					} else if (resultStatesObj['PARTY_TEMPERATURE']) {
 						result.resultObject.commonRole = 'iQontrolHomematicThermostat';
 					} else {
 						result.resultObject.commonRole = 'iQontrolThermostat';
