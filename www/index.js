@@ -7365,7 +7365,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					break;
 
-					case "iQontrolThermostat": case "iQontrolHomematicThermostat":
+					case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat":
 					if(dialogStates["SET_TEMPERATURE"]){
 						var min = dialogStates["SET_TEMPERATURE"].min || 6;
 						var max = dialogStates["SET_TEMPERATURE"].max || 30;
@@ -8882,6 +8882,10 @@ function renderDialog(deviceIdEscaped){
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 								}
 							};
+							if(_linkedBoostModeId){
+								if(typeof dialogUpdateFunctions[_linkedBoostModeId] == udef) dialogUpdateFunctions[_linkedBoostModeId] = [];
+								dialogUpdateFunctions[_linkedBoostModeId].push(updateFunction);
+							}
 							if(typeof dialogUpdateFunctions[_linkedControlModeId] == udef) dialogUpdateFunctions[_linkedControlModeId] = [];
 							dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
 							var updateFunction = function(){
