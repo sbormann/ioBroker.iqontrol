@@ -8863,15 +8863,21 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							if(device.commonRole == "iQontrolHomematicThermostat"){
 								var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
+								var _linkedBoostModeId = false;
 							} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
 								var linkedParentId = dialogLinkedStateIds["CONTROL_MODE"].substring(0, dialogLinkedStateIds["CONTROL_MODE"].lastIndexOf("."));
 								var _linkedControlModeId = linkedParentId + ".SET_POINT_MODE";
+								var _linkedBoostModeId = linkedParentId + ".SET_POINT_MODE";
 							}
 							var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
 							var _valueList = dialogStates["CONTROL_MODE"].valueList;
 							var updateFunction = function(){
+								var stateBoostMode = getStateObject(_linkedControlModeId);
 								var stateControlMode = getStateObject(_linkedControlModeId);
-								if (stateControlMode){
+								if (stateBoostMode && stateBoostMode.val && _valueList.indexOf("BOOST-MODE") > -1) {
+									$("#DialogThermostatControlModeCheckboxradio_" + _valueList.indexOf("BOOST-MODE")).prop("checked", true);
+									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
+								} else if (stateControlMode){
 									$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 								}
@@ -8899,12 +8905,12 @@ function renderDialog(deviceIdEscaped){
 									var modeStateId = "";
 									var SET_TEMPERATURE = $("#DialogStateSlider").val() * 1;
 									if(device.commonRole == "iQontrolHomematicThermostat"){
-										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
 										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
+										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
 										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
 									} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
-										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 0; }
-										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 1; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 0; }
+										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 1; }
 										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
 									}
 									if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
