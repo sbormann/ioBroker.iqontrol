@@ -3950,8 +3950,9 @@ async function load(settings, onChange) {
 					break;
 
 					case "level.temperature":
-					if (resultStatesObj['SET_POINT_MODE']) {
+					if (unmatchedChildStates.indexOf('SET_POINT_MODE') > -1) {
 						result.resultObject.commonRole = 'iQontrolHomematicIpThermostat';
+						delete resultStatesObj['LEVEL'];
 					} else if (resultStatesObj['PARTY_TEMPERATURE']) {
 						result.resultObject.commonRole = 'iQontrolHomematicThermostat';
 					} else {

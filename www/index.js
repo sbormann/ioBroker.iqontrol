@@ -8903,8 +8903,8 @@ function renderDialog(deviceIdEscaped){
 										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
 										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
 									} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
-										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".SET_POINT_MODE";  setValue = 0; }
-										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".SET_POINT_MODE";  setValue = 1; }
+										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 0; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 1; }
 										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
 									}
 									if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
