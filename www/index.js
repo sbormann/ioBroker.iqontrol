@@ -5599,7 +5599,7 @@ function renderView(viewId, triggeredByReconnection){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 											}
 											resultText = addTimestamp(resultText, [setTemperature, controlMode], [_linkedSetTemperatureId, _linkedControlModeId], _device, tileActive);
-											if (_linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) resultText += "&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />";
+											if (device.commonRole != "iQontrolHomematicIpThermostat" && _linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) resultText += "&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />";
 											if (_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && states[_linkedWindowOpenReportingId] !== null && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) resultText += "&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />";
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
@@ -8951,7 +8951,7 @@ function renderDialog(deviceIdEscaped){
 						var now = new Date();
 						var year = now.getFullYear() - 2000;
 						var	dialogThermostatPartyModeCollapsibleExpanded = false;
-						if(dialogStates["PARTY_TEMPERATURE"]){
+						if(device.commonRole != "iQontrolHomematicIpThermostat" && dialogStates["PARTY_TEMPERATURE"]){
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true' id='DialogThermostatPartyModeCollapsible' class=''>";
 								dialogContent += "<h4><image src='./images/symbols/party.png' / style='width:16px; height:16px;'>&nbsp;" + _("Party-Mode") + ": <span id='DialogThermostatPartyModeText' class='small'></span></h4>";
 								dialogContent += "<div id='DialogThermostatPartyModeContent'>";
