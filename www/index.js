@@ -8927,20 +8927,23 @@ function renderDialog(deviceIdEscaped){
 								$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
 									var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
 									var linkedParentId = _linkedControlModeId.substring(0, _linkedControlModeId.lastIndexOf("."));
-									var setValue = "";
-									var modeStateId = "";
+									var setValues = [];
+									var modeStateIds = [];
 									var SET_TEMPERATURE = $("#DialogStateSlider").val() * 1;
 									if(device.commonRole == "iQontrolHomematicThermostat"){
-										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".AUTO_MODE";  setValue = true; }
-										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".MANU_MODE";  setValue = SET_TEMPERATURE; }
-										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateIds.push(linkedParentId + ".AUTO_MODE");  	setValues.push(true); }
+										if (_valueList[value] == "MANU-MODE")  { modeStateIds.push(linkedParentId + ".MANU_MODE");  	setValues.push(SET_TEMPERATURE); }
+										if (_valueList[value] == "BOOST-MODE") { modeStateIds.push(linkedParentId + ".BOOST_MODE"); 	setValues.push(true); }
 									} else if(device.commonRole == "iQontrolHomematicIpThermostat") {
-										if (_valueList[value] == "AUTO-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 0; }
-										if (_valueList[value] == "MANU-MODE")  { modeStateId = linkedParentId + ".CONTROL_MODE";  setValue = 1; }
-										if (_valueList[value] == "BOOST-MODE") { modeStateId = linkedParentId + ".BOOST_MODE"; setValue = true; }
+										if (_valueList[value] == "AUTO-MODE")  { modeStateIds.push(linkedParentId + ".CONTROL_MODE"); 	setValues.push(0); 		modeStateIds.push(linkedParentId + ".BOOST_MODE"); 	 setValues.push(false);}
+										if (_valueList[value] == "MANU-MODE")  { modeStateIds.push(linkedParentId + ".CONTROL_MODE"); 	setValues.push(1); 		modeStateIds.push(linkedParentId + ".BOOST_MODE"); 	 setValues.push(false);}
+										if (_valueList[value] == "BOOST-MODE") { modeStateIds.push(linkedParentId + ".BOOST_MODE"); 	setValues.push(true); }
 									}
-									if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
-									setState(modeStateId, _deviceIdEscaped, setValue, true);
+									modeStateIds.forEach(function(modeStateId, index){
+										var setValue = setValues[index] || true;
+										if (typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
+										setState(modeStateId, _deviceIdEscaped, setValue, true);
+									});
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);

@@ -2027,6 +2027,59 @@ async function load(settings, onChange) {
 	$('.hideOnLoad').hide();
 	$('.showOnLoad').show();
 
+	//If react, make some css adjustments
+	isReact = (window.parent.adapterName === 'admin');
+	if(isReact){
+		var customCSS = "";
+		customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
+		customCSS += ".table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.08) !important; }";
+		customCSS += ".table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.08) !important; }";
+		customCSS += ".table-values th { background-color: rgba(0,0,0,0.1) !important; color: #1d1d1d !important; }";
+
+		customCSS += ".title { background-color: #164477; }";
+
+		customCSS += ".m .tabs .tab a { color: rgba(0, 0, 0, 0.5); }";
+		customCSS += ".m .tabs .tab a:hover { color: rgba(0, 0, 0, 0.86); }";
+		customCSS += ".m .tabs .tab a.active { color: #164477; }";
+		customCSS += ".m .tabs .active { border-bottom: 2px solid #164477; }";
+
+		customCSS += ".m nav { background-color: #3399cc; }";
+
+		customCSS += ".m .btn { background-color: #e0e0e0; color: #000000; }";
+		customCSS += ".m .btn:hover { background-color: #d5d5d5; }";
+		customCSS += ".m .btn.disabled { background-color: rgba(0, 0, 0, 0.12) !important; color: rgba(0, 0, 0, 0.26) !important; }";
+
+		customCSS += ".m .btn-floating { background-color: transparent; box-shadow: none; color: #000000; }";
+		customCSS += ".m .btn-floating:hover { background-color: rgba(0,0,0,0.08); }";
+		customCSS += ".m .btn-floating.selectClear { background-color: #ffffff; }";
+		customCSS += ".m .btn-floating.selectClear:hover { background-color: #ebebeb; }";
+		customCSS += ".m .btn-floating i { color: #000000; transition: color 0.3s; }";
+		customCSS += ".m .btn-floating.red  { background-color: transparent !important; }";
+		customCSS += ".m .btn-floating.red:hover { background-color: red !important; }";
+		customCSS += ".m .btn-floating.red:hover i { color: #ffffff; }";
+								
+		customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button { background-color: transparent; }";
+		customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button:hover { background-color: rgba(0,0,0,0.08); }";
+		customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button i { color: #757575; }";
+		customCSS += ".dialog-select-object-ids .objects-list-table { background-color: #ffffff; }";
+		customCSS += ".dialog-select-object-ids .objects-list-table thead { display: none; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table tr { border: none !important; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table tr:hover { background-color: #3399cc; outline: none; color: #ffffff; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table tr:hover .fancytree-title { color: #ffffff; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table tr.fancytree-active { background-color: #236b8e !important; outline: none !important; color: #ffffff !important; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table tr.fancytree-active .fancytree-title { color: #ffffff; }";
+		customCSS += ".dialog-select-object-ids table.objects-list-table td { border: none !important; }";
+
+		customCSS += ".m .dropdown-content li>span { color: rgba(0, 0, 0, 0.86); }";
+		customCSS += ".m .dropdown-content li>a { color: rgba(0, 0, 0, 0.86); }";
+		customCSS += ".m [type=checkbox].filled-in:checked+span:not(.lever):after { border: #164477; background-color: #164477; }";
+		
+		addCustomCSS(customCSS, "reactCSS");
+		$('.table-button-add').addClass('grey lighten-2');
+		var selectIdImgPath = './fancytree/react/';
+		$('#fancytreeCSSLink').attr('href', './fancytree/react/ui.fancytree.min.css');
+	}
+
 	// Create a helper for sortable tables with preserved width of cells
 	var fixHelper = function(e, ui){
 		ui.children().each(function(){
@@ -2227,63 +2280,6 @@ async function load(settings, onChange) {
 
 				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 				if (M) M.updateTextFields();
-
-				//If react, make some css adjustments
-				socket.emit('getObject', 'system.adapter.admin.0', function(err, obj){
-					if(!err && (typeof obj?.native?.material == "undefined" ? !!obj?.native?.react : !obj?.native?.material)){
-						isReact = true;
-						var customCSS = "";
-						customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
-						customCSS += ".table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.08) !important; }";
-						customCSS += ".table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.08) !important; }";
-						customCSS += ".table-values th { background-color: rgba(0,0,0,0.1) !important; color: #1d1d1d !important; }";
-
-						customCSS += ".title { background-color: #164477; }";
-
-						customCSS += ".m .tabs .tab a { color: rgba(0, 0, 0, 0.5); }";
-						customCSS += ".m .tabs .tab a:hover { color: rgba(0, 0, 0, 0.86); }";
-						customCSS += ".m .tabs .tab a.active { color: #164477; }";
-						customCSS += ".m .tabs .active { border-bottom: 2px solid #164477; }";
-
-						customCSS += ".m nav { background-color: #3399cc; }";
-
-						customCSS += ".m .btn { background-color: #e0e0e0; color: #000000; }";
-						customCSS += ".m .btn:hover { background-color: #d5d5d5; }";
-						customCSS += ".m .btn.disabled { background-color: rgba(0, 0, 0, 0.12) !important; color: rgba(0, 0, 0, 0.26) !important; }";
-
-						customCSS += ".m .btn-floating { background-color: transparent; box-shadow: none; color: #000000; }";
-						customCSS += ".m .btn-floating:hover { background-color: rgba(0,0,0,0.08); }";
-						customCSS += ".m .btn-floating.selectClear { background-color: #ffffff; }";
-						customCSS += ".m .btn-floating.selectClear:hover { background-color: #ebebeb; }";
-						customCSS += ".m .btn-floating i { color: #000000; transition: color 0.3s; }";
-						customCSS += ".m .btn-floating.red  { background-color: transparent !important; }";
-						customCSS += ".m .btn-floating.red:hover { background-color: red !important; }";
-						customCSS += ".m .btn-floating.red:hover i { color: #ffffff; }";
-												
-						customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button { background-color: transparent; }";
-						customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button:hover { background-color: rgba(0,0,0,0.08); }";
-						customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button i { color: #757575; }";
-						customCSS += ".dialog-select-object-ids .objects-list-table { background-color: #ffffff; }";
-						customCSS += ".dialog-select-object-ids .objects-list-table thead { display: none; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table tr { border: none !important; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table tr:hover { background-color: #3399cc; outline: none; color: #ffffff; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table tr:hover .fancytree-title { color: #ffffff; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table tr.fancytree-active { background-color: #236b8e !important; outline: none !important; color: #ffffff !important; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table tr.fancytree-active .fancytree-title { color: #ffffff; }";
-						customCSS += ".dialog-select-object-ids table.objects-list-table td { border: none !important; }";
-
-						customCSS += ".m .dropdown-content li>span { color: rgba(0, 0, 0, 0.86); }";
-						customCSS += ".m .dropdown-content li>a { color: rgba(0, 0, 0, 0.86); }";
-						customCSS += ".m [type=checkbox].filled-in:checked+span:not(.lever):after { border: #164477; background-color: #164477; }";
-						
-						addCustomCSS(customCSS, "reactCSS");
-						$('.table-button-add').addClass('grey lighten-2');
-						var selectIdImgPath = './fancytree/react/';
-						$('#fancytreeCSSLink').attr('href', './fancytree/react/ui.fancytree.min.css');
-					} else {
-						isReact = false;
-					}						
-				});
 
 				//Get iobrokerObjects
 				getIobrokerObjects();
@@ -3844,12 +3840,21 @@ async function load(settings, onChange) {
 					if (!resultStatesObj['SET_TEMPERATURE']) resultStatesObj['SET_TEMPERATURE'] = id;
 					break;
 
+					case ".SET_POINT_MODE":
+					if (!resultStatesObj['set_point_mode']) resultStatesObj['set_point_mode'] = id;
+					break;
+
 					case ".HUMIDITY": case ".ACTUAL_HUMIDITY": case ".humidity":
 					if (!resultStatesObj['HUMIDITY']) resultStatesObj['HUMIDITY'] = id;
 					break;
 
-					case ".TEMPERATURE": case ".ACTUAL_TEMPERATURE": case ".temperature":
+					case ".TEMPERATURE": case ".temperature":
 					if (!resultStatesObj['TEMPERATURE']) resultStatesObj['TEMPERATURE'] = id;
+					break;
+
+					case ".ACTUAL_TEMPERATURE":
+					if (!resultStatesObj['TEMPERATURE']) resultStatesObj['TEMPERATURE'] = id;
+					if (!resultStatesObj['actual_temperature']) resultStatesObj['actual_temperature'] = id;
 					break;
 
 					case ".BRIGHTNESS": case ".LUX": case "illuminance":
@@ -3950,9 +3955,13 @@ async function load(settings, onChange) {
 					break;
 
 					case "level.temperature":
-					if (unmatchedChildStates.indexOf('SET_POINT_MODE') > -1) {
+					if (resultStatesObj['set_point_mode']) {
 						result.resultObject.commonRole = 'iQontrolHomematicIpThermostat';
+						delete resultStatesObj['set_point_mode'];
 						delete resultStatesObj['LEVEL'];
+						delete resultStatesObj['STATE'];
+						resultStatesObj['TEMPERATURE'] = resultStatesObj['actual_temperature'];
+						delete resultStatesObj['actual_temperature'];
 					} else if (resultStatesObj['PARTY_TEMPERATURE']) {
 						result.resultObject.commonRole = 'iQontrolHomematicThermostat';
 					} else {
