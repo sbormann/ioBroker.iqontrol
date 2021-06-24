@@ -2439,10 +2439,11 @@ function toggleState(linkedStateId, deviceIdEscaped, callback, preventUpdateTime
 	}
 }
 
-function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUpId, linkedUpSetValueId, linkedDownId, linkedDownSetValueId, linkedFavoritePosition, deviceIdEscaped, callback){
+function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedStopSetValueId, linkedUpId, linkedUpSetValueId, linkedDownId, linkedDownSetValueId, linkedFavoritePosition, deviceIdEscaped, callback){
 	var state = getStateObject(linkedStateId);
 	var direction = getStateObject(linkedDirectionId);
 	var stop = getStateObject(linkedStopId);
+	var stopSetValue = getStateObject(linkedStopSetValueId);
 	var up = getStateObject(linkedUpId);
 	var upSetValue = getStateObject(linkedUpSetValueId);
 	var down = getStateObject(linkedDownId);
@@ -2452,7 +2453,7 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
 	if(state && state.type == "level" && deviceReadonly == false){
 		if(direction && direction.val > 0) { //working
-			if (stop) setState(linkedStopId, deviceIdEscaped, true, true, callback);
+			if (stop) setState(linkedStopId, deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val != udef && stopSetValue.val != "") ? stopSetValue.val : true), true, callback);
 		} else { //standing still
 			var oldVal = state.val;
 			var min = state.min || 0;
@@ -2461,9 +2462,9 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedUp
 			if(oldVal > min) newVal = min; else newVal = max;
 			if(up && up.type && down && down.type) {
 				if(newVal === max){ //go up via up-button
-					if (up.readonly == false) setState(linkedUpId, deviceIdEscaped, ((upSetValue && upSetValue.val) || true), true, callback);
+					if (up.readonly == false) setState(linkedUpId, deviceIdEscaped, ((upSetValue && typeof upSetValue.val != udef && upSetValue.val != "") ? upSetValue.val : true), true, callback);
 				} else if (newVal === min) { //go down via down-button
-					if (down.readonly == false) setState(linkedDownId, deviceIdEscaped, ((downSetValue && downSetValue.val) || true), true, callback);
+					if (down.readonly == false) setState(linkedDownId, deviceIdEscaped, ((downSetValue && typeof downSetValue.val != udef && downSetValue.val != "") ? downSetValue.val : true), true, callback);
 				}
 			} else { //go up or down via state level
 				if (state.readonly == false) setState(linkedStateId, deviceIdEscaped, newVal, false, callback);
@@ -4635,7 +4636,7 @@ function renderView(viewId, triggeredByReconnection){
 							break;
 
 							case "iQontrolBlind":
-							if(deviceLinkedStateIds["LEVEL"] || (deviceLinkedStateIds["UP"] && deviceLinkedStateIds["DOWN"])) onclick = "toggleActuator(\"" + (deviceLinkedStateIds["LEVEL"] || "") + "\", \"" + (deviceLinkedStateIds["DIRECTION"] || "") + "\", \"" + (deviceLinkedStateIds["STOP"] || "") + "\", \"" + (deviceLinkedStateIds["UP"] || "") + "\", \"" + (deviceLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
+							if(deviceLinkedStateIds["LEVEL"] || (deviceLinkedStateIds["UP"] && deviceLinkedStateIds["DOWN"])) onclick = "toggleActuator(\"" + (deviceLinkedStateIds["LEVEL"] || "") + "\", \"" + (deviceLinkedStateIds["DIRECTION"] || "") + "\", \"" + (deviceLinkedStateIds["STOP"] || "") + "\", \"" + (deviceLinkedStateIds["STOP_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["UP"] || "") + "\", \"" + (deviceLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN"] || "") + "\", \"" + (deviceLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (deviceLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
 							linkContent += "<a class='iQontrolDeviceLinkToToggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' onclick='" + onclick + "'>";
 								if (icons["on"] !== "none") iconContent += "<image class='iQontrolDeviceIcon opened on" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["on"] || "./images/icons/blind_opened.png") + "' " + (variableSrc["on"] ? "data-variablesrc='" + variableSrc["on"] + "' " : "") + "/>";
 								if (icons["off"] !== "none") iconContent += "<image class='iQontrolDeviceIcon closed off active" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["off"] || "./images/icons/blind_closed.png") + "' " + (variableSrc["off"] ? "data-variablesrc='" + variableSrc["off"] + "' " : "") + "/>";
@@ -9339,7 +9340,7 @@ function renderDialog(deviceIdEscaped){
 								var bindingFunction = function(){
 									$('#DialogStateDownButton').on('click', function(e) {
 										var downSetValue = getStateObject(_linkedDownSetValueId);
-										setState(_linkedDownId, _deviceIdEscaped, ((downSetValue && typeof downSetValue.val !== udef) ? downSetValue.val : true), true);
+										setState(_linkedDownId, _deviceIdEscaped, ((downSetValue && typeof downSetValue.val !== udef && downSetValue.val != "") ? downSetValue.val : true), true);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9355,7 +9356,7 @@ function renderDialog(deviceIdEscaped){
 								var bindingFunction = function(){
 									$('#DialogStateStopButton').on('click', function(e) {
 										var stopSetValue = getStateObject(_linkedStopSetValueId);
-										setState(_linkedStopId, _deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val !== udef) ? stopSetValue.val : true), true);
+										setState(_linkedStopId, _deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val !== udef && stopSetValue.val != "") ? stopSetValue.val : true), true);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9371,14 +9372,14 @@ function renderDialog(deviceIdEscaped){
 								var bindingFunction = function(){
 									$('#DialogStateUPButton').on('click', function(e) {
 										var upSetValue = getStateObject(_linkedUpSetValueId);
-										setState(_linkedUpId, _deviceIdEscaped, ((upSetValue && typeof upSetValue.val !== udef) ? upSetValue.val : true), true);
+										setState(_linkedUpId, _deviceIdEscaped, ((upSetValue && typeof upSetValue.val !== udef && upSetValue.val != "") ? upSetValue.val : true), true);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
 							})(); //<--End Closure
 						}
 						if(!(dialogStates["DOWN"] && dialogStates["DOWN"].type) && !(dialogStates["UP"] && dialogStates["UP"].type) && dialogStates["LEVEL"]){
-							var onclick = "toggleActuator(\"" + (dialogLinkedStateIds["LEVEL"] || "") + "\", \"" + (dialogLinkedStateIds["DIRECTION"] || "") + "\", \"" + (dialogLinkedStateIds["STOP"] || "") + "\", \"" + (dialogLinkedStateIds["UP"] || "") + "\", \"" + (dialogLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
+							var onclick = "toggleActuator(\"" + (dialogLinkedStateIds["LEVEL"] || "") + "\", \"" + (dialogLinkedStateIds["DIRECTION"] || "") + "\", \"" + (dialogLinkedStateIds["STOP"] || "") + "\", \"" + (dialogLinkedStateIds["STOP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["UP"] || "") + "\", \"" + (dialogLinkedStateIds["UP_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN"] || "") + "\", \"" + (dialogLinkedStateIds["DOWN_SET_VALUE"] || "") + "\", \"" + (dialogLinkedStateIds["FAVORITE_POSITION"] || "") + "\", \"" + deviceIdEscaped + "\");";
 							dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateToggleButton' id='DialogStateToggleButton' onclick='" + onclick + "'>" + _("Toggle") + "</a>";
 						}
 						dialogContent += "</div></center>";

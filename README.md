@@ -1527,6 +1527,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Removed old conn.js from admin.
 * (Einstein2002, sbormann) Added HomematicIP-Thermostat.
 * (sbormann) Enhanced max-height of dialog.
+* (sbormann) Fixed up, down and stop button for blinds.
 
 ### 1.8.0 (2021-04-29)
 * (sbormann) Some design-adjustments for react-ui.
