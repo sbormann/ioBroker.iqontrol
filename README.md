@@ -1520,7 +1520,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### 1.8.1 (2021-07-8)
+### 1.8.1 (2021-07-28)
 * (sbormann) Some design-adjustments for react-ui.
 * (sbormann) Keep track of ioBroker object changes in admin.
 * (sbormann) Fixed crash if active view has no devices.
