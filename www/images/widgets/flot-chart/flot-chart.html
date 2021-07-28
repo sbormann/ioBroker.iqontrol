@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content="This is a flot-chart widget. It will display the history of the datapoint linked to STATE or LEVEL. You need to have a history adapter up and running and the linked Datapoint needs to be logged to get this working! (C) by Sebastian Bormann"/> 
-	<meta name="widget-urlparameters" content="chartColor/rgb(104,164,255)/Chart color/color;range/360/Period of time to display (minutes)/number/1,525600,1;min//Minimum (leave empty to use datapoint-settings);max//Maximum (leave empty to use datapoint-settings);ignoreMinMax/false/Ignore Min and Max (automatic scaling)/checkbox;fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/text;historyInstance//Use this history instance (if empty, default is used)/historyInstance">
+	<meta name="widget-urlparameters" content="chartColor/rgb(104,164,255)/Chart color/color;range/360/Period of time to display (minutes)/number/1,525600,1;min//Minimum (leave empty to use datapoint-settings);max//Maximum (leave empty to use datapoint-settings);ignoreMinMax/false/Ignore Min and Max (automatic scaling)/checkbox;fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;showXaxe/off/Show X Axis/select/off,off/bottom,bottom/bottomColor,bottom colored/bottomIfBig,bottom if big/bottomColorIfBig,bottom colored if big/top,top/topColor,top colored/topIfBig,top if big/topColorIfBig,top colored if big;xticks/3/Ticks of X Axis (0 = auto)/number/0,10,1;showYaxe/off/Show Y Axis/select/off,off/right,right/rightColor,right colored/rightIfBig,right if big/rightColorIfBig,right colored if big/left,left/leftColor,left colored/leftIfBig,left if big/leftColorIfBig,left colored if big;yticks/0/Ticks of Y Axis (0 = auto)/number/0,10,1;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/text;historyInstance//Use this history instance (if empty, default is used)/historyInstance">
 	<meta name="widget-options" content="{'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'true', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
 	<link rel="stylesheet" href="flot-chart.css" />
 	<script type="text/javascript" src="../../../../lib/js/jquery-1.11.2.min.js"></script>
@@ -49,7 +49,19 @@
 				console.log("flot-chart.js loaded");
 			});
 		}
-	
+
+		//Get URL-Parameters
+		var ignoreMinMax = (getUrlParameter("ignoreMinMax") == "true");
+		var min = getUrlParameter("min") || "";
+		var max = getUrlParameter("max") || "";
+		var historyInstance = getUrlParameter("historyInstance");
+		var chartColor = getUrlParameter("chartColor") || "rgb(104,164,255)";
+		var range = getUrlParameter("range") || "360";
+		var showXaxe = getUrlParameter("showXaxe") || "off";
+		var showYaxe = getUrlParameter("showYaxe") || "off";
+		var xticks = getUrlParameter("xticks") || "3";
+		var yticks = getUrlParameter("yticks") || "0";
+
 		//Subscribe to Datapoints
 		console.log("Subscribe to Datapoints");
 		if(getUrlParameter("useThisDatapoint")) sendPostMessage("getState", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
@@ -59,21 +71,18 @@
 		sendPostMessage("getWidgetDeviceState", "SET_TEMPERATURE");
 	
 		//Create configuration
-		function createConfiguration(){
+		function createConfiguration(noAnimation){
 			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined" || typeof TEMPERATURE == "undefined" || typeof SET_TEMPERATURE == "undefined") return;
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || TEMPERATURE || SET_TEMPERATURE || null;
 			if(dp == null) return;
 			var id = dp.id;
-			if(getUrlParameter("ignoreMinMax") == "true"){
-				var min = "";
-				var max = "";
+			if(ignoreMinMax){
+				min = "";
+				max = "";
 			} else {
-				var min = getUrlParameter("min") || dp.min || "";
-				var max = getUrlParameter("max") || dp.max || "";
+				min = min || dp.min || "";
+				max = max || dp.max || "";
 			}
-			var historyInstance = getUrlParameter("historyInstance");
-			var chartColor = getUrlParameter("chartColor") || "rgb(104,164,255)";
-			var range = getUrlParameter("range") || "360";
 			var configurations = {
 				"l[0][id]": id, 
 				"l[0][offset]": "0", 
@@ -86,7 +95,9 @@
 				"l[0][shadowsize]": "3", 
 				"l[0][name]": "Chart", 
 				"l[0][yaxe]": "off", 
+				"l[0][xticks]": xticks,
 				"l[0][xaxe]": "off", 
+				"l[0][yticks]": yticks, 
 				"l[0][chartType]": "steps", 
 				"l[0][points]": "false", 
 				"l[0][fill]": "0.25", 
@@ -105,10 +116,30 @@
 				"zoom": "false", 
 				"noedit": "true", 
 				"animation": "1000", 
-				"border_width": "0"
+				"border_width": "0",
+				"timeFormat": "%H:%M %d.%m."
 			};
+			if(noAnimation) configurations["animation"] = "0";
 			if(historyInstance) configurations["l[0][instance]"] = historyInstance; 
-			
+			if(showXaxe == "bottom" || (showXaxe == "bottomIfBig" && window.innerHeight > 200)){
+				configurations["l[0][xaxe]"] = "bottom"; 
+			} else if(showXaxe == "bottomColor" || (showXaxe == "bottomColorIfBig" && window.innerHeight > 200)){
+				configurations["l[0][xaxe]"] = "bottomColor"; 
+			} else if(showXaxe == "top" || (showXaxe == "topIfBig" && window.innerHeight > 200)){
+				configurations["l[0][xaxe]"] = "top"; 
+			} else if(showXaxe == "topColor" || (showXaxe == "topColorIfBig" && window.innerHeight > 200)){
+				configurations["l[0][xaxe]"] = "topColor"; 
+			}
+			if(showYaxe == "right" || (showYaxe == "rightIfBig" && window.innerWidth > 200)){
+				configurations["l[0][yaxe]"] = "right"; 
+			} else if(showYaxe == "rightColor" || (showYaxe == "rightColorIfBig" && window.innerWidth > 200)){
+				configurations["l[0][yaxe]"] = "rightColor"; 
+			} else if(showYaxe == "left" || (showYaxe == "leftIfBig" && window.innerWidth > 200)){
+				configurations["l[0][yaxe]"] = "left"; 
+			} else if(showYaxe == "leftColor" || (showYaxe == "leftColorIfBig" && window.innerWidth > 200)){
+				configurations["l[0][yaxe]"] = "leftColor"; 
+			}
+			if((showXaxe + showYaxe).indexOf("IfBig") > -1) reCreateIfBig = true; else reCreateIfBig = false;
 			//Replace URL-Parameters
 			console.log("Replace URL");
 			var configurationArray = [];
@@ -120,9 +151,41 @@
 			setTimeout(function(){
 				$.getScript("flot-chart.js", function() {
 					console.log("flot-chart.js loaded");
+					if(configurations["l[0][yaxe]"].indexOf("right") == 0){
+						$('.chart-placeholder').addClass('hasYaxeRight');
+					} else {
+						$('.chart-placeholder').removeClass('hasYaxeRight');
+					}
+					if(configurations["l[0][yaxe]"].indexOf("left") == 0){
+						$('.chart-placeholder').addClass('hasYaxeLeft');
+					} else {
+						$('.chart-placeholder').removeClass('hasYaxeLeft');
+					}
+					if(configurations["l[0][xaxe]"].indexOf("bottom") == 0){
+						$('.chart-placeholder').addClass('hasXaxeBottom');
+					} else {
+						$('.chart-placeholder').removeClass('hasXaxeBottom');
+					}
+					if(configurations["l[0][xaxe]"].indexOf("top") == 0){
+						$('.chart-placeholder').addClass('hasXaxeTop');
+					} else {
+						$('.chart-placeholder').removeClass('hasXaxeTop');
+					}					
 				});
 			}, 100);
 		}
+		
+		//viewport resize event
+		var resizeTimeout = false;
+		var reCreateIfBig = false;
+		window.addEventListener('resize', function(event){
+			if(resizeTimeout) clearTimeout(resizeTimeout);
+			resizeTimeout = setTimeout(function(){
+				resizeTimeout = false;
+				console.log("FLOT resized. New innerWidth: " + window.innerWidth + "px, new innerHeight: " + window.innerHeight + "px.");
+				if(reCreateIfBig) createConfiguration("noAnimation");
+			}, 100);
+		});		
 
 		//send postMessages
 		function sendPostMessage(command, stateId, value){

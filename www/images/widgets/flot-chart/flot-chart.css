@@ -63,19 +63,40 @@ div, span, p, td {
 			transition: all 1s;
 }
 
+.chart-placeholder.hasYaxeRight {
+    width: calc(100% + 4px);
+}
+.chart-placeholder.hasYaxeLeft {
+	margin-left: 4px;
+    width: calc(100% + 4px);
+}
+.chart-placeholder.hasXaxeBottom, .chart-placeholder.hasXaxeBottom {
+	height: calc(100% - 60px);		
+}
 @media screen and (max-height: 70px) {
 	.chart-placeholder {	
-		margin: 12px 0px 0px -8px;
+		margin-top: 12px;
 		height: calc(100% - 5px);
+	}
+	.chart-placeholder.hasXaxeBottom, .chart-placeholder.hasXaxeBottom {
+		height: calc(100% - 12px);		
+	}
+}
+@media screen and (min-height: 120px) {
+	.chart-placeholder {	
+		margin-top: 90px;
+		height: calc(100% - 82px);
+	}
+	.chart-placeholder.hasXaxeBottom {
+		height: calc(100% - 90px);		
+	}
+	.chart-placeholder.hasXaxeTop {
+		margin-top: 100px;
+		height: calc(100% - 100px);		
 	}
 }
 
-@media screen and (min-height: 120px) {
-	.chart-placeholder {	
-		margin: 90px 0px 0px -8px;
-		height: calc(100% - 82px);
-	}
-}
+
 
 /* ------------------ connecting -------------------------- */
 #server-disconnect {

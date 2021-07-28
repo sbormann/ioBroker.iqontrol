@@ -59,7 +59,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});		
 	}
 	
@@ -82,7 +82,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Clear";
 		objId = "Popup.CLEAR";
@@ -101,7 +101,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Display Duration";
 		objId = "Popup.Duration";
@@ -120,7 +120,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Clicked Value";
 		objId = "Popup.ClickedValue";
@@ -139,7 +139,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Clicked Destination State";
 		objId = "Popup.ClickedDestinationState";
@@ -158,7 +158,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Popup Clicked";
 		objId = "Popup.POPUP_CLICKED";
@@ -177,7 +177,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Button Names";
 		objId = "Popup.ButtonNames";
@@ -196,7 +196,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Button Values";
 		objId = "Popup.ButtonValues";
@@ -215,7 +215,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Button Destination States";
 		objId = "Popup.ButtonDestinationStates";
@@ -234,7 +234,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Button Closes";
 		objId = "Popup.ButtonCloses";
@@ -253,7 +253,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 		objName = "Button Clicked";
 		objId = "Popup.BUTTON_CLICKED";
@@ -272,7 +272,7 @@ class Iqontrol extends utils.Adapter {
 		await this.setObjectAsync(objId, obj, true).then(function(){ 
 			that.log.debug("created: " + objId); 
 		}, function(err){
-			that.log.debug("ERROR creating " + objId + ": " + err);
+			that.log.error("ERROR creating " + objId + ": " + err);
 		});
 	}
 	
@@ -301,7 +301,7 @@ class Iqontrol extends utils.Adapter {
 				await this.setObjectAsync(objId, obj, true).then(function(){ 
 					that.log.debug("created: " + objId); 
 				}, function(err){
-					that.log.debug("ERROR creating " + objId + ": " + err);
+					that.log.error("ERROR creating " + objId + ": " + err);
 				});
 			}
 		}
@@ -456,7 +456,7 @@ class Iqontrol extends utils.Adapter {
 	onStateChange(id, state) {
 		if (state) {
 			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 			switch(id){
 				case this.namespace + ".Popup.CLEAR":
 					this.log.info("Popup.CLEAR");

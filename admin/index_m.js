@@ -4295,8 +4295,8 @@ async function load(settings, onChange) {
 								var name = decodeURIComponent(urlParameter[2] || urlParameter[0]);
 								var value = decodeURIComponent(queries[entry] || urlParameter[1] || "");
 								var type = decodeURIComponent(urlParameter[3] || "text");
-								var options = decodeURIComponent(urlParameter.slice(4) || []);
-								if(!Array.isArray(options)) options = [options];
+								var options = urlParameter.slice(4) || [];
+								if(!Array.isArray(options)) options = [decodeURIComponent(options)];
 								switch(type){
 									case "number":
 									var min = (options[0] || "").split(',')[0] || 0;
@@ -4314,6 +4314,8 @@ async function load(settings, onChange) {
 									options.forEach(function(option){
 										var parts = option.split(',');
 										if (parts.length < 2) parts.push(parts[0]);
+										parts[0] = decodeURIComponent(parts[0]);
+										parts[1] = decodeURIComponent(parts[1]);
 										selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
 									});
 									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
@@ -4324,7 +4326,7 @@ async function load(settings, onChange) {
 									break;
 									
 									case "combobox":
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: options.join(';'), iconsFromOption: false});
+									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';')), iconsFromOption: false});
 									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";

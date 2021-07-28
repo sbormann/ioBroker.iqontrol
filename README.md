@@ -1528,6 +1528,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (Einstein2002, sbormann) Added HomematicIP-Thermostat.
 * (sbormann) Enhanced max-height of dialog.
 * (sbormann) Fixed up, down and stop button for blinds.
+* (sbormann) Changed some log messages.
+* (sbormann) Enhanced FLOT-Chart-Widget to set axis options.
 
 ### 1.8.0 (2021-04-29)
 * (sbormann) Some design-adjustments for react-ui.
