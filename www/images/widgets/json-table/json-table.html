@@ -115,7 +115,7 @@
 			tableString += "<thead>";
 			tableString += "<tr>";
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-				tableString += "<th data-priority='" + (col > 0 ? (col + 1) : "") + "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
+				tableString += "<th data-priority='" + (col > 0 ? col : "") + "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
 			}
 			tableString += "</tr>";
 			tableString += "</thead>";		
