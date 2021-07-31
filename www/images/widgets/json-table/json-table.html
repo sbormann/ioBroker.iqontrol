@@ -1,0 +1,210 @@
+<!doctype html>
+<html style="width: 100%; height: 100%; margin: 0px;">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="widget-description" content="This is a json to table widget. It will display json-data of the datapoint linked to STATE or LEVEL as a table. (C) by Sebastian Bormann"/> 
+	<meta name="widget-urlparameters" content="tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;colsSort//Order of Headings (semioclon-separated List of column headers, optional);colsFilter//Filter these Headings (semicolon-separated List of column headers, optional);translations//Translations (semicolon-separated list of comma-separated translations, for example filesize,Size of file);icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint">
+	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'noOverlayInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'xwideIfActive highIfActive', 'bigIconActive': 'false', 'iconNoPointerEventsActive': 'true', 'noOverlayActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'iconNoPointerEventsEnlarged': 'true', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
+ 
+	<link rel="stylesheet" href="/iqontrol/jquery/jquery.mobile-1.4.5.min.css"/>
+	<script type="text/javascript" src="/iqontrol/jquery/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="/iqontrol/jquery/jquery.mobile-1.4.5.min.js"></script>
+	<style>
+		::-webkit-scrollbar {
+		  width: 5px;
+		}
+		::-webkit-scrollbar-track {
+		  background: #eee;
+		}
+		::-webkit-scrollbar-thumb {
+		  background: #aaa; 
+		}
+		::-webkit-scrollbar-thumb:hover {
+		  background: #888; 
+		}
+		.ui-table-columntoggle-btn {
+			border: none !important;
+			box-shadow: none !important;
+			padding: 8px !important;
+			position: absolute !important;
+			top: -8px !important;
+			right: -8px !important;
+			font-weight: 900 !important;
+		}
+		.jsonTableIcon {
+			width: 24px;
+			height: 24px;
+			border: 0;
+			margin: -3px 0px -8px 0px;
+		}
+	</style>
+	<title>iQontrol JSON to TABLE Widget</title>
+</head>
+<body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
+	<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: scroll;">
+	</div>
+	<script type="text/javascript">
+		//Declarations
+		var USE_THIS_DATAPOINT;
+		var STATE;
+		var LEVEL;
+
+		//UrlParameters
+		var tableMode = getUrlParameter("tableMode") || "columntoggle";
+		var colsSort = (getUrlParameter("colsSort") || "").split(';');
+		var colsFilter = (getUrlParameter("colsFilter") || "").split(';');
+		var translations = (getUrlParameter("translations") || "").split(';');
+		for(var i = 0; i < translations.length; i++){
+			let entry = translations[i].split(',');
+			if(entry.length < 2) entry.push(entry[0]);
+			translations[i] = {searchValue: entry[0], newValue: entry[1]};
+		}
+		var iconReplacements = [];
+		for(var i = 1; i <= 5; i++){
+			var iconUrl = getUrlParameter("icon" + i + "Url");
+            if (iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
+			var caption = getUrlParameter("icon" + i + "Caption");
+			var string = getUrlParameter("icon" + i + "String");
+			if(iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
+		}
+		var translationsAndIconReplacements = iconReplacements.concat(translations);
+
+		//Document ready
+		$(document).ready(function(){
+			//Subscribe to Datapoints
+			console.log("Subscribe to Datapoints");
+			if(getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
+			sendPostMessage("getWidgetDeviceStateSubscribed", "STATE");
+			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
+		});
+
+		//Create Table
+		function createTable(){
+			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return;
+			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
+			if(dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
+			dataObject = tryParseJSON(dp.val);
+			console.log("parsed JSON");
+			console.log(dataObject);
+			//Get cols
+			var cols = [];
+			for (var line = 0; line < dataObject.length; line++) {
+				for (var key in dataObject[line]) {
+					if (cols.indexOf(key) === -1) {
+						cols.push(key);
+					}
+				}
+			}
+			//Sort cols
+			var colsSorted = [];			
+			for (var col = 0; col < colsSort.length; col++) {
+				if(cols.indexOf(colsSort[col]) > -1) colsSorted.push(colsSort[col]);
+			}
+			for (var col = 0; col < cols.length; col++) { //add the remaining cols
+				if(colsSorted.indexOf(colsSort[col]) == -1) colsSorted.push(cols[col]);
+			}
+			//Filter cols
+			var colsSortedAndFiltered = [];
+			for (var col = 0; col < colsSorted.length; col++) {
+				if(colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
+			}			
+			//Build table
+			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
+			//Add headers
+			tableString += "<thead>";
+			tableString += "<tr>";
+			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+				tableString += "<th data-priority='" + (col > 0 ? (col + 1) : "") + "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
+			}
+			tableString += "</tr>";
+			tableString += "</thead>";		
+			//Add Body
+			tableString += "<tbody>";
+			for (var line = 0; line < dataObject.length; line++) {
+				tableString += "<tr>";
+				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+					tableString += "<td>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", translationsAndIconReplacements, true) + "</td>";
+				}
+				tableString += "</tr>";
+			}
+			tableString += "</tbody>";
+			//Append table
+			tableString += "</table>";
+			//$('#jsonTable-popup-popup').remove();
+			$('#jsonTableContainer').html(tableString);
+			$('#jsonTable').table();
+		}
+
+		//send postMessages
+		function sendPostMessage(command, stateId, value){
+			message = { command: command, stateId: stateId, value: value };
+			window.parent.postMessage(message, "*");
+		}
+
+		//receive postMessages
+		window.addEventListener("message", receivePostMessage, false);
+		function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
+			if(event.data && event.data.command) switch(event.data.command){
+				case "getState":
+					if(event.data.stateId) switch(event.data.stateId){
+						case getUrlParameter("useThisDatapoint") || "---undefined---":
+							console.log("Received USE_THIS_DATAPOINT");
+							USE_THIS_DATAPOINT = event.data.value;
+							createTable();
+						break;
+
+						case "STATE":
+							console.log("Received STATE");
+							STATE = event.data.value;
+							createTable();
+						break;
+
+						case "LEVEL":
+							console.log("Received LEVEL");
+							LEVEL = event.data.value;
+							createTable();
+						break;
+					}
+				break;
+			}
+		}
+		
+		//GetUrlParameter
+		function getUrlParameter(name) {
+			name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+			var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+			var results = regex.exec(location.search);
+			return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+		};
+
+		//tryParseJSON
+		function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+			try {
+				var o = JSON.parse(jsonString);
+				// Handle non-exception-throwing cases:
+				// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+				// but... JSON.parse(null) returns null, and typeof null === "object",
+				// so we must check for that, too. Thankfully, null is falsey, so this suffices:
+				if (o && typeof o === "object") {
+					return o;
+				}
+			}
+			catch (e) { }
+			return false;
+		};
+		
+		//multiReplace
+		function multiReplace(string, replacementObj, onlyExactMatches){ //Replaces multiple replacements in string. replacementObj = [{searchValue: "", newValue: ""}, ...]
+			replacementObj.forEach(function(replacement){
+				if(onlyExactMatches){
+					if(string == replacement.searchValue) string = replacement.newValue;
+				} else {
+					var regex = new RegExp(replacement.searchValue, "g");
+					string = string.toString().replace(regex, replacement.newValue);
+				}
+			});
+			return string;
+		}
+	</script>
+</body>
+</html>
