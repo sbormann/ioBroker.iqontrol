@@ -2049,7 +2049,7 @@ async function load(settings, onChange) {
 		customCSS += ".m .btn { background-color: #e0e0e0; color: #000000; }";
 		customCSS += ".m .btn:hover { background-color: #d5d5d5; }";
 		customCSS += ".m .btn.disabled { background-color: rgba(0, 0, 0, 0.12) !important; color: rgba(0, 0, 0, 0.26) !important; }";
-
+		
 		customCSS += ".m .btn-floating { background-color: transparent; box-shadow: none; color: #000000; }";
 		customCSS += ".m .btn-floating:hover { background-color: rgba(0,0,0,0.08); }";
 		customCSS += ".m .btn-floating.selectClear { background-color: #ffffff; }";
@@ -2058,6 +2058,8 @@ async function load(settings, onChange) {
 		customCSS += ".m .btn-floating.red  { background-color: transparent !important; }";
 		customCSS += ".m .btn-floating.red:hover { background-color: red !important; }";
 		customCSS += ".m .btn-floating.red:hover i { color: #ffffff; }";
+		customCSS += ".m .btn-floating.disabled { background-color: transparent !important; color: rgba(0, 0, 0, 0.26) !important; }";
+		customCSS += ".m .btn-floating.disabled i { color: rgba(0, 0, 0, 0.26) !important; }";
 								
 		customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button { background-color: transparent; }";
 		customCSS += ".dialog-select-object-ids .material .main-toolbar-table .panel-button:hover { background-color: rgba(0,0,0,0.08); }";
@@ -2810,7 +2812,7 @@ async function load(settings, onChange) {
 			if (command === 'edit') {
 				var deviceIndex = $(this).data('index');
 				if(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Symbolic link
-					$(this).addClass('dark grey').find('i').html('content_copy');
+					$(this).addClass('dark grey').find('i').html('control_point_duplicate');
 					$(this).on('click', function () {
 						var _viewIndex = devicesSelectedView;
 						var _deviceIndex = $(this).data('index');
@@ -2860,6 +2862,20 @@ async function load(settings, onChange) {
 
 					});
 				}
+			}
+			//Copy
+			if (command === 'content_copy') {
+				$(this).find('i').html('content_copy');
+				$(this).on('click', function (event) {
+					var _viewIndex = devicesSelectedView;
+					var _deviceIndex = $(this).data('index');
+					//initDialog('dialogDeviceCopyFrom', function(){});
+					dialogDeviceCopyFromSourceView = _viewIndex;
+					$('#dialogDeviceCopyFromSourceView').val(_viewIndex);
+					dialogDeviceCopyFromSourceDevice = _deviceIndex;
+					$('#dialogDeviceCopyFromSourceDevice').val(_deviceIndex);
+					$('#devicesCopyFromButton').click();
+				});
 			}
 			//Delete
 			if (command === 'delete') {
@@ -4084,14 +4100,19 @@ async function load(settings, onChange) {
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
 			var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference
+			if($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
 			if($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
 				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
+			} else if ($("#dialogDeviceCopyFromReplaceCheckbox").prop('checked') && $('#dialogDeviceCopyFromReplaceSearchValue').val() && $('#dialogDeviceCopyFromReplaceNewValue').val()) { //Replace Datapoints
+				(views[$('#devicesSelectedView').val()].devices[length - 1].states || []).forEach(function(state){ 
+					if(state.commonRole && state.commonRole == "linkedState" && state.value) state.value = state.value.replace($('#dialogDeviceCopyFromReplaceSearchValue').val(), $('#dialogDeviceCopyFromReplaceNewValue').val());
+				});
 			}
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 		});
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
-		dialogDeviceCopyFromSourceView = $('#dialogDeviceCopyFromSourceView').val();
-		dialogDeviceCopyFromSourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
+		dialogDeviceCopyFromSourceView = $('#dialogDeviceCopyFromSourceView').val() || dialogDeviceCopyFromSourceView || null;
+		dialogDeviceCopyFromSourceDevice = $('#dialogDeviceCopyFromSourceDevice').val() || dialogDeviceCopyFromSourceDevice || null;
 		$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
@@ -4101,6 +4122,7 @@ async function load(settings, onChange) {
 				$('#dialogDeviceCopyFromSourceDevice').val(dialogDeviceCopyFromSourceDevice).trigger('change');
 			}
 		}
+		$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
 		$('#dialogDeviceCopyFromSourceView').select();
 		$('#dialogDeviceCopyFromSourceDevice').select();
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
@@ -4115,11 +4137,31 @@ async function load(settings, onChange) {
 	});
 	$('#dialogDeviceCopyFromSourceDevice').on('change', function(){
 		if($('#dialogDeviceCopyFromSourceDevice').val()){
-			$('#dialogDeviceCopyFrom a.btn-set').removeClass('disabled')
+			$('#dialogDeviceCopyFrom a.btn-set').removeClass('disabled');
+			$("#dialogDeviceCopyFromNewName").val(views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].commonName);
 		} else {
-			$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
+			$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
 		}
 	});
+	$("#dialogDeviceCopyFromCreateSymbolicLink").on('change', function(){
+		if($(this).prop('checked')){
+			$('.dialogDeviceCopyFromReplace').addClass('disabled').prop('disabled', 'disabled');
+		} else {
+			$('.dialogDeviceCopyFromReplace').removeClass('disabled').prop('disabled', '');
+		}
+	})
+	$('.dialogDeviceCopyFromReplace.inputEdit').off('click').on('click', function(){
+		$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
+		initSelectId(function (sid) {
+			sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
+				if (newId) {
+					$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+				}
+			});
+		});									
+	})
+
+
 
 	//Enhance AutocreateWidget with functions
 	var dialogDevicesAutocreateWidgetOptions;

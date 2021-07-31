@@ -1522,6 +1522,8 @@ This device has some special predefined size- and display-settings to show a tex
 
 ### 1.8.2 dev
 * (sbormann) Added JSON-Table Widget (Displays JSON-Data as table).
+* (sbormann) Enhanced device copy dialog with option to set new name and to replace datapoints.
+* (sbormann) You can now copy devices directly from the device list.
 
 ### 1.8.1 (2021-07-28)
 * (sbormann) Some design-adjustments for react-ui.
