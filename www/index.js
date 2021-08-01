@@ -6740,7 +6740,7 @@ function renderView(viewId, triggeredByReconnection){
 				do {
 					i++;
 					viewInfoASliderIndex[sliderDeviceIdEscaped] = (viewInfoASliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoASliderLength[sliderDeviceIdEscaped];
-				} while (i < viewInfoASliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAText").html() != '')
+				} while (i < viewInfoASliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoASliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoAText").html() == '')
 				var sliderIndex = viewInfoASliderIndex[sliderDeviceIdEscaped];
 				console.log("InfoASlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
 				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoAIcon").css('opacity', '1');
@@ -6754,7 +6754,7 @@ function renderView(viewId, triggeredByReconnection){
 				do {
 					i++;
 					viewInfoBSliderIndex[sliderDeviceIdEscaped] = (viewInfoBSliderIndex[sliderDeviceIdEscaped] + 1) % viewInfoBSliderLength[sliderDeviceIdEscaped];
-				} while (i < viewInfoBSliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBText").html() != '')
+				} while (i < viewInfoBSliderLength[sliderDeviceIdEscaped] && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBIcon").css('display') == 'none' && $("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + viewInfoBSliderIndex[sliderDeviceIdEscaped] + "'].iQontrolDeviceInfoBText").html() == '')
 				var sliderIndex = viewInfoBSliderIndex[sliderDeviceIdEscaped];
 				console.log("InfoBSlider " + sliderDeviceIdEscaped + ": " + sliderIndex);
 				$("[data-iQontrol-Device-ID='" + sliderDeviceIdEscaped + "'][data-slider-index='" + sliderIndex + "'].iQontrolDeviceInfoBIcon").css('opacity', '1');
