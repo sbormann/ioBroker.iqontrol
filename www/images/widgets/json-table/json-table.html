@@ -63,7 +63,7 @@
 		var iconReplacements = [];
 		for(var i = 1; i <= 5; i++){
 			var iconUrl = getUrlParameter("icon" + i + "Url");
-            if (iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
+            if (iconUrl && iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
 			var caption = getUrlParameter("icon" + i + "Caption");
 			var string = getUrlParameter("icon" + i + "String");
 			if(iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
