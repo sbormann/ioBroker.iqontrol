@@ -12,6 +12,7 @@
 	<style>
 		::-webkit-scrollbar {
 		  width: 5px;
+		  height: 5px;
 		}
 		::-webkit-scrollbar-track {
 		  background: #eee;
@@ -25,12 +26,15 @@
 		.ui-table-columntoggle-btn {
 			border: none !important;
 			box-shadow: none !important;
-			padding: 8px 16px 8px 16px !important;
+			padding: 9px 20px 8px 20px !important;
 			background: transparent !important;
 			position: absolute !important;
 			top: -8px !important;
 			right: -8px !important;
 			font-weight: 900 !important;
+		}
+		.ui-table-columntoggle-btn:hover {
+			background: rgba(0,0,0,0.1) !important;
 		}
 		.jsonTableIcon {
 			width: 24px;
@@ -42,7 +46,7 @@
 	<title>iQontrol JSON to TABLE Widget</title>
 </head>
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
-	<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: scroll;">
+	<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;">
 	</div>
 	<script type="text/javascript">
 		//Declarations
