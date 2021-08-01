@@ -2238,22 +2238,16 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s12 m12 l12">
-						<input class="value dialogDeviceCopyFromReplace" type="checkbox" id="dialogDeviceCopyFromReplaceCheckbox" />
+					<div class="input-field col s12">
+						<input class="value" type="checkbox" id="dialogDeviceCopyFromReplaceCheckbox" />
 						<label for="dialogDeviceCopyFromReplaceCheckbox" class="translate" style="display: inline;">Replace Datapoints:</label>
 						<span class="helper-text translate"></span>
 					</div>
-					<div class="input-field col s12 m6 l6">
-						<input class="value dialogDeviceCopyFromReplace" type="text" id="dialogDeviceCopyFromReplaceSearchValue" />
-						<label for="dialogDeviceCopyFromReplaceSearchValue" class="translate">Replace this string in datapoints...</label>
-						<span class="helper-text translate"></span>
-						<a class="inputEdit dialogDeviceCopyFromReplace waves-effect waves-light btn-small btn-floating" data-selectidfor="dialogDeviceCopyFromReplaceSearchValue"><i class="material-icons">edit</i></a>
+					<div class="col s12">
+						<a class="waves-effect waves-light btn" id="dialogDeviceCopyFromReplaceDatapointsAdd"><i class="material-icons left">add_circle_outline</i><span class="translate">Add Replacement</span></a>
 					</div>
-					<div class="input-field col s12 m6 l6">
-						<input class="value dialogDeviceCopyFromReplace" type="text" id="dialogDeviceCopyFromReplaceNewValue" />
-						<label for="dialogDeviceCopyFromReplaceNewValue" class="translate">...with this string.</label>
-						<span class="helper-text translate"></span>
-						<a class="inputEdit dialogDeviceCopyFromReplace waves-effect waves-light btn-small btn-floating" data-selectidfor="dialogDeviceCopyFromReplaceNewValue"><i class="material-icons">edit</i></a>
+					<div class="col s12">
+						<ul id="dialogDeviceCopyFromReplaceDatapointsList" class="collection" style="overflow: visible;"></ul>
 					</div>
 				</div>
             </div>

@@ -4103,9 +4103,16 @@ async function load(settings, onChange) {
 			if($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
 			if($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
 				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
-			} else if ($("#dialogDeviceCopyFromReplaceCheckbox").prop('checked') && $('#dialogDeviceCopyFromReplaceSearchValue').val() && $('#dialogDeviceCopyFromReplaceNewValue').val()) { //Replace Datapoints
+			} else if ($("#dialogDeviceCopyFromReplaceCheckbox").prop('checked')) { //Replace Datapoints
 				(views[$('#devicesSelectedView').val()].devices[length - 1].states || []).forEach(function(state){ 
-					if(state.commonRole && state.commonRole == "linkedState" && state.value) state.value = state.value.replace($('#dialogDeviceCopyFromReplaceSearchValue').val(), $('#dialogDeviceCopyFromReplaceNewValue').val());
+					if(state.commonRole && state.commonRole == "linkedState" && state.value) {
+						$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
+							var index = $(this).data('index');
+							var searchValue = $('.dialogDeviceCopyFromReplaceDatapoints.searchvalue[data-index=' + index + ']').val();
+							var newValue = $('.dialogDeviceCopyFromReplaceDatapoints.newvalue[data-index=' + index + ']').val();
+							if (searchValue && newValue) state.value = state.value.replace(searchValue, newValue);
+						});
+					}
 				});
 			}
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
@@ -4139,29 +4146,72 @@ async function load(settings, onChange) {
 		if($('#dialogDeviceCopyFromSourceDevice').val()){
 			$('#dialogDeviceCopyFrom a.btn-set').removeClass('disabled');
 			$("#dialogDeviceCopyFromNewName").val(views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].commonName);
+			var usedDatapointIds = [];
+			views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].states.forEach(function(element, index){ if(element.commonRole == "linkedState" && element.value) usedDatapointIds.push(element.value); });
+			enhanceTextInputToCombobox('.dialogDeviceCopyFromReplaceDatapoints.searchValue', usedDatapointIds.join(";"), false);
 		} else {
 			$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
 		}
 	});
 	$("#dialogDeviceCopyFromCreateSymbolicLink").on('change', function(){
 		if($(this).prop('checked')){
-			$('.dialogDeviceCopyFromReplace').addClass('disabled').prop('disabled', 'disabled');
+			$('#dialogDeviceCopyFromReplaceCheckbox').addClass('disabled').prop('disabled', 'disabled').trigger('change');
 		} else {
-			$('.dialogDeviceCopyFromReplace').removeClass('disabled').prop('disabled', '');
+			$('#dialogDeviceCopyFromReplaceCheckbox').removeClass('disabled').prop('disabled', '').trigger('change');
 		}
 	})
-	$('.dialogDeviceCopyFromReplace.inputEdit').off('click').on('click', function(){
-		$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
-		initSelectId(function (sid) {
-			sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
-				if (newId) {
-					$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-				}
-			});
-		});									
+	$("#dialogDeviceCopyFromReplaceCheckbox").on('change', function(){
+		if($(this).prop('checked') && !$(this).prop('disabled')){
+			$('#dialogDeviceCopyFromReplaceDatapointsAdd').show();
+			$('#dialogDeviceCopyFromReplaceDatapointsList').show();
+		} else {
+			$('#dialogDeviceCopyFromReplaceDatapointsAdd').hide();
+			$('#dialogDeviceCopyFromReplaceDatapointsList').hide();
+		}
 	})
-
-
+	$('#dialogDeviceCopyFromReplaceDatapointsAdd').on('click', function(){
+		var index = $('#dialogDeviceCopyFromReplaceDatapointsList').data('length') || 0;
+		var listContent = "";
+		listContent += "<li class='collection-item' data-index='" + index + "'>";
+		listContent += "<div class='row'>";
+		listContent += 	"<div class='col s12 m5 l5'>";
+		listContent += 		"<input class='val dialogDeviceCopyFromReplaceDatapoints searchvalue' name='dialogDeviceCopyFromReplaceDatapoints_" + index + "_SEARCH_VALUE' id='dialogDeviceCopyFromReplaceDatapoints_" + index + "_SEARCH_VALUE' data-index='" + index + "' data-setting='searchvalue' value=''></input>";
+		listContent += 		"<label for='dialogDeviceCopyFromReplaceDatapoints_" + index + "_SEARCH_VALUE' class='translate'></label>";
+		listContent += 		"<span class='translate'>" + _("Replace this string...") + "</span>";
+		listContent += 	"</div>";
+		listContent += 	"<div class='col s1 m1 l1'>";
+		listContent += 		"<i class='material-icons' style='margin-top:35px;'>arrow_forward</i>";
+		listContent += 	"</div>";
+		listContent += 	"<div class='col s10 m5 l5'>";
+		listContent += 		"<input class='val dialogDeviceCopyFromReplaceDatapoints newvalue' name='dialogDeviceCopyFromReplaceDatapoints_" + index + "_NEW_VALUE' id='dialogDeviceCopyFromReplaceDatapoints_" + index + "_NEW_VALUE' data-index='" + index + "' data-setting='newvalue' value=''></input>";
+		listContent += 		"<label for='dialogDeviceCopyFromReplaceDatapoints_" + index + "_NEW_VALUE' class='translate'></label>";
+		listContent += 		"<span class='translate'>" + _("...with this string.") + "</span>";
+		listContent += 		"<i class='material-icons dialogDeviceCopyFromReplaceDatapoints selectId' data-index='" + index + "' data-selectidfor='dialogDeviceCopyFromReplaceDatapoints_" + index + "_NEW_VALUE' style='position: absolute; right: 5px; top: 10px; cursor: hand;'>edit</i>";
+		listContent += 	"</div>";
+		listContent += 	"<div class='col s1 m1 l1'>";
+		listContent += 		"<i class='material-icons'  style='margin-top:35px; cursor:pointer; color:#e60000;' onclick='$(\"#dialogDeviceCopyFromReplaceDatapointsList li[data-index=" + index + "]\").remove();'>delete</i>";
+		listContent += 	"</div>";
+		listContent += "</div>";
+		listContent += "</li>";
+		$('#dialogDeviceCopyFromReplaceDatapointsList').append(listContent);
+		$('#dialogDeviceCopyFromReplaceDatapointsList').data('length', index + 1);
+		if($('#dialogDeviceCopyFromSourceDevice').val()){
+			var usedDatapointIds = [];
+			views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].states.forEach(function(element, index){ if(element.commonRole == "linkedState" && element.value) usedDatapointIds.push(element.value); });
+			enhanceTextInputToCombobox('.dialogDeviceCopyFromReplaceDatapoints.searchValue', usedDatapointIds.join(";"), false);
+		}
+		$('.dialogDeviceCopyFromReplaceDatapoints.selectId[data-index="' + index + '"]').on('click', function(){
+			$('#dialogSelectId').data('selectidfor', $.escapeSelector($(this).data('selectidfor')));
+			initSelectId(function (sid) {
+				sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
+					if (newId) {
+						$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+					}
+				});
+			});
+			
+		});
+	});
 
 	//Enhance AutocreateWidget with functions
 	var dialogDevicesAutocreateWidgetOptions;
