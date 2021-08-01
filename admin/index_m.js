@@ -4109,9 +4109,23 @@ async function load(settings, onChange) {
 						$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
 							var index = $(this).data('index');
 							var searchValue = $('.dialogDeviceCopyFromReplaceDatapoints.searchvalue[data-index=' + index + ']').val();
-							var newValue = $('.dialogDeviceCopyFromReplaceDatapoints.newvalue[data-index=' + index + ']').val();
-							if (searchValue && newValue) state.value = state.value.replace(searchValue, newValue);
+							var newValue = $('.dialogDeviceCopyFromReplaceDatapoints.newvalue[data-index=' + index + ']').val() || "";
+							if (searchValue) state.value = state.value.replace(searchValue, newValue);
 						});
+					} else if(state.commonRole == "array" && state.value) {
+						var valueArray = tryParseJSON(state.value);
+						if(Array.isArray(valueArray) == false) valueArray = [];
+						valueArray.forEach(function(entry){
+							if(entry.commonRole && entry.commonRole == "linkedState" && entry.value) {
+								$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
+									var index = $(this).data('index');
+									var searchValue = $('.dialogDeviceCopyFromReplaceDatapoints.searchvalue[data-index=' + index + ']').val();
+									var newValue = $('.dialogDeviceCopyFromReplaceDatapoints.newvalue[data-index=' + index + ']').val() || "";
+									if (searchValue) entry.value = entry.value.replace(searchValue, newValue);
+								});	
+							}								
+						});
+						state.value = JSON.stringify(valueArray);
 					}
 				});
 			}
