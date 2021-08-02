@@ -737,6 +737,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``invertUnreach`` (Invert UNREACH (use connected instead of unreach)):
 		* Possible values: "true"|"false"
 		* Default: "false" 
+	* ``invertUnreach`` (Hide (resp. ignore) UNREACH, if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false" 
 * ERROR Icon:
 	* ``invertError`` (Invert ERROR (use ok instead of error)):
 		* Possible values: "true"|"false"
@@ -1525,6 +1528,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Enhanced device copy dialog with option to set new name and to replace datapoints.
 * (sbormann) You can now copy devices directly from the device list.
 * (sbormann) Entries with empty values in Arrays of INFO_A/B are now hidden.
+* (sbormann) Added option to hide UNREACH if device is inactive.
 
 ### 1.8.1 (2021-07-28)
 * (sbormann) Some design-adjustments for react-ui.

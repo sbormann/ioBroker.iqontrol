@@ -276,6 +276,7 @@
     "Heading": "Überschrift",
     "Heading: This is optional. If set, a new line with a new heading will be inserted.": "Überschrift: Wenn angegeben, wird eine neue Zeile mit einer neuen Überschrift eingefügt.",
     "Height [px] for URL/HTML-Box": "Höhe [px] für URL/HTML-Box",
+    "Hide (resp. ignore) UNREACH, if the device is inactive": "Verstecke (bzw. ignoriere) UNREACH, wenn das Gerät inaktiv ist",
     "Hide INFO_A, if the device is active": "INFO_A ausblenden, wenn das Gerät aktiv ist",
     "Hide INFO_A, if the device is enlarged": "INFO_A ausblenden, wenn das Gerät vergrößert ist",
     "Hide INFO_A, if the device is inactive": "INFO_A ausblenden, wenn das Gerät inaktiv ist",

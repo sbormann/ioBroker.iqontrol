@@ -385,6 +385,7 @@
     "Height [px] for URL/HTML-Box": "URL / HTML框的高度[px]",
     "Heizung": "暖气",
     "Helligkeitswerte": "亮度",
+    "Hide (resp. ignore) UNREACH, if the device is inactive": "隐藏（或忽略）UNREACH，如果设备处于非活动状态",
     "Hide INFO_A, if the device is active": "隐藏INFO_A（如果设备处于活动状态）",
     "Hide INFO_A, if the device is enlarged": "如果设备放大，则隐藏INFO_A",
     "Hide INFO_A, if the device is inactive": "如果设备不活动，则隐藏INFO_A",

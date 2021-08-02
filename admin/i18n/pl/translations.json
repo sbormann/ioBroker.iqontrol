@@ -276,6 +276,7 @@
     "Heading": "Tytuł",
     "Heading: This is optional. If set, a new line with a new heading will be inserted.": "Nagłówek: to jest opcjonalne. ",
     "Height [px] for URL/HTML-Box": "Wysokość [piks.] Dla adresu URL / pola HTML",
+    "Hide (resp. ignore) UNREACH, if the device is inactive": "Ukryj (lub zignoruj) UNREACH, jeśli urządzenie jest nieaktywne",
     "Hide INFO_A, if the device is active": "Ukryj INFO_A, jeśli urządzenie jest aktywne",
     "Hide INFO_A, if the device is enlarged": "Ukryj INFO_A, jeśli urządzenie jest powiększone",
     "Hide INFO_A, if the device is inactive": "Ukryj INFO_A, jeśli urządzenie jest nieaktywne",

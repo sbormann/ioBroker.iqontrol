@@ -385,6 +385,7 @@
     "Height [px] for URL/HTML-Box": "Высота [пикселей] для URL / HTML-окна",
     "Heizung": "Отопление",
     "Helligkeitswerte": "Яркость",
+    "Hide (resp. ignore) UNREACH, if the device is inactive": "Скрыть (или игнорировать) UNREACH, если устройство неактивно",
     "Hide INFO_A, if the device is active": "Скрыть INFO_A, если устройство активно",
     "Hide INFO_A, if the device is enlarged": "Скрыть INFO_A, если устройство увеличено",
     "Hide INFO_A, if the device is inactive": "Скрыть INFO_A, если устройство неактивно",

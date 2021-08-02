@@ -385,6 +385,7 @@
     "Height [px] for URL/HTML-Box": "Höhe [px] für URL/HTML-Box",
     "Heizung": "Heizung",
     "Helligkeitswerte": "Helligkeitswerte",
+    "Hide (resp. ignore) UNREACH, if the device is inactive": "Verstecke (bzw. ignoriere) UNREACH, wenn das Gerät inaktiv ist",
     "Hide INFO_A, if the device is active": "INFO_A ausblenden, wenn das Gerät aktiv ist",
     "Hide INFO_A, if the device is enlarged": "INFO_A ausblenden, wenn das Gerät vergrößert ist",
     "Hide INFO_A, if the device is inactive": "INFO_A ausblenden, wenn das Gerät inaktiv ist",

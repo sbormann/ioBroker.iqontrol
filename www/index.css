@@ -993,6 +993,9 @@ html.noscroll body {
 .iQontrolDeviceUnreach.active {
 	opacity: 1;
 }
+.iQontrolDevice:not(.active) .iQontrolDeviceUnreach.hideUnreachIfInactive {
+	opacity: 0;
+}
 .iQontrolDeviceBattery {
 	pointer-events:none !important;
 	position:absolute; left: 84px; top: 2px; width: 16px; height: 16px;
