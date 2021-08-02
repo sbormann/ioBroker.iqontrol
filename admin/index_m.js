@@ -2868,14 +2868,7 @@ async function load(settings, onChange) {
 			if (command === 'content_copy') {
 				$(this).find('i').html('content_copy');
 				$(this).on('click', function (event) {
-					var _viewIndex = devicesSelectedView;
-					var _deviceIndex = $(this).data('index');
-					//initDialog('dialogDeviceCopyFrom', function(){});
-					dialogDeviceCopyFromSourceView = _viewIndex;
-					$('#dialogDeviceCopyFromSourceView').val(_viewIndex);
-					dialogDeviceCopyFromSourceDevice = _deviceIndex;
-					$('#dialogDeviceCopyFromSourceDevice').val(_deviceIndex);
-					$('#devicesCopyFromButton').click();
+					$('#devicesCopyFromButton').trigger('click', [devicesSelectedView, $(this).data('index')]);
 				});
 			}
 			//Delete
@@ -4094,9 +4087,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance DeviceCopyFrom with functions
-	var dialogDeviceCopyFromSourceView;
-	var dialogDeviceCopyFromSourceDevice;
-	$('#devicesCopyFromButton').on('click', function () {
+	$('#devicesCopyFromButton').on('click', function(event, sourceView, sourceDevice){
 		initDialog('dialogDeviceCopyFrom', function(){ //save dialog
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
@@ -4133,18 +4124,20 @@ async function load(settings, onChange) {
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 		});
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
-		dialogDeviceCopyFromSourceView = $('#dialogDeviceCopyFromSourceView').val() || dialogDeviceCopyFromSourceView || null;
-		dialogDeviceCopyFromSourceDevice = $('#dialogDeviceCopyFromSourceDevice').val() || dialogDeviceCopyFromSourceDevice || null;
+		$("#dialogDeviceCopyFromNewName").val("");
+		sourceView = (typeof sourceView != udef ? sourceView : $('#dialogDeviceCopyFromSourceView').val());
+		sourceDevice = (typeof sourceDevice != udef ? sourceDevice : $('#dialogDeviceCopyFromSourceDevice').val());
 		$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
-		if(dialogDeviceCopyFromSourceView){
-			$('#dialogDeviceCopyFromSourceView').val(dialogDeviceCopyFromSourceView).trigger('change');
-			if(dialogDeviceCopyFromSourceDevice) {
-				$('#dialogDeviceCopyFromSourceDevice').val(dialogDeviceCopyFromSourceDevice).trigger('change');
+		if(typeof sourceView != udef && sourceView != null){
+			$('#dialogDeviceCopyFromSourceView').val(sourceView).trigger('change');
+			if(typeof sourceDevice != udef && sourceDevice != null) {
+				$('#dialogDeviceCopyFromSourceDevice').val(sourceDevice).trigger('change');
 			}
 		}
 		$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
+		if(!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
 		$('#dialogDeviceCopyFromSourceView').select();
 		$('#dialogDeviceCopyFromSourceDevice').select();
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
@@ -4224,7 +4217,7 @@ async function load(settings, onChange) {
 	});
 	function dialogDeviceCopyFromReplaceDatapointsSearchValuesSetComboboxEntries(){
 		var usedDatapointIds = [];
-		views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].states.forEach(function(element, index){ 
+		(views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].states || []).forEach(function(element, index){ 
 			if(element.commonRole == "linkedState" && element.value) {
 				usedDatapointIds.push(element.value); 
 			} else if(element.commonRole == "array" && element.value){
