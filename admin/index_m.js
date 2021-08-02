@@ -4100,7 +4100,7 @@ async function load(settings, onChange) {
 		initDialog('dialogDeviceCopyFrom', function(){ //save dialog
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
-			var length = views[$('#devicesSelectedView').val()].devices.push(Object.assign({}, views[sourceView].devices[sourceDevice])); //Object.assign creates new object, not just a reference
+			var length = views[$('#devicesSelectedView').val()].devices.push(JSON.parse(JSON.stringify(views[sourceView].devices[sourceDevice]))); //This creates new object, not just a reference
 			if($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
 			if($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
 				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
