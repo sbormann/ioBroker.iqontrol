@@ -1529,6 +1529,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) You can now copy devices directly from the device list.
 * (sbormann) Entries with empty values in Arrays of INFO_A/B are now hidden.
 * (sbormann) Added option to hide UNREACH if device is inactive.
+* (sbormann) Fixed missing general options for device link to other view.
 
 ### 1.8.1 (2021-07-28)
 * (sbormann) Some design-adjustments for react-ui.

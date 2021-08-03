@@ -293,7 +293,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""}
 			}},
-			SECTION_GENERAL: "delete",
+			SECTION_GENERAL: {options: {
+				readonly: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
@@ -302,7 +304,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TILE_ACTIVE_CONDITION: "delete",
 			SECTION_TILE_ACTIVE: "delete",
-			SECTION_TIMESTAMP: "delete"
+			SECTION_TIMESTAMP: "delete",
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolSwitch": {
@@ -313,7 +316,8 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolButton": {
@@ -357,7 +361,8 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png", default: ""}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolThermostat": {
@@ -369,14 +374,14 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
-				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
+				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
 			}}
 		}
 	},
@@ -389,13 +394,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
 			}}
 		}
 	},
@@ -408,13 +413,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
 			}}
 		}
 	},
@@ -432,7 +437,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolHumidity": {
@@ -449,7 +455,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolPressure": {
@@ -466,7 +473,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolBrightness": {
@@ -483,7 +491,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolMotion": {
@@ -503,7 +512,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				addTimestampToState: {default: "SE"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolDoor": {
@@ -520,7 +530,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolGarageDoor": {
@@ -532,11 +543,11 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
-			}},
 			SECTION_TILE: {options: {
 				clickOnTileToggles: "delete"
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -555,7 +566,8 @@ var iQontrolRoles = {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolWindow": {
@@ -568,16 +580,16 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png", default: ""},
 				icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
-				stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""},
-				stateTiltedValue: {name: "Value of STATE for 'tilted'", type: "text", default: ""}
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
+				stateOpenedValue: {name: "Value of STATE for 'opened'", type: "text", default: ""},
+				stateTiltedValue: {name: "Value of STATE for 'tilted'", type: "text", default: ""}
 			}}
 		}
 	},
@@ -619,7 +631,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolFlood": {
@@ -636,7 +649,8 @@ var iQontrolRoles = {
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "false"},
 				clickOnTileOpensDialog: {default: "false"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolAlarm": {
@@ -649,13 +663,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
 				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}
 			}}
 		}
 	},
@@ -677,7 +691,8 @@ var iQontrolRoles = {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolDateAndTime":	{
@@ -713,7 +728,8 @@ var iQontrolRoles = {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolProgram": {
@@ -725,11 +741,11 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}
 			}},
+			SECTION_GENERAL: "delete",
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
 				closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}
-			}},
-			SECTION_GENERAL: "delete"
+			}}
 		}
 	},
 	"iQontrolScene": {
@@ -741,12 +757,12 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}
 			}},
+			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
+			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				alwaysSendTrue: {name: "Always send 'true' (do not toggle)", type: "checkbox", default: "false"},
 				closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}
-			}},
-			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
-				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}}
 		}
 	},
@@ -758,9 +774,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""}
-			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}
 			}},
 			SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section", options: {
 				statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
@@ -783,6 +796,9 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}
 			}}
 		}
 	},
@@ -800,7 +816,8 @@ var iQontrolRoles = {
 				clickOnIconToggles: "delete",
 				clickOnTileToggles: "delete",
 				clickOnIconOpensDialog: {default: "true"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolExternalLink":	{
@@ -818,7 +835,8 @@ var iQontrolRoles = {
 				clickOnIconOpensDialog: "delete",
 				clickOnTileToggles: "delete",
 				clickOnTileOpensDialog: "delete"
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
 	"iQontrolWidget": {
@@ -829,9 +847,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png", default: ""}
-			}},
-			SECTION_DEVICESPECIFIC: {options: {
-				noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"}
 			}},
 			SECTION_TILE: {options: {
 				clickOnTileToggles: "delete",
@@ -856,6 +871,9 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				addTimestampToState: {default: "N"}
+			}},
+			SECTION_DEVICESPECIFIC: {options: {
+				noVirtualState: {name: "Do not use a virtual datapoint for STATE (hide switch, if STATE is empty)", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -907,7 +925,8 @@ var iQontrolRoles = {
 				stateFillsDeviceEnlarged: {default: "true"},
 				stateBigFontEnlarged: {default: "true"},
 				hideDeviceNameIfEnlarged: {default: "true"}
-			}}
+			}},
+			SECTION_DEVICESPECIFIC: "delete"
 		}
 	}
 };
