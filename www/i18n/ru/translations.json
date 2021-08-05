@@ -393,6 +393,7 @@
     "Hide INFO_B, if the device is enlarged": "Скрыть INFO_B, если устройство увеличено",
     "Hide INFO_B, if the device is inactive": "Скрыть INFO_B, если устройство неактивно",
     "Hide Name": "Скрыть имя",
+    "Hide Name (with Icon) for Buttons (only use caption)": "Скрыть имя (со значком) для кнопок (использовать только заголовок)",
     "Hide background from BACKGROUND_URL/HTML, if device is active": "Скрыть фон из BACKGROUND_URL / HTML, если устройство активно",
     "Hide background from BACKGROUND_URL/HTML, if device is inactive": "Скрыть фон из BACKGROUND_URL / HTML, если устройство активно",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active": "Скрыть фон из BACKGROUND_URL / HTML, если устройство активно",

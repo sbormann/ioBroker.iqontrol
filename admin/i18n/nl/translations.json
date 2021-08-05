@@ -284,6 +284,7 @@
     "Hide INFO_B, if the device is enlarged": "Verberg INFO_B, als het apparaat is vergroot",
     "Hide INFO_B, if the device is inactive": "Verberg INFO_B, als het apparaat inactief is",
     "Hide Name": "Verberg naam",
+    "Hide Name (with Icon) for Buttons (only use caption)": "Verberg naam (met pictogram) voor knoppen (gebruik alleen bijschrift)",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active": "Verberg achtergrond van BACKGROUND_URL / HTML, als het apparaat actief is",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive": "Verberg achtergrond van BACKGROUND_URL / HTML, als het apparaat actief is",
     "Hide device name": "Apparaatnaam verbergen",

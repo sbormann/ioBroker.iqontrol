@@ -284,6 +284,7 @@
     "Hide INFO_B, if the device is enlarged": "Ukryj INFO_B, jeśli urządzenie jest powiększone",
     "Hide INFO_B, if the device is inactive": "Ukryj INFO_B, jeśli urządzenie jest nieaktywne",
     "Hide Name": "Ukryj nazwę",
+    "Hide Name (with Icon) for Buttons (only use caption)": "Ukryj nazwę (z ikoną) dla przycisków (używaj tylko podpisów)",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active": "Ukryj tło przed BACKGROUND_URL / HTML, jeśli urządzenie jest aktywne",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive": "Ukryj tło przed BACKGROUND_URL / HTML, jeśli urządzenie jest aktywne",
     "Hide device name": "Ukryj nazwę urządzenia",

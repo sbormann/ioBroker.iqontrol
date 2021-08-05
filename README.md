@@ -1531,6 +1531,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to hide UNREACH if device is inactive.
 * (sbormann) Fixed missing general options for device link to other view.
 * (sbormann) Fixed admin page not working in safari.
+* (sbormann) Added option to hide name for buttons in ADDITIONAL_CONTROLS.
 
 ### 1.8.1 (2021-07-28)
 * (sbormann) Some design-adjustments for react-ui.

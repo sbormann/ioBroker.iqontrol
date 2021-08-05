@@ -393,6 +393,7 @@
     "Hide INFO_B, if the device is enlarged": "Nascondi INFO_B, se il dispositivo è ingrandito",
     "Hide INFO_B, if the device is inactive": "Nascondi INFO_B, se il dispositivo è inattivo",
     "Hide Name": "Nascondi nome",
+    "Hide Name (with Icon) for Buttons (only use caption)": "Nascondi nome (con icona) per i pulsanti (usa solo la didascalia)",
     "Hide background from BACKGROUND_URL/HTML, if device is active": "Nascondi lo sfondo da BACKGROUND_URL / HTML, se il dispositivo è attivo",
     "Hide background from BACKGROUND_URL/HTML, if device is inactive": "Nascondi lo sfondo da BACKGROUND_URL / HTML, se il dispositivo è attivo",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active": "Nascondi lo sfondo da BACKGROUND_URL / HTML, se il dispositivo è attivo",

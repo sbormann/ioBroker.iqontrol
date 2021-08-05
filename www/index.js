@@ -1049,7 +1049,8 @@ var iQontrolRolesStandardOptions = {
 	SECTION_ADDITIONAL_CONTROLS: {name: "ADDITIONAL_CONTROLS", type: "section", options: {
 		additionalControlsSectionType: {name: "Appereance of ADDITIONAL_CONTROLS", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
 		additionalControlsCaption: {name: "Caption for ADDITIONAL_CONTROLS", type: "text", default: "Additional Controls"},
-		additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"}
+		additionalControlsHeadingType: {name: "Appereance of ADDITIONAL_CONTROLS Headings", type: "select", selectOptions: "none/No collapsible section (always visible);collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "none"},
+		additionalControlsHideNameForButtons: {name: "Hide Name (with Icon) for Buttons (use caption only)", type: "checkbox", default: false}
 	}},
 	SECTION_ADDITIONAL_INFO: {name: "ADDITIONAL_INFO", type: "section", options: {
 		additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
@@ -10872,6 +10873,7 @@ function renderDialog(deviceIdEscaped){
 					var type = _(getDeviceOptionValue(device, "additionalControlsCaption") || "Additional Controls");
 					var additionalControlsSectionType = getDeviceOptionValue(device, "additionalControlsSectionType") || "collapsible";
 					var additionalControlsHeadingType = getDeviceOptionValue(device, "additionalControlsHeadingType") || "none";
+					var additionalControlsHideNameForButtons = (getDeviceOptionValue(device, "additionalControlsHideNameForButtons") == "true");
 					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "");
 						dialogContent += "<div id='DialogAdditionalControlsContent'" + ((additionalControlsSectionType.indexOf("collapsible") == -1 && additionalControlsSectionType.indexOf("noCaption") == -1) ? " style='padding-left:10px;'" : "") + ">";
@@ -10913,7 +10915,7 @@ function renderDialog(deviceIdEscaped){
 										var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 										var buttonCaption = _(_element.caption.split('|')[0] || "push");
 										var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
-										dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
+										if(!additionalControlsHideNameForButtons) dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 										dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + (dialogReadonly ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 											var _deviceIdEscaped = deviceIdEscaped;

@@ -393,6 +393,7 @@
     "Hide INFO_B, if the device is enlarged": "如果设备放大，则隐藏INFO_B",
     "Hide INFO_B, if the device is inactive": "如果设备处于非活动状态，则隐藏INFO_B",
     "Hide Name": "隐藏名称",
+    "Hide Name (with Icon) for Buttons (only use caption)": "隐藏按钮的名称（带图标）（仅使用标题）",
     "Hide background from BACKGROUND_URL/HTML, if device is active": "如果设备处于活动状态，则从Background_URL / HTML隐藏背景",
     "Hide background from BACKGROUND_URL/HTML, if device is inactive": "如果设备处于活动状态，则从Background_URL / HTML隐藏背景",
     "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active": "如果设备处于活动状态，则从Background_URL / HTML隐藏背景",
