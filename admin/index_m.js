@@ -2219,7 +2219,7 @@ async function load(settings, onChange) {
 
 	//Get Link of best fitting web-adapter
 	console.log("getLink of best fitting web-adapter");
-	getExtendableInstances(async function (result) {
+	getExtendableInstances(async function(result) {
 		if (result) {
 			//Detect connection over iobroker.net or iobroker.pro
 			var isIobrokerPro = false;
@@ -2284,9 +2284,9 @@ async function load(settings, onChange) {
 			for(i = 0; i < createSpecialDirs.length; i++){
 				var dirname = createSpecialDirs[i];
 				console.log("Check directory " + userfilesImagePath + dirname);
-				var result = await checkDirExistance(userfilesImagePath + dirname);
-				console.log(result);
-				if(!result) {
+				var dirExistance = await checkDirExistance(userfilesImagePath + dirname);
+				console.log(dirExistance);
+				if(!dirExistance) {
 					console.log("Creating directory " + userfilesImagePath + dirname);
 					await createDirAsync(userfilesImagePath + dirname);
 				}
