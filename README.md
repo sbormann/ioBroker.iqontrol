@@ -1526,7 +1526,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### 1.8.2 dev
+### 1.8.2 (2021-08-06)
 * (sbormann) Added JSON-Table Widget (Displays JSON-Data as table).
 * (sbormann) Enhanced device copy dialog with option to set new name and to replace datapoints.
 * (sbormann) You can now copy devices directly from the device list.

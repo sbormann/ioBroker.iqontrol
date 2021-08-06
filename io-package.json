@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.8.1",
+        "version": "1.8.2",
         "news": {
+            "1.8.2": {
+                "en": "Added JSON-Table Widget (Displays JSON-Data as table), Enhanced device copy dialog with option to set new name and to replace datapoints, You can now copy devices directly from the device list, Entries with empty values in Arrays of INFO_A/B are now hidden, Added option to hide UNREACH if device is inactive, Fixed missing general options for device link to other view, Fixed admin page not working in safari, Added option to hide name for buttons in ADDITIONAL_CONTROLS.",
+                "de": "JSON-Table Widget hinzugefügt (zeigt JSON-Daten als Tabelle an), Verbesserter Gerätekopierdialog mit Option zum Setzen neuer Namen und zum Ersetzen von Datenpunkten, Sie können jetzt Geräte direkt aus der Geräteliste kopieren, Einträge mit leeren Werten in Arrays von INFO_A/B ",
+                "ru": "Добавлен виджет JSON-Table (отображает данные JSON в виде таблицы), расширенный диалог копирования устройства с возможностью установки нового имени и замены точек данных, теперь вы можете копировать устройства прямо из списка устройств, записи с пустыми значениями в массивах INFO_A / B ",
+                "pt": "Adicionado widget JSON-Table (exibe JSON-Data como tabela), caixa de diálogo de cópia de dispositivo aprimorada com opção para definir um novo nome e substituir pontos de dados. Agora você pode copiar dispositivos diretamente da lista de dispositivos, Entradas com valores vazios em Arrays de INFO_A / B ",
+                "nl": "JSON-Table Widget toegevoegd (toont JSON-Data als tabel), Verbeterd dialoogvenster voor apparaatkopie met optie om een ​​nieuwe naam in te stellen en datapunten te vervangen, U kunt nu apparaten rechtstreeks uit de apparaatlijst kopiëren, Vermeldingen met lege waarden in Arrays van INFO_A/B ",
+                "fr": "Widget JSON-Table ajouté (affiche les données JSON sous forme de tableau), boîte de dialogue de copie de périphérique améliorée avec option pour définir un nouveau nom et remplacer les points de données, vous pouvez désormais copier des périphériques directement à partir de la liste des périphériques, entrées avec des valeurs vides dans les tableaux d'INFO_A/B ",
+                "it": "Aggiunto widget JSON-Table (visualizza i dati JSON come tabella), finestra di dialogo di copia del dispositivo migliorata con l'opzione per impostare un nuovo nome e sostituire i punti dati, ora è possibile copiare i dispositivi direttamente dall'elenco dei dispositivi, voci con valori vuoti nelle matrici di INFO_A/B ",
+                "es": "Se agregó el widget JSON-Table (muestra JSON-Data como tabla), cuadro de diálogo de copia de dispositivo mejorado con opción para establecer un nuevo nombre y reemplazar puntos de datos, ahora puede copiar dispositivos directamente desde la lista de dispositivos, entradas con valores vacíos en matrices de INFO_A / B ",
+                "pl": "Dodano widżet JSON-Table (wyświetla dane JSON jako tabelę), Rozszerzone okno dialogowe kopiowania urządzeń z opcją ustawienia nowej nazwy i zastąpienia punktów danych, Teraz można kopiować urządzenia bezpośrednio z listy urządzeń, Wpisy z pustymi wartościami w tablicach INFO_A/B ",
+                "zh-cn": "添加了 JSON-Table 小部件（将 JSON-Data 显示为表格），增强的设备复制对话框，带有设置新名称和替换数据点的选项，您现在可以直接从设备列表中复制设备，INFO_A/B 数组中具有空值的条目"
+            },
             "1.8.1": {
                 "en": "Some design-adjustments for react-ui, Keep track of ioBroker object changes in admin, Fixed crash if active view has no devices, Removed old conn.js from admin, Added HomematicIP-Thermostat, Enhanced max-height of dialog, Fixed up, down and stop button for blinds, Changed some log messages, Enhanced FLOT-Chart-Widget to set axis options.",
                 "de": "Einige Design-Anpassungen für React-UI, Verfolgen von ioBroker Objektänderungen im Admin, Absturz behoben, wenn aktive Ansicht keine Geräte hat, Alte conn.js vom Admin entfernt, HomematicIP-Thermostat hinzugefügt, Max-Höhe des Dialogs verbessert, Behoben, ",
