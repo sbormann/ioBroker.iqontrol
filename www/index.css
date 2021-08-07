@@ -738,6 +738,12 @@ html.noscroll body {
 .iQontrolDeviceLink.toggle {
 	cursor: pointer;
 }
+.iQontrolDeviceLink.enlarge {
+	cursor: zoom-in;
+}
+.iQontrolDevice.enlarged .iQontrolDeviceLink.enlarge {
+	cursor: zoom-out;
+}
 .iQontrolDeviceLinkToToggle {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 
@@ -756,6 +762,12 @@ html.noscroll body {
 }
 .iQontrolDeviceLinkToToggle.toggle {
 	cursor: pointer;
+}
+.iQontrolDeviceLinkToToggle.enlarge {
+	cursor: zoom-in;
+}
+.iQontrolDevice.enlarged .iQontrolDeviceLinkToToggle.enlarge {
+	cursor: zoom-out;
 }
 .iQontrolDeviceBackgroundIframeWrapper {
 	-webkit-user-select: none !important;
