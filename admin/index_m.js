@@ -569,10 +569,8 @@ var iQontrolRoles = {
 				readonly: "delete"
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_TILE_ACTIVE_CONDITION: "delete",
 			SECTION_TILE_ACTIVE: "delete",
@@ -647,9 +645,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
@@ -667,9 +664,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
@@ -686,9 +682,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
@@ -705,10 +700,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -723,10 +716,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -741,10 +732,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "pressure.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -759,10 +748,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -777,10 +764,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				addTimestampToState: {default: "SE"}
@@ -798,10 +783,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -814,9 +797,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""}
-			}},
-			SECTION_TILE: {options: {
-				clickOnTileToggles: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
@@ -835,9 +815,8 @@ var iQontrolRoles = {
 				icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -853,10 +832,8 @@ var iQontrolRoles = {
 				icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
@@ -899,10 +876,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -917,10 +892,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"}
+				clickOnIconAction: {default: "openLinkToOtherView"},
+				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -936,9 +909,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}
@@ -960,9 +932,8 @@ var iQontrolRoles = {
 				icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -997,9 +968,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1085,9 +1055,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_GENERAL: "delete",
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "true"}
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1103,10 +1072,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_GENERAL: "delete",
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnIconOpensDialog: "delete",
-				clickOnTileToggles: "delete",
-				clickOnTileOpensDialog: "delete"
+				clickOnIconAction: {default: "openURLExternal"},
+				clickOnTileAction: {default: "openURLExternal"},
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1159,10 +1126,8 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
-				clickOnIconToggles: "delete",
-				clickOnTileToggles: "delete",
-				clickOnIconOpensDialog: {default: "false"},
-				clickOnTileOpensDialog: {default: "false"},
+				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "false"},
+				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "false"},
 				noZoomOnHover: {default: "true"},
 				hideDeviceName: {default: "true"}
 			}},
@@ -1211,10 +1176,8 @@ var iQontrolRolesStandardOptions = {
 		renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"}
 	}},
 	SECTION_TILE: {name: "Tile-Behaviour (general)", type: "section", options: {
-		clickOnIconToggles: {name: "Click on icon toggles", type: "checkbox", default: "true"},
-		clickOnIconOpensDialog: {name: "Click on icon opens dialog (instead of toggling)", type: "checkbox", default: "false"},
-		clickOnTileToggles: {name: "Click on tile toggles (instead of opening dialog)", type: "checkbox", default: "false"},
-		clickOnTileOpensDialog: {name: "Click on tile opens dialog", type: "checkbox", default: "true"},
+		clickOnIconAction: {name: "Click on Icon Action", type: "select", selectOptions: "toggle/Toggle;openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "toggle"},
+		clickOnTileAction: {name: "Click on Tile Action", type: "select", selectOptions: "toggle/Toggle;openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 		noZoomOnHover: {name: "Disable zoom-effect on hover", type: "checkbox", default: "false"},
 		iconNoZoomOnHover: {name: "Disable zoom-effect on hover for icon", type: "checkbox", default: "false"},
 		hideDeviceName: {name: "Hide device name", type: "checkbox", default: "false"}
@@ -2194,6 +2157,46 @@ async function load(settings, onChange) {
 		newConfig = false;
 	}
 
+	//Backward-Compatibility: Transfer old options to new options
+  	views.forEach(function(view){
+		(view.devices || []).forEach(function(device){
+			if(!(device.options || []).find(element => element.option === "clickOnTileAction")){
+				var clickOnTileToggles = (device.options || []).find(element => element.option === "clickOnTileToggles");
+				var clickOnTileOpensDialog = (device.options || []).find(element => element.option === "clickOnTileOpensDialog");
+				var value = null;
+				if(clickOnTileToggles && typeof clickOnTileToggles.value != udef && clickOnTileToggles.value == "true") {
+					value = "toggle";
+				} else if(clickOnTileOpensDialog && typeof clickOnTileOpensDialog.value != udef && clickOnTileOpensDialog.value == "true") {
+					value = "openDialog";
+				} else if(device.commonRole && device.commonRole == "iQontrolExternalLink"){
+					value = "openURLExternal";
+				}
+				if(value) { device.options.push({option: "clickOnTileAction", type: "select", value: value}); newConfig = true; }
+				var i = (device.options || []).findIndex(element => element.option === "clickOnTileToggles");
+				if(i > -1) { device.options.splice(i, 1); newConfig = true; }
+				i = (device.options || []).findIndex(element => element.option === "clickOnTileOpensDialog");
+				if(i > -1) { device.options.splice(i, 1); newConfig = true; }			
+			}
+			if(!(device.options || []).find(element => element.option === "clickOnIconAction")){
+				var clickOnIconToggles = (device.options || []).find(element => element.option === "clickOnIconToggles");
+				var clickOnIconOpensDialog = (device.options || []).find(element => element.option === "clickOnIconOpensDialog");
+				var value = null;
+				if(clickOnIconToggles && typeof clickOnIconToggles.value != udef && clickOnIconToggles.value == "true") {
+					value = "toggle";
+				} else if(clickOnIconOpensDialog && typeof clickOnIconOpensDialog.value != udef && clickOnIconOpensDialog.value == "true") {
+					value = "openDialog";
+				} else if(device.commonRole && device.commonRole == "iQontrolExternalLink"){
+					value = "openURLExternal";
+				}
+				if(value) { device.options.push({option: "clickOnIconAction", type: "select", value: value}); newConfig = true; }
+				var i = (device.options || []).findIndex(element => element.option === "clickOnIconToggles");
+				if(i > -1) { device.options.splice(i, 1); newConfig = true; }
+				i = (device.options || []).findIndex(element => element.option === "clickOnIconOpensDialog");
+				if(i > -1) { device.options.splice(i, 1); newConfig = true; }				
+			}
+		});
+	});
+  
 	//Set initial values of further variables
 	images = [];
 	imagesDirs = [];
@@ -2526,8 +2529,8 @@ async function load(settings, onChange) {
 				if(element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
 			});
 			views.forEach(function(view){
-				view.devices.forEach(function(device){
-					device.states.forEach(function(state){
+				(view.devices || []).forEach(function(device){
+					(device.states || []).forEach(function(state){
 						if(state.state == "BACKGROUND_VIEW" && state.value == (adapter + "." + instance + ".Views." + oldVal)) state.value = (adapter + "." + instance + ".Views." + newVal);
 					});
 				});

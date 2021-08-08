@@ -1526,6 +1526,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.8.3 dev
+* (sbormann) Added new configuration options for click on tile/icon behaviours - WARNING: Old configuration is automatically converted to the new settings. Its recommendet to create a backup of your config BEFORE doing the update, as the new settings are not backwards-compatible and in case of conversion errors.
+
 ### 1.8.2 (2021-08-06)
 * (sbormann) Added JSON-Table Widget (Displays JSON-Data as table).
 * (sbormann) Enhanced device copy dialog with option to set new name and to replace datapoints.
