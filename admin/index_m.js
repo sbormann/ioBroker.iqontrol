@@ -619,7 +619,8 @@ var iQontrolRoles = {
 			SECTION_DEVICESPECIFIC: {options: {
 				invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 				alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
-				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"}
+				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"},
+				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"}
 			}}
 		}
 	},

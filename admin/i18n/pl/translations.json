@@ -737,6 +737,7 @@
     "Use big font for STATE, if the device is enlarged": "Użyj dużej czcionki dla STAN, jeśli urządzenie jest powiększone",
     "Use big font for STATE, if the device is inactive": "Użyj dużej czcionki dla STATE, jeśli urządzenie jest nieaktywne",
     "Use color of lamp as GLOW_ACTIVE_COLOR": "Użyj koloru lampy jako GLOW_ACTIVE_COLOR",
+    "Use color of lamp as OVERLAY_ACTIVE_COLOR": "Użyj koloru lampy jako OVERLAY_ACTIVE_COLOR",
     "User Icons": "Ikony użytkownika",
     "User Images": "Obrazy użytkownika",
     "User Settings": "Ustawienia użytkownika",

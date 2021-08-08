@@ -347,7 +347,8 @@ var iQontrolRoles = {
 			SECTION_DEVICESPECIFIC: {options: {
 				invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 				alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
-				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"}
+				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"},
+				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -4496,20 +4497,44 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--Background (Overlay) ActiveColor
-						if (deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"]){
+						var linkOverlayActiveColorToHue = (getDeviceOptionValue(device, "linkOverlayActiveColorToHue") == "true");
+						if (deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"] || linkOverlayActiveColorToHue){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedOverlayActiveColorId = deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"];
+								var _linkOverlayActiveColorToHue = linkOverlayActiveColorToHue;
+								var _linkedHueId = deviceLinkedStateIds["HUE"];
+								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
 								var updateFunction = function(){
 									var stateOverlayActiveColor = getStateObject(_linkedOverlayActiveColorId);
-									var colorString = stateOverlayActiveColor && isValidColorString(stateOverlayActiveColor.val) && stateOverlayActiveColor.val || null;
+									var stateHue = getStateObject(_linkedHueId);
+									if (_linkOverlayActiveColorToHue && stateHue && stateHue.val !== ""){
+										var hueMin = stateHue.min || 0;
+										var hueMax = stateHue.max || 359;
+										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+										var	saturation = 100;
+										var stateSaturation = getStateObject(_linkedSaturationId);
+										if (stateSaturation && typeof stateSaturation.val != udef) {
+											var saturationMin = stateSaturation.min || 0;
+											var saturationMax = stateSaturation.max || 100;
+											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+										}
+										var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+									} else if(_linkOverlayActiveColorToHue){
+										var colorString = "rgb(255,245,157)";
+									} else {
+										var colorString = stateOverlayActiveColor && isValidColorString(stateOverlayActiveColor.val) && stateOverlayActiveColor.val || null;
+									}
 									if (colorString){
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', colorString);
 									} else {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage.active").css('background-color', '');
 									}
 								};
-								viewUpdateFunctions[_linkedOverlayActiveColorId].push(updateFunction);
+								if(_linkedOverlayActiveColorId) viewUpdateFunctions[_linkedOverlayActiveColorId].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && _linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && !_linkedHueId) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
+								if(_linkOverlayActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
 							})(); //<--End Closure
 						}
 						//--Icon with Link to Switch

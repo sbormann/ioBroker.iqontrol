@@ -978,6 +978,7 @@
     "Use big font for STATE, if the device is enlarged": "Usa caratteri grandi per STATE, se il dispositivo è ingrandito",
     "Use big font for STATE, if the device is inactive": "Usa caratteri grandi per STATE, se il dispositivo è inattivo",
     "Use color of lamp as GLOW_ACTIVE_COLOR": "Usa il colore della lampada come GLOW_ACTIVE_COLOR",
+    "Use color of lamp as OVERLAY_ACTIVE_COLOR": "Usa il colore della lampada come OVERLAY_ACTIVE_COLOR",
     "Used icons": "Icone usate da <a href=\"https://icons8.com/\" target=\"_blank\">icons8.com/</a>.",
     "User Icons": "Icone dell'utente",
     "User Images": "Immagini utente",

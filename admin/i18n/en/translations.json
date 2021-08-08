@@ -737,6 +737,7 @@
     "Use big font for STATE, if the device is enlarged": "Use big font for STATE, if the device is enlarged",
     "Use big font for STATE, if the device is inactive": "Use big font for STATE, if the device is inactive",
     "Use color of lamp as GLOW_ACTIVE_COLOR": "Use color of lamp as GLOW_ACTIVE_COLOR",
+    "Use color of lamp as OVERLAY_ACTIVE_COLOR": "Use color of lamp as OVERLAY_ACTIVE_COLOR",
     "User Icons": "User Icons",
     "User Images": "User Images",
     "User Settings": "User Settings",
