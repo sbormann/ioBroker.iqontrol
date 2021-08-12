@@ -2604,6 +2604,26 @@ function removeCustomCSS(customID){
 	$('.customCSS_' + customID).remove();
 }
 
+function removeCssRule(ruleBeginsWith){
+	if(typeof window.CSSMediaRule !== 'function') return false;
+	var styleSheets = document.styleSheets;
+	if (!styleSheets) return false;
+	var number = 0;
+	for (i = 0; i < styleSheets.length; i++) {
+		var styleSheet = styleSheets[i];
+		var rules = styleSheet.cssRules;
+		if (!rules) continue;
+		for (var j = 0; j < rules.length; j++) {
+			var cssText = rules[j].cssText;
+			if (cssText.indexOf(ruleBeginsWith) === 0) {
+				number++;
+				styleSheet.deleteRule(j);
+			}
+		}
+	}
+	return number;
+}
+
 function removeDuplicates(array) { //Removes duplicates from an array
     var seen = {};
     return array.filter(function(item) {
@@ -2779,7 +2799,7 @@ function dragElement(dragElementId, dragHandleId, cursor, resize, setMaxHeightEl
 			dragElement.style.top = (dragElement.offsetTop - posMoveY) + "px";
 			if(setMaxHeightElementId) {
 				var setMaxHeightElement = document.getElementById(setMaxHeightElementId);
-				if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY - posMoveY + setMaxHeightOffset) + "px)";
+				if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - posMoveY - window.scrollY + setMaxHeightOffset) + "px)";
 			}
 		}
 	}
@@ -3821,6 +3841,33 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		if(options.LayoutColorModeDarkBackgroundOverlay) {
+			customCSS = "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + " !important;";
+			customCSS += "}}";
+			customCSS = "html.color-mode-dark body:not(.backstretchLoaded):after, html.color-mode-dark .backstretch:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarOverlay) {
+			customCSS = "html.color-mode-dark #Toolbar:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkToolbarOverlay + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkHeadingsOverlay) {
+			customCSS = "html.color-mode-dark #ViewHeaderTitle:after, html.color-mode-dark #ViewContent h4:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkHeadingsOverlay + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkDevicesOverlay) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:after, html.color-mode-dark .iQontrolDeviceBadge:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkDevicesOverlay + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
 		//Return after time
 		if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
 			returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
@@ -3843,6 +3890,33 @@ function handleOptions(){
 			customCSS = options.LayoutCSS;
 			addCustomCSS(customCSS);
 		};
+	}
+	//Dark-Mode
+	switch(options.LayoutColorModeDarkEnable){
+		case "disabled":
+		break;
+
+		case "always":
+		applyColorMode('dark');
+		break;
+		
+		default:
+		if(window.matchMedia){
+			var darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			applyColorMode(darkMode ? 'dark' : '');
+			window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', darkModeEventListenerFunction);
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', darkModeEventListenerFunction);
+			function darkModeEventListenerFunction(e){
+				darkMode = e.matches;
+				applyColorMode(darkMode ? 'dark' : '');
+			}
+		}
+	}
+	function applyColorMode(colorMode){
+		$("html").removeClass(function(index, className){
+			return (className.match (/(^|\s)color-mode-\S+/g) || []).join(' ');
+		});	
+		$("html").addClass("color-mode-" + colorMode);
 	}
 }
 
@@ -12418,7 +12492,7 @@ $(document).ready(function(){
 	if(isBackgroundView) $('body').addClass('isBackgroundView');
 
 	//Make Dialog draggable
-	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 60);
+	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 100);
 
 	//jQuery fix for autofocus on first input when clicking on popup
 	$('#Dialog').on('mousemove', function(event){
@@ -12434,7 +12508,7 @@ $(document).ready(function(){
 		$('#ViewMain').data('plugin_ptrLight').options.paused = true;
 		$('html').addClass('noscroll');
 		setTimeout(function(){
-			var setMaxHeightOffset = 60;
+			var setMaxHeightOffset = 100;
 			var dragElement = document.getElementById('Dialog-popup');
 			var setMaxHeightElement = document.getElementById('DialogContent');
 			if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY + setMaxHeightOffset) + "px)";

@@ -38,6 +38,7 @@ body {
 body:not(.isBackgroundView):not(.backstretchLoaded){
 	background: linear-gradient(347deg, rgba(85,13,69,0.5) 0%, rgba(150,19,152,0.5) 27%, rgba(0,212,255,0.5) 100%) !important;
 }
+
 html.noscroll body {
 	touch-action: none;
 	-ms-touch-action: none;
@@ -399,6 +400,7 @@ html.noscroll body {
 	background-color: transparent;
 }
 #ViewHeaderTitle {
+	position: relative;
 	background-color: rgba(0,0,0,0.15);
 	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
@@ -421,6 +423,7 @@ html.noscroll body {
 			transition: all 1s;
 }
 #ViewContent h4 {
+	position: relative;
 	background-color: rgba(0,0,0,0.15);
 	margin: 20px 0px 20px -5px;
 	padding: 0px 0px 0px 7px;
@@ -1262,8 +1265,8 @@ html.noscroll body {
 	padding: 0.5em;
 }
 #DialogContent {
-	max-height: calc(80vh - 50px);
-	padding: 0.5em;
+	max-height: calc(80vh - 60px);
+	padding: 0 0.5em;
 	overflow-y: auto;
 	overscroll-behavior: contain !important;
 }
@@ -1456,7 +1459,7 @@ html.noscroll body {
 .ui-state-disabled {
 	opacity: 0.75 !important;
 }
-.ui-state-disabled.ui-btn.ui-btn-icon-right::after {
+.ui-state-disabled.ui-btn.ui-btn-icon-right:after {
 	display: none !important;
 }
 .ui-state-disabled.ui-slider-track .ui-btn.ui-slider-handle {
@@ -1782,4 +1785,163 @@ html.noscroll body {
 	.iQontrolDialogIframeWrapper {
 		min-width: 800px;
 	}
+}
+
+/* ++++++++++++++ COLOR-MODE DARK ++++++++++++++ */
+html.color-mode-dark ::-webkit-scrollbar-track {
+	background: #777 !important;
+}
+html.color-mode-dark ::-webkit-scrollbar-thumb {
+	background: #555555 !important; 
+}
+html.color-mode-dark ::-webkit-scrollbar-thumb:hover {
+	background: #666666 !important; 
+}
+@media (prefers-color-scheme: dark) {
+	body:not(.isBackgroundView):not(.backstretchLoaded):after{
+		content: "";
+		background: rgba(0,0,0,0.5);
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+}
+html.color-mode-dark body:not(.backstretchLoaded):after{
+	content: "";
+	background: rgba(0,0,0,0.5);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+html.color-mode-dark .backstretch:after{
+	content: "";
+	background: rgba(0,0,0,0.5);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+html.color-mode-dark #ToolbarContextMenu {
+	border-color: #000000bf !important;
+}
+html.color-mode-dark #ViewDeviceContextMenu {
+	border-color: #000000bf !important;
+}
+html.color-mode-dark #Toolbar:after{
+	content: "";
+	background: rgba(0,0,0,0.3);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top:0px;
+	left:0px;
+	z-index:1000;
+	pointer-events: none;
+}
+html.color-mode-dark #ViewHeaderTitle:after {
+	content: "";
+	background: rgba(0,0,0,0.3);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+html.color-mode-dark #ViewContent h4:after {
+	content: "";
+	background: rgba(0,0,0,0.3);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+html.color-mode-dark .iQontrolDevice:after{
+	content: "";
+	background: rgba(0,0,0,0.3);
+	position: absolute;
+	left: -10px;
+	top:-10px;
+	width: 200%;
+	width: calc(100% + 20px);
+	height: 200%;
+	height: calc(100% + 20px);
+	pointer-events: none;
+}
+html.color-mode-dark .iQontrolDeviceBadge:after{
+	content: "";
+	background: rgba(0,0,0,0.3);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+html.color-mode-dark #Dialog{
+	background: #898888 !important;
+	border-color: #5f5f5f !important;
+	text-shadow: 0 1px 0 #999 !important;
+}
+html.color-mode-dark .ui-input-text{
+	color: #222 !important;
+	text-shadow: 0 1px 0 #999 !important;
+	background-color: #b9b9b9 !important;
+}
+html.color-mode-dark .ui-btn{
+	color: #222 !important;
+	text-shadow: 0 1px 0 #999 !important;
+	background-color: #b9b9b9 !important;
+	border-color: #777777 !important;
+}
+html.color-mode-dark .ui-btn-active {
+	color: #858585 !important;
+	text-shadow: 0 1px 0 #1a1a1a !important;
+	background-color: #083559 !important;
+	border-color: #0a4575 !important;
+}
+html.color-mode-dark .ui-collapsible-content{
+	text-shadow: 0 1px 0 #747474 !important;    	
+	background: #787878 !important;
+	border-color: #707070 !important;
+}
+html.color-mode-dark hr{
+	border-color: #a6a6a6 !important;    	
+}
+html.color-mode-dark .ui-flipswitch{
+	background-color: #b9b9b9 !important;    	
+	border-color: #777777 !important;
+}
+html.color-mode-dark .ui-flipswitch span {
+	color: #222 !important;
+	text-shadow: 0 1px 0 #999 !important;
+}
+html.color-mode-dark .ui-flipswitch-active{
+	background-color: #083559 !important;
+	border-color: #0a4575 !important;
+}
+html.color-mode-dark .ui-flipswitch-active a {
+	color: #858585 !important;
+	text-shadow: 0 1px 0 #1a1a1a !important;
+}
+html.color-mode-dark .ui-slider-track{
+	border-color: #777777 !important;    	
+}
+html.color-mode-dark .DialogRemotePadArea{
+	color: #222 !important;
+	border-color: #777777 !important;
+	background-color: #b9b9b9 !important;
+}
+html.color-mode-dark .ap-cont:after{
+	content: "";
+	background: rgba(0,0,0,0.4);
+	position: absolute;
+	left: -1px;
+	top:-1px;
+	width: 100%;
+	width: calc(100% + 2px);
+	height: 100%;
+	height: calc(100% + 2px);
+	pointer-events: none;
 }
