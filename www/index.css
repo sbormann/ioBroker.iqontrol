@@ -1945,3 +1945,13 @@ html.color-mode-dark .ap-cont:after{
 	height: calc(100% + 2px);
 	pointer-events: none;
 }
+html.color-mode-dark #popup:after {
+	content: "";
+	background: rgba(0,0,0,0.4);
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;	
+}

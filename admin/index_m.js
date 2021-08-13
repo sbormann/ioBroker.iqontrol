@@ -1280,6 +1280,7 @@ var iQontrolRolesStandardOptions = {
 		popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 		popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 		openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
+		openURLExternalCaption: {name: "Caption for Button to open URL in new window", type: "text", default: ""},
 		popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"}
 	}},
 	SECTION_ADDITIONAL_CONTROLS: {name: "ADDITIONAL_CONTROLS", type: "section", options: {

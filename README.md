@@ -1542,10 +1542,11 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### 1.8.3 dev
+### 1.9.0 (2021-08-13)
 * (sbormann) Added Dark-Mode.
 * (sbormann) Added new configuration options for click on tile/icon behaviours - WARNING: Old configuration is automatically converted to the new settings. Its recommendet to create a backup of your config BEFORE doing the update, as the new settings are not backwards-compatible and in case of conversion errors.
 * (sbormann) Added option to link color of lamp to OVERLAY_ACTIVE_COLOR.
+* (sbormann) Added option to define caption of button for external URLs.
 
 ### 1.8.2 (2021-08-06)
 * (sbormann) Added JSON-Table Widget (Displays JSON-Data as table).
