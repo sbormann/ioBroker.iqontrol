@@ -1705,6 +1705,9 @@ html.noscroll body {
 	.iQontrolDevice.bigIcon .iQontrolDeviceInfoAIcon, .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceInfoAIcon, .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceInfoAIcon, .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceInfoAIcon {
 		left: 161px; 
 	}
+	.iQontrolDeviceEnlargeButton {
+		right: 1px; top: 2px;
+	}
 	.iQontrolDeviceInfoAText {
 		position:absolute; left: 90px; top: 30px; height: 22px;
 		width: 72px; width: calc(100% - 89px); 

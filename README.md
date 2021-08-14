@@ -1542,6 +1542,10 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Using new mkDir algorithm.
+* (sbormann) Enhanced enlarge button for large screens.
+
 ### 1.9.0 (2021-08-13)
 * (sbormann) Added Dark-Mode.
 * (sbormann) Added new configuration options for click on tile/icon behaviours - WARNING: Old configuration is automatically converted to the new settings. Its recommendet to create a backup of your config BEFORE doing the update, as the new settings are not backwards-compatible and in case of conversion errors.

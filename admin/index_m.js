@@ -1949,7 +1949,15 @@ function renameFileAsync(oldPath, newPath){
 		});
 	});
 }
-async function createDir(path, callback){ /* This is a workaround, because socket.emit('mkdir' was not working (should be fixed meanwhile, but i haven't tested yet) */
+async function createDir(path, callback){
+	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
+	var parts = path.split('/');
+	var adapter = parts[1];
+	parts.splice(0, 2);
+	socket.emit('mkdir', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
+}
+/*
+async function createDir(path, callback){ // This is a workaround, because socket.emit('mkdir' was not working (should be fixed meanwhile, but i haven't tested yet) 
 	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
 	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 		var _path = path;
@@ -1959,7 +1967,6 @@ async function createDir(path, callback){ /* This is a workaround, because socke
 		})
 	})(); //<--End Closure
 }
-/*
 async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
 	if (typeof index != 'number') index = 0;
 	pathSubdirs = path.split('/');
