@@ -1954,7 +1954,7 @@ async function createDir(path, callback){
 	var parts = path.split('/');
 	var adapter = parts[1];
 	parts.splice(0, 2);
-	socket.emit('mkdir', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
+	socket.emit('mkdir', adapter, parts.join('/'), function(err){	if(err) alert(JSON.stringify(err)); if (callback) callback(err); });
 }
 /*
 async function createDir(path, callback){ // This is a workaround, because socket.emit('mkdir' was not working (should be fixed meanwhile, but i haven't tested yet) 
