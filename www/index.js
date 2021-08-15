@@ -3898,8 +3898,8 @@ function handleOptions(){
 		};
 	}
 	function getFontFamilyAndAddFontFace(option){
-		var fontFamily = option.split('/')[0].replace(/\\/g,"").replace(/\./g,"");			
-		if(option.indexOf("\\userfonts") == 0 && option.split('/').length > 0){
+		var fontFamily = encodeURIComponent(option.split('@')[0].replace(/\\/g,"").replace(/\//g,"").replace(/ /g,"").replace(/\./g,""));
+		if(option.indexOf("/userfonts/") == 0 && option.split('@').length > 1){
 			var format = option.slice(option.lastIndexOf('.') + 1);
 			switch(format){
 				case "otf": format = "opentype"; break;
@@ -3907,9 +3907,9 @@ function handleOptions(){
 			}
 			customCSS = "@font-face{";
 			customCSS += "	font-family: '" + fontFamily + "';"
-			customCSS += "	src: url('" + option.split('/')[1].replace(/\\/g,"/") + "') format('" + format + "');"
+			customCSS += "	src: url('" + encodeURI(option.split('@')[1].replace(/\\/g,"/")) + "') format('" + format + "');"
 			customCSS += "}";
-			addCustomCSS(customCSS);
+			if($('style.customCSS_default').text().indexOf(customCSS) == -1) addCustomCSS(customCSS);
 		}
 		return fontFamily || option;
 	}

@@ -531,8 +531,9 @@
 						<br><br>
 						<p class="translate">Images in the folder '/usericons' can be used as icons for devices.</p>
 						<p class="translate">Images in the folder '/usersymbols' can be used as symbols for states.</p>
-						<p class="translate">The folder '/userwidgets' allows uploading of html, css and js files to create widgets, which may be displayed as BACKGROUND_URL of a tile.</p>
-						<p class="translate">The folder '/userfonts' allows uploading of otf, ttf, woff, woff2 and eot files which can be used as font files in options.</p>
+						<p><span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
+						<p><span class="translate">The folder '/userwidgets' allows uploading of html, css and js files to create widgets, which may be displayed as BACKGROUND_URL of a tile</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#widgets" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
+						<p><span class="translate">The folder '/userfonts' allows uploading of otf, ttf, woff, woff2 and eot files which can be used as font files in options</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#fonts" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
 						<p class="translate">(You may need to create these folders first).</p>
 					</div>
 				</div>
@@ -825,10 +826,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutToolbarFontFamily' id='optionsLayoutToolbarFontFamily'></select>
-									<label for='optionsLayoutToolbarFontFamily' class="translate">Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutToolbarFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutToolbarFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutToolbarFontWeight' id='optionsLayoutToolbarFontWeight'>
@@ -939,10 +939,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutViewMainHeaderFontFamily' id='optionsLayoutViewMainHeaderFontFamily'></select>
-									<label for='optionsLayoutViewMainHeaderFontFamily' class="translate">Main-Header Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutViewMainHeaderFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewMainHeaderFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewMainHeaderFontWeight' id='optionsLayoutViewMainHeaderFontWeight'>
@@ -1035,10 +1034,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutViewSubHeaderFontFamily' id='optionsLayoutViewSubHeaderFontFamily'></select>
-									<label for='optionsLayoutViewSubHeaderFontFamily' class="translate">Sub-Header Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutViewSubHeaderFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewSubHeaderFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewSubHeaderFontWeight' id='optionsLayoutViewSubHeaderFontWeight'>
@@ -1361,10 +1359,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutViewDeviceNameFontFamily' id='optionsLayoutViewDeviceNameFontFamily'></select>
-									<label for='optionsLayoutViewDeviceNameFontFamily' class="translate">Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutViewDeviceNameFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceNameFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewDeviceNameFontWeight' id='optionsLayoutViewDeviceNameFontWeight'>
@@ -1445,10 +1442,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutViewDeviceStateFontFamily' id='optionsLayoutViewDeviceStateFontFamily'></select>
-									<label for='optionsLayoutViewDeviceStateFontFamily' class="translate">Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutViewDeviceStateFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceStateFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewDeviceStateFontWeight' id='optionsLayoutViewDeviceStateFontWeight'>
@@ -1529,10 +1525,9 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<select class="value optionsFontFamily" name='optionsLayoutViewDeviceInfoFontFamily' id='optionsLayoutViewDeviceInfoFontFamily'></select>
-									<label for='optionsLayoutViewDeviceInfoFontFamily' class="translate">Font-Family:</label>
-									<span class="helper-text"></span>
-									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+									<label for="optionsLayoutViewDeviceInfoFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceInfoFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewDeviceInfoFontWeight' id='optionsLayoutViewDeviceInfoFontWeight'>

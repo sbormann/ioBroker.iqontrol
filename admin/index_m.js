@@ -4908,7 +4908,7 @@ async function load(settings, onChange) {
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml, text/html, text/css, text/javascript');
 			$('.imagesUploadCreateFile').removeClass('hide');
 		} else if(val && val.indexOf("/userfonts") == 0){
-			$('#imagesUploadFile').prop('accept', '.otf, .ttf, .woff, .woff2, .eot');
+			$('#imagesUploadFile').prop('accept', '.otf, application/x-font-opentype, .ttf, application/x-font-ttf, application/x-font-truetype .woff, application/font-woff, .woff2, application/font-woff2, .eot, application/vnd.ms-fontobject');
 			$('.imagesUploadCreateFile').addClass('hide');
 		} else {
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml');
@@ -5275,28 +5275,26 @@ async function load(settings, onChange) {
 		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
 		
-		//Fill Selectboxes for fontFamily with fonts
-		var fontFamilyString = "";
-		fontFamilyString += "<option value='' disabled selected>" + _("Choose:") + "</option>";
-		fontFamilyString += "<optgroup label='Sans-Serif'>";
-		fontFamilyString += "	<option value='Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>";
-		fontFamilyString += "	<option value='Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>";
-		fontFamilyString += "	<option value='\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>";
-		fontFamilyString += "</optgroup>";
-		fontFamilyString += "<optgroup label='Serif'>";
-		fontFamilyString += "	<option value='Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>";
-		fontFamilyString += "	<option value='Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>";
-		fontFamilyString += "	<option value='\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>";
-		fontFamilyString += "</optgroup>";
-		fontFamilyString += "<optgroup label='Fantasy'>";
-		fontFamilyString += "	<option value='Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>";
-		fontFamilyString += "</optgroup>";
-		fontFamilyString += "<optgroup label='Cursive'>";
-		fontFamilyString += "	<option value='\"Comic Sans MS\", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>";
-		fontFamilyString += "</optgroup>";
-		fontFamilyString += "<optgroup label='Monospace'>";
-		fontFamilyString += "	<option value='Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>";
-		fontFamilyString += "</optgroup>";
+		//Fill Combobox for fontFamily with fonts
+		//Default Font
+		var optionsString = "[" + _("Default Font") + ":]";
+		optionsString += ";/" + _("Default Font") + "/" + (link + "/images/icons/blank.png").replace(/\//g, "\\");
+		//Inbuilt Fonts
+		optionsString += ";[Sans-Serif:]";
+		optionsString += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
+		optionsString += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
+		optionsString += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
+		optionsString += ";[Serif:]";
+		optionsString += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
+		optionsString += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
+		optionsString += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
+		optionsString += ";[Fantasy:]";
+		optionsString += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
+		optionsString += ";[Cursive:]";
+		optionsString += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
+		optionsString += ";[Monospace:]";
+		optionsString += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
+		//User Fonts
 		var userfonts = [];
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
@@ -5305,19 +5303,19 @@ async function load(settings, onChange) {
 					if(filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
 						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
 						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_font.png";
-						userfonts.push({src: ".\\.." + userfilesImagePathBS + file.filenameBS, name: file.filenameBS, icon: icon.replace(/\//g, "\\")});
+						userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
 			}
 		});
 		if (userfonts.length > 0){
-			fontFamilyString += "<optgroup label='" + _("User Fonts") + "'>";
+			optionsString += ";[" + _("User Fonts") + ":]";
 			userfonts.forEach(function(userfont){
-				fontFamilyString += "	<option value='" + userfont.name + "/" + userfont.src + "' data-icon='" + userfont.icon + "'>" + userfont.name + "</option>";
+				optionsString += ";" + userfont;
 			});
-			fontFamilyString += "</optgroup>";
 		}
-		$("select.value.optionsFontFamily").html(fontFamilyString).select();
+		//enhanceTextInputToCombobox('#optionsLayoutToolbarFontFamily', optionsString, false);
+		enhanceTextInputToCombobox('.optionsFontFamily', optionsString, false);
 	}
 
 	//Fill Combobox for ChangeDeviceOptions with deviceOptions

@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.0",
+        "version": "1.9.1",
         "news": {
+            "1.9.1": {
+                "en": "You can now upload own font files, Admin tab is now linked to the iqontrol-administration page instead of frontend, Fixed mkDir for redis, Enhanced enlarge button for large screens.",
+                "de": "Sie können jetzt eigene Font-Dateien hochladen, Admin-Tab ist jetzt mit der iqontrol-Verwaltungsseite anstelle des Frontends verknüpft, mkDir für Redis behoben, Verbesserter Vergrößerungsknopf für große Bildschirme.",
+                "ru": "Теперь вы можете загружать собственные файлы шрифтов, вкладка «Администратор» теперь связана со страницей администрирования iqontrol вместо внешнего интерфейса, исправлен mkDir для redis, улучшенная кнопка увеличения для больших экранов.",
+                "pt": "Agora você pode carregar seus próprios arquivos de fonte, a guia Admin agora está vinculada à página de administração do iqontrol em vez do frontend, mkDir fixo para redis, botão de ampliação aprimorado para telas grandes.",
+                "nl": "U kunt nu eigen lettertypebestanden uploaden, Admin-tabblad is nu gekoppeld aan de iqontrol-administratiepagina in plaats van frontend, Fixed mkDir voor redis, Verbeterde vergrootknop voor grote schermen.",
+                "fr": "Vous pouvez désormais télécharger vos propres fichiers de polices, l'onglet Admin est désormais lié à la page d'administration d'iqontrol au lieu du frontend, mkDir fixe pour redis, bouton d'agrandissement amélioré pour les grands écrans.",
+                "it": "Ora puoi caricare i tuoi file di font, la scheda Admin è ora collegata alla pagina di amministrazione iqontrol invece del frontend, Fixato mkDir per redis, Pulsante di ingrandimento avanzato per schermi di grandi dimensioni.",
+                "es": "Ahora puede cargar sus propios archivos de fuentes, la pestaña Admin ahora está vinculada a la página de administración de iqontrol en lugar de la interfaz, mkDir fijo para redis, botón de ampliación mejorado para pantallas grandes.",
+                "pl": "Możesz teraz przesyłać własne pliki czcionek, zakładka Admin jest teraz połączona ze stroną administracyjną iqontrol zamiast frontendu, Naprawiono mkDir dla redis, Ulepszony przycisk powiększania dla dużych ekranów.",
+                "zh-cn": "您现在可以上传自己的字体文件，管理选项卡现在链接到 iqontrol 管理页面而不是前端，修复了 redis 的 mkDir，增强了大屏幕的放大按钮。"
+            },
             "1.9.0": {
                 "en": "Added Dark-Mode, Added new configuration options for click on tile/icon behaviours - WARNING Old configuration is automatically converted to the new settings - Its recommendet to create a backup of your config BEFORE doing the update, as the new settings are not backwards compatible and in case of conversion errors, Added option to link color of lamp to OVERLAY_ACTIVE_COLOR, Added option to define caption of button for external URLs.",
                 "de": "Dark-Mode hinzugefügt, neue Konfigurationsoptionen für Klick auf Kachel/Icon-Verhalten hinzugefügt - WARNUNG Alte Konfiguration wird automatisch in die neuen Einstellungen konvertiert - Es wird empfohlen, VOR dem Update eine Sicherungskopie Ihrer Konfiguration zu erstellen, da die neuen Einstellungen nicht rückwärtskompatibel sind, Option verlinke die Farbe einer Lampe zu OVERLAY_ACTIVE_COLOR hinzugefügt, Option die Beschriftung des Knopfes für externe URLS festzulegen hinzugefügt.",

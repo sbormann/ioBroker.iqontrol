@@ -130,6 +130,19 @@ Most things work right out of the box. You *can*, but you don't have to use all 
     * Note upper and lower case
 
 
+## Fonts
+* You can upload your own font files in the Images/Widgets-Tab into the folder /userfonts
+* In the Options-Tab you have several places where these fonts can be chosen
+* It depends on your servers MIME-Settings, if the font is presented correctly to the browser - for me best worked .ttf and .woff (tested on a raspi 4b)
+    * These mime-settings should work:
+	    * .otf: application/x-font-opentype
+		* .ttf: application/x-font-ttf or application/x-font-truetype
+		* .woff: application/font-woff
+		* .woff2: application/font-woff2
+		* .eot: application/vnd.ms-fontobject
+	* You can convert fonts to other formats on fontsquirrel.com under generator
+* Keep in mind - webfonts are always a little tricky and not every font with every server and every browser will work
+
 ## Icons and Background-Images
 * You can use the inbuilt images or the images uploaded under the images tab or any free url you like
 * You can also use a variable inside the image-url. This may be useful for example for weather-forecasts. Use this pattern:
@@ -1542,11 +1555,11 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
-* (sbormann) Fixed mkDir for redis.
-* (sbormann) Enhanced enlarge button for large screens.
+### 1.9.1 (2021-08-15)
 * (sbormann) You can now upload own font files.
 * (sbormann) Admin tab is now linked to the iqontrol-administration page instead of frontend.
+* (sbormann) Fixed mkDir for redis.
+* (sbormann) Enhanced enlarge button for large screens.
 
 ### 1.9.0 (2021-08-13)
 * (sbormann) Added Dark-Mode.
