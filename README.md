@@ -1543,8 +1543,9 @@ This device has some special predefined size- and display-settings to show a tex
 ## Changelog
 
 ### dev
-* (sbormann) Using new mkDir algorithm.
+* (sbormann) Fixed mkDir for redis.
 * (sbormann) Enhanced enlarge button for large screens.
+* (sbormann) You can now upload own font files.
 
 ### 1.9.0 (2021-08-13)
 * (sbormann) Added Dark-Mode.

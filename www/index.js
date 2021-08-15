@@ -3293,8 +3293,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutToolbarFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutToolbarFontFamily);
 			customCSS = ".iQontrolToolbarLink.ui-btn{";
-			customCSS += "	font-family: " + options.LayoutToolbarFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3356,8 +3357,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewMainHeaderFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewMainHeaderFontFamily);
 			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	font-family: " + options.LayoutViewMainHeaderFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3437,8 +3439,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewSubHeaderFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewSubHeaderFontFamily);
 			customCSS = "#ViewContent h4{";
-			customCSS += "	font-family: " + options.LayoutViewSubHeaderFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3690,8 +3693,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceNameFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceNameFontFamily);
 			customCSS = ".iQontrolDeviceName{";
-			customCSS += "	font-family: " + options.LayoutViewDeviceNameFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3757,8 +3761,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceStateFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceStateFontFamily);
 			customCSS = ".iQontrolDeviceState{";
-			customCSS += "	font-family: " + options.LayoutViewDeviceStateFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3824,8 +3829,9 @@ function handleOptions(){
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutViewDeviceInfoFontFamily) {
+			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceInfoFontFamily);
 			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
-			customCSS += "	font-family: " + options.LayoutViewDeviceInfoFontFamily + ";";
+			customCSS += "	font-family: " + fontFamily + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -3890,6 +3896,22 @@ function handleOptions(){
 			customCSS = options.LayoutCSS;
 			addCustomCSS(customCSS);
 		};
+	}
+	function getFontFamilyAndAddFontFace(option){
+		var fontFamily = option.split('/')[0].replace(/\\/g,"").replace(/\./g,"");			
+		if(option.indexOf("\\userfonts") == 0 && option.split('/').length > 0){
+			var format = option.slice(option.lastIndexOf('.') + 1);
+			switch(format){
+				case "otf": format = "opentype"; break;
+				case "ttf": format = "truetype"; break;
+			}
+			customCSS = "@font-face{";
+			customCSS += "	font-family: '" + fontFamily + "';"
+			customCSS += "	src: url('" + option.split('/')[1].replace(/\\/g,"/") + "') format('" + format + "');"
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		}
+		return fontFamily || option;
 	}
 	//Dark-Mode
 	switch(options.LayoutColorModeDarkEnable){

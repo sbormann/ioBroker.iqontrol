@@ -1900,6 +1900,7 @@ function readDir(path, callback) { //callback(err, obj)
 function readDirAsync(path){
 	return new Promise(resolve => {
 		readDir(path, function(err, obj){
+			if(err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
@@ -1921,7 +1922,10 @@ function deleteFile(path, callback) {
 		var parts = path.split('/');
 		var adapter = parts[1];
 		parts.splice(0, 2);
-		socket.emit('deleteFile', adapter, parts.join('/'), function(err){	if (callback) callback(err); });
+		socket.emit('deleteFile', adapter, parts.join('/'), function(err){	
+			if(err) console.log(JSON.stringify(err));
+			if (callback) callback(err);
+		});
 }
 function renameFile(path, newPath, callback) {
 	var newDir = newPath.substring(0, newPath.lastIndexOf('/'));
@@ -1938,6 +1942,7 @@ function renameFile(path, newPath, callback) {
 		newParts.splice(0, 2);
 		//needs admin >5.0.3
 		socket.emit('renameFile', adapter, parts.join('/'), newParts.join('/'), function (err) { 
+			if(err) console.log(JSON.stringify(err));
 			if (callback) callback(err); 
 		});
 	});
@@ -1945,6 +1950,7 @@ function renameFile(path, newPath, callback) {
 function renameFileAsync(oldPath, newPath){
 	return new Promise(resolve => {
 		renameFile(oldPath, newPath, function(err, obj){
+			if(err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
@@ -1954,50 +1960,15 @@ async function createDir(path, callback){
 	var parts = path.split('/');
 	var adapter = parts[1];
 	parts.splice(0, 2);
-	socket.emit('mkdir', adapter, parts.join('/'), function(err){	if(err) alert(JSON.stringify(err)); if (callback) callback(err); });
+	socket.emit('mkdir', adapter, parts.join('/'), function(err){
+		if(err) console.log(JSON.stringify(err)); 
+		if (callback) callback(err);
+	});
 }
-/*
-async function createDir(path, callback){ // This is a workaround, because socket.emit('mkdir' was not working (should be fixed meanwhile, but i haven't tested yet) 
-	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
-	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-		var _path = path;
-		var _callback = callback;
-		uploadStringAsFile("This is only a temporary file", "createPath.tmp", path, function(filename){
-			deleteFile(_path + "/" + filename, _callback);
-		})
-	})(); //<--End Closure
-}
-async function createDir(path, callback, index) { //index is just for recoursive iterating through the process of creating all subdirs
-	if (typeof index != 'number') index = 0;
-	pathSubdirs = path.split('/');
-	if (index >= pathSubdirs.length){
-		if(callback) callback();
-	} else {
-		pathSubdir = pathSubdirs.slice(0, index + 1).join('/');
-		var pathSubdirExists = await checkDirExistance(pathSubdir);
-		if (pathSubdirs[index] != "" && !pathSubdirExists){ //Subdir is not existant - create it and iterate to next subdir
-			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-				var _path = path;
-				var _callback = callback;
-				var _index = index;
-				var parts = path.split('/');
-				var adapter = parts[1];
-				parts.splice(0, 2);
-				//needs admin >5.0.3
-				if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= 503) alert("This operation is only supported by admin versions > 5.0.3. Please update your admin-adapter!");
-				socket.emit('mkdir', adapter, pathSubdir, function(err){
-					createDir(_path, _callback, _index + 1);
-				});
-			})(); //<--End Closure
-		} else { //Subdir exists - iterate to next subdir
-			createDir(path, callback, index + 1);
-		}
-	}
-}
-*/
 function createDirAsync(path){
 	return new Promise(resolve => {
 		createDir(path, function(err, obj){
+			if(err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
@@ -2075,6 +2046,9 @@ async function load(settings, onChange) {
 		var selectIdImgPath = './fancytree/react/';
 		$('#fancytreeCSSLink').attr('href', './fancytree/react/ui.fancytree.min.css');
 	}
+	
+	//If tab, hide close buttons
+	if(window.location.search.indexOf('noCloseButtons') !== -1) addCustomCSS('.btn-save-close, .btn-cancel { visibility: hidden; }', 'noCloseButtons'); 
 
 	// Create a helper for sortable tables with preserved width of cells
 	var fixHelper = function(e, ui){
@@ -2469,10 +2443,8 @@ async function load(settings, onChange) {
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
-			imagesDir.files.forEach(function(file){
-				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
-					|| file.filenameBS.endsWith(".css")
-					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
+			imagesDir.files.forEach(function(file){ //image/, image/, image/, image/, image/, image/svg+xml
+				if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -2773,9 +2745,7 @@ async function load(settings, onChange) {
 		imagesDirs.forEach(function(imagesDir){
 			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){
-				if(!(file.filenameBS.endsWith(".shtml") || file.filenameBS.endsWith(".ehtml") || file.filenameBS.endsWith(".shtm") || file.filenameBS.endsWith(".htm") || file.filenameBS.endsWith(".html")
-					|| file.filenameBS.endsWith(".css")
-					|| file.filenameBS.endsWith(".mjs") || file.filenameBS.endsWith(".js"))){
+				if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -4810,7 +4780,7 @@ async function load(settings, onChange) {
 		if (!files.length) return;
 		for (i=0; i<files.length; i++){
 			var file = files[i];
-			if (file.type == "") {
+			if (file.type == "" && !(file.name.endsWith(".otf") || file.name.endsWith(".ttf") || file.name.endsWith(".woff") || file.name.endsWith(".woff2") || filename.endsWith(".eot"))) {
 				alert(_("%s is directory. Only file upload allowed.", escape(file.name)));
 				return;
 			}
@@ -4937,6 +4907,9 @@ async function load(settings, onChange) {
 		if(val && val.indexOf("/userwidgets") == 0){
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml, text/html, text/css, text/javascript');
 			$('.imagesUploadCreateFile').removeClass('hide');
+		} else if(val && val.indexOf("/userfonts") == 0){
+			$('#imagesUploadFile').prop('accept', '.otf, .ttf, .woff, .woff2, .eot');
+			$('.imagesUploadCreateFile').addClass('hide');
 		} else {
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml');
 			$('.imagesUploadCreateFile').addClass('hide');
@@ -4986,9 +4959,11 @@ async function load(settings, onChange) {
 					$(this).replaceWith("<img src='" + link + "/images/icons/file_css_edit.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".mjs") || filename.endsWith(".js")){
 					$(this).replaceWith("<img src='" + link + "/images/icons/file_js_edit.png' data-filetype='javascript' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
+				} else if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+					$(this).replaceWith("<img src='" + link + "/images/icons/file_font.png' data-filetype='font' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:default;' class='font'></img>");
 				} else {
 					$(this).replaceWith("<img src='" + link + "/.." + userfilesImagePath + filename + "' data-filetype='image' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:zoom-in;' class='thumbnail'></img>");
-				}
+				} 
 			}
 			//Rename file
 			if (command === 'edit') {
@@ -5256,7 +5231,9 @@ async function load(settings, onChange) {
 			if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
 				});
 			}
 		});
@@ -5297,6 +5274,50 @@ async function load(settings, onChange) {
 		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
+		
+		//Fill Selectboxes for fontFamily with fonts
+		var fontFamilyString = "";
+		fontFamilyString += "<option value='' disabled selected>" + _("Choose:") + "</option>";
+		fontFamilyString += "<optgroup label='Sans-Serif'>";
+		fontFamilyString += "	<option value='Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif' data-icon='./fonts/font_arial.png'>Helvetica/Arial</option>";
+		fontFamilyString += "	<option value='Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif' data-icon='./fonts/font_verdana.png'>Verdana</option>";
+		fontFamilyString += "	<option value='\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif' data-icon='./fonts/font_trebuchet.png'>Trebuchet</option>";
+		fontFamilyString += "</optgroup>";
+		fontFamilyString += "<optgroup label='Serif'>";
+		fontFamilyString += "	<option value='Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif' data-icon='./fonts/font_times.png'>Times New Roman</option>";
+		fontFamilyString += "	<option value='Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif' data-icon='./fonts/font_georgia.png'>Georgia</option>";
+		fontFamilyString += "	<option value='\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif' data-icon='./fonts/font_garamond.png'>Garamond</option>";
+		fontFamilyString += "</optgroup>";
+		fontFamilyString += "<optgroup label='Fantasy'>";
+		fontFamilyString += "	<option value='Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif' data-icon='./fonts/font_impact.png'>Impact</option>";
+		fontFamilyString += "</optgroup>";
+		fontFamilyString += "<optgroup label='Cursive'>";
+		fontFamilyString += "	<option value='\"Comic Sans MS\", cursive' data-icon='./fonts/font_comic.png'>Comic Sans</option>";
+		fontFamilyString += "</optgroup>";
+		fontFamilyString += "<optgroup label='Monospace'>";
+		fontFamilyString += "	<option value='Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace' data-icon='./fonts/font_courier.png'>Courier</option>";
+		fontFamilyString += "</optgroup>";
+		var userfonts = [];
+		imagesDirs.forEach(function(imagesDir){
+			if(imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if(filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_font.png";
+						userfonts.push({src: ".\\.." + userfilesImagePathBS + file.filenameBS, name: file.filenameBS, icon: icon.replace(/\//g, "\\")});
+					}
+				});
+			}
+		});
+		if (userfonts.length > 0){
+			fontFamilyString += "<optgroup label='" + _("User Fonts") + "'>";
+			userfonts.forEach(function(userfont){
+				fontFamilyString += "	<option value='" + userfont.name + "/" + userfont.src + "' data-icon='" + userfont.icon + "'>" + userfont.name + "</option>";
+			});
+			fontFamilyString += "</optgroup>";
+		}
+		$("select.value.optionsFontFamily").html(fontFamilyString).select();
 	}
 
 	//Fill Combobox for ChangeDeviceOptions with deviceOptions
