@@ -1546,6 +1546,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed mkDir for redis.
 * (sbormann) Enhanced enlarge button for large screens.
 * (sbormann) You can now upload own font files.
+* (sbormann) Admin tab is now linked to the iqontrol-administration page instead of frontend.
 
 ### 1.9.0 (2021-08-13)
 * (sbormann) Added Dark-Mode.
