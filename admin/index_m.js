@@ -2266,8 +2266,8 @@ async function load(settings, onChange) {
 			//Signal to admin, that no changes yet
 			if(!newConfig) onChange(false);
 
-			//Create /usericons /usersymbols and /userwidgets
-			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets"];
+			//Create /usericons, /usersymbols, /userwidgets and /userfonts
+			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets", "/userfonts"];
 			for(i = 0; i < createSpecialDirs.length; i++){
 				var dirname = createSpecialDirs[i];
 				console.log("Check directory " + userfilesImagePath + dirname);
