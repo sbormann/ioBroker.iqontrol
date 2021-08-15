@@ -10992,6 +10992,7 @@ function renderDialog(deviceIdEscaped){
 							var dialogAdditionalControlsLinkedStateIdsToFetchAndUpdate = [];
 							var dialogAdditionalControlsContent = "";
 							var headingIndex = -1;
+							var lastElementWasHalfWidth = false;
 							_linkedAdditionalControls.forEach(function(_element, _index){ // --- Loop through all additionalControls ---
 								if(_element.heading) {
 									var heading = _(_element.heading.split('|')[0] || "");
@@ -10999,8 +11000,9 @@ function renderDialog(deviceIdEscaped){
 									if(headingIndex > -1) dialogAdditionalControlsContent += "</div></div>"; //Close last heading section
 									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;<span" + (variableheading ? " data-variablehtml='" + variableheading + "'" : "") + ">" + heading + "</span>:</h4>" : "");
-									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
+									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " style='overflow:auto;'" : " style='margin-left:-10px; overflow:auto;'") + ">";
 									headingIndex = 0;
+									lastElementWasHalfWidth = false;
 								} else if(headingIndex > -1) {
 									headingIndex++;
 								}
@@ -11008,7 +11010,16 @@ function renderDialog(deviceIdEscaped){
 								if(typeof dialogUpdateFunctions[linkedStateId] == udef) dialogUpdateFunctions[linkedStateId] = [];
 								var stateValue = getStateObject(_element.value);
 								if(stateValue){
-									if((_index > 0 && headingIndex > 0) || (_index == 0 && additionalControlsSectionType.indexOf("noCaption") != -1)) dialogAdditionalControlsContent += "<hr>";
+									if(((_index > 0 && headingIndex > 0) || (_index == 0 && additionalControlsSectionType.indexOf("noCaption") != -1))
+										&& !(lastElementWasHalfWidth && _element.halfWidth)){
+										dialogAdditionalControlsContent += "<hr style='clear: left;'>";
+									} 
+									if(_element.halfWidth) {
+										lastElementWasHalfWidth = true;
+									} else {
+										lastElementWasHalfWidth = false;
+									}
+ 									dialogAdditionalControlsContent += "<div style='float: left; padding-left:10px; box-sizing:border-box;" + (_element.halfWidth ? " width: 50%;" : " width: 100%;") + "'>";
 									var readonly = false;
 									switch(_element.role || ""){
 										case "button":
@@ -11448,6 +11459,7 @@ function renderDialog(deviceIdEscaped){
 											break;
 										}
 									}
+									dialogAdditionalControlsContent += "</div>";
 									dialogAdditionalControlsLinkedStateIdsToUpdate.push(linkedStateId);
 								}
 							});

@@ -11,6 +11,7 @@
     "%s settings have been exchanged. Don't forget to save your changes!": "% s instellingen zijn verwisseld. ",
     "%s states have been exchanged. Don't forget to save your changes!": "% s staten zijn uitgewisseld. ",
     "%sth": "% sth",
+    "&frac12;&harr;: if checked, the control will be displayed with half width.": "½↔: indien aangevinkt, wordt de besturing op halve breedte weergegeven.",
     "(Arrays can't be changed)": "(Arrays kunnen niet worden gewijzigd)",
     "(Default)": "(Standaard)",
     "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)": "(Als de gebruiker een van deze sleutels invoert in iQontrol, wordt de gedefinieerde Target-waarde naar de gedefinieerde Target-Datapoint-ID gestuurd)",

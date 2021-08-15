@@ -4,6 +4,7 @@
     "%s settings have been exchanged. Don't forget to save your changes!": "%s Einstellungen wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
     "%s states have been exchanged. Don't forget to save your changes!": "%s Datenpunkte wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
     "%sth": "%s.",
+    "&frac12;&harr;: if checked, the control will be displayed with half width.": "&frac12;&harr;: wenn ausgewählt, wird das Steuerelement mit halber Breite dargestellt.",
     "(Arrays can't be changed)": "(Arrays können nicht geändert werden)",
     "(Default)": "(Standard)",
     "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)": "(Wenn in iQontrol einer dieser Werte eingegeben wird, wird der hier angegebene Ziel-Wert an den hier angegebenen Ziel-Datenpunkt gesendet)",

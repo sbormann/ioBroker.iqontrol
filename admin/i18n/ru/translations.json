@@ -4,6 +4,7 @@
     "%s settings have been exchanged. Don't forget to save your changes!": "% s настройки были изменены. ",
     "%s states have been exchanged. Don't forget to save your changes!": "% s состояний были обменены. ",
     "%sth": "% sth",
+    "&frac12;&harr;: if checked, the control will be displayed with half width.": "½↔: если отмечено, элемент управления будет отображаться с половинной шириной.",
     "(Arrays can't be changed)": "(Массивы изменить нельзя)",
     "(Default)": "(По умолчанию)",
     "(If the user enters one of these keys in iQontrol, the defined Target-Value will be sent to the defined Target-Datapoint ID)": "(Если пользователь вводит один из этих ключей в iQontrol, определенное значение цели будет отправлено на определенный идентификатор цели-точки)",

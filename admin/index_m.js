@@ -3397,7 +3397,7 @@ async function load(settings, onChange) {
 						if(dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading";
+						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
 						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
@@ -3516,6 +3516,8 @@ async function load(settings, onChange) {
 				$(this).hide(0);
 			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
 				$(this).hide(0);
+			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
+				$(this).hide(0);
 			}
 		});
 		if(showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
@@ -3532,6 +3534,8 @@ async function load(settings, onChange) {
 			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
 				$(this).parents('td').hide(0);
 			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
 				$(this).parents('td').hide(0);
 			}
 		});
@@ -4758,7 +4762,6 @@ async function load(settings, onChange) {
 			handle: "a[data-command='drag_handle']"
 		});
 	}
-
 
 	//++++++++++ IMAGES ++++++++++
 	//Load Images

@@ -1555,6 +1555,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Added option to set ADDITIONAL_CONTROLS to half width.
+
 ### 1.9.1 (2021-08-15)
 * (sbormann) You can now upload own font files.
 * (sbormann) Admin tab is now linked to the iqontrol-administration page instead of frontend.
