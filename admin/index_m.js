@@ -4783,16 +4783,18 @@ async function load(settings, onChange) {
 		if (!files.length) return;
 		for (i=0; i<files.length; i++){
 			var file = files[i];
-			if (file.type == "" && !(file.name.endsWith(".otf") || file.name.endsWith(".ttf") || file.name.endsWith(".woff") || file.name.endsWith(".woff2") || filename.endsWith(".eot"))) {
-				alert(_("%s is directory. Only file upload allowed.", escape(file.name)));
+			filename = file.name || "";
+			filetype = (file.type == "" ? filename.substr(filename.lastIndexOf('.')) : file.type) || "";
+			if (filetype == "") {
+				alert(_("%s is directory. Only file upload allowed.", escape(filename)));
 				return;
 			}
 			if (file.size > 10 * 1024 * 1024) {
-				alert(_("File %s is too big. Maximum 10MB", escape(file.name)));
+				alert(_("File %s is too big. Maximum 10MB", escape(filename)));
 				return;
 			}
-			if ($('#imagesUploadFile').prop('accept') &&  $('#imagesUploadFile').prop('accept').indexOf(file.type) == -1){
-				alert(_("File %s has wrong filetype. Allowed file types: ", escape(file.name)) + $('#imagesUploadFile').prop('accept'));
+			if ($('#imagesUploadFile').prop('accept') &&  $('#imagesUploadFile').prop('accept').split(', ').indexOf(filetype.toLowerCase()) == -1){
+				alert(_("File %s has wrong filetype. Allowed file types: ", escape(filename)) + $('#imagesUploadFile').prop('accept'));
 				return;
 			}
 			$('#imagesUploadFileSubmit').removeClass('disabled').addClass('pulse');

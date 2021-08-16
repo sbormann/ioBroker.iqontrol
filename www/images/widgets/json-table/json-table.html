@@ -42,6 +42,14 @@
 			border: 0;
 			margin: -3px 0px -8px 0px;
 		}
+		html.color-mode-dark .ui-overlay-a, html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {
+			background-color: #454545;
+			color: #b9b9b9;
+			text-shadow: 0 1px 0 #3c3c3c
+		}
+		html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {
+			background-color: #555555;
+		}
 	</style>
 	<title>iQontrol JSON to TABLE Widget</title>
 </head>
@@ -53,6 +61,7 @@
 		var USE_THIS_DATAPOINT;
 		var STATE;
 		var LEVEL;
+		var options;
 
 		//UrlParameters
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
@@ -78,10 +87,43 @@
 		$(document).ready(function(){
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
+			sendPostMessage("getOptions");
 			if(getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
 			sendPostMessage("getWidgetDeviceStateSubscribed", "STATE");
 			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
 		});
+		
+		//Handle Options
+		function handleOptions(){
+			if(typeof options !== "object") return;
+			//Dark-Mode
+			switch(options.LayoutColorModeDarkEnable){
+				case "disabled":
+				break;
+
+				case "always":
+				applyColorMode('dark');
+				break;
+				
+				default:
+				if(window.matchMedia){
+					var darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					applyColorMode(darkMode ? 'dark' : '');
+					window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', darkModeEventListenerFunction);
+					window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', darkModeEventListenerFunction);
+					function darkModeEventListenerFunction(e){
+						darkMode = e.matches;
+						applyColorMode(darkMode ? 'dark' : '');
+					}
+				}
+			}
+			function applyColorMode(colorMode){
+				$("html").removeClass(function(index, className){
+					return (className.match (/(^|\s)color-mode-\S+/g) || []).join(' ');
+				});	
+				if(colorMode && colorMode != "") $("html").addClass("color-mode-" + colorMode);
+			}
+		}
 
 		//Create Table
 		function createTable(){
@@ -170,6 +212,14 @@
 							createTable();
 						break;
 					}
+				break;
+				
+				case "getOptions":
+				console.log("Received OPTIONS");
+				if(event.data.value){
+					options = event.data.value;
+					handleOptions();
+				}
 				break;
 			}
 		}

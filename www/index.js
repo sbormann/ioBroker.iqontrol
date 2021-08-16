@@ -3938,7 +3938,7 @@ function handleOptions(){
 		$("html").removeClass(function(index, className){
 			return (className.match (/(^|\s)color-mode-\S+/g) || []).join(' ');
 		});	
-		$("html").addClass("color-mode-" + colorMode);
+		if(colorMode && colorMode != "") $("html").addClass("color-mode-" + colorMode);
 	}
 }
 
@@ -10975,9 +10975,9 @@ function renderDialog(deviceIdEscaped){
 					var additionalControlsSectionType = getDeviceOptionValue(device, "additionalControlsSectionType") || "collapsible";
 					var additionalControlsHeadingType = getDeviceOptionValue(device, "additionalControlsHeadingType") || "none";
 					var additionalControlsHideNameForButtons = (getDeviceOptionValue(device, "additionalControlsHideNameForButtons") == "true");
-					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
+					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'  style='margin: 0; padding: 5px 0 5px 0;'>";
 						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "");
-						dialogContent += "<div id='DialogAdditionalControlsContent'" + ((additionalControlsSectionType.indexOf("collapsible") == -1 && additionalControlsSectionType.indexOf("noCaption") == -1) ? " style='padding-left:10px;'" : "") + ">";
+						dialogContent += "<div id='DialogAdditionalControlsContent' style='overflow:auto;" + ((additionalControlsSectionType.indexOf("collapsible") == -1) ? " margin: 0 -5px 0px -5px; padding: 0 0 5px 0;" : " margin: 0 -15px 0 -15px; padding: 5px 5px 5px 5px;") + "'>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 					var createDialogAdditionalControlsFunction;
@@ -10998,9 +10998,9 @@ function renderDialog(deviceIdEscaped){
 									var heading = _(_element.heading.split('|')[0] || "");
 									var variableheading = encodeURI(_element.heading.split('|').slice(1).join('|'));
 									if(headingIndex > -1) dialogAdditionalControlsContent += "</div></div>"; //Close last heading section
-									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
+									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true' style='margin: 0; padding: 0 5px 0 5px;'>";
 									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;<span" + (variableheading ? " data-variablehtml='" + variableheading + "'" : "") + ">" + heading + "</span>:</h4>" : "");
-									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " style='overflow:auto;'" : " style='margin-left:-10px; overflow:auto;'") + ">";
+									dialogAdditionalControlsContent += "<div style='overflow:auto;" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " margin: 0; padding 0;" : " margin: 0 -20px 0 -20px; padding: 0 5px 0 5px;") + "'>";
 									headingIndex = 0;
 									lastElementWasHalfWidth = false;
 								} else if(headingIndex > -1) {
@@ -11019,7 +11019,7 @@ function renderDialog(deviceIdEscaped){
 									} else {
 										lastElementWasHalfWidth = false;
 									}
- 									dialogAdditionalControlsContent += "<div style='float: left; padding-left:10px; box-sizing:border-box;" + (_element.halfWidth ? " width: 50%;" : " width: 100%;") + "'>";
+ 									dialogAdditionalControlsContent += "<div style='float: left; margin: 0; padding:0 5px 0 5px; box-sizing:border-box;" + (_element.halfWidth ? " width: 50%;" : " width: 100%;") + "'>";
 									var readonly = false;
 									switch(_element.role || ""){
 										case "button":
@@ -12645,6 +12645,11 @@ $(document).ready(function(){
 							})(); //<--End Closure
 						}
 					}
+					break;
+					
+					case "getOptions":
+					console.log("postMessage received: getOptions");
+					event.source.postMessage({command: "getOptions", value: options || null}, "*");
 					break;
 
 					case "setState": case "setWidgetState": case "setWidgetDeviceState":

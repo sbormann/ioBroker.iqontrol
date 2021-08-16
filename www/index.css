@@ -1268,6 +1268,7 @@ html.noscroll body {
 	max-height: calc(80vh - 60px);
 	padding: 0 0.5em;
 	overflow-y: auto;
+	overflow-x: hidden;
 	overscroll-behavior: contain !important;
 }
 .iQontrolDialogTimestampSwitch {
