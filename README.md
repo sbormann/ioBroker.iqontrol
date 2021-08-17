@@ -1557,7 +1557,8 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.9.2 (2021-08-17)
+* (sbormann) Fixed conversion error #199.
 * (sbormann) Added option to set ADDITIONAL_CONTROLS to half width.
 * (sbormann) Enhanced uploading of font files.
 * (sbormann) Added getOptions to postMessage-Communication for widgets.

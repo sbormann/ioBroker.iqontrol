@@ -2143,7 +2143,8 @@ async function load(settings, onChange) {
 	//Backward-Compatibility: Transfer old options to new options
   	views.forEach(function(view){
 		(view.devices || []).forEach(function(device){
-			if(!(device.options || []).find(element => element.option === "clickOnTileAction")){
+			if(typeof device.options != "object") device["options"] = [];
+			if(!device.options.find(element => element.option === "clickOnTileAction")){
 				var clickOnTileToggles = (device.options || []).find(element => element.option === "clickOnTileToggles");
 				var clickOnTileOpensDialog = (device.options || []).find(element => element.option === "clickOnTileOpensDialog");
 				var value = null;
@@ -2160,7 +2161,7 @@ async function load(settings, onChange) {
 				i = (device.options || []).findIndex(element => element.option === "clickOnTileOpensDialog");
 				if(i > -1) { device.options.splice(i, 1); newConfig = true; }			
 			}
-			if(!(device.options || []).find(element => element.option === "clickOnIconAction")){
+			if(!device.options.find(element => element.option === "clickOnIconAction")){
 				var clickOnIconToggles = (device.options || []).find(element => element.option === "clickOnIconToggles");
 				var clickOnIconOpensDialog = (device.options || []).find(element => element.option === "clickOnIconOpensDialog");
 				var value = null;
