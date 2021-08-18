@@ -683,8 +683,9 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				timeCaption: {name: "Caption for TIME", type: "text", default: ""},
-				timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;P/Period;Pms/Period in milliseconds;Ps/Period in seconds;Pm/Period in minutes", default: "x"},
-				timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;D [Day(s)], H:m:s/D [Day(s)], H:m:s (for Periods);D [Day(s)], HH:mm:ss/D [Day(s)], HH:mm:ss (for Periods)", default: "dddd, DD.MM.YYYY HH:mm:ss"},
+				timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "~/Use custom datapoint settings;x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;P/Period;Pms/Period in milliseconds;Ps/Period in seconds;Pm/Period in minutes", default: "x"},
+				timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "~/Use custom datapoint settings;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;D [Day(s)], H:m:s/D [Day(s)], H:m:s (for Periods);D [Day(s)], HH:mm:ss/D [Day(s)], HH:mm:ss (for Periods)", default: "dddd, DD.MM.YYYY HH:mm:ss"},
+				timeDisplayDontShowDistance: {name: "Show Distance", type: "select", selectOptions: "/Use custom datapoint settings;false/Show Distance;true/Don't Show Distance", default: ""},
 				dateAndTimeTileActiveConditions: {name: "Tile is active when all selected items are true", type: "multipleSelect", selectOptions: "activeIfStateActive/If STATE is active;activeIfTimeNotZero/If TIME is not zero;activeIfTimeInFuture/If TIME is in future;activeIfTimeInPast/If TIME is in past", default: "activeIfStateActive,activeIfTimeInFuture"},
 				dateAndTimeTileActiveWhenRinging: {name: "Tile is always active when RINGING is active", type: "checkbox", default: "true"},
 				dateAndTimeShowInState: {name: "Show in state", type: "multipleSelect", selectOptions: "showStateIfInactive/Show STATE if inactive;showStateIfActive/Show STATE if active;showSubjectIfActive/Show SUBJECT if active;showSubjectIfInactive/Show SUBJECT if inactive;showTimeIfInactiveAndInPast/Show TIME if inactive and in past;showTimeIfInactiveAndInFuture/Show TIME if inactive and in future;showTimeIfActiveAndInPast/Show TIME if active and in past;showTimeIfActiveAndInFuture/Show TIME if active and in future;showTimeDistanceIfInactiveAndInPast/Show distance to TIME if inactive and in past;showTimeDistanceIfInactiveAndInFuture/Show distance to TIME if inactive and in future;showTimeDistanceIfActiveAndInPast/Show distance to TIME if active and in past;showTimeDistanceIfActiveAndInFuture/Show distance to TIME if active and in future", default: "showStateIfInactive,showSubjectIfActive,showTimeDistanceIfActiveAndInFuture"}
@@ -2245,6 +2246,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			//Do not send (only treat locally), if state is CONST, ARRAY or TEMP:
 			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') {
 				console.log("       setState only local, because state ist CONST, ARRAY or TEMP");
+				if(!states[_stateId]) states[_stateId] = {};
 				states[_stateId].val = newValue;
 				states[_stateId].ack = false;
 				if (_stateId.substring(0, 5) == 'TEMP:'){ //Save TEMP Value in parent DeviceObject
@@ -3847,30 +3849,437 @@ function handleOptions(){
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
+		//Dark-Mode
 		if(options.LayoutColorModeDarkBackgroundOverlay) {
 			customCSS = "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + " !important;";
+			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	width: 100%;";
+			customCSS += "	height: 100%;";
 			customCSS += "}}";
 			customCSS = "html.color-mode-dark body:not(.backstretchLoaded):after, html.color-mode-dark .backstretch:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + " !important;";
+			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	width: 100%;";
+			customCSS += "	height: 100%;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarBrightness) {
+			customCSS = "html.color-mode-dark #Toolbar{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarBrightness + "%);";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutColorModeDarkToolbarOverlay) {
 			customCSS = "html.color-mode-dark #Toolbar:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkToolbarOverlay + " !important;";
+			customCSS += "	background: " + options.LayoutColorModeDarkToolbarOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	top: 0px;";
+			customCSS += "	left: 0px;";
+			customCSS += "	width: 100%;";
+			customCSS += "	height: 100%;";
+			customCSS += "	pointer-events: none;";
+			customCSS += "	z-index: 1000;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkHeadingsBrightness) {
+			customCSS = "html.color-mode-dark #ViewHeaderTitle, html.color-mode-dark #ViewContent h4{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkHeadingsBrightness + "%);";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutColorModeDarkHeadingsOverlay) {
 			customCSS = "html.color-mode-dark #ViewHeaderTitle:after, html.color-mode-dark #ViewContent h4:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkHeadingsOverlay + " !important;";
+			customCSS += "	background: " + options.LayoutColorModeDarkHeadingsOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	top: 0px;";
+			customCSS += "	left: 0px;";
+			customCSS += "	width: 100%;";
+			customCSS += "	height: 100%;";
+			customCSS += "	pointer-events: none;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkDevicesBrightness) {
+			customCSS = "html.color-mode-dark .iQontrolDevice{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDevicesBrightness + "%);";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
 		if(options.LayoutColorModeDarkDevicesOverlay) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:after, html.color-mode-dark .iQontrolDeviceBadge:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkDevicesOverlay + " !important;";
+			customCSS = "html.color-mode-dark .iQontrolDevice:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkDevicesOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	top: -10px;";
+			customCSS += "	left: -10px;";
+			customCSS += "	width: 200%;";
+			customCSS += "	width: calc(100% + 20px);";
+			customCSS += "	height: 200%;";
+			customCSS += "	height: calc(100% + 20px);";
+			customCSS += "	pointer-events: none;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkBadgeBrightness) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBadge{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkBadgeBrightness + "%);";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkBadgeOverlay) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBadge:after{";
+			customCSS += "	background: " + options.LayoutColorModeDarkBadgeOverlay + ";";
+			customCSS += "	content: '';";
+			customCSS += "	position: absolute;";
+			customCSS += "	top: 0px;";
+			customCSS += "	left: 0px;";
+			customCSS += "	width: 100%;";
+			customCSS += "	height: 100%;";
+			customCSS += "	pointer-events: none;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Toolbar
+		if(options.LayoutColorModeDarkToolbarFooterColor) {
+			customCSS = "html.color-mode-dark #Toolbar.ui-footer{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarFooterColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarBorderColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	border-color: " + options.LayoutColorModeDarkToolbarBorderColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarHoverColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	color: " + options.LayoutColorModeDarkToolbarTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	color: " + options.LayoutColorModeDarkToolbarHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarTextShadowColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarHoverTextShadowColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarHoverTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
+			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
+			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedHoverTextColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedTextShadowColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarIconBrightness) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarIconBrightness + "%);";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkToolbarIconBackgroundColor) {
+			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarIconBackgroundColor + " !important;";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Main-Header
+		if(options.LayoutColorModeDarkViewMainHeaderColor) {
+			customCSS = "html.color-mode-dark #ViewHeaderTitle{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewMainHeaderColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewMainHeaderTextColor) {
+			customCSS = "html.color-mode-dark #ViewHeaderTitle{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewMainHeaderTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Sub-Header
+		if(options.LayoutColorModeDarkViewSubHeaderColor) {
+			customCSS = "html.color-mode-dark #ViewContent h4{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewSubHeaderColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewSubHeaderTextColor) {
+			customCSS = "html.color-mode-dark #ViewContent h4{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewSubHeaderTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Devices - Icons
+		if(options.LayoutColorModeDarkDeviceIconBrightness) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceIcon{";
+			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDeviceIconBrightness + "%);";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Inactive Devices - Background
+		if(options.LayoutColorModeDarkViewDeviceColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active){";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active):hover{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceHoverColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Inactive Devices - Overlay
+		if(options.LayoutColorModeDarkViewDeviceInactiveColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackground:not(.active){";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInactiveHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveHoverColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Active Devices - Background
+		if(options.LayoutColorModeDarkViewActiveDeviceColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage.active{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewActiveDeviceHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage.active:hover{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceHoverColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Active Devices - Overlay
+		if(options.LayoutColorModeDarkViewDeviceActiveColor) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceBackground.active{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceActiveHoverColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground.active{";
+			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveHoverColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Device-Name
+		if(options.LayoutColorModeDarkViewDeviceNameInactiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameActiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - State
+		if(options.LayoutColorModeDarkViewDeviceStateInactiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateActiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceState{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		//Dark-Mode - Info
+		if(options.LayoutColorModeDarkDeviceInfoIconBrightness) {
+			customCSS = "html.color-mode-dark .iQontrolDeviceInfoAIcon, html.color-mode-dark .iQontrolDeviceInfoBIcon{";
+			customCSS += "	filter: brightness(" + LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoActiveTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor + ";";
+			customCSS += "}";
+			addCustomCSS(customCSS);
+		};
+		if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor) {
+			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
+			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
 			customCSS += "}";
 			addCustomCSS(customCSS);
 		};
@@ -6228,17 +6637,17 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedTimeId = deviceLinkedStateIds["TIME"];
 										var _linkedRingingId = deviceLinkedStateIds["RINGING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
-										var _timeFormat = getTimeFormat(getDeviceOptionValue(_device, "timeFormat") || "x");
-										var _timeDisplayFormat = getTimeFormat(getDeviceOptionValue(_device, "timeDisplayFormat") || "dddd, DD.MM.YYYY HH:mm:ss");
-										var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
-										var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens("" + _timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
-										var _anypickerTimePickerFormat = getTimeFormat(replaceTokens("" + _anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var subject = getStateObject(_linkedSubjectId);
 											var time = getStateObject(_linkedTimeId);
 											var ringing = getStateObject(_linkedRingingId);
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var _timeFormat = getTimeFormat((getDeviceOptionValue(_device, "timeFormat", true) != "~" && getDeviceOptionValue(_device, "timeFormat", true)) || (time.custom && time.custom.timeFormat) || "x");
+											var _timeDisplayFormat = getTimeFormat((getDeviceOptionValue(_device, "timeDisplayFormat", true) != "~" && getDeviceOptionValue(_device, "timeDisplayFormat", true)) || (time.custom && time.custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+											var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
+											var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens("" + _timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+											var _anypickerTimePickerFormat = getTimeFormat(replaceTokens("" + _anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
 											var result = true;
 											var resultText;
 											//state
@@ -8275,9 +8684,10 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Time
 					if(dialogStates["TIME"]){
-						var timeFormat = getTimeFormat(getDeviceOptionValue(device, "timeFormat", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeFormat) || "x");
-						var timeDisplayFormat = getTimeFormat(getDeviceOptionValue(device, "timeDisplayFormat", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
-						var isPeriod = (timeFormat.type == "period")
+						var timeFormat = getTimeFormat((getDeviceOptionValue(device, "timeFormat", true) != "~" && getDeviceOptionValue(device, "timeFormat", true)) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeFormat) || "x");
+						var timeDisplayFormat = getTimeFormat((getDeviceOptionValue(device, "timeDisplayFormat", true) != "~" && getDeviceOptionValue(device, "timeDisplayFormat", true)) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+						var timeDisplayDontShowDistance = ((getDeviceOptionValue(device, "timeDisplayDontShowDistance", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeDisplayDontShowDistance ? "true" : "false")) == "true");
+						var isPeriod = (timeFormat.type == "period");
 						var type = getDeviceOptionValue(device, "timeCaption") || (isPeriod ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
 						dialogContent += "<hr>";
 						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
@@ -8477,7 +8887,7 @@ function renderDialog(deviceIdEscaped){
 									} else {
 										distanceSeconds = timeMoment.asSeconds();
 									}
-									if(distanceText) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
+									if(distanceText && !timeDisplayDontShowDistance) $("#DialogTimeDistance").html("(" + distanceText + ")"); else $("#DialogTimeDistance").html("");
 									if(_onlyUpdateDistance || startDistanceTimer){ 
 										//Special: Call itsself periodicyally to update distance
 										if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
@@ -10975,8 +11385,9 @@ function renderDialog(deviceIdEscaped){
 					var additionalControlsSectionType = getDeviceOptionValue(device, "additionalControlsSectionType") || "collapsible";
 					var additionalControlsHeadingType = getDeviceOptionValue(device, "additionalControlsHeadingType") || "none";
 					var additionalControlsHideNameForButtons = (getDeviceOptionValue(device, "additionalControlsHideNameForButtons") == "true");
+					dialogContent += (additionalControlsSectionType.indexOf("collapsible") == -1 ? "<hr>" : "");
 					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'  style='margin: 0; padding: 5px 0 5px 0;'>";
-						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "");
+						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? " style='margin-top: 0;'" : "") + "><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "");
 						dialogContent += "<div id='DialogAdditionalControlsContent' style='overflow:auto;" + ((additionalControlsSectionType.indexOf("collapsible") == -1) ? " margin: 0 -5px 0px -5px; padding: 0 0 5px 0;" : " margin: 0 -15px 0 -15px; padding: 5px 5px 5px 5px;") + "'>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
@@ -10998,7 +11409,7 @@ function renderDialog(deviceIdEscaped){
 									var heading = _(_element.heading.split('|')[0] || "");
 									var variableheading = encodeURI(_element.heading.split('|').slice(1).join('|'));
 									if(headingIndex > -1) dialogAdditionalControlsContent += "</div></div>"; //Close last heading section
-									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true' style='margin: 0; padding: 0 5px 0 5px;'>";
+									dialogAdditionalControlsContent += "<div" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsHeadingType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true' style='margin: 0; padding: 0 5px 0 5px; clear: left;'>";
 									dialogAdditionalControlsContent += (additionalControlsHeadingType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;<span" + (variableheading ? " data-variablehtml='" + variableheading + "'" : "") + ">" + heading + "</span>:</h4>" : "");
 									dialogAdditionalControlsContent += "<div style='overflow:auto;" + (additionalControlsHeadingType.indexOf("collapsible") == -1 ? " margin: 0; padding 0;" : " margin: 0 -20px 0 -20px; padding: 0 5px 0 5px;") + "'>";
 									headingIndex = 0;
@@ -11019,7 +11430,7 @@ function renderDialog(deviceIdEscaped){
 									} else {
 										lastElementWasHalfWidth = false;
 									}
- 									dialogAdditionalControlsContent += "<div style='float: left; margin: 0; padding:0 5px 0 5px; box-sizing:border-box;" + (_element.halfWidth ? " width: 50%;" : " width: 100%;") + "'>";
+ 									dialogAdditionalControlsContent += "<div style='float: left; margin: 0; padding:0 5px 0 5px; box-sizing:border-box; min-height: 83px;" + (_element.halfWidth ? " width: 50%;" : " width: 100%;") + "'>";
 									var readonly = false;
 									switch(_element.role || ""){
 										case "button":
@@ -11250,6 +11661,7 @@ function renderDialog(deviceIdEscaped){
 													var time = getStateObject(_linkedTimeId);
 													var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
 													var _timeDisplayFormat = getTimeFormat((time.custom && time.custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+													var _timeDisplayDontShowDistance = (time.custom && time.custom.timeDisplayDontShowDistance ? true : false);
 													var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
 													var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
 													var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
@@ -11436,7 +11848,7 @@ function renderDialog(deviceIdEscaped){
 														} else {
 															distanceSeconds = timeMoment.asSeconds();
 														}
-														if(distanceText) $("#DialogAdditionalControlsTimeDistance_" + _index).html("(" + distanceText + ")"); else $("#DialogAdditionalControlsTimeDistance_" + _index).html("");
+														if(distanceText && !_timeDisplayDontShowDistance) $("#DialogAdditionalControlsTimeDistance_" + _index).html("(" + distanceText + ")"); else $("#DialogAdditionalControlsTimeDistance_" + _index).html("");
 														if(_onlyUpdateDistance || startDistanceTimer){ 
 															//Special: Call itsself periodicyally to update distance
 															if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);

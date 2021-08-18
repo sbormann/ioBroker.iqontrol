@@ -1,8 +1,32 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.1",
+        "version": "1.9.3",
         "news": {
+            "1.9.3": {
+                "en": "Fixes for ADDITIONAL_CONTROLS, Some minor enhancements for handling of Date and Time, Added option to custom to hide period of date and time values, Some design adjustments for dark-mode, You can now freely configure all colours for dark-mode, Added previous and next buttons to views-tab.",
+                "de": "Korrekturen für ADDITIONAL_CONTROLS, Einige kleinere Verbesserungen bei der Handhabung von Datum und Uhrzeit, Option hinzugefügt, um den Zeitraum von Datums- und Uhrzeitwerten auszublenden, Einige Designanpassungen für den Dunkelmodus, Sie können jetzt alle Farben für den Dunkelmodus frei konfigurieren, Vorherige und . hinzugefügt ",
+                "ru": "Исправления для ADDITIONAL_CONTROLS. Некоторые незначительные улучшения для обработки даты и времени. ",
+                "pt": "Correções para ADDITIONAL_CONTROLS, algumas pequenas melhorias para manipulação de data e hora, opção adicionada para personalizar para ocultar o período de valores de data e hora, alguns ajustes de design para o modo escuro, agora você pode configurar livremente todas as cores para o modo escuro, adicionado anterior e ",
+                "nl": "Oplossingen voor ADDITIONAL_CONTROLS, enkele kleine verbeteringen voor het omgaan met datum en tijd, optie toegevoegd aan aangepast om periode van datum- en tijdwaarden te verbergen, enkele ontwerpaanpassingen voor donkere modus, u kunt nu alle kleuren vrij configureren voor donkere modus, vorige en ",
+                "fr": "Corrections pour ADDITIONAL_CONTROLS, Quelques améliorations mineures pour la gestion de la date et de l'heure, Ajout d'une option à la personnalisation pour masquer les valeurs de période de date et d'heure, Quelques ajustements de conception pour le mode sombre, Vous pouvez désormais configurer librement toutes les couleurs pour le mode sombre, Ajout des précédents et ",
+                "it": "Correzioni per ADDITIONAL_CONTROLS, alcuni miglioramenti minori per la gestione di data e ora, aggiunta opzione personalizzata per nascondere i valori del periodo di data e ora, alcune modifiche al design per la modalità oscura, ora è possibile configurare liberamente tutti i colori per la modalità oscura, aggiunta precedente e ",
+                "es": "Correcciones para ADDITIONAL_CONTROLS, Algunas mejoras menores para el manejo de la fecha y la hora, Se agregó la opción de personalizar para ocultar el período de los valores de fecha y hora, Algunos ajustes de diseño para el modo oscuro, Ahora puede configurar libremente todos los colores para el modo oscuro, Se agregaron anteriores y ",
+                "pl": "Poprawki ADDITIONAL_CONTROLS, Kilka drobnych ulepszeń w obsłudze Daty i Czasu, Dodano opcję niestandardowego ukrywania wartości daty i czasu, Niektóre poprawki projektowe dla trybu ciemnego, Możesz teraz swobodnie konfigurować wszystkie kolory dla trybu ciemnego, Dodano poprzednie i ",
+                "zh-cn": "修复了 ADDITIONAL_CONTROLS，处理日期和时间的一些小改进，添加了自定义选项以隐藏日期和时间值的周期，暗模式的一些设计调整，您现在可以自由配置暗模式的所有颜色，添加以前的和"
+            },
+            "1.9.2": {
+                "en": "Fixed conversion error 199, Added option to set ADDITIONAL_CONTROLS to half width, Enhanced uploading of font files, Added getOptions to postMessage-Communication for widgets, Added Dark-Mode to JSON-Table-Widget.",
+                "de": "Konvertierungsfehler 199 behoben, Option hinzugefügt, um ADDITIONAL_CONTROLS auf halbe Breite zu setzen, Verbessertes Hochladen von Schriftdateien, GetOptions zu postMessage-Communication für Widgets hinzugefügt, Dark-Mode zu JSON-Table-Widget hinzugefügt.",
+                "ru": "Исправлена ​​ошибка преобразования 199, Добавлена ​​возможность установить ADDITIONAL_CONTROLS на половину ширины, Улучшена загрузка файлов шрифтов, Добавлены getOptions в postMessage-Communication для виджетов, Добавлен Dark-Mode в JSON-Table-Widget.",
+                "pt": "Erro de conversão 199 corrigido, opção adicionada para definir ADDITIONAL_CONTROLS para meia largura, upload aprimorado de arquivos de fonte, getOptions adicionado para postMessage-Communication para widgets, Adicionado modo escuro para JSON-Table-Widget.",
+                "nl": "Conversiefout 199 opgelost, optie toegevoegd om ADDITIONAL_CONTROLS in te stellen op halve breedte, verbeterde upload van lettertypebestanden, getOptions toegevoegd aan postMessage-Communication voor widgets, Dark-Mode toegevoegd aan JSON-Table-Widget.",
+                "fr": "Correction de l'erreur de conversion 199, Ajout d'une option pour définir ADDITIONAL_CONTROLS sur une demi-largeur, Téléchargement amélioré des fichiers de polices, Ajout de getOptions à postMessage-Communication pour les widgets, Ajout du mode sombre à JSON-Table-Widget.",
+                "it": "Risolto errore di conversione 199, aggiunta opzione per impostare ADDITIONAL_CONTROLS a metà larghezza, caricamento migliorato dei file di font, aggiunte getOptions a postMessage-Communication per i widget, aggiunta modalità oscura a JSON-Table-Widget.",
+                "es": "Se corrigió el error de conversión 199, se agregó la opción para configurar ADDITIONAL_CONTROLS a la mitad de ancho, se mejoró la carga de archivos de fuentes, se agregó getOptions a postMessage-Communication para widgets, se agregó el modo oscuro a JSON-Table-Widget.",
+                "pl": "Naprawiono błąd konwersji 199, Dodano opcję ustawienia ADDITIONAL_CONTROLS na połowę szerokości, Ulepszone przesyłanie plików czcionek, Dodano getOptions do postMessage-Communication dla widżetów, Dodano Dark-Mode do JSON-Table-Widget.",
+                "zh-cn": "修复了转换错误 199，添加了将 ADDITIONAL_CONTROLS 设置为半宽的选项，增强了字体文件的上传，为小部件的 postMessage-Communication 添加了 getOptions，为 JSON-Table-Widget 添加了暗模式。"
+            },
             "1.9.1": {
                 "en": "You can now upload own font files, Admin tab is now linked to the iqontrol-administration page instead of frontend, Fixed mkDir for redis, Enhanced enlarge button for large screens.",
                 "de": "Sie können jetzt eigene Font-Dateien hochladen, Admin-Tab ist jetzt mit der iqontrol-Verwaltungsseite anstelle des Frontends verknüpft, mkDir für Redis behoben, Verbesserter Vergrößerungsknopf für große Bildschirme.",

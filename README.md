@@ -1557,6 +1557,14 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### 1.9.3 (2021-08-18)
+* (sbormann) Fixes for ADDITIONAL_CONTROLS.
+* (sbormann) Some minor enhancements for handling of Date and Time.
+* (sbormann) Added option to custom to hide period of date and time values.
+* (sbormann) Some design adjustments for dark-mode.
+* (sbormann) You can now freely configure all colours for dark-mode.
+* (sbormann) Added previous and next buttons to views-tab.
+
 ### 1.9.2 (2021-08-17)
 * (sbormann) Fixed conversion error #199.
 * (sbormann) Added option to set ADDITIONAL_CONTROLS to half width.

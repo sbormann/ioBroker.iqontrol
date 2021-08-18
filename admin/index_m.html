@@ -44,7 +44,7 @@
 		.table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.04) !important; }
 		.table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.2) !important; }
 		.validateOnlyError.valid { border-bottom: 1px solid #9e9e9e !important; box-shadow: none !important;}
-		.inputClear, .selectClear, .inputEdit { display: block !important; position: absolute !important; right: 15px !important; top: 9px !important; margin: auto !important; }
+		.inputClear, .selectClear, .inputEdit { display: block !important; position: absolute !important; right: 20px !important; top: 7px !important; margin: auto !important; }
 		.combobox{ position: relative; }
 		.comboboxDropdownTrigger{ display: block !important; position: absolute !important; right: 0px !important; top: 0px !important; margin: 0px !important; padding: 0px !important; }
 		.combobox .dropdown-content { left: unset !important; width: unset !important; min-width: 100% !important;}
@@ -210,11 +210,17 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s10 m6 l4">
-						<select class="value" id="devicesSelectedView">
-						</select>
-						<label for="devicesSelectedView" class="translate"></label>
-						<span class="translate">View to edit</span>
+					<div class="valign-wrapper">
+						<div class="input-field col s10 m6 l4">
+							<select class="value" id="devicesSelectedView">
+							</select>
+							<label for="devicesSelectedView" class="translate"></label>
+							<span class="translate">View to edit</span>
+						</div>
+						<div class="col s2 m6 l8">
+							<a class="waves-effect waves-light btn" data-role="prev" id="devicesPrevView"><i class="material-icons left">chevron_left</i></a>
+							<a class="waves-effect waves-light btn" data-role="next" id="devicesNextView"><i class="material-icons left">chevron_right</i></a>
+						</div>
 					</div>
 				</div>
 				<div class="row divDevicesNothingSelected" style="min-height: 500px;">
@@ -707,6 +713,8 @@
 									<label for="optionsLayoutToolbarSingleLine" class="translate">Show toolbar in one single line (otherwise toolbars with more than 5 entries will be split on several lines)</label>
 									<span class="helper-text"></span>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarFooterColor" placeholder="rgba(0,0,0,0)" />
 									<label for="optionsLayoutToolbarFooterColor" class="translate">Overall Background-Color:</label>
@@ -744,6 +752,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutToolbarTextColor" class="translate">Unselected Text-Color:</label>
@@ -756,6 +766,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarTextShadowColor" placeholder="rgb(17,17,17)" />
 									<label for="optionsLayoutToolbarTextShadowColor" class="translate">Unselected Text-Schadow-Color:</label>
@@ -787,6 +799,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
@@ -799,6 +813,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutToolbarSelectedTextShadowColor" placeholder="rgb(17,17,17)" />
 									<label for="optionsLayoutToolbarSelectedTextShadowColor" class="translate">Selected Text-Schadow-Color:</label>
@@ -811,7 +827,6 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
-
 							</div>
 							<div class="row">
 								<div class="col s12">
@@ -820,15 +835,15 @@
 							</div>
 							<div class="row">
 								<div class="input-field col s12 m6 l4">
+									<label for="optionsLayoutToolbarFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutToolbarFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
+								</div>
+								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutToolbarFontSize" placeholder="12.5px" />
 									<label for="optionsLayoutToolbarFontSize" class="translate">Font-Size:</label>
 									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
-									<label for="optionsLayoutToolbarFontFamily" class="translate">Font-Family:</label>
-									<input class="value optionsFontFamily" type="text" id="optionsLayoutToolbarFontFamily" placeholder="" />
-									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutToolbarFontWeight' id='optionsLayoutToolbarFontWeight'>
@@ -932,16 +947,18 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<label for="optionsLayoutViewMainHeaderFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewMainHeaderFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
+								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewMainHeaderFontSize" placeholder="29px"/>
 									<label for="optionsLayoutViewMainHeaderFontSize" class="translate">Main-Header Font-Size:</label>
 									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
-									<label for="optionsLayoutViewMainHeaderFontFamily" class="translate">Font-Family:</label>
-									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewMainHeaderFontFamily" placeholder="" />
-									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewMainHeaderFontWeight' id='optionsLayoutViewMainHeaderFontWeight'>
@@ -966,6 +983,8 @@
 									<span class="helper-text"></span>
 									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewMainHeaderPaddingTop" placeholder="0px" />
 									<label for="optionsLayoutViewMainHeaderPaddingTop" class="translate">Main-Header Padding Top:</label>
@@ -984,6 +1003,8 @@
 									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewMainHeaderMarginTop" placeholder="20px" />
 									<label for="optionsLayoutViewMainHeaderMarginTop" class="translate">Main-Header Margin Top:</label>
@@ -1027,16 +1048,18 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<label for="optionsLayoutViewSubHeaderFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewSubHeaderFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
+								</div>
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="1" max="100" id="optionsLayoutViewSubHeaderFontSize" placeholder="15px" />
 									<label for="optionsLayoutViewSubHeaderFontSize" class="translate">Sub-Header Font-Size:</label>
 									<span class="helper-text" data-error="1 - 100 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
-									<label for="optionsLayoutViewSubHeaderFontFamily" class="translate">Font-Family:</label>
-									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewSubHeaderFontFamily" placeholder="" />
-									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
 								</div>
 								<div class="input-field col s12 m6 l4">
 									<select class="value" name='optionsLayoutViewSubHeaderFontWeight' id='optionsLayoutViewSubHeaderFontWeight'>
@@ -1061,6 +1084,8 @@
 									<span class="helper-text"></span>
 									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="0" max="500" id="optionsLayoutViewSubHeaderPaddingTop" placeholder="0px" />
 									<label for="optionsLayoutViewSubHeaderPaddingTop" class="translate">Sub-Header Padding Top:</label>
@@ -1079,6 +1104,8 @@
 									<span class="helper-text" data-error="0 - 500 [px]" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="-500" max="500" id="optionsLayoutViewSubHeaderMarginTop" placeholder="30px" />
 									<label for="optionsLayoutViewSubHeaderMarginTop" class="translate">Sub-Header Margin Top:</label>
@@ -1145,6 +1172,8 @@
 									<label for="optionsLayoutViewDeviceStateCentered" class="translate">Device-State centered</label>
 									<span class="helper-text"></span>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value" type="checkbox" id="optionsLayoutViewDeviceNoZoomOnHover" />
 									<label for="optionsLayoutViewDeviceNoZoomOnHover" class="translate">Disable zoom-effect on hover</label>
@@ -1155,6 +1184,8 @@
 									<label for="optionsLayoutViewDeviceIconNoZoomOnHover" class="translate">Disable zoom-effect on hover for icon</label>
 									<span class="helper-text"></span>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value validate validateOnlyError" type="number" min="0" max="25" step="1" id="optionsLayoutViewDeviceBorderRadius" placeholder="15px" />
 									<label for="optionsLayoutViewDeviceBorderRadius" class="translate">Rounded Corners (Border-Radius):</label>
@@ -1181,15 +1212,17 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceOpacity" placeholder="0.99" />
-									<label for="optionsLayoutViewDeviceOpacity" class="translate">Inactive Devices - Background-Opacity:</label>
-									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
-									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceHoverColor" placeholder="rgba(255,255,255,0.6)" />
 									<label for="optionsLayoutViewDeviceHoverColor" class="translate">Inactive Devices, Hover - Background-Color:</label>
 									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewDeviceOpacity" class="translate">Inactive Devices - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -1212,15 +1245,17 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveOpacity" placeholder="0.5" />
-									<label for="optionsLayoutViewDeviceInactiveOpacity" class="translate">Inactive Devices - Overlay-Opacity:</label>
-									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
-									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInactiveHoverColor" placeholder="rgba(190,190,190)" />
 									<label for="optionsLayoutViewDeviceInactiveHoverColor" class="translate">Inactive Devices, Hover - Overlay-Color:</label>
 									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceInactiveOpacity" placeholder="0.5" />
+									<label for="optionsLayoutViewDeviceInactiveOpacity" class="translate">Inactive Devices - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -1243,15 +1278,17 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceOpacity" placeholder="0.99" />
-									<label for="optionsLayoutViewActiveDeviceOpacity" class="translate">Active Devices - Background-Opacity:</label>
-									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
-									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewActiveDeviceHoverColor" placeholder="rgba(255,255,255,0.6)" />
 									<label for="optionsLayoutViewActiveDeviceHoverColor" class="translate">Active Devices, Hover - Background-Color:</label>
 									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewActiveDeviceOpacity" placeholder="0.99" />
+									<label for="optionsLayoutViewActiveDeviceOpacity" class="translate">Active Devices - Background-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -1274,15 +1311,17 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveOpacity" placeholder="0.82" />
-									<label for="optionsLayoutViewDeviceActiveOpacity" class="translate">Active Devices - Overlay-Opacity:</label>
-									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
-									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
-								</div>
-								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceActiveHoverColor" placeholder="rgba(255,255,255)" />
 									<label for="optionsLayoutViewDeviceActiveHoverColor" class="translate">Active Devices, Hover - Overlay-Color:</label>
 									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1" step="0.05" id="optionsLayoutViewDeviceActiveOpacity" placeholder="0.82" />
+									<label for="optionsLayoutViewDeviceActiveOpacity" class="translate">Active Devices - Overlay-Opacity:</label>
+									<span class="helper-text" data-error="0.00 - 1.00" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
@@ -1322,6 +1361,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveTextColor" placeholder="rgb(0,0,0)" />
 									<label for="optionsLayoutViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
@@ -1334,6 +1375,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameInactiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceNameInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
@@ -1346,6 +1389,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceNameActiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceNameActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
@@ -1358,6 +1403,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<label for="optionsLayoutViewDeviceNameFontFamily" class="translate">Font-Family:</label>
 									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceNameFontFamily" placeholder="" />
@@ -1405,6 +1452,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveTextColor" placeholder="rgb(0,0,0)" />
 									<label for="optionsLayoutViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
@@ -1417,6 +1466,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateInactiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceStateInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
@@ -1429,6 +1480,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceStateActiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceStateActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
@@ -1441,6 +1494,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<label for="optionsLayoutViewDeviceStateFontFamily" class="translate">Font-Family:</label>
 									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceStateFontFamily" placeholder="" />
@@ -1488,6 +1543,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveTextColor" placeholder="rgb(0,0,0)" />
 									<label for="optionsLayoutViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
@@ -1500,6 +1557,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoInactiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceInfoInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
@@ -1512,6 +1571,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoActiveOnTransparentTextColor" placeholder="rgb(255,255,255)" />
 									<label for="optionsLayoutViewDeviceInfoActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
@@ -1524,6 +1585,8 @@
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
+							</div>
+							<div class="row">
 								<div class="input-field col s12 m6 l4">
 									<label for="optionsLayoutViewDeviceInfoFontFamily" class="translate">Font-Family:</label>
 									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceInfoFontFamily" placeholder="" />
@@ -1609,25 +1672,513 @@
 								<div class="input-field col s12 m6 l4">
 									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkBackgroundOverlay" placeholder="rgba(0,0,0,0.5)" />
 									<label for="optionsLayoutColorModeDarkBackgroundOverlay" class="translate">Background Overlay Color:</label>
-									<span class="helper-text">Ensure to use transparency!</span>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkToolbarBrightness" placeholder="66%" />
+									<label for="optionsLayoutColorModeDarkToolbarBrightness" class="translate">Toolbar Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarOverlay" placeholder="rgba(0,0,0,0.3)" />
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarOverlay" placeholder=" " />
 									<label for="optionsLayoutColorModeDarkToolbarOverlay" class="translate">Toolbar Overlay Color:</label>
-									<span class="helper-text">Ensure to use transparency!</span>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkHeadingsBrightness" placeholder="66%" />
+									<label for="optionsLayoutColorModeDarkHeadingsBrightness" class="translate">Headings Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkHeadingsOverlay" placeholder="rgba(0,0,0,0.3)" />
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkHeadingsOverlay" placeholder=" " />
 									<label for="optionsLayoutColorModeDarkHeadingsOverlay" class="translate">Headings Overlay Color:</label>
-									<span class="helper-text">Ensure to use transparency!</span>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkDevicesBrightness" placeholder="66%" />
+									<label for="optionsLayoutColorModeDarkDevicesBrightness" class="translate">Devices Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkDevicesOverlay" placeholder="rgba(0,0,0,0.3)" />
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkDevicesOverlay" placeholder=" " />
 									<label for="optionsLayoutColorModeDarkDevicesOverlay" class="translate">Devices Overlay Color:</label>
-									<span class="helper-text">Ensure to use transparency!</span>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkBadgeBrightness" placeholder="66%" />
+									<label for="optionsLayoutColorModeDarkBadgeBrightness" class="translate">Badge Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkBadgeOverlay" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkBadgeOverlay" class="translate">Badge Overlay Color:</label>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Toolbar - General:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarFooterColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarFooterColor" class="translate">Overall Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarBorderColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarBorderColor" class="translate">Border-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Toolbar - Unselected Elements:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarColor" class="translate">Unselected Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarHoverColor" class="translate">Unselected Hover Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarTextColor" class="translate">Unselected Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarHoverTextColor" class="translate">Unselected Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarTextShadowColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarTextShadowColor" class="translate">Unselected Text-Schadow-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarHoverTextShadowColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarHoverTextShadowColor" class="translate">Unselected Hover Text-Schadow-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Toolbar - Selected Element:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedColor" class="translate">Selected Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedHoverColor" class="translate">Selected Hover Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedTextColor" class="translate">Selected Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedHoverTextColor" class="translate">Selected Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedTextShadowColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedTextShadowColor" class="translate">Selected Text-Schadow-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarSelectedHoverTextShadowColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarSelectedHoverTextShadowColor" class="translate">Selected Hover Text-Schadow-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Toolbar - Icons:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkToolbarIconBrightness" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkToolbarIconBrightness" class="translate">Icon Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkToolbarIconBackgroundColor" placeholder=" " />
+									<label for="optionsLayoutToolbarIconBackgroundColor" class="translate">Icon Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Main-Header:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewMainHeaderColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewMainHeaderColor" class="translate">Main-Header Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewMainHeaderTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewMainHeaderTextColor" class="translate">Main-Header Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Sub-Headers:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewSubHeaderColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewSubHeaderColor" class="translate">Sub-Headers Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewSubHeaderTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewSubHeaderTextColor" class="translate">Sub-Headers Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Devices - Icons:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkDeviceIconBrightness" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkDeviceIconBrightness" class="translate">Icon Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceColor" class="translate">Inactive Devices - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceHoverColor" class="translate">Inactive Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Inactive Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInactiveColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInactiveColor" class="translate">Inactive Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInactiveHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInactiveHoverColor" class="translate">Inactive Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Background:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewActiveDeviceColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewActiveDeviceColor" class="translate">Active Devices - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewActiveDeviceHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewActiveDeviceHoverColor" class="translate">Active Devices, Hover - Background-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Active Devices - Overlay:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceActiveColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceActiveColor" class="translate">Active Devices - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceActiveHoverColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceActiveHoverColor" class="translate">Active Devices, Hover - Overlay-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Device-Name:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameInactiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameInactiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameActiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameActiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor" class="translate">Inactive on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor" class="translate">Active on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">State:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateInactiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateInactiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateActiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateActiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor" class="translate">Inactive on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor" class="translate">Active on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">INFO_A, INFO_B:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value validate validateOnlyError" type="number" min="0" max="1000" id="optionsLayoutColorModeDarkDeviceInfoIconBrightness" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkDeviceInfoIconBrightness" class="translate">Icon Brightness [%]:</label>
+									<span class="helper-text" data-error="0 - 1000" data-success=""></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoInactiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoInactiveTextColor" class="translate">Inactive Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoeInactiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoActiveTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoActiveTextColor" class="translate">Active Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoActiveHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoActiveHoverTextColor" class="translate">Active Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor" class="translate">Inactive on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor" class="translate">Inactive on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor" class="translate">Active on Transparent Background Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor" placeholder=" " />
+									<label for="optionsLayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor" class="translate">Active on Transparent Background Hover Text-Color:</label>
+									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>

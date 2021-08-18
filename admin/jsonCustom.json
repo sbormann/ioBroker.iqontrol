@@ -287,6 +287,14 @@
 				}
 			]
 		},
+		"timeDisplayDontShowDistance": {
+			"type": "checkbox",
+			"sm": 12,
+			"lg": 4,
+			"label":"Don't Show Distance",
+			"default": false
+		},
+
 		"dividerTypeAndRole": {
 			"type": "divider"
 		},
