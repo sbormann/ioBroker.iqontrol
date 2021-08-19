@@ -1557,6 +1557,12 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann, sandro_gera) Preventing injection of code into states.
+* (sbormann) Sub-Headers can now contain variables.
+* (sbormann) Added option to make sub-headers collapsible.
+* (sbormann) BACKGROUND_VIEWs are now lightend up in dark-mode.
+
 ### 1.9.3 (2021-08-18)
 * (sbormann) Fixes for ADDITIONAL_CONTROLS.
 * (sbormann) Some minor enhancements for handling of Date and Time.

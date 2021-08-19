@@ -2747,7 +2747,7 @@ async function load(settings, onChange) {
 		var $div = $('#tableDevices');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
-		//Add Images to Selectbox for BackgroundImage
+		//Add Images to Combobox for BackgroundImage
 		var inbuiltWallpapersString = "";
 		inbuiltWallpapers.forEach(function(wallpaper){
 			if (wallpaper != "") {
@@ -2769,7 +2769,7 @@ async function load(settings, onChange) {
 		if (imagenames.length > 0){
 			imagenames.unshift(";[" + _("Images") + ":]");
 		}
-		//Progress-Bars
+		//--Progress-Bars
 		var progressbars = "";
 		progressbars += ";[" + _("Progress-Bars") + ":]";
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (link + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
@@ -2786,6 +2786,9 @@ async function load(settings, onChange) {
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (link + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
 		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + inbuiltWallpapersString + imagenames.join(";"), true);
+		//Add options to combobox for headingOptions
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeHeadingOptions"]', '/Normal;CO/Collapsible opened;CC/Collapsible closed', false);
+		$('#tableDevices input[data-name="nativeHeadingOptions"] .comboboxDropdownTriggerArrow').css('opacity', 0);
 		//Add role and symblic link info as span to commonName
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');

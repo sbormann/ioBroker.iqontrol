@@ -521,6 +521,22 @@ html.noscroll body {
 	overflow: visible !important;
 	margin: 0;
 }
+.viewShuffleContainer.collapsibleAnimationRunning{
+	overflow: hidden !important;
+}
+.viewShuffleContainer.collapsibleContentClosed{
+	display: none;
+}
+h4 ~ .viewH4Spacer{
+    height: 1em;
+    transition: all 500ms;
+}
+.viewShuffleContainer.collapsibleClosed ~ .viewH4Spacer{
+	height: 0em;
+    transition: all 100ms;
+    transition-delay: 150ms;
+}
+
 /* ++++++++++ View / Device ++++++++++ */ 
 .iQontrolDeviceShuffleSizer {
 	display: none;
@@ -1832,6 +1848,9 @@ html.color-mode-dark .iQontrolDevice{
 html.color-mode-dark .iQontrolDeviceBadge{
 	filter: brightness(66%);	
 }
+html.color-mode-dark .iQontrolDeviceBackgroundIframe.isBackgroundView {
+	filter: brightness(151%);
+}
 html.color-mode-dark #ToolbarContextMenu {
 	border-color: #000000bf !important;
 }
@@ -1913,4 +1932,13 @@ html.color-mode-dark #popup:after {
 	width: 100%;
 	height: 100%;
 	pointer-events: none;	
+}
+html.color-mode-dark .ui-state-disabled.ui-slider-track .ui-btn.ui-slider-handle {
+	border: none !important;
+	background: none !important;
+	box-shadow: none !important;
+	text-align: right !important;
+	margin-left: -33px !important;
+	color: #858585 !important;
+	text-shadow: 0 1px 0 #1a1a1a !important;
 }

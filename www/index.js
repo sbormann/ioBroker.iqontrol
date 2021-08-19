@@ -1818,6 +1818,8 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		if(typeof result.val == udef || result.val == null){
 			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
 		}
+		//--Prevent injecting of <script> tags
+		if(typeof result.val == "string") result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
 		//--Modify typeof val to match to common.type
 		switch(result.type){
 			case "string":
@@ -3194,1118 +3196,938 @@ function translateTextInsideBrackets(string){
 
 //++++++++++ OPTIONS ++++++++++
 function handleOptions(){
-	if(options){
-		//Toolbar
-		if(options.LayoutToolbarFooterColor) {
-			customCSS = "#Toolbar.ui-footer{";
-			customCSS += "	background-color: " + options.LayoutToolbarFooterColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarFooterOpacity) {
-			customCSS = "#Toolbar.ui-footer{";
-			customCSS += "	opacity: " + options.LayoutToolbarFooterOpacity + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarBorderColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	border-color: " + options.LayoutToolbarBorderColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	background-color: " + options.LayoutToolbarColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarHoverColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	background-color: " + options.LayoutToolbarHoverColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	color: " + options.LayoutToolbarTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarHoverTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	color: " + options.LayoutToolbarHoverTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarTextShadowColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarHoverTextShadowColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarHoverTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	background-color: " + options.LayoutToolbarSelectedColor + " !important;";
-			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutToolbarSelectedColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedHoverColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	background-color: " + options.LayoutToolbarSelectedHoverColor + " !important;";
-			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutToolbarSelectedHoverColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	color: " + options.LayoutToolbarSelectedTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedHoverTextColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	color: " + options.LayoutToolbarSelectedHoverTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedTextShadowColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarSelectedHoverTextShadowColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedHoverTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarFontSize) {
-			customCSS = ".iQontrolToolbarLink.ui-btn{";
-			customCSS += "	font-size: " + options.LayoutToolbarFontSize + "px !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutToolbarFontFamily);
-			customCSS = ".iQontrolToolbarLink.ui-btn{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarFontWeight) {
-			customCSS = ".iQontrolToolbarLink.ui-btn{";
-			customCSS += "	font-weight: " + options.LayoutToolbarFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarFontStyle) {
-			customCSS = ".iQontrolToolbarLink.ui-btn{";
-			customCSS += "	font-style: " + options.LayoutToolbarFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarIconSize) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	background-size: " + options.LayoutToolbarIconSize + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarIconBackgroundColor) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	background-color: " + options.LayoutToolbarIconBackgroundColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarIconBackgroundSize) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	width: " + options.LayoutToolbarIconBackgroundSize + "px;";
-			customCSS += "	height: " + options.LayoutToolbarIconBackgroundSize + "px;";
-			customCSS += "	margin-left: " + (options.LayoutToolbarIconBackgroundSize / -2) + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutToolbarIconBackgroundCornerSize) {
-			customCSS = ".iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	border-radius: " + (options.LayoutToolbarIconBackgroundCornerSize / 2) + "%;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Main-Header
-		if(options.LayoutViewMainHeaderColor) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	background-color: " + options.LayoutViewMainHeaderColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderTextColor) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	color: " + options.LayoutViewMainHeaderTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderFontSize) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	font-size: " + options.LayoutViewMainHeaderFontSize + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewMainHeaderFontFamily);
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderFontWeight) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	font-weight: " + options.LayoutViewMainHeaderFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderFontStyle) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	font-style: " + options.LayoutViewMainHeaderFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderPaddingTop) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	padding-top: " + options.LayoutViewMainHeaderPaddingTop + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderPaddingBottom) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	padding-bottom: " + options.LayoutViewMainHeaderPaddingBottom + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderPaddingLeft) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	padding-left: " + options.LayoutViewMainHeaderPaddingLeft + "px;";
-			customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewMainHeaderPaddingLeft + "px);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderMarginTop) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	margin-top: " + options.LayoutViewMainHeaderMarginTop + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderMarginRight) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	margin-right: " + options.LayoutViewMainHeaderMarginRight + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderMarginBottom) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	margin-bottom: " + options.LayoutViewMainHeaderMarginBottom + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewMainHeaderMarginLeft) {
-			customCSS = "#ViewHeaderTitle{";
-			customCSS += "	margin-left: " + options.LayoutViewMainHeaderMarginLeft + "px;";
-			customCSS += "	margin-left: calc(" + options.LayoutViewMainHeaderMarginLeft + "px - env(safe-area-inset-left));";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Sub-Header
-		if(options.LayoutViewSubHeaderColor) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	background-color: " + options.LayoutViewSubHeaderColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderTextColor) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	color: " + options.LayoutViewSubHeaderTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderFontSize) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	font-size: " + options.LayoutViewSubHeaderFontSize + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewSubHeaderFontFamily);
-			customCSS = "#ViewContent h4{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderFontWeight) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	font-weight: " + options.LayoutViewSubHeaderFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderFontStyle) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	font-style: " + options.LayoutViewSubHeaderFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderPaddingTop) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	padding-top: " + options.LayoutViewSubHeaderPaddingTop + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderPaddingBottom) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	padding-bottom: " + options.LayoutViewSubHeaderPaddingBottom + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderPaddingLeft) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	padding-left: " + options.LayoutViewSubHeaderPaddingLeft + "px;";
-			customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewSubHeaderPaddingLeft + "px);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderMarginTop) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	margin-top: " + options.LayoutViewSubHeaderMarginTop + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderMarginRight) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	margin-right: " + options.LayoutViewSubHeaderMarginRight + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderMarginBottom) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	margin-bottom: " + options.LayoutViewSubHeaderMarginBottom + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewSubHeaderMarginLeft) {
-			customCSS = "#ViewContent h4{";
-			customCSS += "	margin-left: " + options.LayoutViewSubHeaderMarginLeft + "px;";
-			customCSS += "	margin-left: calc(" + options.LayoutViewSubHeaderMarginLeft + "px - env(safe-area-inset-left));";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//New Line
-		if(options.LayoutViewNewLineSpacing) {
-			customCSS = ".viewNewLineSpacer{";
-			customCSS += "	height: " + options.LayoutViewNewLineSpacing + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Devices - General
-		if(options.LayoutViewDeviceNameCentered) { 
-			customCSS = ".iQontrolDeviceName {";
-			customCSS += "	text-align: center;";
-			customCSS += "	left: 0;";
-			customCSS += "	width: 100%;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateCentered) {
-			customCSS = ".iQontrolDeviceState {";
-			customCSS += "	text-align: center;";
-			customCSS += "	left: 0;";
-			customCSS += "	width: 100%;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceBorderRadius) {
-			customCSS = ".iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
-			customCSS += "	 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
-			customCSS += "   	-moz-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
-			customCSS += "			 border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceBorderRadiusLargeScreen) {
-			customCSS = "@media screen and (min-width: 1500px) {";
-			customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
-			customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
-			customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
-			customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
-			customCSS += "	}";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Inactive Devices - Background
-		if(options.LayoutViewDeviceColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage:not(.active){";
-			customCSS += "	background-color: " + options.LayoutViewDeviceColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage:not(.active){";
-			customCSS += "	opacity: " + options.LayoutViewDeviceOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceHoverColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage:not(.active):hover{";
-			customCSS += "	background-color: " + options.LayoutViewDeviceHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceHoverOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage:not(.active):hover{";
-			customCSS += "	opacity: " + options.LayoutViewDeviceHoverOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Inactive Devices - Overlay
-		if(options.LayoutViewDeviceInactiveColor) {
-			customCSS = ".iQontrolDeviceBackground:not(.active){";
-			customCSS += "	background-color: " + options.LayoutViewDeviceInactiveColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInactiveOpacity) {
-			customCSS = ".iQontrolDeviceBackground:not(.active){";
-			customCSS += "	opacity: " + options.LayoutViewDeviceInactiveOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInactiveHoverColor) {
-			customCSS = ".iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
-			customCSS += "	background-color: " + options.LayoutViewDeviceInactiveHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInactiveHoverOpacity) {
-			customCSS = "..iQontrolDevice:hover iQontrolDeviceBackground:not(.active){";
-			customCSS += "	opacity: " + options.LayoutViewDeviceInactiveHoverOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Active Devices - Background
-		if(options.LayoutViewActiveDeviceColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage.active{";
-			customCSS += "	background-color: " + options.LayoutViewActiveDeviceColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewActiveDeviceOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage.active{";
-			customCSS += "	opacity: " + options.LayoutViewActiveDeviceOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewActiveDeviceHoverColor) {
-			customCSS = ".iQontrolDeviceBackgroundImage.active:hover{";
-			customCSS += "	background-color: " + options.LayoutViewActiveDeviceHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewActiveDeviceHoverOpacity) {
-			customCSS = ".iQontrolDeviceBackgroundImage.active:hover{";
-			customCSS += "	opacity: " + options.LayoutViewActiveDeviceHoverOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Active Devices - Overlay
-		if(options.LayoutViewDeviceActiveColor) {
-			customCSS = ".iQontrolDeviceBackground.active{";
-			customCSS += "	background-color: " + options.LayoutViewDeviceActiveColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceActiveOpacity) {
-			customCSS = ".iQontrolDeviceBackground.active{";
-			customCSS += "	opacity: " + options.LayoutViewDeviceActiveOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceActiveHoverColor) {
-			customCSS = ".iQontrolDevice:hover .iQontrolDeviceBackground.active{";
-			customCSS += "	background-color: " + options.LayoutViewDeviceActiveHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceActiveHoverOpacity) {
-			customCSS = ".iQontrolDevice:hover .iQontrolDeviceBackground.active{";
-			customCSS += "	opacity: " + options.LayoutViewDeviceActiveHoverOpacity + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Device-Name
-		if(options.LayoutViewDeviceNameInactiveTextColor) {
-			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameInactiveHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameActiveTextColor) {
-			customCSS = ".iQontrolDevice.active .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameActiveHoverTextColor) {
-			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameInactiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameInactiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameActiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameActiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutViewDeviceNameActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceNameFontFamily);
-			customCSS = ".iQontrolDeviceName{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameFontWeight) {
-			customCSS = ".iQontrolDeviceName{";
-			customCSS += "	font-weight: " + options.LayoutViewDeviceNameFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceNameFontStyle) {
-			customCSS = ".iQontrolDeviceName{";
-			customCSS += "	font-style: " + options.LayoutViewDeviceNameFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//State
-		if(options.LayoutViewDeviceStateInactiveTextColor) {
-			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateInactiveHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateActiveTextColor) {
-			customCSS = ".iQontrolDevice.active .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateActiveHoverTextColor) {
-			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateInactiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateInactiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateActiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateActiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutViewDeviceStateActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceStateFontFamily);
-			customCSS = ".iQontrolDeviceState{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateFontWeight) {
-			customCSS = ".iQontrolDeviceState{";
-			customCSS += "	font-weight: " + options.LayoutViewDeviceStateFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceStateFontStyle) {
-			customCSS = ".iQontrolDeviceState{";
-			customCSS += "	font-style: " + options.LayoutViewDeviceStateFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Info
-		if(options.LayoutViewDeviceInfoInactiveTextColor) {
-			customCSS = ".iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoInactiveHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoActiveTextColor) {
-			customCSS = ".iQontrolDevice.active .iQontrolDeviceInfoAText, .iQontrolDevice.active .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoActiveHoverTextColor) {
-			customCSS = ".iQontrolDevice.active:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoInactiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoActiveOnTransparentTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor) {
-			customCSS = ".iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoFontFamily) {
-			var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceInfoFontFamily);
-			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
-			customCSS += "	font-family: " + fontFamily + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoFontWeight) {
-			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
-			customCSS += "	font-weight: " + options.LayoutViewDeviceInfoFontWeight + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutViewDeviceInfoFontStyle) {
-			customCSS = ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
-			customCSS += "	font-style: " + options.LayoutViewDeviceInfoFontStyle + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode
-		if(options.LayoutColorModeDarkBackgroundOverlay) {
-			customCSS = "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	width: 100%;";
-			customCSS += "	height: 100%;";
-			customCSS += "}}";
-			customCSS = "html.color-mode-dark body:not(.backstretchLoaded):after, html.color-mode-dark .backstretch:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	width: 100%;";
-			customCSS += "	height: 100%;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarBrightness) {
-			customCSS = "html.color-mode-dark #Toolbar{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarOverlay) {
-			customCSS = "html.color-mode-dark #Toolbar:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkToolbarOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	top: 0px;";
-			customCSS += "	left: 0px;";
-			customCSS += "	width: 100%;";
-			customCSS += "	height: 100%;";
-			customCSS += "	pointer-events: none;";
-			customCSS += "	z-index: 1000;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkHeadingsBrightness) {
-			customCSS = "html.color-mode-dark #ViewHeaderTitle, html.color-mode-dark #ViewContent h4{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkHeadingsBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkHeadingsOverlay) {
-			customCSS = "html.color-mode-dark #ViewHeaderTitle:after, html.color-mode-dark #ViewContent h4:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkHeadingsOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	top: 0px;";
-			customCSS += "	left: 0px;";
-			customCSS += "	width: 100%;";
-			customCSS += "	height: 100%;";
-			customCSS += "	pointer-events: none;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkDevicesBrightness) {
-			customCSS = "html.color-mode-dark .iQontrolDevice{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDevicesBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkDevicesOverlay) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkDevicesOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	top: -10px;";
-			customCSS += "	left: -10px;";
-			customCSS += "	width: 200%;";
-			customCSS += "	width: calc(100% + 20px);";
-			customCSS += "	height: 200%;";
-			customCSS += "	height: calc(100% + 20px);";
-			customCSS += "	pointer-events: none;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkBadgeBrightness) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBadge{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkBadgeBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkBadgeOverlay) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBadge:after{";
-			customCSS += "	background: " + options.LayoutColorModeDarkBadgeOverlay + ";";
-			customCSS += "	content: '';";
-			customCSS += "	position: absolute;";
-			customCSS += "	top: 0px;";
-			customCSS += "	left: 0px;";
-			customCSS += "	width: 100%;";
-			customCSS += "	height: 100%;";
-			customCSS += "	pointer-events: none;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Toolbar
-		if(options.LayoutColorModeDarkToolbarFooterColor) {
-			customCSS = "html.color-mode-dark #Toolbar.ui-footer{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarFooterColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarBorderColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	border-color: " + options.LayoutColorModeDarkToolbarBorderColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarHoverColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	color: " + options.LayoutColorModeDarkToolbarTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	color: " + options.LayoutColorModeDarkToolbarHoverTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarTextShadowColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarHoverTextShadowColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarHoverTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
-			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
-			customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedHoverTextColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedTextShadowColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
-			customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarIconBrightness) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarIconBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkToolbarIconBackgroundColor) {
-			customCSS = "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarIconBackgroundColor + " !important;";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Main-Header
-		if(options.LayoutColorModeDarkViewMainHeaderColor) {
-			customCSS = "html.color-mode-dark #ViewHeaderTitle{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewMainHeaderColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewMainHeaderTextColor) {
-			customCSS = "html.color-mode-dark #ViewHeaderTitle{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewMainHeaderTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Sub-Header
-		if(options.LayoutColorModeDarkViewSubHeaderColor) {
-			customCSS = "html.color-mode-dark #ViewContent h4{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewSubHeaderColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewSubHeaderTextColor) {
-			customCSS = "html.color-mode-dark #ViewContent h4{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewSubHeaderTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Devices - Icons
-		if(options.LayoutColorModeDarkDeviceIconBrightness) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceIcon{";
-			customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDeviceIconBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Inactive Devices - Background
-		if(options.LayoutColorModeDarkViewDeviceColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active){";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active):hover{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Inactive Devices - Overlay
-		if(options.LayoutColorModeDarkViewDeviceInactiveColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackground:not(.active){";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInactiveHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Active Devices - Background
-		if(options.LayoutColorModeDarkViewActiveDeviceColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage.active{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewActiveDeviceHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackgroundImage.active:hover{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Active Devices - Overlay
-		if(options.LayoutColorModeDarkViewDeviceActiveColor) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceBackground.active{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceActiveHoverColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground.active{";
-			customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveHoverColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Device-Name
-		if(options.LayoutColorModeDarkViewDeviceNameInactiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameActiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - State
-		if(options.LayoutColorModeDarkViewDeviceStateInactiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateActiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceState{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Dark-Mode - Info
-		if(options.LayoutColorModeDarkDeviceInfoIconBrightness) {
-			customCSS = "html.color-mode-dark .iQontrolDeviceInfoAIcon, html.color-mode-dark .iQontrolDeviceInfoBIcon{";
-			customCSS += "	filter: brightness(" + LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoActiveTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor) {
-			customCSS = "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
-			customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
-			customCSS += "}";
-			addCustomCSS(customCSS);
-		};
-		//Return after time
-		if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
-			returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
-			returnAfterTimeTreshold = getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeTreshold || "600";
-			if(!isNaN(returnAfterTimeTreshold)) returnAfterTimeTreshold = returnAfterTimeTreshold * 1; else returnAfterTimeTreshold = 600;
-			if(returnAfterTimeTimestamp == false){ //Timestamp was not set before - add Eventlisteners to document
-				$(document).on("touchstart mousedown keydown", function(){
-					console.log("Return after time - timer started (treshold: " + returnAfterTimeTreshold + "s, destinationView: " + returnAfterTimeDestinationView + ")");
-					returnAfterTimeTimestamp = new Date();
-					//The check, if the treshold has been reached, is made in the onUpdate-Function of the WebSockets connCallbacks
-				}).trigger("keydown");
-			} else if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){ //Timer was set before and is over
-				console.log("Return after time - time is over while running getStarted() - set actualView to destinationView");
-				returnAfterTimeTimestamp = null;
-				if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) actualViewId = returnAfterTimeDestinationView;
-			}
-		}
-		//Own CSS:
-		if(options.LayoutCSS) {
-			customCSS = options.LayoutCSS;
-			addCustomCSS(customCSS);
-		};
-	}
+	if(!options) return;
+	var customCSS = "";
+	//Toolbar
+	if(options.LayoutToolbarFooterColor) {
+		customCSS += "#Toolbar.ui-footer{";
+		customCSS += "	background-color: " + options.LayoutToolbarFooterColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarFooterOpacity) {
+		customCSS += "#Toolbar.ui-footer{";
+		customCSS += "	opacity: " + options.LayoutToolbarFooterOpacity + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarBorderColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	border-color: " + options.LayoutToolbarBorderColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	background-color: " + options.LayoutToolbarColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarHoverColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	background-color: " + options.LayoutToolbarHoverColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarTextColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	color: " + options.LayoutToolbarTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarHoverTextColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	color: " + options.LayoutToolbarHoverTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarTextShadowColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarHoverTextShadowColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarHoverTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	background-color: " + options.LayoutToolbarSelectedColor + " !important;";
+		customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutToolbarSelectedColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedHoverColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	background-color: " + options.LayoutToolbarSelectedHoverColor + " !important;";
+		customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutToolbarSelectedHoverColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedTextColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	color: " + options.LayoutToolbarSelectedTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedHoverTextColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	color: " + options.LayoutToolbarSelectedHoverTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedTextShadowColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarSelectedHoverTextShadowColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutToolbarSelectedHoverTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarFontSize) {
+		customCSS += ".iQontrolToolbarLink.ui-btn{";
+		customCSS += "	font-size: " + options.LayoutToolbarFontSize + "px !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutToolbarFontFamily);
+		customCSS += ".iQontrolToolbarLink.ui-btn{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarFontWeight) {
+		customCSS += ".iQontrolToolbarLink.ui-btn{";
+		customCSS += "	font-weight: " + options.LayoutToolbarFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarFontStyle) {
+		customCSS += ".iQontrolToolbarLink.ui-btn{";
+		customCSS += "	font-style: " + options.LayoutToolbarFontStyle + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarIconSize) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	background-size: " + options.LayoutToolbarIconSize + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarIconBackgroundColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	background-color: " + options.LayoutToolbarIconBackgroundColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarIconBackgroundSize) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	width: " + options.LayoutToolbarIconBackgroundSize + "px;";
+		customCSS += "	height: " + options.LayoutToolbarIconBackgroundSize + "px;";
+		customCSS += "	margin-left: " + (options.LayoutToolbarIconBackgroundSize / -2) + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutToolbarIconBackgroundCornerSize) {
+		customCSS += ".iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	border-radius: " + (options.LayoutToolbarIconBackgroundCornerSize / 2) + "%;";
+		customCSS += "}";
+	};
+	//Main-Header
+	if(options.LayoutViewMainHeaderColor) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	background-color: " + options.LayoutViewMainHeaderColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderTextColor) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	color: " + options.LayoutViewMainHeaderTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderFontSize) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	font-size: " + options.LayoutViewMainHeaderFontSize + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewMainHeaderFontFamily);
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderFontWeight) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	font-weight: " + options.LayoutViewMainHeaderFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderFontStyle) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	font-style: " + options.LayoutViewMainHeaderFontStyle + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderPaddingTop) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	padding-top: " + options.LayoutViewMainHeaderPaddingTop + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderPaddingBottom) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	padding-bottom: " + options.LayoutViewMainHeaderPaddingBottom + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderPaddingLeft) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	padding-left: " + options.LayoutViewMainHeaderPaddingLeft + "px;";
+		customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewMainHeaderPaddingLeft + "px);";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderMarginTop) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	margin-top: " + options.LayoutViewMainHeaderMarginTop + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderMarginRight) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	margin-right: " + options.LayoutViewMainHeaderMarginRight + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderMarginBottom) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	margin-bottom: " + options.LayoutViewMainHeaderMarginBottom + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewMainHeaderMarginLeft) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	margin-left: " + options.LayoutViewMainHeaderMarginLeft + "px;";
+		customCSS += "	margin-left: calc(" + options.LayoutViewMainHeaderMarginLeft + "px - env(safe-area-inset-left));";
+		customCSS += "}";
+	};
+	//Sub-Header
+	if(options.LayoutViewSubHeaderColor) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	background-color: " + options.LayoutViewSubHeaderColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderTextColor) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	color: " + options.LayoutViewSubHeaderTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderFontSize) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	font-size: " + options.LayoutViewSubHeaderFontSize + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewSubHeaderFontFamily);
+		customCSS += "#ViewContent h4{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderFontWeight) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	font-weight: " + options.LayoutViewSubHeaderFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderFontStyle) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	font-style: " + options.LayoutViewSubHeaderFontStyle + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderPaddingTop) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	padding-top: " + options.LayoutViewSubHeaderPaddingTop + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderPaddingBottom) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	padding-bottom: " + options.LayoutViewSubHeaderPaddingBottom + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderPaddingLeft) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	padding-left: " + options.LayoutViewSubHeaderPaddingLeft + "px;";
+		customCSS += "	padding-left: calc(env(safe-area-inset-left) + " + options.LayoutViewSubHeaderPaddingLeft + "px);";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderMarginTop) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	margin-top: " + options.LayoutViewSubHeaderMarginTop + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderMarginRight) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	margin-right: " + options.LayoutViewSubHeaderMarginRight + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderMarginBottom) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	margin-bottom: " + options.LayoutViewSubHeaderMarginBottom + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewSubHeaderMarginLeft) {
+		customCSS += "#ViewContent h4{";
+		customCSS += "	margin-left: " + options.LayoutViewSubHeaderMarginLeft + "px;";
+		customCSS += "	margin-left: calc(" + options.LayoutViewSubHeaderMarginLeft + "px - env(safe-area-inset-left));";
+		customCSS += "}";
+	};
+	//New Line
+	if(options.LayoutViewNewLineSpacing) {
+		customCSS += ".viewNewLineSpacer{";
+		customCSS += "	height: " + options.LayoutViewNewLineSpacing + "px;";
+		customCSS += "}";
+	};
+	//Devices - General
+	if(options.LayoutViewDeviceNameCentered) { 
+		customCSS += ".iQontrolDeviceName {";
+		customCSS += "	text-align: center;";
+		customCSS += "	left: 0;";
+		customCSS += "	width: 100%;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateCentered) {
+		customCSS += ".iQontrolDeviceState {";
+		customCSS += "	text-align: center;";
+		customCSS += "	left: 0;";
+		customCSS += "	width: 100%;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceBorderRadius) {
+		customCSS += ".iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+		customCSS += "	 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+		customCSS += "   	-moz-border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+		customCSS += "			 border-radius: " + options.LayoutViewDeviceBorderRadius + "px;";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceBorderRadiusLargeScreen) {
+		customCSS += "@media screen and (min-width: 1500px) {";
+		customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+		customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+		customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+		customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
+		customCSS += "	}";
+		customCSS += "}";
+	};
+	//Inactive Devices - Background
+	if(options.LayoutViewDeviceColor) {
+		customCSS += ".iQontrolDeviceBackgroundImage:not(.active){";
+		customCSS += "	background-color: " + options.LayoutViewDeviceColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceOpacity) {
+		customCSS += ".iQontrolDeviceBackgroundImage:not(.active){";
+		customCSS += "	opacity: " + options.LayoutViewDeviceOpacity + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceHoverColor) {
+		customCSS += ".iQontrolDeviceBackgroundImage:not(.active):hover{";
+		customCSS += "	background-color: " + options.LayoutViewDeviceHoverColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceHoverOpacity) {
+		customCSS += ".iQontrolDeviceBackgroundImage:not(.active):hover{";
+		customCSS += "	opacity: " + options.LayoutViewDeviceHoverOpacity + ";";
+		customCSS += "}";
+	};
+	//Inactive Devices - Overlay
+	if(options.LayoutViewDeviceInactiveColor) {
+		customCSS += ".iQontrolDeviceBackground:not(.active){";
+		customCSS += "	background-color: " + options.LayoutViewDeviceInactiveColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInactiveOpacity) {
+		customCSS += ".iQontrolDeviceBackground:not(.active){";
+		customCSS += "	opacity: " + options.LayoutViewDeviceInactiveOpacity + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInactiveHoverColor) {
+		customCSS += ".iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
+		customCSS += "	background-color: " + options.LayoutViewDeviceInactiveHoverColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInactiveHoverOpacity) {
+		customCSS += "..iQontrolDevice:hover iQontrolDeviceBackground:not(.active){";
+		customCSS += "	opacity: " + options.LayoutViewDeviceInactiveHoverOpacity + ";";
+		customCSS += "}";
+	};
+	//Active Devices - Background
+	if(options.LayoutViewActiveDeviceColor) {
+		customCSS += ".iQontrolDeviceBackgroundImage.active{";
+		customCSS += "	background-color: " + options.LayoutViewActiveDeviceColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewActiveDeviceOpacity) {
+		customCSS += ".iQontrolDeviceBackgroundImage.active{";
+		customCSS += "	opacity: " + options.LayoutViewActiveDeviceOpacity + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewActiveDeviceHoverColor) {
+		customCSS += ".iQontrolDeviceBackgroundImage.active:hover{";
+		customCSS += "	background-color: " + options.LayoutViewActiveDeviceHoverColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewActiveDeviceHoverOpacity) {
+		customCSS += ".iQontrolDeviceBackgroundImage.active:hover{";
+		customCSS += "	opacity: " + options.LayoutViewActiveDeviceHoverOpacity + ";";
+		customCSS += "}";
+	};
+	//Active Devices - Overlay
+	if(options.LayoutViewDeviceActiveColor) {
+		customCSS += ".iQontrolDeviceBackground.active{";
+		customCSS += "	background-color: " + options.LayoutViewDeviceActiveColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceActiveOpacity) {
+		customCSS += ".iQontrolDeviceBackground.active{";
+		customCSS += "	opacity: " + options.LayoutViewDeviceActiveOpacity + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceActiveHoverColor) {
+		customCSS += ".iQontrolDevice:hover .iQontrolDeviceBackground.active{";
+		customCSS += "	background-color: " + options.LayoutViewDeviceActiveHoverColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceActiveHoverOpacity) {
+		customCSS += ".iQontrolDevice:hover .iQontrolDeviceBackground.active{";
+		customCSS += "	opacity: " + options.LayoutViewDeviceActiveHoverOpacity + ";";
+		customCSS += "}";
+	};
+	//Device-Name
+	if(options.LayoutViewDeviceNameInactiveTextColor) {
+		customCSS += ".iQontrolDevice:not(.active) .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameInactiveHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameActiveTextColor) {
+		customCSS += ".iQontrolDevice.active .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameActiveHoverTextColor) {
+		customCSS += ".iQontrolDevice.active:hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameInactiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameInactiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameActiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameActiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutViewDeviceNameActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceNameFontFamily);
+		customCSS += ".iQontrolDeviceName{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameFontWeight) {
+		customCSS += ".iQontrolDeviceName{";
+		customCSS += "	font-weight: " + options.LayoutViewDeviceNameFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceNameFontStyle) {
+		customCSS += ".iQontrolDeviceName{";
+		customCSS += "	font-style: " + options.LayoutViewDeviceNameFontStyle + ";";
+		customCSS += "}";
+	};
+	//State
+	if(options.LayoutViewDeviceStateInactiveTextColor) {
+		customCSS += ".iQontrolDevice:not(.active) .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateInactiveHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateActiveTextColor) {
+		customCSS += ".iQontrolDevice.active .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateActiveHoverTextColor) {
+		customCSS += ".iQontrolDevice.active:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateInactiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateInactiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateActiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateActiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutViewDeviceStateActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceStateFontFamily);
+		customCSS += ".iQontrolDeviceState{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateFontWeight) {
+		customCSS += ".iQontrolDeviceState{";
+		customCSS += "	font-weight: " + options.LayoutViewDeviceStateFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceStateFontStyle) {
+		customCSS += ".iQontrolDeviceState{";
+		customCSS += "	font-style: " + options.LayoutViewDeviceStateFontStyle + ";";
+		customCSS += "}";
+	};
+	//Info
+	if(options.LayoutViewDeviceInfoInactiveTextColor) {
+		customCSS += ".iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoInactiveHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoActiveTextColor) {
+		customCSS += ".iQontrolDevice.active .iQontrolDeviceInfoAText, .iQontrolDevice.active .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoActiveHoverTextColor) {
+		customCSS += ".iQontrolDevice.active:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoInactiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoActiveOnTransparentTextColor) {
+		customCSS += ".iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor) {
+		customCSS += ".iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceInfoFontFamily);
+		customCSS += ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoFontWeight) {
+		customCSS += ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+		customCSS += "	font-weight: " + options.LayoutViewDeviceInfoFontWeight + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutViewDeviceInfoFontStyle) {
+		customCSS += ".iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText{";
+		customCSS += "	font-style: " + options.LayoutViewDeviceInfoFontStyle + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode
+	if(options.LayoutColorModeDarkBackgroundOverlay) {
+		customCSS += "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	width: 100%;";
+		customCSS += "	height: 100%;";
+		customCSS += "}}";
+		customCSS += "html.color-mode-dark body:not(.backstretchLoaded):after, html.color-mode-dark .backstretch:after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkBackgroundOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	width: 100%;";
+		customCSS += "	height: 100%;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarBrightness) {
+		customCSS += "html.color-mode-dark #Toolbar{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarBrightness + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarOverlay) {
+		customCSS += "html.color-mode-dark #Toolbar:after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkToolbarOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	top: 0px;";
+		customCSS += "	left: 0px;";
+		customCSS += "	width: 100%;";
+		customCSS += "	height: 100%;";
+		customCSS += "	pointer-events: none;";
+		customCSS += "	z-index: 1000;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkHeadingsBrightness) {
+		customCSS += "html.color-mode-dark #ViewHeaderTitle, html.color-mode-dark #ViewContent h4{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkHeadingsBrightness + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkHeadingsOverlay) {
+		customCSS += "html.color-mode-dark #ViewHeaderTitle:after, html.color-mode-dark #ViewContent h4:after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkHeadingsOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	top: 0px;";
+		customCSS += "	left: 0px;";
+		customCSS += "	width: 100%;";
+		customCSS += "	height: 100%;";
+		customCSS += "	pointer-events: none;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkDevicesBrightness) {
+		customCSS += "html.color-mode-dark .iQontrolDevice{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDevicesBrightness + "%);";
+		customCSS += "}";
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackgroundIframe.isBackgroundView{";
+		customCSS += "	filter: brightness(" + Math.min(Math.round(10000 / parseInt(options.LayoutColorModeDarkDevicesBrightness)), 300) + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkDevicesOverlay) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkDevicesOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	top: -10px;";
+		customCSS += "	left: -10px;";
+		customCSS += "	width: 200%;";
+		customCSS += "	width: calc(100% + 20px);";
+		customCSS += "	height: 200%;";
+		customCSS += "	height: calc(100% + 20px);";
+		customCSS += "	pointer-events: none;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkBadgeBrightness) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBadge{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkBadgeBrightness + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkBadgeOverlay) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBadge:after{";
+		customCSS += "	background: " + options.LayoutColorModeDarkBadgeOverlay + ";";
+		customCSS += "	content: '';";
+		customCSS += "	position: absolute;";
+		customCSS += "	top: 0px;";
+		customCSS += "	left: 0px;";
+		customCSS += "	width: 100%;";
+		customCSS += "	height: 100%;";
+		customCSS += "	pointer-events: none;";
+		customCSS += "}";
+	};
+	//Dark-Mode - Toolbar
+	if(options.LayoutColorModeDarkToolbarFooterColor) {
+		customCSS += "html.color-mode-dark #Toolbar.ui-footer{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarFooterColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarBorderColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	border-color: " + options.LayoutColorModeDarkToolbarBorderColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarHoverColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	color: " + options.LayoutColorModeDarkToolbarTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	color: " + options.LayoutColorModeDarkToolbarHoverTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarTextShadowColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarHoverTextShadowColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarHoverTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
+		customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
+		customCSS += "	box-shadow: 0 0 12px 1px " + options.LayoutColorModeDarkToolbarSelectedHoverColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active, html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	color: " + options.LayoutColorModeDarkToolbarSelectedHoverTextColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedTextShadowColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn.ui-btn-active:hover{";
+		customCSS += "	text-shadow: 0 1px 0 " + options.LayoutColorModeDarkToolbarSelectedHoverTextShadowColor + " !important;";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarIconBrightness) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkToolbarIconBrightness + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkToolbarIconBackgroundColor) {
+		customCSS += "html.color-mode-dark .iQontrolToolbarLink.ui-btn:after{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkToolbarIconBackgroundColor + " !important;";
+		customCSS += "}";
+	};
+	//Dark-Mode - Main-Header
+	if(options.LayoutColorModeDarkViewMainHeaderColor) {
+		customCSS += "html.color-mode-dark #ViewHeaderTitle{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewMainHeaderColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewMainHeaderTextColor) {
+		customCSS += "html.color-mode-dark #ViewHeaderTitle{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewMainHeaderTextColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Sub-Header
+	if(options.LayoutColorModeDarkViewSubHeaderColor) {
+		customCSS += "html.color-mode-dark #ViewContent h4{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewSubHeaderColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewSubHeaderTextColor) {
+		customCSS += "html.color-mode-dark #ViewContent h4{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewSubHeaderTextColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Devices - Icons
+	if(options.LayoutColorModeDarkDeviceIconBrightness) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceIcon{";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDeviceIconBrightness + "%);";
+		customCSS += "}";
+	};
+	//Dark-Mode - Inactive Devices - Background
+	if(options.LayoutColorModeDarkViewDeviceColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active){";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackgroundImage:not(.active):hover{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceHoverColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Inactive Devices - Overlay
+	if(options.LayoutColorModeDarkViewDeviceInactiveColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackground:not(.active){";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInactiveHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceInactiveHoverColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Active Devices - Background
+	if(options.LayoutColorModeDarkViewActiveDeviceColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackgroundImage.active{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewActiveDeviceHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackgroundImage.active:hover{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewActiveDeviceHoverColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Active Devices - Overlay
+	if(options.LayoutColorModeDarkViewDeviceActiveColor) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceBackground.active{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceActiveHoverColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:hover .iQontrolDeviceBackground.active{";
+		customCSS += "	background-color: " + options.LayoutColorModeDarkViewDeviceActiveHoverColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Device-Name
+	if(options.LayoutColorModeDarkViewDeviceNameInactiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameActiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active:hover.transparentIfActive .iQontrolDeviceName{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceNameActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - State
+	if(options.LayoutColorModeDarkViewDeviceStateInactiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateActiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceState{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceStateActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	//Dark-Mode - Info
+	if(options.LayoutColorModeDarkDeviceInfoIconBrightness) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceInfoAIcon, html.color-mode-dark .iQontrolDeviceInfoBIcon{";
+		customCSS += "	filter: brightness(" + LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active):hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoActiveTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active).transparentIfInactive:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentTextColor + ";";
+		customCSS += "}";
+	};
+	if(options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor) {
+		customCSS += "html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice.active.transparentIfActive:hover .iQontrolDeviceInfoBText{";
+		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
+		customCSS += "}";
+	};
+	//Own CSS:
+	if(options.LayoutCSS) {
+		customCSS = options.LayoutCSS;
+	};
+	//@font-face
 	function getFontFamilyAndAddFontFace(option){
 		var fontFamily = encodeURIComponent(option.split('@')[0].replace(/\\/g,"").replace(/\//g,"").replace(/ /g,"").replace(/\./g,""));
 		if(option.indexOf("/userfonts/") == 0 && option.split('@').length > 1){
@@ -4314,13 +4136,32 @@ function handleOptions(){
 				case "otf": format = "opentype"; break;
 				case "ttf": format = "truetype"; break;
 			}
-			customCSS = "@font-face{";
-			customCSS += "	font-family: '" + fontFamily + "';"
-			customCSS += "	src: url('" + encodeURI(option.split('@')[1].replace(/\\/g,"/")) + "') format('" + format + "');"
-			customCSS += "}";
-			if($('style.customCSS_default').text().indexOf(customCSS) == -1) addCustomCSS(customCSS);
+			var customCSSFontFace = "@font-face{";
+			customCSSFontFace += "	font-family: '" + fontFamily + "';"
+			customCSSFontFace += "	src: url('" + encodeURI(option.split('@')[1].replace(/\\/g,"/")) + "') format('" + format + "');"
+			customCSSFontFace += "}";
+			if($('style.customCSS_default').text().indexOf(customCSSFontFace) == -1) addCustomCSS(customCSSFontFace);
 		}
 		return fontFamily || option;
+	}
+	//Add customCSS
+	if(customCSS) addCustomCSS(customCSS);
+	//Return after time
+	if(getUrlParameter('returnAfterTimeTreshold') != "0" && (getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeEnabled)) {
+		returnAfterTimeDestinationView = getUrlParameter('returnAfterTimeDestinationView') || options.LayoutViewReturnAfterTimeDestinationView || homeId;
+		returnAfterTimeTreshold = getUrlParameter('returnAfterTimeTreshold') || options.LayoutViewReturnAfterTimeTreshold || "600";
+		if(!isNaN(returnAfterTimeTreshold)) returnAfterTimeTreshold = returnAfterTimeTreshold * 1; else returnAfterTimeTreshold = 600;
+		if(returnAfterTimeTimestamp == false){ //Timestamp was not set before - add Eventlisteners to document
+			$(document).on("touchstart mousedown keydown", function(){
+				console.log("Return after time - timer started (treshold: " + returnAfterTimeTreshold + "s, destinationView: " + returnAfterTimeDestinationView + ")");
+				returnAfterTimeTimestamp = new Date();
+				//The check, if the treshold has been reached, is made in the onUpdate-Function of the WebSockets connCallbacks
+			}).trigger("keydown");
+		} else if(returnAfterTimeTimestamp && ((new Date().getTime() - returnAfterTimeTimestamp.getTime()) / 1000) > returnAfterTimeTreshold){ //Timer was set before and is over
+			console.log("Return after time - time is over while running getStarted() - set actualView to destinationView");
+			returnAfterTimeTimestamp = null;
+			if((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) actualViewId = returnAfterTimeDestinationView;
+		}
 	}
 	//Dark-Mode
 	switch(options.LayoutColorModeDarkEnable){
@@ -4623,7 +4464,17 @@ function renderView(viewId, triggeredByReconnection){
 			//New Line
 			if(device.nativeNewLine) viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			//Heading
-			if (device.nativeHeading) viewContent += "</div><br><h4>" + device.nativeHeading + "</h4><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+			if (device.nativeHeading) {
+				var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|'));
+				viewContent += "</div><div class='viewH4Spacer'></div><h4>"; //br removed between /div and h4
+				if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC")) {
+					viewContent += "<div class='iQontrolSubheadingCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+					viewContent += "	<span class='iQontrolSubheadingCollapsibleIcon plus' style='display: " + (device.nativeHeadingOptions == "CO" ? "none" : "block") + "; position:absolute; right:0; top: 50%; transform: translateY(-50%);'>+</span>";
+					viewContent += "	<span class='iQontrolSubheadingCollapsibleIcon minus' style='display: " + (device.nativeHeadingOptions == "CO" ? "block" : "none") + "; position:absolute; right:0; top: 50%; transform: translateY(-50%);'>-</span>";
+					viewContent += "</div>";
+				}
+				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" ? " style='xxxdisplay: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+			}
 			//Render Device
 			var deviceContent = "";
 			//--Get linked States
@@ -4930,9 +4781,11 @@ function renderView(viewId, triggeredByReconnection){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
 												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "");
+												$(iframe).addClass('isBackgroundView');
 												var timeout = 1000;
 											} else { //URL
 												iframe.src = stateBackgroundURL.val;
+												$(iframe).removeClass('isBackgroundView');
 												var timeout = 500;
 											}
 											if(iframe.onload == null) {
@@ -7031,7 +6884,8 @@ function renderView(viewId, triggeredByReconnection){
 		}
 		viewContent += "</div>";
 		//Place content
-		$("#ViewHeaderTitle").html(actualView.commonName);
+		var variablename = encodeURI(actualView.commonName.split('|').slice(1).join('|'));
+		$("#ViewHeaderTitle").html("<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + actualView.commonName + "</div>");
 		if(actualView.nativeHideName) $("#ViewHeaderTitle").hide(); else $("#ViewHeaderTitle").show();
 		$("#ViewContent").html(viewContent);
 		resizeDevicesToFitScreen();
@@ -7267,6 +7121,59 @@ function renderView(viewId, triggeredByReconnection){
 		viewUpdateFunctions["UPDATE_ONCE"].forEach(function(viewUpdateFunction){
 			viewUpdateFunction();
 		});
+		//Enhance iQontrolSubheadingCollapsibles
+		$('.iQontrolSubheadingCollapsible').on('click', function(){
+			var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
+			if($(this).hasClass('collapsibleClosed')){
+				$(this).removeClass('collapsibleClosed');
+				$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleClosed');
+			} else {
+				$(this).addClass('collapsibleClosed').find('.viewShuffleContainer');
+				$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleClosed');
+			}
+			iQontrolSubheadingCollapsiblesRefresh($(this));
+		});
+		$('.iQontrolSubheadingCollapsible').each(function(){
+			iQontrolSubheadingCollapsiblesRefresh($(this));
+		});
+		function iQontrolSubheadingCollapsiblesRefresh($collapsible){
+			var collapsibleDeviceIdEscaped = $collapsible.data('iqontrolDeviceId')	;
+			if($collapsible.hasClass('collapsibleClosed')){
+				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').show();
+				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').hide();
+				if(!$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").hasClass('collapsibleContentClosed')){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _$collapsible = $collapsible;
+						var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
+						console.warn("STOP ANIMATION " + _$collapsible.data('animationtimeout'));
+						clearTimeout(_$collapsible.data('animationtimeout'));
+						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, function(){
+							var animationTimeoutId = setTimeout(function(){
+								console.warn("ANIMATION HIDE");
+								$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
+							}, 750);
+							_$collapsible.data('animationtimeout', animationTimeoutId);
+						});
+					})(); //<--End Closure
+				}
+			} else {
+				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').show();
+				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').hide();
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					var _$collapsible = $collapsible;
+					var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
+					clearTimeout(_$collapsible.data('animationtimeout'));
+					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').removeClass('collapsibleContentClosed'); 
+					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer .viewShuffleTile").stop(true, false).slideDown(500);
+					viewShuffleReshuffle();
+					var animationTimeoutId = setTimeout(function(){
+						console.warn("ANIMATION SHOW");
+						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleAnimationRunning');
+					}, 1000);
+					_$collapsible.data('animationtimeout', animationTimeoutId);
+				})(); //<--End Closure
+			}			
+		}
 		//Start viewInfoSliderInterval
 		viewInfoSliderInterval = setInterval(function(){
 			for (sliderDeviceIdEscaped in viewInfoASliderIndex){
@@ -12503,9 +12410,11 @@ function initPanels(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
 							if(stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //BACKGROUND_VIEW
 								iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "");
+								$(iframe).addClass('isBackgroundView');
 								var timeout = 1000;
 							} else { //BACKGROUND_URL
 								iframe.src = stateBackgroundURL.val;
+								$(iframe).removeClass('isBackgroundView');
 								var timeout = 500;
 							}
 							if(iframe.onload == null) {
@@ -12794,7 +12703,7 @@ function resizeDevicesToFitScreen(){
 	var screenWidth = $(window).innerWidth() - screenPadding - panelMarginLeft - panelMarginRight;
 	var deviceSize = 2 * $('.iQontrolDeviceShuffleSizer').outerWidth(true);
 	var columns = Math.round(screenWidth/deviceSize);
-	var customCSS = ".viewShuffleContainer {";
+	var customCSS = ".viewShuffleContainer, .fullScreenWidth {";
 	customCSS += "	width: " + (deviceSize * columns) +"px !important;";
 	customCSS += "}";
 	removeCustomCSS('resizeViewShuffleContainer');
