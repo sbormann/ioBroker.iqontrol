@@ -527,8 +527,8 @@ html.noscroll body {
 .viewShuffleContainer.collapsibleContentClosed{
 	display: none;
 }
-h4 ~ .viewH4Spacer{
-    height: 1em;
+.viewH4Spacer{
+    height: 1.3em;
     transition: all 500ms;
 }
 .viewShuffleContainer.collapsibleClosed ~ .viewH4Spacer{

@@ -4466,7 +4466,7 @@ function renderView(viewId, triggeredByReconnection){
 			//Heading
 			if (device.nativeHeading) {
 				var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|'));
-				viewContent += "</div><div class='viewH4Spacer'></div><h4>"; //br removed between /div and h4
+				viewContent += "</div>" + (deviceIndex > 0 ? "<div class='viewH4Spacer'></div>" : "") + "<h4>";
 				if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC")) {
 					viewContent += "<div class='iQontrolSubheadingCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
 					viewContent += "	<span class='iQontrolSubheadingCollapsibleIcon plus' style='display: " + (device.nativeHeadingOptions == "CO" ? "none" : "block") + "; position:absolute; right:0; top: 50%; transform: translateY(-50%);'>+</span>";
