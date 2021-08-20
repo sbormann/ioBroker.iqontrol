@@ -1819,7 +1819,10 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
 		}
 		//--Prevent injecting of <script> tags
-		if(typeof result.val == "string") result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+		if(typeof result.val == "string") {
+			result.valWithCode = result.val;
+			result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+		}
 		//--Modify typeof val to match to common.type
 		switch(result.type){
 			case "string":
@@ -4807,7 +4810,7 @@ function renderView(viewId, triggeredByReconnection){
 												if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 											},1500);
 										}, (isFirefox?100:0));
-									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== ""){ //HTML
+									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.valWithCode !== udef && stateBackgroundHTML.valWithCode !== ""){ //HTML
 										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
 											var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
 											var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
@@ -4818,7 +4821,7 @@ function renderView(viewId, triggeredByReconnection){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 											iframedoc.open();
-											iframedoc.write(stateBackgroundHTML.val.replace(/\\n/g, String.fromCharCode(13)));
+											iframedoc.write(stateBackgroundHTML.valWithCode.replace(/\\n/g, String.fromCharCode(13)));
 											$(iframedoc).find('body').css('font-family', 'sans-serif');
 											iframedoc.close();
 											setTimeout(function(){
@@ -11942,7 +11945,7 @@ function renderDialog(deviceIdEscaped){
 											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
 										}
 									}
-								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val !== "") {
+								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].valWithCode && states[_linkedHtmlId].valWithCode !== "") {
 									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 									if(iframe.onload == null) {
 										iframe.onload = function(){
@@ -11953,7 +11956,7 @@ function renderDialog(deviceIdEscaped){
 										}
 									}
 									iframedoc.open();
-									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
+									iframedoc.write(states[_linkedHtmlId].valWithCode.replace(/\\n/g, String.fromCharCode(13)));
 									$(iframedoc).find('body').css('font-family', 'sans-serif');
 									iframedoc.close();
 								} else {
@@ -12430,13 +12433,13 @@ function initPanels(){
 								}
 							}
 						}, (isFirefox?100:0));
-					} else if((stateBackgroundHTML && typeof stateBackgroundHTML.val !== udef && stateBackgroundHTML.val !== "") && !panelHide){
+					} else if((stateBackgroundHTML && typeof stateBackgroundHTML.valWithCode !== udef && stateBackgroundHTML.valWithCode !== "") && !panelHide){
 						createPanelIframe(_panelId, _panelIndex);
 						setTimeout(function(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
 							var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 							iframedoc.open();
-							iframedoc.write(stateBackgroundHTML.val.replace(/\\n/g, String.fromCharCode(13)));
+							iframedoc.write(stateBackgroundHTML.valWithCode.replace(/\\n/g, String.fromCharCode(13)));
 							$(iframedoc).find('body').css('font-family', 'sans-serif');
 							iframedoc.close();
 							setTimeout(function(){
