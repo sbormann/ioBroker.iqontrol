@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.4",
+        "version": "1.9.5",
         "news": {
+            "1.9.5": {
+                "en": "Removed prevention of injection for iframes.",
+                "de": "Die Verhinderung der Injektion für iframes wurde entfernt.",
+                "ru": "Убрана профилактика инъекций для iframe.",
+                "pt": "Removida a prevenção de injeção para iframes.",
+                "nl": "Preventie van injectie voor iframes verwijderd.",
+                "fr": "Suppression de la prévention de l'injection pour les iframes.",
+                "it": "Rimossa la prevenzione dell'iniezione per gli iframe.",
+                "es": "Se eliminó la prevención de inyección para iframes.",
+                "pl": "Usunięto zapobieganie wstrzykiwaniu elementów iframe.",
+                "zh-cn": "删除了对 iframe 的注入预防。"
+            },
             "1.9.4": {
                 "en": "Preventing injection of code into states, Sub-Headers can now contain variables, Added option to make sub-headers collapsible, BACKGROUND_VIEWs are now lightend up in dark-mode.",
                 "de": "Verhindert das Einschleusen von Code in Zustände, Sub-Header können jetzt Variablen enthalten, Option hinzugefügt, um Sub-Header komprimierbar zu machen, HINTERGRUND_VIEWs werden jetzt im Dunkelmodus aufgehellt.",

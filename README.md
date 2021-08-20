@@ -1557,7 +1557,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.9.5 (2021-08-20)
 * (sbormann) Removed prevention of injection for iframes.
 
 ### 1.9.4 (2021-08-20)
