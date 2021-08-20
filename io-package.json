@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.3",
+        "version": "1.9.4",
         "news": {
+            "1.9.4": {
+                "en": "Preventing injection of code into states, Sub-Headers can now contain variables, Added option to make sub-headers collapsible, BACKGROUND_VIEWs are now lightend up in dark-mode.",
+                "de": "Verhindert das Einschleusen von Code in Zustände, Sub-Header können jetzt Variablen enthalten, Option hinzugefügt, um Sub-Header komprimierbar zu machen, HINTERGRUND_VIEWs werden jetzt im Dunkelmodus aufgehellt.",
+                "ru": "Предотвращение внедрения кода в состояния, подзаголовки теперь могут содержать переменные, добавлена ​​опция, позволяющая делать подзаголовки сворачиваемыми, BACKGROUND_VIEW теперь подсвечиваются в темном режиме.",
+                "pt": "Prevenindo a injeção de código em estados, os subcabeçalhos agora podem conter variáveis, opção adicionada para tornar os subcabeçalhos recolhíveis, BACKGROUND_VIEWs agora são iluminados no modo escuro.",
+                "nl": "Voorkomen dat code in staten wordt geïnjecteerd, Sub-Headers kunnen nu variabelen bevatten, Optie toegevoegd om sub-headers inklapbaar te maken, BACKGROUND_VIEWs worden nu verlicht in de donkere modus.",
+                "fr": "Empêcher l'injection de code dans les états, les sous-en-têtes peuvent désormais contenir des variables, option ajoutée pour rendre les sous-en-têtes réductibles, les BACKGROUND_VIEWs sont désormais éclairés en mode sombre.",
+                "it": "Prevenendo l'iniezione di codice negli stati, i sottotitoli possono ora contenere variabili, aggiunta l'opzione per rendere comprimibili i sottotitoli, BACKGROUND_VIEWs ora si illuminano in modalità oscura.",
+                "es": "Al evitar la inyección de código en los estados, los subencabezados ahora pueden contener variables, se agregó una opción para hacer que los subencabezados se contraigan, los BACKGROUND_VIEW ahora se iluminan en modo oscuro.",
+                "pl": "Zapobieganie wstrzykiwaniu kodu do stanów, Pod-nagłówki mogą teraz zawierać zmienne, Dodano opcję zwijania pod-nagłówków, BACKGROUND_VIEWs są teraz rozjaśniane w trybie ciemnym.",
+                "zh-cn": "防止将代码注入状态，子标题现在可以包含变量，添加了使子标题可折叠的选项，背景视图现在在暗模式下变亮。"
+            },
             "1.9.3": {
                 "en": "Fixes for ADDITIONAL_CONTROLS, Some minor enhancements for handling of Date and Time, Added option to custom to hide period of date and time values, Some design adjustments for dark-mode, You can now freely configure all colours for dark-mode, Added previous and next buttons to views-tab.",
                 "de": "Korrekturen für ADDITIONAL_CONTROLS, Einige kleinere Verbesserungen bei der Handhabung von Datum und Uhrzeit, Option hinzugefügt, um den Zeitraum von Datums- und Uhrzeitwerten auszublenden, Einige Designanpassungen für den Dunkelmodus, Sie können jetzt alle Farben für den Dunkelmodus frei konfigurieren, Vorherige und . hinzugefügt ",

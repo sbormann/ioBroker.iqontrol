@@ -2787,7 +2787,7 @@ async function load(settings, onChange) {
 		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (link + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
 		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + inbuiltWallpapersString + imagenames.join(";"), true);
 		//Add options to combobox for headingOptions
-		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeHeadingOptions"]', '/Normal;CO/Collapsible opened;CC/Collapsible closed', false);
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeHeadingOptions"]', '/' + _("Normal") + ';CO/' + _("Collapsible section, opened at start") + ';CC/' + _("Collapsible section, closed at start"), false);
 		$('#tableDevices input[data-name="nativeHeadingOptions"] .comboboxDropdownTriggerArrow').css('opacity', 0);
 		//Add role and symblic link info as span to commonName
 		$lines.find('input[data-name]').each(function () {
@@ -3291,10 +3291,13 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'commonRole') {
 				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') {
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array' || dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedStateArray') {
+					$(this).find('option[value="linkedState"]').remove();
+					$(this).find('option[value="const"]').remove();
 					$(this).prop('disabled', true);
 				} else {
 					$(this).find('option[value="array"]').remove();
+					$(this).find('option[value="linkedStateArray"]').remove();
 					$(this).on('input change', function(){
 						tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)

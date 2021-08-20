@@ -3440,6 +3440,9 @@ function handleOptions(){
 		customCSS += "#ViewContent h4{";
 		customCSS += "	margin-top: " + options.LayoutViewSubHeaderMarginTop + "px;";
 		customCSS += "}";
+		customCSS += ".viewFirstLineNoHeadingSpacer{";
+		customCSS += "	height: " + options.LayoutViewSubHeaderMarginTop + "px;";
+		customCSS += "}";
 	};
 	if(options.LayoutViewSubHeaderMarginRight) {
 		customCSS += "#ViewContent h4{";
@@ -3449,6 +3452,9 @@ function handleOptions(){
 	if(options.LayoutViewSubHeaderMarginBottom) {
 		customCSS += "#ViewContent h4{";
 		customCSS += "	margin-bottom: " + options.LayoutViewSubHeaderMarginBottom + "px;";
+		customCSS += "}";
+		customCSS += ".viewShuffleContainer.collapsibleClosed ~ .viewH4Spacer{";
+		customCSS += "	margin-top: -" + options.LayoutViewSubHeaderMarginBottom + "px;";
 		customCSS += "}";
 	};
 	if(options.LayoutViewSubHeaderMarginLeft) {
@@ -4461,19 +4467,21 @@ function renderView(viewId, triggeredByReconnection){
 			var deviceId = actualViewId + ".devices." + deviceIndex;
 			var deviceIdEscaped = escape(deviceId);
 			var device = actualView.devices[deviceIndex];
-			//New Line
-			if(device.nativeNewLine) viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
-			//Heading
-			if (device.nativeHeading) {
+			//New Line & Heading
+			if(device.nativeNewLine) {
+				viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
+			} else if (device.nativeHeading) {
 				var variablename = encodeURI(device.nativeHeading.split('|').slice(1).join('|'));
 				viewContent += "</div>" + (deviceIndex > 0 ? "<div class='viewH4Spacer'></div>" : "") + "<h4>";
 				if(device.nativeHeadingOptions && (device.nativeHeadingOptions == "CO" || device.nativeHeadingOptions == "CC")) {
-					viewContent += "<div class='iQontrolSubheadingCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-					viewContent += "	<span class='iQontrolSubheadingCollapsibleIcon plus' style='display: " + (device.nativeHeadingOptions == "CO" ? "none" : "block") + "; position:absolute; right:0; top: 50%; transform: translateY(-50%);'>+</span>";
-					viewContent += "	<span class='iQontrolSubheadingCollapsibleIcon minus' style='display: " + (device.nativeHeadingOptions == "CO" ? "block" : "none") + "; position:absolute; right:0; top: 50%; transform: translateY(-50%);'>-</span>";
+					viewContent += "<div class='iQontrolSubheaderCollapsible fullScreenWidth" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed" : "") + "' style='position: absolute; top:0; padding-top: inherit; height: 100%;' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
+					viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon plus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelPlus || "&plus;") + "</span></div>";
+					viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
 					viewContent += "</div>";
 				}
 				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" ? " style='xxxdisplay: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+			} else if (deviceIndex == 0) {
+				viewContent += "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			}
 			//Render Device
 			var deviceContent = "";
@@ -7122,7 +7130,7 @@ function renderView(viewId, triggeredByReconnection){
 			viewUpdateFunction();
 		});
 		//Enhance iQontrolSubheadingCollapsibles
-		$('.iQontrolSubheadingCollapsible').on('click', function(){
+		$('.iQontrolSubheaderCollapsible').on('click', function(){
 			var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
 			if($(this).hasClass('collapsibleClosed')){
 				$(this).removeClass('collapsibleClosed');
@@ -7133,32 +7141,29 @@ function renderView(viewId, triggeredByReconnection){
 			}
 			iQontrolSubheadingCollapsiblesRefresh($(this));
 		});
-		$('.iQontrolSubheadingCollapsible').each(function(){
+		$('.iQontrolSubheaderCollapsible').each(function(){
 			iQontrolSubheadingCollapsiblesRefresh($(this));
 		});
 		function iQontrolSubheadingCollapsiblesRefresh($collapsible){
 			var collapsibleDeviceIdEscaped = $collapsible.data('iqontrolDeviceId')	;
 			if($collapsible.hasClass('collapsibleClosed')){
-				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').show();
-				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').hide();
+//				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').show();
+//				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').hide();
 				if(!$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").hasClass('collapsibleContentClosed')){
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _$collapsible = $collapsible;
 						var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
-						console.warn("STOP ANIMATION " + _$collapsible.data('animationtimeout'));
 						clearTimeout(_$collapsible.data('animationtimeout'));
-						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, function(){
-							var animationTimeoutId = setTimeout(function(){
-								console.warn("ANIMATION HIDE");
-								$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
-							}, 750);
-							_$collapsible.data('animationtimeout', animationTimeoutId);
-						});
+						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, 'linear');
+						var animationTimeoutId = setTimeout(function(){
+							$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
+						}, 750);
+						_$collapsible.data('animationtimeout', animationTimeoutId);
 					})(); //<--End Closure
 				}
 			} else {
-				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').show();
-				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').hide();
+//				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.minus').show();
+//				$collapsible.find('.iQontrolSubheadingCollapsibleIcon.plus').hide();
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _$collapsible = $collapsible;
 					var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
@@ -7167,7 +7172,6 @@ function renderView(viewId, triggeredByReconnection){
 					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer .viewShuffleTile").stop(true, false).slideDown(500);
 					viewShuffleReshuffle();
 					var animationTimeoutId = setTimeout(function(){
-						console.warn("ANIMATION SHOW");
 						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleAnimationRunning');
 					}, 1000);
 					_$collapsible.data('animationtimeout', animationTimeoutId);

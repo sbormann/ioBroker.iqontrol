@@ -1557,7 +1557,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.9.4 (2021-08-20)
 * (sbormann, sandro_gera) Preventing injection of code into states.
 * (sbormann) Sub-Headers can now contain variables.
 * (sbormann) Added option to make sub-headers collapsible.

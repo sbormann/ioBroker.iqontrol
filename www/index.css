@@ -520,6 +520,7 @@ html.noscroll body {
 .viewShuffleContainer {
 	overflow: visible !important;
 	margin: 0;
+	width: 100%;
 }
 .viewShuffleContainer.collapsibleAnimationRunning{
 	overflow: hidden !important;
@@ -527,14 +528,43 @@ html.noscroll body {
 .viewShuffleContainer.collapsibleContentClosed{
 	display: none;
 }
+.iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon{
+	position: absolute; 
+	right: 0; 
+	top: 50%; 
+	transform: translateY(-50%); 
+	height: 1.3em;
+	transition: all 0.15s;
+	opacity: 1;
+}
+.iQontrolSubheaderCollapsible.collapsibleClosed .iQontrolSubheadingCollapsibleIcon.minus{
+	opacity: 0;
+}
+.iQontrolSubheaderCollapsible:not(.collapsibleClosed) .iQontrolSubheadingCollapsibleIcon.plus{
+	opacity: 0;
+}
+.iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon img, .iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon span{
+	position: relative; 
+    margin: 0;
+    padding: 0 2px;;
+    border: 0;
+	height: 1.3em;
+	vertical-align: top;
+}
 .viewH4Spacer{
     height: 1.3em;
+	margin: 0;
     transition: all 500ms;
+	width: 100%;
 }
 .viewShuffleContainer.collapsibleClosed ~ .viewH4Spacer{
-	height: 0em;
-    transition: all 100ms;
-    transition-delay: 150ms;
+	height: 0.01em;	margin-top: -20px; /* workaround for quirky animation */
+    transition: all 500ms linear;
+    transition-delay: 250ms;
+	width: 100%;
+}
+.viewFirstLineNoHeadingSpacer{
+	height: 20px;
 }
 
 /* ++++++++++ View / Device ++++++++++ */ 
