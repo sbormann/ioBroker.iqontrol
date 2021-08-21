@@ -1109,7 +1109,7 @@ var iQontrolRolesStandardOptions = {
 		additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
 		additionalInfoListType: {name: "List type of ADDITIONAL_INFO", type: "select", selectOptions: "/Default;plain/Plain", default: ""},
 		additionalInfoListColumnCount: {name: "Split the list into this number of columns", type: "select", selectOptions: "auto/Auto;1;2;3;4;5;6", default: "auto"},
-		additionalInfoListColumnWidth: {name: "Do not go below this column width [px]", type: "number", min: 0, max: 1200, step: 1, default: 220}
+		additionalInfoListColumnWidth: {name: "Do not go below this column width [px]", type: "number", min: 0, max: 1200, step: 1, default: ""}
 	}},
 	SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"}
 };
@@ -12152,7 +12152,7 @@ function renderDialog(deviceIdEscaped){
 					var additionalInfoSectionType = getDeviceOptionValue(device, "additionalInfoSectionType") || "collapsible";
 					var additionalInfoListType = getDeviceOptionValue(device, "additionalInfoListType") || "";
 					var additionalInfoListColumnCount = getDeviceOptionValue(device, "additionalInfoListColumnCount") || "auto";
-					var additionalInfoListColumnWidth = parseInt(getDeviceOptionValue(device, "additionalInfoListColumnWidth") || "220");
+					var additionalInfoListColumnWidth = parseInt(getDeviceOptionValue(device, "additionalInfoListColumnWidth") || "0");
 					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : (dialogContentCountAfterHR > 0 ? "<hr>" : ""));
 						dialogContent += "<div id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";

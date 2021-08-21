@@ -1464,7 +1464,6 @@ html.noscroll body {
 .iQontrolDialogAdditionalInfoList li {
 	break-inside: avoid;
 	background:transparent !important;
-	margin: 1px;
 }
 .iQontrolDialogAdditionalInfoList.ui-listview li:hover {
     background: rgba(0,0,0,0.05) !important;	
