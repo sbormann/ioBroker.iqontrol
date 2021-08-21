@@ -12153,9 +12153,9 @@ function renderDialog(deviceIdEscaped){
 					var additionalInfoListType = getDeviceOptionValue(device, "additionalInfoListType") || "";
 					var additionalInfoListColumnCount = getDeviceOptionValue(device, "additionalInfoListColumnCount") || "auto";
 					var additionalInfoListColumnWidth = parseInt(getDeviceOptionValue(device, "additionalInfoListColumnWidth") || "0");
-					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
+					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated iQontrolDialogAdditionalInfoCollapsible'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : (dialogContentCountAfterHR > 0 ? "<hr>" : ""));
-						dialogContent += "<div id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
+						dialogContent += "<div class='adjustToDialogWidthOffset50' id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
 							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList'" + (additionalInfoListType == "plain" ? "" : " data-role='listview'") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='columns: " + additionalInfoListColumnCount + (additionalInfoListColumnWidth ? " " + additionalInfoListColumnWidth + "px" : "") + ";'></ul>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
@@ -12174,7 +12174,7 @@ function renderDialog(deviceIdEscaped){
 									result = state.val;
 									resultText = state.plainText;
 								}
-								if(state) $("#DialogAdditionalInfosContentList").append("<li>" + _element.name + ": " + resultText + "</li>");
+								if(state) $("#DialogAdditionalInfosContentList").append("<li><b>" + _element.name + ":</b> " + resultText + "</li>");
 							});
 							if(_additionalInfoListType != "plain") $("#DialogAdditionalInfosContentList").listview('refresh');
 						};
@@ -12249,7 +12249,7 @@ function renderDialog(deviceIdEscaped){
 			//Enhance Dialog
 			$("#Dialog").enhanceWithin();
 			// CollapsibleAnimated initialisieren
-			collapsibleAnimatedInit();
+			collapsibleAnimatedInit();		
 			// Make iFrame resizable
 			dragElement('DialogPopupIframeWrapper', 'DialogPopupIframeHandle', true, true);
 			//Fit slider popup size to text-length
@@ -12435,6 +12435,11 @@ function enhanceTextareasWithJqte(selector){
 			}
 		}
 	});
+}
+
+function dialogResized(){
+	var width = $('#DialogContent').innerWidth();
+	$('.adjustToDialogWidthOffset50').css('width', (width - 50) + "px");
 }
 
 //++++++++++ POPUP (TOAST) ++++++++++
@@ -12861,6 +12866,7 @@ $(window).on('orientationchange resize', function(){
 			resizeTimeout = false;
 		}, 250);
 	}
+	dialogResized();
 });
 function resizeDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
@@ -13038,7 +13044,27 @@ $(document).ready(function(){
 			if(setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY + setMaxHeightOffset) + "px)";
 		}, 50);
 	});
-	
+	var dialogResizeObserver;
+	var dialogResizeObserverOldWidth = 0;
+	if(dialogResizeObserver){
+		dialogResizeObserver.disconnect();
+	} else {	
+		var dialogResizeObserver = new MutationObserver(function(mutationList){
+			mutationList.forEach(function(mutation){
+				if(mutation.attributeName === 'style'){
+					var width = $('#DialogContent').innerWidth();
+					if(dialogResizeObserverOldWidth != width){
+						dialogResized();
+					}
+					dialogResizeObserverOldWidth = width;
+				}
+			});
+		});
+	}
+	$('#DialogContent').each(function(){
+		dialogResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: true});
+	});
+
 	//Clear everything when Dialog is closed
 	$('#Dialog').on('popupafterclose', function(){
 		actualDialogId = "";

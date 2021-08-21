@@ -1929,6 +1929,11 @@ html.color-mode-dark .ui-collapsible-content{
 	background: #787878 !important;
 	border-color: #707070 !important;
 }
+html.color-mode-dark .ui-listview li {
+	color: #222 !important;
+	text-shadow: 0 1px 0 #747474 !important;    	
+	border-color: #606060 !important;
+}
 html.color-mode-dark hr{
 	border-color: #a6a6a6 !important;    	
 }
