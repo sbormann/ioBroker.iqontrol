@@ -1565,9 +1565,10 @@ This device has some special predefined size- and display-settings to show a tex
 ## Changelog
 
 ### dev
-* (sbomann) Removed some unnecessary horizontal lines in dialog.
-* (sbomann) Added option to edit caption of STATE or LEVEL.
-* (sbomann) Enhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns.
+* (sbormann) Removed some unnecessary horizontal lines in dialog.
+* (sbormann) Added option to edit caption of STATE or LEVEL.
+* (sbormann) Enhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns.
+* (sbormann) Added some polyfils for older browsers.
 
 ### 1.9.5 (2021-08-20)
 * (sbormann) Removed prevention of injection for iframes.

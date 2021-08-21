@@ -1249,6 +1249,30 @@ if (typeof Object.assign != 'function') {
   });
 }
 
+//Array.find
+if (!Array.prototype.find) {
+	Array.prototype.find = function(predicate) {
+		if (this == null) {
+			throw new TypeError('Array.prototype.find called on null or undefined');
+		}
+		if (typeof predicate !== 'function') {
+			throw new TypeError('predicate must be a function');
+		}
+		var list = Object(this);
+		var length = list.length >>> 0;
+		var thisArg = arguments[1];
+		var value;
+		
+		for (var i = 0; i < length; i++) {
+			value = list[i];
+			if (predicate.call(thisArg, value, i, list)) {
+				return value;
+			}
+		}
+		return undefined;
+	};
+}
+
 //Array.findIndex
 if (!Array.prototype.findIndex) {
   Object.defineProperty(Array.prototype, 'findIndex', {
@@ -1373,6 +1397,13 @@ if (!Array.from) {
       return A;
     };
   }());
+}
+
+//String endsWith
+if (typeof String.prototype.endsWith !== 'function') {
+	String.prototype.endsWith = function(suffix) {
+		return this.indexOf(suffix, this.length - suffix.length) !== -1;
+	};
 }
 
 //Check if browser supports passive event listeners
@@ -1662,7 +1693,7 @@ function getDevice(deviceId){
 function getDeviceOptionValue(device, option, nullForDefault){
 	var value = null;
     if (device && typeof device === "object" && typeof device.options !== udef) {
-        const deviceOption = device.options.find(element => element.option === option);
+        const deviceOption = device.options.find(function(element){ return element.option === option; });
         if (deviceOption && deviceOption.value !== udef) {
 			value = deviceOption.value;
 		} else if (option == "clickOnTileAction" && getDeviceOptionValue(device, "clickOnTileToggles") == "true") { //Backward-Compatibility
@@ -4271,11 +4302,15 @@ function handleOptions(){
 		if(window.matchMedia){
 			var darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 			applyColorMode(darkMode ? 'dark' : '');
-			window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', darkModeEventListenerFunction);
-			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', darkModeEventListenerFunction);
-			function darkModeEventListenerFunction(e){
-				darkMode = e.matches;
-				applyColorMode(darkMode ? 'dark' : '');
+			try{
+				window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', darkModeEventListenerFunction);
+				window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', darkModeEventListenerFunction);
+				function darkModeEventListenerFunction(e){
+					darkMode = e.matches;
+					applyColorMode(darkMode ? 'dark' : '');
+				}
+			} catch (e) {
+				console.warn("Match media not supported, error: " + JSON.stringify(e));
 			}
 		}
 	}
@@ -9461,8 +9496,8 @@ function renderDialog(deviceIdEscaped){
 							var updateFunction = function(){
 								var stateBoostMode = getStateObject(_linkedBoostModeId);
 								var stateControlMode = getStateObject(_linkedControlModeId);
-								if (stateBoostMode && stateBoostMode.val && _valueList && typeof Object.keys(_valueList).find(key => _valueList[key] === "BOOST-MODE") != udef) {
-									$("#DialogThermostatControlModeCheckboxradio_" + Object.keys(_valueList).find(key => _valueList[key] === "BOOST-MODE")).prop("checked", true);
+								if (stateBoostMode && stateBoostMode.val && _valueList && typeof Object.keys(_valueList).find(function(key){ return _valueList[key] === "BOOST-MODE"; }) != udef) {
+									$("#DialogThermostatControlModeCheckboxradio_" + Object.keys(_valueList).find(function(key){ return _valueList[key] === "BOOST-MODE"; })).prop("checked", true);
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 								} else if (stateControlMode){
 									$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
