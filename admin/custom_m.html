@@ -196,6 +196,12 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="input-field col s12 m12 l12">
+			<input type="checkbox" class="enableOnChange" data-field="timeDisplayDontShowDistance">
+			<span class="translate">Don't Show Distance</span>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col s4">
 		</div>
         <div class="input-field col s8">
@@ -356,6 +362,7 @@
 				roundDigits:			2,
 				timeFormat:				"x",
 				timeDisplayFormat:		"dddd, DD.MM.YYYY HH:mm:ss",
+				timeDisplayDontShowDistance: false,
 				type:					(obj && obj.common && obj.common.type) || "",
 				role:					(obj && obj.common && obj.common.role) || "",
 				targetValueId:			"",

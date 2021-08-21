@@ -567,6 +567,7 @@ html.noscroll body {
 	height: 20px;
 }
 
+
 /* ++++++++++ View / Device ++++++++++ */ 
 .iQontrolDeviceShuffleSizer {
 	display: none;
@@ -1449,9 +1450,24 @@ html.noscroll body {
 .iQontrolDialogMediaText.title {
 	font-style: italic;
 }
-.iQontrolDialogAdditionalInfoList {
+.iQontrolDialogAdditionalInfoList:not(.ui-listview) {
 	list-style-position: outside;
 	padding-left: 10px;
+}
+.iQontrolDialogAdditionalInfoList.ui-listview {
+	padding-bottom: 8px;
+	margin-top:-9px;
+    column-fill: balance;
+    gap: 1px;
+    column-rule: 1px solid #ccc;
+}
+.iQontrolDialogAdditionalInfoList li {
+	break-inside: avoid;
+	background:transparent !important;
+	margin: 1px;
+}
+.iQontrolDialogAdditionalInfoList.ui-listview li:hover {
+    background: rgba(0,0,0,0.05) !important;	
 }
 .colorPicker + .ui-slider-track {
 	background-image: url(./images/hue.png) !important;

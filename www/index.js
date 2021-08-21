@@ -294,7 +294,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
-				readonly: "delete"
+				readonly: "delete",
+				stateCaption: "delete",
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -315,6 +317,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
 	},
@@ -326,6 +331,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
@@ -373,6 +381,10 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -392,6 +404,10 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -409,6 +425,10 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -428,6 +448,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
@@ -443,6 +466,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -460,6 +486,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "pressure.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
@@ -476,6 +505,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
@@ -491,6 +523,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -511,6 +546,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png", default: ""},
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
@@ -526,6 +564,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png", default: ""},
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
@@ -543,6 +584,9 @@ var iQontrolRoles = {
 				icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png", default: ""},
 				icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -559,6 +603,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png;window_toplight_opened.png", default: ""},
 				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png", default: ""},
 				icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -583,6 +630,9 @@ var iQontrolRoles = {
 				icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png", default: ""},
 				icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				stateCaption: "delete"
+			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				invertActuatorLevel: {name: "Invert LEVEL (0 = open)", type: "checkbox", default: "false"},
 				directionOpeningValue: {name: "Value of DIRECTION for 'opening'", type: "text", default: "1"},
@@ -604,6 +654,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
@@ -619,6 +672,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -636,6 +692,9 @@ var iQontrolRoles = {
 				icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png", default: ""},
 				icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png", default: ""},
 				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -660,6 +719,9 @@ var iQontrolRoles = {
 				icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png", default: ""},
 				icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png", default: ""}
 			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -677,9 +739,9 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png", default: ""},
 				icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_overlay.png", default: ""}
 			}},
-			SECTION_TILE: {options: {
-				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
-				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete",
+				subjectCaption: {name: "Caption of SUBJECT", type: "text", default: ""},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				timeCaption: {name: "Caption for TIME", type: "text", default: ""},
@@ -717,7 +779,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}
 			}},
-			SECTION_GENERAL: "delete",
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
 				closeDialogAfterExecution: {name: "Close dialog after execution", type: "checkbox", default: "false"}
@@ -732,6 +796,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
@@ -750,6 +817,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section", options: {
 				statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
@@ -787,7 +857,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png", default: ""}
 			}},
-			SECTION_GENERAL: "delete",
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -804,7 +876,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png", default: ""}
 			}},
-			SECTION_GENERAL: "delete",
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
+			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openURLExternal"},
 				clickOnTileAction: {default: "openURLExternal"},
@@ -820,6 +894,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnTileToggles: "delete",
@@ -858,6 +935,9 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png", default: ""},
 				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png", default: ""}
+			}},
+			SECTION_GENERAL: {options: {
+				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "false"},
@@ -906,6 +986,8 @@ var iQontrolRolesStandardOptions = {
 	SECTION_ICONS: {name: "Icons", type: "section"},
 	SECTION_GENERAL: { name: "General", type: "section", options: {
 		readonly: {name: "Readonly", type: "checkbox", default: "false"},
+		stateCaption: {name: "Caption of STATE", type: "text", default: ""},
+		levelCaption: {name: "Caption of LEVEL", type: "text", default: ""},
 		renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 		renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"}
 	}},
@@ -1013,6 +1095,7 @@ var iQontrolRolesStandardOptions = {
 		popupHeight: {name: "Height [px] for URL/HTML-Box", type: "number", min: "100", max: "2000", default: ""},
 		popupFixed: {name: "Fixed (not resizable)", type: "checkbox", default: "false"},
 		openURLExternal: {name: "Open URL in new window (instead of showing as box in dialog)", type: "checkbox", default: "false"},
+		openURLExternalCaption: {name: "Caption for Button to open URL in new window", type: "text", default: ""},
 		popupAllowPostMessage: {name: "Allow postMessage-Communication for URL/HTML", type: "checkbox", default: "false"}
 	}},
 	SECTION_ADDITIONAL_CONTROLS: {name: "ADDITIONAL_CONTROLS", type: "section", options: {
@@ -1023,7 +1106,10 @@ var iQontrolRolesStandardOptions = {
 	}},
 	SECTION_ADDITIONAL_INFO: {name: "ADDITIONAL_INFO", type: "section", options: {
 		additionalInfoSectionType: {name: "Appereance of ADDITIONAL_INFO", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"},
-		additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"}
+		additionalInfoCaption: {name: "Caption for ADDITIONAL_INFO", type: "text", default: "Additional Infos"},
+		additionalInfoListType: {name: "List type of ADDITIONAL_INFO", type: "select", selectOptions: "/Default;plain/Plain", default: ""},
+		additionalInfoListColumnCount: {name: "Split the list into this number of columns", type: "select", selectOptions: "auto/Auto;1;2;3;4;5;6", default: "auto"},
+		additionalInfoListColumnWidth: {name: "Do not go below this column width [px]", type: "number", min: 0, max: 1200, step: 1, default: 220}
 	}},
 	SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"}
 };
@@ -7766,6 +7852,7 @@ function renderDialog(deviceIdEscaped){
 		if(getDeviceOptionValue(device, "readonly") == "true") dialogReadonly = true;
 		//Render Dialog
 		var dialogContent = "";
+		var dialogContentCountAfterHR = 0;
 		var dialogBindingFunctions = [];
 		dialogContent += "<form class='fullWidthSlider'>";
 		dialogContent += "<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"; //jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
@@ -7805,8 +7892,9 @@ function renderDialog(deviceIdEscaped){
 				//--State & Level
 				switch(device.commonRole){
 					case "iQontrolButton":
-					var type = "Button";
 					if(dialogLinkedStateIds["STATE"]){
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Button";
 						var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
@@ -7832,11 +7920,13 @@ function renderDialog(deviceIdEscaped){
 
 					case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat":
 					if(dialogStates["SET_TEMPERATURE"]){
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Goal-Temperature";
 						var min = dialogStates["SET_TEMPERATURE"].min || 6;
 						var max = dialogStates["SET_TEMPERATURE"].max || 30;
 						var step = "0.5";
 						if(usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
-						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Goal-Temperature") + ":</label>";
+						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -7876,7 +7966,9 @@ function renderDialog(deviceIdEscaped){
 
 					case "iQontrolDoorWithLock":
 					if(dialogStates["STATE"]){
-						dialogContent += "<label for='DialogStateValue'><image src='./images/symbols/door.png' / style='width:16px; height:16px;'>&nbsp;" + _("Door") + ":</label>";
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Door";
+						dialogContent += "<label for='DialogStateValue'><image src='./images/symbols/door.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -7901,8 +7993,9 @@ function renderDialog(deviceIdEscaped){
 					break;
 
 					case "iQontrolScene":
-					var type = "Scene";
+					var type = getDeviceOptionValue(device, "stateCaption") || "Scene";
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -7923,8 +8016,9 @@ function renderDialog(deviceIdEscaped){
 					break;
 
 					case "iQontrolProgram":
-					var type = "Program";
+					var type = getDeviceOptionValue(device, "stateCaption") || "Program";
 					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -7953,11 +8047,13 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["STATE"]){
 						switch(dialogStates["STATE"].type){
 							case "switch":
+							dialogContentCountAfterHR++;
 							var type = "Switch";
 							if (device.commonRole == "iQontrolMotion") type = "Motion";
 							if (device.commonRole == "iQontrolAlarm") type = "Alarm";
 							if (device.commonRole == "iQontrolDateAndTime") type = "Status";
 							if (device.commonRole == "iQontrolWidget") type = "Enlarge";
+							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
 								dialogContent += "<option value='false'>0</option>";
@@ -7993,7 +8089,8 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "button":
-							var type = "Button";
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "stateCaption") || "Button";
 							if(dialogLinkedStateIds["STATE"]){
 								var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
 								dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
@@ -8019,6 +8116,7 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "level":
+							dialogContentCountAfterHR++;
 							var min = dialogStates["STATE"].min || 0;
 							var max = dialogStates["STATE"].max || 100;
 							var step = "1";
@@ -8035,6 +8133,7 @@ function renderDialog(deviceIdEscaped){
 								type = "Height";
 								sliderSendRate = 5000;
 							}
+							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -8076,9 +8175,11 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "valueList":
+							dialogContentCountAfterHR++;
 							var type = "Selection";
 							if (device.commonRole == "iQontrolMotion") type = "Motion";
 							if (device.commonRole == "iQontrolAlarm") type = "Alarm";
+							type = getDeviceOptionValue(device, "stateCaption") || type;
 							dialogContent += "<label for='DialogStateValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
 							for(val in dialogStates["STATE"].valueList){
@@ -8130,7 +8231,9 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "string":
-							dialogContent += "<label for='DialogStateString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Text") + ":</label>";
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "stateCaption") || "Text";
+							dialogContent += "<label for='DialogStateString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
 							if (!dialogStates["STATE"].readonly && !dialogReadonly) {
 								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
@@ -8162,10 +8265,11 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "time":
+							dialogContentCountAfterHR++;
 							var timeFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeFormat) || "x");
 							var timeDisplayFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
 							var isPeriod = (timeFormat.type == "period")
-							var type = (isPeriod ? "Duration" : "Time");
+							var type = getDeviceOptionValue(device, "stateCaption") || (isPeriod ? "Duration" : "Time");
 							dialogContent += "<label for='DialogStateTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
 							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
@@ -8388,6 +8492,7 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["LEVEL"]){
 						switch(dialogStates["LEVEL"].type){
 							case "level":
+							dialogContentCountAfterHR++;
 							var min = dialogStates["LEVEL"].min || 0;
 							var max = dialogStates["LEVEL"].max || 100;
 							var step = "1";
@@ -8404,6 +8509,7 @@ function renderDialog(deviceIdEscaped){
 								type = "Height";
 								sliderSendRate = 5000;
 							}
+							type = getDeviceOptionValue(device, "levelCaption") || type;
 							dialogContent += "<label for='DialogLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -8445,7 +8551,8 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "valueList":
-							var type = "Selection";
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "levelCaption") || "Selection";
 							dialogContent += "<label for='DialogLevelValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
 							for(val in dialogStates["LEVEL"].valueList){
@@ -8512,7 +8619,8 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["SUBJECT"]){
 						switch(dialogStates["SUBJECT"].type){
 							case "valueList":
-							var type = "Description";
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "subjectCaption") || "Description";
 							dialogContent += "<br>";
 							dialogContent += "<label for='DialogSubjectValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogSubjectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectValueList' id='DialogSubjectValueList' data-native-menu='false'>";
@@ -8565,7 +8673,8 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "string": default:
-							var type = "Description";
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "subjectCaption") || "Description";
 							dialogContent += "<br>";
 							dialogContent += "<label for='DialogSubjectString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<textarea class='iQontrolDialogString' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SUBJECT"].readonly || dialogReadonly).toString() + "' name='DialogSubjectString' id='DialogSubjectString'></textarea>";
@@ -8603,7 +8712,8 @@ function renderDialog(deviceIdEscaped){
 						var timeDisplayDontShowDistance = ((getDeviceOptionValue(device, "timeDisplayDontShowDistance", true) || (dialogStates["TIME"].custom && dialogStates["TIME"].custom.timeDisplayDontShowDistance ? "true" : "false")) == "true");
 						var isPeriod = (timeFormat.type == "period");
 						var type = getDeviceOptionValue(device, "timeCaption") || (isPeriod ? "Duration" : (dialogStates["SECOND_TIME"] ? "Start-Time" : "Time"));
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["TIME"].readonly || dialogReadonly).toString() + "' name='DialogTimeString' id='DialogTimeString' readonly/>";
 						dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogTimeDistance'></div>";
@@ -8833,7 +8943,8 @@ function renderDialog(deviceIdEscaped){
 						if (max - min < 10) step = "0.01";
 						if (max - min < 1) step = "0.001";
 						if(usedObjects[dialogLinkedStateIds["HUE"]] && typeof usedObjects[dialogLinkedStateIds["HUE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step.toString();
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogHueSlider' ><image src='./images/symbols/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorPicker' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["HUE"] && dialogStates["HUE"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogHueSlider' id='DialogHueSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -8885,6 +8996,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----ColorSaturationPicker
 					if(dialogStates["SATURATION"] && typeof dialogStates["SATURATION"].val !== udef && dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef){
+						dialogContentCountAfterHR++;
 						var min = dialogStates["SATURATION"] && dialogStates["SATURATION"].min || 0;
 						var max = dialogStates["SATURATION"] && dialogStates["SATURATION"].max || 100;
 						var step = "1";
@@ -8946,6 +9058,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----ColorBrightness
 					if(dialogStates["COLOR_BRIGHTNESS"] && typeof dialogStates["COLOR_BRIGHTNESS"].val !== udef  && ((dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white brightness or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
+						dialogContentCountAfterHR++;
 						var min = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].min || 0;
 						var max = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].max || 100;
 						var step = "1";
@@ -9003,7 +9116,8 @@ function renderDialog(deviceIdEscaped){
 						if(usedObjects[dialogLinkedStateIds["CT"]] && typeof usedObjects[dialogLinkedStateIds["CT"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step.toString();
 						var invertCt = false;
 						if(getDeviceOptionValue(device, "invertCt") == "true") invertCt = !invertCt;
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogCtSlider' ><image src='./images/symbols/colortemperature.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color-Temperature") + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorTemperaturePicker" + (invertCt?" invert":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["CT"] && dialogStates["CT"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogCtSlider' id='DialogCtSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -9045,6 +9159,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----WhiteBrightness
 					if(dialogStates["WHITE_BRIGHTNESS"] && typeof dialogStates["WHITE_BRIGHTNESS"].val !== udef  && ((dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef) || (!dialogStates["LEVEL"] || typeof dialogStates["LEVEL"].val == udef))){ //brightness is only necessary, if the light has color and white or if .LEVEL absent - otherwise the level ist regulated via .LEVEL
+						dialogContentCountAfterHR++;
 						var min = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].min || 0;
 						var max = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].max || 100;
 						var step = "1";
@@ -9093,7 +9208,8 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----EffectMode
 					if(dialogStates["EFFECT"] && dialogStates["EFFECT"].type){
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogEffectValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
 						dialogContent += "<select  class='iQontrolDialogValueList DialogEffectValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["EFFECT"].readonly || dialogReadonly).toString() + "' name='DialogEffectValueList' id='DialogEffectValueList' data-native-menu='false'>";
 						for(val in dialogStates["EFFECT"].valueList){
@@ -9140,7 +9256,8 @@ function renderDialog(deviceIdEscaped){
 						})(); //<--End Closure
 					}
 					if(dialogStates["EFFECT_NEXT"] && dialogStates["EFFECT_NEXT"].type && !dialogStates["EFFECT_NEXT"].readonly && !dialogReadonly){
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogEffectNextButton' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _("Effect") + ":</label>";
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogEffectNextButton' id='DialogEffectNextButton'>" + _("Next") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -9155,6 +9272,7 @@ function renderDialog(deviceIdEscaped){
 						})(); //<--End Closure
 					}
 					if(((dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type) || (dialogStates["EFFECT_SPEED_UP"] && dialogStates["EFFECT_SPEED_UP"].type)) && !dialogStates["EFFECT_SPEED_UP"].readonly && !dialogStates["EFFECT_SPEED_UP"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
 						dialogContent += "<div data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["EFFECT_SPEED_DOWN"] && dialogStates["EFFECT_SPEED_DOWN"].type){
 							dialogContent += "<a data-role='button' data-mini='false' data-icon='minus' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogEffectSpeedDownButton' id='DialogEffectSpeedDownButton'>" + _("Slower") + "</a>";
@@ -9191,6 +9309,7 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["CONTROL_MODE"]){
 						switch(dialogStates["CONTROL_MODE"].type){
 							case "switch":
+							dialogContentCountAfterHR++;
 							var type = "Mode";
 							dialogContent += "<label for='DialogThermostatControlModeSwitch' ><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeSwitch' id='DialogThermostatControlModeSwitch'>";
@@ -9225,6 +9344,7 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "valueList":
+							dialogContentCountAfterHR++;
 							var type = "Mode";
 							dialogContent += "<label for='DialogThermostatControlModeValueList' ><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogThermostatControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeValueList' id='DialogThermostatControlModeValueList' data-native-menu='false'>";
@@ -9315,6 +9435,7 @@ function renderDialog(deviceIdEscaped){
 							dialogStates["CONTROL_MODE"].valueList[2] = "PARTY-MODE";
 							dialogStates["CONTROL_MODE"].valueList[3] = "BOOST-MODE";
 						}
+						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
 							dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _("Mode") + ":</legend>";
 							for(val in dialogStates["CONTROL_MODE"].valueList){
@@ -9406,6 +9527,7 @@ function renderDialog(deviceIdEscaped){
 						var year = now.getFullYear() - 2000;
 						var	dialogThermostatPartyModeCollapsibleExpanded = false;
 						if(device.commonRole != "iQontrolHomematicIpThermostat" && dialogStates["PARTY_TEMPERATURE"]){
+							dialogContentCountAfterHR++;
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated' data-iconpos='right' data-inset='true' id='DialogThermostatPartyModeCollapsible' class=''>";
 								dialogContent += "<h4><image src='./images/symbols/party.png' / style='width:16px; height:16px;'>&nbsp;" + _("Party-Mode") + ": <span id='DialogThermostatPartyModeText' class='small'></span></h4>";
 								dialogContent += "<div id='DialogThermostatPartyModeContent'>";
@@ -9635,6 +9757,7 @@ function renderDialog(deviceIdEscaped){
 							dialogLinkedStateIdsToUpdate.push(element.value);
 						});
 						var valveStatesSectionType = getDeviceOptionValue(device, "valveStatesSectionType") || "collapsible";
+						dialogContentCountAfterHR++;
 						dialogContent += "<div" + (valveStatesSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (valveStatesSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 							dialogContent += (valveStatesSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/setpoint.png' style='width:16px; height:16px;'>&nbsp;" + _("Heating-Valves") + ":</h4>" : "<hr>");
 							dialogContent += "<div id='DialogThermostatValveStatesContent'" + (valveStatesSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
@@ -9660,6 +9783,7 @@ function renderDialog(deviceIdEscaped){
 
 					case "iQontrolGarageDoor":
 					if(dialogStates["TOGGLE"] && !dialogStates["TOGGLE"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogToggleButton' id='DialogToggleButton'>" + _("Toggle") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -9679,6 +9803,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContent += "<legend><image src='./images/symbols/door_lock.png' / style='width:16px; height:16px;'>&nbsp;" + _("Doorlock") + ":</legend>";
 					}
 					if(dialogStates["LOCK_OPEN"] && !dialogStates["LOCK_OPEN"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -9692,6 +9817,7 @@ function renderDialog(deviceIdEscaped){
 						})(); //<--End Closure
 					}
 					if(dialogStates["LOCK_STATE"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
 							dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLockStateCheckboxradio' " + ((dialogStates["LOCK_STATE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockStateCheckboxradio' id='DialogLockStateCheckboxradio_false' value='false' />";
 							dialogContent += "<label for='DialogLockStateCheckboxradio_false'>" + _("locked") + "</label>";
@@ -9763,6 +9889,7 @@ function renderDialog(deviceIdEscaped){
 					case "iQontrolBlind":
 					//----Actuator
 					if(!dialogReadonly && (dialogStates["FAVORITE_POSITION"] && dialogStates["FAVORITE_POSITION"].type)){
+						dialogContentCountAfterHR++;
 						var favoritePositionCaption = getDeviceOptionValue(device, "favoritePositionCaption") || "Favorite Position";
 						dialogContent += "<a data-role='button' data-mini='true' data-icon='star' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateFavoritePositionButton' id='DialogStateFavoritePositionButton'>" + _(favoritePositionCaption) + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -9779,6 +9906,7 @@ function renderDialog(deviceIdEscaped){
 						})(); //<--End Closure
 					}
 					if(!dialogReadonly && ((dialogStates["DOWN"] && dialogStates["DOWN"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["UP"] && dialogStates["UP"].type))){
+						dialogContentCountAfterHR++;
 						dialogContent += "<center><div data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["DOWN"] && dialogStates["DOWN"].type){
 							var downCaption = getDeviceOptionValue(device, "downCaption") || "Down";
@@ -9837,6 +9965,7 @@ function renderDialog(deviceIdEscaped){
 					//----Slats
 					if(dialogStates["SLATS_LEVEL"]){
 						if(dialogStates["SLATS_LEVEL"].type == "level"){
+							dialogContentCountAfterHR++;
 							var min = dialogStates["SLATS_LEVEL"].min || 0;
 							var max = dialogStates["SLATS_LEVEL"].max || 100;
 							var step = "1";
@@ -9888,6 +10017,7 @@ function renderDialog(deviceIdEscaped){
 
 					case "iQontrolAlarm":
 					if(dialogStates["CONTROL_MODE"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogControlModeValueList' ><image src='./images/symbols/variable.png' style='width:16px; height:16px;' />&nbsp;" + _("Operation Mode") + ":</label>";
 						dialogContent += "<select class='iQontrolDialogValueList DialogControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogControlModeValueList' id='DialogControlModeValueList' data-native-menu='false'>";
 						for(val in dialogStates["CONTROL_MODE"].valueList){
@@ -9942,6 +10072,7 @@ function renderDialog(deviceIdEscaped){
 					case "iQontrolMedia":
 					//----Cover Image
 					if(dialogStates["COVER_URL"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<img src='' style='max-width:150px; max-height:150px' class='iQontrolDialogMediaImage DialogMediaCoverImage' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaCoverImage' id='DialogMediaCoverImage'>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _device = device;
@@ -10001,6 +10132,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Artist
 					if(dialogStates["ARTIST"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText artist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaArtist' id='DialogMediaArtist'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10018,6 +10150,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Album
 					if(dialogStates["ALBUM"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText album' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaAlbum' id='DialogMediaAlbum'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10035,6 +10168,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Title
 					if(dialogStates["TITLE"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText title' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTitle' id='DialogMediaTitle'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10052,6 +10186,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Track
 					if(dialogStates["TRACK"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText track small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaTrack' id='DialogMediaTrack'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10069,6 +10204,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Season
 					if(dialogStates["SEASON"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText season' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaSeason' id='DialogMediaSeason'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10086,6 +10222,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Episode
 					if(dialogStates["EPISODE"]){
+						dialogContentCountAfterHR++;
 						dialogContent += "<span class='iQontrolDialogMediaText episode' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogMediaEpisode' id='DialogMediaEpisode'></span>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
@@ -10104,6 +10241,7 @@ function renderDialog(deviceIdEscaped){
 					//----Seekbar
 					if(dialogStates["ELAPSED"]){
 						if(dialogStates["ELAPSED"].type == "level"){
+							dialogContentCountAfterHR++;
 							var min = dialogStates["ELAPSED"].min || 0;
 							var max = dialogStates["ELAPSED"].max || 200;
 							var step = "1";
@@ -10166,6 +10304,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Media-Control (PREV, REWIND, PLAY, PAUSE, STOP, FORWARD, NEXT)
 					if(!dialogReadonly && ((dialogStates["PREV"] && dialogStates["PREV"].type) || (dialogStates["REWIND"] && dialogStates["REWIND"].type) || (dialogStates["PLAY"] && dialogStates["PLAY"].type) || (dialogStates["PAUSE"] && dialogStates["PAUSE"].type) || (dialogStates["STOP"] && dialogStates["STOP"].type) || (dialogStates["FORWARD"] && dialogStates["FORWARD"].type) || (dialogStates["NEXT"] && dialogStates["NEXT"].type))){
+						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["PREV"] && dialogStates["PREV"].type){
 							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlPrevCheckbox' id='DialogMediaControlPrevCheckbox'>";
@@ -10415,6 +10554,7 @@ function renderDialog(deviceIdEscaped){
 					}
 					//----Media-Control (SHUFFLE, REPEAT, MUTE, PLAY_EVERYWHERE EJECT, POWER_SWITCH)
 					if(!dialogReadonly && ((dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type) || (dialogStates["REPEAT"] && dialogStates["REPEAT"].type) || (dialogStates["MUTE"] && dialogStates["MUTE"].type) || (dialogStates["PLAY_EVERYWHERE"] && dialogStates["PLAY_EVERYWHERE"].type) || (dialogStates["EJECT"] && dialogStates["EJECT"].type) || (dialogStates["POWER_SWITCH"] && dialogStates["POWER_SWITCH"].type))){
+						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>";
 						if(dialogStates["SHUFFLE"] && dialogStates["SHUFFLE"].type){
 							dialogContent += "<input type='checkbox' data-mini='true' class='iQontrolDialogCheckboxradio' data-iQontrol-Device-ID='" + deviceIdEscaped +"' name='DialogMediaControlShuffleCheckbox' id='DialogMediaControlShuffleCheckbox'>";
@@ -10665,7 +10805,8 @@ function renderDialog(deviceIdEscaped){
 							if (max - min < 1) step = "0.001";
 							if(usedObjects[dialogLinkedStateIds["VOLUME"]] && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step.toString();
 							var type = "Volume";
-							dialogContent += "<hr>";
+							if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+							dialogContentCountAfterHR++;
 							dialogContent += "<label for='DialogVolumeLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["VOLUME"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogVolumeLevelSlider' id='DialogVolumeLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -10710,7 +10851,8 @@ function renderDialog(deviceIdEscaped){
 					if((dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type) || (dialogStates["REMOTE_VOLUME_UP"] && dialogStates["REMOTE_VOLUME_UP"].type) || (dialogStates["REMOTE_VOLUME_DOWN"] && dialogStates["REMOTE_VOLUME_DOWN"].type) || (dialogStates["REMOTE_CH_UP"] && dialogStates["REMOTE_CH_UP"].type) || (dialogStates["REMOTE_CH_DOWN"] && dialogStates["REMOTE_CH_DOWN"].type) || (dialogStates["REMOTE_PAD_DIRECTION"] && dialogStates["REMOTE_PAD_DIRECTION"].type) || (dialogStates["REMOTE_PAD_BACK"] && dialogStates["REMOTE_PAD_BACK"].type) || (dialogStates["REMOTE_PAD_HOME"] && dialogStates["REMOTE_PAD_HOME"].type) || (dialogStates["REMOTE_PAD_MENU"] && dialogStates["REMOTE_PAD_MENU"].type) || (dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type) || (dialogStates["REMOTE_ADDITIONAL_BUTTONS"] && typeof dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != udef && dialogStates["REMOTE_ADDITIONAL_BUTTONS"].val != "[]") || (dialogStates["REMOTE_CHANNELS"] && typeof dialogStates["REMOTE_CHANNELS"].val != udef && dialogStates["REMOTE_CHANNELS"].val != "[]")){
 						var type = "Remote Control";
 						dialogContent += "<div id='DialogRemote'>";
-						dialogContent += "<hr>";
+						if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+						dialogContentCountAfterHR++;
 						dialogContent += "<label for='' ><image src='./images/symbols/buttongrid.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<div" + (getDeviceOptionValue(device, "remoteKeepSectionsOpen") == "true" ? "" : " class='ui-collapsible-set'") + ">";
 						var remoteSectionsStartOpened = getDeviceOptionValue(device, "remoteSectionsStartOpened") || "";
@@ -10956,6 +11098,7 @@ function renderDialog(deviceIdEscaped){
 								}
 								dialogLinkedStateIdsToUpdate.push(element.value);
 							});
+							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "remoteAdditionalButtonsCaption") || _("Additional Buttons");
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated'" + (remoteSectionsStartOpened.indexOf("REMOTE_ADDITIONAL_BUTTONS") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>";
@@ -11006,6 +11149,7 @@ function renderDialog(deviceIdEscaped){
 								}
 								dialogLinkedStateIdsToUpdate.push(element.value);
 							});
+							dialogContentCountAfterHR++;
 							var type = getDeviceOptionValue(device, "remoteChannelsCaption") || _("Channels");
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated'" + (remoteSectionsStartOpened.indexOf("REMOTE_CHANNELS") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>";
@@ -11034,6 +11178,7 @@ function renderDialog(deviceIdEscaped){
 						}
 						//----RemoteControl Numbers
 						if(dialogStates["REMOTE_NUMBER"] && dialogStates["REMOTE_NUMBER"].type){
+							dialogContentCountAfterHR++;
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated'" + (remoteSectionsStartOpened.indexOf("REMOTE_NUMBERS") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Numbers") + ":</h4>";
 								dialogContent += "<div class='ui-grid-b' style='max-width:250px;'>";
@@ -11064,6 +11209,7 @@ function renderDialog(deviceIdEscaped){
 						}
 						//----RemoteControl Colors
 						if(dialogStates["REMOTE_COLOR"] && dialogStates["REMOTE_COLOR"].type){
+							dialogContentCountAfterHR++;
 							dialogContent += "<div data-role='collapsible' class='collapsibleAnimated'" + (remoteSectionsStartOpened.indexOf("REMOTE_COLORS") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 								dialogContent += "<h4><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + _("Color-Buttons") + ":</h4>";
 								dialogContent += "<div class='ui-grid-c' style='max-width:250px;'>";
@@ -11111,6 +11257,7 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["SOURCE"]){
 						switch(dialogStates["SOURCE"].type){
 							case "valueList":
+							dialogContentCountAfterHR++;
 							var type = "Source";
 							dialogContent += "<label for='DialogSourceValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogSourceValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceValueList' id='DialogSourceValueList' data-native-menu='false'>";
@@ -11161,6 +11308,7 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "string":
+							dialogContentCountAfterHR++;
 							var type = "Source";
 							dialogContent += "<label for='DialogSourceString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<textarea class='iQontrolDialogString Source' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SOURCE"].readonly || dialogReadonly).toString() + "' name='DialogSourceString' id='DialogSourceString'></textarea>";
@@ -11196,6 +11344,7 @@ function renderDialog(deviceIdEscaped){
 					if(dialogStates["PLAYLIST"]){
 						switch(dialogStates["PLAYLIST"].type){
 							case "valueList":
+							dialogContentCountAfterHR++;
 							var type = "Playlist";
 							dialogContent += "<label for='DialogPlaylistValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<select  class='iQontrolDialogValueList DialogPlaylistValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistValueList' id='DialogPlaylistValueList' data-native-menu='false'>";
@@ -11246,6 +11395,7 @@ function renderDialog(deviceIdEscaped){
 							break;
 
 							case "string":
+							dialogContentCountAfterHR++;
 							var type = "Playlist";
 							dialogContent += "<label for='DialogPlaylistString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<textarea class='iQontrolDialogString Playlist' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["PLAYLIST"].readonly || dialogReadonly).toString() + "' name='DialogPlaylistString' id='DialogPlaylistString'></textarea>";
@@ -11299,7 +11449,8 @@ function renderDialog(deviceIdEscaped){
 					var additionalControlsSectionType = getDeviceOptionValue(device, "additionalControlsSectionType") || "collapsible";
 					var additionalControlsHeadingType = getDeviceOptionValue(device, "additionalControlsHeadingType") || "none";
 					var additionalControlsHideNameForButtons = (getDeviceOptionValue(device, "additionalControlsHideNameForButtons") == "true");
-					dialogContent += (additionalControlsSectionType.indexOf("collapsible") == -1 ? "<hr>" : "");
+					dialogContent += (additionalControlsSectionType.indexOf("collapsible") == -1 && dialogContentCountAfterHR > 0 ? "<hr>" : "");
+					dialogContentCountAfterHR++;
 					dialogContent += "<div" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalControlsSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'  style='margin: 0; padding: 5px 0 5px 0;'>";
 						dialogContent += (additionalControlsSectionType.indexOf("noCaption") == -1 ? "<h4" + (additionalControlsSectionType.indexOf("collapsible") == -1 ? " style='margin-top: 0;'" : "") + "><image src='./images/symbols/buttongrid.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "");
 						dialogContent += "<div id='DialogAdditionalControlsContent' style='overflow:auto;" + ((additionalControlsSectionType.indexOf("collapsible") == -1) ? " margin: 0 -5px 0px -5px; padding: 0 0 5px 0;" : " margin: 0 -15px 0 -15px; padding: 5px 5px 5px 5px;") + "'>";
@@ -11335,8 +11486,9 @@ function renderDialog(deviceIdEscaped){
 								if(typeof dialogUpdateFunctions[linkedStateId] == udef) dialogUpdateFunctions[linkedStateId] = [];
 								var stateValue = getStateObject(_element.value);
 								if(stateValue){
-									if(((_index > 0 && headingIndex > 0) || (_index == 0 && additionalControlsSectionType.indexOf("noCaption") != -1))
-										&& !(lastElementWasHalfWidth && _element.halfWidth)){
+									if(((_index > 0 && headingIndex > 0) || (_index == 0 && additionalControlsSectionType.indexOf("noCaption") != -1 && additionalControlsSectionType.indexOf("collapsible") != -1))
+										&& !(lastElementWasHalfWidth && _element.halfWidth)
+										&& dialogContentCountAfterHR > 1){
 										dialogAdditionalControlsContent += "<hr style='clear: left;'>";
 									} 
 									if(_element.halfWidth) {
@@ -11894,6 +12046,7 @@ function renderDialog(deviceIdEscaped){
 				//----External Link with url
 				if (dialogStates["URL"] && (device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")){
 					var type = _(getDeviceOptionValue(device, "openURLExternalCaption") || "Open External Link");
+					dialogContentCountAfterHR++;
 					dialogContent += "<a href='' target='_blank' data-role='button' data-mini='false' data-icon='action' data-iconpos='left' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogExternalLinkButton' id='DialogExternalLinkButton'>" + type + "</a>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
@@ -11909,6 +12062,7 @@ function renderDialog(deviceIdEscaped){
 
 				//----Popup with url or html
 				if ((dialogStates["URL"] && !(device.commonRole == "iQontrolExternalLink" || getDeviceOptionValue(device, "openURLExternal") == "true")) || dialogStates["HTML"]){
+					dialogContentCountAfterHR++;
 					var style = "display: none; ";
 					var popupWidth = getDeviceOptionValue(device, "popupWidth");
 					if (popupWidth){
@@ -11993,16 +12147,21 @@ function renderDialog(deviceIdEscaped){
 						}
 						dialogLinkedStateIdsToUpdate.push(element.value);
 					});
+					dialogContentCountAfterHR++;
 					var type = _(getDeviceOptionValue(device, "additionalInfoCaption") || "Additional Infos");
 					var additionalInfoSectionType = getDeviceOptionValue(device, "additionalInfoSectionType") || "collapsible";
+					var additionalInfoListType = getDeviceOptionValue(device, "additionalInfoListType") || "";
+					var additionalInfoListColumnCount = getDeviceOptionValue(device, "additionalInfoListColumnCount") || "auto";
+					var additionalInfoListColumnWidth = parseInt(getDeviceOptionValue(device, "additionalInfoListColumnWidth") || "220");
 					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
-						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : "<hr>");
+						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : (dialogContentCountAfterHR > 0 ? "<hr>" : ""));
 						dialogContent += "<div id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
-							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></ul>";
+							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList'" + (additionalInfoListType == "plain" ? "" : " data-role='listview'") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='columns: " + additionalInfoListColumnCount + (additionalInfoListColumnWidth ? " " + additionalInfoListColumnWidth + "px" : "") + ";'></ul>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _linkedStateIds = linkedAdditionalInfoIds;
+						var _additionalInfoListType = additionalInfoListType;
 						var updateFunction = function(){
 							$("#DialogAdditionalInfosContentList").html("");
 							_linkedStateIds.forEach(function(_element){
@@ -12017,6 +12176,7 @@ function renderDialog(deviceIdEscaped){
 								}
 								if(state) $("#DialogAdditionalInfosContentList").append("<li>" + _element.name + ": " + resultText + "</li>");
 							});
+							if(_additionalInfoListType != "plain") $("#DialogAdditionalInfosContentList").listview('refresh');
 						};
 						_linkedStateIds.forEach(function(_element){
 							if(!dialogUpdateFunctions[_element.value]) dialogUpdateFunctions[_element.value] = [];
@@ -12029,7 +12189,8 @@ function renderDialog(deviceIdEscaped){
 					var linkedView = device.nativeLinkedView;
 					var linkedViewName = linkedView.substring(linkedView.lastIndexOf('.') + 1);
 					var linkedViewHistoryPosition = viewLinksToOtherViews.indexOf(device.nativeLinkedView);
-					dialogContent += "<hr>";
+					if(dialogContentCountAfterHR > 0) dialogContent += "<hr>";
+					dialogContentCountAfterHR++;
 					dialogContent += "<label for='DialogLinkedViewButton' ><image src='./images/symbols/view.png' / style='width:16px; height:16px;'>&nbsp;" + _("Link to other view") + ":</label>";
 					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName) + "</a>";
 				}
