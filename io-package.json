@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.5",
+        "version": "1.9.6",
         "news": {
+            "1.9.6": {
+                "en": "Removed some unnecessary horizontal lines in dialog. \nAdded option to edit caption of STATE or LEVEL. \nEnhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns. \nAdded some polyfils for older browsers. \nFixed a bug that prevented certain options from being applied correctly.",
+                "de": "Einige unnötige horizontale Linien im Dialog wurden entfernt. \nOption zum Bearbeiten der Beschriftung von STATE oder LEVEL hinzugefügt. \nVerbesserte ADDITIONAL_INFO-Liste (Sie können per Option zum alten Stil zurückkehren) und optionale Spalten hinzugefügt. \nEinige Polyfiles für ältere Browser hinzugefügt. \nEs wurde ein Fehler behoben, der die korrekte Anwendung bestimmter Optionen verhinderte.",
+                "ru": "Убраны лишние горизонтальные линии в диалоге. \nДобавлена возможность редактировать заголовок СОСТОЯНИЯ или УРОВНЯ. \nРасширен список ADDITIONAL_INFO (вы можете вернуться к старому стилю с помощью опции) и добавлены дополнительные столбцы. \nДобавлены полифилы для старых браузеров. \nИсправлена ошибка, из-за которой некоторые параметры не применялись правильно.",
+                "pt": "Removidas algumas linhas horizontais desnecessárias na caixa de diálogo. \nAdicionada opção para editar legenda de ESTADO ou NÍVEL. \nLista ADDITIONAL_INFO aprimorada (você pode voltar ao estilo antigo via opção) e colunas opcionais adicionadas. \nAdicionados alguns polyfils para navegadores mais antigos. \nCorrigido um bug que impedia que certas opções fossem aplicadas corretamente.",
+                "nl": "Enkele onnodige horizontale lijnen in dialoogvenster verwijderd. \nOptie toegevoegd om bijschrift van STATE of LEVEL te bewerken. \nVerbeterde ADDITIONAL_INFO-lijst (u kunt via optie teruggaan naar de oude stijl) en optionele kolommen toegevoegd. \nEnkele polyfils toegevoegd voor oudere browsers. \nEen bug opgelost die verhinderde dat bepaalde opties correct werden toegepast.",
+                "fr": "Suppression de quelques lignes horizontales inutiles dans la boîte de dialogue. \nAjout d'une option pour modifier la légende de STATE ou LEVEL. \nListe ADDITIONAL_INFO améliorée (vous pouvez revenir à l'ancien style via l'option) et ajout de colonnes facultatives. \nAjout de quelques polyfils pour les navigateurs plus anciens. \nCorrection d'un bug qui empêchait certaines options d'être appliquées correctement.",
+                "it": "Rimosse alcune linee orizzontali non necessarie nella finestra di dialogo. \nAggiunta l'opzione per modificare la didascalia di STATE o LEVEL. \nElenco ADDITIONAL_INFO migliorato (puoi tornare al vecchio stile tramite l'opzione) e aggiunte colonne opzionali. \nAggiunti alcuni polyfils per i browser più vecchi. \nRisolto un bug che impediva l'applicazione corretta di alcune opzioni.",
+                "es": "Se eliminaron algunas líneas horizontales innecesarias en el diálogo. \nSe agregó la opción para editar el título de ESTADO o NIVEL. \nLista ADDITIONAL_INFO mejorada (puede volver al estilo antiguo a través de la opción) y columnas opcionales agregadas. \nSe agregaron algunos polyfils para navegadores más antiguos. \nSe corrigió un error que impedía que ciertas opciones se aplicaran correctamente.",
+                "pl": "Usunięto niepotrzebne poziome linie w oknie dialogowym. \nDodano opcję edycji podpisu STAN lub POZIOM. \nUlepszona lista ADDITIONAL_INFO (możesz wrócić do starego stylu za pomocą opcji) i dodane opcjonalne kolumny. \nDodano kilka polifili dla starszych przeglądarek. \nNaprawiono błąd, który uniemożliwiał prawidłowe zastosowanie niektórych opcji.",
+                "zh-cn": "删除了对话框中一些不必要的水平线。添加了编辑状态或级别标题的选项。增强的 ADDITIONAL_INFO 列表（您可以通过选项返回到旧样式）并添加了可选列。为旧浏览器添加了一些 polyfil。修复了阻止正确应用某些选项的错误。"
+            },
             "1.9.5": {
                 "en": "Removed prevention of injection for iframes.",
                 "de": "Die Verhinderung der Injektion für iframes wurde entfernt.",
