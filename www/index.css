@@ -558,7 +558,7 @@ html.noscroll body {
     transition: all 500ms;
 	width: 100%;
 }
-.viewShuffleContainer.collapsibleClosed ~ .viewNewSectionSpacer{
+.viewShuffleContainer.collapsibleClosed + .viewNewSectionSpacer{
 	height: 0.01em;	margin-top: -20px; /* workaround for quirky animation */
     transition: all 500ms linear;
     transition-delay: 250ms;

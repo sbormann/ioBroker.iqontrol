@@ -7289,9 +7289,11 @@ function renderView(viewId, triggeredByReconnection){
 						var _$collapsible = $collapsible;
 						var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 						clearTimeout(_$collapsible.data('animationtimeout'));
+						if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
 						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, 'linear');
 						var animationTimeoutId = setTimeout(function(){
 							$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
+							viewShuffleReshuffle();
 						}, 750);
 						_$collapsible.data('animationtimeout', animationTimeoutId);
 					})(); //<--End Closure
