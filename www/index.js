@@ -4251,7 +4251,7 @@ function handleOptions(){
 	};
 	//Own CSS:
 	if(options.LayoutCSS) {
-		customCSS = options.LayoutCSS;
+		customCSS += options.LayoutCSS;
 	};
 	//@font-face
 	function getFontFamilyAndAddFontFace(option){
@@ -12134,7 +12134,7 @@ function renderDialog(deviceIdEscaped){
 											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
 										}
 									}
-								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].valWithCode && states[_linkedHtmlId].valWithCode !== "") {
+								} else if (states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val !== "") {
 									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 									if(iframe.onload == null) {
 										iframe.onload = function(){
@@ -12145,7 +12145,7 @@ function renderDialog(deviceIdEscaped){
 										}
 									}
 									iframedoc.open();
-									iframedoc.write(states[_linkedHtmlId].valWithCode.replace(/\\n/g, String.fromCharCode(13)));
+									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
 									$(iframedoc).find('body').css('font-family', 'sans-serif');
 									iframedoc.close();
 								} else {
