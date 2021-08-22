@@ -521,6 +521,7 @@ html.noscroll body {
 	overflow: visible !important;
 	margin: 0;
 	width: 100%;
+	pointer-events:none !important;
 }
 .viewShuffleContainer.collapsibleAnimationRunning{
 	overflow: hidden !important;
@@ -528,7 +529,7 @@ html.noscroll body {
 .viewShuffleContainer.collapsibleContentClosed{
 	display: none;
 }
-.iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon{
+.iQontrolSubheaderCollapsible .iQontrolSubheadingCollapsibleIcon{
 	position: absolute; 
 	right: 0; 
 	top: 50%; 
@@ -543,7 +544,7 @@ html.noscroll body {
 .iQontrolSubheaderCollapsible:not(.collapsibleClosed) .iQontrolSubheadingCollapsibleIcon.plus{
 	opacity: 0;
 }
-.iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon img, .iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon span{
+.iQontrolSubheaderCollapsible .iQontrolSubheadingCollapsibleIcon img, .iQontrolSubheaderCollapsible  .iQontrolSubheadingCollapsibleIcon span{
 	position: relative; 
     margin: 0;
     padding: 0 2px;;
@@ -551,13 +552,13 @@ html.noscroll body {
 	height: 1.3em;
 	vertical-align: top;
 }
-.viewH4Spacer{
+.viewNewSectionSpacer{
     height: 1.3em;
 	margin: 0;
     transition: all 500ms;
 	width: 100%;
 }
-.viewShuffleContainer.collapsibleClosed ~ .viewH4Spacer{
+.viewShuffleContainer.collapsibleClosed ~ .viewNewSectionSpacer{
 	height: 0.01em;	margin-top: -20px; /* workaround for quirky animation */
     transition: all 500ms linear;
     transition-delay: 250ms;

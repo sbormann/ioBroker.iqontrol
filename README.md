@@ -1564,6 +1564,11 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Added option to close collapsible subheaders, if others open.
+* (sbormann) Fixed missing subheaders if new line option was activated.
+* (sbormann) Added option to define new section spacing.
+
 ### 1.9.6 (2021-08-21)
 * (sbormann) Removed some unnecessary horizontal lines in dialog.
 * (sbormann) Added option to edit caption of STATE or LEVEL.
