@@ -518,10 +518,10 @@ html.noscroll body {
 	height: 0;
 }
 .viewShuffleContainer {
+	pointer-events:none;
 	overflow: visible !important;
 	margin: 0;
 	width: 100%;
-	pointer-events:none !important;
 }
 .viewShuffleContainer.collapsibleAnimationRunning{
 	overflow: hidden !important;
@@ -649,6 +649,7 @@ html.noscroll body {
 	   -moz-user-select: none !important; 
 	        user-select: none !important;
 	-webkit-touch-callout: none !important;
+	pointer-events:auto;
 	display: block;
 	top: 0; left:0;
 	width: 104px; max-width: 104px;
