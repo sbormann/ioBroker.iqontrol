@@ -1884,19 +1884,19 @@ html.color-mode-dark #Toolbar{
 	filter: brightness(66%);	
 }
 html.color-mode-dark #ViewHeaderTitle{
-	filter: brightness(66%);	
+	filter: brightness(75%);	
 }
 html.color-mode-dark #ViewContent h4{
-	filter: brightness(66%);	
+	filter: brightness(75%);	
 }
 html.color-mode-dark .iQontrolDevice{
-	filter: brightness(66%);	
+	filter: brightness(80%);	
 }
 html.color-mode-dark .iQontrolDeviceBadge{
-	filter: brightness(66%);	
+	filter: brightness(80%);
 }
 html.color-mode-dark .iQontrolDeviceBackgroundIframe.isBackgroundView {
-	filter: brightness(151%);
+	filter: brightness(125%);
 }
 html.color-mode-dark #ToolbarContextMenu {
 	border-color: #000000bf !important;

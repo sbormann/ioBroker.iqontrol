@@ -179,7 +179,7 @@
 			tableString += "</table>";
 			//$('#jsonTable-popup-popup').remove();
 			$('#jsonTableContainer').html(tableString);
-			$('#jsonTable').table();
+			$('#jsonTable').table().trigger('create');
 		}
 
 		//send postMessages

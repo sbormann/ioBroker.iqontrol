@@ -2435,6 +2435,10 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 						}
 					}
 				}
+				//--Prevent injecting of <script> tags
+				if(typeof newValue == "string") {
+					newValue = newValue.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+				}
 				deliverState(_targetValueId, {val: newValue, ack: false} , function(error){
 					setTimeout(function(){
 						updateState(_stateId, "ignorePreventUpdate");
@@ -12201,7 +12205,7 @@ function renderDialog(deviceIdEscaped){
 					var additionalInfoListColumnWidth = parseInt(getDeviceOptionValue(device, "additionalInfoListColumnWidth") || "0");
 					dialogContent += "<div" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? "" : " data-role='collapsible' class='collapsibleAnimated iQontrolDialogAdditionalInfoCollapsible'") + (additionalInfoSectionType.indexOf("open") == -1 ? "" : " data-collapsed='false'") + " data-iconpos='right' data-inset='true'>";
 						dialogContent += (additionalInfoSectionType.indexOf("noCaption") == -1 ? "<h4><image src='./images/symbols/variable.png' style='width:16px; height:16px;'>&nbsp;" + type + ":</h4>" : (dialogContentCountAfterHR > 0 ? "<hr>" : ""));
-						dialogContent += "<div class='adjustToDialogWidthOffset50' id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px;'" : "") + ">";
+						dialogContent += "<div class='adjustToDialogWidthOffset50' id='DialogAdditionalInfosContent'" + (additionalInfoSectionType.indexOf("collapsible") == -1 ? " style='padding-left:10px; margin-bottom:16px;'" : "") + ">";
 							dialogContent += "<ul class='iQontrolDialogAdditionalInfoList' id='DialogAdditionalInfosContentList'" + (additionalInfoListType == "plain" ? "" : " data-role='listview'") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "' style='columns: " + additionalInfoListColumnCount + (additionalInfoListColumnWidth ? " " + additionalInfoListColumnWidth + "px" : "") + ";'></ul>";
 						dialogContent += "</div>";
 					dialogContent += "</div>";

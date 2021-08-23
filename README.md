@@ -1568,6 +1568,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to close collapsible subheaders, if others open.
 * (sbormann) Fixed missing subheaders if new line option was activated.
 * (sbormann) Added option to define new section spacing.
+* (sbormann) Minor design enhancements to dark mode, ADDITIONAL_INFO and JSON-Table-Widget.
 
 ### 1.9.6 (2021-08-21)
 * (sbormann) Removed some unnecessary horizontal lines in dialog.
