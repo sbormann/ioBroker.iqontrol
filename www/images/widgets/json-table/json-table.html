@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content="This is a json to table widget. It will display json-data of the datapoint linked to STATE or LEVEL as a table. (C) by Sebastian Bormann"/> 
-	<meta name="widget-urlparameters" content="tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;colsSort//Order of Headings (semioclon-separated List of column headers, optional);colsFilter//Filter these Headings (semicolon-separated List of column headers, optional);translations//Translations (semicolon-separated list of comma-separated translations, for example filesize,Size of file);icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint">
+	<meta name="widget-urlparameters" content="tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;colsSort//Order of headings (semioclon-separated List of column headers, optional);colsFilter//Filter these headings (semicolon-separated List of column headers, optional);colsAlwaysVisible//Always visible headings, that can't be hidden (semicolon-separated List of column headers, optional, only valid in Hide-columns-as-needed-mode);colsPreferablyVisible//Preferably visible headings in descending priority (semicolon-separated List of column headers, optional, only valid in Hide-columns-as-needed-mode);colsPreferablyVisibleAreVisibleAtStart/false/Preferably visible headings are always visible at start (no matter which screen size), but can be hidden via menu (only valid in Hide-columns-as-needed-mode)/checkbox;translations//Translations (semicolon-separated list of comma-separated translations, for example filesize,Size of file);icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint">
 	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'noOverlayInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'xwideIfActive highIfActive', 'bigIconActive': 'false', 'iconNoPointerEventsActive': 'true', 'noOverlayActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'iconNoPointerEventsEnlarged': 'true', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
  
 	<link rel="stylesheet" href="/iqontrol/jquery/jquery.mobile-1.4.5.min.css"/>
@@ -68,6 +68,9 @@
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
 		var colsSort = (getUrlParameter("colsSort") || "").split(';');
 		var colsFilter = (getUrlParameter("colsFilter") || "").split(';');
+		var colsAlwaysVisible = (getUrlParameter("colsAlwaysVisible") || "").split(';');
+		var colsPreferablyVisible = (getUrlParameter("colsPreferablyVisible") || "").split(';');
+		var colsPreferablyVisibleAreVisibleAtStart = getUrlParameter("colsPreferablyVisibleAreVisibleAtStart") == "true";
 		var translations = (getUrlParameter("translations") || "").split(';');
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
@@ -157,11 +160,32 @@
 				if(colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
 			}			
 			//Build table
+			var priorityCount = 1; 
+			var priorityPreferablyCount = 1;
+			var alwaysVisibleCount = 0;
+			var colsPreferablyVisibleTranslated = [];
+			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+				if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are preferably Visible
+				if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) priorityCount++; //Counts how many cols are preferably Visible
+			}
 			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
 			tableString += "<thead>";
 			tableString += "<tr>";
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-				tableString += "<th data-priority='" + (col > 0 ? col : "") + "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
+				tableString += "<th data-priority='";
+				if(col > 0 || alwaysVisibleCount > 0) {
+					if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
+						if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
+							tableString += priorityCount;
+							priorityCount++;
+							colsPreferablyVisibleTranslated.push(multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true));
+						} else {
+							tableString += priorityPreferablyCount;
+							priorityPreferablyCount++;
+						}
+					}
+				}
+				tableString += "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
 			}
 			tableString += "</tr>";
 			tableString += "</thead>";
@@ -193,12 +217,13 @@
 				$('#jsonTable').table().trigger('create');
 				//Restore last colsHidden/Visible state
 				$('#jsonTable-popup label').each(function(){ 
-					if(colsVisible.indexOf($(this).text()) != -1) {
+					if(colsVisible.indexOf($(this).text()) != -1 || (colsPreferablyVisibleAreVisibleAtStart && colsPreferablyVisibleTranslated.indexOf($(this).text()) != -1)) {
 						$(this).next('input[type=checkbox]').prop('checked',true).trigger('change').checkboxradio('refresh');
 					} else if(colsHidden.indexOf($(this).text()) != -1) {
 						$(this).next('input[type=checkbox]').prop('checked',false).trigger('change').checkboxradio('refresh');
 					}
 				});
+				colsPreferablyVisibleAreVisibleAtStart = false; //Deactivate after first build of table
 				if(popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
 			} else { //Only update body
 				$('#jsonTableContainer tbody').html(bodyString);

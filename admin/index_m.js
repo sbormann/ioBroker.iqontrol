@@ -2100,9 +2100,9 @@ async function load(settings, onChange) {
 
 		customCSS += ".m nav { background-color: #3399cc; }";
 
-		customCSS += ".m .btn { background-color: #e0e0e0; color: #000000; }";
-		customCSS += ".m .btn:hover { background-color: #d5d5d5; }";
-		customCSS += ".m .btn.disabled { background-color: rgba(0, 0, 0, 0.12) !important; color: rgba(0, 0, 0, 0.26) !important; }";
+		customCSS += ".m .btn, .m .btn-small { background-color: #e0e0e0; color: #000000; }";
+		customCSS += ".m .btn:hover, .m .btn-small:hover { background-color: #d5d5d5; }";
+		customCSS += ".m .btn.disabled, .m .btn-small.disabled { background-color: rgba(0, 0, 0, 0.12) !important; color: rgba(0, 0, 0, 0.26) !important; }";
 		
 		customCSS += ".m .btn-floating { background-color: transparent; box-shadow: none; color: #000000; }";
 		customCSS += ".m .btn-floating:hover { background-color: rgba(0,0,0,0.08); }";
@@ -4687,7 +4687,11 @@ async function load(settings, onChange) {
 								};
 								if(dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
 								if(dialogWidgetSettingsOptionsString.length){
-									$('#dialogWidgetSettingsOptions').html("<b>" + _("Apply the following device options:") + "</b><br><br>" + dialogWidgetSettingsOptionsString).show();
+									var html = "<b>" + _("Apply the following device options:") + "</b><br><br>";
+									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", true).trigger(\"change\");'><i class='large material-icons left'>check_box</i>" + _("All") + "</a>";
+									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", false).trigger(\"change\");'><i class='large material-icons left'>check_box_outline_blank</i>" + _("None") + "</a>";
+									html += "<br><br>" + dialogWidgetSettingsOptionsString;
+									$('#dialogWidgetSettingsOptions').html(html).show();
 								} else {
 									$('#dialogWidgetSettingsOptions').html("").hide();
 								}
