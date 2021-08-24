@@ -62,6 +62,7 @@
 		var STATE;
 		var LEVEL;
 		var options;
+		var lastColsSortedAndFilteredStringified;
 
 		//UrlParameters
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
@@ -157,29 +158,53 @@
 			}			
 			//Build table
 			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
-			//Add headers
 			tableString += "<thead>";
 			tableString += "<tr>";
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
 				tableString += "<th data-priority='" + (col > 0 ? col : "") + "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
 			}
 			tableString += "</tr>";
-			tableString += "</thead>";		
-			//Add Body
+			tableString += "</thead>";
 			tableString += "<tbody>";
-			for (var line = 0; line < dataObject.length; line++) {
-				tableString += "<tr>";
-				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					tableString += "<td>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", translationsAndIconReplacements, true) + "</td>";
-				}
-				tableString += "</tr>";
-			}
 			tableString += "</tbody>";
-			//Append table
 			tableString += "</table>";
-			//$('#jsonTable-popup-popup').remove();
-			$('#jsonTableContainer').html(tableString);
-			$('#jsonTable').table().trigger('create');
+			//Build body
+			var bodyString = "";
+			for (var line = 0; line < dataObject.length; line++) {
+				bodyString += "<tr>";
+				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+					bodyString += "<td>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", translationsAndIconReplacements, true) + "</td>";
+				}
+				bodyString += "</tr>";
+			}
+			//Append table
+			if(JSON.stringify(colsSortedAndFiltered) != lastColsSortedAndFilteredStringified){ //New Headings (or first build of table) - completely rebuild table
+				lastColsSortedAndFilteredStringified = JSON.stringify(colsSortedAndFiltered);
+				//Save last colsHidden/Visible state
+				var colsHidden = [];
+				var colsVisible = [];
+				var popupVisible = $('#jsonTable-popup-popup').hasClass('ui-popup-active');
+				$('#jsonTable-popup label.ui-checkbox-off').each(function(){ colsHidden.push($(this).text()); });
+				$('#jsonTable-popup label.ui-checkbox-on').each(function(){ colsVisible.push($(this).text()); });
+				//Completely rebuild table
+				$('#jsonTable-popup-popup').remove();
+				$('#jsonTableContainer').html(tableString);
+				$('#jsonTableContainer tbody').html(bodyString);
+				$('#jsonTable').table().trigger('create');
+				//Restore last colsHidden/Visible state
+				$('#jsonTable-popup label').each(function(){ 
+					if(colsVisible.indexOf($(this).text()) != -1) {
+						$(this).next('input[type=checkbox]').prop('checked',true).trigger('change').checkboxradio('refresh');
+					} else if(colsHidden.indexOf($(this).text()) != -1) {
+						$(this).next('input[type=checkbox]').prop('checked',false).trigger('change').checkboxradio('refresh');
+					}
+				});
+				if(popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
+			} else { //Only update body
+				$('#jsonTableContainer tbody').html(bodyString);
+				$('#jsonTable').table('refresh').trigger('create');
+				$('#jsonTable-popup input[type=checkbox]').trigger('change');
+			}
 		}
 
 		//send postMessages
@@ -236,10 +261,6 @@
 		function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
 			try {
 				var o = JSON.parse(jsonString);
-				// Handle non-exception-throwing cases:
-				// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-				// but... JSON.parse(null) returns null, and typeof null === "object",
-				// so we must check for that, too. Thankfully, null is falsey, so this suffices:
 				if (o && typeof o === "object") {
 					return o;
 				}

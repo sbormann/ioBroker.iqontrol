@@ -11616,7 +11616,7 @@ function renderDialog(deviceIdEscaped){
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											var buttonCaption = _(_element.caption.split('|')[0] || "push");
 											var variablebuttonCaption = encodeURI(_element.caption.split('|').slice(1).join('|'));
-											dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
+											if(!additionalControlsHideNameForButtons) dialogAdditionalControlsContent += "<label for='DialogAdditionalControlsButton_" + _index + "' ><image src='" + (_element.icon || "./images/symbols/program.png") + "' / style='width:16px; height:16px;'>&nbsp;<span" + (variabletype ? " data-variablehtml='" + variabletype + "'" : "") + ">" + type + "</span>:</label>";
 											dialogAdditionalControlsContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogAdditionalControlsButton_" + _index + "' id='DialogAdditionalControlsButton_" + _index + "'><span" + (variablebuttonCaption ? " data-variablehtml='" + variablebuttonCaption + "'" : "") + ">" + buttonCaption + "</span></a>";
 											(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 												var _deviceIdEscaped = deviceIdEscaped;
