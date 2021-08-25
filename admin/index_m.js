@@ -1097,6 +1097,7 @@ var iQontrolRoles = {
 				statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
 				statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"},
 				stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"},
+				useStateValuesForPlayPauseStop: {name: "Send these values (instead of true) when clicking on PLAY, PAUSE and STOP", type: "checkbox", default: "false"},
 				hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"},
 				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}
 			}},

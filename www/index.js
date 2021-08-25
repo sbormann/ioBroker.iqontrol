@@ -825,6 +825,7 @@ var iQontrolRoles = {
 				statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
 				statePauseValue: {name: "Value of STATE for 'pause'", type: "text", default: "pause"},
 				stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"},
+				useStateValuesForPlayPauseStop: {name: "Send these values (instead of true) when clicking on PLAY, PAUSE and STOP", type: "checkbox", default: "false"},
 				hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"},
 				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}
 			}},
@@ -2614,6 +2615,7 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 	var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
 	var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
 	var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
+	var useStateValuesForPlayPauseStop = getDeviceOptionValue(device, "useStateValuesForPlayPauseStop") == "true";
 	var deviceReadonly = false;
 	if(getDeviceOptionValue(device, "readonly") == "true") deviceReadonly = true;
 	if(state && deviceReadonly == false){
@@ -2625,17 +2627,17 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 		var stateStop = getStateObject(linkedStopId);
 		if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
 			if(statePause && statePause.type) {
-				setState(linkedPauseId, deviceIdEscaped, true, true);
+				setState(linkedPauseId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePauseValue : true), true);
 			} else if(stateStop && stateStop.type) {
-				setState(linkedStopId, deviceIdEscaped, true, true);
+				setState(linkedStopId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? stateStopValue : true), true);
 			}
 		} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
 			if(statePlay && statePlay.type) {
-				setState(linkedPlayId, deviceIdEscaped, true, true);
+				setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
 			}
 		} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
 			if(statePlay && statePlay.type) {
-				setState(linkedPlayId, deviceIdEscaped, true, true);
+				setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
 			}
 		} else { //Undefined
 		}
@@ -10414,12 +10416,13 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["PLAY"];
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var _statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+								var _statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
 									var buttonState = getStateObject(_linkedButtonId);
 									var state = getStateObject(_linkedStateId);
-									var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
-									var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
-									var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 									if (buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPlayCheckbox]").attr("disabled", true);
@@ -10427,11 +10430,11 @@ function renderDialog(deviceIdEscaped){
 											$("input[name=DialogMediaControlPlayCheckbox]").attr("disabled", false);
 										}
 									}
-									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == _statePlayValue)){ //Play
 										$("#DialogMediaControlPlayCheckbox").prop("checked", true);
-									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == _statePauseValue)){ //Pause
 										$("#DialogMediaControlPlayCheckbox").prop("checked", false);
-									} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+									} else if(state && typeof state.val !== udef && state.val == _stateStopValue){ //Stop
 										$("#DialogMediaControlPlayCheckbox").prop("checked", false);
 									} else { //Undefined
 										$("#DialogMediaControlPlayCheckbox").prop("checked", false);
@@ -10442,7 +10445,7 @@ function renderDialog(deviceIdEscaped){
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogMediaControlPlayCheckbox').on('click', function(e) {
-										setState(_linkedButtonId, _deviceIdEscaped, true, true);
+										setState(_linkedButtonId, _deviceIdEscaped, (_useStateValuesForPlayPauseStop ? _statePlayValue : true), true);
 										$("#DialogMediaControlPlayCheckbox").prop("checked", false);
 										$("#DialogMediaControlPlayCheckbox").checkboxradio('refresh');
 									});
@@ -10458,12 +10461,13 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["PAUSE"];
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var _statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+								var _statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
 									var buttonState = getStateObject(_linkedButtonId);
 									var state = getStateObject(_linkedStateId);
-									var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
-									var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
-									var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 									if (buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPauseCheckbox]").attr("disabled", true);
@@ -10471,11 +10475,11 @@ function renderDialog(deviceIdEscaped){
 											$("input[name=DialogMediaControlPauseCheckbox]").attr("disabled", false);
 										}
 									}
-									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == _statePlayValue)){ //Play
 										$("#DialogMediaControlPauseCheckbox").prop("checked", false);
-									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == _statePauseValue)){ //Pause
 										$("#DialogMediaControlPauseCheckbox").prop("checked", true);
-									} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+									} else if(state && typeof state.val !== udef && state.val == _stateStopValue){ //Stop
 										$("#DialogMediaControlPauseCheckbox").prop("checked", false);
 									} else { //Undefined
 										$("#DialogMediaControlPauseCheckbox").prop("checked", false);
@@ -10486,7 +10490,7 @@ function renderDialog(deviceIdEscaped){
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogMediaControlPauseCheckbox').on('click', function(e) {
-										setState(_linkedButtonId, _deviceIdEscaped, true, true);
+										setState(_linkedButtonId, _deviceIdEscaped, (_useStateValuesForPlayPauseStop ? _statePauseValue : true), true);
 										$("#DialogMediaControlPauseCheckbox").prop("checked", false);
 										$("#DialogMediaControlPauseCheckbox").checkboxradio('refresh');
 									});
@@ -10502,12 +10506,13 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["STOP"];
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var _statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
+								var _statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
+								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
+								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
 									var buttonState = getStateObject(_linkedButtonId);
 									var state = getStateObject(_linkedStateId);
-									var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
-									var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
-									var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 									if (buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlStopCheckbox]").attr("disabled", true);
@@ -10515,11 +10520,11 @@ function renderDialog(deviceIdEscaped){
 											$("input[name=DialogMediaControlStopCheckbox]").attr("disabled", false);
 										}
 									}
-									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+									if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == _statePlayValue)){ //Play
 										$("#DialogMediaControlStopCheckbox").prop("checked", false);
-									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+									} else if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == _statePauseValue)){ //Pause
 										$("#DialogMediaControlStopCheckbox").prop("checked", false);
-									} else if(state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+									} else if(state && typeof state.val !== udef && state.val == _stateStopValue){ //Stop
 										$("#DialogMediaControlStopCheckbox").prop("checked", true);
 									} else { //Undefined
 										$("#DialogMediaControlStopCheckbox").prop("checked", false);
@@ -10530,7 +10535,7 @@ function renderDialog(deviceIdEscaped){
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogMediaControlStopCheckbox').on('click', function(e) {
-										setState(_linkedButtonId, _deviceIdEscaped, true, true);
+										setState(_linkedButtonId, _deviceIdEscaped, (_useStateValuesForPlayPauseStop ? _stateStopValue : true), true);
 										$("#DialogMediaControlStopCheckbox").prop("checked", false);
 										$("#DialogMediaControlStopCheckbox").checkboxradio('refresh');
 									});

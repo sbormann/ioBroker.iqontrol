@@ -599,6 +599,7 @@
     "Selected Hover Text-Schadow-Color:": "选定的悬停文本-阴影颜色：",
     "Selected Text-Color:": "已选择 - 文字颜色：",
     "Selected Text-Schadow-Color:": "选定的文本-阴影颜色：",
+    "Send these values (instead of true) when clicking on PLAY, PAUSE and STOP": "单击 PLAY、PAUSE 和 STOP 时发送这些值（而不是 true）",
     "Set Corresponding Options": "设置相应的选项",
     "Set Corresponding States": "设定对应的状态",
     "Settings imported.": "设置已导入。",

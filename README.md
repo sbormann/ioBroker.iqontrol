@@ -1572,6 +1572,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added more options to configure cols of JSON-Table-Widget.
 * (sbormann) Redesigned CONTROL_MODE of Thermostats to be a fieldset instead of a dropdown.
 * (sbormann) Overwrite step for HomematicIP-Temperature sensors with wrong min and max values.
+* (sbormann) Added option to send state-values when clicking on play, pause and stop to media.
 
 ### 1.9.6 (2021-08-21)
 * (sbormann) Removed some unnecessary horizontal lines in dialog.
