@@ -9396,48 +9396,30 @@ function renderDialog(deviceIdEscaped){
 							case "valueList":
 							dialogContentCountAfterHR++;
 							var type = "Mode";
-							dialogContent += "<label for='DialogThermostatControlModeValueList' ><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
-							dialogContent += "<select  class='iQontrolDialogValueList DialogThermostatControlModeValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["CONTROL_MODE"].readonly || dialogReadonly).toString() + "' name='DialogThermostatControlModeValueList' id='DialogThermostatControlModeValueList' data-native-menu='false'>";
-							for(val in dialogStates["CONTROL_MODE"].valueList){
-								if (dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
-								dialogContent += "<option value='" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</option>";
-							}
-							if(dialogStates["CONTROL_MODE"].custom.statesAddInput) {
-								dialogContent += "<option value='[INPUT]'>" + (dialogStates["CONTROL_MODE"].custom.statesAddInputCaption || _("Enter other value...")) + "</option>";
-							}
-							dialogContent += "</select>";
+							dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
+								dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</legend>";
+								for(val in dialogStates["CONTROL_MODE"].valueList){
+									if (dialogStates["CONTROL_MODE"].targetValues && dialogStates["CONTROL_MODE"].custom.showOnlyTargetValues && !dialogStates["CONTROL_MODE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogThermostatControlModeCheckboxradio' " + ((dialogStates["CONTROL_MODE"].readonly || dialogReadonly)?"disabled='disabled'":"") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogThermostatControlModeCheckboxradio' id='DialogThermostatControlModeCheckboxradio_" + val + "' value='" + val + "' />";
+									dialogContent += "<label for='DialogThermostatControlModeCheckboxradio_" + val + "'>" + _(dialogStates["CONTROL_MODE"].valueList[val]) + "</label>";
+								}
+							dialogContent += "</fieldset>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
+								var _valueList = dialogStates["CONTROL_MODE"].valueList;
 								var updateFunction = function(){
-									if (states[_linkedControlModeId]){
-										var stateControlMode = getStateObject(_linkedControlModeId);
-										if(typeof stateControlMode.val != udef) {
-											var val = stateControlMode.val.toString();
-											$("#DialogThermostatControlModeValueList").val(val).selectmenu('refresh');
-											if($("#DialogThermostatControlModeValueList").val() !== val){ //val is not in option-list
-												if(stateControlMode.valueList && typeof stateControlMode.valueList[val] !== udef){
-													$("#DialogThermostatControlModeValueList").prev("span").html(stateControlMode.valueList[val]);
-												} else {
-													$("#DialogThermostatControlModeValueList").prev("span").html(val + "&nbsp;");
-												}
-											}
-										}
+									var stateControlMode = getStateObject(_linkedControlModeId);
+									if (stateControlMode){
+										$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
+										$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
 									}
 								};
 								dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
 								var bindingFunction = function(){
-									$('.DialogThermostatControlModeValueList').on('change', function(e) {
-										var val = $("#DialogThermostatControlModeValueList option:selected").val();
-										if(val == "[INPUT]") {
-											val = prompt((dialogStates["CONTROL_MODE"].custom.statesAddInputCaption || _("Enter other value...")));
-											if(val == null) {
-												updateState(_linkedControlModeId);
-												return;
-											}
-											$("#DialogThermostatControlModeValueList").prev("span").html(val + "&nbsp;");
-										}
-										setState(_linkedControlModeId, _deviceIdEscaped, val);
+									$("input[name='DialogThermostatControlModeCheckboxradio']").on('click', function(e) {
+										var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
+										setState(_linkedControlModeId, _deviceIdEscaped, value, true);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9478,6 +9460,7 @@ function renderDialog(deviceIdEscaped){
 						}
 					}
 					if(dialogStates["CONTROL_MODE"]){
+						var type = "Mode";
 						if(device.commonRole == "iQontrolHomematicIpThermostat") { //For HmIP valueList is not provided
 							if(!dialogStates["CONTROL_MODE"].valueList) dialogStates["CONTROL_MODE"].valueList = {};
 							dialogStates["CONTROL_MODE"].valueList[0] = "AUTO-MODE";
@@ -9487,7 +9470,7 @@ function renderDialog(deviceIdEscaped){
 						}
 						dialogContentCountAfterHR++;
 						dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal'>"
-							dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _("Mode") + ":</legend>";
+							dialogContent += "<legend><image src='./images/symbols/config.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</legend>";
 							for(val in dialogStates["CONTROL_MODE"].valueList){
 								if(dialogStates["CONTROL_MODE"].valueList[val] == "PARTY-MODE") continue;
 								dialogStates["CONTROL_MODE"].readonly = false; //SPECIAL: Homematic control mode IS readonly, because it writes to another targetValueId but the new targetValueId-Feature is not yet implemented for Homematic-Themostats. Therefore - as workaround - the readonly-mode is disabled here.

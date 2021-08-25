@@ -1569,6 +1569,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed missing subheaders if new line option was activated.
 * (sbormann) Added option to define new section spacing.
 * (sbormann) Minor design enhancements to dark mode, ADDITIONAL_INFO and JSON-Table-Widget.
+* (sbormann) Added more options to configure cols of JSON-Table-Widget.
+* (sbormann) Redesigned CONTROL_MODE of Thermostats to be a fieldset instead of a dropdown.
 
 ### 1.9.6 (2021-08-21)
 * (sbormann) Removed some unnecessary horizontal lines in dialog.
