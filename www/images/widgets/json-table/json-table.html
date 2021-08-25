@@ -152,7 +152,7 @@
 				if(cols.indexOf(colsSort[col]) > -1) colsSorted.push(colsSort[col]);
 			}
 			for (var col = 0; col < cols.length; col++) { //add the remaining cols
-				if(colsSorted.indexOf(colsSort[col]) == -1) colsSorted.push(cols[col]);
+				if(colsSorted.indexOf(cols[col]) == -1) colsSorted.push(cols[col]);
 			}
 			//Filter cols
 			var colsSortedAndFiltered = [];
@@ -160,28 +160,31 @@
 				if(colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
 			}			
 			//Build table
-			var priorityCount = 1; 
-			var priorityPreferablyCount = 1;
 			var alwaysVisibleCount = 0;
+			var preferablyVisibleCount = 0;
 			var colsPreferablyVisibleTranslated = [];
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-				if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are preferably Visible
-				if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) priorityCount++; //Counts how many cols are preferably Visible
+				if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are always Visible
+				if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) preferablyVisibleCount++; //Counts how many cols are preferably Visible
 			}
 			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
 			tableString += "<thead>";
 			tableString += "<tr>";
+			var priorityPreferablyIndex = alwaysVisibleCount;
+			var priorityNormalIndex = alwaysVisibleCount + preferablyVisibleCount;
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
 				tableString += "<th data-priority='";
-				if(col > 0 || alwaysVisibleCount > 0) {
-					if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
+				if(col == 0 && alwaysVisibleCount == 0) { //col 0 is made alwaysVisible because no other alwaysVisible is defined
+					priorityNormalIndex++;
+					priorityPreferablyIndex++;
+				} else {
+					if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) == -1) { 
 						if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
-							tableString += priorityCount;
-							priorityCount++;
-							colsPreferablyVisibleTranslated.push(multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true));
+							tableString += priorityNormalIndex;
+							priorityNormalIndex++;
 						} else {
-							tableString += priorityPreferablyCount;
-							priorityPreferablyCount++;
+							tableString += colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) + priorityPreferablyIndex;
+							colsPreferablyVisibleTranslated.push(multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true));
 						}
 					}
 				}
