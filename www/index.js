@@ -1917,6 +1917,11 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		if(typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
 		if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		if(typeof result.custom.max !== udef && result.custom.max !== "") result.max = result.custom.max;
+		//--Modify min and max for HomematicIP (for temperature sensors it reports min = -3276.8 and max = 3276.7)
+		if(result.min == -3276.8 && result.max == 3276.7){
+			result.min = -34;
+			result.max = 65;
+		}
 		//--Add type
 		result.type = usedObjects[linkedStateId].common.type || "string";
 		if(typeof result.custom.type !== udef && result.custom.type !== "") result.type = result.custom.type;
@@ -7263,22 +7268,28 @@ function renderView(viewId, triggeredByReconnection){
 			viewUpdateFunction();
 		});
 		//Enhance iQontrolSubheadingCollapsibles
+		//var iQontrolSubheaderCollapsibleDblclickTimeout = false;
 		$('.iQontrolSubheaderCollapsible').on('click', function(){
+			//var dblclick = false;
+			//if(iQontrolSubheaderCollapsibleDblclickTimeout)	dblclick = true;
+			//iQontrolSubheaderCollapsibleDblclickTimeout = setTimeout(function(){ iQontrolSubheaderCollapsibleDblclickTimeout = false; }, 200);
 			var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
+			var $openThese;
 			var $closeThese;
 			if($(this).hasClass('collapsibleClosed')){
-				$(this).removeClass('collapsibleClosed');
-				$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleClosed');
-				$closeThese = $(".iQontrolSubheaderCollapsible.collapsibleClosesWhenOthersOpen").not('collapsibleClosed').not(this);
-				$closeThese.addClass('collapsibleClosed');
+				$openThese = $(this);
+				$closeThese = $(".iQontrolSubheaderCollapsible.collapsibleClosesWhenOthersOpen").not("collapsibleClosed").not(this);
 			} else {
-				$(this).addClass('collapsibleClosed').find('.viewShuffleContainer');
-				$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleClosed');
+				$closeThese = $(this);
 			}
-			iQontrolSubheadingCollapsiblesRefresh($(this));
-			$closeThese.each(function(){
-				var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
-				$("[data-iQontrol-Device-ID='" + collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleClosed');
+			if($openThese) $openThese.each(function(){
+				$(this).removeClass('collapsibleClosed');
+				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").removeClass('collapsibleClosed');
+				iQontrolSubheadingCollapsiblesRefresh($(this));
+			});
+			if($closeThese) $closeThese.each(function(){
+				$(this).addClass('collapsibleClosed');
+				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").addClass('collapsibleClosed');
 				iQontrolSubheadingCollapsiblesRefresh($(this));
 			});
 		});
