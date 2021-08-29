@@ -63,6 +63,7 @@
 		var LEVEL;
 		var options;
 		var lastColsSortedAndFilteredStringified;
+		var breakpointsCount = -1;
 
 		//UrlParameters
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
@@ -71,6 +72,7 @@
 		var colsAlwaysVisible = (getUrlParameter("colsAlwaysVisible") || "").split(';');
 		var colsPreferablyVisible = (getUrlParameter("colsPreferablyVisible") || "").split(';');
 		var colsPreferablyVisibleAreVisibleAtStart = getUrlParameter("colsPreferablyVisibleAreVisibleAtStart") == "true";
+		var breakpoints = [20,30,40,50,60,70];
 		var translations = (getUrlParameter("translations") || "").split(';');
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
@@ -128,6 +130,46 @@
 				if(colorMode && colorMode != "") $("html").addClass("color-mode-" + colorMode);
 			}
 		}
+		
+		//create Breakpoints
+		
+		function createBreakpoints(numberOfNeededBreakpoints){
+			if(breakpointsCount < numberOfNeededBreakpoints){
+				if(breakpoints.length < numberOfNeededBreakpoints){
+					while(numberOfNeededBreakpoints > breakpoints.length){
+						breakpoints.push((breakpoints[breakpoints.length - 1] || 10) + 10);
+					}
+				}
+				console.log(breakpoints);
+				var customCSS = "";
+				for(i = 0; i < numberOfNeededBreakpoints; i++){
+					//Add breakpoint
+					customCSS += ".ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
+					customCSS += ".ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
+					customCSS += "   display: none;";
+					customCSS += "}";
+					customCSS += "@media screen and (min-width: " + breakpoints[i] + "em) {";
+					customCSS += "   .ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
+					customCSS += "   .ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
+					customCSS += "     display: table-cell;";
+					customCSS += "   }";
+					customCSS += "} ";				
+				}
+				// Manually hidden
+				customCSS += ".ui-table-columntoggle th.ui-table-cell-hidden,";
+				customCSS += ".ui-table-columntoggle td.ui-table-cell-hidden {";
+				customCSS += "  display: none;";
+				customCSS += "} ";			 
+				// Manually shown
+				customCSS += ".ui-table-columntoggle th.ui-table-cell-visible,";
+				customCSS += ".ui-table-columntoggle td.ui-table-cell-visible {";
+				customCSS += "   display: table-cell;";
+				customCSS += "} ";
+				removeCustomCSS("breakpoints");
+				addCustomCSS(customCSS, "breakpoints");
+				breakpointsCount = numberOfNeededBreakpoints;
+			}
+		}
 
 		//Create Table
 		function createTable(){
@@ -158,7 +200,9 @@
 			var colsSortedAndFiltered = [];
 			for (var col = 0; col < colsSorted.length; col++) {
 				if(colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
-			}			
+			}
+			//Add breakpoints
+			createBreakpoints(colsSortedAndFiltered.length);
 			//Build table
 			var alwaysVisibleCount = 0;
 			var preferablyVisibleCount = 0;
@@ -167,7 +211,7 @@
 				if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are always Visible
 				if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) preferablyVisibleCount++; //Counts how many cols are preferably Visible
 			}
-			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
+			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='jsonTable ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
 			tableString += "<thead>";
 			tableString += "<tr>";
 			var priorityPreferablyIndex = alwaysVisibleCount;
@@ -207,12 +251,12 @@
 			//Append table
 			if(JSON.stringify(colsSortedAndFiltered) != lastColsSortedAndFilteredStringified){ //New Headings (or first build of table) - completely rebuild table
 				lastColsSortedAndFilteredStringified = JSON.stringify(colsSortedAndFiltered);
-				//Save last colsHidden/Visible state
+				//Save last manually colsHidden/Visible state
 				var colsHidden = [];
 				var colsVisible = [];
 				var popupVisible = $('#jsonTable-popup-popup').hasClass('ui-popup-active');
-				$('#jsonTable-popup label.ui-checkbox-off').each(function(){ colsHidden.push($(this).text()); });
-				$('#jsonTable-popup label.ui-checkbox-on').each(function(){ colsVisible.push($(this).text()); });
+				$('.jsonTable.ui-table-columntoggle th.ui-table-cell-hidden').each(function(){ colsHidden.push($(this).text()); })
+				$('.jsonTable.ui-table-columntoggle th.ui-table-cell-visible').each(function(){ colsVisible.push($(this).text()); })
 				//Completely rebuild table
 				$('#jsonTable-popup-popup').remove();
 				$('#jsonTableContainer').html(tableString);
@@ -309,6 +353,18 @@
 			});
 			return string;
 		}
+		
+		//Add custom CSS
+		function addCustomCSS(customCSS, customID){
+			customID = customID || "default";
+			$('head').append('<style class="customCSS_' + customID + '">' + customCSS + '</style>');
+		}
+		
+		//Remove custom CSS
+		function removeCustomCSS(customID){
+			customID = customID || "default";
+			$('.customCSS_' + customID).remove();
+		}		
 	</script>
 </body>
 </html>
