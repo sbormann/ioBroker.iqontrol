@@ -1579,6 +1579,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Overwrite step for HomematicIP-Temperature sensors with wrong min and max values.
 * (sbormann) Added option to send state-values when clicking on play, pause and stop to media.
 * (sbormann) Updated dependencies.
+* (sbormann) Added sections to widget options.
 * (sbormann) Added option to show state and level devided for device type value.
 
 ### 1.9.6 (2021-08-21)

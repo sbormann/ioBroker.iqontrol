@@ -1039,7 +1039,9 @@ var iQontrolRoles = {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showStateAndLevelSeparatelyInTile: {name: "Show STATE and LEVEL separately in tile", type: "select", selectOptions: "/No;devidedByComma/Yes, devided by comma;devidedByComma preceedCaptions/Yes, devided by comma, preceed captions;devidedBySemicolon/Yes, devided by semicolon;devidedBySemicolon preceedCaptions/Yes, devided by semicolon, preceed captions;devidedByHyphen/Yes, devided by hyphen;devidedByHyphen preceedCaptions/Yes, devided by hyphen, preceed captions", default: "false"}
+			}}
 		}
 	},
 	"iQontrolProgram": {
@@ -3265,6 +3267,7 @@ async function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "</div>";
 					dialogDeviceEditOptionsContent += "</li>";
 				}
+				dialogDeviceEditOptionsContent += "</ul>";
 				$('#dialogDeviceEditOptionsContent').html(dialogDeviceEditOptionsContent);
 				$('#dialogDeviceEditOptionsContentCollapsible').collapsible({accordion: false});
 				$('#dialogDeviceEditOptionsContentCollapsibleOpenAll').off('click').on('click', function(){
@@ -4513,14 +4516,17 @@ async function load(settings, onChange) {
 						case "widget-urlparameters":
 						if(metaContent){
 							dialogDevicesAutocreateWidgetUrlParameters = "";
-							var dialogWidgetSettingsUrlParametersString = "";
+							//var dialogWidgetSettingsUrlParametersString = "";
+							var dialogWidgetSettingsUrlParametersString = "<ul class='collapsible' id='dialogWidgetSettingsUrlParametersCollapsible'>";
 							var dialogWidgetSettingsUrlParametersComboboxes = [];
 							var urlParameters = metaContent.split(';');
 							var querystringParts = querystring.split('&');
 							var queries = {};
+							var dialogWidgetSettingsUrlParametersStringCollapsibleOpen = false;
 							querystringParts.forEach(function(query){
 								queries[query.split('=')[0]] = query.split('=')[1] || "";
 							});
+							if(urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
 							urlParameters.forEach(function(urlParameter){
 								urlParameter = urlParameter.trim().split('/');
 								var entry = decodeURIComponent(urlParameter[0]);
@@ -4530,6 +4536,19 @@ async function load(settings, onChange) {
 								var options = urlParameter.slice(4) || [];
 								if(!Array.isArray(options)) options = [decodeURIComponent(options)];
 								switch(type){
+									case "section":
+									if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
+										dialogWidgetSettingsUrlParametersString += "</div>";
+										dialogWidgetSettingsUrlParametersString += "</li>";
+									}
+									dialogWidgetSettingsUrlParametersStringCollapsibleOpen = true;
+									dialogWidgetSettingsUrlParametersString += "<li>";
+									dialogWidgetSettingsUrlParametersString += "<div class='collapsible-header'>";
+									dialogWidgetSettingsUrlParametersString += "		<i class='material-icons'>expand_more</i><h6 class='translate'>" + _(name) + ":</h6>";
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "<div class='collapsible-body'>";
+									break;
+									
 									case "number":
 									var min = (options[0] || "").split(',')[0] || 0;
 									var max = (options[0] || "").split(',')[1] || 100;
@@ -4650,7 +4669,13 @@ async function load(settings, onChange) {
 								}
 							});
 							if(dialogWidgetSettingsUrlParametersString) {
+								if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
+									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</li>";
+								}
+								dialogWidgetSettingsUrlParametersString += "</ul>";
 								$('#dialogWidgetSettingsUrlParameters').html(dialogWidgetSettingsUrlParametersString).show();
+								$('#dialogWidgetSettingsUrlParametersCollapsible').collapsible({accordion: false});
 								$('select.dialogWidgetSettingsUrlParameters').select();
 								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
 									enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));

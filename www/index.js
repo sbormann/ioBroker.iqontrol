@@ -767,7 +767,9 @@ var iQontrolRoles = {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showStateAndLevelSeparatelyInTile: {name: "Show STATE and LEVEL separately in tile", type: "select", selectOptions: "/No;devidedByComma/Yes, devided by comma;devidedByComma preceedCaptions/Yes, devided by comma, preceed captions;devidedBySemicolon/Yes, devided by semicolon;devidedBySemicolon preceedCaptions/Yes, devided by semicolon, preceed captions;devidedByHyphen/Yes, devided by hyphen;devidedByHyphen preceedCaptions/Yes, devided by hyphen, preceed captions", default: "false"}
+			}}
 		}
 	},
 	"iQontrolProgram": {
@@ -6952,6 +6954,7 @@ function renderView(viewId, triggeredByReconnection){
 											var state = getStateObject(_linkedStateId);
 											var level = getStateObject(_linkedLevelId);
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var showStateAndLevelSeparatelyInTile = getDeviceOptionValue(_device, "showStateAndLevelSeparatelyInTile") || "";
 											var result;
 											var resultText;
 											if(!level || typeof level == udef || typeof level.val == udef){
@@ -6982,6 +6985,52 @@ function renderView(viewId, triggeredByReconnection){
 												} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = level
 													result = level.val;
 													resultText = result + level.unit;
+												}
+											}
+											if(showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
+												resultText = "";
+												if(state && typeof state != udef && state.val != udef){
+													var val = state.plainText;
+													var unit = state.unit;
+													if(state.plainText == state.val) val = val + unit;
+													if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+														var type = getDeviceOptionValue(_device, "stateCaption");
+														if(!type) switch(state.type){
+															case "switch": type = "Switch"; break;
+															case "button": type = "Button"; break;
+															case "level": type = "Level"; break;
+															case "valueList": type = "Selection"; break;
+															case "string": type = "Text"; break;
+															case "time": type = "Time"; break;
+															default: type = "State"; break;
+														}
+														resultText += _(type) + ":&nbsp;";
+													}
+													resultText += val;
+												}
+												if(level && typeof level != udef && level.val != udef){
+													var val = level.plainText;
+													var unit = level.unit;
+													if(level.plainText == level.val) val = val + unit;
+													if(resultText != ""){
+														if(showStateAndLevelSeparatelyInTile.indexOf('devidedByComma') != -1) resultText += ", ";
+														else if(showStateAndLevelSeparatelyInTile.indexOf('devidedBySemicolon') != -1) resultText += "; ";
+														else if(showStateAndLevelSeparatelyInTile.indexOf('devidedByHyphen') != -1) resultText += "&nbsp;- ";
+													}
+													if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+														var type = getDeviceOptionValue(_device, "levelCaption");
+														if(!type) switch(level.type){
+															case "switch": type = "Switch"; break;
+															case "button": type = "Button"; break;
+															case "level": type = "Level"; break;
+															case "valueList": type = "Selection"; break;
+															case "string": type = "Text"; break;
+															case "time": type = "Time"; break;
+															default: type = "State"; break;
+														}
+														resultText += _(type) + ":&nbsp;";
+													}
+													resultText += val;
 												}
 											}
 											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
@@ -12248,7 +12297,7 @@ function renderDialog(deviceIdEscaped){
 			//--Name
 			var name = encodeURI(device.commonName.split('|')[0]);
 			var variablename = encodeURI(device.commonName.split('|').slice(1).join('|'));
-			$("#DialogHeaderTitle").html(decodeURI(name) + ":");
+			$("#DialogHeaderTitle").html((name != "" ? decodeURI(name) + ":" : ""));
 			var a = variablename.indexOf('%7B'), b = variablename.lastIndexOf('%7D');
 			if (a > -1 && a < b) {
 				var variable = variablename.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
