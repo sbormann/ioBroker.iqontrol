@@ -1569,7 +1569,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.9.7 (2021-08-31)
 * (sbormann) Added option to close collapsible subheaders, if others open.
 * (sbormann) Fixed missing subheaders if new line option was activated.
 * (sbormann) Added option to define new section spacing.

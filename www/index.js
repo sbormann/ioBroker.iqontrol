@@ -7319,27 +7319,29 @@ function renderView(viewId, triggeredByReconnection){
 			viewUpdateFunction();
 		});
 		//Enhance iQontrolSubheadingCollapsibles
-		//var iQontrolSubheaderCollapsibleDblclickTimeout = false;
+		var iQontrolSubheaderCollapsibleDblclickTimeout = false;
 		$('.iQontrolSubheaderCollapsible').on('click', function(){
-			//var dblclick = false;
-			//if(iQontrolSubheaderCollapsibleDblclickTimeout)	dblclick = true;
-			//iQontrolSubheaderCollapsibleDblclickTimeout = setTimeout(function(){ iQontrolSubheaderCollapsibleDblclickTimeout = false; }, 200);
+			var dblclick = false;
+			if(iQontrolSubheaderCollapsibleDblclickTimeout)	dblclick = true;
+			iQontrolSubheaderCollapsibleDblclickTimeout = setTimeout(function(){ iQontrolSubheaderCollapsibleDblclickTimeout = false; }, 400);
 			var collapsibleDeviceIdEscaped = $(this).data('iqontrolDeviceId');
 			var $openThese;
 			var $closeThese;
 			if($(this).hasClass('collapsibleClosed')){
-				$openThese = $(this);
-				$closeThese = $(".iQontrolSubheaderCollapsible.collapsibleClosesWhenOthersOpen").not("collapsibleClosed").not(this);
+				$closeThese = $(".iQontrolSubheaderCollapsible.collapsibleClosesWhenOthersOpen").not(".collapsibleClosed").not(this);
+				if(dblclick && $closeThese.length == 0) {
+					$openThese = $(".iQontrolSubheaderCollapsible");
+				} else {
+					$openThese = $(this);
+				}
 			} else {
-				$closeThese = $(this);
+				if(!dblclick) $closeThese = $(this);
 			}
-			if($openThese) $openThese.each(function(){
-				$(this).removeClass('collapsibleClosed');
+			if($openThese) $openThese.removeClass('collapsibleClosed').each(function(){
 				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").removeClass('collapsibleClosed');
 				iQontrolSubheadingCollapsiblesRefresh($(this));
 			});
-			if($closeThese) $closeThese.each(function(){
-				$(this).addClass('collapsibleClosed');
+			if($closeThese) $closeThese.addClass('collapsibleClosed').each(function(){
 				$("[data-iQontrol-Device-ID='" + $(this).data('iqontrolDeviceId') + "'].viewShuffleContainer").addClass('collapsibleClosed');
 				iQontrolSubheadingCollapsiblesRefresh($(this));
 			});
@@ -7369,7 +7371,7 @@ function renderView(viewId, triggeredByReconnection){
 					var _$collapsible = $collapsible;
 					var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 					clearTimeout(_$collapsible.data('animationtimeout'));
-					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').removeClass('collapsibleContentClosed'); 
+					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).removeClass('collapsibleContentClosed'); 
 					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer .viewShuffleTile").stop(true, false).slideDown(500);
 					viewShuffleReshuffle();
 					var animationTimeoutId = setTimeout(function(){

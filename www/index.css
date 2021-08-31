@@ -1327,13 +1327,6 @@ html.noscroll body {
 	width: 16px;	
 	cursor: pointer;
 }
-.iQontrolDialogTimestampSwitch {
-	position: absolute;
-	right: 3px;
-	top: 2px;
-	width: 16px;	
-	cursor: pointer;
-}
 /* -- jqte */
 .jqte { 
     width:300px; 
@@ -1908,6 +1901,9 @@ html.color-mode-dark #Dialog{
 	background: #898888 !important;
 	border-color: #5f5f5f !important;
 	text-shadow: 0 1px 0 #999 !important;
+}
+html.color-mode-dark .iQontrolDialogTimestampSwitch {
+	filter: brightness(55%);
 }
 html.color-mode-dark .ui-input-text{
 	color: #222 !important;
