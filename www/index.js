@@ -1939,14 +1939,12 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 				break;
 			}
 		}
+		//--Add name and desc
+		result.name = usedObjects[linkedStateId].common.name;
+		result.desc = usedObjects[linkedStateId].common.desc;
 		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
 		if(typeof result.val == udef || result.val == null){
 			if (result.type && result.type == "string") result.val = ""; else result.val = 0;
-		}
-		//--Prevent injecting of <script> tags
-		if(typeof result.val == "string") {
-			result.valWithCode = result.val;
-			result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
 		}
 		//--Modify typeof val to match to common.type
 		switch(result.type){
@@ -2199,7 +2197,12 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		if(result.type == "string" && typeof result.custom.statesAddInput && result.custom.statesAddInput){
 			result.type = "valueList";
 		}
-		if(typeof result.valFull == udef) result.valFull = result.val;
+	}
+	//--Set valFull if not set before
+	if(typeof result.valFull == udef) result.valFull = result.val;
+	//--Prevent injecting of <script> tags
+	if(typeof result.val == "string") {
+		result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
 	}
 	return result;
 }
@@ -4619,7 +4622,7 @@ function renderView(viewId, triggeredByReconnection){
 					viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
 					viewContent += "</div>";
 				}
-				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " style='xxxdisplay: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " style='xxxdisplay: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if(device.nativeNewLine) {
 				viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if (deviceIndex == 0) {
@@ -4949,7 +4952,7 @@ function renderView(viewId, triggeredByReconnection){
 												if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
 											},1500);
 										}, (isFirefox?100:0));
-									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.valWithCode !== udef && stateBackgroundHTML.valWithCode !== ""){ //HTML
+									} else if(stateBackgroundHTML && typeof stateBackgroundHTML.valFull !== udef && stateBackgroundHTML.valFull !== ""){ //HTML
 										if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
 											var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
 											var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
@@ -4960,7 +4963,7 @@ function renderView(viewId, triggeredByReconnection){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 											iframedoc.open();
-											iframedoc.write(stateBackgroundHTML.valWithCode.replace(/\\n/g, String.fromCharCode(13)));
+											iframedoc.write(stateBackgroundHTML.valFull.replace(/\\n/g, String.fromCharCode(13)));
 											$(iframedoc).find('body').css('font-family', 'sans-serif');
 											iframedoc.close();
 											setTimeout(function(){
@@ -6074,7 +6077,7 @@ function renderView(viewId, triggeredByReconnection){
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedSetTemperatureId = deviceLinkedStateIds["SET_TEMPERATURE"];
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
-										var linkedParentId = _linkedControlModeId.substring(0, _linkedControlModeId.lastIndexOf("."));
+										var linkedParentId = (_linkedControlModeId || "").substring(0, (_linkedControlModeId || "").lastIndexOf("."));
 										var _linkedBoostModeId = linkedParentId + ".BOOST_MODE"; //Only for HmIP
 										var _linkedPartyTemperatureId = deviceLinkedStateIds["PARTY_TEMPERATURE"];
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
@@ -7110,6 +7113,7 @@ function renderView(viewId, triggeredByReconnection){
 			if (a > -1 && a < b) {
 				var variable = variableSrc.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
 				var linkedStateId = variable[0];
+				linkedStateId = decodeURI(linkedStateId);
 				var placeholder = null;
 				if (variable.length > 1) placeholder = variable[1];
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -7164,6 +7168,7 @@ function renderView(viewId, triggeredByReconnection){
 			if (a > -1 && a < b) {
 				var variable = variablebackgroundimage.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
 				var linkedStateId = variable[0];
+				linkedStateId = decodeURI(linkedStateId);
 				var placeholder = null;
 				if (variable.length > 1) placeholder = variable[1];
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -7228,6 +7233,7 @@ function renderView(viewId, triggeredByReconnection){
 					linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
 					noUnit = true;
 				}
+				linkedStateId = decodeURI(linkedStateId);
 				var placeholder = null;
 				if (variable.length > 1) placeholder = variable[1];
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -12066,6 +12072,7 @@ function renderDialog(deviceIdEscaped){
 										linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
 										noUnit = true;
 									}
+									linkedStateId = decodeURI(linkedStateId);
 									var placeholder = null;
 									if (variable.length > 1) placeholder = variable[1];
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -12309,6 +12316,7 @@ function renderDialog(deviceIdEscaped){
 					linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
 					noUnit = true;
 				}
+				linkedStateId = decodeURI(linkedStateId);
 				var placeholder = null;
 				if (variable.length > 1) placeholder = variable[1];
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -12699,13 +12707,13 @@ function initPanels(){
 								}
 							}
 						}, (isFirefox?100:0));
-					} else if((stateBackgroundHTML && typeof stateBackgroundHTML.valWithCode !== udef && stateBackgroundHTML.valWithCode !== "") && !panelHide){
+					} else if((stateBackgroundHTML && typeof stateBackgroundHTML.valFull !== udef && stateBackgroundHTML.valFull !== "") && !panelHide){
 						createPanelIframe(_panelId, _panelIndex);
 						setTimeout(function(){
 							var iframe = document.getElementById("panelIframe_" + _panelId);
 							var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 							iframedoc.open();
-							iframedoc.write(stateBackgroundHTML.valWithCode.replace(/\\n/g, String.fromCharCode(13)));
+							iframedoc.write(stateBackgroundHTML.valFull.replace(/\\n/g, String.fromCharCode(13)));
 							$(iframedoc).find('body').css('font-family', 'sans-serif');
 							iframedoc.close();
 							setTimeout(function(){
@@ -13226,8 +13234,9 @@ $(document).ready(function(){
 						if(event.data.command == "getWidgetState" || event.data.command == "getWidgetStateSubscribed") stateId = namespace + ".Widgets." + event.data.stateId;
 						if(event.data.command == "getWidgetDeviceState" || event.data.command == "getWidgetDeviceStateSubscribed") {
 							var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
-							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
-							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";
+							var deviceId = unescape(deviceIdEscaped);
+							var device = getDevice(deviceId);
+							var stateId = getLinkedStateId(device, event.data.stateId, deviceId + "." + event.data.stateId) || "";
 						}
 						console.log("postMessage received: " + event.data.command + " " + stateId);
 						if(stateId == ""){
@@ -13262,6 +13271,9 @@ $(document).ready(function(){
 					}
 					break;
 					
+					case "getStateList":
+					break;
+					
 					case "getOptions":
 					console.log("postMessage received: getOptions");
 					event.source.postMessage({command: "getOptions", value: options || null}, "*");
@@ -13271,7 +13283,7 @@ $(document).ready(function(){
 					if(event.data.stateId && typeof event.data.value != udef){
 						var stateId = event.data.stateId;
 						if(event.data.command == "setWidgetState") stateId = namespace + ".Widgets." + event.data.stateId;
-						if(event.data.command == "setWidgetDeviceState") {
+						if(event.data.command == "setWidgetDeviceState"){
 							var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
 							var deviceIndex = parseInt(deviceIdEscaped.substring(deviceIdEscaped.lastIndexOf(".") + 1));
 							stateId = actualView.devices[deviceIndex] && (actualView.devices[deviceIndex].states.find(function(element){ return (element.state == event.data.stateId); }) || {}).value || "";

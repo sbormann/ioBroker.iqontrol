@@ -255,7 +255,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 			event.data.value = {
 				val: <value (rounded)>,
 				unit: "<unit>",
-				valFull: <value (not rounded)>,
+				valFull: <value (not rounded, no javascript-injection prevention)>,
 				plainText: "<clear text of val, for example taken from valuelist>",
 				min: <minimum>,
 				max: <maximum>,
@@ -271,7 +271,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 				ts: <timestamp of last actualization>,
 				q: <quality of signal>,
 				role: "<role of state>",
-				type: "<string|number|boolean>"
+				type: "<string|number|boolean>",
+				name: "<name of datapoint>",
+				desc: "<description of datapoint>"
 			}
 			````
 * To instruct iQontrol to generate a widgetState under ``iqontrol.<instance>.Widgets`` you can use a meta-tag inside the head-section of the widget-website:
@@ -433,7 +435,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
 		* The user will be asked for these parameters when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
-		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``icon`` or ``section``
+		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``icon``, ``section`` or ``divider``
 		    * If type is ``select``, ``multipleSelect`` or ``combobox`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...`` (combobox is a selectbox with the possibility to enter free text)
 		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
 		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
@@ -1568,6 +1570,11 @@ This device has some special predefined size- and display-settings to show a tex
 ****
     
 ## Changelog
+
+### dev
+* (sbormann) Fixed variables with special chars not working.
+* (sbormann) Enhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.
+* (sbormann) Fixed view rendering problems with thermostats without CONTROL_MODE.
 
 ### 1.9.7 (2021-08-31)
 * (sbormann) Added option to close collapsible subheaders, if others open.

@@ -2,29 +2,61 @@
 <html style="width: 100%; height: 100%; margin: 0px;">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="widget-description" content="This is a json to table widget. It will display json-data of the datapoint linked to STATE or LEVEL as a table. (C) by Sebastian Bormann"/> 
+	<meta name="widget-description" content =  'This is a JSON to table widget. It will display JSON-data of the datapoint linked to STATE or LEVEL as a table.<br>
+												Example JSON: [{"Col 1": "My Value in line 1", "Col two": "My Value two"}, {"Col 1": "My Value in line 2", "Col two": "Another val"}]<br> 
+												<br>
+												You can customize <b>display modes</b> of the table, <b>sorting</b> and <b>filter</b> of columns and <b>translations</b>.<br>
+												<br>
+												By setting <b>icon-replacements</b> you can define values, that will be replaced by icons. This way you could for example replace the values "true" and "false" by corresponding icons.<br>
+												<br>
+												With the <b>Datapoint-Detection</b> you can specify a column, in which the widget will look for ioBroker-Datapoints. 
+												Then you can set several attributes of the datapoint by which the table will be <b>extended</b>. Possible values are: 
+												<ul style="padding-left:20px;"><li style="list-style-type: disc;">val (value rounded), </li><li style="list-style-type: disc;">unit, </li><li style="list-style-type: disc;">valFull: (value not rounded, no javascript-injection prevention), </li><li style="list-style-type: disc;">plainText (clear text of val, for example taken from valuelist), </li><li style="list-style-type: disc;">min, </li><li style="list-style-type: disc;">max, </li><li style="list-style-type: disc;">step (step-width), </li><li style="list-style-type: disc;">valuelist (object with possible values and corresponding clear text), </li><li style="list-style-type: disc;">targetValues, </li><li style="list-style-type: disc;">ack, </li><li style="list-style-type: disc;">readonly, </li><li style="list-style-type: disc;">custom: (object with custom settings), </li><li style="list-style-type: disc;">id, </li><li style="list-style-type: disc;">from, </li><li style="list-style-type: disc;">lc (last change), </li><li style="list-style-type: disc;">ts (last actualized), </li><li style="list-style-type: disc;">q (quality), </li><li style="list-style-type: disc;">role, </li><li style="list-style-type: disc;">type, </li><li style="list-style-type: disc;">name, </li><li style="list-style-type: disc;">desc</li></ul><br>
+												<br>
+												You can also specify a <b>language</b> these attributes are automatically translated to.<br>
+												<br>
+												Then you can define cols in which <b>toggling</b> of the datapoint is enabled.<br>
+												<br>
+												(C) by Sebastian Bormann
+	'/> 
 	<meta name="widget-urlparameters" content= "tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;
-												colsSort//Order of headings (semioclon-separated List of column headers, optional);
-												colsFilter//Filter these headings (semicolon-separated List of column headers, optional);
+												colsSort//Order of headings (semioclon-separated list of column headers, optional);
+												colsFilter//Filter these headings (semicolon-separated list of column headers, optional);
 												translations//Translations (semicolon-separated list of comma-separated translations, for example filesize,Size of file);
 												useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint;
 												//Settings for Table Mode 'Hide columns as needed'/section;
 												breakpoints/20%3B30%3B40%3B50%3B60%3B70%3B80/Breakpoints (semicolon-separated list of screen-widths in em, at which the next column is shown);
-												colsAlwaysVisible//Always visible headings, that can't be hidden (semicolon-separated List of column headers, optional);
-												colsPreferablyVisible//Preferably visible headings in descending priority (semicolon-separated List of column headers, optional);
+												colsAlwaysVisible//Always visible headings, that can't be hidden (semicolon-separated list of column headers, optional);
+												colsPreferablyVisible//Preferably visible headings in descending priority (semicolon-separated list of column headers, optional);
 												colsPreferablyVisibleAreVisibleAtStart/false/Preferably visible headings are always visible at start (no matter which screen size), but can be hidden via menu /checkbox;
 												//Icon-Replacement/section;
-												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;
-												icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;
-												icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;
-												icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;
-												icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5
+												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
+												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
+												icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;///divider;
+												icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;///divider;
+												icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;///divider;
+												icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5;///divider;
+												icon6Url//Icon 6/icon;icon6Caption//Caption that will be added to icon 6;icon6String//String that will be replaced by icon 6;///divider;
+												icon7Url//Icon 7/icon;icon7Caption//Caption that will be added to icon 7;icon7String//String that will be replaced by icon 7;///divider;
+												icon8Url//Icon 8/icon;icon8Caption//Caption that will be added to icon 8;icon8String//String that will be replaced by icon 8;///divider;
+												icon9Url//Icon 9/icon;icon9Caption//Caption that will be added to icon 9;icon9String//String that will be replaced by icon 9;///divider;
+												icon10Url//Icon 10/icon;icon10Caption//Caption that will be added to icon 10;icon10String//String that will be replaced by icon 10;///divider;
+												icon11Url//Icon 11/icon;icon11Caption//Caption that will be added to icon 11;icon11String//String that will be replaced by icon 11;///divider;
+												icon12Url//Icon 12/icon;icon12Caption//Caption that will be added to icon 12;icon12String//String that will be replaced by icon 12;
+												//Datapoint Detection/section;
+												datapointDetectionEnabled/true/Enable datapoint detection/checkbox;
+												datapointIdCol/id/Search for datapoint ids in this column (column header);
+												datapointIdColFilter/true/Add the datapoint id column to the 'Filter these headings' list/checkbox;
+												datapointExtendTableCols/name%3BplainText/Add these columns with attributes of the datapoint to the table (semicolon-separated list of attributes, see info text above, - for none);
+												datapointExtendTableColsDefaultTranslationLanguage/en/Add standard translations for these columns/select/,None/en,Englisch/de,German/ru,Russian/pt,Polish/nl,Dutch/fr,French/it,Italian/es,Spanish/zh-cn,Chinese;
+												datapointToggleCols/plainText/Enable toggling of the datapoint in this columns (semicolon-separated list with column headers, - for none);
 	">
 	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'noOverlayInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'xwideIfActive highIfActive', 'bigIconActive': 'false', 'iconNoPointerEventsActive': 'true', 'noOverlayActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'iconNoPointerEventsEnlarged': 'true', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
  
 	<link rel="stylesheet" href="/iqontrol/jquery/jquery.mobile-1.4.5.min.css"/>
 	<script type="text/javascript" src="/iqontrol/jquery/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/iqontrol/jquery/jquery.mobile-1.4.5.min.js"></script>
+	<!--script type="text/javascript" src="/iqontrol/../../lib/js/translate.js"></script-->
 	<style>
 		::-webkit-scrollbar {
 		  width: 5px;
@@ -80,6 +112,275 @@
 		var options;
 		var lastColsSortedAndFilteredStringified;
 		var breakpointsCount = -1;
+		var datapointRegex = new RegExp('.*\.[0-9]+\..*');
+		var datapoints = {};
+		var tableDatapoints = {};
+		var datapointExtendTableColsDefaultTranslationWords = {
+		  "val": {
+			"en": "Value",
+			"de": "Wert",
+			"ru": "Ценить",
+			"pt": "Valor",
+			"nl": "Waarde",
+			"fr": "Valeur",
+			"it": "Valore",
+			"es": "Valor",
+			"pl": "Wartość",
+			"zh-cn": "价值"
+		  },
+		  "unit": {
+			"en": "Unit",
+			"de": "Einheit",
+			"ru": "Ед. изм",
+			"pt": "Unidade",
+			"nl": "Eenheid",
+			"fr": "Unité",
+			"it": "Unità",
+			"es": "Unidad",
+			"pl": "Jednostka",
+			"zh-cn": "单元"
+		  },
+		  "valFull": {
+			"en": "Complete Value",
+			"de": "Vollständiger Wert",
+			"ru": "Полная ценность",
+			"pt": "Valor Completo",
+			"nl": "Volledige waarde",
+			"fr": "Valeur complète",
+			"it": "Valore completo",
+			"es": "Valor completo",
+			"pl": "Pełna wartość",
+			"zh-cn": "完整的价值"
+		  },
+		  "plainText": {
+			"en": "Status",
+			"de": "Status",
+			"ru": "Положение дел",
+			"pt": "Status",
+			"nl": "Toestand",
+			"fr": "Statut",
+			"it": "Stato",
+			"es": "Estado",
+			"pl": "Status",
+			"zh-cn": "地位"
+		  },
+		  "min": {
+			"en": "Minimum",
+			"de": "Minimum",
+			"ru": "Минимум",
+			"pt": "Mínimo",
+			"nl": "Minimum",
+			"fr": "Le minimum",
+			"it": "Minimo",
+			"es": "Mínimo",
+			"pl": "Minimum",
+			"zh-cn": "最低限度"
+		  },
+		  "max": {
+			"en": "Maximum",
+			"de": "Maximum",
+			"ru": "Максимум",
+			"pt": "Máximo",
+			"nl": "Maximaal",
+			"fr": "Maximum",
+			"it": "Massimo",
+			"es": "Máximo",
+			"pl": "Maksymalny",
+			"zh-cn": "最大值"
+		  },
+		  "step": {
+			"en": "Step Width",
+			"de": "Schrittweite",
+			"ru": "Ширина шага",
+			"pt": "Largura do Passo",
+			"nl": "Stapbreedte",
+			"fr": "Largeur de pas",
+			"it": "Larghezza passo",
+			"es": "Ancho de paso",
+			"pl": "Szerokość kroku",
+			"zh-cn": "步宽"
+		  },
+		  "valueList": {
+			"en": "Value List",
+			"de": "Werteliste",
+			"ru": "Список значений",
+			"pt": "Lista de Valores",
+			"nl": "Waardelijst",
+			"fr": "Liste de valeurs",
+			"it": "Lista valori",
+			"es": "Lista de valores",
+			"pl": "Lista wartości",
+			"zh-cn": "值列表"
+		  },
+		  "targetValues": {
+			"en": "Target Values",
+			"de": "Zielwerte",
+			"ru": "Целевые значения",
+			"pt": "Valores Alvo",
+			"nl": "Doelwaarden",
+			"fr": "Valeurs cibles",
+			"it": "Valori target",
+			"es": "Valores objetivo",
+			"pl": "Wartości docelowe",
+			"zh-cn": "目标值"
+		  },
+		  "ack": {
+			"en": "Acknowledged",
+			"de": "Anerkannt",
+			"ru": "Признано",
+			"pt": "Reconhecido",
+			"nl": "Erkend",
+			"fr": "Reconnu",
+			"it": "Riconosciuto",
+			"es": "Admitido",
+			"pl": "Potwierdzony",
+			"zh-cn": "确认"
+		  },
+		  "readonly": {
+			"en": "Readonly",
+			"de": "Schreibgeschützt",
+			"ru": "Только чтение",
+			"pt": "Somente leitura",
+			"nl": "Alleen lezen",
+			"fr": "Lecture seulement",
+			"it": "Sola lettura",
+			"es": "Solo lectura",
+			"pl": "Tylko czytać",
+			"zh-cn": "只读"
+		  },
+		  "custom": {
+			"en": "Custom",
+			"de": "Benutzerdefiniert",
+			"ru": "Обычай",
+			"pt": "Personalizado",
+			"nl": "Aangepast",
+			"fr": "Personnalisé",
+			"it": "Costume",
+			"es": "Personalizado",
+			"pl": "Zwyczaj",
+			"zh-cn": "风俗"
+		  },
+		  "id": {
+			"en": "Datapoint",
+			"de": "Datenpunkt",
+			"ru": "Datapoint",
+			"pt": "Datapoint",
+			"nl": "Data punt",
+			"fr": "Point de données",
+			"it": "Datapoint",
+			"es": "Punto de datos",
+			"pl": "Punkt danych",
+			"zh-cn": "数据点"
+		  },
+		  "from": {
+			"en": "From",
+			"de": "Von",
+			"ru": "Из",
+			"pt": "A partir de",
+			"nl": "Van",
+			"fr": "De",
+			"it": "A partire dal",
+			"es": "De",
+			"pl": "Z",
+			"zh-cn": "从"
+		  },
+		  "lc": {
+			"en": "Last Change",
+			"de": "Letzte Änderung",
+			"ru": "Последнее изменение",
+			"pt": "Última mudança",
+			"nl": "Laatste wijziging",
+			"fr": "Dernier changement",
+			"it": "Ultima modifica",
+			"es": "Ultimo cambio",
+			"pl": "Ostatnia zmiana",
+			"zh-cn": "最后一次变更"
+		  },
+		  "ts": {
+			"en": "Timestamp",
+			"de": "Zeitstempel",
+			"ru": "Отметка времени",
+			"pt": "Timestamp",
+			"nl": "Tijdstempel",
+			"fr": "Horodatage",
+			"it": "Timestamp",
+			"es": "Marca de tiempo",
+			"pl": "Znak czasu",
+			"zh-cn": "时间戳"
+		  },
+		  "q": {
+			"en": "Quality",
+			"de": "Qualität",
+			"ru": "Качественный",
+			"pt": "Qualidade",
+			"nl": "Kwaliteit",
+			"fr": "Qualité",
+			"it": "Qualità",
+			"es": "Calidad",
+			"pl": "Jakość",
+			"zh-cn": "质量"
+		  },
+		  "role": {
+			"en": "Role",
+			"de": "Rolle",
+			"ru": "Роль",
+			"pt": "Função",
+			"nl": "Rol",
+			"fr": "Rôle",
+			"it": "Ruolo",
+			"es": "Papel",
+			"pl": "Rola",
+			"zh-cn": "角色"
+		  },
+		  "type": {
+			"en": "Type",
+			"de": "Typ",
+			"ru": "Тип",
+			"pt": "Modelo",
+			"nl": "Type",
+			"fr": "Taper",
+			"it": "Tipo",
+			"es": "Escribe",
+			"pl": "Rodzaj",
+			"zh-cn": "类型"
+		  },
+		  "name": {
+			"en": "Name",
+			"de": "Name",
+			"ru": "Имя",
+			"pt": "Nome",
+			"nl": "Naam",
+			"fr": "Nom",
+			"it": "Nome",
+			"es": "Nombre",
+			"pl": "Nazwa",
+			"zh-cn": "姓名"
+		  },
+		  "desc": {
+			"en": "Description",
+			"de": "Beschreibung",
+			"ru": "Описание",
+			"pt": "Descrição",
+			"nl": "Beschrijving",
+			"fr": "La description",
+			"it": "Descrizione",
+			"es": "Descripción",
+			"pl": "Opis",
+			"zh-cn": "描述"
+		  },
+		  "deviceName": {
+			"en": "Device Name",
+			"de": "Gerätename",
+			"ru": "Имя устройства",
+			"pt": "Nome do dispositivo",
+			"nl": "Toestelnaam",
+			"fr": "Nom de l'appareil",
+			"it": "Nome del dispositivo",
+			"es": "Nombre del dispositivo",
+			"pl": "Nazwa urządzenia",
+			"zh-cn": "设备名称"
+		  }
+		};
 
 		//UrlParameters
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
@@ -95,8 +396,9 @@
 			if(entry.length < 2) entry.push(entry[0]);
 			translations[i] = {searchValue: entry[0], newValue: entry[1]};
 		}
+		var iconCols = (getUrlParameter("iconCols") || "").split(';');		
 		var iconReplacements = [];
-		for(var i = 1; i <= 5; i++){
+		for(var i = 1; i <= 12; i++){
 			var iconUrl = getUrlParameter("icon" + i + "Url");
             if (iconUrl && iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
 			var caption = getUrlParameter("icon" + i + "Caption");
@@ -104,6 +406,20 @@
 			if(iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
 		}
 		var translationsAndIconReplacements = iconReplacements.concat(translations);
+		var datapointDetectionEnabled = !(getUrlParameter("datapointDetectionEnabled") == "false");
+		var datapointIdCol = getUrlParameter("datapointIdCol");
+		datapointIdCol = (datapointIdCol ? datapointIdCol : "id");
+		var datapointIdColFilter = !(getUrlParameter("datapointIdColFilter") == "false");
+		if(datapointDetectionEnabled && datapointIdColFilter && datapointIdCol) colsFilter.push(datapointIdCol);
+		var datapointExtendTableCols = (getUrlParameter("datapointExtendTableCols") || "name;plainText").split(';');
+		var datapointExtendTableColsDefaultTranslationLanguage = getUrlParameter("datapointExtendTableColsDefaultTranslationLanguage");
+		datapointExtendTableColsDefaultTranslationLanguage = (datapointExtendTableColsDefaultTranslationLanguage ? datapointExtendTableColsDefaultTranslationLanguage : "en");
+		if(datapointExtendTableColsDefaultTranslationLanguage){
+			for(word in datapointExtendTableColsDefaultTranslationWords){
+				translations.push({searchValue: word, newValue: datapointExtendTableColsDefaultTranslationWords[word][datapointExtendTableColsDefaultTranslationLanguage]});
+			}
+		}
+		var datapointToggleCols = (getUrlParameter("datapointToggleCols") || "plainText").split(';');
 
 		//Document ready
 		$(document).ready(function(){
@@ -147,54 +463,28 @@
 			}
 		}
 		
-		//create Breakpoints
-		
-		function createBreakpoints(numberOfNeededBreakpoints){
-			if(breakpointsCount < numberOfNeededBreakpoints){
-				if(breakpoints.length < numberOfNeededBreakpoints){
-					while(numberOfNeededBreakpoints > breakpoints.length){
-						breakpoints.push((breakpoints[breakpoints.length - 1] || 10) + 10);
-					}
-				}
-				console.log(breakpoints);
-				var customCSS = "";
-				for(i = 0; i < numberOfNeededBreakpoints; i++){
-					//Add breakpoint
-					customCSS += ".ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
-					customCSS += ".ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
-					customCSS += "   display: none;";
-					customCSS += "}";
-					customCSS += "@media screen and (min-width: " + breakpoints[i] + "em) {";
-					customCSS += "   .ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
-					customCSS += "   .ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
-					customCSS += "     display: table-cell;";
-					customCSS += "   }";
-					customCSS += "} ";				
-				}
-				// Manually hidden
-				customCSS += ".ui-table-columntoggle th.ui-table-cell-hidden,";
-				customCSS += ".ui-table-columntoggle td.ui-table-cell-hidden {";
-				customCSS += "  display: none;";
-				customCSS += "} ";			 
-				// Manually shown
-				customCSS += ".ui-table-columntoggle th.ui-table-cell-visible,";
-				customCSS += ".ui-table-columntoggle td.ui-table-cell-visible {";
-				customCSS += "   display: table-cell;";
-				customCSS += "} ";
-				removeCustomCSS("breakpoints");
-				addCustomCSS(customCSS, "breakpoints");
-				breakpointsCount = numberOfNeededBreakpoints;
-			}
-		}
-
 		//Create Table
 		function createTable(){
-			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return;
+			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
 			if(dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
+			//Datapoint-Detection
+			tableDatapoints = {};
+			if(datapointDetectionEnabled && datapointIdCol){
+				for (var line = 0; line < dataObject.length; line++) {
+					var id = dataObject[line][datapointIdCol];
+					if(datapointRegex.test(id)){ //Datapoint id found
+						if(typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {lines: []};
+						tableDatapoints[id].lines.push(line);
+						datapointExtendTableCols.forEach(function(datapointExtendTableCol){
+							if(typeof dataObject[line][datapointExtendTableCol] == "undefined") dataObject[line][datapointExtendTableCol] = "";
+						});
+					}
+				}
+			}
 			//Get cols
 			var cols = [];
 			for (var line = 0; line < dataObject.length; line++) {
@@ -219,7 +509,7 @@
 			}
 			//Add breakpoints
 			createBreakpoints(colsSortedAndFiltered.length);
-			//Build table
+			//Build table and head
 			var alwaysVisibleCount = 0;
 			var preferablyVisibleCount = 0;
 			var colsPreferablyVisibleTranslated = [];
@@ -258,9 +548,9 @@
 			//Build body
 			var bodyString = "";
 			for (var line = 0; line < dataObject.length; line++) {
-				bodyString += "<tr>";
+				bodyString += "<tr data-line='" + line + "'>";
 				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					bodyString += "<td>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", translationsAndIconReplacements, true) + "</td>";
+					bodyString += "<td data-line='" + line + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true) + "</td>";
 				}
 				bodyString += "</tr>";
 			}
@@ -293,6 +583,109 @@
 				$('#jsonTable').table('refresh').trigger('create');
 				$('#jsonTable-popup input[type=checkbox]').trigger('change');
 			}
+			//Subscribe to datapoints
+			for(id in tableDatapoints){
+				sendPostMessage("getStateSubscribed", id);
+			}
+		}
+		
+		//Update datapoint
+		function updateDatapoint(id){
+			if(!id || typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
+			tableDatapoints[id].lines.forEach(function(line){
+				datapointExtendTableCols.forEach(function(datapointExtendTableCol){
+					var result = datapoints[id] && datapoints[id][datapointExtendTableCol];
+					if(typeof result == "undefined" || result === null) result = ""; else result = result.toString();
+					if(datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
+					if(datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
+					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations), true);
+					$("td[data-line='" + line + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
+				});
+				datapointToggleCols.forEach(function(datpointToggleCol){
+					$("td[data-line='" + line + "'][data-colname='" + datpointToggleCol + "']:not(:has(>span))").each(function(){
+						$(this).html("<span class='datapoint-toggle' data-id='" + id + "' style='cursor: pointer;'>" + $(this).html() + "</span>");
+					});
+				});
+			});
+			$("span.datapoint-toggle:not(.clickEventBound)").on('click', spanToggleClick).addClass('clickEventBound');
+		}
+		
+		//Toggle datapoint
+		function spanToggleClick(){
+			var id = $(this).data('id');
+			var state = datapoints[id];
+			if(state && state.readonly == false){
+				switch(state.type){
+					case "button":
+					var newVal = true;
+					break;
+
+					case "level":
+					var oldVal = state.val;
+					var min = state.min || 0;
+					var max = state.max || 100;
+					var newVal;
+					if(oldVal > min) newVal = min; else newVal = max;
+					break;
+
+					case "valueList":
+					var oldVal = state.val;
+					if(oldVal == true || oldVal.toString().toLowerCase() == "true") oldVal = 1;
+					if(oldVal == false || oldVal.toString().toLowerCase() == "false") oldVal = 0;
+					var min = state.min || 0;
+					if(typeof state.valueList !== "undefined" && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
+					break;
+
+					case "switch": default:
+					var oldVal = state.val;
+					var newVal;
+					if(typeof oldVal == 'number'){
+						if(oldVal) newVal = 0; else newVal = 1;
+					} else {
+						if(oldVal.toString().toLowerCase() == "true") newVal = false; else newVal = true;
+					}
+				}
+				if(typeof newVal !== "undefined") sendPostMessage("setState", id, newVal);
+			}
+		}
+
+		//create Breakpoints
+		function createBreakpoints(numberOfNeededBreakpoints){
+			if(breakpointsCount < numberOfNeededBreakpoints){
+				if(breakpoints.length < numberOfNeededBreakpoints){
+					while(numberOfNeededBreakpoints > breakpoints.length){
+						breakpoints.push(((parseInt(breakpoints[breakpoints.length - 1]) || 10) + 10).toString());
+					}
+				}
+				console.log(breakpoints);
+				var customCSS = "";
+				for(i = 0; i < numberOfNeededBreakpoints; i++){
+					//Add breakpoint
+					customCSS += ".ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
+					customCSS += ".ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
+					customCSS += "   display: none;";
+					customCSS += "}";
+					customCSS += "@media screen and (min-width: " + breakpoints[i] + "em) {";
+					customCSS += "   .ui-table-columntoggle th.ui-table-priority-" + (i + 1) + ",";
+					customCSS += "   .ui-table-columntoggle td.ui-table-priority-" + (i + 1) + " {";
+					customCSS += "     display: table-cell;";
+					customCSS += "   }";
+					customCSS += "} ";				
+				}
+				// Manually hidden
+				customCSS += ".ui-table-columntoggle th.ui-table-cell-hidden,";
+				customCSS += ".ui-table-columntoggle td.ui-table-cell-hidden {";
+				customCSS += "  display: none;";
+				customCSS += "} ";			 
+				// Manually shown
+				customCSS += ".ui-table-columntoggle th.ui-table-cell-visible,";
+				customCSS += ".ui-table-columntoggle td.ui-table-cell-visible {";
+				customCSS += "   display: table-cell;";
+				customCSS += "} ";
+				removeCustomCSS("breakpoints");
+				addCustomCSS(customCSS, "breakpoints");
+				breakpointsCount = numberOfNeededBreakpoints;
+			}
 		}
 
 		//send postMessages
@@ -308,22 +701,26 @@
 				case "getState":
 					if(event.data.stateId) switch(event.data.stateId){
 						case getUrlParameter("useThisDatapoint") || "---undefined---":
-							console.log("Received USE_THIS_DATAPOINT");
-							USE_THIS_DATAPOINT = event.data.value;
-							createTable();
+						console.log("Received USE_THIS_DATAPOINT");
+						USE_THIS_DATAPOINT = event.data.value;
+						createTable();
 						break;
 
 						case "STATE":
-							console.log("Received STATE");
-							STATE = event.data.value;
-							createTable();
+						console.log("Received STATE");
+						STATE = event.data.value;
+						createTable();
 						break;
 
 						case "LEVEL":
-							console.log("Received LEVEL");
-							LEVEL = event.data.value;
-							createTable();
+						console.log("Received LEVEL");
+						LEVEL = event.data.value;
+						createTable();
 						break;
+						
+						default:
+						datapoints[event.data.stateId] = event.data.value;
+						updateDatapoint(event.data.stateId);
 					}
 				break;
 				

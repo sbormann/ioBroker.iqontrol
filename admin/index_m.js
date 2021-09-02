@@ -2825,7 +2825,8 @@ async function load(settings, onChange) {
 
 	//Enhance prevView and nextView-Buttons with functions
 	$('#devicesPrevView, #devicesNextView').on('click', function(){
-		var actualViewIndex = parseInt($('#devicesSelectedView').val()) || 0;
+		var actualViewIndex = parseInt($('#devicesSelectedView').val());
+		if (isNaN(actualViewIndex)) actualViewIndex = -1;
 		if($(this).data('role') == "prev" && actualViewIndex > 0){
 			$('#devicesSelectedView').val(actualViewIndex - 1).select().trigger('change');
 		} else if($(this).data('role') == "next" && actualViewIndex < (views.length - 1)){
@@ -3119,6 +3120,10 @@ async function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "		<i class='material-icons'>expand_more</i><h6 class='translate'>" + _(name) + ":</h6>";
 					dialogDeviceEditOptionsContent += "</div>";
 					dialogDeviceEditOptionsContent += "<div class='collapsible-body'>";
+					break;
+					
+					case "divider":
+					dialogDeviceEditOptionsContent += "<div class='divider'></div>";
 					break;
 
 					case "number":
@@ -4548,16 +4553,20 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									dialogWidgetSettingsUrlParametersString += "<div class='collapsible-body'>";
 									break;
+
+									case "divider":
+									dialogWidgetSettingsUrlParametersString += "<div class='divider'></div>";
+									break;
 									
 									case "number":
 									var min = (options[0] || "").split(',')[0] || 0;
 									var max = (options[0] || "").split(',')[1] || 100;
 									var step = (options[0] || "").split(',')[2] || 1;
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
 									case "select": case "multipleSelect":
@@ -4569,19 +4578,19 @@ async function load(settings, onChange) {
 										parts[1] = decodeURIComponent(parts[1]);
 										selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
 									});
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
 									case "combobox":
 									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';')), iconsFromOption: false});
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
 									case "historyInstance":
@@ -4591,30 +4600,30 @@ async function load(settings, onChange) {
 									historyInstances.forEach(function(historyInstance){
 										selectOptionsContent += "        <option value='" + historyInstance + "'" + (historyInstance == value ? " selected" : "") + ">" + historyInstance + "</option>";
 									});
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
 									case "checkbox":
 									if(value == "true") value = true;
 									if(value == "false") value = false;
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l23'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l23'>";
 									dialogWidgetSettingsUrlParametersString += "    <p><label>";
 									dialogWidgetSettingsUrlParametersString += "        <input class='value dialogWidgetSettingsUrlParameters filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "' " + (value?"checked='checked'":"") + " />";
 									dialogWidgetSettingsUrlParametersString += "        <span>" + _(name) + "</span>";
 									dialogWidgetSettingsUrlParametersString += "    </label></p>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
 									case "color":
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
 									case "icon":
@@ -4646,25 +4655,25 @@ async function load(settings, onChange) {
 									}
 									//Icons Combobox
 									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: options});
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("No Icon") + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
 									case "datapoint":
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
 									case "text": default:
-									dialogWidgetSettingsUrlParametersString += "<div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 								}
 							});
