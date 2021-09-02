@@ -1579,7 +1579,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### dev
+### 1.9.8 (2021-09-03)
 * (sbormann) Fixed variables with special chars not working.
 * (sbormann) Enhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.
 * (sbormann) Fixed view rendering problems with thermostats without CONTROL_MODE.
