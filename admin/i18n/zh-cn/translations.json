@@ -839,6 +839,7 @@
     "You can upload your own icons to the folder '/usericons'": "您可以将自己的图标上传到'/ usericons'文件夹",
     "You can use variables in device-names and image-filenames": "您可以在设备名称和图像文件名称中使用变量",
     "You can use variables in device-names, button-captions and headings": "您可以在设备名称，按钮标题和标题中使用变量",
+    "You can use variables in headings, device-names and image-filenames": "您可以在标题、设备名称和图像文件名中使用变量",
     "You can use variables in image-filenames": "您可以在图像文件名中使用变量",
     "You can use your images as background-images for views, or for devices.": "您可以使用自己的图片作为显示页面和设备的背景图。",
     "You have unsaved changes. Close anyway?": "您尚未保存更改。",

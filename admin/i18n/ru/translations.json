@@ -839,6 +839,7 @@
     "You can upload your own icons to the folder '/usericons'": "Вы можете загрузить свои собственные значки в папку «/ usericons»",
     "You can use variables in device-names and image-filenames": "Вы можете использовать переменные в именах устройств и именах файлов изображений",
     "You can use variables in device-names, button-captions and headings": "Вы можете использовать переменные в именах устройств, заголовках кнопок и заголовках.",
+    "You can use variables in headings, device-names and image-filenames": "Вы можете использовать переменные в заголовках, именах устройств и именах файлов изображений.",
     "You can use variables in image-filenames": "Вы можете использовать переменные в именах изображений",
     "You can use your images as background-images for views, or for devices.": "Вы можете использовать свои изображения в качестве фонового изображения для представлений, или для устройств.",
     "You have unsaved changes. Close anyway?": "У вас есть несохраненные изменения. ",

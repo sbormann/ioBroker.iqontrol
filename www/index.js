@@ -2204,6 +2204,9 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 	if(typeof result.val == "string") {
 		result.val = result.val.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
 	}
+	if(typeof result.plainText == "string") {
+		result.plainText = result.plainText.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+	}
 	return result;
 }
 
@@ -4622,7 +4625,7 @@ function renderView(viewId, triggeredByReconnection){
 					viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
 					viewContent += "</div>";
 				}
-				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " style='xxxdisplay: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "'" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " style='display: none;'" : "") + " data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if(device.nativeNewLine) {
 				viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if (deviceIndex == 0) {

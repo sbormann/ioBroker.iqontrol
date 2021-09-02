@@ -6391,16 +6391,19 @@ async function save(callback) {
 				if((state.state == "URL" ||state.state == "BACKGROUND_URL") && state.commonRole == "const" && state.value != "") {
 					var filename = null;
 					var path = null;
+					var query = null;
 					if(state.value.indexOf("./images/widgets/") == 0){
 						filename = state.value.slice(8, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = imagePath;
+						query = (state.value.lastIndexOf('?') == -1 ? "" : state.value.slice(state.value.lastIndexOf('?')));
 					}
 					if(state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 						filename = state.value.slice(29, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = userfilesImagePath;
+						query = (state.value.lastIndexOf('?') == -1 ? "" : state.value.slice(state.value.lastIndexOf('?')));
 					}
 					if(filename && path){
-						widgetsToDownload.push({filename: filename, path: path});
+						widgetsToDownload.push({filename: filename, path: path, query: query});
 					}
 				}
 			});
@@ -6413,13 +6416,15 @@ async function save(callback) {
 		if(value.indexOf("./images/widgets/") == 0){
 			filename = value.slice(8, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = imagePath;
+			query = (value.lastIndexOf('?') == -1 ? "" : value.slice(value.lastIndexOf('?')));
 		}
 		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.slice(29, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = userfilesImagePath;
+			query = (value.lastIndexOf('?') == -1 ? "" : value.slice(value.lastIndexOf('?')));
 		}
 		if(filename && path){
-			widgetsToDownload.push({filename: filename, path: path});
+			widgetsToDownload.push({filename: filename, path: path, query: query});
 		}
 	}
 	widgetsToDownload = removeDuplicates(widgetsToDownload);
@@ -6427,10 +6432,24 @@ async function save(callback) {
 		var widgetsDatapoints = [];
 		var widgetsToDownloadCount = widgetsToDownload.length;
 		widgetsToDownload.forEach(function(widget){
-			downloadFileAsStringAsync(widget.filename, widget.path).then(function(htmlAsString){
+			downloadFileAsStringAsync(widget.filename, widget.path).then(function(htmlAsString, query = widget.query){
 				widgetsToDownloadCount--;
 				$(htmlAsString).filter('meta[name="widget-datapoint"]').each(function(){
 					var id = $(this).prop('content');
+					var variableId = id.split('|');
+					if(variableId.length > 1){
+						id = variableId[0];
+						var a = variableId[1].indexOf('{'), b = variableId[1].lastIndexOf('}');
+						if (a > -1 && a < b) {
+							var variable = variableId[1].substring(a + 1, b);
+							if(variable && variable != ""){
+								var regex = new RegExp('[\\?&]' + variable.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]') + '=([^&#]*)');
+								var queryValues = regex.exec(query);
+								var queryValue = (queryValues === null ? null : decodeURIComponent(queryValues[1].replace(/\+/g, ' ')));
+								if(queryValue) id = variableId[1].replace("{" + variable + "}", queryValue);
+							}
+						}
+					}
 					var data = $(this).data() || {};
 					var type = data.type || "string";
 					var role = data.role || "";
@@ -6444,6 +6463,7 @@ async function save(callback) {
 					console.log("Found widgetDatapoint: ", widgetDatapoint);
 				});
 				if(widgetsToDownloadCount == 0){
+					widgetsDatapoints = removeDuplicates(widgetsDatapoints);
 					obj.widgetsDatapoints = widgetsDatapoints;
 					//Save settings
 					console.log("Save settings");

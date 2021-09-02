@@ -1102,6 +1102,7 @@
     "You can upload your own icons to the folder '/usericons'": "Sie können ihre eigenen Icons in das Verzeichnis '/usericons' laden",
     "You can use variables in device-names and image-filenames": "In den Gerätenamen und in den Dateinamen von Bildern können Variablen verwendet werden",
     "You can use variables in device-names, button-captions and headings": "In den Gerätenamen, Beschriftungen und Überschriften können Variablen verwendet werden",
+    "You can use variables in headings, device-names and image-filenames": "In den Überschriften, Gerätenamen und den Dateinamen von Bildern können Variablen verwendet werden",
     "You can use variables in image-filenames": "In den Dateinamen von Bildern können Variablen verwendet werden",
     "You can use your images as background-images for views, or for devices.": "Eigene Bilder können ebenfalls als Hintergrund-Bilder für Ansichten, und Geräte genutzt werden.",
     "You have unsaved changes. Close anyway?": "Sie haben ungespeicherte Änderungen. Dennoch schließen?",

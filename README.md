@@ -279,6 +279,10 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To instruct iQontrol to generate a widgetState under ``iqontrol.<instance>.Widgets`` you can use a meta-tag inside the head-section of the widget-website:
     * Syntax: ``<meta name="widget-datapoint" content="WidgetName.StateName" data-type="string" data-role="text" />``
 	* You can further configure the datapoint by using data-type (which can be set to string, number or boolean), data-role, data-name, data-min, data-max, data-def and data-unit attributes
+	* You can also use a url-parameter (see below) as a variable, for example to create distinct instances of the widgets with own datapoints.
+	    * The Syntax is then: ``<meta name="widget-datapoint" content="WidgetName.StateName|WidgetName.{instance}.StateName" data-type="string" data-role="text" />``
+		* If the variable ``instance`` is set, then the part after the ``|`` will be used as widgetState-Name and ``{instance}`` will be replaced by the value of ``instance``
+		* If the variable ``instance`` is not set, then the part before the ``|`` will be used as wigetState-Name
     * The corresponding datapoint is only then created, if the widget-website is added to a device as URL or BACKGROUND_URL	
 * The same concept may be used for the URL/HTML-State, which is used to display a website inside the dialog of a device
 * To create an icon for your widget place a .png file with the same filename as the widget into the widgets directory
@@ -941,7 +945,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 
 * You can upload the following HTML code as html-file into the /userwidgets subdirectory and reference it to BACKGROUND_URL-State (which then needs to be configured as "Constant")
 * When adding the widget a description is displayed
-* A url-parameter for your title is asked
+* A url-parameter for your title and for your instance is asked
 * Then you are asked, if you would like to apply the contained options
 * A bunch of datapoints are created to control the position of the map and to set favorite positions
 ````html
@@ -949,63 +953,64 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <html style="width: 100%; height: 100%; margin: 0px;">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="widget-description" content="This is a map widget, please provide coordinates at iqontrol.x.Widgets.Map. (C) by Sebastian Bormann"/> 
-	<meta name="widget-urlparameters" content="title/My Map/Please enter a title for your map">
+	<meta name="widget-description" content="This is a map widget, please provide coordinates at iqontrol.x.Widgets.Map[.instance]. (C) by Sebastian Bormann"/> 
+	<meta name="widget-urlparameters" content="instance//Instance (create mulitple instances to get multiple distinct datapoints to configure your map)/number/0,100,1;title/My Map/Title for your map">
 	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
 
-	<meta name="widget-datapoint" content="Map.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Position.zoom" data-type="number" data-role="value.zoom" />
+	<meta name="widget-datapoint" content="Map.Position.latitude|Map.{instance}.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Position.longitude|Map.{instance}.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Position.zoom|Map.{instance}.Position.zoom" data-type="number" data-role="value.zoom" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.0.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.0.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.0.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.0.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.Position.latitude|Map.{instance}.Favorites.0.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.Position.longitude|Map.{instance}.Favorites.0.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.name|Map.{instance}.Favorites.0.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.0.icon-url|Map.{instance}.Favorites.0.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.1.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.1.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.1.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.1.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.Position.latitude|Map.{instance}.Favorites.1.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.Position.longitude|Map.{instance}.Favorites.1.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.name|Map.{instance}.Favorites.1.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.1.icon-url|Map.{instance}.Favorites.1.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.2.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.2.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.2.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.2.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.Position.latitude|Map.{instance}.Favorites.2.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.Position.longitude|Map.{instance}.Favorites.2.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.name|Map.{instance}.Favorites.2.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.2.icon-url|Map.{instance}.Favorites.2.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.3.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.3.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.3.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.3.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.Position.latitude|Map.{instance}.Favorites.3.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.Position.longitude|Map.{instance}.Favorites.3.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.name|Map.{instance}.Favorites.3.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.3.icon-url|Map.{instance}.Favorites.3.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.4.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.4.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.4.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.4.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.Position.latitude|Map.{instance}.Favorites.4.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.Position.longitude|Map.{instance}.Favorites.4.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.name|Map.{instance}.Favorites.4.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.4.icon-url|Map.{instance}.Favorites.4.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.5.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.5.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.5.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.5.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.Position.latitude|Map.{instance}.Favorites.5.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.Position.longitude|Map.{instance}.Favorites.5.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.name|Map.{instance}.Favorites.5.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.5.icon-url|Map.{instance}.Favorites.5.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.6.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.6.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.6.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.6.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.Position.latitude|Map.{instance}.Favorites.6.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.Position.longitude|Map.{instance}.Favorites.6.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.name|Map.{instance}.Favorites.6.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.6.icon-url|Map.{instance}.Favorites.6.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.7.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.7.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.7.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.7.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.Position.latitude|Map.{instance}.Favorites.7.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.Position.longitude|Map.{instance}.Favorites.7.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.name|Map.{instance}.Favorites.7.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.7.icon-url|Map.{instance}.Favorites.7.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.8.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.8.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.8.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.8.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.Position.latitude|Map.{instance}.Favorites.8.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.Position.longitude|Map.{instance}.Favorites.8.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.name|Map.{instance}.Favorites.8.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.8.icon-url|Map.{instance}.Favorites.8.icon-url" data-type="string" data-role="url" />
 
-	<meta name="widget-datapoint" content="Map.Favorites.9.Position.latitude" data-type="number" data-role="value.gps.latitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.9.Position.longitude" data-type="number" data-role="value.gps.longitude" />
-	<meta name="widget-datapoint" content="Map.Favorites.9.name" data-type="string" data-role="text" />
-	<meta name="widget-datapoint" content="Map.Favorites.9.icon-url" data-type="string" data-role="url" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.Position.latitude|Map.{instance}.Favorites.9.Position.latitude" data-type="number" data-role="value.gps.latitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.Position.longitude|Map.{instance}.Favorites.9.Position.longitude" data-type="number" data-role="value.gps.longitude" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.name|Map.{instance}.Favorites.9.name" data-type="string" data-role="text" />
+	<meta name="widget-datapoint" content="Map.Favorites.9.icon-url|Map.{instance}.Favorites.9.icon-url" data-type="string" data-role="url" />
+	
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
 	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	<title>iQontrol Map Widget</title>
@@ -1023,19 +1028,22 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	var mapMarkerIcons = [];
 	var mymap = false;
 	
-	//Set title from UrlParameter
+	//Get UrlParameters
+	var instance = getUrlParameter('instance');
+	var widgetDatapointsRoot = (instance ? "Map." + instance : "Map");
 	document.getElementById('title').innerHTML = getUrlParameter('title') || "";
 
 	//Subscribe to WidgetDatapoints now
-	sendPostMessage("getWidgetStateSubscribed", "Map.Position.latitude");
-	sendPostMessage("getWidgetStateSubscribed", "Map.Position.longitude");
-	sendPostMessage("getWidgetStateSubscribed", "Map.Position.zoom");	  
+	console.log("Getting Map Datapoints from " + widgetDatapointsRoot);
+	sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Position.latitude");
+	sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Position.longitude");
+	sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Position.zoom");	  
 	for(var i=0; i<10; i++){
 		mapFavorites[i] = {};
-		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".Position.latitude");
-		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".Position.longitude");
-		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".name");
-		sendPostMessage("getWidgetStateSubscribed", "Map.Favorites." + i + ".icon-url");
+		sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Favorites." + i + ".Position.latitude");
+		sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Favorites." + i + ".Position.longitude");
+		sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Favorites." + i + ".name");
+		sendPostMessage("getWidgetStateSubscribed", widgetDatapointsRoot + ".Favorites." + i + ".icon-url");
 	}
 
 	//Initialize and Reposition map
@@ -1104,26 +1112,26 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		if(event.data && event.data.command) switch(event.data.command){
 			case "getState":
 				if(event.data.stateId && event.data.value) switch(event.data.stateId){
-					case "Map.Position.latitude":
+					case widgetDatapointsRoot + ".Position.latitude":
 						console.log("Set latitude to " + event.data.value.valFull);
 						mapPositionLatitude = parseFloat(event.data.value.valFull) || 0;
 						repositionMap();
 					break;
 					
-					case "Map.Position.longitude":
+					case widgetDatapointsRoot + ".Position.longitude":
 						console.log("Set longitude to " + event.data.value.valFull);
 						mapPositionLongitude = parseFloat(event.data.value.valFull) || 0;
 						repositionMap();
 					break;
 					
-					case "Map.Position.zoom":
+					case widgetDatapointsRoot + ".Position.zoom":
 						console.log("Set zoom to " + event.data.value.valFull);
 						mapPositionZoom = parseFloat(event.data.value.valFull) || 0;
 						repositionMap();
 					break;
 					
 					default:
-					if(event.data.stateId.substring(0, 14) == "Map.Favorites."){
+					if(event.data.stateId.substring(0, 14) == widgetDatapointsRoot + ".Favorites."){
 						var favoritesIndex = parseInt(event.data.stateId.substring(14,15));
 						switch(event.data.stateId.substring(16)){
 							case "Position.latitude":
@@ -1575,6 +1583,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed variables with special chars not working.
 * (sbormann) Enhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.
 * (sbormann) Fixed view rendering problems with thermostats without CONTROL_MODE.
+* (sbormann) Added the ability to widgets, to create widgetStates that contain a variable (for example to create distinct instances of a widget with own datapoints).
+* (sbormann) The map widget has been extended with a instance-option to create multiple maps with own datapoints.
 
 ### 1.9.7 (2021-08-31)
 * (sbormann) Added option to close collapsible subheaders, if others open.
