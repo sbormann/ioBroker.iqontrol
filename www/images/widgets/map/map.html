@@ -98,10 +98,10 @@
 	//Initialize and Reposition map
 	function repositionMap(){
 		console.log("Reposition map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
-		if(mymap){
+		if (mymap){
 			mymap.setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);
 		} else {
-			if(mapPositionLatitude != null && mapPositionLongitude != null && mapPositionZoom != null){
+			if (mapPositionLatitude != null && mapPositionLongitude != null && mapPositionZoom != null){
 			console.log("Init map: " + mapPositionLatitude + "|" + mapPositionLongitude + "|" + mapPositionZoom);
 				mymap = L.map('mapid', {tap: false}).setView([mapPositionLatitude, mapPositionLongitude], mapPositionZoom);        
 				L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -114,11 +114,11 @@
 
 	//Set Favorites Markers
 	function favoritesMarkers(favoritesIndex){
-		if(mapMarkers[favoritesIndex]){
+		if (mapMarkers[favoritesIndex]){
 			mapMarkers[favoritesIndex].setLatLng([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude]);
 		} else {
-			if(mapFavorites[favoritesIndex].latitude != null && mapFavorites[favoritesIndex].longitude != null && mapFavorites[favoritesIndex].name != null && mapFavorites[favoritesIndex].iconUrl != null){
-				if(mapFavorites[favoritesIndex].iconUrl != "") {
+			if (mapFavorites[favoritesIndex].latitude != null && mapFavorites[favoritesIndex].longitude != null && mapFavorites[favoritesIndex].name != null && mapFavorites[favoritesIndex].iconUrl != null){
+				if (mapFavorites[favoritesIndex].iconUrl != "") {
 					mapMarkers[favoritesIndex] = L.marker([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude], {icon: mapMarkerIcons[favoritesIndex]}).addTo(mymap).bindPopup(mapFavorites[favoritesIndex].name);
 				} else {
 					mapMarkers[favoritesIndex] = L.marker([mapFavorites[favoritesIndex].latitude, mapFavorites[favoritesIndex].longitude]).addTo(mymap).bindPopup(mapFavorites[favoritesIndex].name);
@@ -129,12 +129,12 @@
 
 	//Set Favorites Markers Name
 	function favoritesMarkersName(favoritesIndex){
-		if(mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setPopupContent(mapFavorites[favoritesIndex].name); else favoritesMarkers(favoritesIndex);
+		if (mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setPopupContent(mapFavorites[favoritesIndex].name); else favoritesMarkers(favoritesIndex);
 	}
 
 	 //Set Farovites Markers Icon
 	function favoritesMarkersIcon(favoritesIndex){
-		if(mapFavorites[favoritesIndex].iconUrl != "") {
+		if (mapFavorites[favoritesIndex].iconUrl != "") {
 			mapMarkerIcons[favoritesIndex] = L.icon({
 				iconUrl: mapFavorites[favoritesIndex].iconUrl,
 				iconSize:		[32, 32], // size of the icon
@@ -146,7 +146,7 @@
 		} else {
 			mapMarkerIcons[favoritesIndex] = L.Icon.Default.prototype;
 		}
-		if(mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setIcon(mapMarkerIcons[favoritesIndex]); else favoritesMarkers(favoritesIndex);
+		if (mapMarkers[favoritesIndex]) mapMarkers[favoritesIndex].setIcon(mapMarkerIcons[favoritesIndex]); else favoritesMarkers(favoritesIndex);
 	}
 
 	//send postMessages
@@ -158,9 +158,9 @@
 	//receive postMessages
 	window.addEventListener("message", receivePostMessage, false);
 	function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
-		if(event.data && event.data.command) switch(event.data.command){
+		if (event.data && event.data.command) switch(event.data.command){
 			case "getState":
-				if(event.data.stateId && event.data.value) switch(event.data.stateId){
+				if (event.data.stateId && event.data.value) switch(event.data.stateId){
 					case widgetDatapointsRoot + ".Position.latitude":
 						console.log("Set latitude to " + event.data.value.valFull);
 						mapPositionLatitude = parseFloat(event.data.value.valFull) || 0;
@@ -180,7 +180,7 @@
 					break;
 					
 					default:
-					if(event.data.stateId.substring(0, 14) == widgetDatapointsRoot + ".Favorites."){
+					if (event.data.stateId.substring(0, 14) == widgetDatapointsRoot + ".Favorites."){
 						var favoritesIndex = parseInt(event.data.stateId.substring(14,15));
 						switch(event.data.stateId.substring(16)){
 							case "Position.latitude":

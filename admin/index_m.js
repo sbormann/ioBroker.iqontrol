@@ -1393,16 +1393,16 @@ var iQontrolRolesStandardOptions = {
 for(iQontrolRole in iQontrolRoles){
 	var optionsObject = JSON.parse(JSON.stringify(iQontrolRolesStandardOptions));
 	for(deviceSpecificOptionSection in iQontrolRoles[iQontrolRole].deviceSpecificOptions){
-		if(iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection] == "delete"){
+		if (iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection] == "delete"){
 			delete optionsObject[deviceSpecificOptionSection];
 		} else {
-			if(typeof optionsObject[deviceSpecificOptionSection] == "undefined") optionsObject[deviceSpecificOptionSection] = iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection];
+			if (typeof optionsObject[deviceSpecificOptionSection] == "undefined") optionsObject[deviceSpecificOptionSection] = iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection];
 			for(deviceSpecificOption in iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection].options){
-				if(iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection].options[deviceSpecificOption] == "delete"){
+				if (iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection].options[deviceSpecificOption] == "delete"){
 					delete optionsObject[deviceSpecificOptionSection].options[deviceSpecificOption];
 				} else {
-					if(typeof optionsObject[deviceSpecificOptionSection].options == "undefined") optionsObject[deviceSpecificOptionSection].options = {};
-					if(typeof optionsObject[deviceSpecificOptionSection].options[deviceSpecificOption] == "undefined"){
+					if (typeof optionsObject[deviceSpecificOptionSection].options == "undefined") optionsObject[deviceSpecificOptionSection].options = {};
+					if (typeof optionsObject[deviceSpecificOptionSection].options[deviceSpecificOption] == "undefined"){
 						optionsObject[deviceSpecificOptionSection].options[deviceSpecificOption] = iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection].options[deviceSpecificOption];
 					} else {
 						for(deviceSpecificOptionSetting in iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection].options[deviceSpecificOption]){
@@ -1521,9 +1521,9 @@ function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonStri
 
 function removeDuplicates(array, ignoreEverythingAfterThisString) { //Removes duplicates from an array
     var seen = [];
-	if(ignoreEverythingAfterThisString == "") ignoreEverythingAfterThisString = null;
+	if (ignoreEverythingAfterThisString == "") ignoreEverythingAfterThisString = null;
     return array.filter(function(item) {
-		if(seen.indexOf(JSON.stringify(item).split(ignoreEverythingAfterThisString)[0]) > -1){
+		if (seen.indexOf(JSON.stringify(item).split(ignoreEverythingAfterThisString)[0]) > -1){
 			return false;
 		} else {
 			seen.push(JSON.stringify(item).split(ignoreEverythingAfterThisString)[0]);
@@ -1553,22 +1553,22 @@ function updateSymbolicLinks(){
 	var changed = false;
 	if (typeof views != udef && views.length > 0) views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
-			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
-				if(views[device.symbolicLinkFrom.sourceView] && views[device.symbolicLinkFrom.sourceView].devices && typeof views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice] == "object"){
+			if (typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
+				if (views[device.symbolicLinkFrom.sourceView] && views[device.symbolicLinkFrom.sourceView].devices && typeof views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice] == "object"){
 					var newCommonRole = views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].commonRole;
-					if(device.commonRole != newCommonRole){
+					if (device.commonRole != newCommonRole){
 						console.log("Update device commonRole from symbolic link");
 						device.commonRole = newCommonRole;
 						changed = true;
 					}
 					var newStates = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].states)); //Creates new array, not just a reference
-					if(JSON.stringify(device.states) != JSON.stringify(newStates)){
+					if (JSON.stringify(device.states) != JSON.stringify(newStates)){
 						console.log("Update device states from symbolic link");
 						device.states = newStates;
 						changed = true;
 					}
 					var newOptions = JSON.parse(JSON.stringify(views[device.symbolicLinkFrom.sourceView].devices[device.symbolicLinkFrom.sourceDevice].options)); //Creates new array, not just a reference
-					if(JSON.stringify(device.options) != JSON.stringify(newOptions)){
+					if (JSON.stringify(device.options) != JSON.stringify(newOptions)){
 						console.log("Update device options from symbolic link");
 						device.options = newOptions;
 						changed = true;
@@ -1587,20 +1587,20 @@ function updateSymbolicLinks(){
 function changeSymbolicLinks(oldViewIndex, oldDeviceIndex, newViewIndex, newDeviceIndex, skip){
 	//If newViewIndex and newDeviceIndex are null, then all symbolic links to oldViewIndex/oldDeviceIndex are delted (converted to normal devices)
 	//If oldDeviceIndex and newDeviceIndex are "*", then all devices are affected
-	if(skip == null) skip = [];
+	if (skip == null) skip = [];
 	var changed = [];
 	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){
 		if (typeof view.devices != udef) view.devices.forEach(function(device, deviceIndex){
-			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){ //Valid Symbolic link
-				if(device.symbolicLinkFrom.sourceView == oldViewIndex && (device.symbolicLinkFrom.sourceDevice == oldDeviceIndex || oldDeviceIndex == "*") && skip.findIndex(function(element){ return (typeof element != udef && element.view == viewIndex && element.device == deviceIndex); }) == -1){
-					if(newViewIndex == null || newDeviceIndex == null){
+			if (typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){ //Valid Symbolic link
+				if (device.symbolicLinkFrom.sourceView == oldViewIndex && (device.symbolicLinkFrom.sourceDevice == oldDeviceIndex || oldDeviceIndex == "*") && skip.findIndex(function(element){ return (typeof element != udef && element.view == viewIndex && element.device == deviceIndex); }) == -1){
+					if (newViewIndex == null || newDeviceIndex == null){
 						console.log("Remove symbolic link of device " + viewIndex + "/" + deviceIndex + " because source device " + device.symbolicLinkFrom.sourceView + "/" + device.symbolicLinkFrom.sourceDevice + " has been deleted [viewIndex/deviceIndex]");
 						delete device.symbolicLinkFrom;
 						changed.push({view: viewIndex, device: deviceIndex});
 					} else {
 						console.log("Change symbolic link of device " + viewIndex + "/" + deviceIndex + " from " + device.symbolicLinkFrom.sourceView + "/" + device.symbolicLinkFrom.sourceDevice + " to " + newViewIndex + "/" + newDeviceIndex + " [viewIndex/DeviceIndex]");
 						device.symbolicLinkFrom.sourceView = newViewIndex;
-						if(newDeviceIndex !== "*") device.symbolicLinkFrom.sourceDevice = newDeviceIndex;
+						if (newDeviceIndex !== "*") device.symbolicLinkFrom.sourceDevice = newDeviceIndex;
 						changed.push({view: viewIndex, device: deviceIndex});
 					}
 				}
@@ -1614,8 +1614,8 @@ function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
 	var destinations = [];
 	if (typeof views != udef && views.length > 0) views.forEach(function(view, viewIndex){
 		if (typeof view.devices != udef) view.devices.forEach(function(device, deviceIndex){
-			if(typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
-				if(device.symbolicLinkFrom.sourceView == sourceViewIndex && device.symbolicLinkFrom.sourceDevice == sourceDeviceIndex){
+			if (typeof device.symbolicLinkFrom == "object" && typeof device.symbolicLinkFrom.sourceView != udef  && device.symbolicLinkFrom.sourceView !== ""  && typeof device.symbolicLinkFrom.sourceDevice != udef  && device.symbolicLinkFrom.sourceDevice !== ""){
+				if (device.symbolicLinkFrom.sourceView == sourceViewIndex && device.symbolicLinkFrom.sourceDevice == sourceDeviceIndex){
 					destinations.push({view: viewIndex, device: deviceIndex});
 				}
 			}
@@ -1672,7 +1672,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	});
 	$(targetInput).trigger('blur');
 	$(targetInput).each(function(index, targetElement){
-		if(!$(this).parent('div').hasClass('combobox')){
+		if (!$(this).parent('div').hasClass('combobox')){
 			$(this).next('label').addBack().wrapAll("<div class='combobox'></div>");
 			$(this).after("<a class='comboboxDropdownTrigger waves-effect waves-teal btn-small btn-flat' data-target='dropdown_" + encodeURIComponent(targetInput) + "_" + index + "' href='#' onclick='console.log(\"Combobox dropdown clicked\"); $enhanceTextInputToComboboxActualTarget = $(this).prevAll(\"input\"); enhanceTextInputToComboboxScrollDropdownTo($(this).data(\"target\"), $(this).prevAll(\"input\").val());'><i class='material-icons comboboxDropdownTriggerArrow' style='font-size: 25px;'>arrow_drop_down</i></a>");
 		}
@@ -1713,33 +1713,33 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 }
 function enhanceTextInputToComboboxEntryToInput(value){
 	var onSelect = $enhanceTextInputToComboboxActualTarget.data('combobox-onselect');
-	if(decodeURIComponent(value).substring(0, 10) == "[VARIABLE]"){
+	if (decodeURIComponent(value).substring(0, 10) == "[VARIABLE]"){
 		var variable = "";
-		if(decodeURIComponent(decodeURIComponent(value)).indexOf("{}") > -1) {
+		if (decodeURIComponent(decodeURIComponent(value)).indexOf("{}") > -1) {
 			variable = prompt(_("Please enter datapoint id") + ":");
 			if (variable == "") variable = null;
 		}
-		if(variable !== null){
+		if (variable !== null){
 			value = decodeURIComponent(decodeURIComponent(value).replace("[VARIABLE]", "")).replace("{}", "{" + variable + "}");
 			$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
-			if(onSelect) onSelect(value);
+			if (onSelect) onSelect(value);
 		}
 	} else {
 		value = decodeURIComponent(value).replace(/\\/g, "/");
 		$enhanceTextInputToComboboxActualTarget.val(value).trigger('change').trigger('blur');
-		if(onSelect) onSelect(value);
+		if (onSelect) onSelect(value);
 	}
 }
 
 //Colorpickers
 function initColorpickers(onChange){
 	$('.MaterializeColorPicker').each(function(){
-		if(!$(this).data('materialize-color-picker-initialized')){
+		if (!$(this).data('materialize-color-picker-initialized')){
 			$(this).colorpicker().on('changeColor', function(event){
-				if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
 			});
 			$(this).colorpicker().on('hidePicker', function(event){
-				if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
 				onChange();
 			});
 			$(this).on('change', function(event, noOnChange){
@@ -1748,7 +1748,7 @@ function initColorpickers(onChange){
 				} else {
 					$(this).trigger('changeColor', noOnChange);
 				}
-				if(!noOnChange) onChange();
+				if (!noOnChange) onChange();
 			});
 			$(this).data('materialize-color-picker-initialized', true);
 		}
@@ -1759,10 +1759,10 @@ function initColorpickers(onChange){
 //Objects
 function getCommonName(object){
 	var name = false;
-	if(object && typeof object.common != udef && typeof object.common.name != udef){
-		if(typeof object.common.name == "object" && typeof object.common.name[systemLang] != udef){
+	if (object && typeof object.common != udef && typeof object.common.name != udef){
+		if (typeof object.common.name == "object" && typeof object.common.name[systemLang] != udef){
 			name = object.common.name[systemLang];
-		} else if(typeof object.common.name == "object" && typeof object.common.name["en"] != udef){
+		} else if (typeof object.common.name == "object" && typeof object.common.name["en"] != udef){
 			name = object.common.name["en"];
 		} else if (typeof object.common.name == "string") {
 			name = object.common.name;
@@ -1776,7 +1776,7 @@ var enumerations = {};
 function getEnumerations(callback) {
 	enumerations = {};
 	for(id in iobrokerObjects){
-		if(id.indexOf("enum") == 0) {
+		if (id.indexOf("enum") == 0) {
 			enumerations[id] = iobrokerObjects[id];
 		}
 	}
@@ -1784,10 +1784,10 @@ function getEnumerations(callback) {
 }
 function getEnumerationName(enumeration){
 	var name = _(enumeration);
-	if(enumerations[enumeration] && typeof enumerations[enumeration].common != udef && typeof enumerations[enumeration].common.name != udef){
-		if(typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name[systemLang] != udef){
+	if (enumerations[enumeration] && typeof enumerations[enumeration].common != udef && typeof enumerations[enumeration].common.name != udef){
+		if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name[systemLang] != udef){
 			name = enumerations[enumeration].common.name[systemLang];
-		} else if(typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name["en"] != udef){
+		} else if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name["en"] != udef){
 			name = _(enumerations[enumeration].common.name["en"]);
 		} else if (typeof enumerations[enumeration].common.name == "string") {
 			name = _(enumerations[enumeration].common.name);
@@ -1804,13 +1804,13 @@ function getHistoryInstances(callback){
 		var _toDo = function(){
 			historyInstances = [];
 			for(id in iobrokerObjects){ 
-				if(id.indexOf('system.adapter.') == 0 && !isNaN(id.substr(id.lastIndexOf('.') + 1)) && iobrokerObjects[id] && iobrokerObjects[id].common && iobrokerObjects[id].common.type === 'storage'){
+				if (id.indexOf('system.adapter.') == 0 && !isNaN(id.substr(id.lastIndexOf('.') + 1)) && iobrokerObjects[id] && iobrokerObjects[id].common && iobrokerObjects[id].common.type === 'storage'){
 					historyInstances.push(id.substring('system.adapter.'.length));
 				}
 			}
 			_callback && _callback(historyInstances);		
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			_toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(_toDo);
@@ -1827,7 +1827,7 @@ function fixedEncodeURIComponent(str) {
 
 //File-Operations
 function uploadFile(file, path, callback) {
-	if(typeof path == 'function') {
+	if (typeof path == 'function') {
 		callback = path;
 		path = null;
 	}
@@ -1846,13 +1846,13 @@ function uploadFile(file, path, callback) {
 	reader.readAsArrayBuffer(file);
 }
 function uploadStringAsFile(string, filename, path, callback) {
-	if(typeof path == 'function') {
+	if (typeof path == 'function') {
 		callback = path;
 		path = null;
 	}
 	var reader = new FileReader();
 	reader.onload = function(e) { //Closure--> to capture the file information.
-		if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+		if (filename.substr(0, 1) == "/") filename = filename.substr(1);
 		path = (path ? path + "/" : "") + filename;
 		var parts = path.split('/');
 		var adapter = parts[1];
@@ -1866,11 +1866,11 @@ function uploadStringAsFile(string, filename, path, callback) {
 	reader.readAsArrayBuffer(new Blob([string]));
 }
 function downloadFileAsString(filename, path, callback) {
-	if(typeof path == 'function') {
+	if (typeof path == 'function') {
 		callback = path;
 		path = null;
 	}
-	if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+	if (filename.substr(0, 1) == "/") filename = filename.substr(1);
 	path = (path ? path + "/" : "") + filename;
 	if (path[0] === '/') {
 		var parts = path.split('/');
@@ -1879,14 +1879,14 @@ function downloadFileAsString(filename, path, callback) {
 		path = parts.join('/');
 	}
 	socket.emit('readFile', adapter, path, function (error, fileData, mimeType) {
-		if(!error && fileData){
+		if (!error && fileData){
 			if (callback) callback(fileData);
 		}
 	});
 }
 async function downloadFileAsStringAsync(filename, path) {
 	return await new Promise(function(resolve){
-		if(filename.substr(0, 1) == "/") filename = filename.substr(1);
+		if (filename.substr(0, 1) == "/") filename = filename.substr(1);
 		path = (path ? path + "/" : "") + filename;
 		if (path[0] === '/') {
 			var parts = path.split('/');
@@ -1895,7 +1895,7 @@ async function downloadFileAsStringAsync(filename, path) {
 			path = parts.join('/');
 		}
 		socket.emit('readFile', _adapter, path, function (error, fileData, mimeType) {
-			if(!error && fileData){
+			if (!error && fileData){
 				resolve(fileData);
 			} else {
 				resolve("");
@@ -1904,7 +1904,7 @@ async function downloadFileAsStringAsync(filename, path) {
 	});
 }
 function saveStringAsLocalFile(string, type, mime, filename, addPrefix){ //type: charset=utf-8 or base64, mime: for example "text/json"
-	if(addPrefix){
+	if (addPrefix){
 		var date = new Date();
 		var y = date.getFullYear();
 		var m = date.getMonth() + 1;
@@ -1925,24 +1925,24 @@ function saveStringAsLocalFile(string, type, mime, filename, addPrefix){ //type:
     saveAnchorNode.remove();
 }
 function loadLocalFileAsString(accept, callback){ //accept: for example ".txt, .json, image/*"
-	if(typeof accept == "function"){
+	if (typeof accept == "function"){
 		callback = accept;
 		accept = ".*";
 	}
-	if(typeof callback !== "function") return;
+	if (typeof callback !== "function") return;
     var loadInputNode = document.createElement('input');
 	loadInputNode.setAttribute('opacity', 0);
     loadInputNode.setAttribute('type', 'file');
     loadInputNode.setAttribute('accept', accept);
 	loadInputNode.addEventListener('change', function (event){
-		if(!window.FileReader) { // Browser is not compatible
+		if (!window.FileReader) { // Browser is not compatible
 			alert(_("Browser not compatible"));
 			return;
 		}
 		var reader = new FileReader();
 		reader.onload = function(_event) {
-			if(_event.target.readyState != 2) return;
-			if(_event.target.error) {
+			if (_event.target.readyState != 2) return;
+			if (_event.target.error) {
 				alert(_("Error while reading file"));
 				return;
 			}
@@ -1955,24 +1955,24 @@ function loadLocalFileAsString(accept, callback){ //accept: for example ".txt, .
 	loadInputNode.remove();
 }
 function loadLocalFileAsArrayBuffer(accept, callback){ //accept: for example ".txt, .json, image/*"
-	if(typeof accept == "function"){
+	if (typeof accept == "function"){
 		callback = accept;
 		accept = ".*";
 	}
-	if(typeof callback !== "function") return;
+	if (typeof callback !== "function") return;
     var loadInputNode = document.createElement('input');
 	loadInputNode.setAttribute('opacity', 0);
     loadInputNode.setAttribute('type', 'file');
     loadInputNode.setAttribute('accept', accept);
 	loadInputNode.addEventListener('change', function (event){
-		if(!window.FileReader) { // Browser is not compatible
+		if (!window.FileReader) { // Browser is not compatible
 			alert(_("Browser not compatible"));
 			return;
 		}
 		var reader = new FileReader();
 		reader.onload = function(_event) {
-			if(_event.target.readyState != 2) return;
-			if(_event.target.error) {
+			if (_event.target.readyState != 2) return;
+			if (_event.target.error) {
 				alert(_("Error while reading file"));
 				return;
 			}
@@ -1993,14 +1993,14 @@ function readDir(path, callback) { //callback(err, obj)
 function readDirAsync(path){
 	return new Promise(resolve => {
 		readDir(path, function(err, obj){
-			if(err) console.log(JSON.stringify(err));
+			if (err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
 }
 function readDirAsZip(path, callback) {
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1);
-	if(pathWithoutSlashNamespace.substr(-1) == '/') pathWithoutSlashNamespace = pathWithoutSlashNamespace.substr(0, pathWithoutSlashNamespace.length -1);
+	if (pathWithoutSlashNamespace.substr(-1) == '/') pathWithoutSlashNamespace = pathWithoutSlashNamespace.substr(0, pathWithoutSlashNamespace.length -1);
 	socket.emit('sendToHost', common.host, 'readDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, options: {settings: false}}, function(data){
 		callback(data.error || null, data.data || null);
 	});		
@@ -2016,7 +2016,7 @@ function deleteFile(path, callback) {
 		var adapter = parts[1];
 		parts.splice(0, 2);
 		socket.emit('deleteFile', adapter, parts.join('/'), function(err){	
-			if(err) console.log(JSON.stringify(err));
+			if (err) console.log(JSON.stringify(err));
 			if (callback) callback(err);
 		});
 }
@@ -2027,7 +2027,7 @@ function renameFile(path, newPath, callback) {
 		var adapter = parts[1];
 		var newParts = newPath.split('/');
 		var newAdapter = newParts[1];
-		if(adapter != newAdapter){
+		if (adapter != newAdapter){
 			newParts.splice(1, 0, adapter, ".."); //inserts adapter and ".." at index 1 (and removes 0 elements)
 			newPath = newParts.join('/'); //results in /adapter/../newadapter/path -> this trick is necessary, because the socket cant directly move files between two adapters
 		}
@@ -2035,7 +2035,7 @@ function renameFile(path, newPath, callback) {
 		newParts.splice(0, 2);
 		//needs admin >5.0.3
 		socket.emit('renameFile', adapter, parts.join('/'), newParts.join('/'), function (err) { 
-			if(err) console.log(JSON.stringify(err));
+			if (err) console.log(JSON.stringify(err));
 			if (callback) callback(err); 
 		});
 	});
@@ -2043,32 +2043,32 @@ function renameFile(path, newPath, callback) {
 function renameFileAsync(oldPath, newPath){
 	return new Promise(resolve => {
 		renameFile(oldPath, newPath, function(err, obj){
-			if(err) console.log(JSON.stringify(err));
+			if (err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
 }
 async function createDir(path, callback){
-	if(path.substr(-1) == "/") path = path.substr(0, path.length - 1);
+	if (path.substr(-1) == "/") path = path.substr(0, path.length - 1);
 	var parts = path.split('/');
 	var adapter = parts[1];
 	parts.splice(0, 2);
 	socket.emit('mkdir', adapter, parts.join('/'), function(err){
-		if(err) console.log(JSON.stringify(err)); 
+		if (err) console.log(JSON.stringify(err)); 
 		if (callback) callback(err);
 	});
 }
 function createDirAsync(path){
 	return new Promise(resolve => {
 		createDir(path, function(err, obj){
-			if(err) console.log(JSON.stringify(err));
+			if (err) console.log(JSON.stringify(err));
 			resolve(err);
 		});
 	});
 }
 async function checkDirExistance(path){
 	var result = await readDirAsync(path);
-	if(result == null) return true; else return false;
+	if (result == null) return true; else return false;
 }
 
 
@@ -2087,7 +2087,7 @@ async function load(settings, onChange) {
 
 	//If react, make some css adjustments
 	isReact = (window.parent.adapterName === 'admin');
-	if(isReact){
+	if (isReact){
 		var customCSS = "";
 		customCSS += ".table-values tr:nth-child(2n) { background-color: rgba(0,0,0,0.04) !important; }";
 		customCSS += ".table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.08) !important; }";
@@ -2141,7 +2141,7 @@ async function load(settings, onChange) {
 	}
 	
 	//If tab, hide close buttons
-	if(window.location.search.indexOf('noCloseButtons') !== -1) addCustomCSS('.btn-save-close, .btn-cancel { visibility: hidden; }', 'noCloseButtons'); 
+	if (window.location.search.indexOf('noCloseButtons') !== -1) addCustomCSS('.btn-save-close, .btn-cancel { visibility: hidden; }', 'noCloseButtons'); 
 
 	// Create a helper for sortable tables with preserved width of cells
 	var fixHelper = function(e, ui){
@@ -2167,7 +2167,7 @@ async function load(settings, onChange) {
 		$('#dialogCodeEditor .btn-set').removeClass('disabled');
 	});
 	$('#dialogCodeEditor .btn-set').on('click', function(){
-		if(confirm(_("Overwrite file?"))){
+		if (confirm(_("Overwrite file?"))){
 			uploadStringAsFile(dialogCodeEditorCodeMirror.getValue(), $("#dialogCodeEditorFileName").text(), userfilesImagePath, function(name){
 				dialogCodeEditorCodeMirrorChanged = false;
 				$('#dialogCodeEditor .btn-set').addClass('disabled');
@@ -2175,8 +2175,8 @@ async function load(settings, onChange) {
 		}
 	});
 	$('#dialogCodeEditor .btn-close').on('click', function(){
-		if(dialogCodeEditorCodeMirrorChanged){
-			if(confirm(_("You have unsaved changes. Close anyway?"))) $('#dialogCodeEditor').modal('close');
+		if (dialogCodeEditorCodeMirrorChanged){
+			if (confirm(_("You have unsaved changes. Close anyway?"))) $('#dialogCodeEditor').modal('close');
 		} else {
 			$('#dialogCodeEditor').modal('close');
 		}
@@ -2184,7 +2184,7 @@ async function load(settings, onChange) {
 
 	//Add function to inputClear-Buttons and selectClear-Buttons
 	$('.inputClear').on('click', function(){
-		if($(this).data('default')){
+		if ($(this).data('default')){
 			$(this).prevAll('input').val($(this).data('default')).trigger('change');
 		} else {
 			$(this).prevAll('input').val('').removeClass('valid invalid').trigger('change');
@@ -2193,7 +2193,7 @@ async function load(settings, onChange) {
 		M.updateTextFields();
 	});
 	$('.selectClear').on('click', function(){
-		if($(this).data('default')){
+		if ($(this).data('default')){
 			$(this).prevAll('.select-wrapper').children('select').val($(this).data('default'));
 		} else {
 			$(this).prevAll('.select-wrapper').children('select').val('');
@@ -2214,13 +2214,13 @@ async function load(settings, onChange) {
 			$key.val(settings[id]);
 			//do not call onChange direct, because onChange could expect some arguments
 			$key.on('change keyup', function(event, noOnChange){ 
-				if(!noOnChange) onChange(); 
+				if (!noOnChange) onChange(); 
 			});
 		}
 	});
 
 	//Get Subsettings
-	if(!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
+	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
 		version = settings.version || 0;
@@ -2236,40 +2236,40 @@ async function load(settings, onChange) {
 	//Backward-Compatibility: Transfer old options to new options
   	views.forEach(function(view){
 		(view.devices || []).forEach(function(device){
-			if(typeof device.options != "object") device["options"] = [];
-			if(!device.options.find(element => element.option === "clickOnTileAction")){
+			if (typeof device.options != "object") device["options"] = [];
+			if (!device.options.find(element => element.option === "clickOnTileAction")){
 				var clickOnTileToggles = (device.options || []).find(element => element.option === "clickOnTileToggles");
 				var clickOnTileOpensDialog = (device.options || []).find(element => element.option === "clickOnTileOpensDialog");
 				var value = null;
-				if(clickOnTileToggles && typeof clickOnTileToggles.value != udef && clickOnTileToggles.value == "true") {
+				if (clickOnTileToggles && typeof clickOnTileToggles.value != udef && clickOnTileToggles.value == "true") {
 					value = "toggle";
-				} else if(clickOnTileOpensDialog && typeof clickOnTileOpensDialog.value != udef && clickOnTileOpensDialog.value == "true") {
+				} else if (clickOnTileOpensDialog && typeof clickOnTileOpensDialog.value != udef && clickOnTileOpensDialog.value == "true") {
 					value = "openDialog";
-				} else if(device.commonRole && device.commonRole == "iQontrolExternalLink"){
+				} else if (device.commonRole && device.commonRole == "iQontrolExternalLink"){
 					value = "openURLExternal";
 				}
-				if(value) { device.options.push({option: "clickOnTileAction", type: "select", value: value}); newConfig = true; }
+				if (value) { device.options.push({option: "clickOnTileAction", type: "select", value: value}); newConfig = true; }
 				var i = (device.options || []).findIndex(element => element.option === "clickOnTileToggles");
-				if(i > -1) { device.options.splice(i, 1); newConfig = true; }
+				if (i > -1) { device.options.splice(i, 1); newConfig = true; }
 				i = (device.options || []).findIndex(element => element.option === "clickOnTileOpensDialog");
-				if(i > -1) { device.options.splice(i, 1); newConfig = true; }			
+				if (i > -1) { device.options.splice(i, 1); newConfig = true; }			
 			}
-			if(!device.options.find(element => element.option === "clickOnIconAction")){
+			if (!device.options.find(element => element.option === "clickOnIconAction")){
 				var clickOnIconToggles = (device.options || []).find(element => element.option === "clickOnIconToggles");
 				var clickOnIconOpensDialog = (device.options || []).find(element => element.option === "clickOnIconOpensDialog");
 				var value = null;
-				if(clickOnIconToggles && typeof clickOnIconToggles.value != udef && clickOnIconToggles.value == "true") {
+				if (clickOnIconToggles && typeof clickOnIconToggles.value != udef && clickOnIconToggles.value == "true") {
 					value = "toggle";
-				} else if(clickOnIconOpensDialog && typeof clickOnIconOpensDialog.value != udef && clickOnIconOpensDialog.value == "true") {
+				} else if (clickOnIconOpensDialog && typeof clickOnIconOpensDialog.value != udef && clickOnIconOpensDialog.value == "true") {
 					value = "openDialog";
-				} else if(device.commonRole && device.commonRole == "iQontrolExternalLink"){
+				} else if (device.commonRole && device.commonRole == "iQontrolExternalLink"){
 					value = "openURLExternal";
 				}
-				if(value) { device.options.push({option: "clickOnIconAction", type: "select", value: value}); newConfig = true; }
+				if (value) { device.options.push({option: "clickOnIconAction", type: "select", value: value}); newConfig = true; }
 				var i = (device.options || []).findIndex(element => element.option === "clickOnIconToggles");
-				if(i > -1) { device.options.splice(i, 1); newConfig = true; }
+				if (i > -1) { device.options.splice(i, 1); newConfig = true; }
 				i = (device.options || []).findIndex(element => element.option === "clickOnIconOpensDialog");
-				if(i > -1) { device.options.splice(i, 1); newConfig = true; }				
+				if (i > -1) { device.options.splice(i, 1); newConfig = true; }				
 			}
 		});
 	});
@@ -2283,7 +2283,7 @@ async function load(settings, onChange) {
 	var inbuiltIcons = [];
 	for (iQontrolRole in iQontrolRoles){
 		for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
-			if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "icon") inbuiltIcons = inbuiltIcons.concat(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].defaultIcons.split(";"));
+			if (iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "icon") inbuiltIcons = inbuiltIcons.concat(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].defaultIcons.split(";"));
 		}
 	}
 	inbuiltIcons = removeDuplicates(inbuiltIcons);
@@ -2327,7 +2327,7 @@ async function load(settings, onChange) {
 							bestInstance = i;
 						}
 						if (result[i].native.forceWebSockets == false){
-							if(!goalForceWebSocketsFound){
+							if (!goalForceWebSocketsFound){
 								goalForceWebSocketsFound = true;
 								bestInstance = i;
 							}
@@ -2358,7 +2358,7 @@ async function load(settings, onChange) {
 			$('#dialogDeviceEditCommonRole').select();
 
 			//Signal to admin, that no changes yet
-			if(!newConfig) onChange(false);
+			if (!newConfig) onChange(false);
 
 			//Create /usericons, /usersymbols, /userwidgets and /userfonts
 			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets", "/userfonts"];
@@ -2367,7 +2367,7 @@ async function load(settings, onChange) {
 				console.log("Check directory " + userfilesImagePath + dirname);
 				var dirExistance = await checkDirExistance(userfilesImagePath + dirname);
 				console.log(dirExistance);
-				if(!dirExistance) {
+				if (!dirExistance) {
 					console.log("Creating directory " + userfilesImagePath + dirname);
 					await createDirAsync(userfilesImagePath + dirname);
 				}
@@ -2390,14 +2390,14 @@ async function load(settings, onChange) {
 				
 				//Warn if Admin-Version is too low
 				var toDo = function(){
-					if(isReact){
+					if (isReact){
 						var warnIfLE = "5.0.8";
 					} else {
 						var warnIfLE = "5.0.6";
 					}
-					if(parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= warnIfLE.split('.').join('')) alert(_("Some operations are only supported by admin versions > %s. Please update your admin-adapter!", warnIfLE));
+					if (parseInt((iobrokerObjects && iobrokerObjects["system.adapter.admin"] && iobrokerObjects["system.adapter.admin"].common && iobrokerObjects["system.adapter.admin"].common.version || "0").split('.').join('')) <= warnIfLE.split('.').join('')) alert(_("Some operations are only supported by admin versions > %s. Please update your admin-adapter!", warnIfLE));
 				}
-				if(iobrokerObjectsReady) {
+				if (iobrokerObjectsReady) {
 					toDo();
 				} else {
 					iobrokerObjectsReadyFunctions.push(toDo);
@@ -2411,21 +2411,21 @@ async function load(settings, onChange) {
 	function getIobrokerObjects(){
 		console.log("Getting ioBroker Objects...");
 		$('.loadingObjects').show();
-		if(!iobrokerObjectsReady){
+		if (!iobrokerObjectsReady){
 			var toDo = function(){
 				console.log("Subscribing to objectChange");
 				socket.on('objectChange', function(id, obj){
-					if(obj) iobrokerObjects[id] = obj; else if (obj == null) delete iobrokerObjects[id];
+					if (obj) iobrokerObjects[id] = obj; else if (obj == null) delete iobrokerObjects[id];
 				});
 			}
 			iobrokerObjectsReadyFunctions.push(toDo);
 		}
 		iobrokerObjectsReady = false;
-		if(parent && parent.gMain && typeof parent.gMain.objects == "object"){
+		if (parent && parent.gMain && typeof parent.gMain.objects == "object"){
 			console.log("...assigning ioBroker Objects via parent.gMain.objects...");
 			iobrokerObjects = Object.assign({}, parent.gMain.objects);
 			iobrokerObjectsReady = true;
-			if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+			if (iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
 			for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
 				if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
 			}
@@ -2439,7 +2439,7 @@ async function load(settings, onChange) {
 				socket.emit('getObjects', function (err, _objs) {
 					iobrokerObjects = _objs;
 					iobrokerObjectsReady = true;
-					if(iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
+					if (iobrokerObjectsReadyFunctions.length) console.log("There are some functions that were buffered while fetching the ioBroker Objects. They will be executed now...");
 					for(i = 0; i < iobrokerObjectsReadyFunctions.length; i++){
 						if (typeof iobrokerObjectsReadyFunctions[i] == 'function') iobrokerObjectsReadyFunctions[i]();
 					}
@@ -2492,10 +2492,10 @@ async function load(settings, onChange) {
 		$('#viewsAutocreateButtonProgress').show();
 		var toDo = function(){
 			getEnumerations(function(){
-				if(enumerations){
+				if (enumerations){
 					var enumerationsMain = Object.keys(enumerations);
 					enumerationsMain = enumerationsMain.filter(function(element){ //Filter for main Enumerations (that are elements, that have sub-enumerations)
-						if(enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
+						if (enumerationsMain.filter(function(_element){ return (_element.indexOf(element + ".") == 0); }).length > 0) return true; else return false;
 					});
 					$('#dialogViewsAutocreateEnumerationMain').empty().append("<option disabled selected value>" + _("Select Enumeration") + "</option>");
 					enumerationsMain.forEach(function(enumeration, index){
@@ -2507,12 +2507,12 @@ async function load(settings, onChange) {
 					$('#viewsAutocreateButtonProgress').hide();
 					console.log("Enumerations ready.");
 				} else {
-					if(error) console.log("Error getting enumerations: " + error); else console.log("There are no Enumerations");
+					if (error) console.log("Error getting enumerations: " + error); else console.log("There are no Enumerations");
 					$('#viewsAutocreateButtonProgress').hide();
 				}
 			});
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -2536,9 +2536,9 @@ async function load(settings, onChange) {
 		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
+			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){ //image/, image/, image/, image/, image/, image/svg+xml
-				if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+				if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -2560,7 +2560,7 @@ async function load(settings, onChange) {
 				$(this).on('click', function (event) {
 					var _viewIndex = $(this).data('index');
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, "*", null, null);
-					if(changedSymbolicLinks.length > 0) {
+					if (changedSymbolicLinks.length > 0) {
 						var deletedSymbolicLinksString = "";
 						changedSymbolicLinks.forEach(function(destination){
 							var deviceNumber = parseInt(destination.device) + 1;
@@ -2595,18 +2595,18 @@ async function load(settings, onChange) {
 					var oldVal = $(this).data('oldval');
 					var newVal = $(this).val();
 					changeViewsCommonName(index, oldVal, newVal);
-					if(viewsCheckDuplicates()) alert(_("No duplicates allowed! View Names must be unique."));
+					if (viewsCheckDuplicates()) alert(_("No duplicates allowed! View Names must be unique."));
 				});
 			}
 		});
 		function changeViewsCommonName(index, oldVal, newVal){
 			toolbar.forEach(function(element){
-				if(element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
+				if (element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
 			});
 			views.forEach(function(view){
 				(view.devices || []).forEach(function(device){
 					(device.states || []).forEach(function(state){
-						if(state.state == "BACKGROUND_VIEW" && state.value == (adapter + "." + instance + ".Views." + oldVal)) state.value = (adapter + "." + instance + ".Views." + newVal);
+						if (state.state == "BACKGROUND_VIEW" && state.value == (adapter + "." + instance + ".Views." + oldVal)) state.value = (adapter + "." + instance + ".Views." + newVal);
 					});
 				});
 			});
@@ -2630,7 +2630,7 @@ async function load(settings, onChange) {
 				var changedSymbolicLinks = [];
 				for(var i = 0; i < sequence.length; i++){
 					tableResorted.push(views[sequence[i]]);
-					if(i != sequence[i]) {
+					if (i != sequence[i]) {
 						for(deviceIndex in views[sequence[i]].devices){
 							var changedSymbolicLink = changeSymbolicLinks(sequence[i], deviceIndex, i, deviceIndex, changedSymbolicLinks);
 							changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
@@ -2659,7 +2659,7 @@ async function load(settings, onChange) {
 				viewCommonNames.push(element.commonName);
 			}
 		});
-		if(duplicates){
+		if (duplicates){
 			$('#viewsNoDuplicatesAllowed').show();
 		} else {
 			$('#viewsNoDuplicatesAllowed').hide();
@@ -2670,7 +2670,7 @@ async function load(settings, onChange) {
 	//Enhance ViewsAutocreate with functions
 	$('#viewsAutocreateButton').on('click', function () {
 		initDialog('dialogViewsAutocreate', function(){ //save dialog
-			if(!confirm(_("Create selected views?") + " " + _("This may take a few seconds."))) return;
+			if (!confirm(_("Create selected views?") + " " + _("This may take a few seconds."))) return;
 			var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
 			var viewsAutocreateResult = {views: [], toolbar: []};
 			var iQontrolViewDevices = [];
@@ -2680,55 +2680,55 @@ async function load(settings, onChange) {
 			var toolbarCount = 0;
 			$('.dialogViewsAutocreateEnumerationListItem').each(function(){
 				var enumeration = $(this).data('enumeration');
-				if($(this).prop('checked') || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
+				if ($(this).prop('checked') || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
 					var name = getEnumerationName(enumeration);
 					var viewNames = [];
-					views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
+					views.forEach(function(view){ if (view.commonName) viewNames.push(view.commonName); });
 					var existingNameIndex = 0;
 					while(viewNames.indexOf(name + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
-					if(existingNameIndex) name = name + " " + existingNameIndex;
+					if (existingNameIndex) name = name + " " + existingNameIndex;
 					var backgroundImage = './images/wallpaper/orangedrops.jpg';
-					if(enumeration.indexOf('enum.rooms') == 0) {
+					if (enumeration.indexOf('enum.rooms') == 0) {
 						backgroundImage = './images/wallpaper/bottle.jpg';
-					} else if(enumeration.indexOf('enum.functions') == 0) {
+					} else if (enumeration.indexOf('enum.functions') == 0) {
 						backgroundImage = './images/wallpaper/grass.jpg';
 					}
 					var view = {commonName: name, nativeBackgroundImage: backgroundImage, devices: []}
-					if(enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function") enumerations[enumeration].common.members.forEach(function(member){
-						if($('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + enumeration + '"][data-member="' + member + '"]').prop('checked')){
+					if (enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function") enumerations[enumeration].common.members.forEach(function(member){
+						if ($('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + enumeration + '"][data-member="' + member + '"]').prop('checked')){
 							var result = deviceAutocreate(member, iobrokerObjects);
-							if(result && result.resultObject) {
+							if (result && result.resultObject) {
 								view.devices.push(result.resultObject);
 								deviceCount++;
 							}
 						}
 					});
-					if(view.devices.length || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
-						if(enumeration == enumerationMain){
+					if (view.devices.length || (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked'))){
+						if (enumeration == enumerationMain){
 							masterView = viewsAutocreateResult.views.length;
 							view.nativeBackgroundImage = './images/wallpaper/bakestone.jpg';
 						}
 						viewsAutocreateResult.views.push(view);
 						viewCount++;
 					}
-					if(view.devices.length && enumeration != enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked')) {
+					if (view.devices.length && enumeration != enumerationMain && $('#dialogViewsAutocreateCreateMasterView').prop('checked')) {
 						iQontrolViewDevices.push({commonName: name, commonRole: "iQontrolView", nativeLinkedView: name, nativeBackgroundImage: backgroundImage});
 						deviceCount++;
 					}
-					if(enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterViewToolbarEntry').prop('checked')){
+					if (enumeration == enumerationMain && $('#dialogViewsAutocreateCreateMasterViewToolbarEntry').prop('checked')){
 						var icon = "bars";
-						if(enumeration == "enum.rooms") icon = "grid";
-						if(enumeration == "enum.functions") icon = "gear";
+						if (enumeration == "enum.rooms") icon = "grid";
+						if (enumeration == "enum.functions") icon = "gear";
 						viewsAutocreateResult.toolbar.push({commonName: name, nativeLinkedView: name, nativeIcon: icon});
 						toolbarCount++;
 					}
 				}
 			});
-			if($('#dialogViewsAutocreateCreateMasterView').prop('checked') && masterView !== false){
-				if(typeof viewsAutocreateResult.views[masterView].devices == udef) viewsAutocreateResult.views[masterView].devices = [];
+			if ($('#dialogViewsAutocreateCreateMasterView').prop('checked') && masterView !== false){
+				if (typeof viewsAutocreateResult.views[masterView].devices == udef) viewsAutocreateResult.views[masterView].devices = [];
 				viewsAutocreateResult.views[masterView].devices = iQontrolViewDevices.concat(viewsAutocreateResult.views[masterView].devices);
 			}
-			if(confirm(_("Created %s devices in %s views", deviceCount, viewCount) + (toolbarCount ? " " + _("and a toolbar entry") : "") + ". " + _("Save these settings?"))){
+			if (confirm(_("Created %s devices in %s views", deviceCount, viewCount) + (toolbarCount ? " " + _("and a toolbar entry") : "") + ". " + _("Save these settings?"))){
 				views = views.concat(viewsAutocreateResult.views);
 				toolbar = toolbar.concat(viewsAutocreateResult.toolbar);
 				loadViews();
@@ -2747,21 +2747,21 @@ async function load(settings, onChange) {
 		$('#dialogViewsAutocreateEnumerationList').empty();
 		var listContent = "<ul class='collapsible'>";
 		for(enumeration in enumerations){
-			if(enumeration.indexOf(enumerationMain) == 0){
+			if (enumeration.indexOf(enumerationMain) == 0){
 				var name = getEnumerationName(enumeration);
 				var members = [];
-				if(enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function"){
+				if (enumerations[enumeration].common && enumerations[enumeration].common.members && typeof enumerations[enumeration].common.members.forEach == "function"){
 					members = enumerations[enumeration].common.members;
 				};
 				listContent += "<li>";
 				listContent += "	<div class='collapsible-header'>";
 				listContent += "		<label><input class='dialogViewsAutocreateEnumerationListItem' type='checkbox' checked='checked' data-enumeration='" + enumeration + "'><span>" + name + "</span></label>";
-				if(members.length){
+				if (members.length){
 					listContent += "		<div style='position: relative; right: 20px; margin-left: auto; padding: 3px 10px; border-radius: 14px; background: lightgrey;'><span>" + members.length + " " + (members.length == 1 ? _("device") : _("devices")) + "</span></div>";
 				}
 				listContent += "	</div>";
 				listContent += "	<div class='collapsible-body'>";
-				if(members.length){
+				if (members.length){
 					listContent += "		<span>";
 					members.forEach(function(member, index){
 						listContent += "		<label><input class='dialogViewsAutocreateEnumerationListMemberItem' type='checkbox' checked='checked' data-enumeration='" + enumeration + "' data-member='" + member + "' data-member-index='" + index + "'><span style='height: auto;'>" + member + (iobrokerObjects && iobrokerObjects[member] && getCommonName(iobrokerObjects[member]) ? "&nbsp;<b>(" + getCommonName(iobrokerObjects[member]) + ")</b>" : "") + "</span></label><br>";
@@ -2779,7 +2779,7 @@ async function load(settings, onChange) {
 			$('.dialogViewsAutocreateEnumerationListMemberItem[data-enumeration="' + $(this).data('enumeration') + '"]').prop('checked', $(this).prop('checked'));
 		});
 		$('.dialogViewsAutocreateEnumerationListMemberItem').off('change').on('change', function(){
-			if($(this).prop('checked')) $('.dialogViewsAutocreateEnumerationListItem[data-enumeration="' + $(this).data('enumeration') + '"]').prop('checked', true);
+			if ($(this).prop('checked')) $('.dialogViewsAutocreateEnumerationListItem[data-enumeration="' + $(this).data('enumeration') + '"]').prop('checked', true);
 		});
 		$('#dialogViewsAutocreate a.btn.chose').removeClass('disabled');
 		$('#dialogViewsAutocreate a.btn-set').removeClass('disabled');
@@ -2799,14 +2799,14 @@ async function load(settings, onChange) {
 		devicesSelectedView = -1;
 		$('.divDevices').hide();
 		$('#devicesPrevView').addClass('disabled');
-		if(views.length > 1) $('#devicesNextView').prop('disabled', false); else $('#devicesNextView').prop('disabled', true);
+		if (views.length > 1) $('#devicesNextView').prop('disabled', false); else $('#devicesNextView').prop('disabled', true);
 	}
 
 	//Enhance devicesSelectedView-Selectbox with functions
 	$('#devicesSelectedView').on('change', function(){
 		devicesSelectedView = $('#devicesSelectedView').val();
-		if(devicesSelectedView > -1){
-			if(!views[devicesSelectedView].devices) views[devicesSelectedView].devices = [];
+		if (devicesSelectedView > -1){
+			if (!views[devicesSelectedView].devices) views[devicesSelectedView].devices = [];
 			//Backward-Compatibility: If BackgroundImageActive not set, set it to the same value, as BackgroundImage
 			views[devicesSelectedView].devices.forEach(function(device){
 				if (typeof device.nativeBackgroundImageActive == udef && typeof device.nativeBackgroundImage !== udef) device.nativeBackgroundImageActive = device.nativeBackgroundImage;
@@ -2819,17 +2819,17 @@ async function load(settings, onChange) {
 			$('.divDevicesNothingSelected').show();
 			$('.divDevices').hide();
 		}
-		if(devicesSelectedView > 0) $('#devicesPrevView').removeClass('disabled'); else $('#devicesPrevView').addClass('disabled');
-		if(devicesSelectedView < (views.length - 1)) $('#devicesNextView').removeClass('disabled'); else $('#devicesNextView').addClass('disabled');
+		if (devicesSelectedView > 0) $('#devicesPrevView').removeClass('disabled'); else $('#devicesPrevView').addClass('disabled');
+		if (devicesSelectedView < (views.length - 1)) $('#devicesNextView').removeClass('disabled'); else $('#devicesNextView').addClass('disabled');
 	});
 
 	//Enhance prevView and nextView-Buttons with functions
 	$('#devicesPrevView, #devicesNextView').on('click', function(){
 		var actualViewIndex = parseInt($('#devicesSelectedView').val());
 		if (isNaN(actualViewIndex)) actualViewIndex = -1;
-		if($(this).data('role') == "prev" && actualViewIndex > 0){
+		if ($(this).data('role') == "prev" && actualViewIndex > 0){
 			$('#devicesSelectedView').val(actualViewIndex - 1).select().trigger('change');
-		} else if($(this).data('role') == "next" && actualViewIndex < (views.length - 1)){
+		} else if ($(this).data('role') == "next" && actualViewIndex < (views.length - 1)){
 			$('#devicesSelectedView').val(actualViewIndex + 1).select().trigger('change');
 		}
 	});
@@ -2852,9 +2852,9 @@ async function load(settings, onChange) {
 		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
+			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){
-				if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+				if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -2887,7 +2887,7 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'commonName') {
 				var deviceIndex = $(this).data('index');
-				if(typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom == "object" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView !== "" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice !== ""){ //Symbolic link
+				if (typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom == "object" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView !== "" && typeof views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice != udef && views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice !== ""){ //Symbolic link
 					$(this).next('span').remove();
 					var deviceNumber = parseInt(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice) + 1;
 					//1st 2nd 3rd 4th...
@@ -2906,14 +2906,14 @@ async function load(settings, onChange) {
 					var _viewIndex = devicesSelectedView;
 					var _deviceIndex = $(this).data('index');
 					var destinations = checkSymbolicLinks(_viewIndex, _deviceIndex);
-					if(destinations.length > 0) {
+					if (destinations.length > 0) {
 						var destinationInThisView = false;
 						destinations.forEach(function(destination){
-							if(destination.view == _viewIndex) {
+							if (destination.view == _viewIndex) {
 								destinationInThisView = true;
 							}
 						});
-						if(destinationInThisView) values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+						if (destinationInThisView) values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 					}
 				});
 			}
@@ -2926,13 +2926,13 @@ async function load(settings, onChange) {
 			//Edit Device
 			if (command === 'edit') {
 				var deviceIndex = $(this).data('index');
-				if(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Symbolic link
+				if (views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom){ //Symbolic link
 					$(this).addClass('dark grey').find('i').html('control_point_duplicate');
 					$(this).on('click', function () {
 						var _viewIndex = devicesSelectedView;
 						var _deviceIndex = $(this).data('index');
 						var result = confirm(_("Convert symbolic link to real device?"));
-						if(result){
+						if (result){
 							delete views[_viewIndex].devices[_deviceIndex].symbolicLinkFrom;
 							values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 						}
@@ -2966,7 +2966,7 @@ async function load(settings, onChange) {
 						dialogDeviceEditStatesTable = [];
 						dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
 						$('#dialogDeviceEditOptionsContent').empty();
-						if(views[_viewIndex].devices[_deviceIndex].commonRole) {
+						if (views[_viewIndex].devices[_deviceIndex].commonRole) {
 							$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
 						} else {
 							$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
@@ -2991,7 +2991,7 @@ async function load(settings, onChange) {
 					var _viewIndex = devicesSelectedView;
 					var _deviceIndex = $(this).data('index');
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, _deviceIndex, null, null);
-					if(changedSymbolicLinks.length > 0) {
+					if (changedSymbolicLinks.length > 0) {
 						var deletedSymbolicLinksString = "";
 						changedSymbolicLinks.forEach(function(destination){
 							var deviceNumber = parseInt(destination.device) + 1;
@@ -3026,7 +3026,7 @@ async function load(settings, onChange) {
 				var changedSymbolicLinks = [];
 				for(var i = 0; i < sequence.length; i++){
 					tableResorted.push(views[devicesSelectedView].devices[sequence[i]]);
-					if(i != sequence[i]) {
+					if (i != sequence[i]) {
 						var changedSymbolicLink = changeSymbolicLinks(devicesSelectedView, sequence[i], devicesSelectedView, i, changedSymbolicLinks);
 						changedSymbolicLinks = changedSymbolicLinks.concat(changedSymbolicLink);
 					}
@@ -3048,7 +3048,7 @@ async function load(settings, onChange) {
 		var deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
 		dialogDeviceEditCommonRole = $('#dialogDeviceEditCommonRole').val();
 		//States
-		if(typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new states table
+		if (typeof dialogDeviceEditStatesTable == 'object') dialogDeviceEditStatesTable.forEach(function(entry){ //save the table entrys before bulding the new states table
 			var index = dialogDeviceEditStates.findIndex(function(element){ return element.state == entry.state;});
 			if (index == -1) {
 				dialogDeviceEditStates.push(entry);
@@ -3057,22 +3057,22 @@ async function load(settings, onChange) {
 			}
 		});
 		dialogDeviceEditStatesTable = [];
-		if(dialogDeviceEditCommonRole){ //build states table
+		if (dialogDeviceEditCommonRole){ //build states table
 			iQontrolRoles[dialogDeviceEditCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
 				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
 				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
-				if(commonRole == ""){
-					if(entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
+				if (commonRole == ""){
+					if (entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
 						var valueObj = tryParseJSON(value);
-						if(Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
+						if (Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
 							var valueArray = [];
 							for(name in valueObj){
 								valueArray.push({'name':name, 'commonRole':'linkedState', 'value':valueObj[name]});
 							}
 							value = JSON.stringify(valueArray);
 						}
-					} else if(entry == "SET_VALUE"  || entry == "OFF_SET_VALUE"  ||  entry == "UP_SET_VALUE" ||  entry == "STOP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "URL" || entry == "HTML" || entry == "BACKGROUND_VIEW" || entry == "BACKGROUND_URL" || entry == "BACKGROUND_HTML" || entry == "BADGE_COLOR" || entry == "OVERLAY_INACTIVE_COLOR" || entry == "OVERLAY_ACTIVE_COLOR" || entry == "GLOW_INACTIVE_COLOR"|| entry == "GLOW_ACTIVE_COLOR"){
+					} else if (entry == "SET_VALUE"  || entry == "OFF_SET_VALUE"  ||  entry == "UP_SET_VALUE" ||  entry == "STOP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "URL" || entry == "HTML" || entry == "BACKGROUND_VIEW" || entry == "BACKGROUND_URL" || entry == "BACKGROUND_HTML" || entry == "BADGE_COLOR" || entry == "OVERLAY_INACTIVE_COLOR" || entry == "OVERLAY_ACTIVE_COLOR" || entry == "GLOW_INACTIVE_COLOR"|| entry == "GLOW_ACTIVE_COLOR"){
 						commonRole = "const";
 					} else {
 						commonRole = "linkedState";
@@ -3100,7 +3100,7 @@ async function load(settings, onChange) {
 		dialogDeviceEditOptionsBuildOptionsContent();
 	});
 	function dialogDeviceEditOptionsBuildOptionsContent(){
-		if(dialogDeviceEditCommonRole){
+		if (dialogDeviceEditCommonRole){
 			var dialogDeviceEditOptionsComboboxes = [];
 			var dialogDeviceEditOptionsContent = "<ul class='collapsible' id='dialogDeviceEditOptionsContentCollapsible'>";
 			var dialogDeviceEditOptionsContentCollapsibleOpen = false;
@@ -3164,8 +3164,8 @@ async function load(settings, onChange) {
 					break;
 
 					case "checkbox":
-					if(value == "true") value = true;
-					if(value == "false") value = false;
+					if (value == "true") value = true;
+					if (value == "false") value = false;
 					dialogDeviceEditOptionsContent += "<div class='input-field col s12 m12 l12'>";
 					dialogDeviceEditOptionsContent += "    <p><label>";
 					dialogDeviceEditOptionsContent += "        <input class='value dialogDeviceEditOption filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogDeviceEditOption_" + entry + "' id='dialogDeviceEditOption_" + entry + "' " + (value?"checked='checked'":"") + " />";
@@ -3228,7 +3228,7 @@ async function load(settings, onChange) {
 					//User Icons
 					var imagenames = [];
 					imagesDirs.forEach(function(imagesDir){
-						if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+						if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 							imagenames.push("[" + imagesDir.dirnameBS + ":]");
 							imagesDir.files.forEach(function(file){
 								 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
@@ -3265,7 +3265,7 @@ async function load(settings, onChange) {
 					break;
 				}
 			}
-			if(dialogDeviceEditOptionsContent == ""){
+			if (dialogDeviceEditOptionsContent == ""){
 				$('#dialogDeviceEditOptionsContent').html("<br><p>"+ _("This role has no options.") + "</p>");
 			} else {
 				if (dialogDeviceEditOptionsContentCollapsibleOpen) {
@@ -3343,17 +3343,17 @@ async function load(settings, onChange) {
 		}
 		var websitenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				var websitenamesInThisDir = [];
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
-					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
 						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
 						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
-				if(websitenamesInThisDir.length > 0){
+				if (websitenamesInThisDir.length > 0){
 					websitenames.push("[" + imagesDir.dirnameBS + ":]");
 					websitenames.push(websitenamesInThisDir.join(";"));
 				}
@@ -3370,12 +3370,12 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
-				if(dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
+				if (dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
 					enhanceTextInputToCombobox("#" + this.id, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
-				} else if(dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
+				} else if (dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
 					enhanceTextInputToCombobox("#" + this.id, "/;" + viewIds.join(";"), false, function(value){
-						if(value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
-							if(confirm("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?")){
+						if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
+							if (confirm("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?")){
 								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', 'checked');
 								dialogDeviceEditOptionsBuildOptionsContent();
 							}
@@ -3401,20 +3401,20 @@ async function load(settings, onChange) {
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							//Show or hide selectboxes
 							var _stateIndex = stateIndex;
-							if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+							if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
 								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','');
 							} else {
 								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
 							}
-							if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //COLOR - init ColorPicker
+							if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //COLOR - init ColorPicker
 								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
-								if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+								if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
 									var oldVal = $targetInput.val();
-									if(!$targetInput.data('materialize-color-picker-initialized')){
+									if (!$targetInput.data('materialize-color-picker-initialized')){
 										$targetInput.colorpicker().on('changeColor', function(event){
-											if(event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+											if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
 										});
-										if(oldVal == "") $targetInput.val("");
+										if (oldVal == "") $targetInput.val("");
 										$targetInput.on('change', function(){
 											if ($(this).val() == "") {
 												$(this).css('border-right', '0px solid black');
@@ -3428,11 +3428,11 @@ async function load(settings, onChange) {
 										});
 										$targetInput.data('materialize-color-picker-initialized', true);
 									}
-									if(isValidColorString(oldVal)){
+									if (isValidColorString(oldVal)){
 										$targetInput.trigger('change');
 									}
 								} else {
-									if($targetInput.data('materialize-color-picker-initialized')){
+									if ($targetInput.data('materialize-color-picker-initialized')){
 										$targetInput.colorpicker('destroy');
 										$targetInput.data('materialize-color-picker-initialized', false);
 									}
@@ -3454,29 +3454,29 @@ async function load(settings, onChange) {
 					var stateIndex = $(this).data('index');
 					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
 					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
-						if((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
+						if ((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
 						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
 							var filename = null;
 							var path = null;
-							if(stateValue.indexOf("./images/widgets/") == 0){
+							if (stateValue.indexOf("./images/widgets/") == 0){
 								filename = stateValue.substr(8);
 								path = imagePath;
 							}
-							if(stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+							if (stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 								filename = stateValue.substr(29);
 								path = userfilesImagePath;
 							}
-							if(filename && path){
+							if (filename && path){
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									getWidgetSettings(filename, path, function(result){
+									getWidgetSettings(filename, path, true, false, function(result){
 										var _stateIndex = stateIndex;
 										var _stateValue = stateValue;
-										if(result.urlParameters.length) {
+										if (result.urlParameters.length) {
 											var urlParameterString = "?" + result.urlParameters.join('&');
 											$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(_stateValue.split('?')[0] + urlParameterString).trigger('change');
 										}
 										for(option in result.options){
-											if(iQontrolRoles["iQontrolWidget"].options[option]){
+											if (iQontrolRoles["iQontrolWidget"].options[option]){
 												var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
 												if (optionsIndex != -1) {
 													dialogDeviceEditOptions[optionsIndex].value = result.options[option];
@@ -3490,9 +3490,9 @@ async function load(settings, onChange) {
 									});
 								})(); //<--End Closure
 							}
-						} else if(dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
+						} else if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
 							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
-							if($targetInput.data('materialize-color-picker-initialized')){
+							if ($targetInput.data('materialize-color-picker-initialized')){
 								$targetInput.colorpicker('show');
 							}
 						} else { //const TEXT - open editText dialog
@@ -3514,13 +3514,13 @@ async function load(settings, onChange) {
 						});
 						$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
 						var showAdditionalCols = "";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
-						if(dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
 						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
 						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
 						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
@@ -3575,7 +3575,7 @@ async function load(settings, onChange) {
 				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 			}
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -3584,22 +3584,22 @@ async function load(settings, onChange) {
 	function dialogDeviceEditStatesWidgetSelected(value){
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){
+		if (value.indexOf("./images/widgets/") == 0){
 			filename = value.substr(8);
 			path = imagePath;
 		}
-		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.substr(29);
 			path = userfilesImagePath;
 		}
-		if(filename && path){
-			getWidgetSettings(filename, path, function(result){
-				if(result.urlParameters.length) {
+		if (filename && path){
+			getWidgetSettings(filename, path, true, true, function(result){
+				if (result.urlParameters.length) {
 					var urlParameterString = "?" + result.urlParameters.join('&');
 					$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + urlParameterString).trigger('change');
 				}
 				for(option in result.options){
-					if(iQontrolRoles["iQontrolWidget"].options[option]){
+					if (iQontrolRoles["iQontrolWidget"].options[option]){
 						var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
 						if (optionsIndex != -1) {
 							dialogDeviceEditOptions[optionsIndex].value = result.options[option];
@@ -3640,7 +3640,7 @@ async function load(settings, onChange) {
 				$(this).hide(0);
 			}
 		});
-		if(showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
+		if (showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
 		$lines.find('.values-input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
@@ -3681,7 +3681,7 @@ async function load(settings, onChange) {
 			}
 			var imagenames = [];
 			imagesDirs.forEach(function(imagesDir){
-				if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
 					imagenames.push("[" + imagesDir.dirnameBS + ":]");
 					imagesDir.files.forEach(function(file){
 						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
@@ -3768,7 +3768,7 @@ async function load(settings, onChange) {
 				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 			}			
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -3795,19 +3795,19 @@ async function load(settings, onChange) {
 	});
 	$('#dialogDeviceAutocreateSourceId').on('input change', function(){
 		dialogDeviceAutocreateResult = {};
-		if($(this).val() == ""){
+		if ($(this).val() == ""){
 			$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
 		} else {
 			$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
 		}
 		var toDo = function(){
-			if(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()]){
+			if (iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()]){
 				$('#dialogDeviceAutocreateSourceIdCommonName').html(iobrokerObjects[$('#dialogDeviceAutocreateSourceId').val()].common.name);
 			} else {
 				$('#dialogDeviceAutocreateSourceIdCommonName').html("");
 			}
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -3863,7 +3863,7 @@ async function load(settings, onChange) {
 			resultValid: false
 		}
 		resultStatesObj = {};
-		if(!objects[sourceId]){
+		if (!objects[sourceId]){
 			result.resultText = "<blockquote>" + _('This is not a valid ID') + "</blockquote><br><br>";
 		} else {
 			//Find out Name
@@ -3904,7 +3904,7 @@ async function load(settings, onChange) {
 						device.states.forEach(function(state){ //Iterate through all found states
 							if (state.id) { //This is a state with an id
 								if (channelDetectorMatchTable[device.type].matchingStates[state.name]){
-									if(!resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]]){ //Was not matched before
+									if (!resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]]){ //Was not matched before
 										console.log("      " + state.name + " (" + state.id + ") ====> " + channelDetectorMatchTable[device.type].matchingStates[state.name]);
 										resultStatesObj[channelDetectorMatchTable[device.type].matchingStates[state.name]] = state.id;
 										result.resultValid = true;
@@ -3928,7 +3928,7 @@ async function load(settings, onChange) {
 			//Get unmatchedChildStates to match states, that were not assigned by ChannelDetector
 			var unmatchedChildStates = [];
 			for(id in objects){
-				if(id.indexOf(sourceId) == 0 && objects[id].type == 'state' && Object.values(resultStatesObj).indexOf(id) == -1) {
+				if (id.indexOf(sourceId) == 0 && objects[id].type == 'state' && Object.values(resultStatesObj).indexOf(id) == -1) {
 					unmatchedChildStates.push(id);
 				}
 			}
@@ -3938,7 +3938,7 @@ async function load(settings, onChange) {
 				var stateName = id.substring(id.lastIndexOf("."), id.length);
 				switch(stateName){
 					case ".STATE": case ".state": case ".Switch": case ".switch": case ".on": case ".presence": case ".MOTION": case ".PRESENCE_DETECTION_STATE": case ".SET":
-					if(typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
+					if (typeof objects[id] !== udef && typeof objects[id].common.role != udef && objects[id].common.role == "switch.lock"){
 						if (!resultStatesObj['LOCK_STATE']) resultStatesObj['LOCK_STATE'] = id;
 					} else {
 						if (!resultStatesObj['STATE']) resultStatesObj['STATE'] = id;
@@ -4054,29 +4054,29 @@ async function load(settings, onChange) {
 			//If the role was not found by DeviceDetector, try to find out the role now
 			if (!result.resultObject.commonRole || channelDetectorUsedDeviceTypeForCommonRole == "info"){ //Role was not matched before
 				//--iQontrolView
-				if(typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
+				if (typeof objects[sourceId].common.role !== udef && objects[sourceId].common.role == "iQontrolView"){
 					result.resultObject.commonRole = "iQontrolView";
 				}
 				//--all the others
 				//----find out the role of sources main state (priority in ascending order!)
 				var sourceRole = null;
-				if(resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
+				if (resultStatesObj['STATE'] && objects[resultStatesObj['STATE']] && typeof objects[resultStatesObj['STATE']].common.role != udef) {
 					sourceRole = objects[resultStatesObj['STATE']].common.role;
-					if(sourceRole == 'state') { //special - check the parent channel's role
+					if (sourceRole == 'state') { //special - check the parent channel's role
 						var resultStateParent = resultStatesObj['STATE'].substring(0, resultStatesObj['STATE'].lastIndexOf('.'));
-						if(resultStateParent.length > 0){
-							if(objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
+						if (resultStateParent.length > 0){
+							if (objects[resultStateParent] && typeof objects[resultStateParent].common.role != udef) sourceRole = objects[resultStateParent].common.role;
 						}
 					} else if (stateName == ".presence" || stateName == ".MOTION" || stateName == ".PRESENCE_DETECTION_STATE") { //special
 						sourceRole = "sensor.motion";
 					}
 				}
-				if(resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
-				if(resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
-				if(resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
-				if(resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
-				if(resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
-				if(resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
+				if (resultStatesObj['HUMIDITY'] && objects[resultStatesObj['HUMIDITY']] && typeof objects[resultStatesObj['HUMIDITY']].common.role != udef) sourceRole = objects[resultStatesObj['HUMIDITY']].common.role;
+				if (resultStatesObj['TEMPERATURE'] && objects[resultStatesObj['TEMPERATURE']] && typeof objects[resultStatesObj['TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['TEMPERATURE']].common.role;
+				if (resultStatesObj['BRIGHTNESS'] && objects[resultStatesObj['BRIGHTNESS']] && typeof objects[resultStatesObj['BRIGHTNESS']].common.role != udef) sourceRole = objects[resultStatesObj['BRIGHTNESS']].common.role;
+				if (resultStatesObj['SET_TEMPERATURE'] && objects[resultStatesObj['SET_TEMPERATURE']] && typeof objects[resultStatesObj['SET_TEMPERATURE']].common.role != udef) sourceRole = objects[resultStatesObj['SET_TEMPERATURE']].common.role;
+				if (resultStatesObj['LOCK_STATE'] && objects[resultStatesObj['LOCK_STATE']] && typeof objects[resultStatesObj['LOCK_STATE']].common.role != udef) sourceRole = objects[resultStatesObj['LOCK_STATE']].common.role;
+				if (resultStatesObj['LEVEL'] && objects[resultStatesObj['LEVEL']] && typeof objects[resultStatesObj['LEVEL']].common.role != udef) sourceRole = objects[resultStatesObj['LEVEL']].common.role;
 				//----try to match this to destination role
 				switch(sourceRole){
 					case "switch": case "switch.power": case "switch.enable":
@@ -4108,7 +4108,7 @@ async function load(settings, onChange) {
 
 					case "value.temperature":
 					result.resultObject.commonRole = 'iQontrolTemperature';
-					if(!resultStatesObj['STATE']){
+					if (!resultStatesObj['STATE']){
 						resultStatesObj['STATE'] = resultStatesObj['TEMPERATURE'];
 						delete resultStatesObj['TEMPERATURE'];
 					}
@@ -4116,7 +4116,7 @@ async function load(settings, onChange) {
 
 					case "value.humidity":
 					result.resultObject.commonRole = 'iQontrolHumidity';
-					if(!resultStatesObj['STATE']){
+					if (!resultStatesObj['STATE']){
 						resultStatesObj['STATE'] = resultStatesObj['HUMIDITY'];
 						delete resultStatesObj['HUMIDITY'];
 					}
@@ -4124,7 +4124,7 @@ async function load(settings, onChange) {
 
 					case "value.brightness":
 					result.resultObject.commonRole = 'iQontrolBrightness';
-					if(!resultStatesObj['STATE']){
+					if (!resultStatesObj['STATE']){
 						resultStatesObj['STATE'] = resultStatesObj['BRIGHTNESS'];
 						delete resultStatesObj['BRIGHTNESS'];
 					}
@@ -4185,9 +4185,9 @@ async function load(settings, onChange) {
 			}
 			//Got states?
 			for(state in resultStatesObj){
-				if(!result.resultObject.states[state]) result.resultObject.states.push({state: state, value: resultStatesObj[state]});
+				if (!result.resultObject.states[state]) result.resultObject.states.push({state: state, value: resultStatesObj[state]});
 			}
-			if(result.resultObject.states.length > 0 ){
+			if (result.resultObject.states.length > 0 ){
 				result.resultStatesText += "<u>" + _("Matched the following states:") + "</u> <br>";
 				for(i = 0; i < result.resultObject.states.length; i++){
 					result.resultStatesText += result.resultObject.states[i].state + ": " + result.resultObject.states[i].value + "<br>";
@@ -4203,7 +4203,7 @@ async function load(settings, onChange) {
 				result.resultText = "<blockquote>" + _('Could not match any state') + "</blockquote><br><br>";
 			}
 			//Result valid?
-			if(result.resultValid) {
+			if (result.resultValid) {
 				result.resultText += "<br><b>" + _("You can create this device now if you want.") + "</b>";
 			} else {
 				result.resultText = "<blockquote>" + _("Could not determine any valid Device from this ID") + "</blockquote>";
@@ -4218,23 +4218,23 @@ async function load(settings, onChange) {
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
 			var length = views[$('#devicesSelectedView').val()].devices.push(JSON.parse(JSON.stringify(views[sourceView].devices[sourceDevice]))); //This creates new object, not just a reference
-			if($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
-			if($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
+			if ($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
+			if ($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
 				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
 			} else if ($("#dialogDeviceCopyFromReplaceCheckbox").prop('checked')) { //Replace Datapoints
 				(views[$('#devicesSelectedView').val()].devices[length - 1].states || []).forEach(function(state){ 
-					if(state.commonRole && state.commonRole == "linkedState" && state.value) {
+					if (state.commonRole && state.commonRole == "linkedState" && state.value) {
 						$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
 							var index = $(this).data('index');
 							var searchValue = $('.dialogDeviceCopyFromReplaceDatapoints.searchvalue[data-index=' + index + ']').val();
 							var newValue = $('.dialogDeviceCopyFromReplaceDatapoints.newvalue[data-index=' + index + ']').val() || "";
 							if (searchValue) state.value = state.value.replace(searchValue, newValue);
 						});
-					} else if(state.commonRole == "array" && state.value) {
+					} else if (state.commonRole == "array" && state.value) {
 						var valueArray = tryParseJSON(state.value);
-						if(Array.isArray(valueArray) == false) valueArray = [];
+						if (Array.isArray(valueArray) == false) valueArray = [];
 						valueArray.forEach(function(entry){
-							if(entry.commonRole && entry.commonRole == "linkedState" && entry.value) {
+							if (entry.commonRole && entry.commonRole == "linkedState" && entry.value) {
 								$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
 									var index = $(this).data('index');
 									var searchValue = $('.dialogDeviceCopyFromReplaceDatapoints.searchvalue[data-index=' + index + ']').val();
@@ -4256,14 +4256,14 @@ async function load(settings, onChange) {
 		$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
 		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
-		if(typeof sourceView != udef && sourceView != null){
+		if (typeof sourceView != udef && sourceView != null){
 			$('#dialogDeviceCopyFromSourceView').val(sourceView).trigger('change');
-			if(typeof sourceDevice != udef && sourceDevice != null) {
+			if (typeof sourceDevice != udef && sourceDevice != null) {
 				$('#dialogDeviceCopyFromSourceDevice').val(sourceDevice).trigger('change');
 			}
 		}
 		$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
-		if(!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
+		if (!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
 		$('#dialogDeviceCopyFromSourceView').select();
 		$('#dialogDeviceCopyFromSourceDevice').select();
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
@@ -4277,7 +4277,7 @@ async function load(settings, onChange) {
 		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled')
 	});
 	$('#dialogDeviceCopyFromSourceDevice').on('change', function(){
-		if($('#dialogDeviceCopyFromSourceDevice').val()){
+		if ($('#dialogDeviceCopyFromSourceDevice').val()){
 			$('#dialogDeviceCopyFrom a.btn-set').removeClass('disabled');
 			$("#dialogDeviceCopyFromNewName").val(views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].commonName);
 			dialogDeviceCopyFromReplaceDatapointsSearchValuesSetComboboxEntries();
@@ -4286,14 +4286,14 @@ async function load(settings, onChange) {
 		}
 	});
 	$("#dialogDeviceCopyFromCreateSymbolicLink").on('change', function(){
-		if($(this).prop('checked')){
+		if ($(this).prop('checked')){
 			$('#dialogDeviceCopyFromReplaceCheckbox').addClass('disabled').prop('disabled', 'disabled').trigger('change');
 		} else {
 			$('#dialogDeviceCopyFromReplaceCheckbox').removeClass('disabled').prop('disabled', '').trigger('change');
 		}
 	})
 	$("#dialogDeviceCopyFromReplaceCheckbox").on('change', function(){
-		if($(this).prop('checked') && !$(this).prop('disabled')){
+		if ($(this).prop('checked') && !$(this).prop('disabled')){
 			$('#dialogDeviceCopyFromReplaceDatapointsAdd').show();
 			$('#dialogDeviceCopyFromReplaceDatapointsList').show();
 		} else {
@@ -4327,7 +4327,7 @@ async function load(settings, onChange) {
 		listContent += "</li>";
 		$('#dialogDeviceCopyFromReplaceDatapointsList').append(listContent);
 		$('#dialogDeviceCopyFromReplaceDatapointsList').data('length', index + 1);
-		if($('#dialogDeviceCopyFromSourceDevice').val()){
+		if ($('#dialogDeviceCopyFromSourceDevice').val()){
 			dialogDeviceCopyFromReplaceDatapointsSearchValuesSetComboboxEntries();
 		}
 		$('.dialogDeviceCopyFromReplaceDatapoints.selectId[data-index="' + index + '"]').on('click', function(){
@@ -4344,13 +4344,13 @@ async function load(settings, onChange) {
 	function dialogDeviceCopyFromReplaceDatapointsSearchValuesSetComboboxEntries(){
 		var usedDatapointIds = [];
 		(views[$('#dialogDeviceCopyFromSourceView').val()].devices[$('#dialogDeviceCopyFromSourceDevice').val()].states || []).forEach(function(element, index){ 
-			if(element.commonRole == "linkedState" && element.value) {
+			if (element.commonRole == "linkedState" && element.value) {
 				usedDatapointIds.push(element.value); 
-			} else if(element.commonRole == "array" && element.value){
+			} else if (element.commonRole == "array" && element.value){
 				var valueArray = tryParseJSON(element.value);
-				if(Array.isArray(valueArray) == false) valueArray = [];
+				if (Array.isArray(valueArray) == false) valueArray = [];
 				valueArray.forEach(function(entry){
-					if(entry.commonRole && entry.commonRole == "linkedState" && entry.value) {
+					if (entry.commonRole && entry.commonRole == "linkedState" && entry.value) {
 						usedDatapointIds.push(entry.value); 				
 					}								
 				});
@@ -4395,17 +4395,17 @@ async function load(settings, onChange) {
 		}
 		var websitenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				var websitenamesInThisDir = [];
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
-					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
 						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
 						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
-				if(websitenamesInThisDir.length > 0){
+				if (websitenamesInThisDir.length > 0){
 					websitenames.push("[" + imagesDir.dirnameBS + ":]");
 					websitenames.push(websitenamesInThisDir.join(";"));
 				}
@@ -4430,7 +4430,7 @@ async function load(settings, onChange) {
 		$('#dialogDevicesAutocreateWidgetDescription').html("")
 		$('#dialogDevicesAutocreateWidgetOptions').html("")
 		$('#dialogDevicesAutocreateWidgetUrlParameters').html("")
-		if($("#dialogDevicesAutocreateWidgetSource").val() != ""){
+		if ($("#dialogDevicesAutocreateWidgetSource").val() != ""){
 			$('#dialogDevicesAutocreateWidget a.btn-set').removeClass('disabled');
 		} else {
 			$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
@@ -4441,17 +4441,17 @@ async function load(settings, onChange) {
 	function dialogDevicesAutocreateWidgetWidgetSelected(value){
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){
+		if (value.indexOf("./images/widgets/") == 0){
 			filename = value.substr(8);
 			path = imagePath;
 		}
-		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.substr(29);
 			path = userfilesImagePath;
 		}
-		if(filename && path){
-			getWidgetSettings(filename, path, function(result){
-				if(result.urlParameters.length){
+		if (filename && path){
+			getWidgetSettings(filename, path, false, true, function(result){
+				if (result.urlParameters.length){
 					dialogDevicesAutocreateWidgetUrlParameters = "?" + result.urlParameters.join('&');
 					var urlParameterString = "<ul class='browser-default'>";
 					result.urlParameters.forEach(function(urlParameter){ urlParameterString += "<li>" + urlParameter + "</li>"; });
@@ -4469,7 +4469,7 @@ async function load(settings, onChange) {
 				$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Options:") + "</b><br>" + dialogDevicesAutocreateWidgetOptionsString);
 				dialogDevicesAutocreateWidgetOptions = [];
 				for(roleOption in iQontrolRoles["iQontrolWidget"].options){
-					if(iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
+					if (iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
 					var value = result.options[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
 					var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
 					dialogDevicesAutocreateWidgetOptions.push(entry);
@@ -4479,17 +4479,17 @@ async function load(settings, onChange) {
 	}
 
 	//Widget-Settings
-	function getWidgetSettings(filename, path, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+	function getWidgetSettings(filename, path, checkForOptionsAlreadySet, choseOptionsNotSet, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
 		var querystring = filename.split('?')[1] || "";
 		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
-			if($(htmlAsString).filter('meta[name^="widget-"]').length){
-				initDialog('dialogWidgetSettings', function(){ //save dialog
+			if ($(htmlAsString).filter('meta[name^="widget-"]').length){
+				initDialog('dialogWidgetSettings', function(){ //save dialog<
 					var result = {};
 					var dialogWidgetSettingsUrlParameters = [];
 					$('.dialogWidgetSettingsUrlParameters').each(function(){
 						var value;
-						if($(this).data('type') == "checkbox"){
+						if ($(this).data('type') == "checkbox"){
 							value = $(this).prop('checked').toString();
 						} else {
 							value = $(this).val();
@@ -4499,7 +4499,7 @@ async function load(settings, onChange) {
 					result.urlParameters = dialogWidgetSettingsUrlParameters;
 					var dialogWidgetSettingsOptions = {};
 					$('.dialogWidgetSettingsOptions').each(function(){
-						if($(this).prop('checked')){
+						if ($(this).prop('checked')){
 							dialogWidgetSettingsOptions[$(this).data('option')] = $(this).data('value').toString();
 						}
 					});
@@ -4515,13 +4515,12 @@ async function load(settings, onChange) {
 					var data = $(this).data() || {};
 					switch(metaName){
 						case "widget-description":
-						if(metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
+						if (metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
 						break;
 
 						case "widget-urlparameters":
-						if(metaContent){
+						if (metaContent){
 							dialogDevicesAutocreateWidgetUrlParameters = "";
-							//var dialogWidgetSettingsUrlParametersString = "";
 							var dialogWidgetSettingsUrlParametersString = "<ul class='collapsible' id='dialogWidgetSettingsUrlParametersCollapsible'>";
 							var dialogWidgetSettingsUrlParametersComboboxes = [];
 							var urlParameters = metaContent.split(';');
@@ -4531,7 +4530,7 @@ async function load(settings, onChange) {
 							querystringParts.forEach(function(query){
 								queries[query.split('=')[0]] = query.split('=')[1] || "";
 							});
-							if(urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
+							if (urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
 							urlParameters.forEach(function(urlParameter){
 								urlParameter = urlParameter.trim().split('/');
 								var entry = decodeURIComponent(urlParameter[0]);
@@ -4539,7 +4538,7 @@ async function load(settings, onChange) {
 								var value = decodeURIComponent(queries[entry] || urlParameter[1] || "");
 								var type = decodeURIComponent(urlParameter[3] || "text");
 								var options = urlParameter.slice(4) || [];
-								if(!Array.isArray(options)) options = [decodeURIComponent(options)];
+								if (!Array.isArray(options)) options = [decodeURIComponent(options)];
 								switch(type){
 									case "section":
 									if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
@@ -4608,8 +4607,8 @@ async function load(settings, onChange) {
 									break;
 
 									case "checkbox":
-									if(value == "true") value = true;
-									if(value == "false") value = false;
+									if (value == "true") value = true;
+									if (value == "false") value = false;
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l23'>";
 									dialogWidgetSettingsUrlParametersString += "    <p><label>";
 									dialogWidgetSettingsUrlParametersString += "        <input class='value dialogWidgetSettingsUrlParameters filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "' " + (value?"checked='checked'":"") + " />";
@@ -4640,7 +4639,7 @@ async function load(settings, onChange) {
 									//User Icons
 									var imagenames = [];
 									imagesDirs.forEach(function(imagesDir){
-										if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+										if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 											imagenames.push("[" + imagesDir.dirnameBS + ":]");
 											imagesDir.files.forEach(function(file){
 												 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
@@ -4677,7 +4676,7 @@ async function load(settings, onChange) {
 									break;
 								}
 							});
-							if(dialogWidgetSettingsUrlParametersString) {
+							if (dialogWidgetSettingsUrlParametersString) {
 								if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
 									dialogWidgetSettingsUrlParametersString += "</div>";
 									dialogWidgetSettingsUrlParametersString += "</li>";
@@ -4708,20 +4707,21 @@ async function load(settings, onChange) {
 						break;
 
 						case "widget-options":
-						if(metaContent) {
+						if (metaContent) {
 							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
-							if(widgetOptions){
+							if (widgetOptions){
 								var dialogWidgetSettingsOptionsString = "";
 								var dialogWidgetSettingsOptionsUnsupportedString;
 								for(option in widgetOptions){
-									if(iQontrolRoles["iQontrolWidget"].options[option]){
-										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox' checked='checked' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u></span></label><br>";
+									if (iQontrolRoles["iQontrolWidget"].options[option]){
+										var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == (dialogDeviceEditOptions.find(function(element){ return element.option == option;}) || {}).value);
+										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;&check;" : "&nbsp;<span style='color: red;'>X</span>") : "") + "</span></label><br>";
 									} else {
 										dialogWidgetSettingsOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
 									}
 								};
-								if(dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
-								if(dialogWidgetSettingsOptionsString.length){
+								if (dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
+								if (dialogWidgetSettingsOptionsString.length){
 									var html = "<b>" + _("Apply the following device options:") + "</b><br><br>";
 									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", true).trigger(\"change\");'><i class='large material-icons left'>check_box</i>" + _("All") + "</a>";
 									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", false).trigger(\"change\");'><i class='large material-icons left'>check_box_outline_blank</i>" + _("None") + "</a>";
@@ -4759,8 +4759,8 @@ async function load(settings, onChange) {
 		var viewIds = [""];
 		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
 		enhanceTextInputToCombobox("#panelBackgroundViewValue", "/;" + viewIds.join(";"), false, function(value){
-			if(value && value != "" && !$("#panelAllowPostMessage").prop('checked')){
-				if(confirm("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?")){
+			if (value && value != "" && !$("#panelAllowPostMessage").prop('checked')){
+				if (confirm("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?")){
 					$("#panelAllowPostMessage").prop('checked', 'checked').trigger('change');
 				}
 			}
@@ -4778,17 +4778,17 @@ async function load(settings, onChange) {
 		}
 		var websitenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				var websitenamesInThisDir = [];
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
-					if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
 						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
 						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
-				if(websitenamesInThisDir.length > 0){
+				if (websitenamesInThisDir.length > 0){
 					websitenames.push("[" + imagesDir.dirnameBS + ":]");
 					websitenames.push(websitenamesInThisDir.join(";"));
 				}
@@ -4805,7 +4805,7 @@ async function load(settings, onChange) {
 			var valueId = id + "Value";
 			var $value = $('#' + valueId);
 			//Show or hide selectboxes
-			if($(this).val() == 'const'){
+			if ($(this).val() == 'const'){
 				$value.next("a").prop('style','');
 			} else {
 				$value.next("a").prop('style','display: none !important;');
@@ -4819,7 +4819,7 @@ async function load(settings, onChange) {
 			var valueId = id + "Value";
 			var $commonRole = $('#' + commonRoleId);
 			var $value = $('#' + valueId);
-			if($commonRole.val() == 'linkedState'){ //linkedState
+			if ($commonRole.val() == 'linkedState'){ //linkedState
 				$('#dialogSelectId').data('selectidfor', valueId);
 				initSelectId(function (sid) {
 					sid.selectId('show', $value.val(), {type: 'state'}, function (newId) {
@@ -4828,7 +4828,7 @@ async function load(settings, onChange) {
 						}
 					});
 				});
-			} else if($commonRole.val() == 'const'){ //const
+			} else if ($commonRole.val() == 'const'){ //const
 				initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 					$('#' + $('#dialogDeviceEditStateConstantIndex').val()).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
 				});
@@ -4868,7 +4868,7 @@ async function load(settings, onChange) {
 		}
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
 					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
@@ -4981,8 +4981,8 @@ async function load(settings, onChange) {
 	function getImages(path, callback){
 		$('.hideOnLoad').hide();
 		$('.showOnLoad').show();
-		if(typeof path == 'function') callback = path;
-		if(typeof path != "string") {
+		if (typeof path == 'function') callback = path;
+		if (typeof path != "string") {
 			path = userfilesImagePath;
 			images = [];
 			imagesDirs = [{
@@ -4992,8 +4992,8 @@ async function load(settings, onChange) {
 			}];
 		};
 		socketCallback = function(err, obj){
-			if(obj) obj.forEach(function(element){
-				if(element.isDir) {
+			if (obj) obj.forEach(function(element){
+				if (element.isDir) {
 					imagesDirs.push({
 						dirname:		path.substring(userfilesImagePath.length) + "/" + element.file,
 						dirnameBS: 		path.substring(userfilesImagePath.length).replace(/\//g, "\\") + "\\" + element.file.replace(/\//g, "\\"),
@@ -5010,7 +5010,7 @@ async function load(settings, onChange) {
 					console.log("Got Image: " + path + "/" + element.file);
 				}
 			});
-			if(getImagesRunningTasks > 0) {
+			if (getImagesRunningTasks > 0) {
 				getImagesRunningTasks -= 1;
 			} else { //Got all images
 				imagesDirs.sort(function(a, b){
@@ -5019,7 +5019,7 @@ async function load(settings, onChange) {
 				imagesDirs.forEach(function(imagesDir){
 					var imagesDirFiles = [];
 					images.forEach(function(image){
-						if(image.filename.indexOf(imagesDir.dirname) == 0 && (image.filename.lastIndexOf('/') == 0 || image.filename.lastIndexOf('/') == imagesDir.dirname.length)){
+						if (image.filename.indexOf(imagesDir.dirname) == 0 && (image.filename.lastIndexOf('/') == 0 || image.filename.lastIndexOf('/') == imagesDir.dirname.length)){
 							imagesDirFiles.push(image);
 						}
 					});
@@ -5031,7 +5031,7 @@ async function load(settings, onChange) {
 				console.log("Got all images.");
 				$('.hideOnLoad').show();
 				$('.showOnLoad').hide();
-				if(typeof callback == 'function') callback();
+				if (typeof callback == 'function') callback();
 			}
 		}
 		readDir(path, socketCallback);
@@ -5052,17 +5052,17 @@ async function load(settings, onChange) {
 	$('#imagesSelectedDir').on('change', imagesSelectedDirFilterList);
 	function imagesSelectedDirFilterList(){
 		var val = $('#imagesSelectedDir').val();
-		if(val == "/"){
+		if (val == "/"){
 			$('#imagesUploadRenameDir').addClass('disabled');
 			$('#imagesUploadDeleteDir').addClass('disabled');
 		} else {
 			$('#imagesUploadRenameDir').removeClass('disabled');
 			$('#imagesUploadDeleteDir').removeClass('disabled');
 		}
-		if(val && val.indexOf("/userwidgets") == 0){
+		if (val && val.indexOf("/userwidgets") == 0){
 			$('#imagesUploadFile').prop('accept', 'image/png, image/jpeg, image/jpg, image/gif, image/svg, image/svg+xml, text/html, text/css, text/javascript');
 			$('.imagesUploadCreateFile').removeClass('hide');
-		} else if(val && val.indexOf("/userfonts") == 0){
+		} else if (val && val.indexOf("/userfonts") == 0){
 			$('#imagesUploadFile').prop('accept', '.otf, application/x-font-opentype, .ttf, application/x-font-ttf, application/x-font-truetype .woff, application/font-woff, .woff2, application/font-woff2, .eot, application/vnd.ms-fontobject');
 			$('.imagesUploadCreateFile').addClass('hide');
 		} else {
@@ -5079,7 +5079,7 @@ async function load(settings, onChange) {
 				var name = $(this).data('name');
 				if (name === 'filename') {
 					$line = $(this).closest('tr');
-					if($(this).val().indexOf(val) == 0 && $(this).val().lastIndexOf("/") <= val.length) {
+					if ($(this).val().indexOf(val) == 0 && $(this).val().lastIndexOf("/") <= val.length) {
 						$line.show();
 					} else {
 						$line.hide();
@@ -5108,7 +5108,7 @@ async function load(settings, onChange) {
 			if (command === 'photo') {
 				var imageIndex = $(this).data('index');
 				var filename = images[imageIndex].filename;
-				if(filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+				if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
 					$(this).replaceWith("<img src='" + link + "/images/icons/file_html_edit.png' data-filetype='htmlmixed' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
 				} else if (filename.endsWith(".css")){
 					$(this).replaceWith("<img src='" + link + "/images/icons/file_css_edit.png' data-filetype='css' data-filename='" + filename + "' data-filepath='./.." + userfilesImagePath + filename + "' style='max-width:50px; max-height:50px; cursor:hand;' class='code'></img>");
@@ -5132,7 +5132,7 @@ async function load(settings, onChange) {
 						isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 						if (!isValid) alert(_("Invalid Name"));
 					} while (!isValid)
-					if(newName != "" && newName != oldName){
+					if (newName != "" && newName != oldName){
 						if (newName.indexOf('/') != 0) newName = "/" + newName;
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _oldName = userfilesImagePath + images[index].filename;
@@ -5157,7 +5157,7 @@ async function load(settings, onChange) {
 				$(this).find('i').html('delete_forever');
 				$(this).on('click', function (e) {
 					var index = $(this).data('index');
-					if(confirm(_("Delete file %s on server? Warning: This can't be undone!", images[index].filename))){
+					if (confirm(_("Delete file %s on server? Warning: This can't be undone!", images[index].filename))){
 						deleteFile(userfilesImagePath + images[index].filename, function(){
 							getImages(function(){
 								values2table('tableImages', images, onChange, onTableImagesReady);
@@ -5179,11 +5179,11 @@ async function load(settings, onChange) {
 			var imageName = $(this).data('filepath');
 			var imageUsedIn = [];
 			views.forEach(function(view){
-				if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + " " + _("as backgroundimage"));
+				if (typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + " " + _("as backgroundimage"));
 				view.devices.forEach(function(device){
-					if((typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/") == imageName) || (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/") == imageName)) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as backgroundimage"));
+					if ((typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/") == imageName) || (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/") == imageName)) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as backgroundimage"));
 					if (device.options) device.options.forEach(function(option){
-						if(option.type == "icon" && option.value.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as icon"));
+						if (option.type == "icon" && option.value.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as icon"));
 					});
 				});
 			});
@@ -5238,12 +5238,12 @@ async function load(settings, onChange) {
 			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 			if (!isValid) alert(_("Invalid Name"));
 		} while (!isValid)
-		if(newName != ""){
+		if (newName != ""){
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
 			createDir(userfilesImagePath + newName, function(err){
 				getImages(function(err){
 					values2table('tableImages', images, onChange, onTableImagesReady);
-					if(!err) var dummy = newName; else var dummy = $('#imagesSelectedDir').val();
+					if (!err) var dummy = newName; else var dummy = $('#imagesSelectedDir').val();
 					imagesSelectedDirFillSelectbox();
 					$('#imagesSelectedDir').val(dummy).trigger('change');
 					$('#imagesSelectedDir').select();
@@ -5262,7 +5262,7 @@ async function load(settings, onChange) {
 			isValid = (newName == "" || (newName.substring(0,1) != " " && (/^[^<>:;,?"*|\\]+$/.test(newName))));
 			if (!isValid) alert(_("Invalid Name"));
 		} while (!isValid)
-		if(newName != "" && newName != oldName){
+		if (newName != "" && newName != oldName){
 			if (newName.indexOf('/') != 0) newName = "/" + newName;
 			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 				var _oldName = userfilesImagePath + oldName;
@@ -5283,7 +5283,7 @@ async function load(settings, onChange) {
 
 	//Delete Dir
 	$('#imagesUploadDeleteDir').on('click', function(){
-		if(confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
+		if (confirm(_("Delete directory %s and all its content on server? Warning: This can't be undone!", $('#imagesSelectedDir').val()))){
 			deleteFile(userfilesImagePath + $('#imagesSelectedDir').val(), function(){
 				getImages(function(){
 					values2table('tableImages', images, onChange, onTableImagesReady);
@@ -5313,7 +5313,7 @@ async function load(settings, onChange) {
 		$('#imagesUploadDownloadDirAsZip').addClass('disabled');
 		$('#imagesUploadDownloadDirAsZipIcon').text("hourglass_empty");
 		$('#imagesUploadDownloadDirAsZipProgress').show();
-		if(confirm(_("Depending on the size it may take a while to create the zip file."))){
+		if (confirm(_("Depending on the size it may take a while to create the zip file."))){
 			readDirAsZip(userfilesImagePath + $('#imagesSelectedDir').val(), function(err, data){
 				if (err) {
 					alert("Error: " + err);
@@ -5338,7 +5338,7 @@ async function load(settings, onChange) {
 	$('.imagesUploadCreateFile').on('click', function(){
 		var filetype = $(this).data('filetype');
 		var filename = prompt("Enter filename");
-		if(filename){
+		if (filename){
 			uploadStringAsFile("", filename + "." + filetype, userfilesImagePath + $('#imagesSelectedDir').val(), function(name){
 				$('#imagesUploadRefresh').click();
 			});
@@ -5350,12 +5350,12 @@ async function load(settings, onChange) {
 		oldName = "./.." + oldName.replace(/\\/g, "/");
 		newName = "./.." + newName.replace(/\\/g, "/");
 		views.forEach(function(view){
-			if(typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
+			if (typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && view.nativeBackgroundImage.length >= oldName.length) view.nativeBackgroundImage = newName + view.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
 			view.devices.forEach(function(device){
-				if(typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
-				if(typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImageActive.length >= oldName.length) device.nativeBackgroundImageActive = newName + device.nativeBackgroundImageActive.replace(/\\/g, "/").substring(oldName.length);
+				if (typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImage.length >= oldName.length) device.nativeBackgroundImage = newName + device.nativeBackgroundImage.replace(/\\/g, "/").substring(oldName.length);
+				if (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/").indexOf(oldName) == 0 && device.nativeBackgroundImageActive.length >= oldName.length) device.nativeBackgroundImageActive = newName + device.nativeBackgroundImageActive.replace(/\\/g, "/").substring(oldName.length);
 				if (device.options) device.options.forEach(function(option){
-					if(option.type == "icon" && option.value.replace(/\\/g, "/").indexOf(oldName) == 0 && option.value.length >= oldName.length) option.value = newName + option.value.replace(/\\/g, "/").substring(oldName.length);
+					if (option.type == "icon" && option.value.replace(/\\/g, "/").indexOf(oldName) == 0 && option.value.length >= oldName.length) option.value = newName + option.value.replace(/\\/g, "/").substring(oldName.length);
 				});
 			});
 		});
@@ -5383,10 +5383,10 @@ async function load(settings, onChange) {
 		//User Icons
 		var imagenames = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					if(file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
 						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 					}
 				});
@@ -5452,12 +5452,12 @@ async function load(settings, onChange) {
 		//User Fonts
 		var userfonts = [];
 		imagesDirs.forEach(function(imagesDir){
-			if(imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
+			if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagesDir.files.forEach(function(file){
 					var filename = file.filename || "";
-					if(filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+					if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
 						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if(iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_font.png";
+						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_font.png";
 						userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
 					}
 				});
@@ -5479,9 +5479,9 @@ async function load(settings, onChange) {
 	var actualSection = "";
 	for (iQontrolRole in iQontrolRoles){
 		for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
-			if(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "section"){
+			if (iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "section"){
 				actualSection = iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name;
-				if(typeof deviceOptions[actualSection] == udef) deviceOptions[actualSection] = [];
+				if (typeof deviceOptions[actualSection] == udef) deviceOptions[actualSection] = [];
 			} else {
 				deviceOptions[actualSection].push(iQontrolRoleOption + "/" + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name).replace(/\//g, "\\"));
 			}				
@@ -5521,7 +5521,7 @@ async function load(settings, onChange) {
 	$('.optionsChangeDeviceOptionsIcons').on('change', function(){
 		var result = optionsChangeDeviceOptionsIcons($('#optionsChangeDeviceOptionsIconsSource').val(), $('#optionsChangeDeviceOptionsIconsDestination').val(), $('#optionsChangeDeviceOptionsIconsFilterRoles').val(), $('#optionsChangeDeviceOptionsIconsFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceOptionsIconsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
-		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsIconsSource').val() != $('#optionsChangeDeviceOptionsIconsDestination').val()){
+		if (result.changeCount > 0 && $('#optionsChangeDeviceOptionsIconsSource').val() != $('#optionsChangeDeviceOptionsIconsDestination').val()){
 			$('#optionsChangeDeviceOptionsIconsExecute').removeClass('disabled');
 			$('#optionsChangeDeviceOptionsIconsShowChanges').removeClass('disabled').data('changes-list', '<ul><li>' + result.changeList.join('</li><li>') + '</li></ul>');
 		} else {
@@ -5539,9 +5539,9 @@ async function load(settings, onChange) {
 		if ((quiet || countOnly || confirm(_("Really change all Icons?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if (filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
+					if (filterRoles == "" || filterRoles.indexOf(role) > -1){ 
 						if (iQontrolRoles[role] && iQontrolRoles[role].options) for(roleOption in iQontrolRoles[role].options){
 							if (iQontrolRoles[role].options[roleOption].type == "icon") {
 								var deviceOptionIndex = device.options && device.options.findIndex(function(option){ return option.option == roleOption; });
@@ -5554,7 +5554,7 @@ async function load(settings, onChange) {
 										value: iQontrolRoles[role].options[roleOption].default
 									};
 								}
-								if(option 
+								if (option 
 									&& (option.value == source 
 										|| (option.value == "" && ("./images/icons/" + iQontrolRoles[role].options[roleOption].defaultIcons.split(';')[0]) == source)
 										|| (option.value == "" && iQontrolRoles[role].options[roleOption].default == source)
@@ -5563,11 +5563,11 @@ async function load(settings, onChange) {
 								) {
 									changeCount++;
 									changeList.push(viewName + " - " + device.commonName);
-									if(!countOnly){
+									if (!countOnly){
 										console.log("CHANGE SETTING");
 										option.value = destination;
-										if(typeof device.options == udef) device.options = [];
-										if(!(deviceOptionIndex > -1)) device.options.push(option);
+										if (typeof device.options == udef) device.options = [];
+										if (!(deviceOptionIndex > -1)) device.options.push(option);
 									}
 								}
 							}
@@ -5576,7 +5576,7 @@ async function load(settings, onChange) {
 				}
 			});
 		});		
-		if(!countOnly && changeCount > 0) {
+		if (!countOnly && changeCount > 0) {
 			alert(_("%s icons have been exchanged. Don't forget to save your changes!", changeCount));
 			onChange();
 		}		
@@ -5589,7 +5589,7 @@ async function load(settings, onChange) {
 		var settings = [];
 		for (iQontrolRole in iQontrolRoles){
 			for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
-				if(iQontrolRoleOption == $('#optionsChangeDeviceOptionsSourceOption').val()){
+				if (iQontrolRoleOption == $('#optionsChangeDeviceOptionsSourceOption').val()){
 					switch(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type){
 						case "icon":
 						settings.push("/" + _("default"));
@@ -5623,11 +5623,11 @@ async function load(settings, onChange) {
 						break;
 					}
 					var userSettings = [];
-					if(typeof views != udef) views.forEach(function(view){
+					if (typeof views != udef) views.forEach(function(view){
 						if (typeof view.devices != udef) view.devices.forEach(function(device){
 							var role = device.commonRole || "";
 							if (typeof device.options != udef) device.options.forEach(function(option){
-								if(option.option == iQontrolRoleOption && option.value != ""){
+								if (option.option == iQontrolRoleOption && option.value != ""){
 									switch(option.type){
 										case "icon":
 										userSettings.push(option.value.replace(/\//g, "\\") + "/" + option.value.replace(/\//g, "\\") + "/" + (link + "/" + option.value).replace(/\//g, "\\"));
@@ -5644,7 +5644,7 @@ async function load(settings, onChange) {
 							});
 						});
 					});
-					if(userSettings.length > 0){
+					if (userSettings.length > 0){
 						settings.push("[" + _("User Settings") + ":]");
 						settings = settings.concat(userSettings);
 					}
@@ -5661,7 +5661,7 @@ async function load(settings, onChange) {
 	$('.optionsChangeDeviceOptions').on('change', function(){
 		var result = optionsChangeDeviceOptions($('#optionsChangeDeviceOptionsSourceOption').val(), $('#optionsChangeDeviceOptionsSourceValue').val(), $('#optionsChangeDeviceOptionsDestinationValue').val(), $('#optionsChangeDeviceOptionsFilterRoles').val(), $('#optionsChangeDeviceOptionsFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceOptionsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
-		if(result.changeCount > 0 && $('#optionsChangeDeviceOptionsSourceOption').val() && $('#optionsChangeDeviceOptionsSourceValue').val() != $('#optionsChangeDeviceOptionsDestinationValue').val()){
+		if (result.changeCount > 0 && $('#optionsChangeDeviceOptionsSourceOption').val() && $('#optionsChangeDeviceOptionsSourceValue').val() != $('#optionsChangeDeviceOptionsDestinationValue').val()){
 			$('#optionsChangeDeviceOptionsExecute').removeClass('disabled');
 			$('#optionsChangeDeviceOptionsShowChanges').removeClass('disabled').data('changes-list', '<ul><li>' + result.changeList.join('</li><li>') + '</li></ul>');
 		} else {
@@ -5679,9 +5679,9 @@ async function load(settings, onChange) {
 		if ((quiet || countOnly || confirm(_("Really change all Settings?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if (filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
+					if (filterRoles == "" || filterRoles.indexOf(role) > -1){ 
 						var deviceOptionIndex = device.options && device.options.findIndex(function(option){ return option.option == sourceOption; });
 						if (deviceOptionIndex > -1){ //option exists
 							var option = device.options[deviceOptionIndex];
@@ -5694,7 +5694,7 @@ async function load(settings, onChange) {
 						} else { //option not found
 							var option = null;
 						}
-						if(option 
+						if (option 
 							&& (option.value == sourceValue 
 								|| (option.value == "" && iQontrolRoles[role].options[sourceOption].default == sourceValue)
 								|| (sourceValue == "" && option.value == iQontrolRoles[role].options[sourceOption].default)
@@ -5703,18 +5703,18 @@ async function load(settings, onChange) {
 						) {
 							changeCount++;
 							changeList.push(viewName + " - " + device.commonName);
-							if(!countOnly){
+							if (!countOnly){
 								console.log("CHANGE SETTING");
 								option.value = destinationValue;
-								if(typeof device.options == udef) device.options = [];
-								if(!(deviceOptionIndex > -1)) device.options.push(option);
+								if (typeof device.options == udef) device.options = [];
+								if (!(deviceOptionIndex > -1)) device.options.push(option);
 							}
 						}
 					}
 				}
 			});
 		});		
-		if(!countOnly && changeCount > 0) {
+		if (!countOnly && changeCount > 0) {
 			alert(_("%s settings have been exchanged. Don't forget to save your changes!", changeCount));
 			onChange();
 		}		
@@ -5735,7 +5735,7 @@ async function load(settings, onChange) {
 	$('.optionsChangeDeviceStates').on('change input', function(){
 		var result = optionsChangeDeviceStates($('#optionsChangeDeviceStatesSourceValue').val(), $('#optionsChangeDeviceStatesDestinationValue').val(), $('#optionsChangeDeviceStatesDestinationCommonRole').val(), $('#optionsChangeDeviceStatesFilterStates').val(), $('#optionsChangeDeviceStatesFilterRoles').val(), $('#optionsChangeDeviceStatesFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceStatesExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
-		if(result.changeCount > 0 
+		if (result.changeCount > 0 
 			&& ($('#optionsChangeDeviceStatesSourceValue').val() != $('#optionsChangeDeviceStatesDestinationValue').val() 
 				|| $('#optionsChangeDeviceStatesDestinationCommonRole').val() != "*"
 			)
@@ -5760,9 +5760,9 @@ async function load(settings, onChange) {
 		if ((quiet || countOnly || confirm(_("Really change all States?"))) && typeof views != udef) views.forEach(function(view){
 			var viewName = view.commonName;
 			if (typeof view.devices != udef) view.devices.forEach(function(device){
-				if(filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
+				if (filterDevices == "" || filterDevices.indexOf("[" + viewName + "]" + device.commonName) > -1){ 				
 					var role = device.commonRole || "";
-					if(filterRoles == "" || filterRoles.indexOf(role) > -1){ 
+					if (filterRoles == "" || filterRoles.indexOf(role) > -1){ 
 						if (iQontrolRoles[role] && iQontrolRoles[role].states) iQontrolRoles[role].states.forEach(function(roleState){
 							if (filterStates.length == 0 || filterStates.indexOf(roleState) != -1) {
 								var deviceStateIndex = device.states && device.states.findIndex(function(state){ return state.state == roleState; });
@@ -5790,16 +5790,16 @@ async function load(settings, onChange) {
 										value: value
 									};
 								}
-								if(deviceState){
-									if(deviceState.commonRole && deviceState.commonRole == "array"){
+								if (deviceState){
+									if (deviceState.commonRole && deviceState.commonRole == "array"){
 										var stateList = tryParseJSON(deviceState.value);
-										if(Array.isArray(stateList) == false) stateList = [];
+										if (Array.isArray(stateList) == false) stateList = [];
 									} else {
 										var stateList = [deviceState];
 									}
 								}
 								stateList.forEach(function(state){
-									if(state 
+									if (state 
 										&& ((sourceValue != "" && state.value.indexOf(sourceValue) != -1)
 											|| (sourceValue == "" && state.value == "")
 											|| sourceValue == "*"
@@ -5807,24 +5807,24 @@ async function load(settings, onChange) {
 									) {
 										changeCount++;
 										changeList.push(viewName + " - " + device.commonName + " - " + roleState + " (" + state.value + ")");
-										if(!countOnly){
+										if (!countOnly){
 											console.log("CHANGE STATE");
-											if(destinationValue != "*"){
-												if(sourceValue == "*"){
+											if (destinationValue != "*"){
+												if (sourceValue == "*"){
 													state.value = destinationValue;
 												} else {
 													state.value = state.value.replace(sourceValue, destinationValue);
 												}
 											}
-											if(deviceState.commonRole != "array" && destinationCommonRole != "*"){
+											if (deviceState.commonRole != "array" && destinationCommonRole != "*"){
 												state.commonRole = destinationCommonRole;
 											}
-											if(typeof device.states == udef) device.states = [];
-											if(!(deviceStateIndex > -1)) device.states.push(state);
+											if (typeof device.states == udef) device.states = [];
+											if (!(deviceStateIndex > -1)) device.states.push(state);
 										}
 									}
 								});
-								if(deviceState.commonRole == "array"){
+								if (deviceState.commonRole == "array"){
 									deviceState.value = JSON.stringify(stateList);
 								}
 							}
@@ -5833,7 +5833,7 @@ async function load(settings, onChange) {
 				}
 			});
 		});		
-		if(!countOnly && changeCount > 0) {
+		if (!countOnly && changeCount > 0) {
 			alert(_("%s states have been exchanged. Don't forget to save your changes!", changeCount));
 			onChange();
 		}		
@@ -5847,7 +5847,7 @@ async function load(settings, onChange) {
 
 	$('#optionsBackupRestoreExportViewsSelectedSelection').on('change', function(){
 		var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
-		if(selected.length){
+		if (selected.length){
 			$('#optionsBackupRestoreExportViewsSelected').removeClass('disabled');
 		} else {
 			$('#optionsBackupRestoreExportViewsSelected').addClass('disabled');
@@ -5855,12 +5855,12 @@ async function load(settings, onChange) {
 	});
 	$('#optionsBackupRestoreExportViewsSelected').on('click', function(){
 		var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
-		if(selected.length){
+		if (selected.length){
 			var selectedViews = [];
 			selected.forEach(function(index){
 				selectedViews.push(views[index]);
 				selectedViews[selectedViews.length - 1].devices.forEach(function(device){ //Remove symbolic links
-					if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+					if (device.symbolicLinkFrom) delete device.symbolicLinkFrom;
 				});
 			});
 			saveStringAsLocalFile(JSON.stringify(selectedViews), "charset=utf-8", "text/json", "selected_views.json", true);
@@ -5911,11 +5911,11 @@ async function load(settings, onChange) {
 		var toDo = function(){
 			var customs = [];
 			for(objectId in iobrokerObjects){
-				if(typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
+				if (typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
 			};
 			saveStringAsLocalFile(JSON.stringify(customs), "charset=utf-8", "text/json", "custom.json", true);
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -5941,12 +5941,12 @@ async function load(settings, onChange) {
 			obj.options = options;
 			var customs = [];
 			for(objectId in iobrokerObjects){
-				if(typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
+				if (typeof iobrokerObjects[objectId].common != udef && typeof iobrokerObjects[objectId].common.custom  != udef && typeof iobrokerObjects[objectId].common.custom[adapter + "." + instance] != udef && iobrokerObjects[objectId].common.custom[adapter + "." + instance] != "") customs.push({id: objectId, custom: iobrokerObjects[objectId].common.custom[adapter + "." + instance]});
 			};
 			obj.customs = customs;
 			saveStringAsLocalFile(JSON.stringify(obj), "charset=utf-8", "text/json", "everything.json", true);
 		}
-		if(iobrokerObjectsReady) {
+		if (iobrokerObjectsReady) {
 			toDo();
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
@@ -5958,7 +5958,7 @@ async function load(settings, onChange) {
 		$('#optionsBackupRestoreExportUserfiles').addClass('disabled');
 		$('#optionsBackupRestoreExportUserfilesIcon').text("hourglass_empty");
 		$('#optionsBackupRestoreExportUserfilesProgress').show();
-		if(confirm(_("Depending on the size it may take a while to create the zip file."))){
+		if (confirm(_("Depending on the size it may take a while to create the zip file."))){
 			readDirAsZip(userfilesImagePath + '/', function(err, data){
 				if (err) {
 					alert("Error: " + err);
@@ -5984,26 +5984,26 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(resultObj && typeof resultObj.forEach == "function"){
+			if (resultObj && typeof resultObj.forEach == "function"){
 				resultObj.forEach(function(entry, index){
-					if(typeof entry.commonName == "undefined") entry.commonName = "View";
-					if(!overwrite){
+					if (typeof entry.commonName == "undefined") entry.commonName = "View";
+					if (!overwrite){
 						var viewNames = [];
-						views.forEach(function(view){ if(view.commonName) viewNames.push(view.commonName); });
+						views.forEach(function(view){ if (view.commonName) viewNames.push(view.commonName); });
 						var existingNameIndex = 0;
 						while(viewNames.indexOf(entry.commonName + (existingNameIndex ? " " + existingNameIndex : "")) != -1) { existingNameIndex++; };
-						if(existingNameIndex) entry.commonName = entry.commonName + " " + existingNameIndex;
+						if (existingNameIndex) entry.commonName = entry.commonName + " " + existingNameIndex;
 					}
-					if(!overwrite && entry.devices) entry.devices.forEach(function(device){ //Remove symbolic links, if views are appended
-						if(device.symbolicLinkFrom) delete device.symbolicLinkFrom;
+					if (!overwrite && entry.devices) entry.devices.forEach(function(device){ //Remove symbolic links, if views are appended
+						if (device.symbolicLinkFrom) delete device.symbolicLinkFrom;
 					});
 				});
 			} else {
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
-				if(overwrite){
-					if(confirm(_("Really overwrite existing Settings?"))){
+			if (resultObjValid) {
+				if (overwrite){
+					if (confirm(_("Really overwrite existing Settings?"))){
 						views = resultObj;
 						alert(_("Settings imported."));
 						onChange();
@@ -6025,21 +6025,21 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(resultObj && typeof resultObj.forEach == "function"){
+			if (resultObj && typeof resultObj.forEach == "function"){
 				resultObj.forEach(function(entry, index){
-					if(typeof entry.nativeLinkedView == "undefined"){
+					if (typeof entry.nativeLinkedView == "undefined"){
 						resultObjValid = false;
 					} else {
-						if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
-						if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
+						if (typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
+						if (typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
 					}
 				});
 			} else {
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
-				if(overwrite){
-					if(confirm(_("Really overwrite existing Settings?"))){
+			if (resultObjValid) {
+				if (overwrite){
+					if (confirm(_("Really overwrite existing Settings?"))){
 						toolbar = resultObj;
 						alert(_("Settings imported."));
 						onChange();
@@ -6060,16 +6060,16 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+			if (!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
-				if(confirm(_("Really overwrite existing Settings?"))){
+			if (resultObjValid) {
+				if (confirm(_("Really overwrite existing Settings?"))){
 					//Select elements with id=key and class=value and insert value
 					$('.value').each(function () {
 						var $key = $(this);
 						var id = $key.attr('id');
-						if(id.indexOf('panel') == 0){ //Include just panel settings
+						if (id.indexOf('panel') == 0){ //Include just panel settings
 							if ($key.attr('type') === 'checkbox') {
 								$key.prop('checked', resultObj[id]);
 							} else {
@@ -6092,16 +6092,16 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+			if (!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
-				if(confirm(_("Really overwrite existing Settings?"))){
+			if (resultObjValid) {
+				if (confirm(_("Really overwrite existing Settings?"))){
 					//Select elements with id=key and class=value and insert value
 					$('.value').each(function () {
 						var $key = $(this);
 						var id = $key.attr('id');
-						if(id.indexOf('panel') != 0){ //Exclude panel settings
+						if (id.indexOf('panel') != 0){ //Exclude panel settings
 							if ($key.attr('type') === 'checkbox') {
 								$key.prop('checked', resultObj[id]);
 							} else {
@@ -6124,37 +6124,37 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(resultObj && typeof resultObj.forEach == "function"){
+			if (resultObj && typeof resultObj.forEach == "function"){
 				resultObj.forEach(function(entry, index){
-					if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
+					if (typeof entry.id == "undefined" || typeof entry.custom != "object"){
 						resultObjValid = false;
 					}
 				});
 			} else {
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
+			if (resultObjValid) {
 				initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
-					if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
+					if (confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
 						var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
 						var dialogOptionsBackupRestoreImportCustomsCounter = 0;
 						var dialogOptionsBackupRestoreImportCustomsError = false;
 						customs.forEach(function(custom, index){
-							if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
+							if ($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
 								dialogOptionsBackupRestoreImportCustomsCounter++;
 								console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _custom = custom;
 									socket.emit('getObject', _custom.id, function(err, _obj){
-										if(_obj){
-											if(typeof _obj.common == udef) _obj.common = {};
-											if(typeof _obj.common.custom == udef) _obj.common.custom = {};
+										if (_obj){
+											if (typeof _obj.common == udef) _obj.common = {};
+											if (typeof _obj.common.custom == udef) _obj.common.custom = {};
 											_obj.common.custom[adapter + "." + instance] = _custom.custom;
 											socket.emit('setObject', _custom.id, _obj, function(err){
 												dialogOptionsBackupRestoreImportCustomsCounter--;
-												if(err) dialogOptionsBackupRestoreImportCustomsError = true;
-												if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
-													if(dialogOptionsBackupRestoreImportCustomsError){
+												if (err) dialogOptionsBackupRestoreImportCustomsError = true;
+												if (dialogOptionsBackupRestoreImportCustomsCounter == 0){
+													if (dialogOptionsBackupRestoreImportCustomsError){
 														alert(_("Error: Invalid data."));
 													} else {
 														alert(_("Settings imported."));
@@ -6187,36 +6187,36 @@ async function load(settings, onChange) {
 		loadLocalFileAsString(".json", function(result){
 			var resultObj = tryParseJSON(result);
 			var resultObjValid = true;
-			if(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
+			if (resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef){
 				//Views
-				if(resultObj.views && typeof resultObj.views.forEach == "function") {
+				if (resultObj.views && typeof resultObj.views.forEach == "function") {
 					resultObj.views.forEach(function(entry, index){
-						if(typeof entry.commonName == "undefined") entry.commonName = "View";
+						if (typeof entry.commonName == "undefined") entry.commonName = "View";
 					});
 				} else {
 					resultObjValid = false;
 				}
 				//Toolbar
-				if(resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
+				if (resultObj.toolbar && typeof resultObj.toolbar.forEach == "function"){
 					resultObj.toolbar.forEach(function(entry, index){
-						if(typeof entry.nativeLinkedView == "undefined"){
+						if (typeof entry.nativeLinkedView == "undefined"){
 							resultObjValid = false;
 						} else {
-							if(typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
-							if(typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
+							if (typeof entry.commonName == "undefined") entry.commonName = result.nativeLinkedView;
+							if (typeof entry.nativeIcon == "undefined") entry.nativeIcon = "grid";
 						}
 					});
 				} else {
 					resultObjValid = false;
 				}
 				//Options and panel
-				if(!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
+				if (!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
 					resultObjValid = false;
 				}
 				//Customs
-				if(resultObj.customs && typeof resultObj.customs.forEach == "function"){
+				if (resultObj.customs && typeof resultObj.customs.forEach == "function"){
 					resultObj.customs.forEach(function(entry, index){
-						if(typeof entry.id == "undefined" || typeof entry.custom != "object"){
+						if (typeof entry.id == "undefined" || typeof entry.custom != "object"){
 							resultObjValid = false;
 						}
 					});
@@ -6226,18 +6226,18 @@ async function load(settings, onChange) {
 			} else {
 				resultObjValid = false;
 			}
-			if(resultObjValid) {
-				if(confirm(_("Really overwrite existing Settings?"))){
+			if (resultObjValid) {
+				if (confirm(_("Really overwrite existing Settings?"))){
 					//Views
-					if(confirm(_("Import Views (overwrite existing views)") + "?")) views = resultObj.views;
+					if (confirm(_("Import Views (overwrite existing views)") + "?")) views = resultObj.views;
 					//Toolbar
-					if(confirm(_("Import Toolbar (overwrite exisiting toolbar)") + "?")) toolbar = resultObj.toolbar;
+					if (confirm(_("Import Toolbar (overwrite exisiting toolbar)") + "?")) toolbar = resultObj.toolbar;
 					//Panel
 					//Select elements with id=key and class=value and insert value
-					if(confirm(_("Import Panel") + "?")) $('.value').each(function () {
+					if (confirm(_("Import Panel") + "?")) $('.value').each(function () {
 						var $key = $(this);
 						var id = $key.attr('id');
-						if(id.indexOf('panel') == 0){ //Include just panel settings
+						if (id.indexOf('panel') == 0){ //Include just panel settings
 							if ($key.attr('type') === 'checkbox') {
 								$key.prop('checked', resultObj.options[id]);
 							} else {
@@ -6247,10 +6247,10 @@ async function load(settings, onChange) {
 					});
 					//Options
 					//Select elements with id=key and class=value and insert value
-					if(confirm(_("Import Options") + "?")) $('.value').each(function () {
+					if (confirm(_("Import Options") + "?")) $('.value').each(function () {
 						var $key = $(this);
 						var id = $key.attr('id');
-						if(id.indexOf('panel') != 0){ //Exclude panel settings
+						if (id.indexOf('panel') != 0){ //Exclude panel settings
 							if ($key.attr('type') === 'checkbox') {
 								$key.prop('checked', resultObj.options[id]);
 							} else {
@@ -6263,26 +6263,26 @@ async function load(settings, onChange) {
 					onChange();
 					//Customs
 					initDialog("dialogOptionsBackupRestoreImportCustoms", function(){ //Import
-						if(confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
+						if (confirm(_("Really overwrite custom datapoint settings? This can't be undone."))){
 							var customs = $("#dialogOptionsBackupRestoreImportCustoms").data('customs');
 							var dialogOptionsBackupRestoreImportCustomsCounter = 0;
 							var dialogOptionsBackupRestoreImportCustomsError = false;
 							customs.forEach(function(custom, index){
-								if($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
+								if ($('.dialogOptionsBackupRestoreImportCustomsListItem[data-index=' + index + ']').prop('checked')){
 									dialogOptionsBackupRestoreImportCustomsCounter++;
 									console.log("Updating ID: " + custom.id + " with custom: " + custom.custom);
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _custom = custom;
 										socket.emit('getObject', _custom.id, function(err, _obj){
-											if(_obj){
-												if(typeof _obj.common == udef) _obj.common = {};
-												if(typeof _obj.common.custom == udef) _obj.common.custom = {};
+											if (_obj){
+												if (typeof _obj.common == udef) _obj.common = {};
+												if (typeof _obj.common.custom == udef) _obj.common.custom = {};
 												_obj.common.custom[adapter + "." + instance] = _custom.custom;
 												socket.emit('setObject', _custom.id, _obj, function(err){
 													dialogOptionsBackupRestoreImportCustomsCounter--;
-													if(err) dialogOptionsBackupRestoreImportCustomsError = true;
-													if(dialogOptionsBackupRestoreImportCustomsCounter == 0){
-														if(dialogOptionsBackupRestoreImportCustomsError){
+													if (err) dialogOptionsBackupRestoreImportCustomsError = true;
+													if (dialogOptionsBackupRestoreImportCustomsCounter == 0){
+														if (dialogOptionsBackupRestoreImportCustomsError){
 															alert(_("Error: Invalid data."));
 														} else {
 															alert(_("Settings imported."));
@@ -6314,13 +6314,13 @@ async function load(settings, onChange) {
 	//Import Userfiles 		xxxx 	not working with large zip-files 	xxxx
 	$('#optionsBackupRestoreImportUserfiles').on('click', function(){
 		loadLocalFileAsArrayBuffer(".zip", function(result){
-			if(result) {
-				if(confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
+			if (result) {
+				if (confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
 					$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
 					$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
 					$('#optionsBackupRestoreImportUserfilesProgress').show();
 					writeDirAsZip(userfilesImagePath + '/', result, function(err){
-						if(err){
+						if (err){
 							alert(_("Error: Invalid data."));
 						} else {
 							getImages(function(){
@@ -6357,7 +6357,7 @@ async function save(callback) {
 	});
 	if (typeof views != udef && existingViews.length > 0) views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
-			if(typeof device.nativeLinkedView != udef && device.nativeLinkedView != "" && existingViews.indexOf(device.nativeLinkedView) == -1){
+			if (typeof device.nativeLinkedView != udef && device.nativeLinkedView != "" && existingViews.indexOf(device.nativeLinkedView) == -1){
 				console.log("Removed dead link to " + device.nativeLinkedView);
 				device.nativeLinkedView = "";
 			}
@@ -6388,47 +6388,47 @@ async function save(callback) {
 	if (typeof views != udef) views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
 			if (typeof device.states != udef) device.states.forEach(function(state){
-				if((state.state == "URL" ||state.state == "BACKGROUND_URL") && state.commonRole == "const" && state.value != "") {
+				if ((state.state == "URL" ||state.state == "BACKGROUND_URL") && state.commonRole == "const" && state.value != "") {
 					var filename = null;
 					var path = null;
 					var query = null;
-					if(state.value.indexOf("./images/widgets/") == 0){
+					if (state.value.indexOf("./images/widgets/") == 0){
 						filename = state.value.slice(8, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = imagePath;
 						query = (state.value.lastIndexOf('?') == -1 ? "" : state.value.slice(state.value.lastIndexOf('?')));
 					}
-					if(state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+					if (state.value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 						filename = state.value.slice(29, (state.value.lastIndexOf('?') == -1 ? state.value.length : state.value.lastIndexOf('?')));
 						path = userfilesImagePath;
 						query = (state.value.lastIndexOf('?') == -1 ? "" : state.value.slice(state.value.lastIndexOf('?')));
 					}
-					if(filename && path){
+					if (filename && path){
 						widgetsToDownload.push({filename: filename, path: path, query: query});
 					}
 				}
 			});
 		});
 	});
-	if($("#panelBackgroundURLCommonRole").val() == "const" && $("#panelBackgroundURLValue").val() != "") {
+	if ($("#panelBackgroundURLCommonRole").val() == "const" && $("#panelBackgroundURLValue").val() != "") {
 		var value = $("#panelBackgroundURLValue").val();
 		var filename = null;
 		var path = null;
-		if(value.indexOf("./images/widgets/") == 0){
+		if (value.indexOf("./images/widgets/") == 0){
 			filename = value.slice(8, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = imagePath;
 			query = (value.lastIndexOf('?') == -1 ? "" : value.slice(value.lastIndexOf('?')));
 		}
-		if(value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
 			filename = value.slice(29, (value.lastIndexOf('?') == -1 ? value.length : value.lastIndexOf('?')));
 			path = userfilesImagePath;
 			query = (value.lastIndexOf('?') == -1 ? "" : value.slice(value.lastIndexOf('?')));
 		}
-		if(filename && path){
+		if (filename && path){
 			widgetsToDownload.push({filename: filename, path: path, query: query});
 		}
 	}
 	widgetsToDownload = removeDuplicates(widgetsToDownload);
-	if(widgetsToDownload.length > 0){
+	if (widgetsToDownload.length > 0){
 		var widgetsDatapoints = [];
 		var widgetsToDownloadCount = widgetsToDownload.length;
 		widgetsToDownload.forEach(function(widget){
@@ -6437,16 +6437,16 @@ async function save(callback) {
 				$(htmlAsString).filter('meta[name="widget-datapoint"]').each(function(){
 					var id = $(this).prop('content');
 					var variableId = id.split('|');
-					if(variableId.length > 1){
+					if (variableId.length > 1){
 						id = variableId[0];
 						var a = variableId[1].indexOf('{'), b = variableId[1].lastIndexOf('}');
 						if (a > -1 && a < b) {
 							var variable = variableId[1].substring(a + 1, b);
-							if(variable && variable != ""){
+							if (variable && variable != ""){
 								var regex = new RegExp('[\\?&]' + variable.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]') + '=([^&#]*)');
 								var queryValues = regex.exec(query);
 								var queryValue = (queryValues === null ? null : decodeURIComponent(queryValues[1].replace(/\+/g, ' ')));
-								if(queryValue) id = variableId[1].replace("{" + variable + "}", queryValue);
+								if (queryValue) id = variableId[1].replace("{" + variable + "}", queryValue);
 							}
 						}
 					}
@@ -6462,7 +6462,7 @@ async function save(callback) {
 					widgetsDatapoints.push(widgetDatapoint);
 					console.log("Found widgetDatapoint: ", widgetDatapoint);
 				});
-				if(widgetsToDownloadCount == 0){
+				if (widgetsToDownloadCount == 0){
 					widgetsDatapoints = removeDuplicates(widgetsDatapoints);
 					obj.widgetsDatapoints = widgetsDatapoints;
 					//Save settings

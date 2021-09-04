@@ -393,7 +393,7 @@
 		var translations = (getUrlParameter("translations") || "").split(';');
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
-			if(entry.length < 2) entry.push(entry[0]);
+			if (entry.length < 2) entry.push(entry[0]);
 			translations[i] = {searchValue: entry[0], newValue: entry[1]};
 		}
 		var iconCols = (getUrlParameter("iconCols") || "").split(';');		
@@ -403,18 +403,18 @@
             if (iconUrl && iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
 			var caption = getUrlParameter("icon" + i + "Caption");
 			var string = getUrlParameter("icon" + i + "String");
-			if(iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
+			if (iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
 		}
 		var translationsAndIconReplacements = iconReplacements.concat(translations);
 		var datapointDetectionEnabled = !(getUrlParameter("datapointDetectionEnabled") == "false");
 		var datapointIdCol = getUrlParameter("datapointIdCol");
 		datapointIdCol = (datapointIdCol ? datapointIdCol : "id");
 		var datapointIdColFilter = !(getUrlParameter("datapointIdColFilter") == "false");
-		if(datapointDetectionEnabled && datapointIdColFilter && datapointIdCol) colsFilter.push(datapointIdCol);
+		if (datapointDetectionEnabled && datapointIdColFilter && datapointIdCol) colsFilter.push(datapointIdCol);
 		var datapointExtendTableCols = (getUrlParameter("datapointExtendTableCols") || "name;plainText").split(';');
 		var datapointExtendTableColsDefaultTranslationLanguage = getUrlParameter("datapointExtendTableColsDefaultTranslationLanguage");
 		datapointExtendTableColsDefaultTranslationLanguage = (datapointExtendTableColsDefaultTranslationLanguage ? datapointExtendTableColsDefaultTranslationLanguage : "en");
-		if(datapointExtendTableColsDefaultTranslationLanguage){
+		if (datapointExtendTableColsDefaultTranslationLanguage){
 			for(word in datapointExtendTableColsDefaultTranslationWords){
 				translations.push({searchValue: word, newValue: datapointExtendTableColsDefaultTranslationWords[word][datapointExtendTableColsDefaultTranslationLanguage]});
 			}
@@ -426,14 +426,14 @@
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");
-			if(getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
+			if (getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
 			sendPostMessage("getWidgetDeviceStateSubscribed", "STATE");
 			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
 		});
 		
 		//Handle Options
 		function handleOptions(){
-			if(typeof options !== "object") return;
+			if (typeof options !== "object") return;
 			//Dark-Mode
 			switch(options.LayoutColorModeDarkEnable){
 				case "disabled":
@@ -444,7 +444,7 @@
 				break;
 				
 				default:
-				if(window.matchMedia){
+				if (window.matchMedia){
 					var darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 					applyColorMode(darkMode ? 'dark' : '');
 					window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', darkModeEventListenerFunction);
@@ -459,28 +459,28 @@
 				$("html").removeClass(function(index, className){
 					return (className.match (/(^|\s)color-mode-\S+/g) || []).join(' ');
 				});	
-				if(colorMode && colorMode != "") $("html").addClass("color-mode-" + colorMode);
+				if (colorMode && colorMode != "") $("html").addClass("color-mode-" + colorMode);
 			}
 		}
 		
 		//Create Table
 		function createTable(){
-			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
+			if (typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
-			if(dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
+			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
 			//Datapoint-Detection
 			tableDatapoints = {};
-			if(datapointDetectionEnabled && datapointIdCol){
+			if (datapointDetectionEnabled && datapointIdCol){
 				for (var line = 0; line < dataObject.length; line++) {
 					var id = dataObject[line][datapointIdCol];
-					if(datapointRegex.test(id)){ //Datapoint id found
-						if(typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {lines: []};
+					if (datapointRegex.test(id)){ //Datapoint id found
+						if (typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {lines: []};
 						tableDatapoints[id].lines.push(line);
 						datapointExtendTableCols.forEach(function(datapointExtendTableCol){
-							if(typeof dataObject[line][datapointExtendTableCol] == "undefined") dataObject[line][datapointExtendTableCol] = "";
+							if (typeof dataObject[line][datapointExtendTableCol] == "undefined") dataObject[line][datapointExtendTableCol] = "";
 						});
 					}
 				}
@@ -497,15 +497,15 @@
 			//Sort cols
 			var colsSorted = [];			
 			for (var col = 0; col < colsSort.length; col++) {
-				if(cols.indexOf(colsSort[col]) > -1) colsSorted.push(colsSort[col]);
+				if (cols.indexOf(colsSort[col]) > -1) colsSorted.push(colsSort[col]);
 			}
 			for (var col = 0; col < cols.length; col++) { //add the remaining cols
-				if(colsSorted.indexOf(cols[col]) == -1) colsSorted.push(cols[col]);
+				if (colsSorted.indexOf(cols[col]) == -1) colsSorted.push(cols[col]);
 			}
 			//Filter cols
 			var colsSortedAndFiltered = [];
 			for (var col = 0; col < colsSorted.length; col++) {
-				if(colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
+				if (colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
 			}
 			//Add breakpoints
 			createBreakpoints(colsSortedAndFiltered.length);
@@ -514,8 +514,8 @@
 			var preferablyVisibleCount = 0;
 			var colsPreferablyVisibleTranslated = [];
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-				if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are always Visible
-				if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) preferablyVisibleCount++; //Counts how many cols are preferably Visible
+				if (colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) != -1) alwaysVisibleCount++; //Counts how many cols are always Visible
+				if (colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) != -1) preferablyVisibleCount++; //Counts how many cols are preferably Visible
 			}
 			var tableString = "<table id='jsonTable' data-role='table' data-mode='" + tableMode + "' class='jsonTable ui-responsive table-stroke table-stripe' data-column-btn-mini='true' data-column-btn-text='&#8942;' style='font-size: smaller;'>";
 			tableString += "<thead>";
@@ -524,12 +524,12 @@
 			var priorityNormalIndex = alwaysVisibleCount + preferablyVisibleCount;
 			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
 				tableString += "<th data-priority='";
-				if(col == 0 && alwaysVisibleCount == 0) { //col 0 is made alwaysVisible because no other alwaysVisible is defined
+				if (col == 0 && alwaysVisibleCount == 0) { //col 0 is made alwaysVisible because no other alwaysVisible is defined
 					priorityNormalIndex++;
 					priorityPreferablyIndex++;
 				} else {
-					if(colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) == -1) { 
-						if(colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
+					if (colsAlwaysVisible.indexOf(colsSortedAndFiltered[col]) == -1) { 
+						if (colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) == -1) {
 							tableString += priorityNormalIndex;
 							priorityNormalIndex++;
 						} else {
@@ -555,7 +555,7 @@
 				bodyString += "</tr>";
 			}
 			//Append table
-			if(JSON.stringify(colsSortedAndFiltered) != lastColsSortedAndFilteredStringified){ //New Headings (or first build of table) - completely rebuild table
+			if (JSON.stringify(colsSortedAndFiltered) != lastColsSortedAndFilteredStringified){ //New Headings (or first build of table) - completely rebuild table
 				lastColsSortedAndFilteredStringified = JSON.stringify(colsSortedAndFiltered);
 				//Save last manually colsHidden/Visible state
 				var colsHidden = [];
@@ -570,14 +570,14 @@
 				$('#jsonTable').table().trigger('create');
 				//Restore last colsHidden/Visible state
 				$('#jsonTable-popup label').each(function(){ 
-					if(colsVisible.indexOf($(this).text()) != -1 || (colsPreferablyVisibleAreVisibleAtStart && colsPreferablyVisibleTranslated.indexOf($(this).text()) != -1)) {
+					if (colsVisible.indexOf($(this).text()) != -1 || (colsPreferablyVisibleAreVisibleAtStart && colsPreferablyVisibleTranslated.indexOf($(this).text()) != -1)) {
 						$(this).next('input[type=checkbox]').prop('checked',true).trigger('change').checkboxradio('refresh');
-					} else if(colsHidden.indexOf($(this).text()) != -1) {
+					} else if (colsHidden.indexOf($(this).text()) != -1) {
 						$(this).next('input[type=checkbox]').prop('checked',false).trigger('change').checkboxradio('refresh');
 					}
 				});
 				colsPreferablyVisibleAreVisibleAtStart = false; //Deactivate after first build of table
-				if(popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
+				if (popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
 			} else { //Only update body
 				$('#jsonTableContainer tbody').html(bodyString);
 				$('#jsonTable').table('refresh').trigger('create');
@@ -591,13 +591,13 @@
 		
 		//Update datapoint
 		function updateDatapoint(id){
-			if(!id || typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
+			if (!id || typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
 			tableDatapoints[id].lines.forEach(function(line){
 				datapointExtendTableCols.forEach(function(datapointExtendTableCol){
 					var result = datapoints[id] && datapoints[id][datapointExtendTableCol];
-					if(typeof result == "undefined" || result === null) result = ""; else result = result.toString();
-					if(datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
-					if(datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
+					if (typeof result == "undefined" || result === null) result = ""; else result = result.toString();
+					if (datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
+					if (datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations), true);
 					$("td[data-line='" + line + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
 				});
@@ -614,7 +614,7 @@
 		function spanToggleClick(){
 			var id = $(this).data('id');
 			var state = datapoints[id];
-			if(state && state.readonly == false){
+			if (state && state.readonly == false){
 				switch(state.type){
 					case "button":
 					var newVal = true;
@@ -625,34 +625,34 @@
 					var min = state.min || 0;
 					var max = state.max || 100;
 					var newVal;
-					if(oldVal > min) newVal = min; else newVal = max;
+					if (oldVal > min) newVal = min; else newVal = max;
 					break;
 
 					case "valueList":
 					var oldVal = state.val;
-					if(oldVal == true || oldVal.toString().toLowerCase() == "true") oldVal = 1;
-					if(oldVal == false || oldVal.toString().toLowerCase() == "false") oldVal = 0;
+					if (oldVal == true || oldVal.toString().toLowerCase() == "true") oldVal = 1;
+					if (oldVal == false || oldVal.toString().toLowerCase() == "false") oldVal = 0;
 					var min = state.min || 0;
-					if(typeof state.valueList !== "undefined" && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
+					if (typeof state.valueList !== "undefined" && oldVal + 1 >= Object.keys(state.valueList).length) var newVal = min; else newVal = oldVal + 1;
 					break;
 
 					case "switch": default:
 					var oldVal = state.val;
 					var newVal;
-					if(typeof oldVal == 'number'){
-						if(oldVal) newVal = 0; else newVal = 1;
+					if (typeof oldVal == 'number'){
+						if (oldVal) newVal = 0; else newVal = 1;
 					} else {
-						if(oldVal.toString().toLowerCase() == "true") newVal = false; else newVal = true;
+						if (oldVal.toString().toLowerCase() == "true") newVal = false; else newVal = true;
 					}
 				}
-				if(typeof newVal !== "undefined") sendPostMessage("setState", id, newVal);
+				if (typeof newVal !== "undefined") sendPostMessage("setState", id, newVal);
 			}
 		}
 
 		//create Breakpoints
 		function createBreakpoints(numberOfNeededBreakpoints){
-			if(breakpointsCount < numberOfNeededBreakpoints){
-				if(breakpoints.length < numberOfNeededBreakpoints){
+			if (breakpointsCount < numberOfNeededBreakpoints){
+				if (breakpoints.length < numberOfNeededBreakpoints){
 					while(numberOfNeededBreakpoints > breakpoints.length){
 						breakpoints.push(((parseInt(breakpoints[breakpoints.length - 1]) || 10) + 10).toString());
 					}
@@ -697,9 +697,9 @@
 		//receive postMessages
 		window.addEventListener("message", receivePostMessage, false);
 		function receivePostMessage(event) { //event = {data: message data, origin: url of origin, source: id of sending element}
-			if(event.data && event.data.command) switch(event.data.command){
+			if (event.data && event.data.command) switch(event.data.command){
 				case "getState":
-					if(event.data.stateId) switch(event.data.stateId){
+					if (event.data.stateId) switch(event.data.stateId){
 						case getUrlParameter("useThisDatapoint") || "---undefined---":
 						console.log("Received USE_THIS_DATAPOINT");
 						USE_THIS_DATAPOINT = event.data.value;
@@ -726,7 +726,7 @@
 				
 				case "getOptions":
 				console.log("Received OPTIONS");
-				if(event.data.value){
+				if (event.data.value){
 					options = event.data.value;
 					handleOptions();
 				}
@@ -757,8 +757,8 @@
 		//multiReplace
 		function multiReplace(string, replacementObj, onlyExactMatches){ //Replaces multiple replacements in string. replacementObj = [{searchValue: "", newValue: ""}, ...]
 			replacementObj.forEach(function(replacement){
-				if(onlyExactMatches){
-					if(string == replacement.searchValue) string = replacement.newValue;
+				if (onlyExactMatches){
+					if (string == replacement.searchValue) string = replacement.newValue;
 				} else {
 					var regex = new RegExp(replacement.searchValue, "g");
 					string = string.toString().replace(regex, replacement.newValue);

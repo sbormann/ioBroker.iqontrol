@@ -273,7 +273,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 				role: "<role of state>",
 				type: "<string|number|boolean>",
 				name: "<name of datapoint>",
-				desc: "<description of datapoint>"
+				desc: "<description of datapoint>",
+				Date: <Date-object (only present, if value is regognized as a valid time or period)>
 			}
 			````
 * To instruct iQontrol to generate a widgetState under ``iqontrol.<instance>.Widgets`` you can use a meta-tag inside the head-section of the widget-website:
@@ -1578,6 +1579,10 @@ This device has some special predefined size- and display-settings to show a tex
 ****
     
 ## Changelog
+
+### dev
+* (sbormann) Fixed collapsible not opening if initial closed.
+* (sbormann) Enhanced Analog-Clock-Widget to be able to display the time of a datapoint.
 
 ### 1.9.8 (2021-09-03)
 * (sbormann) Fixed variables with special chars not working.
