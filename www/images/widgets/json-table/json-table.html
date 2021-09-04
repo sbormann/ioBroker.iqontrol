@@ -11,7 +11,7 @@
 												<br>
 												With the <b>Datapoint-Detection</b> you can specify a column, in which the widget will look for ioBroker-Datapoints. 
 												Then you can set several attributes of the datapoint by which the table will be <b>extended</b>. Possible values are: 
-												<ul style="padding-left:20px;"><li style="list-style-type: disc;">val (value rounded), </li><li style="list-style-type: disc;">unit, </li><li style="list-style-type: disc;">valFull: (value not rounded, no javascript-injection prevention), </li><li style="list-style-type: disc;">plainText (clear text of val, for example taken from valuelist), </li><li style="list-style-type: disc;">min, </li><li style="list-style-type: disc;">max, </li><li style="list-style-type: disc;">step (step-width), </li><li style="list-style-type: disc;">valuelist (object with possible values and corresponding clear text), </li><li style="list-style-type: disc;">targetValues, </li><li style="list-style-type: disc;">ack, </li><li style="list-style-type: disc;">readonly, </li><li style="list-style-type: disc;">custom: (object with custom settings), </li><li style="list-style-type: disc;">id, </li><li style="list-style-type: disc;">from, </li><li style="list-style-type: disc;">lc (last change), </li><li style="list-style-type: disc;">ts (last actualized), </li><li style="list-style-type: disc;">q (quality), </li><li style="list-style-type: disc;">role, </li><li style="list-style-type: disc;">type, </li><li style="list-style-type: disc;">name, </li><li style="list-style-type: disc;">desc</li></ul><br>
+												<ul style="padding-left:20px;"><li style="list-style-type: disc;">val (value rounded), </li><li style="list-style-type: disc;">unit, </li><li style="list-style-type: disc;">valFull: (value not rounded, no javascript-injection prevention), </li><li style="list-style-type: disc;">plainText (clear text of val, for example taken from valuelist), </li><li style="list-style-type: disc;">min, </li><li style="list-style-type: disc;">max, </li><li style="list-style-type: disc;">step (step-width), </li><li style="list-style-type: disc;">valuelist (object with possible values and corresponding clear text), </li><li style="list-style-type: disc;">targetValues, </li><li style="list-style-type: disc;">ack, </li><li style="list-style-type: disc;">readonly, </li><li style="list-style-type: disc;">custom: (object with custom settings), </li><li style="list-style-type: disc;">id, </li><li style="list-style-type: disc;">from, </li><li style="list-style-type: disc;">lc (last change), </li><li style="list-style-type: disc;">ts (last actualized), </li><li style="list-style-type: disc;">q (quality), </li><li style="list-style-type: disc;">role, </li><li style="list-style-type: disc;">type, </li><li style="list-style-type: disc;">name, </li><li style="list-style-type: disc;">parentName (name of the next superior datapoint), </li><li style="list-style-type: disc;">desc</li></ul><br>
 												<br>
 												You can also specify a <b>language</b> these attributes are automatically translated to.<br>
 												<br>
@@ -47,7 +47,7 @@
 												datapointDetectionEnabled/true/Enable datapoint detection/checkbox;
 												datapointIdCol/id/Search for datapoint ids in this column (column header);
 												datapointIdColFilter/true/Add the datapoint id column to the 'Filter these headings' list/checkbox;
-												datapointExtendTableCols/name%3BplainText/Add these columns with attributes of the datapoint to the table (semicolon-separated list of attributes, see info text above, - for none);
+												datapointExtendTableCols/parentName%3BplainText/Add these columns with attributes of the datapoint to the table (semicolon-separated list of attributes, see info text above, - for none);
 												datapointExtendTableColsDefaultTranslationLanguage/en/Add standard translations for these columns/select/,None/en,Englisch/de,German/ru,Russian/pt,Polish/nl,Dutch/fr,French/it,Italian/es,Spanish/zh-cn,Chinese;
 												datapointToggleCols/plainText/Enable toggling of the datapoint in this columns (semicolon-separated list with column headers, - for none);
 	">
@@ -114,6 +114,7 @@
 		var breakpointsCount = -1;
 		var datapointRegex = new RegExp('.*\.[0-9]+\..*');
 		var datapoints = {};
+		var datapointsParentNames = {};
 		var tableDatapoints = {};
 		var datapointExtendTableColsDefaultTranslationWords = {
 		  "val": {
@@ -356,6 +357,18 @@
 			"pl": "Nazwa",
 			"zh-cn": "姓名"
 		  },
+		  "parentName":  {
+			"en": "Device Name",
+			"de": "Gerätename",
+			"ru": "Имя устройства",
+			"pt": "Nome do dispositivo",
+			"nl": "Toestelnaam",
+			"fr": "Nom de l'appareil",
+			"it": "Nome del dispositivo",
+			"es": "Nombre del dispositivo",
+			"pl": "Nazwa urządzenia",
+			"zh-cn": "设备名称"
+		  },
 		  "desc": {
 			"en": "Description",
 			"de": "Beschreibung",
@@ -411,7 +424,7 @@
 		datapointIdCol = (datapointIdCol ? datapointIdCol : "id");
 		var datapointIdColFilter = !(getUrlParameter("datapointIdColFilter") == "false");
 		if (datapointDetectionEnabled && datapointIdColFilter && datapointIdCol) colsFilter.push(datapointIdCol);
-		var datapointExtendTableCols = (getUrlParameter("datapointExtendTableCols") || "name;plainText").split(';');
+		var datapointExtendTableCols = (getUrlParameter("datapointExtendTableCols") || "parentName;plainText").split(';');
 		var datapointExtendTableColsDefaultTranslationLanguage = getUrlParameter("datapointExtendTableColsDefaultTranslationLanguage");
 		datapointExtendTableColsDefaultTranslationLanguage = (datapointExtendTableColsDefaultTranslationLanguage ? datapointExtendTableColsDefaultTranslationLanguage : "en");
 		if (datapointExtendTableColsDefaultTranslationLanguage){
@@ -479,8 +492,17 @@
 					if (datapointRegex.test(id)){ //Datapoint id found
 						if (typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {lines: []};
 						tableDatapoints[id].lines.push(line);
+						//Extend Table
 						datapointExtendTableCols.forEach(function(datapointExtendTableCol){
-							if (typeof dataObject[line][datapointExtendTableCol] == "undefined") dataObject[line][datapointExtendTableCol] = "";
+							if (typeof dataObject[line][datapointExtendTableCol] == "undefined") {
+								dataObject[line][datapointExtendTableCol] = "";
+								if (datapointExtendTableCol == "parentName"){ //----------------------------#############################################-------------------------------------------------
+									var parentId = id.substring(0, id.lastIndexOf("."));
+									if (typeof datapointsParentNames[parentId] == "undefined") datapointsParentNames[parentId] = {childIds: []};
+									datapointsParentNames[parentId].childIds.push(id);
+									if (typeof tableDatapoints[parentId] == "undefined") tableDatapoints[parentId] = {lines: []};
+								}
+							}
 						});
 					}
 				}
@@ -591,10 +613,21 @@
 		
 		//Update datapoint
 		function updateDatapoint(id){
-			if (!id || typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
+			if (!id) return;
+			if (typeof datapointsParentNames[id] != "undefined" && typeof datapointsParentNames[id].childIds != "undefined" && datapointsParentNames[id].childIds.length > 0){ //Is parentName-Datepoint
+				datapointsParentNames[id].childIds.forEach(function(childId){
+					if(tableDatapoints[childId]){
+						if (typeof datapoints[childId] == "undefined") datapoints[childId] = {};
+						datapoints[childId].parentName = datapoints[id].name; //----------------------------#############################################-------------------------------------------------
+						updateDatapoint(childId);
+					}
+				});
+			}
+			if (typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
 			tableDatapoints[id].lines.forEach(function(line){
 				datapointExtendTableCols.forEach(function(datapointExtendTableCol){
 					var result = datapoints[id] && datapoints[id][datapointExtendTableCol];
+					if (datapointExtendTableCol == "parentName" && !result) result = datapoints[id].name || id;  //----------------------------#############################################-------------------------------------------------
 					if (typeof result == "undefined" || result === null) result = ""; else result = result.toString();
 					if (datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					if (datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
@@ -719,7 +752,11 @@
 						break;
 						
 						default:
-						datapoints[event.data.stateId] = event.data.value;
+						if (typeof datapoints[event.data.stateId] == "undefined"){
+							datapoints[event.data.stateId] = event.data.value;
+						} else {
+								datapoints[event.data.stateId] = Object.assign({}, datapoints[event.data.stateId], event.data.value);						
+						}
 						updateDatapoint(event.data.stateId);
 					}
 				break;
