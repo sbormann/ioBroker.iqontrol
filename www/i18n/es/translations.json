@@ -1110,6 +1110,7 @@
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "Su adaptador de administrador se ejecuta en modo http, pero el adaptador web en https. ",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "Su adaptador de administrador se ejecuta en modo https, pero el adaptador web en http. ",
     "Zentrale": "Unidad Central",
+    "actual set to": "real establecido en",
     "add": "añadir",
     "all": "todos",
     "always active": "siempre activo",

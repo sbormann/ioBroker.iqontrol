@@ -1110,6 +1110,7 @@
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "Ваш админ-адаптер работает в http-режиме, а веб-адаптер в https. ",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "Ваш админ-адаптер работает в https-режиме, а веб-адаптер в http. ",
     "Zentrale": "Центральное устройство",
+    "actual set to": "фактический набор",
     "add": "добавлять",
     "all": "все",
     "always active": "всегда активный",

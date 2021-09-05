@@ -1110,6 +1110,7 @@
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "您的管理适配器在http模式下运行，但在https中运行Web适配器。",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "您的管理适配器在https模式下运行，但在http中运行Web适配器。",
     "Zentrale": "中央单位",
+    "actual set to": "实际设置为",
     "add": "加",
     "all": "全部",
     "always active": "一直活跃",

@@ -4714,8 +4714,9 @@ async function load(settings, onChange) {
 								var dialogWidgetSettingsOptionsUnsupportedString;
 								for(option in widgetOptions){
 									if (iQontrolRoles["iQontrolWidget"].options[option]){
-										var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == (dialogDeviceEditOptions.find(function(element){ return element.option == option;}) || {}).value);
-										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;&check;" : "&nbsp;<span style='color: red;'>X</span>") : "") + "</span></label><br>";
+										var optionActualySet = (dialogDeviceEditOptions.find(function(element){ return element.option == option;}) || {}).value;
+										var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == optionActualySet);
+										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;<span style='color: green;'>&check;</span>" : "&nbsp;<span style='color: red;'>&cross;&nbsp;(" + _("actual set to") + ":&nbsp;" + optionActualySet + ")</span>") : "") + "</span></label><br>";
 									} else {
 										dialogWidgetSettingsOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
 									}

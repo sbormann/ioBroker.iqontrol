@@ -846,6 +846,7 @@
     "You need to activate integrated socket.IO and disable 'Force Web-Sockets' in web-adapter-settings!": "Im web-Adapter muss socket.IO auf integriert stehen und 'Nur Web-Sockets' deaktiviert sein!",
     "Your admin-adapter runs in http-mode, but web-adapter in https. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in admin or disable https-mode in one instance of web-adapter.": "Ihr Admin-Adapter läuft im http-Modus, der web-Adapter hingegen im https-Modus. Socket.io kann deshalb nicht geladen werden, weil gemischte Protokolle geblockt werden. Aktivieren Sie deshalb den https-Modus im Admin-Adapter oder deaktivieren Sie den https-Modus in einer Instanz des web-Adapters.",
     "Your admin-adapter runs in https-mode, but web-adapter in http. Therefore socket.io could not be loaded because mixed content is blocked. To get this working, enable https-mode in one instance of web-adapter.": "Ihr Admin-Adapter läuft im https-Modus, der web-Adapter hingegen im http-Modus. Socket.io kann deshalb nicht geladen werden, weil gemischte Protokolle geblockt werden. Aktivieren Sie deshalb den https-Modus in einer Instanz des web-Adapters.",
+    "actual set to": "aktuell eingestellt",
     "add": "hinzufügen",
     "all": "alle",
     "always active": "immer aktiv",
