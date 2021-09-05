@@ -35,6 +35,7 @@
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
 												rowsLimitLoadMoreCaption/Load more.../Caption of 'Load more' Button/text;
 												headHide/false/Hide Head of table/checkbox;
+												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
 												//Icon-Replacement/section;
 												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
 												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
@@ -416,6 +417,7 @@
 		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "Load more...";
 		var headHide = getUrlParameter("headHide") == "true";
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
+		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);
@@ -452,6 +454,7 @@
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
 			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
 			if(headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
+			if(scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; }', 'scrollbarHide');
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");
