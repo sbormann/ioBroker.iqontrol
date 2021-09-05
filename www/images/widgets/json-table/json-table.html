@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content =  'This is a JSON to table widget. It will display JSON-data of the datapoint linked to STATE or LEVEL as a table.<br>
-												Example JSON: [{"Col 1": "My Value in line 1", "Col two": "My Value two"}, {"Col 1": "My Value in line 2", "Col two": "Another val"}]<br> 
+												Example JSON: [{"Col 1": "My Value in row 1", "Col two": "My Value two"}, {"Col 1": "My Value in row 2", "Col two": "Another val"}]<br> 
 												<br>
 												You can customize <b>display modes</b> of the table, <b>sorting</b> and <b>filter</b> of columns and <b>translations</b>.<br>
 												<br>
@@ -29,6 +29,12 @@
 												colsAlwaysVisible//Always visible headings, that can't be hidden (semicolon-separated list of column headers, optional);
 												colsPreferablyVisible//Preferably visible headings in descending priority (semicolon-separated list of column headers, optional);
 												colsPreferablyVisibleAreVisibleAtStart/false/Preferably visible headings are always visible at start (no matter which screen size), but can be hidden via menu /checkbox;
+												headHideColumntoggleButton/false/Hide column-toggle-button in table mode 'Hide columns as needed'/checkbox;
+												//Styling/section;
+												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
+												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
+												rowsLimitLoadMoreCaption/Load more.../Caption of 'Load more' Button/text;
+												headHide/false/Hide Head of table/checkbox;
 												//Icon-Replacement/section;
 												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
 												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
@@ -104,6 +110,7 @@
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
 	<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;">
 	</div>
+	<div id="loadMoreButtonContainer" style="display: none; padding: 0px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton">Load More...</a></div>
 	<script type="text/javascript">
 		//Declarations
 		var USE_THIS_DATAPOINT;
@@ -404,6 +411,11 @@
 		var colsPreferablyVisibleAreVisibleAtStart = getUrlParameter("colsPreferablyVisibleAreVisibleAtStart") == "true";
 		var breakpoints = (getUrlParameter("breakpoints") || "20;30;40;50;60;70").split(';');
 		var translations = (getUrlParameter("translations") || "").split(';');
+		var rowsLimit = parseInt(getUrlParameter("rowsLimit") || "0") || 0;
+		var rowsLimitLoadMore = !(getUrlParameter("rowsLimitLoadMore") == "false");
+		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "Load more...";
+		var headHide = getUrlParameter("headHide") == "true";
+		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);
@@ -436,12 +448,25 @@
 
 		//Document ready
 		$(document).ready(function(){
+			//Apply some styling
+			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
+			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
+			if(headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");
 			if (getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
 			sendPostMessage("getWidgetDeviceStateSubscribed", "STATE");
 			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
+			//Enhance loadMoreButton
+			$('#loadMoreButton').on('click', function(){
+				rowsLimit += (parseInt(getUrlParameter("rowsLimit") || "0") || 0);
+				console.log("New rowsLimit: " + rowsLimit);
+				$('#jsonTable tbody tr:nth-child(-n+' + rowsLimit + ')').slideDown(500);
+				if(dataObject.length <= rowsLimit){
+					$('#loadMoreButtonContainer').hide(500);
+				}				
+			});
 		});
 		
 		//Handle Options
@@ -487,20 +512,20 @@
 			//Datapoint-Detection
 			tableDatapoints = {};
 			if (datapointDetectionEnabled && datapointIdCol){
-				for (var line = 0; line < dataObject.length; line++) {
-					var id = dataObject[line][datapointIdCol];
+				for (var row = 0; row < dataObject.length; row++) {
+					var id = dataObject[row][datapointIdCol];
 					if (datapointRegex.test(id)){ //Datapoint id found
-						if (typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {lines: []};
-						tableDatapoints[id].lines.push(line);
+						if (typeof tableDatapoints[id] == "undefined") tableDatapoints[id] = {rows: []};
+						tableDatapoints[id].rows.push(row);
 						//Extend Table
 						datapointExtendTableCols.forEach(function(datapointExtendTableCol){
-							if (typeof dataObject[line][datapointExtendTableCol] == "undefined") {
-								dataObject[line][datapointExtendTableCol] = "";
-								if (datapointExtendTableCol == "parentName"){ //----------------------------#############################################-------------------------------------------------
+							if (typeof dataObject[row][datapointExtendTableCol] == "undefined") {
+								dataObject[row][datapointExtendTableCol] = "";
+								if (datapointExtendTableCol == "parentName"){ //parentName
 									var parentId = id.substring(0, id.lastIndexOf("."));
 									if (typeof datapointsParentNames[parentId] == "undefined") datapointsParentNames[parentId] = {childIds: []};
 									datapointsParentNames[parentId].childIds.push(id);
-									if (typeof tableDatapoints[parentId] == "undefined") tableDatapoints[parentId] = {lines: []};
+									if (typeof tableDatapoints[parentId] == "undefined") tableDatapoints[parentId] = {rows: []};
 								}
 							}
 						});
@@ -509,8 +534,8 @@
 			}
 			//Get cols
 			var cols = [];
-			for (var line = 0; line < dataObject.length; line++) {
-				for (var key in dataObject[line]) {
+			for (var row = 0; row < dataObject.length; row++) {
+				for (var key in dataObject[row]) {
 					if (cols.indexOf(key) === -1) {
 						cols.push(key);
 					}
@@ -569,10 +594,10 @@
 			tableString += "</table>";
 			//Build body
 			var bodyString = "";
-			for (var line = 0; line < dataObject.length; line++) {
-				bodyString += "<tr data-line='" + line + "'>";
+			for (var row = 0; row < dataObject.length; row++) {
+				bodyString += "<tr data-row='" + row + "'" + (rowsLimit == 0 || row < rowsLimit ? "" : "style='display:none;'") + ">";
 				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					bodyString += "<td data-line='" + line + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + multiReplace(dataObject[line][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true) + "</td>";
+					bodyString += "<td data-row='" + row + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + multiReplace(dataObject[row][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true) + "</td>";
 				}
 				bodyString += "</tr>";
 			}
@@ -609,6 +634,12 @@
 			for(id in tableDatapoints){
 				sendPostMessage("getStateSubscribed", id);
 			}
+			//Show/Hide Load More Button
+			if(!rowsLimitLoadMore || rowsLimit == 0 || dataObject.length <= rowsLimit){
+				$('#loadMoreButtonContainer').hide(500);
+			} else {
+				$('#loadMoreButtonContainer').show(500);
+			}
 		}
 		
 		//Update datapoint
@@ -618,24 +649,24 @@
 				datapointsParentNames[id].childIds.forEach(function(childId){
 					if(tableDatapoints[childId]){
 						if (typeof datapoints[childId] == "undefined") datapoints[childId] = {};
-						datapoints[childId].parentName = datapoints[id].name; //----------------------------#############################################-------------------------------------------------
+						datapoints[childId].parentName = datapoints[id].name; //parentName
 						updateDatapoint(childId);
 					}
 				});
 			}
-			if (typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].lines == "undefined" || tableDatapoints[id].lines.length == 0) return;
-			tableDatapoints[id].lines.forEach(function(line){
+			if (typeof tableDatapoints[id] == "undefined" || typeof tableDatapoints[id].rows == "undefined" || tableDatapoints[id].rows.length == 0) return;
+			tableDatapoints[id].rows.forEach(function(row){
 				datapointExtendTableCols.forEach(function(datapointExtendTableCol){
 					var result = datapoints[id] && datapoints[id][datapointExtendTableCol];
-					if (datapointExtendTableCol == "parentName" && !result) result = datapoints[id].name || id;  //----------------------------#############################################-------------------------------------------------
+					if (datapointExtendTableCol == "parentName" && !result) result = datapoints[id].name || id;  //parentName
 					if (typeof result == "undefined" || result === null) result = ""; else result = result.toString();
 					if (datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					if (datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations), true);
-					$("td[data-line='" + line + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
+					$("td[data-row='" + row + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
 				});
 				datapointToggleCols.forEach(function(datpointToggleCol){
-					$("td[data-line='" + line + "'][data-colname='" + datpointToggleCol + "']:not(:has(>span))").each(function(){
+					$("td[data-row='" + row + "'][data-colname='" + datpointToggleCol + "']:not(:has(>span))").each(function(){
 						$(this).html("<span class='datapoint-toggle' data-id='" + id + "' style='cursor: pointer;'>" + $(this).html() + "</span>");
 					});
 				});
