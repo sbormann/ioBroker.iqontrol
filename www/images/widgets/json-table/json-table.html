@@ -702,10 +702,11 @@
 					$('#DialogAutofocusElement').css('top', ($(window).scrollTop() + $('#jsonTable-popup').offset().top + 20) + 'px');
 				});
 				if (popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
-				if ((headHideColumntoggleButton || colsSortedAndFiltered.length >= alwaysVisibleCount) && !$('.customCSS_headHideColumntoggleButton').length){					
-					addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
-				} else if ($('.customCSS_headHideColumntoggleButton').length){
-					removeCustomCSS('headHideColumntoggleButton');
+				//Show or hide columntoggleButton
+				if (headHideColumntoggleButton || colsSortedAndFiltered.length <= alwaysVisibleCount){
+					if (!$('.customCSS_headHideColumntoggleButton').length) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
+				} else {
+					if ($('.customCSS_headHideColumntoggleButton').length) removeCustomCSS('headHideColumntoggleButton');
 				}
 			} else { //Only update body
 				$('#jsonTableContainer tbody').html(bodyString);
