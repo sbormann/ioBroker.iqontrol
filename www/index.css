@@ -374,7 +374,7 @@ html.noscroll body {
 }
 
 /* ++++++++++ View ++++++++++ */ 
-#View {
+#View { /* #View = .ui-page */
 	overflow: visible !important;
 	overscroll-behavior: contain !important;
 	background: transparent !important;

@@ -30,10 +30,14 @@
 												colsPreferablyVisible//Preferably visible headings in descending priority (semicolon-separated list of column headers, optional);
 												colsPreferablyVisibleAreVisibleAtStart/false/Preferably visible headings are always visible at start (no matter which screen size), but can be hidden via menu /checkbox;
 												headHideColumntoggleButton/false/Hide column-toggle-button in table mode 'Hide columns as needed'/checkbox;
+												//Modification of Data/section;
+												dataTranspose/false/Transpose data (switch cols and rows)/checkbox;
+												dataTransposeKeycolCaption/Key/Caption of the first column, that contains all the previos column-headers/text;
+												dataTransposeValcolsPrefix/Value /Prefix for caption of all the other columns, that contain the values/text;
 												//Styling/section;
 												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
-												rowsLimitLoadMoreCaption/Load more.../Caption of 'Load more' Button/text;
+												rowsLimitLoadMoreCaption/.../Caption of 'Load more' Button/text;
 												headHide/false/Hide Head of table/checkbox;
 												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
 												//Icon-Replacement/section;
@@ -78,6 +82,37 @@
 		::-webkit-scrollbar-thumb:hover {
 		  background: #888; 
 		}
+		document {
+			overflow: hidden !important;
+			overscroll-behavior: contain !important;
+			background: transparent !important;
+		}
+		html {
+			overflow-y: scroll !important;
+			overflow-x: hidden !important;
+			overscroll-behavior: contain !important;
+			background: transparent !important;
+			-webkit-transition: all 1s;
+			   -moz-transition: all 1s;
+					transition: all 1s;
+		}
+		.ui-page {
+			overscroll-behavior: contain !important;
+			background: transparent !important;
+			-webkit-user-select: none !important;
+			   -moz-user-select: none !important; 
+					user-select: none !important;
+			-webkit-touch-callout: none !important;
+			overflow: visible !important;
+			min-height: unset !important;
+			height: 100% !important;
+			margin: 0;
+			padding: 0;
+		}
+		.ui-content {
+			margin: 0;
+			padding: 0;
+		}
 		.ui-table-columntoggle-btn {
 			border: none !important;
 			box-shadow: none !important;
@@ -90,6 +125,9 @@
 		}
 		.ui-table-columntoggle-btn:hover {
 			background: rgba(0,0,0,0.1) !important;
+		}
+		thead tr td {
+			white-space: nowrap;
 		}
 		.jsonTableIcon {
 			width: 24px;
@@ -109,9 +147,12 @@
 	<title>iQontrol JSON to TABLE Widget</title>
 </head>
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
-	<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;">
+	<div data-role="page">
+		<div data-role="content">
+			<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
+			<div id="loadMoreButtonContainer" style="display: none; padding: 0px; margin: -7px -10px -5px -10px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton" style="height: 1.3em;">...</a></div>
+		</div>
 	</div>
-	<div id="loadMoreButtonContainer" style="display: none; padding: 0px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton">Load More...</a></div>
 	<script type="text/javascript">
 		//Declarations
 		var USE_THIS_DATAPOINT;
@@ -412,9 +453,12 @@
 		var colsPreferablyVisibleAreVisibleAtStart = getUrlParameter("colsPreferablyVisibleAreVisibleAtStart") == "true";
 		var breakpoints = (getUrlParameter("breakpoints") || "20;30;40;50;60;70").split(';');
 		var translations = (getUrlParameter("translations") || "").split(';');
+		var dataTranspose = (getUrlParameter("dataTranspose") == "true");
+		var dataTransposeKeycolCaption = getUrlParameter("dataTransposeKeycolCaption") || "Key";
+		var dataTransposeValcolsPrefix = getUrlParameter("dataTransposeValcolsPrefix") || "Value ";
 		var rowsLimit = parseInt(getUrlParameter("rowsLimit") || "0") || 0;
 		var rowsLimitLoadMore = !(getUrlParameter("rowsLimitLoadMore") == "false");
-		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "Load more...";
+		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "...";
 		var headHide = getUrlParameter("headHide") == "true";
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
@@ -512,6 +556,28 @@
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
+			//Transpose
+			if(dataTranspose){
+				var newDataObject = [];
+				var keys = [];
+				for (var row = 0; row < dataObject.length; row++) {
+					for (var key in dataObject[row]) {
+						if (keys.indexOf(key) === -1) {
+							keys.push(key);
+						}
+					}
+				}
+				keys.forEach(function(key){
+					var newRow = {};
+					newRow[dataTransposeKeycolCaption] = key;
+					for (var row = 0; row < dataObject.length; row++) {
+						if (typeof dataObject[row][key] != "undefined") newRow[dataTransposeValcolsPrefix.toString() + (row + 1).toString()] = dataObject[row][key];
+					}
+					newDataObject.push(newRow);
+				});
+				dataObject = newDataObject;
+				if(colsSort.indexOf(dataTransposeKeycolCaption) == -1) colsSort.unshift(dataTransposeKeycolCaption);
+			}
 			//Datapoint-Detection
 			tableDatapoints = {};
 			if (datapointDetectionEnabled && datapointIdCol){
@@ -627,7 +693,20 @@
 					}
 				});
 				colsPreferablyVisibleAreVisibleAtStart = false; //Deactivate after first build of table
+				//jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
+				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"); 
+				$(window).on('scroll', function(event){
+					$('#DialogAutofocusElement').css('top', ($(window).scrollTop() + $('#jsonTable-popup').offset().top + 20) + 'px');
+				});
+				$('#jsonTable-popup').on('mousemove', function(event){
+					$('#DialogAutofocusElement').css('top', ($(window).scrollTop() + $('#jsonTable-popup').offset().top + 20) + 'px');
+				});
 				if (popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
+				if ((headHideColumntoggleButton || colsSortedAndFiltered.length >= alwaysVisibleCount) && !$('.customCSS_headHideColumntoggleButton').length){					
+					addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
+				} else if ($('.customCSS_headHideColumntoggleButton').length){
+					removeCustomCSS('headHideColumntoggleButton');
+				}
 			} else { //Only update body
 				$('#jsonTableContainer tbody').html(bodyString);
 				$('#jsonTable').table('refresh').trigger('create');
