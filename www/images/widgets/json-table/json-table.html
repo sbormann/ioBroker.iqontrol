@@ -32,8 +32,10 @@
 												headHideColumntoggleButton/false/Hide column-toggle-button in table mode 'Hide columns as needed'/checkbox;
 												//Modification of Data/section;
 												dataTranspose/false/Transpose data (switch cols and rows)/checkbox;
-												dataTransposeKeycolCaption/Key/Caption of the first column, that contains all the previos column-headers/text;
-												dataTransposeValcolsPrefix/Value /Prefix for caption of all the other columns, that contain the values/text;
+												dataTransposeKeycolCaption/Key/Transpose: Caption of the first column, that contains all the previos column-headers/text;
+												dataTransposeValcolsPrefix/Value /Transpose: Prefix for caption of all the other columns, that contain the values/text;
+												///divider;
+												dataConvertObjectToArrayKeycolCaption/Row/Caption of the first column, if JSON date need to be converted from object to array/text;
 												//Styling/section;
 												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
@@ -456,6 +458,7 @@
 		var dataTranspose = (getUrlParameter("dataTranspose") == "true");
 		var dataTransposeKeycolCaption = getUrlParameter("dataTransposeKeycolCaption") || "Key";
 		var dataTransposeValcolsPrefix = getUrlParameter("dataTransposeValcolsPrefix") || "Value ";
+		var dataConvertObjectToArrayKeycolCaption = getUrlParameter("dataConvertObjectToArrayKeycolCaption") || "Row";
 		var rowsLimit = parseInt(getUrlParameter("rowsLimit") || "0") || 0;
 		var rowsLimitLoadMore = !(getUrlParameter("rowsLimitLoadMore") == "false");
 		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "...";
@@ -556,8 +559,21 @@
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
+			if(!dataObject) return;
+			//Try to convert object to array
+			if (!Array.isArray(dataObject)){
+				var newDataObject = [];
+				for (key in dataObject){
+					var newRow = {};
+					newRow[dataConvertObjectToArrayKeycolCaption] = key;
+					newRow = Object.assign(newRow, dataObject[key]);
+					newDataObject.push(newRow);
+				}
+				dataObject = newDataObject;
+				if(colsSort.indexOf(dataConvertObjectToArrayKeycolCaption) == -1) colsSort.unshift(dataConvertObjectToArrayKeycolCaption);
+			}
 			//Transpose
-			if(dataTranspose){
+			if (dataTranspose){
 				var newDataObject = [];
 				var keys = [];
 				for (var row = 0; row < dataObject.length; row++) {

@@ -1583,7 +1583,8 @@ This device has some special predefined size- and display-settings to show a tex
 ### dev
 * (sbormann) Fixed collapsible not opening if initial closed.
 * (muuulle, sbormann) Enhanced Analog-Clock-Widget to be able to display the time of a datapoint.
-* (sbormann) Enhanced json-table-Widget to regognize parentNames of datapoints, transpose json-data and some styling-options.
+* (sbormann) Enhanced json-table-Widget to regognize parentNames of datapoints, transpose and convert json-data and some styling-options.
+* (sbormann) Enhanced styling of ADDITIONAL_INFO.
 
 ### 1.9.8 (2021-09-03)
 * (sbormann) Fixed variables with special chars not working.

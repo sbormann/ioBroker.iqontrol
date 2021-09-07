@@ -1450,15 +1450,23 @@ html.noscroll body {
 	padding-left: 10px;
 }
 .iQontrolDialogAdditionalInfoList.ui-listview {
-	padding-bottom: 8px;
+    border-bottom: 1px solid #cccccc;
 	margin-top:-9px;
     column-fill: balance;
     gap: 1px;
     column-rule: 1px solid #ccc;
 }
+.ui-collapsible-content .iQontrolDialogAdditionalInfoList.ui-listview {
+	padding-bottom: 8px;	
+	border-bottom: none;
+}
 .iQontrolDialogAdditionalInfoList li {
 	break-inside: avoid;
 	background:transparent !important;
+}
+.iQontrolDialogAdditionalInfoList.ui-listview li {
+    border-bottom: none;	
+    border-top: 1px solid #cccccc;
 }
 .iQontrolDialogAdditionalInfoList.ui-listview li:hover {
     background: rgba(0,0,0,0.05) !important;	
