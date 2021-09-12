@@ -146,7 +146,7 @@
 	<title>iQontrol JSON to TABLE Widget</title>
 </head>
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
-	<div data-role="page">
+	<div data-role="page" id="jsonTablePage">
 		<div data-role="content">
 			<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
 			<div id="loadMoreButtonContainer" style="display: none; padding: 0px; margin: -7px -10px -5px -10px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton" style="height: 1.3em;">...</a></div>
@@ -707,12 +707,14 @@
 				});
 				colsPreferablyVisibleAreVisibleAtStart = false; //Deactivate after first build of table
 				//jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
-				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"); 
-				$(window).on('scroll', function(event){
-					$('#DialogAutofocusElement').css('top', ($(window).scrollTop() + $('#jsonTable-popup').offset().top + 20) + 'px');
+				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; xleft:-100000px; xopacity:0; width:0px !important; height:0px !important;'></button>"); 
+				$('#jsonTablePage').on('scroll', function(event){
+					$('#DialogAutofocusElement').css('top', (-$('#jsonTable-popup').offset().top + 20) + 'px');
+					console.log($('#DialogAutofocusElement').css('top'));
 				});
 				$('#jsonTable-popup').on('mousemove', function(event){
-					$('#DialogAutofocusElement').css('top', ($(window).scrollTop() + $('#jsonTable-popup').offset().top + 20) + 'px');
+					$('#DialogAutofocusElement').css('top', (-$('#jsonTable-popup').offset().top + 20) + 'px');
+					console.log($('#DialogAutofocusElement').css('top'));
 				});
 				if (popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
 				//Show or hide columntoggleButton

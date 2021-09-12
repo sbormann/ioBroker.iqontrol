@@ -1612,7 +1612,7 @@ function fetchObject(id, callback, bufferCallbackIfAlreadyWaitingForObject){
 function fetchStates(ids, callback){
 	var _ids = [];
 	if (ids.constructor === Array) _ids = Object.assign([], ids); else _ids.push(ids);
-	for(i = _ids.length -1; i > 0; i--){
+	for(i = _ids.length -1; i >= 0; i--){
 		if (!_ids[i] || states[_ids[i]]) _ids.splice(i, 1);
 	}
 	if (_ids.length > 0){
@@ -2239,7 +2239,7 @@ function getUnit(linkedStateId){
 
 function setState(stateId, deviceIdEscaped, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
-	if (typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
+	if (typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue = states[stateId].val;
 	if (newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
 		//Confirm
 		if (usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].confirm !== udef && usedObjects[stateId].common.custom[namespace].confirm == true) {
@@ -13275,9 +13275,6 @@ $(document).ready(function(){
 					}
 					break;
 					
-					case "getStateList":
-					break;
-					
 					case "getOptions":
 					console.log("postMessage received: getOptions");
 					event.source.postMessage({command: "getOptions", value: options || null}, "*");
@@ -13294,12 +13291,20 @@ $(document).ready(function(){
 						}
 						console.log("postMessage received: setState " + stateId + " to " + event.data.value);
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
 							var _stateId = stateId;
 							var _value = event.data.value
 							if (typeof _value != "object"){
 								_value = {val: _value, ack: false};
 							}
-							if (_stateId) deliverState(_stateId, _value);
+							// if (_stateId) deliverState(_stateId, _value);
+							if (_stateId) fetchStates(_stateId, function(){
+								fetchObject(_stateId, function(){
+									if (usedObjects[_stateId]){
+										setState(_stateId, _deviceIdEscaped, _value.val, null, null, 0);
+									}
+								});
+							});							
 						})(); //<--End Closure
 					}
 					break;

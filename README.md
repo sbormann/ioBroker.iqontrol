@@ -1580,6 +1580,9 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
+### dev
+* (sbormann) Enhanced handling of states set by widgets.
+
 ### 1.9.9 (2021-09-09)
 * (sbormann) Fixed collapsible not opening if initial closed.
 * (muuulle, sbormann) Enhanced Analog-Clock-Widget to be able to display the time of a datapoint.
