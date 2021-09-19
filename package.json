@@ -19,6 +19,7 @@
     "@iobroker/adapter-core": "^2.2.1"
   },
   "devDependencies": {
+    "@alcalzone/release-script": "^3.3.0",
     "@iobroker/testing": "^1.2.0",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.0",
@@ -46,7 +47,8 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:js && npm run test:package",
     "lint": "npm run lint:js",
-    "lint:js": "eslint"
+    "lint:js": "eslint",
+	"release": "release-script"
   },
   "bugs": {
     "url": "https://github.com/sbormann/ioBroker.iqontrol/issues"
