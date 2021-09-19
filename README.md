@@ -1587,6 +1587,7 @@ Placeholder for the next version (at the beginning of the line):
 
 ### **WORK IN PROGRESS**
 * (sbormann) Enhanced handling of states set by widgets.
+* (sbormann) Added relase-script by alcalzone.
 
 ### 1.9.9 (2021-09-09)
 * (sbormann) Fixed collapsible not opening if initial closed.
