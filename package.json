@@ -50,7 +50,7 @@
     "test": "npm run test:js && npm run test:package",
     "lint": "npm run lint:js",
     "lint:js": "eslint",
-	"release": "release-script"
+    "release": "release-script"
   },
   "bugs": {
     "url": "https://github.com/sbormann/ioBroker.iqontrol/issues"
