@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "iqontrol",
-        "version": "1.9.9",
+        "version": "1.9.10",
         "news": {
+			"1.9.10": {
+			  "en": "* (sbormann) Enhanced handling of states set by widgets.\n",
+			  "de": "* (sbormann) Verbesserte Handhabung von Zuständen, die von Widgets gesetzt werden.\n",
+			  "ru": "* (sbormann) Улучшена обработка состояний, установленных виджетами.\n",
+			  "pt": "* (sbormann) Tratamento aprimorado de estados definidos por widgets.\n",
+			  "nl": "* (sbormann) Verbeterde afhandeling van statussen ingesteld door widgets.\n",
+			  "fr": "* (sbormann) Amélioration de la gestion des états définis par les widgets.\n",
+			  "it": "* (sbormann) Migliorata la gestione degli stati impostati dai widget.\n",
+			  "es": "* (sbormann) Manejo mejorado de estados establecidos por widgets.\n",
+			  "pl": "* (sbormann) Ulepszona obsługa stanów ustawianych przez widżety.\n",
+			  "zh-cn": "* (sbormann) 增强了对小部件设置的状态的处理。\n"
+			},
             "1.9.9": {
                 "en": "Fixed collapsible not opening if initial closed.\nEnhanced Analog-Clock-Widget to be able to display the time of a datapoint.\nEnhanced json-table-Widget to regognize parentNames of datapoints, transpose and convert json-data and some styling-options.\nEnhanced styling of ADDITIONAL_INFO.",
                 "de": "Behoben, dass das zusammenklappbare sich nicht öffnet, wenn es zunächst geschlossen ist.\nErweitertes Analog-Clock-Widget, um die Uhrzeit eines Datenpunkts anzeigen zu können.\nVerbessertes json-table-Widget zum Erkennen von ParentNames von Datenpunkten, Transponieren und Konvertieren von Json-Daten und einigen Styling-Optionen.\nVerbessertes Styling von ADDITIONAL_INFO.",
