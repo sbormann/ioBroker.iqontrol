@@ -1,3 +1,5 @@
+name: Test and Release
+
 # Run this workflow on all pushes and pull requests
 # as well as tags with a semantic version
 on:
