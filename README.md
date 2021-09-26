@@ -1577,7 +1577,7 @@ This device has some special predefined size- and display-settings to show a tex
 
 
 ****
-    
+
 ## Changelog
 
 ### 1.9.10 (2021-09-26)
