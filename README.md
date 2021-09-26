@@ -1580,7 +1580,7 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-### 1.9.100 (2021-09-26)
+### 1.9.10 (2021-09-26)
 * (sbormann) Enhanced handling of states set by widgets.
 
 ### 1.9.9 (2021-09-09)
