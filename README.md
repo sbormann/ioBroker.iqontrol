@@ -1580,14 +1580,8 @@ This device has some special predefined size- and display-settings to show a tex
     
 ## Changelog
 
-<!--
-Placeholder for the next version (at the beginning of the line):
-### **WORK IN PROGRESS**
--->
-
-### **WORK IN PROGRESS**
+### 1.9.100 (2021-09-26)
 * (sbormann) Enhanced handling of states set by widgets.
-* (sbormann) Added relase-script by alcalzone.
 
 ### 1.9.9 (2021-09-09)
 * (sbormann) Fixed collapsible not opening if initial closed.
