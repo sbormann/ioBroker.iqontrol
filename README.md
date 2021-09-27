@@ -1584,8 +1584,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.9.12 (2021-09-27)
 * (sbormann) Added release-script by AlCalzone.
 * (sbormann) Set setState for postMessage to forced send.
 
@@ -2192,7 +2191,7 @@ This device has some special predefined size- and display-settings to show a tex
 
 ### 0.2.2 (2019-09-14)
 * (sbormann) Enhanced handling of control-mode for homematic-thermostat for more compatibility.
-* (sbormann) Reduced rate of sending when moving slider for blinds and thermostats. 
+* (sbormann) Reduced rate of sending when moving slider for blinds and thermostats.
 
 ### 0.2.1 (2019-09-07)
 * (sbormann) Fixed crash of Backend (interchanged index_m.html and custom_m.html).
@@ -2227,7 +2226,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed crash when using thermostat with setpoint an non homematic-devices.
 * (sbormann) Added min and max to custom dialog.
 * (sbormann) Now you can set none as a devices background image for active devices (formerly this was copied from inactive devices for backward-compatibility-reasons).
- 
+
 ### 0.1.10 (2019-08-20)
 * (sbormann) You can now define different units if value is zero or if value is one in custom dialog.
 * (sbormann) When changing an image via the new drop-down, save button will be activated now.
@@ -2467,9 +2466,6 @@ This device has some special predefined size- and display-settings to show a tex
 ### 0.0.15
 * (sbormann) Improved check for value type of states.
 * (sbormann) Improved slider-tooltip to lower font-size at large numbers.
-
-### 0.0 14
-* (sbormann) If role of state is not further specified, then check for role of parent object.
 
 ### 0.0.13
 * (sbormann) Doors and Windows now force true/false to be translated to opened/closed.
