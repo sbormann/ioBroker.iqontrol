@@ -11569,7 +11569,6 @@ function renderDialog(deviceIdEscaped){
 					var createDialogAdditionalControlsFunction;
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _deviceIdEscaped = deviceIdEscaped;
-						var _linkedAdditionalControlsId = dialogLinkedStateIds["ADDITIONAL_CONTROLS"];
 						var _linkedAdditionalControls = linkedAdditionalControls;
 						createDialogAdditionalControlsFunction = function(){
 							$("#DialogAdditionalControlsContent").html("");
@@ -12137,20 +12136,29 @@ function renderDialog(deviceIdEscaped){
 								if (typeof usedObjects[element.value] == udef) {
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _elementValue = element.value;
-										var _linkedAdditionalControlsId = dialogLinkedStateIds["ADDITIONAL_CONTROLS"]; //-----nötig????
 										fetchObject(_elementValue, function(error){
 											createDialogAdditionalControlsNumberOfStatesToFetch--;
-											if (createDialogAdditionalControlsNumberOfStatesToFetch == 0) createDialogAdditionalControlsFunction();
+											if (createDialogAdditionalControlsNumberOfStatesToFetch == 0){
+												if ($("#DialogAdditionalControlsContent").length == 0) { //Dialog is not rendered - therefore push the createDialogAdditionalControlsFunction to the dialogBindingFunctions, which will be executed after rendering the dialog
+													dialogBindingFunctions.push(createDialogAdditionalControlsFunction);
+												} else {
+													createDialogAdditionalControlsFunction();
+												}
+											}
 										});
 									})(); //<--End Closure
 								} else {
 									createDialogAdditionalControlsNumberOfStatesToFetch--;
-									if (createDialogAdditionalControlsNumberOfStatesToFetch == 0) createDialogAdditionalControlsFunction();
+									if (createDialogAdditionalControlsNumberOfStatesToFetch == 0) {
+										if ($("#DialogAdditionalControlsContent").length == 0) { //Dialog is not rendered - therefore push the createDialogAdditionalControlsFunction to the dialogBindingFunctions, which will be executed after rendering the dialog
+											dialogBindingFunctions.push(createDialogAdditionalControlsFunction);
+										} else {
+											createDialogAdditionalControlsFunction();
+										}										
+									}
 								}
 							});
 						});
-
-
 					})(); //<--End Closure
 				}
 
