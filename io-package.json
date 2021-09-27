@@ -1,20 +1,8 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.11",
+    "version": "1.9.10",
     "news": {
-      "1.9.11": {
-        "en": "Added release-script by AlCalzone.\nSet setState for postMessage to forced send.",
-        "de": "Release-Skript von AlCalzone hinzugefügt.\nSetzen Sie setState für postMessage auf erzwungenes Senden.",
-        "ru": "Добавлен релиз-скрипт от AlCalzone.\nУстановите для setState для postMessage принудительную отправку.",
-        "pt": "Adicionado o script de lançamento da AlCalzone.\nDefina setState para postMessage como envio forçado.",
-        "nl": "Release-script toegevoegd door AlCalzone.\nStel setState voor postMessage in op gedwongen verzenden.",
-        "fr": "Ajout du script de publication par AlCalzone.\nDéfinissez setState pour postMessage sur envoi forcé.",
-        "it": "Aggiunto lo script di rilascio di AlCalzone.\nImposta setState per postMessage su invio forzato.",
-        "es": "Se agregó un script de lanzamiento de AlCalzone.\nEstablezca setState para postMessage en envío forzado.",
-        "pl": "Dodano skrypt wydania autorstwa AlCalzone.\nUstaw setState dla postMessage na wymuszone wysyłanie.",
-        "zh-cn": "添加了 AlCalzone 的发布脚本。\n将 postMessage 的 setState 设置为强制发送。"
-      },
       "1.9.10": {
         "en": "* (sbormann) Enhanced handling of states set by widgets.\n",
         "de": "* (sbormann) Verbesserte Handhabung von Zuständen, die von Widgets gesetzt werden.\n",
