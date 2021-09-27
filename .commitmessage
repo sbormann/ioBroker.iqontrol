@@ -1,4 +1,0 @@
-chore: release v1.9.12
-
-* (sbormann) Added release-script by AlCalzone.
-* (sbormann) Set setState for postMessage to forced send.
