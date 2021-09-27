@@ -1580,6 +1580,13 @@ This device has some special predefined size- and display-settings to show a tex
 
 ## Changelog
 
+<!--
+  Placeholder for the next version (at the beginning of the line):
+  ### **WORK IN PROGRESS**
+-->
+### **WORK IN PROGRESS**
+* (sbormann) Added release-script by AlCalzone.
+
 ### 1.9.10 (2021-09-26)
 * (sbormann) Enhanced handling of states set by widgets.
 
