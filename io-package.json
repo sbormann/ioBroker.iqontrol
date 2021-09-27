@@ -1,875 +1,719 @@
 {
-    "common": {
-        "name": "iqontrol",
-        "version": "1.9.10",
-        "news": {
-			"1.9.10": {
-			  "en": "* (sbormann) Enhanced handling of states set by widgets.\n",
-			  "de": "* (sbormann) Verbesserte Handhabung von Zuständen, die von Widgets gesetzt werden.\n",
-			  "ru": "* (sbormann) Улучшена обработка состояний, установленных виджетами.\n",
-			  "pt": "* (sbormann) Tratamento aprimorado de estados definidos por widgets.\n",
-			  "nl": "* (sbormann) Verbeterde afhandeling van statussen ingesteld door widgets.\n",
-			  "fr": "* (sbormann) Amélioration de la gestion des états définis par les widgets.\n",
-			  "it": "* (sbormann) Migliorata la gestione degli stati impostati dai widget.\n",
-			  "es": "* (sbormann) Manejo mejorado de estados establecidos por widgets.\n",
-			  "pl": "* (sbormann) Ulepszona obsługa stanów ustawianych przez widżety.\n",
-			  "zh-cn": "* (sbormann) 增强了对小部件设置的状态的处理。\n"
-			},
-            "1.9.9": {
-                "en": "Fixed collapsible not opening if initial closed.\nEnhanced Analog-Clock-Widget to be able to display the time of a datapoint.\nEnhanced json-table-Widget to regognize parentNames of datapoints, transpose and convert json-data and some styling-options.\nEnhanced styling of ADDITIONAL_INFO.",
-                "de": "Behoben, dass das zusammenklappbare sich nicht öffnet, wenn es zunächst geschlossen ist.\nErweitertes Analog-Clock-Widget, um die Uhrzeit eines Datenpunkts anzeigen zu können.\nVerbessertes json-table-Widget zum Erkennen von ParentNames von Datenpunkten, Transponieren und Konvertieren von Json-Daten und einigen Styling-Optionen.\nVerbessertes Styling von ADDITIONAL_INFO.",
-                "ru": "Исправлена ошибка, из-за которой складной механизм не открывался при первоначальном закрытии.\nУлучшенный виджет аналоговых часов для отображения времени точки данных.\nУлучшенный виджет json-table-Widget для распознавания parentNames точек данных, транспонирования и преобразования данных json и некоторых параметров стиля.\nУлучшенный стиль ADDITIONAL_INFO.",
-                "pt": "Fixo dobrável não abre se inicial fechado.\nAnalog-Clock-Widget aprimorado para ser capaz de exibir a hora de um ponto de dados.\nWidget json-table-widget aprimorado para reconhecer nomes de pais de pontos de dados, transpor e converter dados de json e algumas opções de estilo.\nEstilo aprimorado de ADDITIONAL_INFO.",
-                "nl": "Vaste opvouwbare niet openen indien aanvankelijk gesloten.\nVerbeterde Analog-Clock-Widget om de tijd van een datapunt te kunnen weergeven.\nVerbeterde json-table-Widget om parentNames van datapunten te herkennen, json-data te transponeren en te converteren en enkele styling-opties.\nVerbeterde stijl van ADDITIONAL_INFO.",
-                "fr": "Fixe pliable ne s'ouvrant pas si fermé initial.\nAnalog-Clock-Widget amélioré pour pouvoir afficher l'heure d'un point de données.\nJson-table-Widget amélioré pour reconnaître les parentsNames des points de données, transposer et convertir les données json et certaines options de style.\nStyle amélioré de ADDITIONAL_INFO.",
-                "it": "Risolto il problema con il pieghevole che non si apriva se inizialmente chiuso.\nAnalog-Clock-Widget potenziato per poter visualizzare l'ora di un punto dati.\nJson-table-Widget migliorato per riconoscere i nomi parent dei punti dati, trasporre e convertire i dati json e alcune opzioni di stile.\nStile migliorato di ADDITIONAL_INFO.",
-                "es": "Plegable fijo que no se abre si está cerrado por primera vez.\nWidget de reloj analógico mejorado para poder mostrar la hora de un punto de datos.\nJson-table-Widget mejorado para reconocer los parentNames de los puntos de datos, transponer y convertir json-data y algunas opciones de estilo.\nEstilo mejorado de ADDITIONAL_INFO.",
-                "pl": "Naprawiono nieotwierające się składane, jeśli początkowo zamknięte.\nUlepszony widget zegara analogowego umożliwiający wyświetlanie czasu punktu danych.\nUlepszony json-table-Widget do rozpoznawania nazw nadrzędnych punktów danych, transpozycji i konwersji danych json oraz niektórych opcji stylizacji.\nUlepszony styl ADDITIONAL_INFO.",
-                "zh-cn": "如果最初关闭，则修复了可折叠不打开的问题。\n增强的模拟时钟小部件能够显示数据点的时间。\n增强 json-table-Widget 以识别数据点的 parentNames，转置和转换 json-data 和一些样式选项。\n增强了 ADDITIONAL_INFO 的样式。"
-            },
-            "1.9.8": {
-                "en": "Fixed variables with special chars not working.\nEnhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.\nFixed view rendering problems with thermostats without CONTROL_MODE.\nAdded the ability to widgets, to create widgetStates that contain a variable (for example to create distinct instances of a widget with own datapoints).\nThe map widget has been extended with a instance-option to create multiple maps with own datapoints.\n",
-                "de": "Behoben, dass Variablen mit Sonderzeichen nicht funktionierten.\nVerbessertes json-table-Widget mit Datenpunkterkennung, das es ermöglicht, Werte zu sehen und Datenpunkte in der Liste umzuschalten.\nProbleme beim Rendern von Ansichten mit Thermostaten ohne CONTROL_MODE behoben.\nMöglichkeit zu Widgets hinzugefügt, WidgetStates zu erstellen, die eine Variable enthalten (z. B. um unterschiedliche Instanzen eines Widgets mit eigenen Datenpunkten zu erstellen).\nDas Karten-Widget wurde um eine Instanz-Option erweitert, um mehrere Karten mit eigenen Datenpunkten zu erstellen.\n",
-                "ru": "Фиксированные переменные со специальными символами не работают.\nУлучшенный виджет json-table-widget с распознаванием точек данных, который позволяет видеть значения и переключать точки данных в списке.\nИсправлены проблемы рендеринга вида с термостатами без CONTROL_MODE.\nДобавлена возможность для виджетов создавать widgetStates, содержащие переменную (например, для создания отдельных экземпляров виджета с собственными точками данных).\nВиджет карты был расширен опцией экземпляра для создания нескольких карт с собственными точками данных.\n",
-                "pt": "Variáveis fixas com caracteres especiais não funcionando.\nJson-table-widget aprimorado com reconhecimento de pontos de dados, que permite ver valores e alternar pontos de dados na lista.\nCorrigidos problemas de renderização de visualização com termostatos sem CONTROL_MODE.\nAdicionada a capacidade de widgets para criar widgetStates que contêm uma variável (por exemplo, para criar instâncias distintas de um widget com pontos de dados próprios).\nO widget de mapa foi estendido com uma opção de instância para criar vários mapas com pontos de dados próprios.\n",
-                "nl": "Vaste variabelen met speciale tekens die niet werken.\nVerbeterde json-table-widget met gegevenspuntherkenning, waarmee u waarden kunt zien en gegevenspunten in de lijst kunt wisselen.\nProblemen met weergaveweergave opgelost met thermostaten zonder CONTROL_MODE.\nDe mogelijkheid toegevoegd aan widgets, om widgetStates te maken die een variabele bevatten (bijvoorbeeld om afzonderlijke instanties van een widget met eigen datapunten te maken).\nDe kaartwidget is uitgebreid met een instantie-optie om meerdere kaarten met eigen datapunten te maken.\n",
-                "fr": "Les variables fixes avec des caractères spéciaux ne fonctionnaient pas.\nJson-table-widget amélioré avec reconnaissance des points de données, qui permet de voir les valeurs et de basculer les points de données dans la liste.\nCorrection des problèmes de rendu de la vue avec les thermostats sans CONTROL_MODE.\nAjout de la possibilité aux widgets de créer des widgetStates qui contiennent une variable (par exemple pour créer des instances distinctes d'un widget avec ses propres points de données).\nLe widget de carte a été étendu avec une option d'instance pour créer plusieurs cartes avec ses propres points de données.\n",
-                "it": "Risolte le variabili con caratteri speciali non funzionanti.\nJson-table-widget migliorato con riconoscimento dei punti dati, che consente di vedere i valori e alternare i punti dati nell'elenco.\nRisolti i problemi di rendering della vista con i termostati senza CONTROL_MODE.\nAggiunta la possibilità ai widget di creare widgetStates che contengono una variabile (ad esempio per creare istanze distinte di un widget con propri datapoint).\nIl widget della mappa è stato esteso con un'opzione di istanza per creare più mappe con i propri punti dati.\n",
-                "es": "Variables fijas con caracteres especiales que no funcionan.\nJson-table-widget mejorado con reconocimiento de puntos de datos, que permite ver valores y alternar puntos de datos en la lista.\nSe corrigieron los problemas de representación de la vista con termostatos sin CONTROL_MODE.\nSe agregó la capacidad de los widgets para crear widgetStates que contengan una variable (por ejemplo, para crear instancias distintas de un widget con puntos de datos propios).\nEl widget de mapa se ha ampliado con una opción de instancia para crear varios mapas con puntos de datos propios.\n",
-                "pl": "Naprawiono niedziałające zmienne ze znakami specjalnymi.\nUlepszony json-table-widget z rozpoznawaniem punktów danych, który pozwala zobaczyć wartości i przełączać punkty danych na liście.\nNaprawiono problemy z renderowaniem widoku z termostatami bez trybu CONTROL_MODE.\nDodano możliwość tworzenia widgetów, aby tworzyć widgetStates, które zawierają zmienną (na przykład do tworzenia odrębnych instancji widgetu z własnymi punktami danych).\nWidżet mapy został rozszerzony o opcję instancji, aby tworzyć wiele map z własnymi punktami danych.\n",
-                "zh-cn": "带有特殊字符的固定变量不起作用。\n增强的 json-table-widget 具有数据点识别功能，允许查看列表中的值和切换数据点。\n修复了没有 CONTROL_MODE 的恒温器的视图渲染问题。\n添加了小部件的功能，以创建包含变量的小部件状态（例如，使用自己的数据点创建小部件的不同实例）。\n地图小部件已通过实例选项进行扩展，以使用自己的数据点创建多个地图。\n"
-            },
-            "1.9.7": {
-                "en": "Added option to close collapsible subheaders, if others open.\nFixed missing subheaders if new line option was activated.\nAdded option to define new section spacing.\nMinor design enhancements to dark mode, ADDITIONAL_INFO and JSON-Table-Widget.\nAdded more options to configure cols of JSON-Table-Widget.\nRedesigned CONTROL_MODE of Thermostats to be a fieldset instead of a dropdown.\nOverwrite step for HomematicIP-Temperature sensors with wrong min and max values.\nAdded option to send state-values when clicking on play, pause and stop to media.\nUpdated dependencies.\nAdded sections to widget options.\nAdded option to show state and level devided for device type value.\n",
-                "de": "Option zum Schließen von zusammenklappbaren Unterüberschriften hinzugefügt, wenn andere geöffnet werden.\nFehlende Unterüberschriften behoben, wenn die Option für neue Zeilen aktiviert war.\nOption zum Definieren eines neuen Abschnittsabstands hinzugefügt.\nKleinere Designverbesserungen bei Dark Mode, ADDITIONAL_INFO und JSON-Table-Widget.\nWeitere Optionen zum Konfigurieren von Spalten von JSON-Table-Widget hinzugefügt.\nCONTROL_MODE von Thermostaten wurde umgestaltet, um ein Feldset anstelle eines Dropdown-Menüs zu sein.\nÜberschreibschritt für HomematicIP-Temperatursensoren mit falschen Min- und Max-Werten.\nOption hinzugefügt, um Statuswerte beim Klicken auf Wiedergabe, Pause und Stopp an Medien zu senden.\nAktualisierte Abhängigkeiten.\nAbschnitte zu Widget-Optionen hinzugefügt.\nOption hinzugefügt, um Status und Ebene für den Gerätetypwert unterteilt anzuzeigen.\n",
-                "ru": "Добавлена опция закрытия сворачиваемых подзаголовков, если открываются другие.\nИсправлены отсутствующие подзаголовки, если была активирована опция новой строки.\nДобавлена опция для определения нового интервала между секциями.\nНезначительные улучшения дизайна темного режима, ADDITIONAL_INFO и JSON-Table-Widget.\nДобавлены дополнительные параметры для настройки столбцов JSON-Table-Widget.\nПереработан CONTROL_MODE термостатов в виде набора полей, а не раскрывающегося списка.\nШаг перезаписи для датчиков температуры HomematicIP с неправильными минимальными и максимальными значениями.\nДобавлена возможность отправки значений состояния при нажатии на воспроизведение, паузу и остановку в медиа.\nОбновлены зависимости.\nДобавлены разделы в параметры виджета.\nДобавлена возможность отображать состояние и уровень, разделенные для значения типа устройства.\n",
-                "pt": "Adicionada opção para fechar subcabeçalhos recolhíveis, se outros abrirem.\nCorrigidos subcabeçalhos ausentes se a opção de nova linha foi ativada.\nAdicionada opção para definir o novo espaçamento de seção.\nAprimoramentos de design menores para o modo escuro, ADDITIONAL_INFO e JSON-Table-Widget.\nAdicionadas mais opções para configurar cols de JSON-Table-Widget.\nCONTROL_MODE de termostatos reprojetado para ser um fieldset em vez de um menu suspenso.\nEtapa de substituição para sensores de temperatura HomematicIP com valores mínimo e máximo incorretos.\nAdicionada opção para enviar valores de estado ao clicar em reproduzir, pausar e parar para a mídia.\nDependências atualizadas.\nAdicionadas seções às opções do widget.\nAdicionada opção para mostrar o estado e o nível dividido pelo valor do tipo de dispositivo.\n",
-                "nl": "Optie toegevoegd om samenvouwbare subkoppen te sluiten, als andere worden geopend.\nOntbrekende subheaders opgelost als de nieuwe regeloptie was geactiveerd.\nOptie toegevoegd om nieuwe sectie-afstand te definiëren.\nKleine ontwerpverbeteringen voor de donkere modus, ADDITIONAL_INFO en JSON-Table-Widget.\nMeer opties toegevoegd om cols van JSON-Table-Widget te configureren.\nCONTROL_MODE van thermostaten opnieuw ontworpen om een veldset te zijn in plaats van een vervolgkeuzelijst.\nOverschrijfstap voor HomematicIP-temperatuursensoren met verkeerde min- en max-waarden.\nOptie toegevoegd om statuswaarden te verzenden bij het klikken op afspelen, pauzeren en stoppen naar media.\nBijgewerkte afhankelijkheden.\nSecties toegevoegd aan widgetopties.\nOptie toegevoegd om de status en het niveau weer te geven voor de waarde van het apparaattype.\n",
-                "fr": "Ajout d'une option pour fermer les sous-en-têtes réductibles, si d'autres s'ouvrent.\nCorrection des sous-en-têtes manquants si l'option de nouvelle ligne était activée.\nAjout d'une option pour définir un nouvel espacement de section.\nAméliorations mineures de la conception du mode sombre, ADDITIONAL_INFO et JSON-Table-Widget.\nAjout de plus d'options pour configurer les cols de JSON-Table-Widget.\nCONTROL_MODE repensé des thermostats pour être un ensemble de champs au lieu d'une liste déroulante.\nEcraser l'étape pour les capteurs de température HomematicIP avec des valeurs min et max incorrectes.\nAjout d'une option pour envoyer des valeurs d'état en cliquant sur play, pause et stop to media.\nDépendances mises à jour.\nAjout de sections aux options des widgets.\nAjout d'une option pour afficher l'état et le niveau divisés pour la valeur du type de périphérique.\n",
-                "it": "Aggiunta l'opzione per chiudere i sottotitoli comprimibili, se altri si aprono.\nRisolti i sottotitoli mancanti se veniva attivata l'opzione della nuova riga.\nAggiunta l'opzione per definire la nuova spaziatura delle sezioni.\nMiglioramenti di progettazione minori alla modalità oscura, ADDITIONAL_INFO e JSON-Table-Widget.\nAggiunte più opzioni per configurare colonne di JSON-Table-Widget.\nCONTROL_MODE riprogettato dei termostati per essere un set di campi anziché un menu a discesa.\nSovrascrivere il passaggio per i sensori di temperatura HomematicIP con valori minimi e massimi errati.\nAggiunta l'opzione per inviare i valori di stato quando si fa clic su play, pause e stop ai media.\nDipendenze aggiornate.\nAggiunte sezioni alle opzioni del widget.\nAggiunta l'opzione per mostrare lo stato e il livello divisi per il valore del tipo di dispositivo.\n",
-                "es": "Se agregó una opción para cerrar los subtítulos plegables, si se abren otros.\nSe corrigieron los subtítulos faltantes si se activaba la opción de nueva línea.\nOpción agregada para definir el espaciado de la nueva sección.\nPequeñas mejoras de diseño en el modo oscuro, ADDITIONAL_INFO y JSON-Table-Widget.\nSe agregaron más opciones para configurar columnas de JSON-Table-Widget.\nCONTROL_MODE rediseñado de termostatos para que sea un conjunto de campo en lugar de un menú desplegable.\nPaso de sobrescritura para sensores HomematicIP-Temperature con valores mínimos y máximos incorrectos.\nSe agregó la opción de enviar valores de estado al hacer clic en reproducir, pausar y detener a los medios.\nDependencias actualizadas.\nSe agregaron secciones a las opciones de los widgets.\nSe agregó una opción para mostrar el estado y el nivel divididos por el valor del tipo de dispositivo.\n",
-                "pl": "Dodano opcję zamykania zwijanych nagłówków, jeśli inne są otwarte.\nNaprawiono brakujące podnagłówki, jeśli aktywowano opcję nowej linii.\nDodano możliwość zdefiniowania nowego rozstawu sekcji.\nDrobne ulepszenia projektowe trybu ciemnego, ADDITIONAL_INFO i JSON-Table-Widget.\nDodano więcej opcji konfiguracji kolumn JSON-Table-Widget.\nPrzeprojektowano tryb CONTROL_MODE termostatów, aby był zestawem pól zamiast listy rozwijanej.\nNadpisz krok dla czujników temperatury HomematicIP z błędnymi wartościami min i max.\nDodano opcję wysyłania wartości stanu po kliknięciu odtwarzania, pauzy i zatrzymania do multimediów.\nZaktualizowane zależności.\nDodano sekcje do opcji widżetów.\nDodano opcję pokazania stanu i poziomu podzielonego dla wartości typu urządzenia.\n",
-                "zh-cn": "添加了关闭可折叠子标题的选项（如果其他标题打开）。\n如果激活了新行选项，则修复了缺少的子标题。\n添加了定义新节间距的选项。\n对暗模式、ADDITIONAL_INFO 和 JSON-Table-Widget 的微小设计增强。\n添加了更多选项来配置 JSON-Table-Widget 的 cols。\n将恒温器的 CONTROL_MODE 重新设计为字段集而不是下拉列表。\n使用错误的最小值和最大值覆盖 HomematicIP-温度传感器的步骤。\n添加了在点击播放、暂停和停止到媒体时发送状态值的选项。\n更新了依赖项。\n添加了小部件选项的部分。\n添加了显示为设备类型值划分的状态和级别的选项。\n"
-            },
-            "1.9.6": {
-                "en": "Removed some unnecessary horizontal lines in dialog. \nAdded option to edit caption of STATE or LEVEL. \nEnhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns. \nAdded some polyfils for older browsers. \nFixed a bug that prevented certain options from being applied correctly.",
-                "de": "Einige unnötige horizontale Linien im Dialog wurden entfernt. \nOption zum Bearbeiten der Beschriftung von STATE oder LEVEL hinzugefügt. \nVerbesserte ADDITIONAL_INFO-Liste (Sie können per Option zum alten Stil zurückkehren) und optionale Spalten hinzugefügt. \nEinige Polyfiles für ältere Browser hinzugefügt. \nEs wurde ein Fehler behoben, der die korrekte Anwendung bestimmter Optionen verhinderte.",
-                "ru": "Убраны лишние горизонтальные линии в диалоге. \nДобавлена возможность редактировать заголовок СОСТОЯНИЯ или УРОВНЯ. \nРасширен список ADDITIONAL_INFO (вы можете вернуться к старому стилю с помощью опции) и добавлены дополнительные столбцы. \nДобавлены полифилы для старых браузеров. \nИсправлена ошибка, из-за которой некоторые параметры не применялись правильно.",
-                "pt": "Removidas algumas linhas horizontais desnecessárias na caixa de diálogo. \nAdicionada opção para editar legenda de ESTADO ou NÍVEL. \nLista ADDITIONAL_INFO aprimorada (você pode voltar ao estilo antigo via opção) e colunas opcionais adicionadas. \nAdicionados alguns polyfils para navegadores mais antigos. \nCorrigido um bug que impedia que certas opções fossem aplicadas corretamente.",
-                "nl": "Enkele onnodige horizontale lijnen in dialoogvenster verwijderd. \nOptie toegevoegd om bijschrift van STATE of LEVEL te bewerken. \nVerbeterde ADDITIONAL_INFO-lijst (u kunt via optie teruggaan naar de oude stijl) en optionele kolommen toegevoegd. \nEnkele polyfils toegevoegd voor oudere browsers. \nEen bug opgelost die verhinderde dat bepaalde opties correct werden toegepast.",
-                "fr": "Suppression de quelques lignes horizontales inutiles dans la boîte de dialogue. \nAjout d'une option pour modifier la légende de STATE ou LEVEL. \nListe ADDITIONAL_INFO améliorée (vous pouvez revenir à l'ancien style via l'option) et ajout de colonnes facultatives. \nAjout de quelques polyfils pour les navigateurs plus anciens. \nCorrection d'un bug qui empêchait certaines options d'être appliquées correctement.",
-                "it": "Rimosse alcune linee orizzontali non necessarie nella finestra di dialogo. \nAggiunta l'opzione per modificare la didascalia di STATE o LEVEL. \nElenco ADDITIONAL_INFO migliorato (puoi tornare al vecchio stile tramite l'opzione) e aggiunte colonne opzionali. \nAggiunti alcuni polyfils per i browser più vecchi. \nRisolto un bug che impediva l'applicazione corretta di alcune opzioni.",
-                "es": "Se eliminaron algunas líneas horizontales innecesarias en el diálogo. \nSe agregó la opción para editar el título de ESTADO o NIVEL. \nLista ADDITIONAL_INFO mejorada (puede volver al estilo antiguo a través de la opción) y columnas opcionales agregadas. \nSe agregaron algunos polyfils para navegadores más antiguos. \nSe corrigió un error que impedía que ciertas opciones se aplicaran correctamente.",
-                "pl": "Usunięto niepotrzebne poziome linie w oknie dialogowym. \nDodano opcję edycji podpisu STAN lub POZIOM. \nUlepszona lista ADDITIONAL_INFO (możesz wrócić do starego stylu za pomocą opcji) i dodane opcjonalne kolumny. \nDodano kilka polifili dla starszych przeglądarek. \nNaprawiono błąd, który uniemożliwiał prawidłowe zastosowanie niektórych opcji.",
-                "zh-cn": "删除了对话框中一些不必要的水平线。添加了编辑状态或级别标题的选项。增强的 ADDITIONAL_INFO 列表（您可以通过选项返回到旧样式）并添加了可选列。为旧浏览器添加了一些 polyfil。修复了阻止正确应用某些选项的错误。"
-            },
-            "1.9.5": {
-                "en": "Removed prevention of injection for iframes.",
-                "de": "Die Verhinderung der Injektion für iframes wurde entfernt.",
-                "ru": "Убрана профилактика инъекций для iframe.",
-                "pt": "Removida a prevenção de injeção para iframes.",
-                "nl": "Preventie van injectie voor iframes verwijderd.",
-                "fr": "Suppression de la prévention de l'injection pour les iframes.",
-                "it": "Rimossa la prevenzione dell'iniezione per gli iframe.",
-                "es": "Se eliminó la prevención de inyección para iframes.",
-                "pl": "Usunięto zapobieganie wstrzykiwaniu elementów iframe.",
-                "zh-cn": "删除了对 iframe 的注入预防。"
-            },
-            "1.9.4": {
-                "en": "Preventing injection of code into states, Sub-Headers can now contain variables, Added option to make sub-headers collapsible, BACKGROUND_VIEWs are now lightend up in dark-mode.",
-                "de": "Verhindert das Einschleusen von Code in Zustände, Sub-Header können jetzt Variablen enthalten, Option hinzugefügt, um Sub-Header komprimierbar zu machen, HINTERGRUND_VIEWs werden jetzt im Dunkelmodus aufgehellt.",
-                "ru": "Предотвращение внедрения кода в состояния, подзаголовки теперь могут содержать переменные, добавлена ​​опция, позволяющая делать подзаголовки сворачиваемыми, BACKGROUND_VIEW теперь подсвечиваются в темном режиме.",
-                "pt": "Prevenindo a injeção de código em estados, os subcabeçalhos agora podem conter variáveis, opção adicionada para tornar os subcabeçalhos recolhíveis, BACKGROUND_VIEWs agora são iluminados no modo escuro.",
-                "nl": "Voorkomen dat code in staten wordt geïnjecteerd, Sub-Headers kunnen nu variabelen bevatten, Optie toegevoegd om sub-headers inklapbaar te maken, BACKGROUND_VIEWs worden nu verlicht in de donkere modus.",
-                "fr": "Empêcher l'injection de code dans les états, les sous-en-têtes peuvent désormais contenir des variables, option ajoutée pour rendre les sous-en-têtes réductibles, les BACKGROUND_VIEWs sont désormais éclairés en mode sombre.",
-                "it": "Prevenendo l'iniezione di codice negli stati, i sottotitoli possono ora contenere variabili, aggiunta l'opzione per rendere comprimibili i sottotitoli, BACKGROUND_VIEWs ora si illuminano in modalità oscura.",
-                "es": "Al evitar la inyección de código en los estados, los subencabezados ahora pueden contener variables, se agregó una opción para hacer que los subencabezados se contraigan, los BACKGROUND_VIEW ahora se iluminan en modo oscuro.",
-                "pl": "Zapobieganie wstrzykiwaniu kodu do stanów, Pod-nagłówki mogą teraz zawierać zmienne, Dodano opcję zwijania pod-nagłówków, BACKGROUND_VIEWs są teraz rozjaśniane w trybie ciemnym.",
-                "zh-cn": "防止将代码注入状态，子标题现在可以包含变量，添加了使子标题可折叠的选项，背景视图现在在暗模式下变亮。"
-            },
-            "1.9.3": {
-                "en": "Fixes for ADDITIONAL_CONTROLS, Some minor enhancements for handling of Date and Time, Added option to custom to hide period of date and time values, Some design adjustments for dark-mode, You can now freely configure all colours for dark-mode, Added previous and next buttons to views-tab.",
-                "de": "Korrekturen für ADDITIONAL_CONTROLS, Einige kleinere Verbesserungen bei der Handhabung von Datum und Uhrzeit, Option hinzugefügt, um den Zeitraum von Datums- und Uhrzeitwerten auszublenden, Einige Designanpassungen für den Dunkelmodus, Sie können jetzt alle Farben für den Dunkelmodus frei konfigurieren, Vorherige und . hinzugefügt ",
-                "ru": "Исправления для ADDITIONAL_CONTROLS. Некоторые незначительные улучшения для обработки даты и времени. ",
-                "pt": "Correções para ADDITIONAL_CONTROLS, algumas pequenas melhorias para manipulação de data e hora, opção adicionada para personalizar para ocultar o período de valores de data e hora, alguns ajustes de design para o modo escuro, agora você pode configurar livremente todas as cores para o modo escuro, adicionado anterior e ",
-                "nl": "Oplossingen voor ADDITIONAL_CONTROLS, enkele kleine verbeteringen voor het omgaan met datum en tijd, optie toegevoegd aan aangepast om periode van datum- en tijdwaarden te verbergen, enkele ontwerpaanpassingen voor donkere modus, u kunt nu alle kleuren vrij configureren voor donkere modus, vorige en ",
-                "fr": "Corrections pour ADDITIONAL_CONTROLS, Quelques améliorations mineures pour la gestion de la date et de l'heure, Ajout d'une option à la personnalisation pour masquer les valeurs de période de date et d'heure, Quelques ajustements de conception pour le mode sombre, Vous pouvez désormais configurer librement toutes les couleurs pour le mode sombre, Ajout des précédents et ",
-                "it": "Correzioni per ADDITIONAL_CONTROLS, alcuni miglioramenti minori per la gestione di data e ora, aggiunta opzione personalizzata per nascondere i valori del periodo di data e ora, alcune modifiche al design per la modalità oscura, ora è possibile configurare liberamente tutti i colori per la modalità oscura, aggiunta precedente e ",
-                "es": "Correcciones para ADDITIONAL_CONTROLS, Algunas mejoras menores para el manejo de la fecha y la hora, Se agregó la opción de personalizar para ocultar el período de los valores de fecha y hora, Algunos ajustes de diseño para el modo oscuro, Ahora puede configurar libremente todos los colores para el modo oscuro, Se agregaron anteriores y ",
-                "pl": "Poprawki ADDITIONAL_CONTROLS, Kilka drobnych ulepszeń w obsłudze Daty i Czasu, Dodano opcję niestandardowego ukrywania wartości daty i czasu, Niektóre poprawki projektowe dla trybu ciemnego, Możesz teraz swobodnie konfigurować wszystkie kolory dla trybu ciemnego, Dodano poprzednie i ",
-                "zh-cn": "修复了 ADDITIONAL_CONTROLS，处理日期和时间的一些小改进，添加了自定义选项以隐藏日期和时间值的周期，暗模式的一些设计调整，您现在可以自由配置暗模式的所有颜色，添加以前的和"
-            },
-            "1.9.2": {
-                "en": "Fixed conversion error 199, Added option to set ADDITIONAL_CONTROLS to half width, Enhanced uploading of font files, Added getOptions to postMessage-Communication for widgets, Added Dark-Mode to JSON-Table-Widget.",
-                "de": "Konvertierungsfehler 199 behoben, Option hinzugefügt, um ADDITIONAL_CONTROLS auf halbe Breite zu setzen, Verbessertes Hochladen von Schriftdateien, GetOptions zu postMessage-Communication für Widgets hinzugefügt, Dark-Mode zu JSON-Table-Widget hinzugefügt.",
-                "ru": "Исправлена ​​ошибка преобразования 199, Добавлена ​​возможность установить ADDITIONAL_CONTROLS на половину ширины, Улучшена загрузка файлов шрифтов, Добавлены getOptions в postMessage-Communication для виджетов, Добавлен Dark-Mode в JSON-Table-Widget.",
-                "pt": "Erro de conversão 199 corrigido, opção adicionada para definir ADDITIONAL_CONTROLS para meia largura, upload aprimorado de arquivos de fonte, getOptions adicionado para postMessage-Communication para widgets, Adicionado modo escuro para JSON-Table-Widget.",
-                "nl": "Conversiefout 199 opgelost, optie toegevoegd om ADDITIONAL_CONTROLS in te stellen op halve breedte, verbeterde upload van lettertypebestanden, getOptions toegevoegd aan postMessage-Communication voor widgets, Dark-Mode toegevoegd aan JSON-Table-Widget.",
-                "fr": "Correction de l'erreur de conversion 199, Ajout d'une option pour définir ADDITIONAL_CONTROLS sur une demi-largeur, Téléchargement amélioré des fichiers de polices, Ajout de getOptions à postMessage-Communication pour les widgets, Ajout du mode sombre à JSON-Table-Widget.",
-                "it": "Risolto errore di conversione 199, aggiunta opzione per impostare ADDITIONAL_CONTROLS a metà larghezza, caricamento migliorato dei file di font, aggiunte getOptions a postMessage-Communication per i widget, aggiunta modalità oscura a JSON-Table-Widget.",
-                "es": "Se corrigió el error de conversión 199, se agregó la opción para configurar ADDITIONAL_CONTROLS a la mitad de ancho, se mejoró la carga de archivos de fuentes, se agregó getOptions a postMessage-Communication para widgets, se agregó el modo oscuro a JSON-Table-Widget.",
-                "pl": "Naprawiono błąd konwersji 199, Dodano opcję ustawienia ADDITIONAL_CONTROLS na połowę szerokości, Ulepszone przesyłanie plików czcionek, Dodano getOptions do postMessage-Communication dla widżetów, Dodano Dark-Mode do JSON-Table-Widget.",
-                "zh-cn": "修复了转换错误 199，添加了将 ADDITIONAL_CONTROLS 设置为半宽的选项，增强了字体文件的上传，为小部件的 postMessage-Communication 添加了 getOptions，为 JSON-Table-Widget 添加了暗模式。"
-            },
-            "1.9.1": {
-                "en": "You can now upload own font files, Admin tab is now linked to the iqontrol-administration page instead of frontend, Fixed mkDir for redis, Enhanced enlarge button for large screens.",
-                "de": "Sie können jetzt eigene Font-Dateien hochladen, Admin-Tab ist jetzt mit der iqontrol-Verwaltungsseite anstelle des Frontends verknüpft, mkDir für Redis behoben, Verbesserter Vergrößerungsknopf für große Bildschirme.",
-                "ru": "Теперь вы можете загружать собственные файлы шрифтов, вкладка «Администратор» теперь связана со страницей администрирования iqontrol вместо внешнего интерфейса, исправлен mkDir для redis, улучшенная кнопка увеличения для больших экранов.",
-                "pt": "Agora você pode carregar seus próprios arquivos de fonte, a guia Admin agora está vinculada à página de administração do iqontrol em vez do frontend, mkDir fixo para redis, botão de ampliação aprimorado para telas grandes.",
-                "nl": "U kunt nu eigen lettertypebestanden uploaden, Admin-tabblad is nu gekoppeld aan de iqontrol-administratiepagina in plaats van frontend, Fixed mkDir voor redis, Verbeterde vergrootknop voor grote schermen.",
-                "fr": "Vous pouvez désormais télécharger vos propres fichiers de polices, l'onglet Admin est désormais lié à la page d'administration d'iqontrol au lieu du frontend, mkDir fixe pour redis, bouton d'agrandissement amélioré pour les grands écrans.",
-                "it": "Ora puoi caricare i tuoi file di font, la scheda Admin è ora collegata alla pagina di amministrazione iqontrol invece del frontend, Fixato mkDir per redis, Pulsante di ingrandimento avanzato per schermi di grandi dimensioni.",
-                "es": "Ahora puede cargar sus propios archivos de fuentes, la pestaña Admin ahora está vinculada a la página de administración de iqontrol en lugar de la interfaz, mkDir fijo para redis, botón de ampliación mejorado para pantallas grandes.",
-                "pl": "Możesz teraz przesyłać własne pliki czcionek, zakładka Admin jest teraz połączona ze stroną administracyjną iqontrol zamiast frontendu, Naprawiono mkDir dla redis, Ulepszony przycisk powiększania dla dużych ekranów.",
-                "zh-cn": "您现在可以上传自己的字体文件，管理选项卡现在链接到 iqontrol 管理页面而不是前端，修复了 redis 的 mkDir，增强了大屏幕的放大按钮。"
-            },
-            "1.9.0": {
-                "en": "Added Dark-Mode, Added new configuration options for click on tile/icon behaviours - WARNING Old configuration is automatically converted to the new settings - Its recommendet to create a backup of your config BEFORE doing the update, as the new settings are not backwards compatible and in case of conversion errors, Added option to link color of lamp to OVERLAY_ACTIVE_COLOR, Added option to define caption of button for external URLs.",
-                "de": "Dark-Mode hinzugefügt, neue Konfigurationsoptionen für Klick auf Kachel/Icon-Verhalten hinzugefügt - WARNUNG Alte Konfiguration wird automatisch in die neuen Einstellungen konvertiert - Es wird empfohlen, VOR dem Update eine Sicherungskopie Ihrer Konfiguration zu erstellen, da die neuen Einstellungen nicht rückwärtskompatibel sind, Option verlinke die Farbe einer Lampe zu OVERLAY_ACTIVE_COLOR hinzugefügt, Option die Beschriftung des Knopfes für externe URLS festzulegen hinzugefügt.",
-                "ru": "Добавлен темный режим, добавлены новые параметры конфигурации для поведения при нажатии на плитку / значок - ПРЕДУПРЕЖДЕНИЕ Старая конфигурация автоматически преобразуется в новые настройки - Рекомендуется создать резервную копию вашей конфигурации ПЕРЕД обновлением, поскольку новые настройки не имеют обратной совместимости ",
-                "pt": "Modo escuro adicionado, novas opções de configuração adicionadas para comportamentos de clique no bloco / ícone - AVISO A configuração antiga é automaticamente convertida para as novas configurações - É recomendável criar um backup de sua configuração ANTES de fazer a atualização, pois as novas configurações não são compatíveis com versões anteriores ",
-                "nl": "Dark-Mode toegevoegd, nieuwe configuratie-opties toegevoegd voor klik op tegel/pictogramgedrag - WAARSCHUWING Oude configuratie wordt automatisch geconverteerd naar de nieuwe instellingen - Het wordt aanbevolen om een ​​back-up van uw configuratie te maken VOORDAT u de update uitvoert, omdat de nieuwe instellingen niet achterwaarts compatibel zijn ",
-                "fr": "Ajout du mode sombre, ajout de nouvelles options de configuration pour les comportements de clic sur les tuiles/icônes - AVERTISSEMENT L'ancienne configuration est automatiquement convertie en les nouveaux paramètres - Il est recommandé de créer une sauvegarde de votre configuration AVANT de faire la mise à jour, car les nouveaux paramètres ne sont pas rétrocompatibles ",
-                "it": "Aggiunta modalità oscura, aggiunte nuove opzioni di configurazione per i comportamenti di clic su tile/icona - ATTENZIONE La vecchia configurazione viene convertita automaticamente nelle nuove impostazioni - Si consiglia di creare un backup della configurazione PRIMA di eseguire l'aggiornamento, poiché le nuove impostazioni non sono retrocompatibili ",
-                "es": "Se agregó el modo oscuro, se agregaron nuevas opciones de configuración para hacer clic en los comportamientos del mosaico / icono - ADVERTENCIA La configuración anterior se convierte automáticamente a la nueva configuración - Se recomienda crear una copia de seguridad de su configuración ANTES de realizar la actualización, ya que la nueva configuración no es compatible con versiones anteriores ",
-                "pl": "Dodano tryb ciemny, dodano nowe opcje konfiguracji dla zachowań kliknięcia kafelków/ikony - OSTRZEŻENIE Stara konfiguracja jest automatycznie konwertowana na nowe ustawienia - Zaleca się utworzenie kopii zapasowej konfiguracji PRZED wykonaniem aktualizacji, ponieważ nowe ustawienia nie są kompatybilne wstecz ",
-                "zh-cn": "添加了暗模式，为单击磁贴/图标行为添加了新的配置选项 - 警告旧配置会自动转换为新设置 - 建议在更新之前创建配置备份，因为新设置不向后兼容"
-            },
-            "1.8.2": {
-                "en": "Added JSON-Table Widget (Displays JSON-Data as table), Enhanced device copy dialog with option to set new name and to replace datapoints, You can now copy devices directly from the device list, Entries with empty values in Arrays of INFO_A/B are now hidden, Added option to hide UNREACH if device is inactive, Fixed missing general options for device link to other view, Fixed admin page not working in safari, Added option to hide name for buttons in ADDITIONAL_CONTROLS.",
-                "de": "JSON-Table Widget hinzugefügt (zeigt JSON-Daten als Tabelle an), Verbesserter Gerätekopierdialog mit Option zum Setzen neuer Namen und zum Ersetzen von Datenpunkten, Sie können jetzt Geräte direkt aus der Geräteliste kopieren, Einträge mit leeren Werten in Arrays von INFO_A/B ",
-                "ru": "Добавлен виджет JSON-Table (отображает данные JSON в виде таблицы), расширенный диалог копирования устройства с возможностью установки нового имени и замены точек данных, теперь вы можете копировать устройства прямо из списка устройств, записи с пустыми значениями в массивах INFO_A / B ",
-                "pt": "Adicionado widget JSON-Table (exibe JSON-Data como tabela), caixa de diálogo de cópia de dispositivo aprimorada com opção para definir um novo nome e substituir pontos de dados. Agora você pode copiar dispositivos diretamente da lista de dispositivos, Entradas com valores vazios em Arrays de INFO_A / B ",
-                "nl": "JSON-Table Widget toegevoegd (toont JSON-Data als tabel), Verbeterd dialoogvenster voor apparaatkopie met optie om een ​​nieuwe naam in te stellen en datapunten te vervangen, U kunt nu apparaten rechtstreeks uit de apparaatlijst kopiëren, Vermeldingen met lege waarden in Arrays van INFO_A/B ",
-                "fr": "Widget JSON-Table ajouté (affiche les données JSON sous forme de tableau), boîte de dialogue de copie de périphérique améliorée avec option pour définir un nouveau nom et remplacer les points de données, vous pouvez désormais copier des périphériques directement à partir de la liste des périphériques, entrées avec des valeurs vides dans les tableaux d'INFO_A/B ",
-                "it": "Aggiunto widget JSON-Table (visualizza i dati JSON come tabella), finestra di dialogo di copia del dispositivo migliorata con l'opzione per impostare un nuovo nome e sostituire i punti dati, ora è possibile copiare i dispositivi direttamente dall'elenco dei dispositivi, voci con valori vuoti nelle matrici di INFO_A/B ",
-                "es": "Se agregó el widget JSON-Table (muestra JSON-Data como tabla), cuadro de diálogo de copia de dispositivo mejorado con opción para establecer un nuevo nombre y reemplazar puntos de datos, ahora puede copiar dispositivos directamente desde la lista de dispositivos, entradas con valores vacíos en matrices de INFO_A / B ",
-                "pl": "Dodano widżet JSON-Table (wyświetla dane JSON jako tabelę), Rozszerzone okno dialogowe kopiowania urządzeń z opcją ustawienia nowej nazwy i zastąpienia punktów danych, Teraz można kopiować urządzenia bezpośrednio z listy urządzeń, Wpisy z pustymi wartościami w tablicach INFO_A/B ",
-                "zh-cn": "添加了 JSON-Table 小部件（将 JSON-Data 显示为表格），增强的设备复制对话框，带有设置新名称和替换数据点的选项，您现在可以直接从设备列表中复制设备，INFO_A/B 数组中具有空值的条目"
-            },
-            "1.8.1": {
-                "en": "Some design-adjustments for react-ui, Keep track of ioBroker object changes in admin, Fixed crash if active view has no devices, Removed old conn.js from admin, Added HomematicIP-Thermostat, Enhanced max-height of dialog, Fixed up, down and stop button for blinds, Changed some log messages, Enhanced FLOT-Chart-Widget to set axis options.",
-                "de": "Einige Design-Anpassungen für React-UI, Verfolgen von ioBroker Objektänderungen im Admin, Absturz behoben, wenn aktive Ansicht keine Geräte hat, Alte conn.js vom Admin entfernt, HomematicIP-Thermostat hinzugefügt, Max-Höhe des Dialogs verbessert, Behoben, ",
-                "ru": "Некоторые изменения дизайна для response-ui, Следить за изменениями объекта ioBroker в админке, Исправлен сбой, если в активном представлении нет устройств, Удален старый conn.js из администратора, Добавлен HomematicIP-Thermostat, Улучшена максимальная высота диалога, Исправлено, ",
-                "pt": "Alguns ajustes de design para react-ui, manter o controle de alterações do objeto ioBroker no administrador, falha corrigida se a visualização ativa não tiver dispositivos, conn.js antigo removido do administrador, HomematicIP-termostato adicionado, altura máxima de diálogo aprimorada, corrigido, ",
-                "nl": "Enkele ontwerpaanpassingen voor react-ui, ioBroker-objectwijzigingen bijhouden in admin, crash verholpen als actieve weergave geen apparaten heeft, oude conn.js verwijderd uit admin, HomematicIP-thermostaat toegevoegd, verbeterde maximale hoogte van dialoogvenster, gerepareerd, ",
-                "fr": "Quelques ajustements de conception pour react-ui, Gardez une trace des modifications apportées à l'objet ioBroker dans l'administrateur, Correction d'un plantage si la vue active n'a pas de périphériques, Suppression de l'ancien conn.js de l'administrateur, Ajout d'un HomematicIP-Thermostat, Amélioration de la hauteur maximale de la boîte de dialogue, Correction, ",
-                "it": "Alcune modifiche al design per react-ui, Tieni traccia delle modifiche all'oggetto ioBroker nell'amministratore, Risolto crash se la vista attiva non ha dispositivi, Rimosso il vecchio conn.js dall'amministratore, Aggiunto HomematicIP-Thermostat, Migliorata l'altezza massima della finestra di dialogo, Risolto, ",
-                "es": "Algunos ajustes de diseño para react-ui, realizar un seguimiento de los cambios del objeto ioBroker en el administrador, se corrigió el bloqueo si la vista activa no tiene dispositivos, se eliminó el antiguo conn.js del administrador, se agregó el termostato HomematicIP, se mejoró la altura máxima del diálogo, se corrigió, ",
-                "pl": "Niektóre poprawki projektowe dla React-ui, Śledź zmiany obiektów ioBroker w admin, Naprawiono awarię, jeśli aktywny widok nie zawiera urządzeń, Usunięto stary conn.js z admina, Dodano termostat HomematicIP, Ulepszono maksymalną wysokość okna dialogowego, Poprawiono, ",
-                "zh-cn": "react-ui 的一些设计调整，在管理中跟踪 ioBroker 对象的变化，如果活动视图没有设备，则修复崩溃，从管理中删除旧的 conn.js，添加 HomematicIP-Thermostat，增强对话框的最大高度，修复，"
-            },
-            "1.8.0": {
-                "en": "Some design-adjustments for react-ui.",
-                "de": "Einige Designanpassungen für React-UI.",
-                "ru": "Некоторые корректировки дизайна для react-ui.",
-                "pt": "Alguns ajustes de design para react-ui.",
-                "nl": "Enkele ontwerpaanpassingen voor react-ui.",
-                "fr": "Quelques ajustements de conception pour react-ui.",
-                "it": "Alcuni aggiustamenti di progettazione per React-ui.",
-                "es": "Algunos ajustes de diseño para react-ui.",
-                "pl": "Kilka zmian w projekcie dla React-UI.",
-                "zh-cn": "react-ui的一些设计调整。"
-            },
-            "1.7.3": {
-                "en": "Fixed admin-tab for react.",
-                "de": "Admin-Tab für Reagieren behoben.",
-                "ru": "Исправлена ​​админ-вкладка для реакции.",
-                "pt": "Guia de administração corrigido para reagir.",
-                "nl": "Vaste admin-tab voor reageren.",
-                "fr": "Correction de l'onglet d'administration pour réagir.",
-                "it": "Risolto il problema con la scheda di amministrazione per la reazione.",
-                "es": "Se corrigió la pestaña de administración para reaccionar.",
-                "pl": "Naprawiono zakładkę administratora do reagowania.",
-                "zh-cn": "修复了反应的管理选项卡。"
-            },
-            "1.7.2": {
-                "en": "Added compatibility to new react-ui of admin-adapter, Fixed uploading of larger files, Changed background-images in autocreate views function, Internal definition and handling of device options changed, The directories /usericons, /usersymbols and /userwidgets are now automatically created, if not existant, Some design-adjustments for react.",
-                "de": "Kompatibilität zu neuer Reaktions-Benutzeroberfläche des Admin-Adapters hinzugefügt, Upload größerer Dateien behoben, Hintergrundbilder in der Funktion zum automatischen Erstellen von Ansichten geändert, Interne Definition und Behandlung von Geräteoptionen geändert, Verzeichnisse / Benutzericons, / Benutzersymbole und / Benutzerwidgets werden jetzt automatisch erstellt ",
-                "ru": "Добавлена ​​совместимость с новым response-ui админ-адаптера, Исправлена ​​загрузка файлов большего размера, Изменены фоновые изображения в функции автосоздания представлений, Изменено внутреннее определение и обработка параметров устройства, Каталоги / usericons, / usersymbols и / userwidgets теперь создаются автоматически ",
-                "pt": "Adicionada compatibilidade para o novo react-ui do adaptador admin, Carregamento fixo de arquivos maiores, Imagens de fundo alteradas na função de criação automática de visualizações, Definição interna e manipulação de opções de dispositivo alteradas, Os diretórios / usericons, / usersymbols e / userwidgets são agora criados automaticamente ",
-                "nl": "Compatibiliteit toegevoegd aan nieuwe react-ui van admin-adapter, Vaste upload van grotere bestanden, Gewijzigde achtergrondafbeeldingen in autocreate views-functie, Interne definitie en afhandeling van apparaatopties veranderd, De directories / usericons, / gebruikerssymbolen en / userwidgets worden nu automatisch aangemaakt ",
-                "fr": "Ajout de la compatibilité avec le nouveau react-ui de l'adaptateur admin, Correction du téléchargement de fichiers plus volumineux, Modification des images d'arrière-plan dans la fonction de création automatique de vues, Définition interne et gestion des options de l'appareil modifiées, Les répertoires / usericons, / usersymbols et / userwidgets sont maintenant créés automatiquement ",
-                "it": "Aggiunta compatibilità con la nuova interfaccia utente reattiva dell'adattatore amministratore, corretto caricamento di file più grandi, immagini di sfondo modificate nella funzione di visualizzazione automatica, definizione interna e gestione delle opzioni del dispositivo modificate, directory / usericons, / usersymbols e / userwidgets vengono ora creati automaticamente ",
-                "es": "Se agregó compatibilidad con el nuevo react-ui de admin-adapter, Se corrigió la carga de archivos más grandes, Se cambiaron las imágenes de fondo en la función de creación automática de vistas, Se modificó la definición interna y el manejo de las opciones del dispositivo, Los directorios / usericons, / usersymbols y / userwidgets ahora se crean automáticamente ",
-                "pl": "Dodano kompatybilność z nowym interfejsem użytkownika administratora, Naprawiono przesyłanie większych plików, Zmieniono obrazy tła w funkcji automatycznego tworzenia widoków, Zmieniono wewnętrzną definicję i obsługę opcji urządzenia, Katalogi / ikony użytkownika, / userymbols i / userwidgets są teraz tworzone automatycznie ",
-                "zh-cn": "新增了对admin-adapter的新react-ui的兼容性，修复了较大文件的上载，在自动创建视图功能中更改了背景图像，更改了设备选项的内部定义和处理，现在已自动创建目录/ usericons，/ usersymbols和/ userwidgets "
-            },
-            "1.7.1": {
-                "en": "Fix to work with Admin v5-0-3 (renaming files and folders will only work with the upcoming next admin-update), Updated dependencies, Added option to show name of INFO_A/B.",
-                "de": "Korrektur für die Arbeit mit Admin v5-0-3 (das Umbenennen von Dateien und Ordnern funktioniert nur mit dem nächsten Administrator-Update), Aktualisierte Abhängigkeiten, Option hinzugefügt, um den Namen von INFO_A / B anzuzeigen.",
-                "ru": "Исправление для работы с Admin v5-0-3 (переименование файлов и папок будет работать только с предстоящим следующим административным обновлением), обновлены зависимости, добавлена ​​опция для отображения имени INFO_A / B.",
-                "pt": "Correção para trabalhar com o Admin v5-0-3 (renomear arquivos e pastas só funcionará com a próxima atualização do administrador), Dependências atualizadas, opção adicionada para mostrar o nome de INFO_A / B.",
-                "nl": "Herstel om te werken met Admin v5-0-3 (hernoemen van bestanden en mappen werkt alleen met de aanstaande volgende admin-update), Bijgewerkte afhankelijkheden, Optie toegevoegd om de naam van INFO_A / B weer te geven.",
-                "fr": "Correctif pour fonctionner avec Admin v5-0-3 (renommer les fichiers et les dossiers ne fonctionnera qu'avec la prochaine mise à jour de l'administrateur), Dépendances mises à jour, option ajoutée pour afficher le nom de INFO_A / B",
-                "it": "Risolto il problema con Admin v5-0-3 (la ridenominazione di file e cartelle funzionerà solo con il prossimo prossimo aggiornamento dell'amministratore), dipendenze aggiornate, opzione aggiunta per mostrare il nome di INFO_A / B.",
-                "es": "Corrección para trabajar con Admin v5-0-3 (el cambio de nombre de archivos y carpetas solo funcionará con la próxima actualización de administrador), dependencias actualizadas, opción agregada para mostrar el nombre de INFO_A / B.",
-                "pl": "Poprawka do pracy z administratorem v5-0-3 (zmiana nazw plików i folderów będzie działać tylko z nadchodzącą następną aktualizacją administratora), zaktualizowane zależności, dodano opcję wyświetlania nazwy INFO_A / B.",
-                "zh-cn": "已修复，可与Admin v5-0-3一起使用（重新命名文件和文件夹仅适用于即将进行的下一次admin更新），已更新的相关性，已添加选项以显示INFO_A / B的名称。"
-            },
-            "1.7.0": {
-                "en": "Added combobox as possible option type, Added Date and Time as new device for dates, times and periods (durations), Added time-format and time-display-format to custom settings of datapoints, Added time-picker for every datapoint - including ADDITIONAL_CONTROLS - of role value.time, value.date, value.datetime, level.timer and level.timer.sleep, Enhanced blind to better show opening and closing, even if level is 0 or 100, Added STOP_SET_VALUE for blinds, You can now use variables in device-names, button-captions and headings of ADDITIONAL_CONTROLS.",
-                "de": "Combobox als möglicher Optionstyp hinzugefügt, Datum und Uhrzeit als neues Gerät für Datum, Uhrzeit und Zeitraum (Dauer) hinzugefügt, Zeitformat und Zeitanzeigeformat zu benutzerdefinierten Einstellungen von Datenpunkten hinzugefügt, Zeitauswahl für jeden Datenpunkt hinzugefügt - einschließlich ADDITIONAL_CONTROLS ",
-                "ru": "Добавлено поле со списком в качестве возможного типа параметра, Дата и время добавлены в качестве нового устройства для дат, времени и периодов (продолжительности), Добавлены формат времени и формат отображения времени в пользовательские настройки точек данных, Добавлен выбор времени для каждой точки данных, включая ADDITIONAL_CONTROLS ",
-                "pt": "Adicionado combobox como tipo de opção possível, Adicionado Data e Hora como novo dispositivo para datas, horas e períodos (durações), Adicionado formato de hora e formato de exibição de hora para configurações personalizadas de pontos de dados, Selecionador de tempo adicionado para cada ponto de dados - incluindo ADDITIONAL_CONTROLS ",
-                "nl": "Toegevoegd combobox als mogelijk optietype, Datum en tijd toegevoegd als nieuw apparaat voor datums, tijden en periodes (duur), Tijdformaat en tijdweergave-formaat toegevoegd aan aangepaste instellingen van datapunten, Tijdkiezer toegevoegd voor elk datapunt - inclusief ADDITIONAL_CONTROLS ",
-                "fr": "Ajout d'une liste déroulante comme type d'option possible, Ajout de la date et de l'heure en tant que nouvel appareil pour les dates, heures et périodes (durées), Ajout du format d'heure et du format d'affichage de l'heure aux paramètres personnalisés des points de données, Ajout du sélecteur d'heure pour chaque point de données - y compris ADDITIONAL_CONTROLS ",
-                "it": "Aggiunta casella combinata come possibile tipo di opzione, Data e ora aggiunte come nuovo dispositivo per date, orari e periodi (durate), Formato ora e formato di visualizzazione dell'ora aggiunti alle impostazioni personalizzate dei punti dati, Selezione dell'ora per ogni punto dati, inclusi ADDITIONAL_CONTROLS ",
-                "es": "Se agregó un cuadro combinado como tipo de opción posible, Fecha y hora agregadas como nuevo dispositivo para fechas, horas y períodos (duraciones), Se agregó formato de hora y formato de visualización de hora a la configuración personalizada de puntos de datos, Se agregó un selector de tiempo para cada punto de datos, incluidos ADDITIONAL_CONTROLS ",
-                "pl": "Dodano pole wyboru jako możliwy typ opcji, Dodano datę i godzinę jako nowe urządzenie dla dat, godzin i okresów (czasu trwania), Dodano format czasu i format wyświetlania czasu do niestandardowych ustawień punktów danych, Dodano selektor czasu dla każdego punktu danych - w tym ADDITIONAL_CONTROLS ",
-                "zh-cn": "将组合框添加为可能的选项类型，将日期和时间添加为日期，时间和期间（持续时间）的新设备，为数据点的自定义设置添加了时间格式和时间显示格式，为每个数据点添加了时间选择器-包括ADDITIONAL_CONTROLS "
-            },
-            "1.6.6": {
-                "en": "Fix for double admin page.",
-                "de": "Fix für doppelte Admin-Seite.",
-                "ru": "Исправление для двойной страницы администратора.",
-                "pt": "Correção para página de administração dupla.",
-                "nl": "Oplossing voor dubbele admin-pagina.",
-                "fr": "Correction de la double page d'administration.",
-                "it": "Risolto il problema con la doppia pagina di amministrazione.",
-                "es": "Corrección de la página de administración doble.",
-                "pl": "Naprawiono podwójną stronę administratora.",
-                "zh-cn": "修复了双重管理页面。"
-            },
-            "1.6.5": {
-                "en": "If you change the device-specific option 'Return to OFF_SET_VALUE after [ms]' of buttons to 0, the button toggles now, Fixed noZoomOnHover for device icon on large screens, The options of the change device-options-function are now sorted alphabetically, Added option to configure appereance of VALVE_STATES for thermostats, Fixed recognition of blank icon for device-filling states and added padding, if badge is present, Added option to INFO_A/B to define the number of digits to be rounded to, Added option to customs-dialog to define the number of digits to be rounded to, Now also numerical values are treatet as strings, if common.role is string (before it was converted to level), Now empty values on a value-list are not longer ignored, Some fine adjustments to panel, Updated type-detector, Added edit button to views, INFO_A/B will be hidden if value is empty.",
-                "de": "Wenn Sie die gerätespezifische Option 'Zurück zu OFF_SET_VALUE nach [ms]' der Schaltflächen auf 0 ändern, wechselt die Schaltfläche jetzt. Das Problem noZoomOnHover für Gerätesymbol auf großen Bildschirmen wurde behoben. Die Optionen der Funktion zum Ändern der Geräteoptionen sind jetzt alphabetisch sortiert ",
-                "ru": "Если вы измените для конкретного устройства параметр «Вернуться к OFF_SET_VALUE через [мс]» кнопок на 0, кнопка теперь переключается, Исправлено noZoomOnHover для значка устройства на больших экранах, Параметры функции изменения параметров устройства теперь отсортированы в алфавитном порядке ",
-                "pt": "Se você alterar a opção específica do dispositivo 'Retornar para OFF_SET_VALUE após [ms]' dos botões para 0, o botão alterna agora, Fixed noZoomOnHover para o ícone do dispositivo em telas grandes, As opções para alterar a função de opções do dispositivo agora são classificadas em ordem alfabética ",
-                "nl": "Als je de apparaatspecifieke optie 'Terug naar OFF_SET_VALUE na [ms]' van knoppen verandert in 0, schakelt de knop nu, Fixed noZoomOnHover voor apparaatpictogram op grote schermen, De opties van de wijzig apparaat-opties-functie zijn nu alfabetisch gesorteerd ",
-                "fr": "Si vous modifiez l'option spécifique à l'appareil 'Revenir à OFF_SET_VALUE après [ms]' des boutons sur 0, le bouton bascule maintenant, Correction de noZoomOnHover pour l'icône de l'appareil sur les grands écrans, Les options de la fonction de modification des options de l'appareil sont maintenant triées par ordre alphabétique ",
-                "it": "Se si modifica su 0 l'opzione specifica del dispositivo \"Ritorna a OFF_SET_VALUE dopo [ms]\" dei pulsanti, il pulsante si attiva ora, Fixed noZoomOnHover per l'icona del dispositivo su schermi di grandi dimensioni, Le opzioni della funzione di modifica delle opzioni del dispositivo sono ora ordinate alfabeticamente ",
-                "es": "Si cambia la opción específica del dispositivo 'Volver a OFF_SET_VALUE después de [ms]' de los botones a 0, el botón cambia ahora, NoZoomOnHover fijo para el icono del dispositivo en pantallas grandes, Las opciones de la función cambiar opciones de dispositivo ahora están ordenadas alfabéticamente ",
-                "pl": "Jeśli zmienisz opcję specyficzną dla urządzenia „Return to OFF_SET_VALUE after [ms]” przycisków na 0, przycisk przełącza się teraz, Naprawiono noZoomOnHover dla ikony urządzenia na dużych ekranach, Opcje funkcji zmiany opcji urządzenia są teraz posortowane alfabetycznie ",
-                "zh-cn": "如果将设备特定的选项“在[ms]后返回到OFF_SET_VALUE”按钮更改为0，则该按钮现在切换，固定了大屏幕上设备图标的noZoomOnHover，更改设备选项功能的选项现在按字母顺序排序"
-            }
-        },
-        "title": "iQontrol Vis",
-        "titleLang": {
-            "en": "iQontrol Vis",
-            "de": "iQontrol Vis",
-            "ru": "iQontrol Vis",
-            "pt": "iQontrol Vis",
-            "nl": "iQontrol Vis",
-            "fr": "iQontrol Vis",
-            "it": "iQontrol Vis",
-            "es": "iQontrol Vis",
-            "pl": "iQontrol Vis",
-            "zh-cn": "iQontrol Vis"
-        },
-        "desc": {
-            "en": "Fast Web-App for Visualization",
-            "de": "Schnelle Web-App zur Visualisierung",
-            "ru": "Быстрое веб-приложение для визуализации",
-            "pt": "Fast Web-App para visualização",
-            "nl": "Snelle web-app voor visualisatie",
-            "fr": "Web-App rapide pour la visualisation",
-            "it": "App Web veloce per visualizzazione",
-            "es": "Rápida aplicación web para visualización",
-            "pl": "Szybka aplikacja internetowa do wizualizacji",
-            "zh-cn": "用于可视化的快速Web应用程序"
-        },
-        "authors": [
-            "Sebastian Bormann <sebastian@bormann.net>"
-        ],
-        "keywords": [
-            "visualization",
-            "user",
-            "interface",
-            "webapp",
-            "ui"
-        ],
-        "license": "MIT",
-        "platform": "Javascript/Node.js",
-        "main": "main.js",
-        "icon": "iqontrol.png",
-        "enabled": true,
-        "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
-        "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "tier": 3,
-        "type": "visualization",
-        "highlight": true,
-        "compact": true,
-        "singleton": false,
-        "materialize": true,
-        "materializeTab": true,
-        "adminTab": {
-            "name": {
-                "en": "iQontrol",
-                "de": "iQontrol",
-                "ru": "iQontrol",
-                "pt": "iQontrol",
-                "nl": "iQontrol",
-                "fr": "iQontrol",
-                "it": "iQontrol",
-                "es": "iQontrol",
-                "pl": "iQontrol",
-                "zh-cn": "iQontrol"
-            },
-            "singleton": false,
-            "fa-icon": "blur_on",
-            "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
-        },
-        "onlyWWW": false,
-        "blockly": true,
-        "messagebox": true,
-        "subscribe": "messagebox",
-        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
-        "welcomeScreen": false,
-        "welcomeScreenPro": {
-            "link": "iqontrol/index.html",
-            "name": "iQontrol",
-            "img": "iqontrol.admin/iqontrol.png",
-            "color": "gray",
-            "order": 1,
-            "localLink": false
-        },
-        "noIntro": false,
-        "supportCustoms": true,
-        "jsonCustom": true,
-        "plugins": {
-            "sentry": {
-                "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
-            }
-        },
-        "connectionType": "local",
-        "dataSource": "push",
-        "dependencies": [
-            {
-                "admin": ">=3.0.0"
-            },
-            {
-                "js-controller": ">=1.4.2"
-            },
-            {
-                "web": ">=3.0.12"
-            }
-        ]
+  "common": {
+    "name": "iqontrol",
+    "version": "1.9.11",
+    "news": {
+      "1.9.11": {
+        "en": "Added release-script by AlCalzone.\nSet setState for postMessage to forced send.",
+        "de": "Release-Skript von AlCalzone hinzugefügt.\nSetzen Sie setState für postMessage auf erzwungenes Senden.",
+        "ru": "Добавлен релиз-скрипт от AlCalzone.\nУстановите для setState для postMessage принудительную отправку.",
+        "pt": "Adicionado o script de lançamento da AlCalzone.\nDefina setState para postMessage como envio forçado.",
+        "nl": "Release-script toegevoegd door AlCalzone.\nStel setState voor postMessage in op gedwongen verzenden.",
+        "fr": "Ajout du script de publication par AlCalzone.\nDéfinissez setState pour postMessage sur envoi forcé.",
+        "it": "Aggiunto lo script di rilascio di AlCalzone.\nImposta setState per postMessage su invio forzato.",
+        "es": "Se agregó un script de lanzamiento de AlCalzone.\nEstablezca setState para postMessage en envío forzado.",
+        "pl": "Dodano skrypt wydania autorstwa AlCalzone.\nUstaw setState dla postMessage na wymuszone wysyłanie.",
+        "zh-cn": "添加了 AlCalzone 的发布脚本。\n将 postMessage 的 setState 设置为强制发送。"
+      },
+      "1.9.10": {
+        "en": "* (sbormann) Enhanced handling of states set by widgets.\n",
+        "de": "* (sbormann) Verbesserte Handhabung von Zuständen, die von Widgets gesetzt werden.\n",
+        "ru": "* (sbormann) Улучшена обработка состояний, установленных виджетами.\n",
+        "pt": "* (sbormann) Tratamento aprimorado de estados definidos por widgets.\n",
+        "nl": "* (sbormann) Verbeterde afhandeling van statussen ingesteld door widgets.\n",
+        "fr": "* (sbormann) Amélioration de la gestion des états définis par les widgets.\n",
+        "it": "* (sbormann) Migliorata la gestione degli stati impostati dai widget.\n",
+        "es": "* (sbormann) Manejo mejorado de estados establecidos por widgets.\n",
+        "pl": "* (sbormann) Ulepszona obsługa stanów ustawianych przez widżety.\n",
+        "zh-cn": "* (sbormann) 增强了对小部件设置的状态的处理。\n"
+      },
+      "1.9.9": {
+        "en": "Fixed collapsible not opening if initial closed.\nEnhanced Analog-Clock-Widget to be able to display the time of a datapoint.\nEnhanced json-table-Widget to regognize parentNames of datapoints, transpose and convert json-data and some styling-options.\nEnhanced styling of ADDITIONAL_INFO.",
+        "de": "Behoben, dass das zusammenklappbare sich nicht öffnet, wenn es zunächst geschlossen ist.\nErweitertes Analog-Clock-Widget, um die Uhrzeit eines Datenpunkts anzeigen zu können.\nVerbessertes json-table-Widget zum Erkennen von ParentNames von Datenpunkten, Transponieren und Konvertieren von Json-Daten und einigen Styling-Optionen.\nVerbessertes Styling von ADDITIONAL_INFO.",
+        "ru": "Исправлена ошибка, из-за которой складной механизм не открывался при первоначальном закрытии.\nУлучшенный виджет аналоговых часов для отображения времени точки данных.\nУлучшенный виджет json-table-Widget для распознавания parentNames точек данных, транспонирования и преобразования данных json и некоторых параметров стиля.\nУлучшенный стиль ADDITIONAL_INFO.",
+        "pt": "Fixo dobrável não abre se inicial fechado.\nAnalog-Clock-Widget aprimorado para ser capaz de exibir a hora de um ponto de dados.\nWidget json-table-widget aprimorado para reconhecer nomes de pais de pontos de dados, transpor e converter dados de json e algumas opções de estilo.\nEstilo aprimorado de ADDITIONAL_INFO.",
+        "nl": "Vaste opvouwbare niet openen indien aanvankelijk gesloten.\nVerbeterde Analog-Clock-Widget om de tijd van een datapunt te kunnen weergeven.\nVerbeterde json-table-Widget om parentNames van datapunten te herkennen, json-data te transponeren en te converteren en enkele styling-opties.\nVerbeterde stijl van ADDITIONAL_INFO.",
+        "fr": "Fixe pliable ne s'ouvrant pas si fermé initial.\nAnalog-Clock-Widget amélioré pour pouvoir afficher l'heure d'un point de données.\nJson-table-Widget amélioré pour reconnaître les parentsNames des points de données, transposer et convertir les données json et certaines options de style.\nStyle amélioré de ADDITIONAL_INFO.",
+        "it": "Risolto il problema con il pieghevole che non si apriva se inizialmente chiuso.\nAnalog-Clock-Widget potenziato per poter visualizzare l'ora di un punto dati.\nJson-table-Widget migliorato per riconoscere i nomi parent dei punti dati, trasporre e convertire i dati json e alcune opzioni di stile.\nStile migliorato di ADDITIONAL_INFO.",
+        "es": "Plegable fijo que no se abre si está cerrado por primera vez.\nWidget de reloj analógico mejorado para poder mostrar la hora de un punto de datos.\nJson-table-Widget mejorado para reconocer los parentNames de los puntos de datos, transponer y convertir json-data y algunas opciones de estilo.\nEstilo mejorado de ADDITIONAL_INFO.",
+        "pl": "Naprawiono nieotwierające się składane, jeśli początkowo zamknięte.\nUlepszony widget zegara analogowego umożliwiający wyświetlanie czasu punktu danych.\nUlepszony json-table-Widget do rozpoznawania nazw nadrzędnych punktów danych, transpozycji i konwersji danych json oraz niektórych opcji stylizacji.\nUlepszony styl ADDITIONAL_INFO.",
+        "zh-cn": "如果最初关闭，则修复了可折叠不打开的问题。\n增强的模拟时钟小部件能够显示数据点的时间。\n增强 json-table-Widget 以识别数据点的 parentNames，转置和转换 json-data 和一些样式选项。\n增强了 ADDITIONAL_INFO 的样式。"
+      },
+      "1.9.8": {
+        "en": "Fixed variables with special chars not working.\nEnhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.\nFixed view rendering problems with thermostats without CONTROL_MODE.\nAdded the ability to widgets, to create widgetStates that contain a variable (for example to create distinct instances of a widget with own datapoints).\nThe map widget has been extended with a instance-option to create multiple maps with own datapoints.\n",
+        "de": "Behoben, dass Variablen mit Sonderzeichen nicht funktionierten.\nVerbessertes json-table-Widget mit Datenpunkterkennung, das es ermöglicht, Werte zu sehen und Datenpunkte in der Liste umzuschalten.\nProbleme beim Rendern von Ansichten mit Thermostaten ohne CONTROL_MODE behoben.\nMöglichkeit zu Widgets hinzugefügt, WidgetStates zu erstellen, die eine Variable enthalten (z. B. um unterschiedliche Instanzen eines Widgets mit eigenen Datenpunkten zu erstellen).\nDas Karten-Widget wurde um eine Instanz-Option erweitert, um mehrere Karten mit eigenen Datenpunkten zu erstellen.\n",
+        "ru": "Фиксированные переменные со специальными символами не работают.\nУлучшенный виджет json-table-widget с распознаванием точек данных, который позволяет видеть значения и переключать точки данных в списке.\nИсправлены проблемы рендеринга вида с термостатами без CONTROL_MODE.\nДобавлена возможность для виджетов создавать widgetStates, содержащие переменную (например, для создания отдельных экземпляров виджета с собственными точками данных).\nВиджет карты был расширен опцией экземпляра для создания нескольких карт с собственными точками данных.\n",
+        "pt": "Variáveis fixas com caracteres especiais não funcionando.\nJson-table-widget aprimorado com reconhecimento de pontos de dados, que permite ver valores e alternar pontos de dados na lista.\nCorrigidos problemas de renderização de visualização com termostatos sem CONTROL_MODE.\nAdicionada a capacidade de widgets para criar widgetStates que contêm uma variável (por exemplo, para criar instâncias distintas de um widget com pontos de dados próprios).\nO widget de mapa foi estendido com uma opção de instância para criar vários mapas com pontos de dados próprios.\n",
+        "nl": "Vaste variabelen met speciale tekens die niet werken.\nVerbeterde json-table-widget met gegevenspuntherkenning, waarmee u waarden kunt zien en gegevenspunten in de lijst kunt wisselen.\nProblemen met weergaveweergave opgelost met thermostaten zonder CONTROL_MODE.\nDe mogelijkheid toegevoegd aan widgets, om widgetStates te maken die een variabele bevatten (bijvoorbeeld om afzonderlijke instanties van een widget met eigen datapunten te maken).\nDe kaartwidget is uitgebreid met een instantie-optie om meerdere kaarten met eigen datapunten te maken.\n",
+        "fr": "Les variables fixes avec des caractères spéciaux ne fonctionnaient pas.\nJson-table-widget amélioré avec reconnaissance des points de données, qui permet de voir les valeurs et de basculer les points de données dans la liste.\nCorrection des problèmes de rendu de la vue avec les thermostats sans CONTROL_MODE.\nAjout de la possibilité aux widgets de créer des widgetStates qui contiennent une variable (par exemple pour créer des instances distinctes d'un widget avec ses propres points de données).\nLe widget de carte a été étendu avec une option d'instance pour créer plusieurs cartes avec ses propres points de données.\n",
+        "it": "Risolte le variabili con caratteri speciali non funzionanti.\nJson-table-widget migliorato con riconoscimento dei punti dati, che consente di vedere i valori e alternare i punti dati nell'elenco.\nRisolti i problemi di rendering della vista con i termostati senza CONTROL_MODE.\nAggiunta la possibilità ai widget di creare widgetStates che contengono una variabile (ad esempio per creare istanze distinte di un widget con propri datapoint).\nIl widget della mappa è stato esteso con un'opzione di istanza per creare più mappe con i propri punti dati.\n",
+        "es": "Variables fijas con caracteres especiales que no funcionan.\nJson-table-widget mejorado con reconocimiento de puntos de datos, que permite ver valores y alternar puntos de datos en la lista.\nSe corrigieron los problemas de representación de la vista con termostatos sin CONTROL_MODE.\nSe agregó la capacidad de los widgets para crear widgetStates que contengan una variable (por ejemplo, para crear instancias distintas de un widget con puntos de datos propios).\nEl widget de mapa se ha ampliado con una opción de instancia para crear varios mapas con puntos de datos propios.\n",
+        "pl": "Naprawiono niedziałające zmienne ze znakami specjalnymi.\nUlepszony json-table-widget z rozpoznawaniem punktów danych, który pozwala zobaczyć wartości i przełączać punkty danych na liście.\nNaprawiono problemy z renderowaniem widoku z termostatami bez trybu CONTROL_MODE.\nDodano możliwość tworzenia widgetów, aby tworzyć widgetStates, które zawierają zmienną (na przykład do tworzenia odrębnych instancji widgetu z własnymi punktami danych).\nWidżet mapy został rozszerzony o opcję instancji, aby tworzyć wiele map z własnymi punktami danych.\n",
+        "zh-cn": "带有特殊字符的固定变量不起作用。\n增强的 json-table-widget 具有数据点识别功能，允许查看列表中的值和切换数据点。\n修复了没有 CONTROL_MODE 的恒温器的视图渲染问题。\n添加了小部件的功能，以创建包含变量的小部件状态（例如，使用自己的数据点创建小部件的不同实例）。\n地图小部件已通过实例选项进行扩展，以使用自己的数据点创建多个地图。\n"
+      },
+      "1.9.7": {
+        "en": "Added option to close collapsible subheaders, if others open.\nFixed missing subheaders if new line option was activated.\nAdded option to define new section spacing.\nMinor design enhancements to dark mode, ADDITIONAL_INFO and JSON-Table-Widget.\nAdded more options to configure cols of JSON-Table-Widget.\nRedesigned CONTROL_MODE of Thermostats to be a fieldset instead of a dropdown.\nOverwrite step for HomematicIP-Temperature sensors with wrong min and max values.\nAdded option to send state-values when clicking on play, pause and stop to media.\nUpdated dependencies.\nAdded sections to widget options.\nAdded option to show state and level devided for device type value.\n",
+        "de": "Option zum Schließen von zusammenklappbaren Unterüberschriften hinzugefügt, wenn andere geöffnet werden.\nFehlende Unterüberschriften behoben, wenn die Option für neue Zeilen aktiviert war.\nOption zum Definieren eines neuen Abschnittsabstands hinzugefügt.\nKleinere Designverbesserungen bei Dark Mode, ADDITIONAL_INFO und JSON-Table-Widget.\nWeitere Optionen zum Konfigurieren von Spalten von JSON-Table-Widget hinzugefügt.\nCONTROL_MODE von Thermostaten wurde umgestaltet, um ein Feldset anstelle eines Dropdown-Menüs zu sein.\nÜberschreibschritt für HomematicIP-Temperatursensoren mit falschen Min- und Max-Werten.\nOption hinzugefügt, um Statuswerte beim Klicken auf Wiedergabe, Pause und Stopp an Medien zu senden.\nAktualisierte Abhängigkeiten.\nAbschnitte zu Widget-Optionen hinzugefügt.\nOption hinzugefügt, um Status und Ebene für den Gerätetypwert unterteilt anzuzeigen.\n",
+        "ru": "Добавлена опция закрытия сворачиваемых подзаголовков, если открываются другие.\nИсправлены отсутствующие подзаголовки, если была активирована опция новой строки.\nДобавлена опция для определения нового интервала между секциями.\nНезначительные улучшения дизайна темного режима, ADDITIONAL_INFO и JSON-Table-Widget.\nДобавлены дополнительные параметры для настройки столбцов JSON-Table-Widget.\nПереработан CONTROL_MODE термостатов в виде набора полей, а не раскрывающегося списка.\nШаг перезаписи для датчиков температуры HomematicIP с неправильными минимальными и максимальными значениями.\nДобавлена возможность отправки значений состояния при нажатии на воспроизведение, паузу и остановку в медиа.\nОбновлены зависимости.\nДобавлены разделы в параметры виджета.\nДобавлена возможность отображать состояние и уровень, разделенные для значения типа устройства.\n",
+        "pt": "Adicionada opção para fechar subcabeçalhos recolhíveis, se outros abrirem.\nCorrigidos subcabeçalhos ausentes se a opção de nova linha foi ativada.\nAdicionada opção para definir o novo espaçamento de seção.\nAprimoramentos de design menores para o modo escuro, ADDITIONAL_INFO e JSON-Table-Widget.\nAdicionadas mais opções para configurar cols de JSON-Table-Widget.\nCONTROL_MODE de termostatos reprojetado para ser um fieldset em vez de um menu suspenso.\nEtapa de substituição para sensores de temperatura HomematicIP com valores mínimo e máximo incorretos.\nAdicionada opção para enviar valores de estado ao clicar em reproduzir, pausar e parar para a mídia.\nDependências atualizadas.\nAdicionadas seções às opções do widget.\nAdicionada opção para mostrar o estado e o nível dividido pelo valor do tipo de dispositivo.\n",
+        "nl": "Optie toegevoegd om samenvouwbare subkoppen te sluiten, als andere worden geopend.\nOntbrekende subheaders opgelost als de nieuwe regeloptie was geactiveerd.\nOptie toegevoegd om nieuwe sectie-afstand te definiëren.\nKleine ontwerpverbeteringen voor de donkere modus, ADDITIONAL_INFO en JSON-Table-Widget.\nMeer opties toegevoegd om cols van JSON-Table-Widget te configureren.\nCONTROL_MODE van thermostaten opnieuw ontworpen om een veldset te zijn in plaats van een vervolgkeuzelijst.\nOverschrijfstap voor HomematicIP-temperatuursensoren met verkeerde min- en max-waarden.\nOptie toegevoegd om statuswaarden te verzenden bij het klikken op afspelen, pauzeren en stoppen naar media.\nBijgewerkte afhankelijkheden.\nSecties toegevoegd aan widgetopties.\nOptie toegevoegd om de status en het niveau weer te geven voor de waarde van het apparaattype.\n",
+        "fr": "Ajout d'une option pour fermer les sous-en-têtes réductibles, si d'autres s'ouvrent.\nCorrection des sous-en-têtes manquants si l'option de nouvelle ligne était activée.\nAjout d'une option pour définir un nouvel espacement de section.\nAméliorations mineures de la conception du mode sombre, ADDITIONAL_INFO et JSON-Table-Widget.\nAjout de plus d'options pour configurer les cols de JSON-Table-Widget.\nCONTROL_MODE repensé des thermostats pour être un ensemble de champs au lieu d'une liste déroulante.\nEcraser l'étape pour les capteurs de température HomematicIP avec des valeurs min et max incorrectes.\nAjout d'une option pour envoyer des valeurs d'état en cliquant sur play, pause et stop to media.\nDépendances mises à jour.\nAjout de sections aux options des widgets.\nAjout d'une option pour afficher l'état et le niveau divisés pour la valeur du type de périphérique.\n",
+        "it": "Aggiunta l'opzione per chiudere i sottotitoli comprimibili, se altri si aprono.\nRisolti i sottotitoli mancanti se veniva attivata l'opzione della nuova riga.\nAggiunta l'opzione per definire la nuova spaziatura delle sezioni.\nMiglioramenti di progettazione minori alla modalità oscura, ADDITIONAL_INFO e JSON-Table-Widget.\nAggiunte più opzioni per configurare colonne di JSON-Table-Widget.\nCONTROL_MODE riprogettato dei termostati per essere un set di campi anziché un menu a discesa.\nSovrascrivere il passaggio per i sensori di temperatura HomematicIP con valori minimi e massimi errati.\nAggiunta l'opzione per inviare i valori di stato quando si fa clic su play, pause e stop ai media.\nDipendenze aggiornate.\nAggiunte sezioni alle opzioni del widget.\nAggiunta l'opzione per mostrare lo stato e il livello divisi per il valore del tipo di dispositivo.\n",
+        "es": "Se agregó una opción para cerrar los subtítulos plegables, si se abren otros.\nSe corrigieron los subtítulos faltantes si se activaba la opción de nueva línea.\nOpción agregada para definir el espaciado de la nueva sección.\nPequeñas mejoras de diseño en el modo oscuro, ADDITIONAL_INFO y JSON-Table-Widget.\nSe agregaron más opciones para configurar columnas de JSON-Table-Widget.\nCONTROL_MODE rediseñado de termostatos para que sea un conjunto de campo en lugar de un menú desplegable.\nPaso de sobrescritura para sensores HomematicIP-Temperature con valores mínimos y máximos incorrectos.\nSe agregó la opción de enviar valores de estado al hacer clic en reproducir, pausar y detener a los medios.\nDependencias actualizadas.\nSe agregaron secciones a las opciones de los widgets.\nSe agregó una opción para mostrar el estado y el nivel divididos por el valor del tipo de dispositivo.\n",
+        "pl": "Dodano opcję zamykania zwijanych nagłówków, jeśli inne są otwarte.\nNaprawiono brakujące podnagłówki, jeśli aktywowano opcję nowej linii.\nDodano możliwość zdefiniowania nowego rozstawu sekcji.\nDrobne ulepszenia projektowe trybu ciemnego, ADDITIONAL_INFO i JSON-Table-Widget.\nDodano więcej opcji konfiguracji kolumn JSON-Table-Widget.\nPrzeprojektowano tryb CONTROL_MODE termostatów, aby był zestawem pól zamiast listy rozwijanej.\nNadpisz krok dla czujników temperatury HomematicIP z błędnymi wartościami min i max.\nDodano opcję wysyłania wartości stanu po kliknięciu odtwarzania, pauzy i zatrzymania do multimediów.\nZaktualizowane zależności.\nDodano sekcje do opcji widżetów.\nDodano opcję pokazania stanu i poziomu podzielonego dla wartości typu urządzenia.\n",
+        "zh-cn": "添加了关闭可折叠子标题的选项（如果其他标题打开）。\n如果激活了新行选项，则修复了缺少的子标题。\n添加了定义新节间距的选项。\n对暗模式、ADDITIONAL_INFO 和 JSON-Table-Widget 的微小设计增强。\n添加了更多选项来配置 JSON-Table-Widget 的 cols。\n将恒温器的 CONTROL_MODE 重新设计为字段集而不是下拉列表。\n使用错误的最小值和最大值覆盖 HomematicIP-温度传感器的步骤。\n添加了在点击播放、暂停和停止到媒体时发送状态值的选项。\n更新了依赖项。\n添加了小部件选项的部分。\n添加了显示为设备类型值划分的状态和级别的选项。\n"
+      },
+      "1.9.6": {
+        "en": "Removed some unnecessary horizontal lines in dialog. \nAdded option to edit caption of STATE or LEVEL. \nEnhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns. \nAdded some polyfils for older browsers. \nFixed a bug that prevented certain options from being applied correctly.",
+        "de": "Einige unnötige horizontale Linien im Dialog wurden entfernt. \nOption zum Bearbeiten der Beschriftung von STATE oder LEVEL hinzugefügt. \nVerbesserte ADDITIONAL_INFO-Liste (Sie können per Option zum alten Stil zurückkehren) und optionale Spalten hinzugefügt. \nEinige Polyfiles für ältere Browser hinzugefügt. \nEs wurde ein Fehler behoben, der die korrekte Anwendung bestimmter Optionen verhinderte.",
+        "ru": "Убраны лишние горизонтальные линии в диалоге. \nДобавлена возможность редактировать заголовок СОСТОЯНИЯ или УРОВНЯ. \nРасширен список ADDITIONAL_INFO (вы можете вернуться к старому стилю с помощью опции) и добавлены дополнительные столбцы. \nДобавлены полифилы для старых браузеров. \nИсправлена ошибка, из-за которой некоторые параметры не применялись правильно.",
+        "pt": "Removidas algumas linhas horizontais desnecessárias na caixa de diálogo. \nAdicionada opção para editar legenda de ESTADO ou NÍVEL. \nLista ADDITIONAL_INFO aprimorada (você pode voltar ao estilo antigo via opção) e colunas opcionais adicionadas. \nAdicionados alguns polyfils para navegadores mais antigos. \nCorrigido um bug que impedia que certas opções fossem aplicadas corretamente.",
+        "nl": "Enkele onnodige horizontale lijnen in dialoogvenster verwijderd. \nOptie toegevoegd om bijschrift van STATE of LEVEL te bewerken. \nVerbeterde ADDITIONAL_INFO-lijst (u kunt via optie teruggaan naar de oude stijl) en optionele kolommen toegevoegd. \nEnkele polyfils toegevoegd voor oudere browsers. \nEen bug opgelost die verhinderde dat bepaalde opties correct werden toegepast.",
+        "fr": "Suppression de quelques lignes horizontales inutiles dans la boîte de dialogue. \nAjout d'une option pour modifier la légende de STATE ou LEVEL. \nListe ADDITIONAL_INFO améliorée (vous pouvez revenir à l'ancien style via l'option) et ajout de colonnes facultatives. \nAjout de quelques polyfils pour les navigateurs plus anciens. \nCorrection d'un bug qui empêchait certaines options d'être appliquées correctement.",
+        "it": "Rimosse alcune linee orizzontali non necessarie nella finestra di dialogo. \nAggiunta l'opzione per modificare la didascalia di STATE o LEVEL. \nElenco ADDITIONAL_INFO migliorato (puoi tornare al vecchio stile tramite l'opzione) e aggiunte colonne opzionali. \nAggiunti alcuni polyfils per i browser più vecchi. \nRisolto un bug che impediva l'applicazione corretta di alcune opzioni.",
+        "es": "Se eliminaron algunas líneas horizontales innecesarias en el diálogo. \nSe agregó la opción para editar el título de ESTADO o NIVEL. \nLista ADDITIONAL_INFO mejorada (puede volver al estilo antiguo a través de la opción) y columnas opcionales agregadas. \nSe agregaron algunos polyfils para navegadores más antiguos. \nSe corrigió un error que impedía que ciertas opciones se aplicaran correctamente.",
+        "pl": "Usunięto niepotrzebne poziome linie w oknie dialogowym. \nDodano opcję edycji podpisu STAN lub POZIOM. \nUlepszona lista ADDITIONAL_INFO (możesz wrócić do starego stylu za pomocą opcji) i dodane opcjonalne kolumny. \nDodano kilka polifili dla starszych przeglądarek. \nNaprawiono błąd, który uniemożliwiał prawidłowe zastosowanie niektórych opcji.",
+        "zh-cn": "删除了对话框中一些不必要的水平线。添加了编辑状态或级别标题的选项。增强的 ADDITIONAL_INFO 列表（您可以通过选项返回到旧样式）并添加了可选列。为旧浏览器添加了一些 polyfil。修复了阻止正确应用某些选项的错误。"
+      },
+      "1.9.5": {
+        "en": "Removed prevention of injection for iframes.",
+        "de": "Die Verhinderung der Injektion für iframes wurde entfernt.",
+        "ru": "Убрана профилактика инъекций для iframe.",
+        "pt": "Removida a prevenção de injeção para iframes.",
+        "nl": "Preventie van injectie voor iframes verwijderd.",
+        "fr": "Suppression de la prévention de l'injection pour les iframes.",
+        "it": "Rimossa la prevenzione dell'iniezione per gli iframe.",
+        "es": "Se eliminó la prevención de inyección para iframes.",
+        "pl": "Usunięto zapobieganie wstrzykiwaniu elementów iframe.",
+        "zh-cn": "删除了对 iframe 的注入预防。"
+      }
     },
-    "native": {
-        "demotoolbar": [
-            {
-                "commonName": "Home",
-                "nativeLinkedView": "Home",
-                "nativeIcon": "home"
-            },
-            {
-                "commonName": "Rooms",
-                "nativeLinkedView": "Rooms",
-                "nativeIcon": "grid"
-            },
-            {
-                "commonName": "Functions",
-                "nativeLinkedView": "Functions",
-                "nativeIcon": "gear"
-            }
-        ],
-        "demoviews": [
-            {
-                "commonName": "Home",
-                "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
-                "devices": [
-                    {
-                        "commonName": "Clock",
-                        "nativeHeading": "Clock",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolWidget",
-                        "options": [
-                            {
-                                "option": "icon_on",
-                                "type": "icon",
-                                "value": ""
-                            },
-                            {
-                                "option": "icon_off",
-                                "type": "icon",
-                                "value": ""
-                            },
-                            {
-                                "option": "transparentIfInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "noOverlayInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "hideDeviceNameIfInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "hideStateIfInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "sizeEnlarged",
-                                "type": "select",
-                                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
-                            },
-                            {
-                                "option": "tileEnlargeShowButtonInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "tileEnlargeShowButtonActive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "tileEnlargeShowInPressureMenuInactive",
-                                "type": "checkbox",
-                                "value": "true"
-                            },
-                            {
-                                "option": "tileEnlargeShowInPressureMenuActive",
-                                "type": "checkbox",
-                                "value": "true"
-                            }
-                        ],
-                        "states": [
-                            {
-                                "state": "BACKGROUND_URL",
-                                "commonRole": "const",
-                                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "ioBroker uptime",
-                        "nativeHeading": "ioBroker",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-                        "commonRole": "iQontrolValue",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": "system.adapter.admin.0.uptime"
-                            },
-                            {
-                                "state": "LEVEL",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Rooms",
-                "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
-                "devices": [
-                    {
-                        "commonName": "Living Room",
-                        "nativeHeading": "1st floor",
-                        "nativeLinkedView": "Living-Room",
-                        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-                        "commonRole": "iQontrolView",
-                        "states": [
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "Kitchen",
-                        "nativeHeading": "2nd floor",
-                        "nativeLinkedView": "Kitchen",
-                        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-                        "commonRole": "iQontrolView",
-                        "states": [
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Functions",
-                "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
-                "devices": [
-                    {
-                        "commonName": "Lights",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "Lights",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolView",
-                        "states": [
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "Climate-Control",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "Climate-Control",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolView",
-                        "states": [
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Living-Room",
-                "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-                "devices": [
-                    {
-                        "commonName": "Light",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolLight",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "LEVEL",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "Heater",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolThermostat",
-                        "states": [
-                            {
-                                "state": "SET_TEMPERATURE",
-                                "value": ""
-                            },
-                            {
-                                "state": "TEMPERATURE",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUMIDITY",
-                                "value": ""
-                            },
-                            {
-                                "state": "CONTROL_MODE",
-                                "value": ""
-                            },
-                            {
-                                "state": "VALVE_STATES",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "TV",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolSwitch",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Kitchen",
-                "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-                "devices": [
-                    {
-                        "commonName": "Fan",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolFan",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "Light",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolLight",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "LEVEL",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Lights",
-                "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-                "devices": [
-                    {
-                        "commonName": "Living Room",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolLight",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "LEVEL",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    },
-                    {
-                        "commonName": "Kitchen",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolLight",
-                        "states": [
-                            {
-                                "state": "STATE",
-                                "value": ""
-                            },
-                            {
-                                "state": "LEVEL",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUE",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "commonName": "Climate-Control",
-                "nativeBackgroundImage": "./images/wallpaper/green.jpg",
-                "devices": [
-                    {
-                        "commonName": "Living Room",
-                        "nativeHeading": "",
-                        "nativeLinkedView": "",
-                        "nativeBackgroundImage": "",
-                        "commonRole": "iQontrolThermostat",
-                        "states": [
-                            {
-                                "state": "SET_TEMPERATURE",
-                                "value": ""
-                            },
-                            {
-                                "state": "TEMPERATURE",
-                                "value": ""
-                            },
-                            {
-                                "state": "HUMIDITY",
-                                "value": ""
-                            },
-                            {
-                                "state": "CONTROL_MODE",
-                                "value": ""
-                            },
-                            {
-                                "state": "VALVE_STATES",
-                                "value": ""
-                            },
-                            {
-                                "state": "BATTERY",
-                                "value": ""
-                            },
-                            {
-                                "state": "UNREACH",
-                                "value": ""
-                            },
-                            {
-                                "state": "ERROR",
-                                "value": ""
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+    "title": "iQontrol Vis",
+    "titleLang": {
+      "en": "iQontrol Vis",
+      "de": "iQontrol Vis",
+      "ru": "iQontrol Vis",
+      "pt": "iQontrol Vis",
+      "nl": "iQontrol Vis",
+      "fr": "iQontrol Vis",
+      "it": "iQontrol Vis",
+      "es": "iQontrol Vis",
+      "pl": "iQontrol Vis",
+      "zh-cn": "iQontrol Vis"
     },
-    "objects": [
-        {
-            "_id": "iqontrol.meta",
-            "type": "meta",
-            "common": {
-                "name": "userfiles and images for iQontrol",
-                "type": "meta.user",
-                "expert": true
-            },
-            "native": {}
-        }
+    "desc": {
+      "en": "Fast Web-App for Visualization",
+      "de": "Schnelle Web-App zur Visualisierung",
+      "ru": "Быстрое веб-приложение для визуализации",
+      "pt": "Fast Web-App para visualização",
+      "nl": "Snelle web-app voor visualisatie",
+      "fr": "Web-App rapide pour la visualisation",
+      "it": "App Web veloce per visualizzazione",
+      "es": "Rápida aplicación web para visualización",
+      "pl": "Szybka aplikacja internetowa do wizualizacji",
+      "zh-cn": "用于可视化的快速Web应用程序"
+    },
+    "authors": [
+      "Sebastian Bormann <sebastian@bormann.net>"
     ],
-    "instanceObjects": []
+    "keywords": [
+      "visualization",
+      "user",
+      "interface",
+      "webapp",
+      "ui"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "iqontrol.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
+    "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "tier": 3,
+    "type": "visualization",
+    "highlight": true,
+    "compact": true,
+    "singleton": false,
+    "materialize": true,
+    "materializeTab": true,
+    "adminTab": {
+      "name": {
+        "en": "iQontrol",
+        "de": "iQontrol",
+        "ru": "iQontrol",
+        "pt": "iQontrol",
+        "nl": "iQontrol",
+        "fr": "iQontrol",
+        "it": "iQontrol",
+        "es": "iQontrol",
+        "pl": "iQontrol",
+        "zh-cn": "iQontrol"
+      },
+      "singleton": false,
+      "fa-icon": "blur_on",
+      "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
+    },
+    "onlyWWW": false,
+    "blockly": true,
+    "messagebox": true,
+    "subscribe": "messagebox",
+    "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+    "welcomeScreen": false,
+    "welcomeScreenPro": {
+      "link": "iqontrol/index.html",
+      "name": "iQontrol",
+      "img": "iqontrol.admin/iqontrol.png",
+      "color": "gray",
+      "order": 1,
+      "localLink": false
+    },
+    "noIntro": false,
+    "supportCustoms": true,
+    "jsonCustom": true,
+    "plugins": {
+      "sentry": {
+        "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+      }
+    },
+    "connectionType": "local",
+    "dataSource": "push",
+    "dependencies": [
+      {
+        "admin": ">=3.0.0"
+      },
+      {
+        "js-controller": ">=1.4.2"
+      },
+      {
+        "web": ">=3.0.12"
+      }
+    ]
+  },
+  "native": {
+    "demotoolbar": [
+      {
+        "commonName": "Home",
+        "nativeLinkedView": "Home",
+        "nativeIcon": "home"
+      },
+      {
+        "commonName": "Rooms",
+        "nativeLinkedView": "Rooms",
+        "nativeIcon": "grid"
+      },
+      {
+        "commonName": "Functions",
+        "nativeLinkedView": "Functions",
+        "nativeIcon": "gear"
+      }
+    ],
+    "demoviews": [
+      {
+        "commonName": "Home",
+        "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
+        "devices": [
+          {
+            "commonName": "Clock",
+            "nativeHeading": "Clock",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolWidget",
+            "options": [
+              {
+                "option": "icon_on",
+                "type": "icon",
+                "value": ""
+              },
+              {
+                "option": "icon_off",
+                "type": "icon",
+                "value": ""
+              },
+              {
+                "option": "transparentIfInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "noOverlayInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "hideDeviceNameIfInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "hideStateIfInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "sizeEnlarged",
+                "type": "select",
+                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
+              },
+              {
+                "option": "tileEnlargeShowButtonInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "tileEnlargeShowButtonActive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "tileEnlargeShowInPressureMenuInactive",
+                "type": "checkbox",
+                "value": "true"
+              },
+              {
+                "option": "tileEnlargeShowInPressureMenuActive",
+                "type": "checkbox",
+                "value": "true"
+              }
+            ],
+            "states": [
+              {
+                "state": "BACKGROUND_URL",
+                "commonRole": "const",
+                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
+              }
+            ]
+          },
+          {
+            "commonName": "ioBroker uptime",
+            "nativeHeading": "ioBroker",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+            "commonRole": "iQontrolValue",
+            "states": [
+              {
+                "state": "STATE",
+                "value": "system.adapter.admin.0.uptime"
+              },
+              {
+                "state": "LEVEL",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Rooms",
+        "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
+        "devices": [
+          {
+            "commonName": "Living Room",
+            "nativeHeading": "1st floor",
+            "nativeLinkedView": "Living-Room",
+            "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+            "commonRole": "iQontrolView",
+            "states": [
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "Kitchen",
+            "nativeHeading": "2nd floor",
+            "nativeLinkedView": "Kitchen",
+            "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+            "commonRole": "iQontrolView",
+            "states": [
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Functions",
+        "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
+        "devices": [
+          {
+            "commonName": "Lights",
+            "nativeHeading": "",
+            "nativeLinkedView": "Lights",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolView",
+            "states": [
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "Climate-Control",
+            "nativeHeading": "",
+            "nativeLinkedView": "Climate-Control",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolView",
+            "states": [
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Living-Room",
+        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+        "devices": [
+          {
+            "commonName": "Light",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolLight",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "LEVEL",
+                "value": ""
+              },
+              {
+                "state": "HUE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "Heater",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolThermostat",
+            "states": [
+              {
+                "state": "SET_TEMPERATURE",
+                "value": ""
+              },
+              {
+                "state": "TEMPERATURE",
+                "value": ""
+              },
+              {
+                "state": "HUMIDITY",
+                "value": ""
+              },
+              {
+                "state": "CONTROL_MODE",
+                "value": ""
+              },
+              {
+                "state": "VALVE_STATES",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "TV",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolSwitch",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Kitchen",
+        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+        "devices": [
+          {
+            "commonName": "Fan",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolFan",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "Light",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolLight",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "LEVEL",
+                "value": ""
+              },
+              {
+                "state": "HUE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Lights",
+        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+        "devices": [
+          {
+            "commonName": "Living Room",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolLight",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "LEVEL",
+                "value": ""
+              },
+              {
+                "state": "HUE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          },
+          {
+            "commonName": "Kitchen",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolLight",
+            "states": [
+              {
+                "state": "STATE",
+                "value": ""
+              },
+              {
+                "state": "LEVEL",
+                "value": ""
+              },
+              {
+                "state": "HUE",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "commonName": "Climate-Control",
+        "nativeBackgroundImage": "./images/wallpaper/green.jpg",
+        "devices": [
+          {
+            "commonName": "Living Room",
+            "nativeHeading": "",
+            "nativeLinkedView": "",
+            "nativeBackgroundImage": "",
+            "commonRole": "iQontrolThermostat",
+            "states": [
+              {
+                "state": "SET_TEMPERATURE",
+                "value": ""
+              },
+              {
+                "state": "TEMPERATURE",
+                "value": ""
+              },
+              {
+                "state": "HUMIDITY",
+                "value": ""
+              },
+              {
+                "state": "CONTROL_MODE",
+                "value": ""
+              },
+              {
+                "state": "VALVE_STATES",
+                "value": ""
+              },
+              {
+                "state": "BATTERY",
+                "value": ""
+              },
+              {
+                "state": "UNREACH",
+                "value": ""
+              },
+              {
+                "state": "ERROR",
+                "value": ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "objects": [
+    {
+      "_id": "iqontrol.meta",
+      "type": "meta",
+      "common": {
+        "name": "userfiles and images for iQontrol",
+        "type": "meta.user",
+        "expert": true
+      },
+      "native": {}
+    }
+  ],
+  "instanceObjects": []
 }
