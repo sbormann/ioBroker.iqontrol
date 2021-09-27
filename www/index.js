@@ -13301,7 +13301,7 @@ $(document).ready(function(){
 							if (_stateId) fetchStates(_stateId, function(){
 								fetchObject(_stateId, function(){
 									if (usedObjects[_stateId]){
-										setState(_stateId, _deviceIdEscaped, _value.val, null, null, 0);
+										setState(_stateId, _deviceIdEscaped, _value.val, true, null, 0);
 									}
 								});
 							});							
