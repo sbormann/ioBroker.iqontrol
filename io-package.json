@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.11",
+    "version": "1.9.12",
     "news": {
+      "1.9.12": {
+        "en": "Fix for ADDITIONAL_CONTROLS rendering only once.",
+        "de": "Fix für ADDITIONAL_CONTROLS Rendering nur einmal.",
+        "ru": "Исправление для рендеринга ADDITIONAL_CONTROLS только один раз.",
+        "pt": "Correção para renderização ADDITIONAL_CONTROLS apenas uma vez.",
+        "nl": "Oplossing voor ADDITIONAL_CONTROLS-rendering slechts één keer.",
+        "fr": "Correction du rendu ADDITIONAL_CONTROLS une seule fois.",
+        "it": "Correzione per il rendering di ADDITIONAL_CONTROLS solo una volta.",
+        "es": "Se corrigió la renderización de ADDITIONAL_CONTROLS solo una vez.",
+        "pl": "Poprawka dotycząca renderowania ADDITIONAL_CONTROLS tylko raz.",
+        "zh-cn": "仅修复一次 ADDITIONAL_CONTROLS 渲染。"
+      },
       "1.9.11": {
         "en": "Added release-script by AlCalzone.\nSet setState for postMessage to forced send.",
         "de": "Release-Skript von AlCalzone hinzugefügt.\nSetzen Sie setState für postMessage auf erzwungenes Senden.",
@@ -74,18 +86,6 @@
         "es": "Se eliminaron algunas líneas horizontales innecesarias en el diálogo. \nSe agregó la opción para editar el título de ESTADO o NIVEL. \nLista ADDITIONAL_INFO mejorada (puede volver al estilo antiguo a través de la opción) y columnas opcionales agregadas. \nSe agregaron algunos polyfils para navegadores más antiguos. \nSe corrigió un error que impedía que ciertas opciones se aplicaran correctamente.",
         "pl": "Usunięto niepotrzebne poziome linie w oknie dialogowym. \nDodano opcję edycji podpisu STAN lub POZIOM. \nUlepszona lista ADDITIONAL_INFO (możesz wrócić do starego stylu za pomocą opcji) i dodane opcjonalne kolumny. \nDodano kilka polifili dla starszych przeglądarek. \nNaprawiono błąd, który uniemożliwiał prawidłowe zastosowanie niektórych opcji.",
         "zh-cn": "删除了对话框中一些不必要的水平线。添加了编辑状态或级别标题的选项。增强的 ADDITIONAL_INFO 列表（您可以通过选项返回到旧样式）并添加了可选列。为旧浏览器添加了一些 polyfil。修复了阻止正确应用某些选项的错误。"
-      },
-      "1.9.5": {
-        "en": "Removed prevention of injection for iframes.",
-        "de": "Die Verhinderung der Injektion für iframes wurde entfernt.",
-        "ru": "Убрана профилактика инъекций для iframe.",
-        "pt": "Removida a prevenção de injeção para iframes.",
-        "nl": "Preventie van injectie voor iframes verwijderd.",
-        "fr": "Suppression de la prévention de l'injection pour les iframes.",
-        "it": "Rimossa la prevenzione dell'iniezione per gli iframe.",
-        "es": "Se eliminó la prevención de inyección para iframes.",
-        "pl": "Usunięto zapobieganie wstrzykiwaniu elementów iframe.",
-        "zh-cn": "删除了对 iframe 的注入预防。"
       }
     },
     "title": "iQontrol Vis",

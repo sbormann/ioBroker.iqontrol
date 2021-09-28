@@ -1584,7 +1584,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.9.12 (2021-09-28)
 * (sbormann) Fix for ADDITIONAL_CONTROLS rendering only once.
 
 ### 1.9.11 (2021-09-27)
