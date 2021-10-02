@@ -1924,6 +1924,12 @@ html.color-mode-dark .ui-btn{
 	background-color: #b9b9b9 !important;
 	border-color: #777777 !important;
 }
+html.color-mode-dark .ui-btn:hover{
+	background-color: #b0b0b0 !important;
+}
+html.color-mode-dark .ui-btn:active{
+	background-color: #a9a9a9 !important;
+}
 html.color-mode-dark .ui-btn-active {
 	color: #858585 !important;
 	text-shadow: 0 1px 0 #1a1a1a !important;
