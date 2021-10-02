@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.12",
+    "version": "1.9.13",
     "news": {
+      "1.9.13": {
+        "en": "Minor design adjustments for dark-mode.",
+        "de": "Kleinere Designanpassungen für den Dunkelmodus.",
+        "ru": "Незначительные корректировки дизайна для тёмного режима.",
+        "pt": "Pequenos ajustes de design para o modo escuro.",
+        "nl": "Kleine ontwerpaanpassingen voor donkere modus.",
+        "fr": "Ajustements de conception mineurs pour le mode sombre.",
+        "it": "Piccole regolazioni del design per la modalità oscura.",
+        "es": "Ajustes de diseño menores para el modo oscuro.",
+        "pl": "Drobne poprawki projektowe dla trybu ciemnego.",
+        "zh-cn": "暗模式的微小设计调整。"
+      },
       "1.9.12": {
         "en": "Fix for ADDITIONAL_CONTROLS rendering only once.",
         "de": "Fix für ADDITIONAL_CONTROLS Rendering nur einmal.",
@@ -74,18 +86,6 @@
         "es": "Se agregó una opción para cerrar los subtítulos plegables, si se abren otros.\nSe corrigieron los subtítulos faltantes si se activaba la opción de nueva línea.\nOpción agregada para definir el espaciado de la nueva sección.\nPequeñas mejoras de diseño en el modo oscuro, ADDITIONAL_INFO y JSON-Table-Widget.\nSe agregaron más opciones para configurar columnas de JSON-Table-Widget.\nCONTROL_MODE rediseñado de termostatos para que sea un conjunto de campo en lugar de un menú desplegable.\nPaso de sobrescritura para sensores HomematicIP-Temperature con valores mínimos y máximos incorrectos.\nSe agregó la opción de enviar valores de estado al hacer clic en reproducir, pausar y detener a los medios.\nDependencias actualizadas.\nSe agregaron secciones a las opciones de los widgets.\nSe agregó una opción para mostrar el estado y el nivel divididos por el valor del tipo de dispositivo.\n",
         "pl": "Dodano opcję zamykania zwijanych nagłówków, jeśli inne są otwarte.\nNaprawiono brakujące podnagłówki, jeśli aktywowano opcję nowej linii.\nDodano możliwość zdefiniowania nowego rozstawu sekcji.\nDrobne ulepszenia projektowe trybu ciemnego, ADDITIONAL_INFO i JSON-Table-Widget.\nDodano więcej opcji konfiguracji kolumn JSON-Table-Widget.\nPrzeprojektowano tryb CONTROL_MODE termostatów, aby był zestawem pól zamiast listy rozwijanej.\nNadpisz krok dla czujników temperatury HomematicIP z błędnymi wartościami min i max.\nDodano opcję wysyłania wartości stanu po kliknięciu odtwarzania, pauzy i zatrzymania do multimediów.\nZaktualizowane zależności.\nDodano sekcje do opcji widżetów.\nDodano opcję pokazania stanu i poziomu podzielonego dla wartości typu urządzenia.\n",
         "zh-cn": "添加了关闭可折叠子标题的选项（如果其他标题打开）。\n如果激活了新行选项，则修复了缺少的子标题。\n添加了定义新节间距的选项。\n对暗模式、ADDITIONAL_INFO 和 JSON-Table-Widget 的微小设计增强。\n添加了更多选项来配置 JSON-Table-Widget 的 cols。\n将恒温器的 CONTROL_MODE 重新设计为字段集而不是下拉列表。\n使用错误的最小值和最大值覆盖 HomematicIP-温度传感器的步骤。\n添加了在点击播放、暂停和停止到媒体时发送状态值的选项。\n更新了依赖项。\n添加了小部件选项的部分。\n添加了显示为设备类型值划分的状态和级别的选项。\n"
-      },
-      "1.9.6": {
-        "en": "Removed some unnecessary horizontal lines in dialog. \nAdded option to edit caption of STATE or LEVEL. \nEnhanced ADDITIONAL_INFO list (you can go back to old style via option) and added optional columns. \nAdded some polyfils for older browsers. \nFixed a bug that prevented certain options from being applied correctly.",
-        "de": "Einige unnötige horizontale Linien im Dialog wurden entfernt. \nOption zum Bearbeiten der Beschriftung von STATE oder LEVEL hinzugefügt. \nVerbesserte ADDITIONAL_INFO-Liste (Sie können per Option zum alten Stil zurückkehren) und optionale Spalten hinzugefügt. \nEinige Polyfiles für ältere Browser hinzugefügt. \nEs wurde ein Fehler behoben, der die korrekte Anwendung bestimmter Optionen verhinderte.",
-        "ru": "Убраны лишние горизонтальные линии в диалоге. \nДобавлена возможность редактировать заголовок СОСТОЯНИЯ или УРОВНЯ. \nРасширен список ADDITIONAL_INFO (вы можете вернуться к старому стилю с помощью опции) и добавлены дополнительные столбцы. \nДобавлены полифилы для старых браузеров. \nИсправлена ошибка, из-за которой некоторые параметры не применялись правильно.",
-        "pt": "Removidas algumas linhas horizontais desnecessárias na caixa de diálogo. \nAdicionada opção para editar legenda de ESTADO ou NÍVEL. \nLista ADDITIONAL_INFO aprimorada (você pode voltar ao estilo antigo via opção) e colunas opcionais adicionadas. \nAdicionados alguns polyfils para navegadores mais antigos. \nCorrigido um bug que impedia que certas opções fossem aplicadas corretamente.",
-        "nl": "Enkele onnodige horizontale lijnen in dialoogvenster verwijderd. \nOptie toegevoegd om bijschrift van STATE of LEVEL te bewerken. \nVerbeterde ADDITIONAL_INFO-lijst (u kunt via optie teruggaan naar de oude stijl) en optionele kolommen toegevoegd. \nEnkele polyfils toegevoegd voor oudere browsers. \nEen bug opgelost die verhinderde dat bepaalde opties correct werden toegepast.",
-        "fr": "Suppression de quelques lignes horizontales inutiles dans la boîte de dialogue. \nAjout d'une option pour modifier la légende de STATE ou LEVEL. \nListe ADDITIONAL_INFO améliorée (vous pouvez revenir à l'ancien style via l'option) et ajout de colonnes facultatives. \nAjout de quelques polyfils pour les navigateurs plus anciens. \nCorrection d'un bug qui empêchait certaines options d'être appliquées correctement.",
-        "it": "Rimosse alcune linee orizzontali non necessarie nella finestra di dialogo. \nAggiunta l'opzione per modificare la didascalia di STATE o LEVEL. \nElenco ADDITIONAL_INFO migliorato (puoi tornare al vecchio stile tramite l'opzione) e aggiunte colonne opzionali. \nAggiunti alcuni polyfils per i browser più vecchi. \nRisolto un bug che impediva l'applicazione corretta di alcune opzioni.",
-        "es": "Se eliminaron algunas líneas horizontales innecesarias en el diálogo. \nSe agregó la opción para editar el título de ESTADO o NIVEL. \nLista ADDITIONAL_INFO mejorada (puede volver al estilo antiguo a través de la opción) y columnas opcionales agregadas. \nSe agregaron algunos polyfils para navegadores más antiguos. \nSe corrigió un error que impedía que ciertas opciones se aplicaran correctamente.",
-        "pl": "Usunięto niepotrzebne poziome linie w oknie dialogowym. \nDodano opcję edycji podpisu STAN lub POZIOM. \nUlepszona lista ADDITIONAL_INFO (możesz wrócić do starego stylu za pomocą opcji) i dodane opcjonalne kolumny. \nDodano kilka polifili dla starszych przeglądarek. \nNaprawiono błąd, który uniemożliwiał prawidłowe zastosowanie niektórych opcji.",
-        "zh-cn": "删除了对话框中一些不必要的水平线。添加了编辑状态或级别标题的选项。增强的 ADDITIONAL_INFO 列表（您可以通过选项返回到旧样式）并添加了可选列。为旧浏览器添加了一些 polyfil。修复了阻止正确应用某些选项的错误。"
       }
     },
     "title": "iQontrol Vis",
