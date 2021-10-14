@@ -1735,12 +1735,12 @@ function enhanceTextInputToComboboxEntryToInput(value){
 function initColorpickers(onChange){
 	$('.MaterializeColorPicker').each(function(){
 		if (!$(this).data('materialize-color-picker-initialized')){
+			var noColorSet = $(this).val() == "";
 			$(this).colorpicker().on('changeColor', function(event){
 				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
 			});
 			$(this).colorpicker().on('hidePicker', function(event){
-				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
-				onChange();
+				$(this).trigger('change');
 			});
 			$(this).on('change', function(event, noOnChange){
 				if ($(this).val() == "") {
@@ -1751,6 +1751,7 @@ function initColorpickers(onChange){
 				if (!noOnChange) onChange();
 			});
 			$(this).data('materialize-color-picker-initialized', true);
+			if(noColorSet) $(this).val("");
 		}
 		$(this).trigger('change', 'noOnChange');
 	});
@@ -4536,6 +4537,7 @@ async function load(settings, onChange) {
 								var entry = decodeURIComponent(urlParameter[0]);
 								var name = decodeURIComponent(urlParameter[2] || urlParameter[0]);
 								var value = decodeURIComponent(queries[entry] || urlParameter[1] || "");
+								var defaultValue = decodeURIComponent(urlParameter[1] || "");
 								var type = decodeURIComponent(urlParameter[3] || "text");
 								var options = urlParameter.slice(4) || [];
 								if (!Array.isArray(options)) options = [decodeURIComponent(options)];
@@ -4554,7 +4556,7 @@ async function load(settings, onChange) {
 									break;
 
 									case "divider":
-									dialogWidgetSettingsUrlParametersString += "<div class='divider'></div>";
+									dialogWidgetSettingsUrlParametersString += "<div class='divider'></div><br>";
 									break;
 									
 									case "number":
@@ -4619,7 +4621,7 @@ async function load(settings, onChange) {
 
 									case "color":
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='rgb(0,0,0)' />";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";

@@ -42,6 +42,20 @@
 												rowsLimitLoadMoreCaption/.../Caption of 'Load more' Button/text;
 												headHide/false/Hide Head of table/checkbox;
 												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
+												///divider;
+												colorBackground//Background-Color/color;
+												colorBackgroundOdd//Background-Color for odd lines/color;
+												colorText//Text-Color/color;
+												colorTextOdd//Text-Color for odd lines/color;
+												colorTextShadow//Text-Shadow-Color/color;
+												colorTextShadowOdd//Text-Shadow-Color for odd lines/color;
+												///divider;
+												colorBackgroundDark//Background-Color in dark mode/color;
+												colorBackgroundOddDark//Background-Color for odd lines in dark mode/color;
+												colorTextDark//Text-Color in dark mode/color;
+												colorTextOddDark//Text-Color for odd lines in dark mode/color;
+												colorTextShadowDark//Text-Shadow-Color in dark mode/color;
+												colorTextShadowOddDark//Text-Shadow-Color for odd lines in dark mode/color;
 												//Icon-Replacement/section;
 												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
 												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
@@ -137,10 +151,12 @@
 		html.color-mode-dark .ui-overlay-a, html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {
 			background-color: #454545;
 			color: #b9b9b9;
-			text-shadow: 0 1px 0 #3c3c3c
+			text-shadow: 0 1px 0 #3c3c3c;
 		}
 		html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {
 			background-color: #555555;
+			color: #b9b9b9;
+			text-shadow: 0 1px 0 #3c3c3c;
 		}
 	</style>
 	<title>iQontrol JSON to TABLE Widget</title>
@@ -462,6 +478,30 @@
 		var headHide = getUrlParameter("headHide") == "true";
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
+		var colorBackground = getUrlParameter("colorBackground");
+		var colorBackgroundOdd = getUrlParameter("colorBackgroundOdd");
+		var colorText = getUrlParameter("colorText");
+		var colorTextOdd = getUrlParameter("colorTextOdd");
+		var colorTextShadow = getUrlParameter("colorTextShadow");
+		var colorTextShadowOdd = getUrlParameter("colorTextShadowOdd");
+		if(colorBackground) addCustomCSS(".ui-overlay-a {background-color: " + colorBackground + ";}", "color");
+		if(colorBackgroundOdd || colorBackground) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOdd || colorBackground + ";}", "color");
+		if(colorText) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {color: " + colorText + ";}", "color");
+		if(colorTextOdd || colorText) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOdd || colorText + ";}", "color");
+		if(colorTextShadow) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {text-shadow: 0 1px 0 " + colorTextShadow + ";}", "color");
+		if(colorTextShadowOdd || colorTextShadow) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOdd || colorTextShadow + ";}", "color");
+		var colorBackgroundDark = getUrlParameter("colorBackgroundDark");
+		var colorBackgroundOddDark = getUrlParameter("colorBackgroundOddDark");
+		var colorTextDark = getUrlParameter("colorTextDark");
+		var colorTextOddDark = getUrlParameter("colorTextOddDark");
+		var colorTextShadowDark = getUrlParameter("colorTextShadowDark");
+		var colorTextShadowOddDark = getUrlParameter("colorTextShadowOddDark");
+		if(colorBackgroundDark) addCustomCSS("html.color-mode-dark .ui-overlay-a {background-color: " + colorBackgroundDark + ";}", "color");
+		if(colorBackgroundOddDark || colorBackgroundDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOddDark || colorBackgroundDark + ";}", "color");
+		if(colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {color: " + colorTextDark + ";}", "color");
+		if(colorTextOddDark || colorTextDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOddDark || colorTextDark + ";}", "color");
+		if(colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
+		if(colorTextShadowOddDark || colorTextShadowDark) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);

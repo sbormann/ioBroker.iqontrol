@@ -1583,6 +1583,9 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) Added option to set colors for JSON-Table-Widget.
+
 ### 1.9.13 (2021-10-02)
 * (sbormann) Minor design adjustments for dark-mode.
 
