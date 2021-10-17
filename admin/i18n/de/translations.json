@@ -58,7 +58,7 @@
     "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is enlarged": "Die Höhe von STATE dem Inhalt anpassen (die überschreibt die Kachelgröße, falls nötig), wenn das Gerät vergrößert ist",
     "Adapt height of STATE to its content (this overwrites the tile size, if needed), if the device is inactive": "Die Höhe von STATE dem Inhalt anpassen (die überschreibt die Kachelgröße, falls nötig), wenn das Gerät inaktiv ist",
     "Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported.": "Die Adapter-Einstellungen wurden importiert. Im nächsten Schritt können Sie auswählen, welche benutzerdefinierten Datenpunkt-Einstellungen importiert werden sollen.",
-    "Add": "hinzufügen",
+    "Add": "Hinzufügen",
     "Add Replacement": "Ersetzungs-Regel hinzufügen",
     "Add option to enter free text": "Die Möglichkeit, freien Text einzugeben, hinzufügen",
     "Add timestamp to state": "Zeitstempel zum Status hinzufügen",
