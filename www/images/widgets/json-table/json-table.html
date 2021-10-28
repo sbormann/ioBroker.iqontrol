@@ -501,7 +501,7 @@
 		if(colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {color: " + colorTextDark + ";}", "color");
 		if(colorTextOddDark || colorTextDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOddDark || colorTextDark + ";}", "color");
 		if(colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
-		if(colorTextShadowOddDark || colorTextShadowDark) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
+		if(colorTextShadowOddDark || colorTextShadowDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);
