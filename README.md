@@ -1585,6 +1585,7 @@ This device has some special predefined size- and display-settings to show a tex
 -->
 ### **WORK IN PROGRESS**
 * (sbormann) Added option to set colors for JSON-Table-Widget.
+* (sbormann) Fix for periods with role value.time.
 
 ### 1.9.13 (2021-10-02)
 * (sbormann) Minor design adjustments for dark-mode.

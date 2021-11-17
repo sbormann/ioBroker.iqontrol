@@ -2096,7 +2096,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 						timeMoment.year(1970).month(0).date(1);
 					}									
 					if (timeMoment.isValid()){
-						result.Date = timeMoment.toDate();
+						if(timeMoment._isAMomentObject) result.Date = timeMoment.toDate();
 						if (timeFormat.type != "period"){
 							result.plainText = timeMoment.locale(systemLang).format((timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")) ? replaceTokens(timeDisplayFormat.string, momentRemoveDateTokens) : timeDisplayFormat.string);
 						} else {
