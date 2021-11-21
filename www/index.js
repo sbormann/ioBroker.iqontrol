@@ -9795,7 +9795,7 @@ function renderDialog(deviceIdEscaped){
 											dialogThermostatPartyModeCheckConsistency();
 										}
 										if (partyModeObjectsToFetch.length > 0) {
-											fetchStates(partyModeObjectsToFetch, function(){ updateState(_linkedStateId); });
+											fetchStates(partyModeObjectsToFetch, function(){ setTimeout(function(){updateState(_linkedStateId);}, 100); });
 										}
 									}
 								};
@@ -12570,7 +12570,7 @@ function initPopup(){
 function toast(message, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses){
 	console.log("toast set");
 	if (toastStack.length == 0 || toastStack[toastStack.length - 1].message !== message){
-		toastStack.push({message: message, duration: duration, clickedValue: clickedValue, clickedDestinationState: clickedDestinationState, buttonNames: buttonNames, buttonValues: buttonValues, buttonDestinationStates: buttonDestinationStates, buttonCloses: buttonCloses});
+		toastStack.push({message: message, duration: duration || 0, clickedValue: clickedValue || "", clickedDestinationState: clickedDestinationState || "", buttonNames: buttonNames || "", buttonValues: buttonValues || "", buttonDestinationStates: buttonDestinationStates || "", buttonCloses: buttonCloses || false});
 		if (toastStack.length == 1) toastShowNext(); else $(".toastMessageQueue").html("+" + (toastStack.length - 1).toString());
 	}
 }
@@ -13106,7 +13106,7 @@ function resizeFullWidthDevicesToFitScreen(){
 }
 
 //Check Connection when opening page
-var hidden, visibilityChange;
+var hidden, visibilityChange, visibilityChangeCheckConnectionTimeout;
 if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
 	hidden = "hidden";
 	visibilityChange = "visibilitychange";
@@ -13127,10 +13127,31 @@ function handleVisibilityChange() {
 		console.debug("[Socket] getIsConnected");
 		var connected = socket.connected || false;
 		if (connected) {
-			console.log("Page visible-event - socket is connected");
+			//Sometimes the connected state is false positive - therefore check for connection by sending a request an trigger reconnection on error or timeout
+			if(visibilityChangeCheckConnectionTimeout) clearTimeout(visibilityChangeCheckConnectionTimeout);
+			visibilityChangeCheckConnectionTimeout = setTimeout(function(){
+				console.log("Page visible-event - socket connection check timeout reached - trigger reconnection");
+				socket.disconnect();
+				socket.connect();
+			}, 500);
+			fetchSystemConfig(function(error){
+				if(visibilityChangeCheckConnectionTimeout){
+					clearTimeout(visibilityChangeCheckConnectionTimeout);
+					visibilityChangeCheckConnectionTimeout = false;
+				}
+				if(error) {
+					console.log("Page visible-event - socket connection check failed - trigger reconnection");
+					socket.disconnect();
+					socket.connect();
+				} else {
+					console.log("Page visible-event - socket is connected");
+				}
+			});
 		} else {
 			console.log("Page visible-event - socket is disconnected");
-			$('.loader').show();
+			//$('.loader').show();
+			socket.disconnect();
+			socket.connect();
 		}
 	}
 }
@@ -13203,6 +13224,8 @@ $(document).ready(function(){
 	$('#ViewMain').ptrLight({
 		'refresh': function() {
 			if (homeId !== "" && actualViewId !== "" && actualViewId != homeId) {
+				socket.disconnect();
+				socket.connect();
 				getStarted();
 			} else {
 				window.location.reload();
