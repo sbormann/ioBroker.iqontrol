@@ -1583,7 +1583,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.9.14 (2021-11-21)
 * (sbormann) Added option to set colors for JSON-Table-Widget.
 * (sbormann) Fix for periods with role value.time.
 * (sbormann) Enhanced reconnection process when reopening the web app.
