@@ -159,6 +159,23 @@ var channelDetectorMatchTable = {
 							matchingStates: {
 								"SET": "LEVEL",
 								"STOP": "STOP",
+								"OPEN": "UP",
+								"CLOSE": "DOWN",
+								"TILT_SET": "SLATS_LEVEL",
+								"DIRECTION": "DIRECTION",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "blindButtons": 			{
+							matchingRole: "iQontrolBlind",
+							matchingStates: {
+								"STOP": "STOP",
+								"OPEN": "UP",
+								"CLOSE": "DOWN",
+								"TILT_SET": "SLATS_LEVEL",
 								"DIRECTION": "DIRECTION",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
@@ -200,6 +217,15 @@ var channelDetectorMatchTable = {
 							matchingRole: "iQontrolExternalLink",
 							matchingStates: {
 								"URL": "URL",
+								"UNREACH": "UNREACH",
+								"CONNECTED": "UNREACH",
+								"LOWBAT": "BATTERY",
+								"ERROR": "ERROR"
+							}
+						},
+    "chart": 			{
+							matchingRole: null,
+							matchingStates: {
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
@@ -300,6 +326,7 @@ var channelDetectorMatchTable = {
 							matchingRole: "iQontrolLight",
 							matchingStates: {
 								"SET": "STATE",
+								"ELECTRIC_POWER": "POWER",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
@@ -375,6 +402,7 @@ var channelDetectorMatchTable = {
 								"BRIGHTNESS": "COLOR_BRIGHTNESS",
 								"SATURATION": "SATURATION",
 								"TEMPERATURE": "CT",
+								"WHITE": "WHITE_BRIGHTNESS",
 								"ON": "STATE",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
@@ -440,6 +468,7 @@ var channelDetectorMatchTable = {
 							matchingRole: "iQontrolSwitch",
 							matchingStates: {
 								"SET": "STATE",
+								"ELECTRIC_POWER": "POWER",
 								"UNREACH": "UNREACH",
 								"CONNECTED": "UNREACH",
 								"LOWBAT": "BATTERY",
