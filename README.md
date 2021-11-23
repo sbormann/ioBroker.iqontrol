@@ -1583,6 +1583,9 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) Enhanced viewport height scaling for collapsibles.
+
 ### 1.9.15 (2021-11-23)
 * (sbormann) Updated dependencies.
 * (sbormann) Updated type-detector.

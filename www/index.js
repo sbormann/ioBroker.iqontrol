@@ -7321,11 +7321,14 @@ function renderView(viewId, triggeredByReconnection){
 						var _$collapsible = $collapsible;
 						var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 						clearTimeout(_$collapsible.data('animationtimeout'));
+						clearTimeout(_$collapsible.data('resizetimeout'));
 						if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
 						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).animate({'height': '0px'}, 250, 'linear');
 						var animationTimeoutId = setTimeout(function(){
 							$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleContentClosed');
 							viewShuffleReshuffle();
+							var resizeTimeoutId = setTimeout(resizeDevicesToFitScreen, 1750);
+							_$collapsible.data('resizetimeout', resizeTimeoutId);
 						}, 750);
 						_$collapsible.data('animationtimeout', animationTimeoutId);
 					})(); //<--End Closure
@@ -7335,9 +7338,12 @@ function renderView(viewId, triggeredByReconnection){
 					var _$collapsible = $collapsible;
 					var _collapsibleDeviceIdEscaped = collapsibleDeviceIdEscaped;
 					clearTimeout(_$collapsible.data('animationtimeout'));
+					clearTimeout(_$collapsible.data('resizetimeout'));
 					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").addClass('collapsibleAnimationRunning').stop(true, false).removeClass('collapsibleContentClosed'); 
 					$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer .viewShuffleTile").stop(true, false).slideDown(500);
 					viewShuffleReshuffle();
+					var resizeTimeoutId = setTimeout(resizeDevicesToFitScreen, 1750);
+					_$collapsible.data('resizetimeout', resizeTimeoutId);
 					var animationTimeoutId = setTimeout(function(){
 						$("[data-iQontrol-Device-ID='" + _collapsibleDeviceIdEscaped + "'].viewShuffleContainer").removeClass('collapsibleAnimationRunning');
 					}, 1000);
