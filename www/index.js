@@ -1719,58 +1719,12 @@ function getDeviceOptionValue(device, option, nullForDefault){
     return value;
 }
 
-function getLinkedStateId(device, state, stateId){
-	//This is a little bit historical: In older versions, the linkedStateIds were saved in an ioBroker Object tree and therefore fetched from states[]. Now they are stored in config.
+function getLinkedStateId(device, deviceId, state){
+	var stateId = deviceId + "." + state;
 	var stateObject = null;
-	if (states[stateId]){ //State exists in fetched states (value is stored in .val)
-		stateObject = states[stateId];
-		if (typeof stateObject.val != udef){
-			if (stateObject.val.substring(0, 6) == 'CONST:' || stateObject.val.substring(0, 6) == 'ARRAY:') { //role of state is 'const' or 'array'
-				var linkedStateId = "CONST:" + stateId;
-				var constantValue = stateObject.val.substring(6);
-				var constantObject = {
-					"type": "state",
-					"common": {
-						"name": state,
-						"desc": "created by iQontrol",
-						"role": "state",
-						"type": "string",
-						"icon": "",
-						"read": true,
-						"write": false,
-						"def": ""
-					},
-					"native": {}
-				};
-				usedObjects[linkedStateId] = constantObject;
-				var constantState = {
-					"val": constantValue,
-					"ack": true,
-					"from": "iQontrol",
-					"lc": 0,
-					"q": 0,
-					"ts": 0,
-					"user": "system.user.admin"
-				};
-				states[linkedStateId] = constantState;
-				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
-				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
-				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
-				return linkedStateId;
-			} else { //role of state is 'linkedState'
-				var linkedStateId = stateObject.val;
-				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
-				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
-				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
-				if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
-					fetchObject(linkedStateId);
-				}
-				return linkedStateId;
-			}
-		}
-	} else if (device && typeof device == "object" && typeof device.states != udef){
+	if (device && typeof device == "object" && typeof device.states != udef){
 		var stateIndex = device.states.findIndex(function(element){ return (element.state == state);})
-		if (stateIndex > -1){ //State exists in config (value ist stored in .value)
+		if (stateIndex > -1){ //State exists in config
 			stateObject = device.states[stateIndex];
 			if (stateObject && typeof stateObject.value != udef){
 				if (stateObject.commonRole == 'const' || stateObject.commonRole == 'array') { //role of state is 'const' or 'array'
@@ -1962,6 +1916,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 				result.val = result.val * 100;
 				result.max = 100;
 			}
+			result.type = "level";
  			break;
 
 			case "boolean":
@@ -2628,9 +2583,9 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 	var deviceReadonly = false;
 	if (getDeviceOptionValue(device, "readonly") == "true") deviceReadonly = true;
 	if (state && deviceReadonly == false){
-		var linkedPlayId = getLinkedStateId(device, "PLAY", deviceId + ".PLAY");
-		var linkedPauseId = getLinkedStateId(device, "PAUSE", deviceId + ".PAUSE");
-		var linkedStopId = getLinkedStateId(device, "STOP", deviceId + ".STOP");
+		var linkedPlayId = getLinkedStateId(device, deviceId, "PLAY");
+		var linkedPauseId = getLinkedStateId(device, deviceId,"PAUSE");
+		var linkedStopId = getLinkedStateId(device, deviceId,"STOP");
 		var statePlay = getStateObject(linkedPlayId);
 		var statePause = getStateObject(linkedPauseId);
 		var stateStop = getStateObject(linkedStopId);
@@ -4639,8 +4594,7 @@ function renderView(viewId, triggeredByReconnection){
 			var deviceLinkedStateIds = {};
 			if (device.commonRole && iQontrolRoles[device.commonRole] && typeof iQontrolRoles[device.commonRole].states != udef){
 				iQontrolRoles[device.commonRole].states.forEach(function(roleState){
-					var stateId = deviceId + "." + roleState;
-					var linkedStateId = getLinkedStateId(device, roleState, stateId);
+					var linkedStateId = getLinkedStateId(device, deviceId, roleState);
 					if (linkedStateId) { //Call updateFunction after rendering View
 						viewLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
 					}
@@ -7987,8 +7941,7 @@ function renderDialog(deviceIdEscaped){
 			var dialogStates = {};
 			if (device.commonRole && typeof iQontrolRoles[device.commonRole].states != udef){
 				iQontrolRoles[device.commonRole].states.forEach(function(elementState){
-					var stateId = deviceId + "." + elementState;
-					var linkedStateId = getLinkedStateId(device, elementState, stateId);
+					var linkedStateId = getLinkedStateId(device, deviceId, elementState);
 					if (linkedStateId) { //Call updateFunction after rendering Dialog
 						dialogLinkedStateIdsToUpdate.push(linkedStateId);
 						if (!states[linkedStateId]) dialogLinkedStateIdsToFetch.push(linkedStateId);
@@ -12675,8 +12628,7 @@ function initPanels(){
 		var panelLinkedStateIds = {};
 		//Get linkedStates (resp. create a constant one if commonRole is const)
 		["BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "PANEL_HIDE"].forEach(function(panelState){
-			var stateId = panelId + ".states." + panelState;
-			var linkedStateId = getLinkedStateId(panel, panelState, stateId);
+			var linkedStateId = getLinkedStateId(panel, panelId + ".states", panelState);
 			if (linkedStateId) { //Call updateFunction after rendering View
 				panelLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
 			}
@@ -13271,7 +13223,7 @@ $(document).ready(function(){
 							var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
 							var deviceId = unescape(deviceIdEscaped);
 							var device = getDevice(deviceId);
-							var stateId = getLinkedStateId(device, event.data.stateId, deviceId + "." + event.data.stateId) || "";
+							var stateId = getLinkedStateId(device, deviceId, event.data.stateId) || "";
 						}
 						console.log("postMessage received: " + event.data.command + " " + stateId);
 						if (stateId == ""){

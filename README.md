@@ -1587,6 +1587,7 @@ This device has some special predefined size- and display-settings to show a tex
 ### **WORK IN PROGRESS**
 * (sbormann) Updated dependencies.
 * (sbormann) Updated type-detector.
+* (sbormann) Some minor code adjustments.
 
 ### 1.9.14 (2021-11-21)
 * (sbormann) Added option to set colors for JSON-Table-Widget.
