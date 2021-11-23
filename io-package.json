@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.14",
+    "version": "1.9.15",
     "news": {
+      "1.9.15": {
+        "en": "Updated dependencies.\nUpdated type-detector.\nSome minor code adjustments.",
+        "de": "Aktualisierte Abhängigkeiten.\nAktualisierter Typ-Detektor.\nEinige kleinere Code-Anpassungen.",
+        "ru": "Обновлены зависимости.\nОбновленный тип-детектор.\nНезначительные корректировки кода.",
+        "pt": "Dependências atualizadas.\nDetector de tipo atualizado.\nAlguns pequenos ajustes de código.",
+        "nl": "Bijgewerkte afhankelijkheden.\nBijgewerkte typedetector.\nEnkele kleine code aanpassingen.",
+        "fr": "Dépendances mises à jour.\nDétecteur de type mis à jour.\nQuelques ajustements mineurs de code.",
+        "it": "Dipendenze aggiornate.\nRivelatore di tipo aggiornato.\nAlcune piccole modifiche al codice.",
+        "es": "Dependencias actualizadas.\nDetector de tipo actualizado.\nAlgunos ajustes de código menores.",
+        "pl": "Zaktualizowane zależności.\nZaktualizowano wykrywacz typów.\nKilka drobnych poprawek w kodzie.",
+        "zh-cn": "更新了依赖项。\n更新了类型检测器。\n一些小的代码调整。"
+      },
       "1.9.14": {
         "en": "Added option to set colors for JSON-Table-Widget.\nFix for periods with role value.time.\nEnhanced reconnection process when reopening the web app.\nPrevent endless loop for Party-Mode if objects do not exist.",
         "de": "Option zum Festlegen von Farben für JSON-Table-Widget hinzugefügt.\nFix für Zeiträume mit der Rolle value.time.\nVerbesserter Wiederverbindungsprozess beim erneuten Öffnen der Web-App.\nEndlosschleife für Party-Modus verhindern, wenn keine Objekte vorhanden sind.",
@@ -74,18 +86,6 @@
         "es": "Plegable fijo que no se abre si está cerrado por primera vez.\nWidget de reloj analógico mejorado para poder mostrar la hora de un punto de datos.\nJson-table-Widget mejorado para reconocer los parentNames de los puntos de datos, transponer y convertir json-data y algunas opciones de estilo.\nEstilo mejorado de ADDITIONAL_INFO.",
         "pl": "Naprawiono nieotwierające się składane, jeśli początkowo zamknięte.\nUlepszony widget zegara analogowego umożliwiający wyświetlanie czasu punktu danych.\nUlepszony json-table-Widget do rozpoznawania nazw nadrzędnych punktów danych, transpozycji i konwersji danych json oraz niektórych opcji stylizacji.\nUlepszony styl ADDITIONAL_INFO.",
         "zh-cn": "如果最初关闭，则修复了可折叠不打开的问题。\n增强的模拟时钟小部件能够显示数据点的时间。\n增强 json-table-Widget 以识别数据点的 parentNames，转置和转换 json-data 和一些样式选项。\n增强了 ADDITIONAL_INFO 的样式。"
-      },
-      "1.9.8": {
-        "en": "Fixed variables with special chars not working.\nEnhanced json-table-widget with datapoint recognition, which allows to see values and toggle datapoints in the list.\nFixed view rendering problems with thermostats without CONTROL_MODE.\nAdded the ability to widgets, to create widgetStates that contain a variable (for example to create distinct instances of a widget with own datapoints).\nThe map widget has been extended with a instance-option to create multiple maps with own datapoints.\n",
-        "de": "Behoben, dass Variablen mit Sonderzeichen nicht funktionierten.\nVerbessertes json-table-Widget mit Datenpunkterkennung, das es ermöglicht, Werte zu sehen und Datenpunkte in der Liste umzuschalten.\nProbleme beim Rendern von Ansichten mit Thermostaten ohne CONTROL_MODE behoben.\nMöglichkeit zu Widgets hinzugefügt, WidgetStates zu erstellen, die eine Variable enthalten (z. B. um unterschiedliche Instanzen eines Widgets mit eigenen Datenpunkten zu erstellen).\nDas Karten-Widget wurde um eine Instanz-Option erweitert, um mehrere Karten mit eigenen Datenpunkten zu erstellen.\n",
-        "ru": "Фиксированные переменные со специальными символами не работают.\nУлучшенный виджет json-table-widget с распознаванием точек данных, который позволяет видеть значения и переключать точки данных в списке.\nИсправлены проблемы рендеринга вида с термостатами без CONTROL_MODE.\nДобавлена возможность для виджетов создавать widgetStates, содержащие переменную (например, для создания отдельных экземпляров виджета с собственными точками данных).\nВиджет карты был расширен опцией экземпляра для создания нескольких карт с собственными точками данных.\n",
-        "pt": "Variáveis fixas com caracteres especiais não funcionando.\nJson-table-widget aprimorado com reconhecimento de pontos de dados, que permite ver valores e alternar pontos de dados na lista.\nCorrigidos problemas de renderização de visualização com termostatos sem CONTROL_MODE.\nAdicionada a capacidade de widgets para criar widgetStates que contêm uma variável (por exemplo, para criar instâncias distintas de um widget com pontos de dados próprios).\nO widget de mapa foi estendido com uma opção de instância para criar vários mapas com pontos de dados próprios.\n",
-        "nl": "Vaste variabelen met speciale tekens die niet werken.\nVerbeterde json-table-widget met gegevenspuntherkenning, waarmee u waarden kunt zien en gegevenspunten in de lijst kunt wisselen.\nProblemen met weergaveweergave opgelost met thermostaten zonder CONTROL_MODE.\nDe mogelijkheid toegevoegd aan widgets, om widgetStates te maken die een variabele bevatten (bijvoorbeeld om afzonderlijke instanties van een widget met eigen datapunten te maken).\nDe kaartwidget is uitgebreid met een instantie-optie om meerdere kaarten met eigen datapunten te maken.\n",
-        "fr": "Les variables fixes avec des caractères spéciaux ne fonctionnaient pas.\nJson-table-widget amélioré avec reconnaissance des points de données, qui permet de voir les valeurs et de basculer les points de données dans la liste.\nCorrection des problèmes de rendu de la vue avec les thermostats sans CONTROL_MODE.\nAjout de la possibilité aux widgets de créer des widgetStates qui contiennent une variable (par exemple pour créer des instances distinctes d'un widget avec ses propres points de données).\nLe widget de carte a été étendu avec une option d'instance pour créer plusieurs cartes avec ses propres points de données.\n",
-        "it": "Risolte le variabili con caratteri speciali non funzionanti.\nJson-table-widget migliorato con riconoscimento dei punti dati, che consente di vedere i valori e alternare i punti dati nell'elenco.\nRisolti i problemi di rendering della vista con i termostati senza CONTROL_MODE.\nAggiunta la possibilità ai widget di creare widgetStates che contengono una variabile (ad esempio per creare istanze distinte di un widget con propri datapoint).\nIl widget della mappa è stato esteso con un'opzione di istanza per creare più mappe con i propri punti dati.\n",
-        "es": "Variables fijas con caracteres especiales que no funcionan.\nJson-table-widget mejorado con reconocimiento de puntos de datos, que permite ver valores y alternar puntos de datos en la lista.\nSe corrigieron los problemas de representación de la vista con termostatos sin CONTROL_MODE.\nSe agregó la capacidad de los widgets para crear widgetStates que contengan una variable (por ejemplo, para crear instancias distintas de un widget con puntos de datos propios).\nEl widget de mapa se ha ampliado con una opción de instancia para crear varios mapas con puntos de datos propios.\n",
-        "pl": "Naprawiono niedziałające zmienne ze znakami specjalnymi.\nUlepszony json-table-widget z rozpoznawaniem punktów danych, który pozwala zobaczyć wartości i przełączać punkty danych na liście.\nNaprawiono problemy z renderowaniem widoku z termostatami bez trybu CONTROL_MODE.\nDodano możliwość tworzenia widgetów, aby tworzyć widgetStates, które zawierają zmienną (na przykład do tworzenia odrębnych instancji widgetu z własnymi punktami danych).\nWidżet mapy został rozszerzony o opcję instancji, aby tworzyć wiele map z własnymi punktami danych.\n",
-        "zh-cn": "带有特殊字符的固定变量不起作用。\n增强的 json-table-widget 具有数据点识别功能，允许查看列表中的值和切换数据点。\n修复了没有 CONTROL_MODE 的恒温器的视图渲染问题。\n添加了小部件的功能，以创建包含变量的小部件状态（例如，使用自己的数据点创建小部件的不同实例）。\n地图小部件已通过实例选项进行扩展，以使用自己的数据点创建多个地图。\n"
       }
     },
     "title": "iQontrol Vis",
