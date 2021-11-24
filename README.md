@@ -1583,6 +1583,9 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) Fixed ALTERNATIVE_COLORSPACE.
+  
 ### 1.9.16 (2021-11-23)
 * (sbormann) Enhanced viewport height scaling for collapsibles.
 

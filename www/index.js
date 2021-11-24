@@ -1722,7 +1722,53 @@ function getDeviceOptionValue(device, option, nullForDefault){
 function getLinkedStateId(device, deviceId, state){
 	var stateId = deviceId + "." + state;
 	var stateObject = null;
-	if (device && typeof device == "object" && typeof device.states != udef){
+	if (states[stateId]){ //State exists in fetched states (maybe because its a TEMP: state. Value is stored in .val)
+		stateObject = states[stateId];
+		if (typeof stateObject.val != udef){
+			if (stateObject.val.substring(0, 6) == 'CONST:' || stateObject.val.substring(0, 6) == 'ARRAY:') { //role of state is 'const' or 'array'
+				var linkedStateId = "CONST:" + stateId;
+				var constantValue = stateObject.val.substring(6);
+				var constantObject = {
+					"type": "state",
+					"common": {
+						"name": state,
+						"desc": "created by iQontrol",
+						"role": "state",
+						"type": "string",
+						"icon": "",
+						"read": true,
+						"write": false,
+						"def": ""
+					},
+					"native": {}
+				};
+				usedObjects[linkedStateId] = constantObject;
+				var constantState = {
+					"val": constantValue,
+					"ack": true,
+					"from": "iQontrol",
+					"lc": 0,
+					"q": 0,
+					"ts": 0,
+					"user": "system.user.admin"
+				};
+				states[linkedStateId] = constantState;
+				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
+				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
+				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
+				return linkedStateId;
+			} else { //role of state is 'linkedState'
+				var linkedStateId = stateObject.val;
+				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
+				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
+				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
+				if (linkedStateId && typeof usedObjects[linkedStateId] == udef) {
+					fetchObject(linkedStateId);
+				}
+				return linkedStateId;
+			}
+		}
+	} else if (device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value)
 		var stateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 		if (stateIndex > -1){ //State exists in config
 			stateObject = device.states[stateIndex];
