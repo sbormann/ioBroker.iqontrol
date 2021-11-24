@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.16",
+    "version": "1.9.17",
     "news": {
+      "1.9.17": {
+        "en": "Fixed ALTERNATIVE_COLORSPACE.",
+        "de": "ALTERNATIVE_COLORSPACE behoben.",
+        "ru": "Исправлено ALTERNATIVE_COLORSPACE.",
+        "pt": "ALTERNATIVE_COLORSPACE corrigido.",
+        "nl": "ALTERNATIVE_COLORSPACE opgelost.",
+        "fr": "Correction d'ALTERNATIVE_COLORSPACE.",
+        "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.",
+        "es": "Se corrigió ALTERNATIVE_COLORSPACE.",
+        "pl": "Naprawiono ALTERNATIVE_COLORSPACE.",
+        "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。"
+      },
       "1.9.16": {
         "en": "Enhanced viewport height scaling for collapsibles.",
         "de": "Verbesserte Höhenskalierung des Ansichtsfensters für zusammenklappbare Elemente.",
@@ -74,18 +86,6 @@
         "es": "Se agregó un script de lanzamiento de AlCalzone.\nEstablezca setState para postMessage en envío forzado.",
         "pl": "Dodano skrypt wydania autorstwa AlCalzone.\nUstaw setState dla postMessage na wymuszone wysyłanie.",
         "zh-cn": "添加了 AlCalzone 的发布脚本。\n将 postMessage 的 setState 设置为强制发送。"
-      },
-      "1.9.10": {
-        "en": "* (sbormann) Enhanced handling of states set by widgets.\n",
-        "de": "* (sbormann) Verbesserte Handhabung von Zuständen, die von Widgets gesetzt werden.\n",
-        "ru": "* (sbormann) Улучшена обработка состояний, установленных виджетами.\n",
-        "pt": "* (sbormann) Tratamento aprimorado de estados definidos por widgets.\n",
-        "nl": "* (sbormann) Verbeterde afhandeling van statussen ingesteld door widgets.\n",
-        "fr": "* (sbormann) Amélioration de la gestion des états définis par les widgets.\n",
-        "it": "* (sbormann) Migliorata la gestione degli stati impostati dai widget.\n",
-        "es": "* (sbormann) Manejo mejorado de estados establecidos por widgets.\n",
-        "pl": "* (sbormann) Ulepszona obsługa stanów ustawianych przez widżety.\n",
-        "zh-cn": "* (sbormann) 增强了对小部件设置的状态的处理。\n"
       }
     },
     "title": "iQontrol Vis",
