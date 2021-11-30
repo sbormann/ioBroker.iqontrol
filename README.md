@@ -1585,7 +1585,7 @@ This device has some special predefined size- and display-settings to show a tex
 -->
 ### **WORK IN PROGRESS**
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE.
-* (sbormann) Added ability to change the icons for BATTERY, UNREACH and ERROR.
+* (sbormann) Added option to change the icons for BATTERY, UNREACH and ERROR.
   
 ### 1.9.16 (2021-11-23)
 * (sbormann) Enhanced viewport height scaling for collapsibles.
