@@ -1070,14 +1070,17 @@ var iQontrolRolesStandardOptions = {
 		infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"}
 	}},
 	SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section", options: {
+		batteryIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 		batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""}
 	}},
 	SECTION_UNREACH: {name: "UNREACH Icon", type: "section", options: {
+		unreachIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 		hideUnreachIfInactive: {name: "Hide (resp. ignore) UNREACH, if the device is inactive", type: "checkbox", default: "false"}
 	}},
 	SECTION_ERROR: {name: "ERROR Icon", type: "section", options: {
+		errorIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
@@ -5307,6 +5310,10 @@ function renderView(viewId, triggeredByReconnection){
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
 						//--IconError
+						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || "./images/battery.png";
+						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
+						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
+						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
 						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/error.png'>";
 						if (deviceLinkedStateIds["ERROR"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -5325,7 +5332,10 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconUnreach
-						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/unreach.png'>";
+						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || "./images/battery.png";
+						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
+						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
+						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + "/>";
 						if (deviceLinkedStateIds["UNREACH"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -5347,7 +5357,10 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconBattery
-						deviceContent += "<image class='iQontrolDeviceBattery' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/battery.png'>";
+						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || "./images/battery.png";
+						var batteryIcon_onIcon = encodeURI(batteryIcon_on.split('|')[0]);
+						var batteryIcon_onVariableSrc = encodeURI(batteryIcon_on.split('|').slice(1).join('|'));
+						deviceContent += "<image class='iQontrolDeviceBattery' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + "/>";
 						if (deviceLinkedStateIds["BATTERY"] && deviceLinkedStateIds["BATTERY"] !== ""){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;

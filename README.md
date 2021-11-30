@@ -1583,9 +1583,10 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### 1.9.17 (2021-11-24)
+### **WORK IN PROGRESS**
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE.
-
+* (sbormann) Added ability to change the icons for BATTERY, UNREACH and ERROR.
+  
 ### 1.9.16 (2021-11-23)
 * (sbormann) Enhanced viewport height scaling for collapsibles.
 

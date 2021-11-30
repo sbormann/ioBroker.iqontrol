@@ -1371,14 +1371,17 @@ var iQontrolRolesStandardOptions = {
 		infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"}
 	}},
 	SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section", options: {
+		batteryIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 		batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""}
 	}},
 	SECTION_UNREACH: {name: "UNREACH Icon", type: "section", options: {
+		unreachIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 		hideUnreachIfInactive: {name: "Hide (resp. ignore) UNREACH, if the device is inactive", type: "checkbox", default: "false"}
 	}},
 	SECTION_ERROR: {name: "ERROR Icon", type: "section", options: {
+		errorIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
