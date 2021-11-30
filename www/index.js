@@ -5313,8 +5313,7 @@ function renderView(viewId, triggeredByReconnection){
 						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || "./images/error.png";
 						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
 						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
-						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/error.png'>";
+						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
 						if (deviceLinkedStateIds["ERROR"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
