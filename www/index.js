@@ -5310,7 +5310,7 @@ function renderView(viewId, triggeredByReconnection){
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
 						//--IconError
-						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || "./images/battery.png";
+						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || "./images/error.png";
 						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
 						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
@@ -5332,7 +5332,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconUnreach
-						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || "./images/battery.png";
+						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || "./images/unreach.png";
 						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
 						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + "/>";
