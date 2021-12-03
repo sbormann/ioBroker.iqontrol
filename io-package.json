@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "1.9.17",
+    "version": "1.10.0",
     "news": {
+      "1.10.0": {
+        "en": "Fixed ALTERNATIVE_COLORSPACE.\nAdded option to change the icons for BATTERY, UNREACH and ERROR.",
+        "de": "ALTERNATIVE_COLORSPACE behoben.\nOption zum Ändern der Symbole für BATTERY, UNREACH und ERROR hinzugefügt.",
+        "ru": "Исправлено ALTERNATIVE_COLORSPACE.\nДобавлена возможность изменить значки для АККУМУЛЯТОР, НЕДОСТУПЕН и ОШИБКА.",
+        "pt": "ALTERNATIVE_COLORSPACE corrigido.\nAdicionada opção para alterar os ícones de BATERIA, UNREACH e ERROR.",
+        "nl": "ALTERNATIVE_COLORSPACE opgelost.\nOptie toegevoegd om de pictogrammen voor BATTERY, UNREACH en ERROR te wijzigen.",
+        "fr": "Correction d'ALTERNATIVE_COLORSPACE.\nAjout d'une option pour changer les icônes pour BATTERIE, UNREACH et ERREUR.",
+        "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.\nAggiunta l'opzione per cambiare le icone per BATTERIA, UNREACH ed ERRORE.",
+        "es": "Se corrigió ALTERNATIVE_COLORSPACE.\nOpción agregada para cambiar los íconos de BATERÍA, UNREACH y ERROR.",
+        "pl": "Naprawiono ALTERNATIVE_COLORSPACE.\nDodano opcję zmiany ikon dla BATERIA, UNREACH i ERROR.",
+        "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。\n添加了更改 BATTERY、UNREACH 和 ERROR 图标的选项。"
+      },
       "1.9.17": {
         "en": "Fixed ALTERNATIVE_COLORSPACE.",
         "de": "ALTERNATIVE_COLORSPACE behoben.",
@@ -74,18 +86,6 @@
         "es": "Se corrigió la renderización de ADDITIONAL_CONTROLS solo una vez.",
         "pl": "Poprawka dotycząca renderowania ADDITIONAL_CONTROLS tylko raz.",
         "zh-cn": "仅修复一次 ADDITIONAL_CONTROLS 渲染。"
-      },
-      "1.9.11": {
-        "en": "Added release-script by AlCalzone.\nSet setState for postMessage to forced send.",
-        "de": "Release-Skript von AlCalzone hinzugefügt.\nSetzen Sie setState für postMessage auf erzwungenes Senden.",
-        "ru": "Добавлен релиз-скрипт от AlCalzone.\nУстановите для setState для postMessage принудительную отправку.",
-        "pt": "Adicionado o script de lançamento da AlCalzone.\nDefina setState para postMessage como envio forçado.",
-        "nl": "Release-script toegevoegd door AlCalzone.\nStel setState voor postMessage in op gedwongen verzenden.",
-        "fr": "Ajout du script de publication par AlCalzone.\nDéfinissez setState pour postMessage sur envoi forcé.",
-        "it": "Aggiunto lo script di rilascio di AlCalzone.\nImposta setState per postMessage su invio forzato.",
-        "es": "Se agregó un script de lanzamiento de AlCalzone.\nEstablezca setState para postMessage en envío forzado.",
-        "pl": "Dodano skrypt wydania autorstwa AlCalzone.\nUstaw setState dla postMessage na wymuszone wysyłanie.",
-        "zh-cn": "添加了 AlCalzone 的发布脚本。\n将 postMessage 的 setState 设置为强制发送。"
       }
     },
     "title": "iQontrol Vis",
