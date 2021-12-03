@@ -5622,6 +5622,7 @@ async function load(settings, onChange) {
 	//Fill Comboboxes with settings
 	$('#optionsChangeDeviceOptionsSourceOption').on('change', function(){
 		var settings = [];
+		var userSettings = [];
 		for (iQontrolRole in iQontrolRoles){
 			for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
 				if (iQontrolRoleOption == $('#optionsChangeDeviceOptionsSourceOption').val()){
@@ -5635,6 +5636,27 @@ async function load(settings, onChange) {
 								settings.push(("./images/icons/" + inbuiltIcon).replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\") + "/" + (link + "/./images/icons/" + inbuiltIcon).replace(/\//g, "\\"));
 							}
 						});
+						/*
+						settings.push("[" + _("Indicator Icons") + ":]");
+						settings.push(("./images/error.png").replace(/\//g, "\\") + "/" + ("error.png").replace(/\//g, "\\") + "/" + (link + "/./images/error.png").replace(/\//g, "\\"));
+						settings.push(("./images/unreach.png").replace(/\//g, "\\") + "/" + ("unreach.png").replace(/\//g, "\\") + "/" + (link + "/./images/unreach.png").replace(/\//g, "\\"));
+						settings.push(("./images/battery.png").replace(/\//g, "\\") + "/" + ("battery.png").replace(/\//g, "\\") + "/" + (link + "/./images/battery.png").replace(/\//g, "\\"));
+						*/
+						var imagenames = [];
+						imagesDirs.forEach(function(imagesDir){
+							if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+								imagenames.push("[" + imagesDir.dirnameBS + ":]");
+								imagesDir.files.forEach(function(file){
+									if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+										imagenames.push((".\\.." + userfilesImagePathBS + file.filenameBS) + "/" + file.filenameBS + "/" + (link.replace(/\//g, "\\") + ".\\.." + userfilesImagePathBS + file.filenameBS));
+									}
+								});
+							}
+						});
+						if (imagenames.length > 0){
+							settings.push("[" + _("User Icons") + ":]");
+							settings = settings.concat(imagenames);
+						}
 						break;
 						
 						case "checkbox":
@@ -5657,7 +5679,7 @@ async function load(settings, onChange) {
 						settings.push("*/" + _("all"));
 						break;
 					}
-					var userSettings = [];
+					settings = removeDuplicates(settings, '/');
 					if (typeof views != udef) views.forEach(function(view){
 						if (typeof view.devices != udef) view.devices.forEach(function(device){
 							var role = device.commonRole || "";
@@ -5679,14 +5701,14 @@ async function load(settings, onChange) {
 							});
 						});
 					});
-					if (userSettings.length > 0){
-						settings.push("[" + _("User Settings") + ":]");
-						settings = settings.concat(userSettings);
-					}
 				}
 			}
 		}
-		settings = removeDuplicates(settings, '/');
+		if (userSettings.length > 0){
+			userSettings = removeDuplicates(userSettings, '/');
+			settings.push("[" + _("User Settings") + ":]");
+			settings = settings.concat(userSettings);
+		}
 		$('#optionsChangeDeviceOptionsSourceValue').val("");
 		$('#optionsChangeDeviceOptionsDestinationValue').val("");
 		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsSourceValue', settings.join(';'), false);
