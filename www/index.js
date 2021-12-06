@@ -1070,17 +1070,17 @@ var iQontrolRolesStandardOptions = {
 		infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"}
 	}},
 	SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section", options: {
-		batteryIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		batteryIcon_on: {name: "BATTERY Icon", type: "icon", defaultIcons: "", default: ""},
 		batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 		batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""}
 	}},
 	SECTION_UNREACH: {name: "UNREACH Icon", type: "section", options: {
-		unreachIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		unreachIcon_on: {name: "UNREACH Icon", type: "icon", defaultIcons: "", default: ""},
 		invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 		hideUnreachIfInactive: {name: "Hide (resp. ignore) UNREACH, if the device is inactive", type: "checkbox", default: "false"}
 	}},
 	SECTION_ERROR: {name: "ERROR Icon", type: "section", options: {
-		errorIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		errorIcon_on: {name: "ERROR Icon", type: "icon", defaultIcons: "", default: ""},
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
@@ -5062,6 +5062,12 @@ function renderView(viewId, triggeredByReconnection){
 						var clickOnIconAction = getDeviceOptionValue(device, "clickOnIconAction");
 						var icons = {};
 						var variableSrc = {};
+						for (roleOption in iQontrolRoles[device.commonRole].options){
+							if (roleOption.substring(0, 5).toLowerCase() == "icon_"){
+								var iconClass = roleOption.substring(5);
+								icons[iconClass] = options.LayoutDefaultIcons && options.LayoutDefaultIcons[device.commonRole] && options.LayoutDefaultIcons[device.commonRole][roleOption];
+							}
+						}
 						if (typeof device.options != udef){
 							for (var optionIndex = 0; optionIndex < device.options.length; optionIndex++) {
 								var option = device.options[optionIndex];
@@ -5310,7 +5316,7 @@ function renderView(viewId, triggeredByReconnection){
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
 						//--IconError
-						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || "./images/error.png";
+						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["ERROR"] && options.LayoutDefaultIcons["ERROR"]["icon_on"]) || "./images/error.png";
 						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
 						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
@@ -5331,7 +5337,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconUnreach
-						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || "./images/unreach.png";
+						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["UNREACH"] && options.LayoutDefaultIcons["UNREACH"]["icon_on"]) || "./images/unreach.png";
 						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
 						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + "/>";
@@ -5356,7 +5362,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconBattery
-						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || "./images/battery.png";
+						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["BATTERY"] && options.LayoutDefaultIcons["BATTERY"]["icon_on"]) || "./images/battery.png";
 						var batteryIcon_onIcon = encodeURI(batteryIcon_on.split('|')[0]);
 						var batteryIcon_onVariableSrc = encodeURI(batteryIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceBattery' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + "/>";

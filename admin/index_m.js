@@ -1371,17 +1371,17 @@ var iQontrolRolesStandardOptions = {
 		infoBShowName: {name: "Show Name of INFO_B", type: "checkbox", default: "false"}
 	}},
 	SECTION_BATTERY: {name: "BATTERY Empty Icon", type: "section", options: {
-		batteryIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		batteryIcon_on: {name: "BATTERY Icon", type: "icon", defaultIcons: "", default: ""},
 		batteryActiveCondition: {name: "Condition", type: "select", selectOptions: "/Standard;at/always active;af/always inactive;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal", default: ""},
 		batteryActiveConditionValue: {name: "Condition value", type: "text", default: ""}
 	}},
 	SECTION_UNREACH: {name: "UNREACH Icon", type: "section", options: {
-		unreachIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		unreachIcon_on: {name: "UNREACH Icon", type: "icon", defaultIcons: "", default: ""},
 		invertUnreach: {name: "Invert UNREACH (use connected instead of unreach)", type: "checkbox", default: "false"},
 		hideUnreachIfInactive: {name: "Hide (resp. ignore) UNREACH, if the device is inactive", type: "checkbox", default: "false"}
 	}},
 	SECTION_ERROR: {name: "ERROR Icon", type: "section", options: {
-		errorIcon_on: {name: "Icon", type: "icon", defaultIcons: "", default: ""},
+		errorIcon_on: {name: "ERROR Icon", type: "icon", defaultIcons: "", default: ""},
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
@@ -2256,12 +2256,14 @@ async function load(settings, onChange) {
 	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
+		optionsLayoutDefaultIcons = {};
 		version = settings.version || 0;
 		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
 		newConfig = true;
 	} else {
 		toolbar = settings.toolbar || [];
 		views = settings.views || [];
+		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons;
 		version = settings.version || 0;
 		newConfig = false;
 	}
@@ -5460,11 +5462,71 @@ async function load(settings, onChange) {
 			$(this).nextUntil('.optgroup', '.optgroup-option' + ($(this).data("selectall") ? ":not(.selected)" : ".selected")).find('input').click();
 		});
 
-		//Fill Selectbox for Export Selected Views
-		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
-		
+		//Create Comboboxes for Default Icons / Device Icons
+		var defaultIconsDeviceOptionsString = "";
+		for (iQontrolRole in iQontrolRoles){
+			defaultIconsDeviceOptionsString += "<div class='divider' style='margin-bottom: 10px;'></div>";
+			defaultIconsDeviceOptionsString += "<div class='row'>";
+				defaultIconsDeviceOptionsString += "<div class='col s12'>";
+					defaultIconsDeviceOptionsString += "<h7>" + (iQontrolRoles[iQontrolRole].icon ? "<img src='" + link + iQontrolRoles[iQontrolRole].icon + "' style='width:18px; height:18px; border:0; margin:0 0 -4px 0;'>&nbsp;" : "") + _(iQontrolRoles[iQontrolRole].name) + ":</h7>";	
+				defaultIconsDeviceOptionsString += "</div>";
+			defaultIconsDeviceOptionsString += "</div>";
+			defaultIconsDeviceOptionsString += "<div class='row'>";
+			for (iQontrolRoleOption in iQontrolRoles[iQontrolRole].options){
+				if (iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].type == "icon") {
+					if (iQontrolRoleOption == "errorIcon_on" || iQontrolRoleOption == "unreachIcon_on" || iQontrolRoleOption == "batteryIcon_on") continue;
+					var optionName = "optionsLayoutDefaultIcons_" + iQontrolRole + "_" + iQontrolRoleOption;
+					defaultIconsDeviceOptionsString += "<div class='input-field col s12 m6 l4'>";
+						defaultIconsDeviceOptionsString += "<input class='" + optionName + " optionsLayoutDefaultIcons' data-role='" + iQontrolRole + "' data-icon='" + iQontrolRoleOption + "' type='text' id='" + optionName + "' />";
+						defaultIconsDeviceOptionsString += "<label for='" + optionName + "'>" + _(iQontrolRoles[iQontrolRole].name) + ", " + _(iQontrolRoles[iQontrolRole].options[iQontrolRoleOption].name) + "</label>";
+						defaultIconsDeviceOptionsString += "<span class='helper-text'></span>";
+					defaultIconsDeviceOptionsString += "</div>";
+				}
+			}
+			defaultIconsDeviceOptionsString += "</div>";
+		}
+		$('#optionsLayoutDefaultIconsDeviceIcons').html(defaultIconsDeviceOptionsString);
+
+		//Fill Comboboxes for DefaultIcons with icons
+		//Default Icon
+		var optionsString = "[" + _("Default Icon") + ":]";
+		optionsString += ";/" + _("Default Icon") + "/" + (link + "/images/icons/various.png").replace(/\//g, "\\");
+		//Blank Icon
+		optionsString += ";[" + _("No Icon") + ":]";
+		optionsString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (link + "/images/icons/checkboard.png").replace(/\//g, "\\");
+		//Inbuilt Icons
+		optionsString += ";[" + _("Inbuilt Icons") + ":]";
+		inbuiltIcons.forEach(function(inbuiltIcon){
+			if (inbuiltIcon != "") {
+				optionsString += ";" + ("./images/icons/" + inbuiltIcon).replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
+			}
+		});
+		//Indicator Icons
+		optionsString += ";[" + _("Indicator Icons") + ":]";
+		optionsString += ";" + ("./images/error.png").replace(/\//g, "\\") + "/" + _("error.png") + "/" + (link + "/images/error.png").replace(/\//g, "\\");
+		optionsString += ";" + ("./images/unreach.png").replace(/\//g, "\\") + "/" + _("unreach.png") + "/" + (link + "/images/unreach.png").replace(/\//g, "\\");
+		optionsString += ";" + ("./images/battery.png").replace(/\//g, "\\") + "/" + _("battery.png") + "/" + (link + "/images/battery.png").replace(/\//g, "\\");
+		//User Icons
+		var imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				imagenames.push("[" + imagesDir.dirnameBS + ":]");
+				imagesDir.files.forEach(function(file){
+					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
+				});
+			}
+		});
+		if (imagenames.length > 0){
+			optionsString += ";[" + _("User Icons") + ":]";
+			imagenames.forEach(function(option){
+				optionsString += ";" + option;
+			});
+		}
+		enhanceTextInputToCombobox('.optionsLayoutDefaultIcons', optionsString, true);
+		optionsLayoutDefaultIconsSetValues();
+				
 		//Fill Combobox for fontFamily with fonts
 		//Default Font
 		var optionsString = "[" + _("Default Font") + ":]";
@@ -5506,6 +5568,11 @@ async function load(settings, onChange) {
 		}
 		//enhanceTextInputToCombobox('#optionsLayoutToolbarFontFamily', optionsString, false);
 		enhanceTextInputToCombobox('.optionsFontFamily', optionsString, false);
+
+		//Fill Selectbox for Export Selected Views
+		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
+		views.forEach(function(element, index){ $('#optionsBackupRestoreExportViewsSelectedSelection').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+		$('#optionsBackupRestoreExportViewsSelectedSelection').select();
 	}
 
 	//Fill Combobox for ChangeDeviceOptions with deviceOptions
@@ -5542,6 +5609,23 @@ async function load(settings, onChange) {
 		$('.optionsChangeDeviceOptionsStates').append("<option value='" + deviceStates[deviceState] + "'>" + deviceStates[deviceState] + "</select>");
 	}
 	$('select.optionsChangeDeviceOptionsStates').select();
+
+	//Set value of Comboboxes for DefaultIcons
+	function optionsLayoutDefaultIconsSetValues(){
+		for (role in optionsLayoutDefaultIcons){
+			for(icon in optionsLayoutDefaultIcons[role]){
+				$("#optionsLayoutDefaultIcons_" + role + "_" + icon).val(optionsLayoutDefaultIcons[role][icon]);
+			}
+		}
+		$('.optionsLayoutDefaultIcons').on('change', function(){ 
+			var role = $(this).data('role');
+			var icon = $(this).data('icon');
+			if (!optionsLayoutDefaultIcons) optionsLayoutDefaultIcons = {};
+			if (!optionsLayoutDefaultIcons[role]) optionsLayoutDefaultIcons[role] = {};
+			optionsLayoutDefaultIcons[role][icon] = $(this).val();
+			onChange();
+		});
+	}
 
 	//Add function to showChanges-Buttons
 	$('.optionsChangeDeviceOptionsShowChanges').on('click', function(){
@@ -5960,6 +6044,7 @@ async function load(settings, onChange) {
 				}
 			}
 		});
+		options.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
 		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
 	});
 
@@ -5995,6 +6080,7 @@ async function load(settings, onChange) {
 					options[$this.attr('id')] = $this.val();
 				}
 			});
+			options.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
 			obj.options = options;
 			var customs = [];
 			for(objectId in iobrokerObjects){
@@ -6167,6 +6253,8 @@ async function load(settings, onChange) {
 						}
 					});
 					$('.MaterializeColorPicker').trigger('change');
+					optionsLayoutDefaultIcons = resultObj["optionsLayoutDefaultIcons"] || {};
+					optionsLayoutDefaultIconsSetValues();
 					alert(_("Settings imported."));
 					onChange();
 				}
@@ -6316,6 +6404,8 @@ async function load(settings, onChange) {
 						}
 					});
 					$('.MaterializeColorPicker').trigger('change');
+					optionsLayoutDefaultIcons = resultObj["optionsLayoutDefaultIcons"] || {};
+					optionsLayoutDefaultIconsSetValues();
 					alert(_("Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported."));
 					onChange();
 					//Customs
@@ -6435,6 +6525,7 @@ async function save(callback) {
 	//Get edited subsettings
 	obj.toolbar = toolbar;
 	obj.views = views;
+	obj.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
 
 	//Set version
 	version = ++version || 0;
