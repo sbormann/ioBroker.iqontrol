@@ -121,9 +121,9 @@ var optionsLayoutDefaultIconsPresets = [
 		name: "Fluent",
 		description: "Iconset with slight gradients",
 		optionsLayoutDefaultIcons: {
-			ERROR:							{icon_on: "./images/icons/fluent_error.png"},
-			UNREACH:						{icon_on: "./images/icons/fluent_unreach.png"},
-			BATTERY:						{icon_on: "./images/icons/fluent_battery.png"},
+			ERROR:							{icon_on: "./images/icons/fluent_ERROR.png"},
+			UNREACH:						{icon_on: "./images/icons/fluent_UNREACH.png"},
+			BATTERY:						{icon_on: "./images/icons/fluent_BATTERY.png"},
 			iQontrolView: 					{icon_on: "./images/icons/blank.png"},
 			iQontrolSwitch: 				{icon_on: "./images/icons/fluent_switch_on.png", 			icon_off: "./images/icons/fluent_switch_off.png"},
 			iQontrolButton: 				{icon_on: "./images/icons/fluent_button.png", 				icon_off: "./images/icons/fluent_button.png"},
