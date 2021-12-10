@@ -1586,6 +1586,7 @@ This device has some special predefined size- and display-settings to show a tex
 
 ### **WORK IN PROGRESS**
 * (sbormann) Added the ability to globally change the default icons.
+* (sbormann) Introducing iconsets and fluent icons.
 
 ### 1.10.0 (2021-12-03)
 * (sbormann) Fixed ALTERNATIVE_COLORSPACE.
