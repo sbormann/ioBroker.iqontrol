@@ -1,4 +1,8 @@
 {
+	"Preset:": "Voreinstellungen:",
+	"Select a Preset (this will overwrite all icon-settings below):": "Wählen Sie eine Voreinstellung (dies überschreibt alle folgenden Icon-Einstellungen):",
+	"Default Icon": "Standard-Icon",
+	"Typical Icons": "Typische Icons",
     "Default Icons:": "Standard-Icons:",
     "Indicator Icons:": "Indikator-Icons:",
     "Indicator Icons": "Indikator-Icons",

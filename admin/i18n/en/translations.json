@@ -1,5 +1,9 @@
 {
+	"Preset:": "Preset:",
+	"Select a Preset (this will overwrite all icon-settings below):": "Select a Preset (this will overwrite all icon-settings below):",
 	"Default Icons:": "Default Icons:",
+	"Default Icon": "Default Icon",
+	"Typical Icons": "Typical Icons",
 	"Indicator Icons:": "Indicator Icons:",
 	"Indicator Icons": "Indicator Icons",
 	"Device Icons:": "Device Icons:",
