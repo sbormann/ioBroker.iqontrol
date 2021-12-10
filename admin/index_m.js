@@ -779,7 +779,7 @@ var iQontrolRoles = {
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png;fluent_switch_on.png;fluent_switch_on_blue.png;fluent_switch_angular_on.png;fluent_switch_angular_on_blue.png;fluent_plug_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png;fluent_switch_off.png;fluent_switch_angular_off.png;fluent_plug_off.png", default: ""}
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png;fluent_switch_off.png;fluent_switch_off_red.png;fluent_switch_angular_off.png;fluent_switch_angular_off_red.png;fluent_plug_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
