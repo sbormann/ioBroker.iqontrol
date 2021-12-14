@@ -3416,7 +3416,7 @@ async function load(settings, onChange) {
 					var defaultIconsString = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].defaultIcons;
 					var defaultIcons = defaultIconsString.split(';');
 					var options = "[" + _("Default Icon") + ":]";
-					options += ";/" + _("(Default)") + "/" + (link + "/" + (optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry] || optionsLayoutDefaultIconsPresets[0].optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry])).replace(/\//g, "\\");
+					options += ";/" + _("(Default)") + "/" + (link + "/" + ((optionsLayoutDefaultIcons[dialogDeviceEditCommonRole] && optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry]) || (optionsLayoutDefaultIconsPresets[0].optionsLayoutDefaultIcons[dialogDeviceEditCommonRole] && optionsLayoutDefaultIconsPresets[0].optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry]) || "")).replace(/\//g, "\\");
 					options += ";[" + _("Typical Icons") + ":]";
 					defaultIcons.forEach(function(option, index){
 						if (option != "") options += ";" + ("./images/icons/" + option).replace(/\//g, "\\") + "/" + option.replace(/\//g, "\\");
