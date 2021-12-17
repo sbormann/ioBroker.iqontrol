@@ -1,5 +1,10 @@
 {
+	"Badge:": "Badge:",
+	"Text-Color:": "Textfarbe:",
 	"Preset:": "Voreinstellungen:",
+	"Icon-Preset:": "Icon-Voreinstellungen:",
+	"Try to set all default icons to the selected icons above": "Versuche alle Standard-Icons auf die oben ausgewählten Icons umzustellen",
+	"Try to set icons of all devices to the selected icons above": "Versuche alle Icons von allen Geräten auf die oben ausgewählten Icons umzustellen",
 	"Select a Preset (this will overwrite all icon-settings below):": "Wählen Sie eine Voreinstellung (dies überschreibt alle folgenden Icon-Einstellungen):",
 	"Default Icon": "Standard-Icon",
 	"Typical Icons": "Typische Icons",

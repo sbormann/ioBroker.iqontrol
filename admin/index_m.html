@@ -1366,7 +1366,7 @@
 						<div class="collapsible-body">
 							<div class="row">
 								<div class="col s12">
-									<p class="translate sub-title">Preset:</p>
+									<p class="translate sub-title">Icon-Preset:</p>
 								</div>
 							</div>
 							<div class="row">
@@ -1610,8 +1610,8 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
-									<label for="optionsLayoutViewDeviceInfoeInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceInfoInactiveHoverTextColor" placeholder="rgb(0,0,0)" />
+									<label for="optionsLayoutViewDeviceInfoInactiveHoverTextColor" class="translate">Inactive Hover Text-Color:</label>
 									<span class="helper-text"></span>
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
@@ -1684,6 +1684,49 @@
 										<option value="oblique" class="translate">Oblique</option>
 									</select>
 									<label for='optionsLayoutViewDeviceInfoFontStyle' class="translate">Font-Style:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Badge:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutViewDeviceBadgeTextColor" placeholder="rgb(255,255,255)" />
+									<label for="optionsLayoutViewDeviceBadgeTextColor" class="translate">Text-Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<label for="optionsLayoutViewDeviceBadgeFontFamily" class="translate">Font-Family:</label>
+									<input class="value optionsFontFamily" type="text" id="optionsLayoutViewDeviceBadgeFontFamily" placeholder="" />
+									<span class="helper-text translate">Format: /userfonts/name@url. You can upload your own fonts in the Images/Widgets-Tab.</span>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceBadgeFontWeight' id='optionsLayoutViewDeviceBadgeFontWeight'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="lighter" class="translate">Lighter</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="bold" class="translate">Bold</option>
+										<option value="bolder" class="translate">Bolder</option>
+									</select>
+									<label for='optionsLayoutViewDeviceBadgeFontWeight' class="translate">Font-Weight:</label>
+									<span class="helper-text"></span>
+									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+								<div class="input-field col s12 m6 l4">
+									<select class="value" name='optionsLayoutViewDeviceBadgeFontStyle' id='optionsLayoutViewDeviceBadgeFontStyle'>
+										<option value="" disabled selected class="translate">Choose:</option>
+										<option value="normal" class="translate">Normal</option>
+										<option value="italic" class="translate">Italic</option>
+										<option value="oblique" class="translate">Oblique</option>
+									</select>
+									<label for='optionsLayoutViewDeviceBadgeFontStyle' class="translate">Font-Style:</label>
 									<span class="helper-text"></span>
 									<a class="selectClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
@@ -2887,6 +2930,44 @@
 					<div class="col s12 m12 l12">
 						<a class="btn" onclick="$('.dialogOptionsBackupRestoreImportCustomsListItem').prop('checked', true);"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
 						<a class="btn" onclick="$('.dialogOptionsBackupRestoreImportCustomsListItem').prop('checked', false);"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>		
+
+		<!-- DIALOG: optionsLayoutDefaultIconsPresetChange -->
+        <div id="dialogOptionsLayoutDefaultIconsPresetChange" class="modal modal-fixed-footer">
+            <div class="modal-content"> 
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title" class="translate">Icon-Preset:</h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogOptionsLayoutDefaultIconsPresetChangeList"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<a class="btn" onclick="$('.dialogOptionsLayoutDefaultIconsPresetChangeListItem').prop('checked', true);"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
+						<a class="btn" onclick="$('.dialogOptionsLayoutDefaultIconsPresetChangeListItem').prop('checked', false);"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="dialogOptionsLayoutDefaultIconsPresetChangeDefaultIcons" checked="checked" />
+						<label for="dialogOptionsLayoutDefaultIconsPresetChangeDefaultIcons" class="translate" style="display: inline;">Try to set all default icons to the selected icons above</label>
+						<span class="helper-text translate"></span>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="dialogOptionsLayoutDefaultIconsPresetChangeIconOptions" checked="checked" />
+						<label for="dialogOptionsLayoutDefaultIconsPresetChangeIconOptions" class="translate" style="display: inline;">Try to set icons of all devices to the selected icons above</label>
+						<span class="helper-text translate"></span>
 					</div>
 				</div>
             </div>

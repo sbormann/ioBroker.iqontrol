@@ -291,7 +291,7 @@ var iQontrolRoles = {
 		states: ["INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png;fluent_link_plain_internal.png;fluent_link_chain.png", default: ""}
+				icon_on: {name: "Icon", type: "icon", defaultIcons: ";link_plain_internal.png;link_chain.png;fluent/fluent_link_plain_internal.png;fluent/fluent_link_chain.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				readonly: "delete",
@@ -314,8 +314,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/switch_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png;fluent_switch_on.png;fluent_switch_on_blue.png;fluent_switch_angular_on.png;fluent_switch_angular_on_blue.png;fluent_plug_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png;fluent_switch_off.png;fluent_switch_off_red.png;fluent_switch_angular_off.png;fluent_switch_angular_off_red.png;fluent_plug_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "switch_on.png;plug_on.png;fluent/fluent_switch_on.png;fluent/fluent_switch_on_blue.png;fluent/fluent_switch_angular_on.png;fluent/fluent_switch_angular_on_blue.png;fluent/fluent_plug_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "switch_off.png;switch_red_off.png;plug_off.png;fluent/fluent_switch_off.png;fluent/fluent_switch_off_red.png;fluent/fluent_switch_angular_off.png;fluent/fluent_switch_angular_off_red.png;fluent/fluent_plug_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -329,8 +329,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/button.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png;fluent_button.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png;fluent_button.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "button.png;fluent/fluent_button.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "button.png;fluent/fluent_button.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -349,8 +349,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/light_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png;fluent_light_on.png;fluent_light_lampshade_on.png;fluent_light_desklamp_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png;fluent_light_off.png;fluent_light_lampshade_off.png;fluent_light_desklamp_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "light_on.png;light_lampshade_on.png;light_desklamp_on.png;fluent/fluent_light_on.png;fluent/fluent_light_lampshade_on.png;fluent/fluent_light_desklamp_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "light_off.png;light_lampshade_off.png;light_desklamp_off.png;fluent/fluent_light_off.png;fluent/fluent_light_lampshade_off.png;fluent/fluent_light_desklamp_off.png", default: ""}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
@@ -366,8 +366,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/fan_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png;fluent_fan_on.png;fluent_kitchenhood_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png;fluent_fan_off.png;fluent_kitchenhood_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fan_on.png;kitchenhood_on.png;fluent/fluent_fan_on.png;fluent/fluent_kitchenhood_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fan_off.png;kitchenhood_off.png;fluent/fluent_fan_off.png;fluent/fluent_kitchenhood_off.png", default: ""}
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -378,8 +378,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent_radiator.png;fluent_heating_on.png;fluent_cooling_on.png;fluent_airconditioner_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent_radiator_off.png;fluent_heating_off.png;fluent_cooling_off.png;fluent_airconditioner_off.png", default: ""}
+				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent/fluent_radiator.png;fluent/fluent_heating_on.png;fluent/fluent_cooling_on.png;fluent/fluent_airconditioner_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent/fluent_radiator_off.png;fluent/fluent_heating_off.png;fluent/fluent_cooling_off.png;fluent/fluent_airconditioner_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
@@ -401,8 +401,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent_radiator.png;fluent_heating_on.png;fluent_cooling_on.png;fluent_airconditioner_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent_radiator_off.png;fluent_heating_off.png;fluent_cooling_off.png;fluent_airconditioner_off.png", default: ""}
+				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent/fluent_radiator.png;fluent/fluent_heating_on.png;fluent/fluent_cooling_on.png;fluent/fluent_airconditioner_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent/fluent_radiator_off.png;fluent/fluent_heating_off.png;fluent/fluent_cooling_off.png;fluent/fluent_airconditioner_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
@@ -423,8 +423,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent_radiator.png;fluent_heating_on.png;fluent_cooling_on.png;fluent_airconditioner_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent_radiator_off.png;fluent_heating_off.png;fluent_cooling_off.png;fluent_airconditioner_off.png", default: ""}
+				icon_on: {name: "Icon", type: "icon", defaultIcons: "radiator.png;heating_on.png;cooling_on.png;airconditioner_on.png;fluent/fluent_radiator.png;fluent/fluent_heating_on.png;fluent/fluent_cooling_on.png;fluent/fluent_airconditioner_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "radiator_off.png;heating_off.png;cooling_off.png;airconditioner_off.png;fluent/fluent_radiator_off.png;fluent/fluent_heating_off.png;fluent/fluent_cooling_off.png;fluent/fluent_airconditioner_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
@@ -445,8 +445,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/temperature.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png;fluent_temperature.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png;fluent_temperature.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "temperature.png;fluent/fluent_temperature.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "temperature.png;fluent/fluent_temperature.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -464,8 +464,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/humidity.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png;fluent_humidity.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png;fluent_humidity.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "humidity.png;fluent/fluent_humidity.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "humidity.png;fluent/fluent_humidity.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -483,8 +483,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/pressure.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png;fluent_pressure.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "pressure.png;fluent_pressure.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "pressure.png;fluent/fluent_pressure.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "pressure.png;fluent/fluent_pressure.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -502,8 +502,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/brightness_light.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png;fluent_brightness_light.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png;fluent_brightness_dark.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "brightness_light.png;fluent/fluent_brightness_light.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "brightness_dark.png;fluent/fluent_brightness_dark.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -521,8 +521,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/motion_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png;fluent_motion_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png;fluent_motion_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "motion_on.png;fluent/fluent_motion_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "motion_off.png;fluent/fluent_motion_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -543,8 +543,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/door_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png;fluent_door_opened.png", default: ""},
-				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png;fluent_door_closed.png", default: ""}
+				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "door_opened.png;fluent/fluent_door_opened.png", default: ""},
+				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "door_closed.png;fluent/fluent_door_closed.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -562,8 +562,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/garagedoor_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png;fluent_garagedoor_opened.png;fluent_gate_opened.png", default: ""},
-				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png;fluent_garagedoor_closed.png;fluent_gate_closed.png", default: ""}
+				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "garagedoor_opened.png;gate_opened.png;fluent/fluent_garagedoor_opened.png;fluent/fluent_gate_opened.png", default: ""},
+				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "garagedoor_closed.png;gate_closed.png;fluent/fluent_garagedoor_closed.png;fluent/fluent_gate_closed.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -579,10 +579,10 @@ var iQontrolRoles = {
 		icon: "/images/icons/door_locked.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "door_opened.png;fluent_door_opened.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "door_closed.png;fluent_door_closed.png", default: ""},
-				icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png;fluent_door_locked.png", default: ""},
-				icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png;fluent_door_unlocked.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "door_opened.png;fluent/fluent_door_opened.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "door_closed.png;fluent/fluent_door_closed.png", default: ""},
+				icon_locked: {name: "Icon locked", type: "icon", defaultIcons: "door_locked.png;fluent/fluent_door_locked.png", default: ""},
+				icon_unlocked: {name: "Icon unlocked", type: "icon", defaultIcons: "door_unlocked.png;fluent/fluent_door_unlocked.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -600,9 +600,9 @@ var iQontrolRoles = {
 		icon: "/images/icons/window_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png;window_toplight_opened.png;fluent_window_opened.png;fluent_window_toplight_opened.png", default: ""},
-				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png;fluent_window_closed.png;fluent_window_toplight_closed.png", default: ""},
-				icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png;fluent_window_tilted.png;fluent_window_toplight_tilted.png", default: ""}
+				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "window_opened.png;window_toplight_opened.png;fluent/fluent_window_opened.png;fluent/fluent_window_toplight_opened.png", default: ""},
+				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "window_closed.png;window_toplight_closed.png;fluent/fluent_window_closed.png;fluent/fluent_window_toplight_closed.png", default: ""},
+				icon_tilted: {name: "Icon tilted", type: "icon", defaultIcons: "window_tilted.png;window_toplight_tilted.png;fluent/fluent_window_tilted.png;fluent/fluent_window_toplight_tilted.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -624,11 +624,11 @@ var iQontrolRoles = {
 		icon: "/images/icons/blind_middle.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png;fluent_blind_opened.png", default: ""},
-				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "blind_closed.png;fluent_blind_closed.png", default: ""},
-				icon_middle: {name: "Icon middle", type: "icon", defaultIcons: "blind_middle.png;fluent_blind_middle.png", default: ""},
-				icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png;fluent_blind_closing.png", default: ""},
-				icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png;fluent_blind_opening.png", default: ""}
+				icon_on: {name: "Icon opened", type: "icon", defaultIcons: "blind_opened.png;fluent/fluent_blind_opened.png", default: ""},
+				icon_off: {name: "Icon closed", type: "icon", defaultIcons: "blind_closed.png;fluent/fluent_blind_closed.png", default: ""},
+				icon_middle: {name: "Icon middle", type: "icon", defaultIcons: "blind_middle.png;fluent/fluent_blind_middle.png", default: ""},
+				icon_closing: {name: "Icon closing", type: "icon", defaultIcons: "blind_closing.png;fluent/fluent_blind_closing.png", default: ""},
+				icon_opening: {name: "Icon opening", type: "icon", defaultIcons: "blind_opening.png;fluent/fluent_blind_opening.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				stateCaption: "delete"
@@ -651,8 +651,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/fire_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png;fluent_fire_on.png;fluent_gas_on.png;fluent_firebox_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png;firebox_green.png;fluent_fire_off.png;fluent_gas_off.png;fluent_firebox_off.png;fluent_firebox_green.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "fire_on.png;gas_on.png;firebox_on.png;fluent/fluent_fire_on.png;fluent/fluent_gas_on.png;fluent/fluent_firebox_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "fire_off.png;gas_off.png;firebox_off.png;firebox_green.png;fluent/fluent_fire_off.png;fluent/fluent_gas_off.png;fluent/fluent_firebox_off.png;fluent/fluent_firebox_green.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -670,8 +670,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/flood_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png;fluent_flood_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png;fluent_flood_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "flood_on.png;fluent/fluent_flood_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "flood_off.png;fluent/fluent_flood_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -689,9 +689,9 @@ var iQontrolRoles = {
 		icon: "/images/icons/alarm_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png;fluent_alarm_on_triggered.png;fluent_alarm_on.png;fluent_bell_on.png;fluent_bell_ringing_on.png;fluent_firebox_on.png;fluent_panic_on.png", default: ""},
-				icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png;fluent_alarm_on.png;fluent_alarm_on_triggered.png;fluent_bell_on.png;fluent_bell_ringing_on.png;fluent_firebox_on.png;fluent_firebox_green.png;fluent_panic_on.png", default: ""},
-				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png;fluent_alarm_off.png;fluent_bell_off.png;fluent_bell_ringing_off.png;fluent_firebox_off.png;fluent_panic_off.png", default: ""}
+				icon_triggered: {name: "Icon triggered (STATE is true)", type: "icon", defaultIcons: "alarm_on_triggered.png;alarm_on.png;bell_on.png;bell_ringing_on.png;firebox_on.png;panic_on.png;fluent/fluent_alarm_on_triggered.png;fluent/fluent_alarm_on.png;fluent/fluent_bell_on.png;fluent/fluent_bell_ringing_on.png;fluent/fluent_firebox_on.png;fluent/fluent_panic_on.png", default: ""},
+				icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", defaultIcons: "alarm_on.png;alarm_on_triggered.png;bell_on.png;bell_ringing_on.png;firebox_on.png;firebox_green.png;panic_on.png;fluent/fluent_alarm_on.png;fluent/fluent_alarm_on_triggered.png;fluent/fluent_bell_on.png;fluent/fluent_bell_ringing_on.png;fluent/fluent_firebox_on.png;fluent/fluent_firebox_green.png;fluent/fluent_panic_on.png", default: ""},
+				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", defaultIcons: "alarm_off.png;bell_off.png;bell_ringing_off.png;firebox_off.png;panic_off.png;fluent/fluent_alarm_off.png;fluent/fluent_bell_off.png;fluent/fluent_bell_ringing_off.png;fluent/fluent_firebox_off.png;fluent/fluent_panic_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -711,13 +711,13 @@ var iQontrolRoles = {
 		icon: "/images/icons/battery_full.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png;fluent_battery_full.png", default: ""},
-				icon_off: {name: "Icon empty", type: "icon", defaultIcons: "battery_empty.png;fluent_battery_empty.png", default: ""},
-				icon_charged75: {name: "Icon 75%", type: "icon", defaultIcons: "battery_75.png;fluent_battery_75.png", default: ""},
-				icon_charged50: {name: "Icon 50%", type: "icon", defaultIcons: "battery_50.png;fluent_battery_50.png", default: ""},
-				icon_charged25: {name: "Icon 25%", type: "icon", defaultIcons: "battery_25.png;fluent_battery_25.png", default: ""},
-				icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png;fluent_battery_10.png", default: ""},
-				icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png;fluent_battery_charging_overlay.png", default: ""}
+				icon_on: {name: "Icon full", type: "icon", defaultIcons: "battery_full.png;fluent/fluent_battery_full.png", default: ""},
+				icon_off: {name: "Icon empty", type: "icon", defaultIcons: "battery_empty.png;fluent/fluent_battery_empty.png", default: ""},
+				icon_charged75: {name: "Icon 75%", type: "icon", defaultIcons: "battery_75.png;fluent/fluent_battery_75.png", default: ""},
+				icon_charged50: {name: "Icon 50%", type: "icon", defaultIcons: "battery_50.png;fluent/fluent_battery_50.png", default: ""},
+				icon_charged25: {name: "Icon 25%", type: "icon", defaultIcons: "battery_25.png;fluent/fluent_battery_25.png", default: ""},
+				icon_charged10: {name: "Icon 10%", type: "icon", defaultIcons: "battery_10.png;fluent/fluent_battery_10.png", default: ""},
+				icon_charging: {name: "Icon charging", type: "icon", defaultIcons: "battery_charging_overlay.png;fluent/fluent_battery_charging_overlay.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -735,9 +735,9 @@ var iQontrolRoles = {
 		icon: "/images/icons/time_alarmclock_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "time_alarmclock_on.png;time_clock_on.png;time_timer_on.png;time_duration_on.png;time_calendar_on.png;fluent_time_alarmclock_on.png;fluent_time_clock_on.png;fluent_time_timer_on.png;fluent_time_duration_on.png;fluent_time_calendar_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png;fluent_time_alarmclock_off.png;fluent_time_clock_off.png;fluent_time_timer_off.png;fluent_time_duration_off.png;fluent_time_calendar_off.png", default: ""},
-				icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_overlay.png;fluent_bell_ringing_overlay.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "time_alarmclock_on.png;time_clock_on.png;time_timer_on.png;time_duration_on.png;time_calendar_on.png;fluent/fluent_time_alarmclock_on.png;fluent/fluent_time_clock_on.png;fluent/fluent_time_timer_on.png;fluent/fluent_time_duration_on.png;fluent/fluent_time_calendar_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "time_alarmclock_off.png;time_clock_off.png;time_timer_off.png;time_duration_off.png;time_calendar_off.png;fluent/fluent_time_alarmclock_off.png;fluent/fluent_time_clock_off.png;fluent/fluent_time_timer_off.png;fluent/fluent_time_duration_off.png;fluent/fluent_time_calendar_off.png", default: ""},
+				icon_ringing: {name: "Icon ringing", type: "icon", defaultIcons: "bell_ringing_overlay.png;fluent/fluent_bell_ringing_overlay.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete",
@@ -760,8 +760,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/value_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png;fluent_value_on.png;fluent_info_circle_on.png;fluent_info_square_on.png;fluent_info_bubble_on.png;fluent_value_tag_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png;fluent_value_off.png;fluent_info_circle_off.png;fluent_info_square_off.png;fluent_info_bubble_off.png;fluent_value_tag_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "value_on.png;info_circle_on.png;info_square_on.png;info_bubble_on.png;fluent/fluent_value_on.png;fluent/fluent_info_circle_on.png;fluent/fluent_info_square_on.png;fluent/fluent_info_bubble_on.png;fluent/fluent_value_tag_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "value_off.png;info_circle_off.png;info_square_off.png;info_bubble_off.png;fluent/fluent_value_off.png;fluent/fluent_info_circle_off.png;fluent/fluent_info_square_off.png;fluent/fluent_info_bubble_off.png;fluent/fluent_value_tag_off.png", default: ""}
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
@@ -778,8 +778,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/play_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png;fluent_play_on.png;fluent_play_sphere_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png;fluent_play.png;fluent_play_sphere_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play_on.png;fluent/fluent_play_on.png;fluent/fluent_play_sphere_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png;fluent/fluent_play.png;fluent/fluent_play_sphere_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -796,8 +796,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/play.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png;fluent_play.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png;fluent_play.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "play.png;fluent/fluent_play.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "play.png;fluent/fluent_play.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -817,8 +817,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/media_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png;fluent_media_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png;fluent_media_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "media_on.png;fluent/fluent_media_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "media_off.png;fluent/fluent_media_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -857,8 +857,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/popup.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png;fluent_popup.png;fluent_link_square_internal.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png;fluent_popup.png;fluent_link_square_internal.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png;fluent/fluent_popup.png;fluent/fluent_link_square_internal.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "popup.png;link_square_internal.png;camera_on.png;camera_ptz_on.png;fluent/fluent_popup.png;fluent/fluent_link_square_internal.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -876,8 +876,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/link.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png;fluent_link.png;fluent_link_square_external.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png;fluent_link.png;fluent_link_square_external.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "link.png;link_square_external.png;fluent/fluent_link.png;fluent/fluent_link_square_external.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "link.png;link_square_external.png;fluent/fluent_link.png;fluent/fluent_link_square_external.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -895,8 +895,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/widget_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png;fluent_widget_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png;fluent_widget_off.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "blank.png;widget_on.png;fluent/fluent_widget_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;widget_off.png;fluent/fluent_widget_off.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -936,8 +936,8 @@ var iQontrolRoles = {
 		icon: "/images/icons/info_bubble_off.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
-				icon_on: {name: "Icon on", type: "icon", defaultIcons: "info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png;fluent_info_bubble_off.png;fluent_info_bubble_on.png;fluent_info_circle_off.png;fluent_info_circle_on.png;fluent_info_square_off.png;fluent_info_square_on.png;fluent_value_off.png;fluent_value_on.png;fluent_value_tag_off.png;fluent_value_tag_on.png", default: ""},
-				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png;fluent_info_bubble_off.png;fluent_info_bubble_on.png;fluent_info_circle_off.png;fluent_info_circle_on.png;fluent_info_square_off.png;fluent_info_square_on.png;fluent_value_off.png;fluent_value_on.png;fluent_value_tag_off.png;fluent_value_tag_on.png", default: ""}
+				icon_on: {name: "Icon on", type: "icon", defaultIcons: "info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png;fluent/fluent_info_bubble_off.png;fluent/fluent_info_bubble_on.png;fluent/fluent_info_circle_off.png;fluent/fluent_info_circle_on.png;fluent/fluent_info_square_off.png;fluent/fluent_info_square_on.png;fluent/fluent_value_off.png;fluent/fluent_value_on.png;fluent/fluent_value_tag_off.png;fluent/fluent_value_tag_on.png", default: ""},
+				icon_off: {name: "Icon off", type: "icon", defaultIcons: "blank.png;info_bubble_off.png;info_bubble_on.png;info_circle_off.png;info_circle_on.png;info_square_off.png;info_square_on.png;value_off.png;value_on.png;fluent/fluent_info_bubble_off.png;fluent/fluent_info_bubble_on.png;fluent/fluent_info_circle_off.png;fluent/fluent_info_circle_on.png;fluent/fluent_info_square_off.png;fluent/fluent_info_square_on.png;fluent/fluent_value_off.png;fluent/fluent_value_on.png;fluent/fluent_value_tag_off.png;fluent/fluent_value_tag_on.png", default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -3904,6 +3904,28 @@ function handleOptions(){
 		customCSS += "	font-style: " + options.LayoutViewDeviceInfoFontStyle + ";";
 		customCSS += "}";
 	};
+	//Badge
+	if (options.LayoutViewDeviceBadgeTextColor) {
+		customCSS += ".iQontrolDeviceBadge{";
+		customCSS += "	color: " + options.LayoutViewDeviceBadgeTextColor + ";";
+		customCSS += "}";
+	};
+	if (options.LayoutViewDeviceBadgeFontFamily) {
+		var fontFamily = getFontFamilyAndAddFontFace(options.LayoutViewDeviceBadgeFontFamily);
+		customCSS += ".iQontrolDeviceBadge{";
+		customCSS += "	font-family: " + fontFamily + ";";
+		customCSS += "}";
+	};
+	if (options.LayoutViewDeviceBadgeFontWeight) {
+		customCSS += ".iQontrolDeviceBadge{";
+		customCSS += "	font-weight: " + options.LayoutViewDeviceBadgeFontWeight + ";";
+		customCSS += "}";
+	};
+	if (options.LayoutViewDeviceBadgeFontStyle) {
+		customCSS += ".iQontrolDeviceBadge{";
+		customCSS += "	font-style: " + options.LayoutViewDeviceBadgeFontStyle + ";";
+		customCSS += "}";
+	};	
 	//Dark-Mode
 	if (options.LayoutColorModeDarkBackgroundOverlay) {
 		customCSS += "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
@@ -4296,8 +4318,9 @@ function handleOptions(){
 			customCSSFontFace += "	src: url('" + encodeURI(option.split('@')[1].replace(/\\/g,"/")) + "') format('" + format + "');"
 			customCSSFontFace += "}";
 			if ($('style.customCSS_default').text().indexOf(customCSSFontFace) == -1) addCustomCSS(customCSSFontFace);
+			return fontFamily;
 		}
-		return fontFamily || option;
+		return option;
 	}
 	//Add customCSS
 	if (customCSS) addCustomCSS(customCSS);

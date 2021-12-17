@@ -1,5 +1,10 @@
 {
+	"Badge:": "Badge:",
+	"Text-Color:": "Text-Color:",
 	"Preset:": "Preset:",
+	"Icon-Preset:": "Icon-Preset:",
+	"Try to set all default icons to the selected icons above": "Try to set all default icons to the selected icons above",
+	"Try to set icons of all devices to the selected icons above": "Try to set icons of all devices to the selected icons above",
 	"Select a Preset (this will overwrite all icon-settings below):": "Select a Preset (this will overwrite all icon-settings below):",
 	"Default Icons:": "Default Icons:",
 	"Default Icon": "Default Icon",

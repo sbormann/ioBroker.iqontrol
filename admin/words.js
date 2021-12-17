@@ -2,7 +2,16 @@
 'use strict';
 
 systemDictionary = {
+    "Badge:": {                                      "en": "Badge:",                                          "de": "Badge:"},
+    "Text-Color:": {                                 "en": "Text-Color:",                                     "de": "Textfarbe:"},
+    "Preset:": {                                     "en": "Preset:",                                         "de": "Voreinstellungen:"},
+    "Icon-Preset:": {                                "en": "Icon-Preset:",                                    "de": "Icon-Voreinstellungen:"},
+    "Try to set all default icons to the selected icons above": {"en": "Try to set all default icons to the selected icons above", "de": "Versuche alle Standard-Icons auf die oben ausgewählten Icons umzustellen"},
+    "Try to set icons of all devices to the selected icons above": {"en": "Try to set icons of all devices to the selected icons above", "de": "Versuche alle Icons von allen Geräten auf die oben ausgewählten Icons umzustellen"},
+    "Select a Preset (this will overwrite all icon-settings below):": {"en": "Select a Preset (this will overwrite all icon-settings below):", "de": "Wählen Sie eine Voreinstellung (dies überschreibt alle folgenden Icon-Einstellungen):"},
     "Default Icons:": {                              "en": "Default Icons:",                                  "de": "Standard-Icons:"},
+    "Default Icon": {                                "en": "Default Icon",                                    "de": "Standard-Icon"},
+    "Typical Icons": {                               "en": "Typical Icons",                                   "de": "Typische Icons"},
     "Indicator Icons:": {                            "en": "Indicator Icons:",                                "de": "Indikator-Icons:"},
     "Indicator Icons": {                             "en": "Indicator Icons",                                 "de": "Indikator-Icons"},
     "Device Icons:": {                               "en": "Device Icons:",                                   "de": "Geräte-Icons:"},
