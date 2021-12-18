@@ -1386,17 +1386,17 @@
 							</div>
 							<div class="row">
 								<div class="input-field col s12 m6 l4">
-									<input class="optionsLayoutDefaultIcons_ERROR_icon_on optionsLayoutDefaultIcons" data-role="ERROR" data-icon="icon_on" type="text" id="optionsLayoutDefaultIcons_ERROR_icon_on" />
+									<input class="optionsLayoutDefaultIcons_ERROR_icon_on optionsLayoutDefaultIcons" data-role="ERROR" data-icon="errorIcon_on" type="text" id="optionsLayoutDefaultIcons_ERROR_icon_on" />
 									<label for="optionsLayoutDefaultIcons_ERROR_icon_on" class="translate">ERROR</label>
 									<span class="helper-text"></span>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="optionsLayoutDefaultIcons_UNREACH_icon_on optionsLayoutDefaultIcons" data-role="UNREACH" data-icon="icon_on" type="text" id="optionsLayoutDefaultIcons_UNREACH_icon_on" />
+									<input class="optionsLayoutDefaultIcons_UNREACH_icon_on optionsLayoutDefaultIcons" data-role="UNREACH" data-icon="unreachIcon_on" type="text" id="optionsLayoutDefaultIcons_UNREACH_icon_on" />
 									<label for="optionsLayoutDefaultIcons_UNREACH_icon_on" class="translate">UNREACH</label>
 									<span class="helper-text"></span>
 								</div>
 								<div class="input-field col s12 m6 l4">
-									<input class="optionsLayoutDefaultIcons_BATTERY_icon_on optionsLayoutDefaultIcons" data-role="BATTERY" data-icon="icon_on" type="text" id="optionsLayoutDefaultIcons_BATTERY_icon_on" />
+									<input class="optionsLayoutDefaultIcons_BATTERY_icon_on optionsLayoutDefaultIcons" data-role="BATTERY" data-icon="batteryIcon_on" type="text" id="optionsLayoutDefaultIcons_BATTERY_icon_on" />
 									<label for="optionsLayoutDefaultIcons_BATTERY_icon_on" class="translate">BATTERY</label>
 									<span class="helper-text"></span>
 								</div>
@@ -2945,9 +2945,14 @@
             <div class="modal-content"> 
                 <div class="row">
                     <div class="col s12">
-                        <h6 class="title" class="translate">Icon-Preset:</h6>
+                        <h6 class="title" class="translate">Icon-Preset:&nbsp;<span id="dialogOptionsLayoutDefaultIconsPresetChangePresetName"></span></h6>
                     </div>
                 </div>
+				<div class="row">
+					<div class="col s12 m12 l12">
+						<div id="dialogOptionsLayoutDefaultIconsPresetChangePresetDescription"></div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col s12 m12 l12">
 						<div id="dialogOptionsLayoutDefaultIconsPresetChangeList"></div>
