@@ -1924,19 +1924,19 @@ html.color-mode-dark .ui-btn{
 	background-color: #b9b9b9 !important;
 	border-color: #777777 !important;
 }
-html.color-mode-dark .ui-btn:hover{
+html.color-mode-dark .ui-btn:hover {
 	background-color: #b0b0b0 !important;
 }
-html.color-mode-dark .ui-btn:active{
+html.color-mode-dark .ui-btn:active:not(.ui-radio-on) {
 	background-color: #a9a9a9 !important;
 }
-html.color-mode-dark .ui-btn-active {
+html.color-mode-dark .ui-btn-active, html.color-mode-dark .ui-btn-active:hover {
 	color: #858585 !important;
 	text-shadow: 0 1px 0 #1a1a1a !important;
 	background-color: #083559 !important;
 	border-color: #0a4575 !important;
 }
-html.color-mode-dark .ui-collapsible-content{
+html.color-mode-dark .ui-collapsible-content {
 	text-shadow: 0 1px 0 #747474 !important;    	
 	background: #787878 !important;
 	border-color: #707070 !important;

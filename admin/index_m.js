@@ -2583,7 +2583,7 @@ async function load(settings, onChange) {
 	} else {
 		toolbar = settings.toolbar || [];
 		views = settings.views || [];
-		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons;
+		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || {};
 		version = settings.version || 0;
 		newConfig = false;
 	}

@@ -3687,7 +3687,7 @@ function handleOptions(){
 		customCSS += "}";
 	};
 	if (options.LayoutViewDeviceInactiveHoverOpacity) {
-		customCSS += "..iQontrolDevice:hover iQontrolDeviceBackground:not(.active){";
+		customCSS += ".iQontrolDevice:hover .iQontrolDeviceBackground:not(.active){";
 		customCSS += "	opacity: " + options.LayoutViewDeviceInactiveHoverOpacity + ";";
 		customCSS += "}";
 	};
