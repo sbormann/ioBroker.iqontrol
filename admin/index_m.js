@@ -6288,6 +6288,79 @@ async function load(settings, onChange) {
 		return {changeCount: changeCount, changeList: changeList};
 	}
 
+	//Activate demotiles
+	$('input.affectsDemotile').on('change changeColor', function(){
+		var id = $(this).prop('id');
+		var val = $(this).val();
+		var placeholder = $(this).prop('placeholder');
+		if (val == "" && placeholder) val = placeholder;
+		switch (id){
+			case "optionsLayoutViewDeviceColor":
+			$('.demotile.inactive.nomouseover.background').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewDeviceHoverColor":
+			$('.demotile.inactive.mouseover.background').css('background-color', val);
+			break;
+
+			case "optionsLayoutViewDeviceOpacity":
+			$('.demotile.inactive.nomouseover.background').css('opacity', val);
+			break;
+			
+			case "optionsLayoutViewDeviceHoverOpacity":
+			$('.demotile.inactive.mouseover.background').css('opacity', val);
+			break;
+		
+			case "optionsLayoutViewDeviceInactiveColor":
+			$('.demotile.inactive.nomouseover.overlay').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewDeviceInactiveHoverColor":
+			$('.demotile.inactive.mouseover.overlay').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewDeviceInactiveOpacity":
+			$('.demotile.inactive.nomouseover.overlay').css('opacity', val);
+			break;
+			
+			case "optionsLayoutViewDeviceInactiveHoverOpacity":
+			$('.demotile.inactive.mouseover.overlay').css('opacity', val);
+			break;	
+			
+			case "optionsLayoutViewActiveDeviceColor":
+			$('.demotile.active.nomouseover.background').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewActiveDeviceHoverColor":
+			$('.demotile.active.mouseover.background').css('background-color', val);
+			break;
+
+			case "optionsLayoutViewActiveDeviceOpacity":
+			$('.demotile.active.nomouseover.background').css('opacity', val);
+			break;
+			
+			case "optionsLayoutViewActiveDeviceHoverOpacity":
+			$('.demotile.active.mouseover.background').css('opacity', val);
+			break;
+		
+			case "optionsLayoutViewDeviceActiveColor":
+			$('.demotile.active.nomouseover.overlay').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewDeviceActiveHoverColor":
+			$('.demotile.active.mouseover.overlay').css('background-color', val);
+			break;
+			
+			case "optionsLayoutViewDeviceActiveOpacity":
+			$('.demotile.active.nomouseover.overlay').css('opacity', val);
+			break;
+			
+			case "optionsLayoutViewDeviceActiveHoverOpacity":
+			$('.demotile.active.mouseover.overlay').css('opacity', val);
+			break;		
+		}
+	}).trigger('change');
+
 	//Fill Selectbox for Default Icons Preset
 	for (optionsLayoutDefaultIconsPreset in iconPresets){
 		$('#optionsLayoutDefaultIconsPreset').append("<option value='" + optionsLayoutDefaultIconsPreset + "'>" + _(iconPresets[optionsLayoutDefaultIconsPreset].name) + "</option>");

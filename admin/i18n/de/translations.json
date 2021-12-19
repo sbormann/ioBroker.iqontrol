@@ -1,4 +1,12 @@
 {
+	"Inactive Devices:": "Inaktive Gerätekacheln:",
+	"Active Devices:": "Aktive Gerätekacheln:",
+	"Device without background": "Gerät ohne Hintergrund",
+	"Device with background": "Gerät mit Hintergrund",
+	"Active": "Aktiv",
+	"Inactive": "Inaktiv",
+	"Active, Mouse": "Aktiv, Maus",
+	"Inactive, Mouse": "Inaktiv, Maus",
 	"Show POWER as state": "Zeige POWER als state",
     "%s icons have been exchanged. Don't forget to save your changes!": "%s Icons wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",
