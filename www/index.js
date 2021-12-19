@@ -7128,6 +7128,7 @@ function renderView(viewId, triggeredByReconnection){
 										};
 										if (_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if (_linkedLevelId) viewUpdateFunctions[_linkedLevelId].push(updateFunction);
+										if (_linkedPowerId && (getDeviceOptionValue(_device, "showPowerAsState") == "true")) viewUpdateFunctions[_linkedPowerId].push(updateFunction);
 										if (_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
 										if (!_linkedStateId && !_linkedLevelId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 									})(); //<--End Closure
