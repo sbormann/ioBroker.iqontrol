@@ -894,7 +894,9 @@ var iQontrolRoles = {
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
+			}}
 		}
 	},
 	"iQontrolButton": {
@@ -930,7 +932,8 @@ var iQontrolRoles = {
 				invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 				alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
 				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"},
-				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"}
+				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"},
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -943,7 +946,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["fan_on", "kitchenhood_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["fan_off", "kitchenhood_off"], default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
+			}}
 		}
 	},
 	"iQontrolThermostat": {

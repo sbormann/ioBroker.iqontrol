@@ -1583,6 +1583,10 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+* (sbormann) Added option to show POWER as state.
+
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
 * (sbormann) Introducing iconsets and fluent icons.

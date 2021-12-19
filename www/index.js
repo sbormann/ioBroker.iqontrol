@@ -320,7 +320,9 @@ var iQontrolRoles = {
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
+			}}
 		}
 	},
 	"iQontrolButton": {
@@ -356,7 +358,8 @@ var iQontrolRoles = {
 				invertCt: {name: "Invert CT (use Kelvin instead of Mired)", type: "checkbox", default: "false"},
 				alternativeColorspace: {name: "Colorspace for ALTERNATIVE_COLORSPACE_VALUE", type: "select", selectOptions: "/None;RGB/RGB;#RGB/#RGB;RGBW/RGBW;#RGBW/#RGBW;RGBWWCW/RGBWWCW;#RGBWWCW/#RGBWWCW;RGBCWWW/RGBCWWW;#RGBCWWW/#RGBCWWW;RGB_HUEONLY/RGB (Hue only);#RGB_HUEONLY/#RGB (Hue only);HUE_MILIGHT/Hue for Milight;HHSSBB_TUYA/HHSSBB for Tuya", default: ""},
 				linkGlowActiveColorToHue: {name: "Use color of lamp as GLOW_ACTIVE_COLOR", type: "checkbox", default: "false"},
-				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"}
+				linkOverlayActiveColorToHue: {name: "Use color of lamp as OVERLAY_ACTIVE_COLOR", type: "checkbox", default: "false"},
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -369,7 +372,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["fan_on", "kitchenhood_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["fan_off", "kitchenhood_off"], default: ""}
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
+			}}
 		}
 	},
 	"iQontrolThermostat": {
@@ -5866,7 +5871,7 @@ function renderView(viewId, triggeredByReconnection){
 							break;
 
 							case "iQontrolSwitch": case "iQontrolFan": case "iQontrolLight": case "iQontrolBattery":
-							if (deviceLinkedStateIds["POWER"]) {
+							if (deviceLinkedStateIds["POWER"] && (getDeviceOptionValue(device, "showPowerAsState") != "true")) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
 								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
@@ -6991,18 +6996,21 @@ function renderView(viewId, triggeredByReconnection){
 								break;
 
 								default:
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds["LEVEL"] || deviceLinkedStateIds["POWER"] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedLevelId = deviceLinkedStateIds["LEVEL"];
+										var _linkedPowerId = deviceLinkedStateIds["POWER"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var level = getStateObject(_linkedLevelId);
+											var power = getStateObject(_linkedPowerId);
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var showStateAndLevelSeparatelyInTile = getDeviceOptionValue(_device, "showStateAndLevelSeparatelyInTile") || "";
+											var showPowerAsState = (getDeviceOptionValue(_device, "showPowerAsState") == "true");
 											var result;
 											var resultText;
 											if (!level || typeof level == udef || typeof level.val == udef){
@@ -7035,6 +7043,13 @@ function renderView(viewId, triggeredByReconnection){
 													resultText = result + level.unit;
 												}
 											}
+											if (showPowerAsState && power && power.type){ 
+												state = power;
+												var val = state.plainText;
+												var unit = state.unit;
+												if (state.plainText == state.val) val = val + unit;
+												resultText = val;
+											}												
 											if (showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
 												resultText = "";
 												if (state && typeof state != udef && state.val != udef){
