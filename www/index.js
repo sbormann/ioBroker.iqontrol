@@ -5090,7 +5090,7 @@ function renderView(viewId, triggeredByReconnection){
 						var clickOnIconAction = getDeviceOptionValue(device, "clickOnIconAction");
 						var icons = {};
 						var variableSrc = {};
-						for (roleOption in iQontrolRoles[device.commonRole].options){
+						if (iQontrolRoles[device.commonRole]) for (roleOption in iQontrolRoles[device.commonRole].options){
 							if (roleOption.substring(0, 5).toLowerCase() == "icon_"){
 								var iconClass = roleOption.substring(5);
 								icons[iconClass] = options.LayoutDefaultIcons && options.LayoutDefaultIcons[device.commonRole] && options.LayoutDefaultIcons[device.commonRole][roleOption];
