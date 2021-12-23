@@ -907,7 +907,6 @@ var iQontrolRoles = {
 				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
-				clickOnTileToggles: "delete",
 				noZoomOnHover: {default: "true"},
 				hideDeviceName: {default: "true"}
 			}},
@@ -13219,9 +13218,10 @@ function handleVisibilityChange() {
 
 //Document ready - initialization - start connection
 $(document).ready(function(){
-	//Add class isBackgroundView to body and #View
+	//Add class isBackgroundView to html, body and #View
 	if (isBackgroundView) $('#View').addClass('isBackgroundView');
 	if (isBackgroundView) $('body').addClass('isBackgroundView');
+	if (isBackgroundView) $('html').addClass('isBackgroundView');
 
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 100);

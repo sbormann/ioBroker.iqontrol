@@ -20,9 +20,28 @@ html {
 	-webkit-transition: all 1s;
 	   -moz-transition: all 1s;
 			transition: all 1s;
+	scrollbar-width: thin;
 }
 html.noscroll {
 	overflow: hidden !important;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888; 
+}
+.isBackgroundView {
+  scrollbar-width: none;
+}
+.isBackgroundView::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -38,27 +57,11 @@ body {
 body:not(.isBackgroundView):not(.backstretchLoaded){
 	background: linear-gradient(347deg, rgba(85,13,69,0.5) 0%, rgba(150,19,152,0.5) 27%, rgba(0,212,255,0.5) 100%) !important;
 }
-
 html.noscroll body {
 	touch-action: none;
 	-ms-touch-action: none;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: #eee;
-}
-::-webkit-scrollbar-thumb {
-  background: #aaa; 
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #888; 
-}
-.isBackgroundView::-webkit-scrollbar {
-  display: none;
-}
 
 .small {
 	font-size: 70%;
