@@ -89,6 +89,7 @@
     "Additional Buttons": "Дополнительные кнопки",
     "Additional Controls": "Дополнительные элементы управления",
     "Additional Infos": "Дополнительная информация",
+    "Adjust height of device tile to the size of BACKGROUND_VIEW": "Отрегулируйте высоту плитки устройства до размера BACKGROUND_VIEW",
     "Admin Favorites": "Admin Favorites",
     "After opening linked view in parent instance, close panel (if it is dismissible)": "После открытия связанного представления в родительском экземпляре закройте панель (если это разрешено)",
     "Afterwards you can create a toolbar, which is displayed as footer.": "После этого вы можете создать панель инструментов, которая отображается в футере.",

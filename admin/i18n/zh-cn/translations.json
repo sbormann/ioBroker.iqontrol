@@ -66,6 +66,7 @@
     "Add option to enter free text": "添加选项以输入自由文本",
     "Add timestamp to state": "添加时间戳到状态",
     "Add your own CSS Code here:": "在此处添加您自己的CSS代码：",
+    "Adjust height of device tile to the size of BACKGROUND_VIEW": "将设备磁贴的高度调整为 Background_VIEW 的大小",
     "Admin Favorites": "管理员收藏夹",
     "After opening linked view in parent instance, close panel (if it is dismissible)": "在父实例中打开链接视图后，关闭面板（如果可忽略）",
     "Afterwards you can create a toolbar, which is displayed as footer.": "创建一个导航栏，导航栏将位于显示页面底部。",

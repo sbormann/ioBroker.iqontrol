@@ -7,7 +7,8 @@ var connectionLink = location.origin;
 var useCache = true;
 var homeId = getUrlParameter('renderView') || '';	//If not specified, the first toolbar-entry will be used
 var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
-var isBackgroundView = getUrlParameter('isBackgroundView')
+var isBackgroundView = getUrlParameter('isBackgroundView');
+var adjustHeightToBackgroundView = getUrlParameter('adjustHeightToBackgroundView');
 var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 var momentToAnypickerDisplayFormatTokens = {
 	yyyy:		"",
@@ -1088,6 +1089,7 @@ var iQontrolRolesStandardOptions = {
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
+		adjustHeightToBackgroundView: {name: "Adjust height of device tile to the size of BACKGROUND_VIEW", type: "checkbox", default: "false"},
 		backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 		backgroundURLPadding: {name: "Apply padding to BACKGROUND_VIEW/URL/HTML", type: "number", min: "0", max: "50", default: ""},
 		backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
@@ -4967,12 +4969,16 @@ function renderView(viewId, triggeredByReconnection){
 										setTimeout(function(){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											if (stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
-												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "");
+												var adjustHeightToBackgroundView = (getDeviceOptionValue(_device, "adjustHeightToBackgroundView") == "true");
+												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "");
 												$(iframe).addClass('isBackgroundView');
+												if (adjustHeightToBackgroundView) {
+													$(iframe).addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeightToBackgroundView');
+												}
 												var timeout = 1000;
 											} else { //URL
 												iframe.src = stateBackgroundURL.val;
-												$(iframe).removeClass('isBackgroundView');
+												$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
 												var timeout = 500;
 											}
 											if (iframe.onload == null) {
@@ -7655,6 +7661,7 @@ function viewShuffleReshuffle(delays){
 				viewShuffleInstances.forEach(function(shuffleInstance, i){ 
 					if (shuffleInstance.isEnabled) shuffleInstance.update(); else shuffleInstance.enable(); 
 				}); 
+				if(isBackgroundView && adjustHeightToBackgroundView) window.parent.postMessage({ command: "adjustHeightToBackgroundView" , value: $('#ViewMain').css('height') }, "*");
 				delete viewShuffleReshuffleTimeouts[_id]; 
 			}, delay);
 			viewShuffleReshuffleTimeouts[_id] = {destinationTime: destinationTime};
@@ -13219,9 +13226,12 @@ function handleVisibilityChange() {
 //Document ready - initialization - start connection
 $(document).ready(function(){
 	//Add class isBackgroundView to html, body and #View
-	if (isBackgroundView) $('#View').addClass('isBackgroundView');
-	if (isBackgroundView) $('body').addClass('isBackgroundView');
-	if (isBackgroundView) $('html').addClass('isBackgroundView');
+	if (isBackgroundView){ 
+		$('html').addClass('isBackgroundView');
+		$('body').addClass('isBackgroundView');
+		$('#View').addClass('isBackgroundView');
+		if(adjustHeightToBackgroundView) $('html').addClass('adjustHeightToBackgroundView');
+	}
 
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 100);
@@ -13421,6 +13431,15 @@ $(document).ready(function(){
 						console.log("postMessage received: openDialog " + event.data.value);
 						renderDialog(escape(event.data.value));
 						setTimeout(function(){$("#Dialog").popup("open", {transition: "pop", positionTo: "window"});}, 250);
+					}
+					break;
+					
+					case "adjustHeightToBackgroundView":
+					if (event.data.value){
+						console.log("postMessage received: adjustHeightToBackgroundView " + event.data.value);
+						var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
+						$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe").css('height', event.data.value);
+						viewShuffleReshuffle(0, 1250);
 					}
 					break;
 				}

@@ -1481,7 +1481,6 @@ var iQontrolRoles = {
 				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
-				clickOnTileToggles: "delete",
 				noZoomOnHover: {default: "true"},
 				hideDeviceName: {default: "true"}
 			}},
@@ -1663,6 +1662,7 @@ var iQontrolRolesStandardOptions = {
 		invertError: {name: "Invert ERROR (use ok instead of error)", type: "checkbox", default: "false"}
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
+		adjustHeightToBackgroundView: {name: "Adjust height of device tile to the size of BACKGROUND_VIEW", type: "checkbox", default: "false"},
 		backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 		backgroundURLPadding: {name: "Apply padding to BACKGROUND_VIEW/URL/HTML", type: "number", min: "0", max: "50", default: ""},
 		backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
@@ -2487,12 +2487,14 @@ async function load(settings, onChange) {
 	//Get inbuiltIcons
 	var inbuiltIcons = [];
 	for(iconPreset in iconPresets){
+		let presetIcons = [];
 		for(iconEquivalent in iconPresets[iconPreset].iconEquivalents){
-			inbuiltIcons = inbuiltIcons.concat(iconPresets[iconPreset].iconEquivalents[iconEquivalent]);
+			presetIcons = presetIcons.concat(iconPresets[iconPreset].iconEquivalents[iconEquivalent]);
 		}
+		presetIcons.sort();
+		inbuiltIcons = inbuiltIcons.concat(presetIcons);
 	}
 	inbuiltIcons = removeDuplicates(inbuiltIcons);
-	inbuiltIcons.sort();
 
 	//Init Colorpickers
 	initColorpickers(onChange);
@@ -3743,9 +3745,8 @@ async function load(settings, onChange) {
 				} else if (dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
 					enhanceTextInputToCombobox("#" + this.id, "/;" + viewIds.join(";"), false, function(value){
 						if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
-							if (confirm("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?")){
-								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', 'checked');
-								dialogDeviceEditOptionsBuildOptionsContent();
+							if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
+								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
 							}
 						}
 					});

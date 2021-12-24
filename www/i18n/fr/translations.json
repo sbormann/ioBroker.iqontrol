@@ -89,6 +89,7 @@
     "Additional Buttons": "Boutons supplémentaires",
     "Additional Controls": "Contrôles supplémentaires",
     "Additional Infos": "Infos supplémentaires",
+    "Adjust height of device tile to the size of BACKGROUND_VIEW": "Ajustez la hauteur de la vignette de l'appareil à la taille de BACKGROUND_VIEW",
     "Admin Favorites": "Admin Favoris",
     "After opening linked view in parent instance, close panel (if it is dismissible)": "Après avoir ouvert la vue liée dans l'instance parente, fermez le panneau (si elle est supprimable)",
     "Afterwards you can create a toolbar, which is displayed as footer.": "Ensuite, vous pouvez créer une barre d'outils qui s'affiche comme un pied de page.",

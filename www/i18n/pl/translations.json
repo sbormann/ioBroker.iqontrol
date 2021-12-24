@@ -89,6 +89,7 @@
     "Additional Buttons": "Dodatkowe przyciski",
     "Additional Controls": "Dodatkowe sterowanie",
     "Additional Infos": "Dodatkowe informacje",
+    "Adjust height of device tile to the size of BACKGROUND_VIEW": "Dostosuj wysokość kafelka urządzenia do rozmiaru BACKGROUND_VIEW",
     "Admin Favorites": "Admin Ulubionych",
     "After opening linked view in parent instance, close panel (if it is dismissible)": "Po otwarciu połączonego widoku w instancji nadrzędnej zamknij panel (jeśli jest dopuszczalny)",
     "Afterwards you can create a toolbar, which is displayed as footer.": "Po tym można utworzyć pasek narzędzi, który pojawia się w stopce.",

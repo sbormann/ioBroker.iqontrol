@@ -1588,6 +1588,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to show POWER as state.
 * (sbormann) Added preview of tile appeareance when setting tile colors.
 * (sbormann) Added scrollbar-settings for firefox.
+* (sbormann) Added option to adjust height of tile to the size of BACKGROUND_VIEW.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.

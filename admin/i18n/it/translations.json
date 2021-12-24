@@ -66,6 +66,7 @@
     "Add option to enter free text": "Aggiungi opzione per inserire testo libero",
     "Add timestamp to state": "Aggiungi timestamp allo stato",
     "Add your own CSS Code here:": "Aggiungi il tuo codice CSS qui:",
+    "Adjust height of device tile to the size of BACKGROUND_VIEW": "Regola l'altezza del riquadro del dispositivo alla dimensione di BACKGROUND_VIEW",
     "Admin Favorites": "Preferiti dell'amministratore",
     "After opening linked view in parent instance, close panel (if it is dismissible)": "Dopo aver aperto la vista collegata nell'istanza principale, chiudere il pannello (se è possibile ignorarlo)",
     "Afterwards you can create a toolbar, which is displayed as footer.": "Successivamente è possibile creare una barra degli strumenti che viene visualizzata come piè di pagina.",
