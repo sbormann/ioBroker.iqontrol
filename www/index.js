@@ -2758,26 +2758,6 @@ function removeCustomCSS(customID){
 	$('.customCSS_' + customID).remove();
 }
 
-function removeCssRule(ruleBeginsWith){
-	if (typeof window.CSSMediaRule !== 'function') return false;
-	var styleSheets = document.styleSheets;
-	if (!styleSheets) return false;
-	var number = 0;
-	for (i = 0; i < styleSheets.length; i++) {
-		var styleSheet = styleSheets[i];
-		var rules = styleSheet.cssRules;
-		if (!rules) continue;
-		for (var j = 0; j < rules.length; j++) {
-			var cssText = rules[j].cssText;
-			if (cssText.indexOf(ruleBeginsWith) === 0) {
-				number++;
-				styleSheet.deleteRule(j);
-			}
-		}
-	}
-	return number;
-}
-
 function removeDuplicates(array) { //Removes duplicates from an array
     var seen = {};
     return array.filter(function(item) {
@@ -3932,6 +3912,12 @@ function handleOptions(){
 		customCSS += "	font-style: " + options.LayoutViewDeviceBadgeFontStyle + ";";
 		customCSS += "}";
 	};	
+	//INFO_A/B Icons
+	if (options.LayoutDefaultSymbolsInfoABInvert) {
+		customCSS += ".iQontrolDeviceInfoAIcon, .iQontrolDeviceInfoBIcon{";
+		customCSS += "	filter: invert(1);";
+		customCSS += "}";
+	};
 	//Dark-Mode
 	if (options.LayoutColorModeDarkBackgroundOverlay) {
 		customCSS += "@media (prefers-color-scheme: dark){ body:not(.isBackgroundView):not(.backstretchLoaded):after{";
@@ -4306,6 +4292,10 @@ function handleOptions(){
 		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
 		customCSS += "}";
 	};
+	//Big Mode:
+	if (options.LayoutViewBigModeDisabled) {
+		$('#cssLinkBigMode').attr('media', 'none');
+	}
 	//Own CSS:
 	if (options.LayoutCSS) {
 		customCSS += options.LayoutCSS;
@@ -5488,7 +5478,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["TEMPERATURE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/temperature.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["TEMPERATURE"] && options.LayoutDefaultSymbols["TEMPERATURE"]["temperatureIcon_on"] || "./images/symbols/temperature.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5517,7 +5507,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["BRIGHTNESS"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/brightness.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["BRIGHTNESS"] && options.LayoutDefaultSymbols["BRIGHTNESS"]["brightnessIcon_on"] || "./images/symbols/brightness.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5546,7 +5536,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["SLATS_LEVEL"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='./images/symbols/slats.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["SLATS_LEVEL"] && options.LayoutDefaultSymbols["SLATS_LEVEL"]["slatsLevelIcon_on"] || "./images/symbols/slats.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5575,7 +5565,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["VOLTAGE"]) {
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["VOLTAGE"] && options.LayoutDefaultSymbols["VOLTAGE"]["voltageIcon_on"] || "./images/symbols/power.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5604,7 +5594,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["HUE"] || deviceLinkedStateIds["CT"] || deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"]){
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='./images/symbols/color.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["COLOR"] && options.LayoutDefaultSymbols["COLOR"]["colorIcon_on"] || "./images/symbols/color.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
 								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
@@ -5759,7 +5749,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["VOLUME"]) {
 								sliderIndex = viewInfoASliderLength[deviceIdEscaped];
 								viewInfoASliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/volume.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["VOLUME"] && options.LayoutDefaultSymbols["VOLUME"]["volumeIcon_on"] || "./images/symbols/volume.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5850,7 +5840,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["HUMIDITY"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/humidity.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["HUMIDITY"] && options.LayoutDefaultSymbols["HUMIDITY"]["humidityIcon_on"] || "./images/symbols/humidity.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5879,7 +5869,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["POWER"] && (getDeviceOptionValue(device, "showPowerAsState") != "true")) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/power.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["POWER"] && options.LayoutDefaultSymbols["POWER"]["powerIcon_on"] || "./images/symbols/power.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5910,7 +5900,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (deviceLinkedStateIds["ELAPSED"]) {
 								sliderIndex = viewInfoBSliderLength[deviceIdEscaped];
 								viewInfoBSliderLength[deviceIdEscaped]++;
-								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='./images/symbols/time.png'>";
+								deviceContent += "<image class='iQontrolDeviceInfoBIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display: none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["ELAPSED"] && options.LayoutDefaultSymbols["ELAPSED"]["elapsedIcon_on"] || "./images/symbols/time.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoBText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -13041,7 +13031,7 @@ $(window).on('orientationchange resize', function(){
 			$('#Dialog').popup('reposition', {positionTo: 'window'});
 			lastWidth = $(".iQontrolDeviceShuffleSizer").outerWidth(true);
 			resizeTimeout = false;
-		}, 1250);
+		}, 1250);		
 	} else {
 		if (!options.LayoutViewShuffleDisabled) viewShuffleInstances.forEach(function(shuffleInstance, i){ shuffleInstance.disable(); });
 		resizeFullWidthDevicesToFitScreen();

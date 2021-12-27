@@ -42,6 +42,7 @@
 	<link rel="stylesheet" href="jquery/plugins/jquery-te-1.4.0.css">
 	<link rel="stylesheet" href="jquery/plugins/anypicker/anypicker-all.min.css">
 	<link rel="stylesheet" href="index.css"/>
+	<link rel="stylesheet" href="index_big.css" media="screen and (min-width: 1500px)" id="cssLinkBigMode"/>
 	
 	<script type="text/javascript" src="jquery/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="jquery/jquery.mobile-1.4.5.min.js"></script>
@@ -100,7 +101,7 @@
 			<div id="ViewContent">
 				<p style="font-size: small;">&nbsp;&nbsp;<a href="" onclick="window.location.reload();">(reload)</a></p>
 			</div>
-			<p><br></p>
+			<p id="ViewMainBottomSpacer"><br></p>
 			<input type="checkbox" id="focusable" style="height:0; margin-left:-200px; clear: both;" />
 		</div>
 		<div data-role="popup"  data-theme="a" data-overlay-theme="b" data-dismissible="true" id="Dialog">
@@ -130,9 +131,7 @@
 				<div class="panelCloserArrow"></div>
 			</div>
 		</div>
-		</div>
 	</div>
-
 
 	<div data-role="footer" data-fullscreen="true" data-position="fixed" data-tap-toggle="false" data-theme="a" id="Toolbar">
 		<div id="ToolbarContent"></div>

@@ -114,6 +114,18 @@ var	optionsLayoutDefaultIconsStandard = {
 	iQontrolInfoText: 				{icon_on: "./images/icons/info_bubble_off.png", 			icon_off: "./images/icons/blank.png"}
 }
 
+var	optionsLayoutDefaultSymbolsStandard = {
+	TEMPERATURE:					{temperatureIcon_on: "./images/symbols/temperature.png"},
+	BRIGHTNESS:						{brightnessIcon_on: "./images/symbols/brightness.png"},
+	SLATS_LEVEL:					{slatsLevelIcon_on: "./images/symbols/slats.png"},
+	VOLTAGE:						{voltageIcon_on: "./images/symbols/power.png"},
+	COLOR:							{colorIcon_on: "./images/symbols/color.png"},
+	VOLUME:							{volumeIcon_on: "./images/symbols/volume.png"},
+	HUMIDITY:						{humidityIcon_on: "./images/symbols/humidity.png"},
+	POWER:							{powerIcon_on: "./images/symbols/power.png"},
+	ELAPSED:						{elapsedIcon_on: "./images/symbols/time.png"}
+}
+
 var iconPresets = [
 	{
 		name: "Flat",
@@ -2569,6 +2581,7 @@ async function load(settings, onChange) {
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
 		optionsLayoutDefaultIcons = {};
+		optionsLayoutDefaultSymbols = {};
 		version = settings.version || 0;
 		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
 		newConfig = true;
@@ -2576,6 +2589,7 @@ async function load(settings, onChange) {
 		toolbar = settings.toolbar || [];
 		views = settings.views || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || {};
+		optionsLayoutDefaultSymbols = settings.optionsLayoutDefaultSymbols || {};
 		version = settings.version || 0;
 		newConfig = false;
 	}
@@ -5855,6 +5869,38 @@ async function load(settings, onChange) {
 		}
 		enhanceTextInputToCombobox('.optionsLayoutDefaultIcons', optionsString, true);
 		optionsLayoutDefaultIconsSetValues();
+
+		//Fill Comboboxes for DefaultSymbols with icons
+		//Default Symbol
+		var optionsString = "[" + _("Default Symbol") + ":]";
+		optionsString += ";/" + _("Default Symbol") + "/" + (link + "/images/icons/various.png").replace(/\//g, "\\");
+		//Inbuilt Symbols
+		optionsString += ";[" + _("Inbuilt Symbols") + ":]";
+		inbuiltSymbols.forEach(function(inbuiltSymbol){
+			if (inbuiltSymbol != "") {
+				optionsString += ";" + ("./images/symbols/" + inbuiltSymbol).replace(/\//g, "\\") + "/" + inbuiltSymbol.replace(/\//g, "\\");
+			}
+		});
+		//User Symbols
+		var imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				imagenames.push("[" + imagesDir.dirnameBS + ":]");
+				imagesDir.files.forEach(function(file){
+					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
+				});
+			}
+		});
+		if (imagenames.length > 0){
+			optionsString += ";[" + _("User Symbols") + ":]";
+			imagenames.forEach(function(option){
+				optionsString += ";" + option;
+			});
+		}
+		enhanceTextInputToCombobox('.optionsLayoutDefaultSymbols', optionsString, true);
+		optionsLayoutDefaultSymbolsSetValues();
 				
 		//Fill Combobox for fontFamily with fonts
 		//Default Font
@@ -6426,9 +6472,9 @@ async function load(settings, onChange) {
 	//Set value of Comboboxes for DefaultIcons
 	function optionsLayoutDefaultIconsSetValues(){
 		$('.optionsLayoutDefaultIcons').off('change', saveOptionsLayoutDefaultIcons);
-		for (role in optionsLayoutDefaultIcons){
-			for(icon in optionsLayoutDefaultIcons[role]){
-				$("#optionsLayoutDefaultIcons_" + role + "_" + icon).val(optionsLayoutDefaultIcons[role][icon] || (optionsLayoutDefaultIconsStandard[role] && optionsLayoutDefaultIconsStandard[role][icon]) || "").trigger('change');
+		for (role in optionsLayoutDefaultIconsStandard){
+			for(icon in optionsLayoutDefaultIconsStandard[role]){
+				$("#optionsLayoutDefaultIcons_" + role + "_" + icon).val((optionsLayoutDefaultIcons[role] && optionsLayoutDefaultIcons[role][icon]) || (optionsLayoutDefaultIconsStandard[role] && optionsLayoutDefaultIconsStandard[role][icon]) || "").trigger('change');
 			}
 		}
 		$('.optionsLayoutDefaultIcons').on('change', saveOptionsLayoutDefaultIcons);
@@ -6442,6 +6488,30 @@ async function load(settings, onChange) {
 				optionsLayoutDefaultIcons[role][icon] = $(this).val();
 			} else {
 				$(this).val((optionsLayoutDefaultIconsStandard[role] && optionsLayoutDefaultIconsStandard[role][icon]) || "").trigger('change');
+			}
+			onChange();
+		}
+	}
+
+	//Set value of Comboboxes for DefaultSymbols
+	function optionsLayoutDefaultSymbolsSetValues(){
+		$('.optionsLayoutDefaultSymbols').off('change', saveOptionsLayoutDefaultSymbols);
+		for (role in optionsLayoutDefaultSymbolsStandard){
+			for(icon in optionsLayoutDefaultSymbolsStandard[role]){
+				$("#optionsLayoutDefaultSymbols_" + role + "_" + icon).val((optionsLayoutDefaultSymbols[role] && optionsLayoutDefaultSymbols[role][icon]) || (optionsLayoutDefaultSymbolsStandard[role] && optionsLayoutDefaultSymbolsStandard[role][icon]) || "").trigger('change');
+			}
+		}
+		$('.optionsLayoutDefaultSymbols').on('change', saveOptionsLayoutDefaultSymbols);
+		function saveOptionsLayoutDefaultSymbols(){ 
+			var role = $(this).data('role');
+			var icon = $(this).data('icon');
+			var val = $(this).val();
+			if (!optionsLayoutDefaultSymbols) optionsLayoutDefaultSymbols = {};
+			if (!optionsLayoutDefaultSymbols[role]) optionsLayoutDefaultSymbols[role] = {};
+			if (val && val != ""){
+				optionsLayoutDefaultSymbols[role][icon] = $(this).val();
+			} else {
+				$(this).val((optionsLayoutDefaultSymbolsStandard[role] && optionsLayoutDefaultSymbolsStandard[role][icon]) || "").trigger('change');
 			}
 			onChange();
 		}
@@ -6992,6 +7062,7 @@ async function save(callback) {
 	obj.toolbar = toolbar;
 	obj.views = views;
 	obj.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
+	obj.optionsLayoutDefaultSymbols = optionsLayoutDefaultSymbols || {};
 
 	//Set version
 	version = ++version || 0;
