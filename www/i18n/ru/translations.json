@@ -1020,6 +1020,7 @@
     "Track": "трек",
     "Treppe": "Лестница",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Порог в пикселях (изменение размера отключено, если экран больше этого):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Порог в пикселях (тайлы отображаются больше, если экран шире этого):",
     "Treshold in pixel for large screen:": "Порог в пикселях для большого экрана:",
     "Try to create preview": "Попробуйте создать предварительный просмотр",
     "Try to set all default icons to the selected icons above": "Попробуйте установить все значки по умолчанию на выбранные значки выше",

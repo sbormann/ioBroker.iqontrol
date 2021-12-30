@@ -1020,6 +1020,7 @@
     "Track": "Tor",
     "Treppe": "Schody",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Próg w pikselu (zmiana rozmiaru jest wyłączona, jeśli ekran jest większy niż ten):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Próg w pikselach (kafelki są wyświetlane większe, jeśli ekran jest szerszy):",
     "Treshold in pixel for large screen:": "Próg w pikselach dla dużego ekranu:",
     "Try to create preview": "Spróbuj utworzyć podgląd",
     "Try to set all default icons to the selected icons above": "Spróbuj ustawić wszystkie domyślne ikony na wybrane powyżej",

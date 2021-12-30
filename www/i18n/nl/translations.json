@@ -1020,6 +1020,7 @@
     "Track": "Bijhouden",
     "Treppe": "Trap",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Treshold in pixel (formaat wijzigen is uitgeschakeld, als scherm groter is dan dit):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Drempel in pixel (tegels worden groter weergegeven als het scherm breder is):",
     "Treshold in pixel for large screen:": "Drempelwaarde in pixel voor groot scherm:",
     "Try to create preview": "Proberen te maken preview",
     "Try to set all default icons to the selected icons above": "Probeer alle standaardpictogrammen in te stellen op de geselecteerde pictogrammen hierboven",

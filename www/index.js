@@ -1169,6 +1169,7 @@ var systemConfig = {};							//Contains the system config (like system language)
 var systemLang = "en";							//Used for translate.js -> _(string) translates string to this language. This is only the backup-setting, if it could not be retreived from server (via config.language)
 var timeshift = 0;								//Contains time difference betwen browswe and server for correcting timestamps
 var zoom = 1;									//Zoom-Factor from resizeDevicesToFitScreen()
+var bigMode = false;							//If bigMode is active
 
 var config = {};								//Contains iQontrol config-object
 var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
@@ -4292,10 +4293,6 @@ function handleOptions(){
 		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoActiveOnTransparentHoverTextColor + ";";
 		customCSS += "}";
 	};
-	//Big Mode:
-	if (options.LayoutViewBigModeDisabled) {
-		$('#cssLinkBigMode').attr('media', 'none');
-	}
 	//Own CSS:
 	if (options.LayoutCSS) {
 		customCSS += options.LayoutCSS;
@@ -4335,6 +4332,32 @@ function handleOptions(){
 			console.log("Return after time - time is over while running getStarted() - set actualView to destinationView");
 			returnAfterTimeTimestamp = null;
 			if ((returnAfterTimeDestinationView == "" && actualViewId !== homeId) || (returnAfterTimeDestinationView !== "" && actualViewId !== returnAfterTimeDestinationView)) actualViewId = returnAfterTimeDestinationView;
+		}
+	}
+	//Big Mode:
+	if(getUrlParameter('bigModeEnabled') == "true") {
+		console.log("BigModeEnabled by URL-Parameter");
+		$('html').addClass('bigMode');
+		bigMode = true;
+	} else if (!options.LayoutViewBigModeDisabled) {
+		if (window.matchMedia){
+			if (window.matchMedia('screen and (min-width: ' + (options.LayoutViewBigModeTreshold || 1500) + 'px)').matches){
+				$('html').addClass('bigMode');
+				bigMode = true;
+			}
+			try{
+				window.matchMedia('screen and (min-width: ' + (options.LayoutViewBigModeTreshold || 1500) + 'px)').removeEventListener('change', bigModeEventListenerFunction);
+				window.matchMedia('screen and (min-width: ' + (options.LayoutViewBigModeTreshold || 1500) + 'px)').addEventListener('change', bigModeEventListenerFunction);
+				function bigModeEventListenerFunction(e){
+					bigMode = e.matches;
+					if(bigMode) $('html').addClass('bigMode'); else $('html').removeClass('bigMode');
+					document.querySelectorAll('.iQontrolDeviceBackgroundIframe').forEach(function(iframe){
+						iframe.contentWindow.postMessage({ command: "parentBigModeEnabled", value: bigMode }, "*");			
+					});
+				}
+			} catch (e) {
+				console.warn("Match media not supported, error: " + JSON.stringify(e));
+			}
 		}
 	}
 	//Dark-Mode
@@ -4960,12 +4983,12 @@ function renderView(viewId, triggeredByReconnection){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											if (stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
 												var adjustHeightToBackgroundView = (getDeviceOptionValue(_device, "adjustHeightToBackgroundView") == "true");
-												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "");
+												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "") + (bigMode ? "&bigModeEnabled=true" : "");
 												$(iframe).addClass('isBackgroundView');
 												if (adjustHeightToBackgroundView) {
 													$(iframe).addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeightToBackgroundView');
 												}
-												var timeout = 1000;
+												var timeout = 2900;
 											} else { //URL
 												iframe.src = stateBackgroundURL.val;
 												$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
@@ -4980,7 +5003,7 @@ function renderView(viewId, triggeredByReconnection){
 											}
 											setTimeout(function(){ //Fallback if load event is not triggered
 												if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
-											},1500);
+											},3000);
 										}, (isFirefox?100:0));
 									} else if (stateBackgroundHTML && typeof stateBackgroundHTML.valFull !== udef && stateBackgroundHTML.valFull !== ""){ //HTML
 										if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
@@ -7161,6 +7184,8 @@ function renderView(viewId, triggeredByReconnection){
 			viewShuffleFilterHideDeviceIfInactive();
 			viewShuffleApplyShuffleResizeObserver();
 		}
+		//if isBackgroundView tell parent, that it has loaded (to make it visible)
+		if (isBackgroundView) window.parent.postMessage({ command: "backgroundViewLoaded" , value: true}, "*");
 		//Find variablesrc in images
 		$("img[data-variablesrc]").each(function(){ // { and } are escaped by %7B and %7D, and | is escaped by %7C
 			var that = $(this);
@@ -7307,7 +7332,7 @@ function renderView(viewId, triggeredByReconnection){
 						if (state && typeof state.val !== udef) {
 							if (typeof state.plainText == 'number' && !_noUnit){			//STATE = number
 								replacement = state.val + state.unit;
-							} else {													//STATE = bool or text
+							} else {														//STATE = bool or text
 								replacement = state.plainText;
 							}
 						} else if (placeholder) {
@@ -7651,7 +7676,6 @@ function viewShuffleReshuffle(delays){
 				viewShuffleInstances.forEach(function(shuffleInstance, i){ 
 					if (shuffleInstance.isEnabled) shuffleInstance.update(); else shuffleInstance.enable(); 
 				}); 
-				if(isBackgroundView && adjustHeightToBackgroundView) window.parent.postMessage({ command: "adjustHeightToBackgroundView" , value: $('#ViewMain').css('height') }, "*");
 				delete viewShuffleReshuffleTimeouts[_id]; 
 			}, delay);
 			viewShuffleReshuffleTimeouts[_id] = {destinationTime: destinationTime};
@@ -13015,7 +13039,7 @@ $(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Sto
 	viewDeviceContextMenuEnd();
 });
 
-//Refresh Background on resize and orientationchange
+//Resize and Orientationchange
 var resizeTimeout = false;
 var lastWidth;
 $(window).on('orientationchange resize', function(){
@@ -13025,7 +13049,7 @@ $(window).on('orientationchange resize', function(){
 	var nowWidth = $(".iQontrolDeviceShuffleSizer").outerWidth(true);
 	if (nowWidth != lastWidth){ // Detects changes in tile-size because of changing CSS @media query
 		resizeTimeout = setTimeout(function(){
-			console.log("orientationchange / resize including change of @media query");
+			console.log("orientationchange / resize including change of @media query timeout");
 			resizeDevicesToFitScreen();
 			$.backstretch("resize"); //Refresh background
 			$('#Dialog').popup('reposition', {positionTo: 'window'});
@@ -13074,8 +13098,8 @@ function resizeDevicesToFitScreen(){
 			addCustomCSS(customCSS, "resizeDevicesToFitScreen");
 		}
 	}
-	viewShuffleReshuffle(500);
-	viewShuffleReshuffle(1250);
+	viewShuffleReshuffle(500, 1250);
+	
 }
 function resizeFullWidthDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
@@ -13220,9 +13244,41 @@ $(document).ready(function(){
 		$('html').addClass('isBackgroundView');
 		$('body').addClass('isBackgroundView');
 		$('#View').addClass('isBackgroundView');
-		if(adjustHeightToBackgroundView) $('html').addClass('adjustHeightToBackgroundView');
+		if(adjustHeightToBackgroundView) $('html').addClass('adjustHeightToBackgroundView').addClass('adjustHeightToBackgroundViewInitial');
 	}
 
+	//ViewContent Resize-Observer
+	if(isBackgroundView && adjustHeightToBackgroundView){
+		console.log("Starting ViewMain resize observer");
+		var viewContentResizeObserver;
+		var viewContentResizeObserverOldHeight = 0;
+		if (viewContentResizeObserver){
+			viewContentResizeObserver.disconnect();
+		} else {
+			viewContentResizeObserver = new MutationObserver(function(mutationList){
+				mutationList.forEach(function(mutation){
+					if (mutation.attributeName === 'style'){
+						var delay = 10;
+						if($('html').hasClass('adjustHeightToBackgroundViewInitial')){
+							console.log("adjustHeightToBackgroundView initially delayed");
+							delay = 500;
+						}
+						setTimeout(function(){
+							console.log("adjustHeightToBackgroundView");
+							$('html').removeClass('adjustHeightToBackgroundViewInitial');
+							var height = $('#ViewMain').innerHeight();
+							if (viewContentResizeObserverOldHeight != height){
+								window.parent.postMessage({ command: "adjustHeightToBackgroundView" , value: (($('#ViewHeaderTitle').css('display') == 'none' ? 0 : 1) * $('#ViewHeaderTitle').outerHeight(true)) + ($('#ViewContent').innerHeight() * zoom) + 6 }, "*");
+							}
+							viewContentResizeObserverOldHeight = height;
+						}, delay);
+					}
+				});
+			});
+		}
+		viewContentResizeObserver.observe(document.querySelector('#ViewContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
+	}
+	
 	//Make Dialog draggable
 	dragElement('Dialog-popup', 'DialogHeaderTitle', true, false, 'DialogContent', 100);
 
@@ -13246,6 +13302,7 @@ $(document).ready(function(){
 			if (setMaxHeightElement) setMaxHeightElement.style.maxHeight = "calc(100vh - " + (dragElement.offsetTop - window.scrollY + setMaxHeightOffset) + "px)";
 		}, 50);
 	});
+	console.log("Starting Dialog resize observer");
 	var dialogResizeObserver;
 	var dialogResizeObserverOldWidth = 0;
 	if (dialogResizeObserver){
@@ -13263,9 +13320,7 @@ $(document).ready(function(){
 			});
 		});
 	}
-	$('#DialogContent').each(function(){
-		dialogResizeObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: true});
-	});
+	dialogResizeObserver.observe(document.querySelector('#DialogContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
 
 	//Clear everything when Dialog is closed
 	$('#Dialog').on('popupafterclose', function(){
@@ -13424,17 +13479,45 @@ $(document).ready(function(){
 					}
 					break;
 					
+					case "backgroundViewLoaded":
+					if (event.data.value){
+						console.log("postMessage received: backgroundViewLoaded");
+						var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
+						if ($("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity') == '0' && $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() !== "") $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").css('opacity', '');
+					}
+					break;
+
 					case "adjustHeightToBackgroundView":
 					if (event.data.value){
 						console.log("postMessage received: adjustHeightToBackgroundView " + event.data.value);
 						var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
 						$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe").css('height', event.data.value);
-						viewShuffleReshuffle(0, 1250);
+						viewShuffleReshuffle(0, 100, 750, 1250, 1500, 2000, 2500, 3100);
 					}
 					break;
 				}
 			} else {
 				console.log("postMessage not allowed for this iframe");
+			}
+		} else if (event.data){
+			console.log("postMessage received from parent: " + JSON.stringify(event.data));
+			if (event.data.command) switch(event.data.command){
+				case "parentBigModeEnabled":
+				if (typeof event.data.value != udef){
+					console.log("postMessage received: parentBigModeEnabled " + event.data.value);
+					if (event.data.value) {
+						$('html').addClass('bigMode'); 
+						bigMode = true;
+					} else {
+						$('html').removeClass('bigMode'); 
+						bigMode = false;
+					}
+					document.querySelectorAll('.iQontrolDeviceBackgroundIframe').forEach(function(iframe){
+						iframe.contentWindow.postMessage({ command: "parentBigModeEnabled", value: bigMode }, "*");			
+					});
+					viewShuffleReshuffle(0, 1250);
+				}
+				break;
 			}
 		}
 	}

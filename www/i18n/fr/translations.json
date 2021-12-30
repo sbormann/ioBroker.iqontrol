@@ -1020,6 +1020,7 @@
     "Track": "Piste",
     "Treppe": "Escalier",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Seuil en pixel (le redimensionnement est désactivé si la taille de l'écran est supérieure):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Seuil en pixels (les tuiles sont affichées plus grandes, si l'écran est plus large que cela) :",
     "Treshold in pixel for large screen:": "Seuil en pixel pour grand écran:",
     "Try to create preview": "Essayez de créer une prévisualisation",
     "Try to set all default icons to the selected icons above": "Essayez de définir toutes les icônes par défaut sur les icônes sélectionnées ci-dessus",

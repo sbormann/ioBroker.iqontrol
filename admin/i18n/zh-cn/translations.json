@@ -790,6 +790,7 @@
     "Toolbar/Panel": "工具栏/面板",
     "Toolbar:": "工具栏：",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "以像素为单位的阈值（如果屏幕大于此值，则禁用调整大小）：",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "以像素为单位的阈值（如果屏幕比此宽，则图块显示得更大）：",
     "Treshold in pixel for large screen:": "大屏幕像素阈值：",
     "Try to create preview": "尝试创建预览",
     "Try to set all default icons to the selected icons above": "尝试将所有默认图标设置为上面选择的图标",

@@ -1020,6 +1020,7 @@
     "Track": "Lied",
     "Treppe": "Treppe",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Schwellenwert in Pixelx (Anpassung deaktiviert, wenn der Bildschirm größer ist):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Schwellenwert in Pixel (Kacheln werden größer angezeigt, wenn der Bildschirm breiter als dieser Wert ist):",
     "Treshold in pixel for large screen:": "Schwellenwert in Pixeln für große Bildschirme",
     "Try to create preview": "Versuche Vorschau zu erstellen",
     "Try to set all default icons to the selected icons above": "Versuche alle Standard-Icons auf die oben ausgewählten Icons umzustellen",

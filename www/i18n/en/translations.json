@@ -1020,6 +1020,7 @@
     "Track": "Track",
     "Treppe": "Stair",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Treshold in pixel (resize is disabled, if screen is bigger than this):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):",
     "Treshold in pixel for large screen:": "Treshold in pixel for large screen:",
     "Try to create preview": "Try to create preview",
     "Try to set all default icons to the selected icons above": "Try to set all default icons to the selected icons above",

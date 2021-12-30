@@ -790,6 +790,7 @@
     "Toolbar/Panel": "Barra de herramientas / Panel",
     "Toolbar:": "Barra de herramientas:",
     "Treshold in pixel (resize is disabled, if screen is bigger than this):": "Treshold en píxeles (el tamaño está deshabilitado, si la pantalla es más grande que esto):",
+    "Treshold in pixel (tiles are displayed bigger, if screen is wider than this):": "Límite en píxeles (los mosaicos se muestran más grandes, si la pantalla es más ancha que esto):",
     "Treshold in pixel for large screen:": "Límite de píxeles para pantalla grande:",
     "Try to create preview": "Intenta crear vista previa",
     "Try to set all default icons to the selected icons above": "Intente configurar todos los íconos predeterminados a los íconos seleccionados arriba",
