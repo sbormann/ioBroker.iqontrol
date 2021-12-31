@@ -2018,6 +2018,9 @@ html.bigMode .iQontrolDeviceState.adaptsHeight, html.bigMode .iQontrolDevice:not
 html.bigMode .iQontrolDevice.bigIcon .iQontrolDeviceState.adaptsHeight, html.bigMode .iQontrolDevice:not(.active).bigIconIfInactive .iQontrolDeviceState.adaptsHeightIfInactive, html.bigMode .iQontrolDevice.active.bigIconIfActive .iQontrolDeviceState.adaptsHeightIfActive, html.bigMode .iQontrolDevice.enlarged.bigIconIfEnlarged .iQontrolDeviceState.adaptsHeightIfEnlarged {
 	margin-top: 218px;
 }
+html.bigMode .iQontrolDeviceState.adaptsHeight.stateFillsDevice, html.bigMode .iQontrolDevice:not(.active) .iQontrolDeviceState.adaptsHeightIfInactive.stateFillsDeviceIfInactive, html.bigMode .iQontrolDevice.active .iQontrolDeviceState.adaptsHeightIfActive.stateFillsDeviceIfActive, html.bigMode .iQontrolDevice.enlarged .iQontrolDeviceState.adaptsHeightIfEnlarged.stateFillsDeviceIfEnlarged {
+	margin-top: 3px;
+}
 html.bigMode .iQontrolDeviceStateIconFloatPlaceholder {
 	width: 57px; height: 57px;
 }

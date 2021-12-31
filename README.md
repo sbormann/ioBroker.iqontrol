@@ -1590,6 +1590,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added scrollbar-settings for firefox.
 * (sbormann) Added option to adjust height of tile to the size of BACKGROUND_VIEW.
 * (sbormann) Added option to change and invert INFO_A/B-Symbols.
+* (sbormann) Added import and export function to device options.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
