@@ -2701,7 +2701,8 @@ async function load(settings, onChange) {
 				var forceWebSockets = result[bestInstance].native.forceWebSockets;
 			}
 			console.log("Got Link: " + link);
-			$('#mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
+			$('a.mainLink').attr('href', link + "/index.html?namespace=" + adapter + "." + instance);
+			$('img.mainLink').on('click', function(){ window.open(link + "/index.html?namespace=" + adapter + "." + instance, "_blank"); }).css('cursor', 'pointer');
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
 			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>" + _("Select Role") + "</option>");
@@ -3687,6 +3688,51 @@ async function load(settings, onChange) {
 			if (M) M.updateTextFields();
 		}
 	}
+
+	//Export and import of device options
+	$('#dialogDeviceEditOptionsExport').on('click', function(){
+		//Select elements with class=value and build settings object
+		var options = {};
+		if (dialogDeviceEditCommonRole){
+			for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //push all corresponding options for the selected role into the export file
+				var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
+				var defaultValue = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default;
+				var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
+				if (type != "section") options[entry] = {value: value, isDefaultValue: (value == defaultValue)};
+			}
+		}
+		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
+	});
+	$('#dialogDeviceEditOptionsImport').on('click', function(){
+		if (dialogDeviceEditCommonRole){
+			loadLocalFileAsString(".json", function(result){
+				var resultObj = tryParseJSON(result);
+				var resultObjValid = true;
+				if (!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == udef)){
+					resultObjValid = false;
+				}
+				if (resultObjValid) {
+					if (confirm(_("Really overwrite existing Settings?"))){
+						for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //read all corresponding options for the selected role from the file
+							var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
+							var defaultValue = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default;
+							var value = (resultObj[entry] && typeof resultObj[entry].value != udef ? resultObj[entry].value : iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "");
+							if (type != "section") (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value = value;
+						}
+						alert(_("Settings imported."));
+						dialogDeviceEditOptionsBuildOptionsContent();
+						onChange();
+					}
+				} else {
+					alert(_("Error: Invalid data."));
+				}
+			});
+		} else {
+			alert(_("Select Role first"));
+		}
+	});
+
+
 
 	//Enhance tableDialogDeviceEditStates with functions
 	function ontableDialogDeviceEditStatesReady(){
@@ -6581,6 +6627,7 @@ async function load(settings, onChange) {
 			}
 		});
 		options.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
+		options.optionsLayoutDefaultSymbols = optionsLayoutDefaultSymbols || {};
 		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
 	});
 
@@ -6617,6 +6664,7 @@ async function load(settings, onChange) {
 				}
 			});
 			options.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
+			options.optionsLayoutDefaultSymbols = optionsLayoutDefaultSymbols || {};
 			obj.options = options;
 			var customs = [];
 			for(objectId in iobrokerObjects){
@@ -6791,6 +6839,8 @@ async function load(settings, onChange) {
 					$('.MaterializeColorPicker').trigger('change');
 					optionsLayoutDefaultIcons = resultObj["optionsLayoutDefaultIcons"] || {};
 					optionsLayoutDefaultIconsSetValues();
+					optionsLayoutDefaultSymbols = resultObj["optionsLayoutDefaultSymbols"] || {};
+					optionsLayoutDefaultSymbolsSetValues();
 					alert(_("Settings imported."));
 					onChange();
 				}
@@ -6942,6 +6992,8 @@ async function load(settings, onChange) {
 					$('.MaterializeColorPicker').trigger('change');
 					optionsLayoutDefaultIcons = resultObj["optionsLayoutDefaultIcons"] || {};
 					optionsLayoutDefaultIconsSetValues();
+					optionsLayoutDefaultSymbols = resultObj["optionsLayoutDefaultSymbols"] || {};
+					optionsLayoutDefaultSymbolsSetValues();
 					alert(_("Adapter-Settings imported. In the next step you can chose which custom datapoint settings schould be imported."));
 					onChange();
 					//Customs
