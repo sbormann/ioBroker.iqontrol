@@ -1591,6 +1591,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to adjust height of tile to the size of BACKGROUND_VIEW.
 * (sbormann) Added option to change and invert INFO_A/B-Symbols.
 * (sbormann) Added import and export function to device options.
+* (sbormann) Added option to hide indicator icons if inactive, active or enlarged.
+* (sbormann) Added column-sorting to JSON-Table-Widget.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.

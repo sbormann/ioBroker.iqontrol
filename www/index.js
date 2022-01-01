@@ -1022,9 +1022,10 @@ var iQontrolRolesStandardOptions = {
 		noOverlayInactive: {name: "Remove overlay of tile, if device is inactive", type: "checkbox", default: "false"},
 		hideBackgroundURLInactive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is inactive", type: "checkbox", default: "false"},
 		hideDeviceNameIfInactive: {name: "Hide device name, if the device is inactive", type: "checkbox", default: "false"},
+		hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
+		hideIndicatorIfInactive: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is inactive", type: "checkbox", default: "false"},
 		hideInfoAIfInactive: {name: "Hide INFO_A, if the device is inactive", type: "checkbox", default: "false"},
 		hideInfoBIfInactive: {name: "Hide INFO_B, if the device is inactive", type: "checkbox", default: "false"},
-		hideStateIfInactive: {name: "Hide state, if the device is inactive", type: "checkbox", default: "false"},
 		hideDeviceIfInactive: {name: "Hide device, if it is inactive", type: "checkbox", default: "false"}
 	}},
 	SECTION_TILE_ACTIVE: {name: "Tile-Behaviour if device is active", type: "section", options: {
@@ -1038,9 +1039,10 @@ var iQontrolRolesStandardOptions = {
 		noOverlayActive: {name: "Remove overlay of tile, if device is active", type: "checkbox", default: "false"},
 		hideBackgroundURLActive: {name: "Hide background from BACKGROUND_VIEW/URL/HTML, if device is active", type: "checkbox", default: "false"},
 		hideDeviceNameIfActive: {name: "Hide device name, if the device is active", type: "checkbox", default: "false"},
+		hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
+		hideIndicatorIfActive: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is active", type: "checkbox", default: "false"},
 		hideInfoAIfActive: {name: "Hide INFO_A, if the device is active", type: "checkbox", default: "false"},
 		hideInfoBIfActive: {name: "Hide INFO_B, if the device is active", type: "checkbox", default: "false"},
-		hideStateIfActive: {name: "Hide state, if the device is active", type: "checkbox", default: "false"},
 		hideDeviceIfActive: {name: "Hide device, if it is active", type: "checkbox", default: "false"}
 	}},
 	SECTION_TILE_ENLARGED: {name: "Tile-Behaviour if device is enlarged", type: "section", options: {
@@ -1059,9 +1061,10 @@ var iQontrolRolesStandardOptions = {
 		tileEnlargeShowInPressureMenuActive: {name: "Show Enlarge in Menu, if device is active", type: "checkbox", default: "false"},
 		visibilityBackgroundURLEnlarged: {name: "Visibility of background from BACKGROUND_VIEW/URL/HTML, if device is enlarged", type: "select", selectOptions: "/No change;visibleIfEnlarged/Visible;hideIfEnlarged/Invisible", default: ""},
 		hideDeviceNameIfEnlarged: {name: "Hide device name, if the device is enlarged", type: "checkbox", default: "false"},
+		hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
+		hideIndicatorIfEnlarged: {name: "Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is enlarged", type: "checkbox", default: "false"},
 		hideInfoAIfEnlarged: {name: "Hide INFO_A, if the device is enlarged", type: "checkbox", default: "false"},
 		hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
-		hideStateIfEnlarged: {name: "Hide state, if the device is enlarged", type: "checkbox", default: "false"},
 		hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"}
 	}},
 	SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
@@ -5365,7 +5368,7 @@ function renderView(viewId, triggeredByReconnection){
 						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["ERROR"] && options.LayoutDefaultIcons["ERROR"]["icon_on"]) || "./images/error.png";
 						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
 						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceError' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + "/>";
+						deviceContent += "<image class='iQontrolDeviceError" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + " />";
 						if (deviceLinkedStateIds["ERROR"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -5386,7 +5389,7 @@ function renderView(viewId, triggeredByReconnection){
 						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["UNREACH"] && options.LayoutDefaultIcons["UNREACH"]["icon_on"]) || "./images/unreach.png";
 						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
 						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceUnreach' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + "/>";
+						deviceContent += "<image class='iQontrolDeviceUnreach" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + " />";
 						if (deviceLinkedStateIds["UNREACH"]){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
@@ -5411,7 +5414,7 @@ function renderView(viewId, triggeredByReconnection){
 						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["BATTERY"] && options.LayoutDefaultIcons["BATTERY"]["icon_on"]) || "./images/battery.png";
 						var batteryIcon_onIcon = encodeURI(batteryIcon_on.split('|')[0]);
 						var batteryIcon_onVariableSrc = encodeURI(batteryIcon_on.split('|').slice(1).join('|'));
-						deviceContent += "<image class='iQontrolDeviceBattery' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + "/>";
+						deviceContent += "<image class='iQontrolDeviceBattery" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + " />";
 						if (deviceLinkedStateIds["BATTERY"] && deviceLinkedStateIds["BATTERY"] !== ""){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _device = device;

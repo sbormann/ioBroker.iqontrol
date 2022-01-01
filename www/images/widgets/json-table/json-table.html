@@ -36,6 +36,12 @@
 												dataTransposeValcolsPrefix/Value /Transpose: Prefix for caption of all the other columns, that contain the values/text;
 												///divider;
 												dataConvertObjectToArrayKeycolCaption/Row/Caption of the first column, if JSON date need to be converted from object to array/text;
+												//Sorting/section;
+												columnSortEnabled/true/Enable column sorting by clicking on a heading/checkbox;
+												columnSortEnabledColsFilter/true/Prevent clicking on this headers (semicolon-separated list of column headers, optional)/checkbox;
+												columnSortCol//Sort table by this column (column-header);
+												columnSortColDesc/false/Use descending order/checkbox;
+												columnSortColHideIndicator/false/Hide indicator of initial sorting/checkbox;
 												//Styling/section;
 												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
@@ -83,6 +89,7 @@
 	<link rel="stylesheet" href="/iqontrol/jquery/jquery.mobile-1.4.5.min.css"/>
 	<script type="text/javascript" src="/iqontrol/jquery/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="/iqontrol/jquery/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript" src="/iqontrol/jquery/plugins/moment/moment-with-locales.min.js"></script> 
 	<!--script type="text/javascript" src="/iqontrol/../../lib/js/translate.js"></script-->
 	<style>
 		::-webkit-scrollbar {
@@ -472,6 +479,11 @@
 		var dataTransposeKeycolCaption = getUrlParameter("dataTransposeKeycolCaption") || "Key";
 		var dataTransposeValcolsPrefix = getUrlParameter("dataTransposeValcolsPrefix") || "Value ";
 		var dataConvertObjectToArrayKeycolCaption = getUrlParameter("dataConvertObjectToArrayKeycolCaption") || "Row";
+		var columnSortEnabled = getUrlParameter("columnSortEnabled") == "true";
+		var columnSortEnabledColsFilter = (getUrlParameter("columnSortEnabledColsFilter") || "").split(';');
+		var columnSortCol = getUrlParameter("columnSortCol");
+		var columnSortColDesc = getUrlParameter("columnSortColDesc") == "true";
+		var columnSortColHideIndicator = getUrlParameter("columnSortColHideIndicator") == "true";
 		var rowsLimit = parseInt(getUrlParameter("rowsLimit") || "0") || 0;
 		var rowsLimitLoadMore = !(getUrlParameter("rowsLimitLoadMore") == "false");
 		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "...";
@@ -676,6 +688,12 @@
 			for (var col = 0; col < colsSorted.length; col++) {
 				if (colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
 			}
+			//columnSort
+			if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
+				var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+				dataObject.sort(function(a, b){ return collator.compare(a[columnSortCol], b[columnSortCol]); })
+				if (columnSortColDesc) dataObject.reverse();
+			}
 			//Add breakpoints
 			createBreakpoints(colsSortedAndFiltered.length);
 			//Build table and head
@@ -707,7 +725,12 @@
 						}
 					}
 				}
-				tableString += "'>" + multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true) + "</th>";
+				tableString += "' data-col='" + colsSortedAndFiltered[col] + "'";
+				tableString += "' class='";
+				if (columnSortEnabled && columnSortEnabledColsFilter.indexOf(colsSortedAndFiltered[col]) == -1) tableString += "columnSortEnabled ";
+				tableString += "'>";
+				tableString += multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true);
+				tableString += "</th>";
 			}
 			tableString += "</tr>";
 			tableString += "</thead>";
@@ -763,6 +786,23 @@
 				} else {
 					if ($('.customCSS_headHideColumntoggleButton').length) removeCustomCSS('headHideColumntoggleButton');
 				}
+				//columnSortÊnabled
+				if (columnSortEnabled) {
+					$('th.columnSortEnabled').on('click', function(){
+						var $this = $(this);
+						if ($this.hasClass('columnSortAsc')){
+							columnSortColDesc = true;
+							$this.removeClass('columnSortAsc');
+						} else if ($this.hasClass('columnSortDesc')) {
+							columnSortColDesc = false;
+							$this.removeClass('columnSortDesc');
+						} else {
+							columnSortColDesc = false;
+							columnSortCol = $this.data('col');
+						}
+						createTable();
+					}).css('cursor', 'pointer');
+				}
 			} else { //Only update body
 				$('#jsonTableContainer tbody').html(bodyString);
 				$('#jsonTable').table('refresh').trigger('create');
@@ -778,8 +818,14 @@
 			} else {
 				$('#loadMoreButtonContainer').show(500);
 			}
+			//columnSort
+			$('.columnSortIndicator').remove();
+			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+				$th = $('th[data-col="' + colsSortedAndFiltered[col] + '"]');
+				if (colsSortedAndFiltered[col] == columnSortCol) $th.addClass("columnSort" + (columnSortColDesc ? "Desc " : "Asc ")); else $th.removeClass("columnSortAsc").removeClass("columnSortDesc");
+				if (!columnSortColHideIndicator && colsSortedAndFiltered[col] == columnSortCol) $th.append("<span class='columnSortIndicator'>&nbsp;" + (columnSortColDesc ? "&#9660;" : "&#9650;") + "</span>");
+			}
 		}
-		
 		//Update datapoint
 		function updateDatapoint(id){
 			if (!id) return;
