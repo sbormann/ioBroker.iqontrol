@@ -3096,6 +3096,7 @@ async function load(settings, onChange) {
 		$('#dialogViewsAutocreate a.btn-set').addClass('disabled');
 		$('#dialogViewsAutocreate').modal('open');
 		$('#dialogViewsAutocreate').css('z-index', modalZIndexCount++);
+		$('#dialogViewsAutocreate .modal-content').scrollTop(0);
 	});
 	$('#dialogViewsAutocreateEnumerationMain').on('change', function(){
 		var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
@@ -3329,7 +3330,7 @@ async function load(settings, onChange) {
 						$('#dialogDeviceEditCommonRole').select();
 						$('#dialogDeviceEdit').modal('open');
 						$('#dialogDeviceEdit').css('z-index', modalZIndexCount++);
-
+						$('#dialogDeviceEdit .modal-content').scrollTop(0);
 					});
 				}
 			}
@@ -3454,6 +3455,481 @@ async function load(settings, onChange) {
 		//Build options content
 		dialogDeviceEditOptionsBuildOptionsContent();
 	});
+
+	//Enhance tableDialogDeviceEditStates with functions
+	function ontableDialogDeviceEditStatesReady(){
+		$('#tableDialogDeviceEditStates td').css('vertical-align', 'top');
+		var $div = $('#tableDialogDeviceEditStates');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Make State Readonly and add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'state') {
+				$(this).prop('readonly', true);
+				if ($(this).val() == "ALTERNATIVE_COLORSPACE_VALUE") $(this).after('<span style="font-size:x-small;">' + _("The colorspace has to be defined in the devicespecific options below") + '</span>');
+				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
+				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
+				if ($(this).val() == "ADDITIONAL_CONTROLS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", role: "SLIDER"}, ...]</span>');
+				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "REMOTE_CHANNELS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+			}
+			if (name === 'value') {
+				var stateIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
+			}
+		});
+		//Add widgets and websites to Selectbox for URL and BACKGROUND_URL  AND  Add views to Selectbox for BACKGROUND_VIEW
+		//1.Discover Widgets
+		var inbuiltWidgetsString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget && typeof widget.filename != udef) {
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
+		}
+		var websitenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+					}
+				});
+				if (websitenamesInThisDir.length > 0){
+					websitenames.push("[" + imagesDir.dirnameBS + ":]");
+					websitenames.push(websitenamesInThisDir.join(";"));
+				}
+			}
+		});
+		if (websitenames.length > 0){
+			websitenames.unshift(";[" + _("User Widgets") + ":]");
+		}
+		//2.Discover Views
+		var viewIds = [""];
+		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
+		//3.Add both
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'value') {
+				var stateIndex = $(this).data('index');
+				if (dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
+					enhanceTextInputToCombobox("#" + this.id, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
+				} else if (dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
+					enhanceTextInputToCombobox("#" + this.id, "/;" + viewIds.join(";"), false, function(value){
+						if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
+							if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
+								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
+							}
+						}
+					});
+				}
+			}
+		});
+		//Role
+		$lines.find('select[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'commonRole') {
+				var stateIndex = $(this).data('index');
+				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array' || dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedStateArray') {
+					$(this).find('option[value="linkedState"]').remove();
+					$(this).find('option[value="const"]').remove();
+					$(this).prop('disabled', true);
+				} else {
+					$(this).find('option[value="array"]').remove();
+					$(this).find('option[value="linkedStateArray"]').remove();
+					$(this).on('input change', function(){
+						tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							//Show or hide selectboxes
+							var _stateIndex = stateIndex;
+							if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','');
+							} else {
+								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
+							}
+							if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //COLOR - init ColorPicker
+								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
+								if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
+									var oldVal = $targetInput.val();
+									if (!$targetInput.data('materialize-color-picker-initialized')){
+										$targetInput.colorpicker().on('changeColor', function(event){
+											if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+										});
+										if (oldVal == "") $targetInput.val("");
+										$targetInput.on('change', function(){
+											if ($(this).val() == "") {
+												$(this).css('border-right', '0px solid black');
+											} else {
+												$(this).trigger('changeColor');
+											}
+										});
+										$targetInput.on('blur', function(){
+											dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
+											console.log("Saved color-picker value " + $(this).val());
+										});
+										$targetInput.data('materialize-color-picker-initialized', true);
+									}
+									if (isValidColorString(oldVal)){
+										$targetInput.trigger('change');
+									}
+								} else {
+									if ($targetInput.data('materialize-color-picker-initialized')){
+										$targetInput.colorpicker('destroy');
+										$targetInput.data('materialize-color-picker-initialized', false);
+									}
+									$targetInput.css('border-right', '0px solid black');
+								}
+							}
+						})(); //<--End Closure
+					}).trigger('change');
+				}
+			}
+			$(this).select();
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit (SelectId, Edit Text or Edit Array)
+			if (command === 'edit') {
+				$(this).on('click', function () {
+					var stateIndex = $(this).data('index');
+					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
+						if ((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
+						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
+							var filename = null;
+							var path = null;
+							if (stateValue.indexOf("./images/widgets/") == 0){
+								filename = stateValue.substr(8);
+								path = imagePath;
+							}
+							if (stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+								filename = stateValue.substr(29);
+								path = userfilesImagePath;
+							}
+							if (filename && path){
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									getWidgetSettings(filename, path, true, dialogDeviceEditOptions, false, function(result){
+										var _stateIndex = stateIndex;
+										var _stateValue = stateValue;
+										if (result.urlParameters.length) {
+											var urlParameterString = "?" + result.urlParameters.join('&');
+											$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(_stateValue.split('?')[0] + urlParameterString).trigger('change');
+										}
+										for(option in result.options){
+											if (iQontrolRoles["iQontrolWidget"].options[option]){
+												var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+												if (optionsIndex != -1) {
+													dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+												} else {
+													var entry = {option: option, value: result.options[option]};
+													dialogDeviceEditOptions.push(entry);
+												}
+											}
+										};
+										dialogDeviceEditOptionsBuildOptionsContent();
+									});
+								})(); //<--End Closure
+							}
+						} else if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
+							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
+							if ($targetInput.data('materialize-color-picker-initialized')){
+								$targetInput.colorpicker('show');
+							}
+						} else { //const TEXT - open editText dialog
+							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+								$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+							});
+							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
+							$('#dialogDeviceEditStateConstant').modal('open');
+							$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
+							$('#dialogDeviceEditStateConstant .modal-content').scrollTop(0);
+						}
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
+						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
+							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
+							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
+						});
+						$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+						var showAdditionalCols = "";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
+						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
+						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
+						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
+						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
+						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
+						$('#dialogDeviceEditStateArray').modal('open');
+						$('#dialogDeviceEditStateArray').css('z-index', modalZIndexCount++);
+						$('#dialogDeviceEditStateArray .modal-content').scrollTop(0);
+					} else { //linkedState - open selectID dialog
+						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
+						initSelectId(function (sid) {
+							sid.selectId('show', $('#tableDialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
+								if (newId) {
+									$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+								}
+							});
+						});
+					}
+				});
+			}
+			//OpenCustom
+			if (command === 'openCustom') {
+				var stateIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStatesOpenCustom_' + stateIndex);
+				$(this).on('click', function (e) {
+					var _stateIndex = $(this).data('index');
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState - open editText dialog
+						var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
+						if (_stateId != ""){
+							var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+							window.open(url);
+						}
+					}
+				});
+				tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
+			}
+		});
+	}
+	function tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex){
+		var toDo = function(){
+			if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
+				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
+				var stateObject = iobrokerObjects[stateId];
+				if (typeof stateObject != udef) {
+					if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+					} else {
+						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+					}
+				} else {
+					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+				}
+			} else {
+				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			}
+		}
+		if (iobrokerObjectsReady) {
+			toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
+	}
+	function dialogDeviceEditStatesWidgetSelected(value){
+		var filename = null;
+		var path = null;
+		if (value.indexOf("./images/widgets/") == 0){
+			filename = value.substr(8);
+			path = imagePath;
+		}
+		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+			filename = value.substr(29);
+			path = userfilesImagePath;
+		}
+		if (filename && path){
+			getWidgetSettings(filename, path, true, dialogDeviceEditOptions, true, function(result){
+				if (result.urlParameters.length) {
+					var urlParameterString = "?" + result.urlParameters.join('&');
+					$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + urlParameterString).trigger('change');
+				}
+				for(option in result.options){
+					if (iQontrolRoles["iQontrolWidget"].options[option]){
+						var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+						if (optionsIndex != -1) {
+							dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+						} else {
+							var entry = {option: option, value: result.options[option]};
+							dialogDeviceEditOptions.push(entry);
+						}
+					}
+				};
+				dialogDeviceEditOptionsBuildOptionsContent();
+			});
+		}
+	}
+
+	//Enhance TableDialogDeviceEditStateArrayReady
+	function ontableDialogDeviceEditStateArrayReady(){
+		var $div = $('#tableDialogDeviceEditStateArray');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		var showAdditionalCols = $('#dialogDeviceEditStateArrayShowAdditionalCols').val();
+		//Hide Heading / Type / Icon / Role
+		$table.find('th[data-name]').each(function () {
+			$(this).show(0);
+			var name = $(this).data('name');
+			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
+				$(this).hide(0);
+			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
+				$(this).hide(0);
+			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
+				$(this).hide(0);
+			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
+				$(this).hide(0);
+			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
+				$(this).hide(0);
+			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
+				$(this).hide(0);
+			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
+				$(this).hide(0);
+			}
+		});
+		if (showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
+		$lines.find('.values-input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
+				$(this).parents('td').hide(0);
+			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
+				$(this).parents('td').hide(0);
+			}
+		});
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'value') {
+				var arrayIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
+				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
+			}
+		});
+		//Add images to Selectbox for Icons (Symbols)
+		if (showAdditionalCols.indexOf('icon') != -1) {
+			var inbuiltSymbolsString = "";
+			inbuiltSymbols.forEach(function(symbol){
+				if (symbol != "") {
+					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
+				}
+			});
+			if (inbuiltSymbols.length > 0){
+				inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
+			}
+			var imagenames = [];
+			imagesDirs.forEach(function(imagesDir){
+				if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+					imagenames.push("[" + imagesDir.dirnameBS + ":]");
+					imagesDir.files.forEach(function(file){
+						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					});
+				}
+			});
+			if (imagenames.length > 0){
+				imagenames.unshift(";[" + _("User Symbols") + ":]");
+			}
+			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (link + "/images/icons/blank.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
+		}
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit (SelectId)
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var _arrayIndex = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _arrayIndex);
+					initSelectId(function (sid) {
+						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});
+				});
+			}
+			//OpenCustom
+			if (command === 'openCustom') {
+				var arrayIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex);
+				$(this).on('click', function (e) {
+					var _arrayIndex = $(this).data('index');
+					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val();
+					if (_stateId != ""){
+						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
+						window.open(url);
+					}
+				});
+				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogDeviceEditStateArray tbody").sortable({
+			helper: fixHelper,
+			stop: function( event, ui ) {
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogDeviceEditStateArray tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogDeviceEditStateArray').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogDeviceEditStateArrayTable[sequence[i]]);
+				}
+				dialogDeviceEditStateArrayTable = tableResorted;
+				onChange();
+				values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
+				$("#tableDialogDeviceEditStateArray tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
+		var toDo = function(){
+			var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
+			var stateObject = iobrokerObjects[stateId];
+			if (typeof stateObject != udef) {
+				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+				} else {
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+				}
+			} else {
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+			}			
+		}
+		if (iobrokerObjectsReady) {
+			toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(toDo);
+		}
+	}
+
+	//Build options content
 	function dialogDeviceEditOptionsBuildOptionsContent(){
 		if (dialogDeviceEditCommonRole){
 			var dialogDeviceEditOptionsComboboxes = [];
@@ -3735,478 +4211,6 @@ async function load(settings, onChange) {
 		}
 	});
 
-
-
-	//Enhance tableDialogDeviceEditStates with functions
-	function ontableDialogDeviceEditStatesReady(){
-		$('#tableDialogDeviceEditStates td').css('vertical-align', 'top');
-		var $div = $('#tableDialogDeviceEditStates');
-		var $table = $div.find('.table-values');
-		var $lines = $table.find('.table-lines');
-		//Make State Readonly and add id for selectId-Dialog
-		$lines.find('input[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'state') {
-				$(this).prop('readonly', true);
-				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
-				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
-				if ($(this).val() == "ADDITIONAL_CONTROLS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", role: "SLIDER"}, ...]</span>');
-				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "REMOTE_CHANNELS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-			}
-			if (name === 'value') {
-				var stateIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
-				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
-			}
-		});
-		//Add widgets and websites to Selectbox for URL and BACKGROUND_URL  AND  Add views to Selectbox for BACKGROUND_VIEW
-		//1.Discover Widgets
-		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
-			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (link + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWidgets.length > 0){
-			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
-		}
-		var websitenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				var websitenamesInThisDir = [];
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_html.png";
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-				if (websitenamesInThisDir.length > 0){
-					websitenames.push("[" + imagesDir.dirnameBS + ":]");
-					websitenames.push(websitenamesInThisDir.join(";"));
-				}
-			}
-		});
-		if (websitenames.length > 0){
-			websitenames.unshift(";[" + _("User Widgets") + ":]");
-		}
-		//2.Discover Views
-		var viewIds = [""];
-		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
-		//3.Add both
-		$lines.find('input[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'value') {
-				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
-					enhanceTextInputToCombobox("#" + this.id, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
-				} else if (dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
-					enhanceTextInputToCombobox("#" + this.id, "/;" + viewIds.join(";"), false, function(value){
-						if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
-							if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
-								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
-							}
-						}
-					});
-				}
-			}
-		});
-		//Role
-		$lines.find('select[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'commonRole') {
-				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array' || dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedStateArray') {
-					$(this).find('option[value="linkedState"]').remove();
-					$(this).find('option[value="const"]').remove();
-					$(this).prop('disabled', true);
-				} else {
-					$(this).find('option[value="array"]').remove();
-					$(this).find('option[value="linkedStateArray"]').remove();
-					$(this).on('input change', function(){
-						tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							//Show or hide selectboxes
-							var _stateIndex = stateIndex;
-							if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
-								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','');
-							} else {
-								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
-							}
-							if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //COLOR - init ColorPicker
-								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
-								if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
-									var oldVal = $targetInput.val();
-									if (!$targetInput.data('materialize-color-picker-initialized')){
-										$targetInput.colorpicker().on('changeColor', function(event){
-											if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
-										});
-										if (oldVal == "") $targetInput.val("");
-										$targetInput.on('change', function(){
-											if ($(this).val() == "") {
-												$(this).css('border-right', '0px solid black');
-											} else {
-												$(this).trigger('changeColor');
-											}
-										});
-										$targetInput.on('blur', function(){
-											dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
-											console.log("Saved color-picker value " + $(this).val());
-										});
-										$targetInput.data('materialize-color-picker-initialized', true);
-									}
-									if (isValidColorString(oldVal)){
-										$targetInput.trigger('change');
-									}
-								} else {
-									if ($targetInput.data('materialize-color-picker-initialized')){
-										$targetInput.colorpicker('destroy');
-										$targetInput.data('materialize-color-picker-initialized', false);
-									}
-									$targetInput.css('border-right', '0px solid black');
-								}
-							}
-						})(); //<--End Closure
-					}).trigger('change');
-				}
-			}
-			$(this).select();
-		});
-		//Button-Functions
-		$lines.find('a[data-command]').each(function () {
-			var command = $(this).data('command');
-			//Edit (SelectId, Edit Text or Edit Array)
-			if (command === 'edit') {
-				$(this).on('click', function () {
-					var stateIndex = $(this).data('index');
-					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
-					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
-						if ((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
-						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
-							var filename = null;
-							var path = null;
-							if (stateValue.indexOf("./images/widgets/") == 0){
-								filename = stateValue.substr(8);
-								path = imagePath;
-							}
-							if (stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-								filename = stateValue.substr(29);
-								path = userfilesImagePath;
-							}
-							if (filename && path){
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									getWidgetSettings(filename, path, true, false, function(result){
-										var _stateIndex = stateIndex;
-										var _stateValue = stateValue;
-										if (result.urlParameters.length) {
-											var urlParameterString = "?" + result.urlParameters.join('&');
-											$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(_stateValue.split('?')[0] + urlParameterString).trigger('change');
-										}
-										for(option in result.options){
-											if (iQontrolRoles["iQontrolWidget"].options[option]){
-												var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-												if (optionsIndex != -1) {
-													dialogDeviceEditOptions[optionsIndex].value = result.options[option];
-												} else {
-													var entry = {option: option, value: result.options[option]};
-													dialogDeviceEditOptions.push(entry);
-												}
-											}
-										};
-										dialogDeviceEditOptionsBuildOptionsContent();
-									});
-								})(); //<--End Closure
-							}
-						} else if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
-							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
-							if ($targetInput.data('materialize-color-picker-initialized')){
-								$targetInput.colorpicker('show');
-							}
-						} else { //const TEXT - open editText dialog
-							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
-								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
-								$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
-							});
-							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
-							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
-							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
-							$('#dialogDeviceEditStateConstant').modal('open');
-							$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
-						}
-					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
-						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
-							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
-							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
-						});
-						$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-						var showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
-						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
-						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
-						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
-						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
-						$('#dialogDeviceEditStateArray').modal('open');
-						$('#dialogDeviceEditStateArray').css('z-index', modalZIndexCount++);
-					} else { //linkedState - open selectID dialog
-						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
-						initSelectId(function (sid) {
-							sid.selectId('show', $('#tableDialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
-								if (newId) {
-									$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-								}
-							});
-						});
-					}
-				});
-			}
-			//OpenCustom
-			if (command === 'openCustom') {
-				var stateIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStatesOpenCustom_' + stateIndex);
-				$(this).on('click', function (e) {
-					var _stateIndex = $(this).data('index');
-					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState - open editText dialog
-						var _stateId = $('#tableDialogDeviceEditStatesValue_' + _stateIndex).val();
-						if (_stateId != ""){
-							var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
-							window.open(url);
-						}
-					}
-				});
-				tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
-			}
-		});
-	}
-	function tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex){
-		var toDo = function(){
-			if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState') { //linkedState
-				var stateId = $('#tableDialogDeviceEditStatesValue_' + stateIndex).val();
-				var stateObject = iobrokerObjects[stateId];
-				if (typeof stateObject != udef) {
-					if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
-					} else {
-						$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
-					}
-				} else {
-					$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
-				}
-			} else {
-				$('#tableDialogDeviceEditStatesOpenCustom_' + stateIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
-			}
-		}
-		if (iobrokerObjectsReady) {
-			toDo();
-		} else {
-			iobrokerObjectsReadyFunctions.push(toDo);
-		}
-	}
-	function dialogDeviceEditStatesWidgetSelected(value){
-		var filename = null;
-		var path = null;
-		if (value.indexOf("./images/widgets/") == 0){
-			filename = value.substr(8);
-			path = imagePath;
-		}
-		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-			filename = value.substr(29);
-			path = userfilesImagePath;
-		}
-		if (filename && path){
-			getWidgetSettings(filename, path, true, true, function(result){
-				if (result.urlParameters.length) {
-					var urlParameterString = "?" + result.urlParameters.join('&');
-					$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + urlParameterString).trigger('change');
-				}
-				for(option in result.options){
-					if (iQontrolRoles["iQontrolWidget"].options[option]){
-						var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-						if (optionsIndex != -1) {
-							dialogDeviceEditOptions[optionsIndex].value = result.options[option];
-						} else {
-							var entry = {option: option, value: result.options[option]};
-							dialogDeviceEditOptions.push(entry);
-						}
-					}
-				};
-				dialogDeviceEditOptionsBuildOptionsContent();
-			});
-		}
-	}
-
-	//Enhance TableDialogDeviceEditStateArrayReady
-	function ontableDialogDeviceEditStateArrayReady(){
-		var $div = $('#tableDialogDeviceEditStateArray');
-		var $table = $div.find('.table-values');
-		var $lines = $table.find('.table-lines');
-		var showAdditionalCols = $('#dialogDeviceEditStateArrayShowAdditionalCols').val();
-		//Hide Heading / Type / Icon / Role
-		$table.find('th[data-name]').each(function () {
-			$(this).show(0);
-			var name = $(this).data('name');
-			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
-				$(this).hide(0);
-			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
-				$(this).hide(0);
-			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
-				$(this).hide(0);
-			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
-				$(this).hide(0);
-			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
-				$(this).hide(0);
-			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
-				$(this).hide(0);
-			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
-				$(this).hide(0);
-			}
-		});
-		if (showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
-		$lines.find('.values-input[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
-				$(this).parents('td').hide(0);
-			}
-		});
-		//Add id for selectId-Dialog
-		$lines.find('input[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'value') {
-				var arrayIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
-				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
-			}
-		});
-		//Add images to Selectbox for Icons (Symbols)
-		if (showAdditionalCols.indexOf('icon') != -1) {
-			var inbuiltSymbolsString = "";
-			inbuiltSymbols.forEach(function(symbol){
-				if (symbol != "") {
-					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
-				}
-			});
-			if (inbuiltSymbols.length > 0){
-				inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
-			}
-			var imagenames = [];
-			imagesDirs.forEach(function(imagesDir){
-				if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-					imagenames.push("[" + imagesDir.dirnameBS + ":]");
-					imagesDir.files.forEach(function(file){
-						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-					});
-				}
-			});
-			if (imagenames.length > 0){
-				imagenames.unshift(";[" + _("User Symbols") + ":]");
-			}
-			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (link + "/images/icons/blank.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
-		}
-		//Button-Functions
-		$lines.find('a[data-command]').each(function () {
-			var command = $(this).data('command');
-			//Edit (SelectId)
-			if (command === 'edit') {
-				$(this).on('click', function(){
-					var _arrayIndex = $(this).data('index');
-					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _arrayIndex);
-					initSelectId(function (sid) {
-						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
-							if (newId) {
-								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-							}
-						});
-					});
-				});
-			}
-			//OpenCustom
-			if (command === 'openCustom') {
-				var arrayIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex);
-				$(this).on('click', function (e) {
-					var _arrayIndex = $(this).data('index');
-					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val();
-					if (_stateId != ""){
-						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
-						window.open(url);
-					}
-				});
-				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
-			}
-			//Drag-Icon
-			if (command === 'drag_handle') {
-				var imageIndex = $(this).data('index');
-				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
-			}
-		});
-		//Make table sortable
-		$("#tableDialogDeviceEditStateArray tbody").sortable({
-			helper: fixHelper,
-			stop: function( event, ui ) {
-				console.log("Drag ended, start resorting...");
-				$("#tableDialogDeviceEditStateArray tbody").sortable('disable');
-				var sequence = [];
-				$('#tableDialogDeviceEditStateArray').find('.table-values').find('.table-lines').find('tr').each(function(){
-					sequence.push($(this).data('index'));
-				});
-				var tableResorted = [];
-				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(dialogDeviceEditStateArrayTable[sequence[i]]);
-				}
-				dialogDeviceEditStateArrayTable = tableResorted;
-				onChange();
-				values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
-				$("#tableDialogDeviceEditStateArray tbody").sortable('enable');
-				console.log("resorted.");
-			},
-			axis: "y",
-			handle: "a[data-command='drag_handle']"
-		});
-	}
-	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
-		var toDo = function(){
-			var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
-			var stateObject = iobrokerObjects[stateId];
-			if (typeof stateObject != udef) {
-				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
-				} else {
-					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
-				}
-			} else {
-				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
-			}			
-		}
-		if (iobrokerObjectsReady) {
-			toDo();
-		} else {
-			iobrokerObjectsReadyFunctions.push(toDo);
-		}
-	}
-
 	//Enhance DeviceAutocreate with functions
 	var dialogDeviceAutocreateResult;
 	$('#devicesAutocreateButton').on('click', function () {
@@ -4224,6 +4228,7 @@ async function load(settings, onChange) {
 		$('#dialogDeviceAutocreate a.btn-set').addClass('disabled');
 		$('#dialogDeviceAutocreate').modal('open');
 		$('#dialogDeviceAutocreate').css('z-index', modalZIndexCount++);
+		$('#dialogDeviceAutocreate .modal-content').scrollTop(0);
 	});
 	$('#dialogDeviceAutocreateSourceId').on('input change', function(){
 		dialogDeviceAutocreateResult = {};
@@ -4701,6 +4706,7 @@ async function load(settings, onChange) {
 		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
 		$('#dialogDeviceCopyFrom').modal('open');
 		$('#dialogDeviceCopyFrom').css('z-index', modalZIndexCount++);
+		$('#dialogDeviceCopyFrom .modal-content').scrollTop(0);
 	});
 	$('#dialogDeviceCopyFromSourceView').on('change', function(){
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
@@ -4857,6 +4863,7 @@ async function load(settings, onChange) {
 		dialogDevicesAutocreateWidgetUrlParameters = "";
 		$('#dialogDevicesAutocreateWidget').modal('open');
 		$('#dialogDevicesAutocreateWidget').css('z-index', modalZIndexCount++);
+		$('#dialogDevicesAutocreateWidget .modal-content').scrollTop(0);
 	});
 	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
 		$('#dialogDevicesAutocreateWidgetDescription').html("")
@@ -4882,7 +4889,7 @@ async function load(settings, onChange) {
 			path = userfilesImagePath;
 		}
 		if (filename && path){
-			getWidgetSettings(filename, path, false, true, function(result){
+			getWidgetSettings(filename, path, false, [], true, function(result){
 				if (result.urlParameters.length){
 					dialogDevicesAutocreateWidgetUrlParameters = "?" + result.urlParameters.join('&');
 					var urlParameterString = "<ul class='browser-default'>";
@@ -4911,7 +4918,7 @@ async function load(settings, onChange) {
 	}
 
 	//Widget-Settings
-	function getWidgetSettings(filename, path, checkForOptionsAlreadySet, choseOptionsNotSet, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+	function getWidgetSettings(filename, path, checkForOptionsAlreadySet, actualOptions, choseOptionsNotSet, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
 		var querystring = filename.split('?')[1] || "";
 		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
@@ -5147,7 +5154,7 @@ async function load(settings, onChange) {
 								var dialogWidgetSettingsOptionsUnsupportedString;
 								for(option in widgetOptions){
 									if (iQontrolRoles["iQontrolWidget"].options[option]){
-										var optionActualySet = (dialogDeviceEditOptions.find(function(element){ return element.option == option;}) || {}).value;
+										var optionActualySet = (actualOptions.find(function(element){ return element.option == option;}) || {}).value;
 										var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == optionActualySet);
 										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;<span style='color: green;'>&check;</span>" : "&nbsp;<span style='color: red;'>&cross;&nbsp;(" + _("actual set to") + ":&nbsp;" + optionActualySet + ")</span>") : "") + "</span></label><br>";
 									} else {
@@ -5173,6 +5180,7 @@ async function load(settings, onChange) {
 				});
 				$('#dialogWidgetSettings').modal('open');
 				$('#dialogWidgetSettings').css('z-index', modalZIndexCount++);
+				$('#dialogWidgetSettings .modal-content').scrollTop(0);
 			}
 		});
 	}
@@ -5272,6 +5280,7 @@ async function load(settings, onChange) {
 				$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 				$('#dialogDeviceEditStateConstant').modal('open');
 				$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
+				$('#dialogDeviceEditStateConstant .modal-content').scrollTop(0);
 			}
 		});
 	}
@@ -5630,6 +5639,8 @@ async function load(settings, onChange) {
 			}
 			$("#dialogImagePopup").modal('open');
 			$("#dialogImagePopup").css('z-index', modalZIndexCount++);
+			$('#dialogImagePopup .modal-content').scrollTop(0);
+
 		});
 		//CodeEditor
 		$('.code').on('click', function(){
@@ -6040,7 +6051,8 @@ async function load(settings, onChange) {
 		$('#dialogGenericTitle').html(_("Matches") + ":");
 		$('#dialogGenericContent').html($(this).data('changes-list'));
 		$('#dialogGeneric').modal('open');
-		$('#dialogGeneric').css('z-index', modalZIndexCount++);		
+		$('#dialogGeneric').css('z-index', modalZIndexCount++);	
+		$('#dialogGeneric .modal-content').scrollTop(0);
 	});
 
 	//ChangeDeviceOptionsIcons
@@ -6515,6 +6527,7 @@ async function load(settings, onChange) {
 		$('#dialogOptionsLayoutDefaultIconsPresetChangeIconOptions').prop('checked', 'checked');
 		$("#dialogOptionsLayoutDefaultIconsPresetChange").modal('open');
 		$("#dialogOptionsLayoutDefaultIconsPresetChange").css('z-index', modalZIndexCount++);
+		$('#dialogOptionsLayoutDefaultIconsPresetChange .modal-content').scrollTop(0);
 		$('#optionsLayoutDefaultIconsPreset').val("");
 	})
 	
@@ -6910,6 +6923,7 @@ async function load(settings, onChange) {
 				});
 				$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
 				$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
+				$('#dialogOptionsBackupRestoreImportCustoms .modal-content').scrollTop(0);
 			} else {
 				alert(_("Error: Invalid data."));
 			}
@@ -7042,6 +7056,7 @@ async function load(settings, onChange) {
 					});
 					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
 					$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
+					$('#dialogOptionsBackupRestoreImportCustoms .modal-content').scrollTop(0);
 				}
 			} else {
 				alert(_("Error: Invalid data."));

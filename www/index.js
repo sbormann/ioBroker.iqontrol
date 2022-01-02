@@ -4502,18 +4502,18 @@ function renderToolbar(){
 
 function applyToolbarContextMenu(){
 	$('.iQontrolToolbarLink.ui-btn').on('touchstart mousedown', function(event){
-		console.log("toolbarContextMenu start via TOUCHSTART/MOUSEDOWN");
+		//console.log("toolbarContextMenu start via TOUCHSTART/MOUSEDOWN");
 		var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
 		var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
 		if (posY > window.innerHeight - saveAreaInsetBottom){
-			console.log("toolbarContextMenu start aborted, because touch was in safe area");
+			//console.log("toolbarContextMenu start aborted, because touch was in safe area");
 			return;
 		}
 		toolbarContextMenuStart(event.target);
 		viewDeviceContextMenuEnd();
 	});
 	$(window).on('touchend mouseup', function(){
-		console.log("toolbarContextMenu end via TOUCHEND/MOUSEUP");
+		//console.log("toolbarContextMenu end via TOUCHEND/MOUSEUP");
 		toolbarContextMenuEnd();
 	});
 	/*
@@ -7213,9 +7213,9 @@ function renderView(viewId, triggeredByReconnection){
 						if (state && typeof state.val !== udef) {
 							//Replace by value
 							replacement = state.val;
-						} else if (placeholder) {
+						} else if (_placeholder) {
 							//Replace by placeholder
-							replacement = placeholder;
+							replacement = _placeholder;
 						}
 						if (replacement != null){
 							var newSrc = _variableSrc.substring(_variableSrc.indexOf('?') + 1, _a) + replacement + _variableSrc.substring(_b + 3);
@@ -7268,9 +7268,9 @@ function renderView(viewId, triggeredByReconnection){
 						if (state && typeof state.val !== udef) {
 							//Replace by value
 							replacement = state.val;
-						} else if (placeholder) {
+						} else if (_placeholder) {
 							//Replace by placeholder
-							replacement = placeholder;
+							replacement = _placeholder;
 						}
 						if (replacement != null){
 							var newSrc = _variablebackgroundimage.substring(_variablebackgroundimage.indexOf('?') + 1, _a) + replacement + _variablebackgroundimage.substring(_b + 3);
@@ -7338,9 +7338,9 @@ function renderView(viewId, triggeredByReconnection){
 							} else {														//STATE = bool or text
 								replacement = state.plainText;
 							}
-						} else if (placeholder) {
+						} else if (_placeholder) {
 							//Replace by placeholder
-							replacement = placeholder;
+							replacement = _placeholder;
 						}
 						if (replacement != null){
 							var newName = decodeURI(_variablename.substring(_variablename.indexOf('?') + 1, _a) + replacement + _variablename.substring(_b + 3));
@@ -7689,7 +7689,7 @@ function viewShuffleReshuffle(delays){
 }
 
 function addTimestamp(stateString, states, linkedStates, device, active){
-	console.log("Add timestamp to " + device.commonName + " with value " + stateString);
+	//console.log("Add timestamp to " + device.commonName + " with value " + stateString);
 	var addTimestampToState = getDeviceOptionValue(device, "addTimestampToState");
 	if (addTimestampToState == null || addTimestampToState == "" || addTimestampToState == "S") return stateString;
 	if (addTimestampToState == "N") return "";
@@ -7930,23 +7930,23 @@ function applyViewDeviceContextMenu(){
 		viewDeviceContextMenuIgnoreStart = true;
 	});
 	$('.iQontrolDeviceLink').on('touchstart mousedown', function(event){
-		console.log("viewDeviceContextMenu start via TOUCHSTART/MOUSEDOWN");
+		//console.log("viewDeviceContextMenu start via TOUCHSTART/MOUSEDOWN");
 		var posY = event.originalEvent.clientY || event.originalEvent.touches[0].clientY || 0;
 		var saveAreaInsetBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--saveAreaInsetBottom"), 10) || 0;
 		if (posY > window.innerHeight - saveAreaInsetBottom){
-			console.log("viewDeviceContextMenu start aborted, because touch was in safe area");
+			//console.log("viewDeviceContextMenu start aborted, because touch was in safe area");
 			return;
 		}
 		viewDeviceContextMenuStart(event.target);
 		toolbarContextMenuEnd();
 	});
 	$(window).on('touchend mouseup', function(){
-		console.log("viewDeviceContextMenu end via TOUCHEND/MOUSEUP");
+		//console.log("viewDeviceContextMenu end via TOUCHEND/MOUSEUP");
 		viewDeviceContextMenuEnd();
 	});
 	$(window).scroll(function(){
 		if (!viewDeviceContextMenuIgnoreStart){
-			console.log("viewDeviceContextMenu end via SCROLL");
+			//console.log("viewDeviceContextMenu end via SCROLL");
 			viewDeviceContextMenuEnd();
 		}
 	});
@@ -12181,9 +12181,9 @@ function renderDialog(deviceIdEscaped){
 												} else {													//STATE = bool or text
 													replacement = state.plainText;
 												}
-											} else if (placeholder) {
+											} else if (_placeholder) {
 												//Replace by placeholder
-												replacement = placeholder;
+												replacement = _placeholder;
 											}
 											if (replacement != null){
 												var newName = decodeURI(_variablehtml.substring(_variablehtml.indexOf('?') + 1, _a) + replacement + _variablehtml.substring(_b + 3));
@@ -12433,9 +12433,9 @@ function renderDialog(deviceIdEscaped){
 							} else {														//STATE = bool or text
 								replacement = state.plainText;
 							}
-						} else if (placeholder) {
+						} else if (_placeholder) {
 							//Replace by placeholder
-							replacement = placeholder;
+							replacement = _placeholder;
 						}
 						if (replacement != null){
 							var newName = decodeURI(_variablename.substring(_variablename.indexOf('?') + 1, _a) + replacement + _variablename.substring(_b + 3)) + ":";
