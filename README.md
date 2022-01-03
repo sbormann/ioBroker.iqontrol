@@ -555,7 +555,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``coverImageReloadDelay`` (Delay reload of cover-image [ms]) - only valid for role Media:
 		* Possible values: number from 0 to 5000
 		* Default: "" 
-	* ``coverImageNoReloadOnStateChange: `` (No forced reload of cover-image on change of STATE) - only valid for role Media:
+	* ``coverImageNoReloadOnTitleChange: `` (No forced reload of cover-image on change of TITLE) - only valid for role Media:
 		* Possible values: "true"|"false"
 		* Default: "false" 
 	* ``statePlayValue`` (Value of STATE for 'play') - only valid for role Media:
@@ -1618,7 +1618,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to hide indicator icons if inactive, active or enlarged.
 * (sbormann) Added column-sorting to JSON-Table-Widget.
 * (sbormann) Added widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.
-* (sbormann) Added option to media-player to disable forced reload of cover-image at STATE-change.
+* (sbormann) Added option to media-player to disable forced reload of cover-image on TITLE-change.
 * (sbormann) Small adjustmets for ALTERNATIVE_COLORSPACE.
 
 ### 1.11.0 (2021-12-18)

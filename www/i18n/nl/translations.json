@@ -673,6 +673,7 @@
     "No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration).": "Geen configuratie gevonden. ",
     "No duplicates allowed! View Names must be unique.": "Geen duplicaten toegestaan! ",
     "No forced reload of cover-image on change of STATE": "Geen gedwongen herladen van omslagafbeelding bij verandering van STAAT",
+    "No forced reload of cover-image on change of TITLE": "Geen gedwongen herladen van omslagafbeelding bij verandering van TITEL",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Geen socket.io-instantie gevonden. ",
     "No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!": "Geen socket.io-instantie gevonden. ",
     "None": "Geen",

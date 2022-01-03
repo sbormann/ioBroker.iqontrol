@@ -522,6 +522,7 @@
     "No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration).": "Конфигурация не найдена. ",
     "No duplicates allowed! View Names must be unique.": "Дубликаты не допускаются! ",
     "No forced reload of cover-image on change of STATE": "Нет принудительной перезагрузки изображения обложки при смене СОСТОЯНИЯ.",
+    "No forced reload of cover-image on change of TITLE": "Запрещается принудительная перезагрузка изображения обложки при смене TITLE.",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Гнездо socket.io не найдено. ",
     "None": "Никто",
     "Normal": "Нормальный",

@@ -673,6 +673,7 @@
     "No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration).": "Nenhuma configuração encontrada. ",
     "No duplicates allowed! View Names must be unique.": "Nenhuma duplicação permitida! ",
     "No forced reload of cover-image on change of STATE": "Nenhuma recarga forçada da imagem da capa na mudança de ESTADO",
+    "No forced reload of cover-image on change of TITLE": "Sem recarregamento forçado da imagem da capa na mudança de TITLE",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "Nenhum socket.io-Instance encontrado. ",
     "No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!": "Nenhum socket.io-Instance encontrado. ",
     "None": "Nenhum",

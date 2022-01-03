@@ -673,6 +673,7 @@
     "No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration).": "找不到配置。",
     "No duplicates allowed! View Names must be unique.": "不允许重复！",
     "No forced reload of cover-image on change of STATE": "更改状态时不会强制重新加载封面图像",
+    "No forced reload of cover-image on change of TITLE": "更改 TITLE 时不会强制重新加载封面图片",
     "No socket.io-Instance found. To get this working, enable integrated socket.IO and disable 'Force Web-Sockets' in the web adapter!": "找不到socket.io-Instance。",
     "No socket.io-Instance found. To get this working, enable integrated socket.io in the web adapter!": "找不到socket.io-Instance。",
     "None": "没有",
