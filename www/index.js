@@ -853,7 +853,8 @@ var iQontrolRoles = {
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
-				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}
+				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
+				coverImageNoReloadOnStateChange: {name: "No forced reload of cover-image on change of STATE", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -1584,6 +1585,11 @@ function fetchView(viewId, callback){
 }
 
 function fetchObject(id, callback, bufferCallbackIfAlreadyWaitingForObject){
+	if (id == "") {
+		console.log("fetchObject with empty id");
+		if (callback) callback(error = "emptyId");
+		return;
+	}
 	if (usedObjects[id]) {
 		console.log("Object was already Received: " + id);
 		if (callback) callback(error = "objectWasAlreadyReceived");	//Do nothing - object is already retreived
@@ -2750,6 +2756,15 @@ function getUrlParameter(name) {
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
     return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+function getUrlParameterFromUrl(url, name) {
+	if (url.split('?').length != 2) return;
+	var search = url.split('?')[1];
+	name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+	var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+	var results = regex.exec(search);
+	return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
 
 function addCustomCSS(customCSS, customID){
@@ -4545,7 +4560,6 @@ function toolbarContextMenuStart(callingElement){
 		toolbarContextMenuInterval = setInterval(function(){
 			toolbarContextMenuLevel += 0.05;
 			var level = (toolbarContextMenuLevel - 0.2) * 1.25; //Ignore level <0.2
-			console.log("toolbarContextMenu level: " + level);
 			if (level > 0.5 && !toolbarContextMenuIgnoreClick){
 				console.log("toolbarContextMenu startDeepPress");
 				toolbarContextMenuIgnoreClick = true;
@@ -4993,7 +5007,16 @@ function renderView(viewId, triggeredByReconnection){
 												}
 												var timeout = 2900;
 											} else { //URL
-												iframe.src = stateBackgroundURL.val;
+												var url = stateBackgroundURL.val;
+												var widgetReplaceurl = getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurl');
+												if (widgetReplaceurl) {
+													if (getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurlAbsolute')) {
+														url = url.replace(url.split('?')[0], widgetReplaceurl);
+													} else {
+														url = url.replace(url.split('?')[0].substring(url.split('?')[0].lastIndexOf('/') + 1), widgetReplaceurl);														
+													}
+												}
+												iframe.src = url;
 												$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
 												var timeout = 500;
 											}
@@ -5623,7 +5646,6 @@ function renderView(viewId, triggeredByReconnection){
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + " display:none;' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["COLOR"] && options.LayoutDefaultSymbols["COLOR"]["colorIcon_on"] || "./images/symbols/color.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'><div class='iQontrolDeviceInfoATextHue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div><div class='iQontrolDeviceInfoATextCt' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='display:none; width:1.2em; height:1.2em; margin-left:0.2em; margin-right:0.2em; float:left;'></div></div>";
 								//Create temp-datapoints for datapoints that are only mapped via alternative colorspace
-								var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceId = deviceId;
 									var _deviceIdEscaped = deviceIdEscaped;
@@ -5634,10 +5656,11 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
 									var _linkedColorBrightnessId = deviceLinkedStateIds["COLOR_BRIGHTNESS"];
 									var _linkedHueId = deviceLinkedStateIds["HUE"];
+									var _alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
 									var _sliderIndex = sliderIndex;
 									var _createColouredLightFunction = function(){
 										var _deviceLinkedStateIdsToFetchAndUpdate = [];
-										if (_linkedAlternativeColorspaceValueId) switch(alternativeColorspace){
+										if (_linkedAlternativeColorspaceValueId) switch(_alternativeColorspace){
 											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
 											if (_linkedCtId == ""){
 												_linkedCtId = createTempLinkedState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
@@ -6878,12 +6901,13 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedSourceId = deviceLinkedStateIds["SOURCE"];
 										var _linkedCoverUrlId = deviceLinkedStateIds["COVER_URL"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
-										var updateFunction = function(){
+										var updateFunction = function(sourceId){
 											var state = getStateObject(_linkedStateId);
 											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
 											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
 											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 											var coverImageReloadDelay = 50 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
+											var coverImageNoReloadOnStateChange = (getDeviceOptionValue(_device, "coverImageNoReloadOnStateChange") == "true");
 											var statePowerSwitch = getStateObject(_linkedPowerSwitchId);
 											var artist = getStateObject(_linkedArtistId);
 											var album = getStateObject(_linkedAlbumId);
@@ -6982,7 +7006,7 @@ function renderView(viewId, triggeredByReconnection){
 											viewShuffleFilterHideDeviceIfInactive();
 											stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
 											//Special: Also update viewUpdate-Functions with _linkedCoverUrlId datapoint (to update icons and background images that are updated via variable)
-											if (typeof viewUpdateFunctions[_linkedCoverUrlId] != udef) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
+											if (typeof viewUpdateFunctions[_linkedCoverUrlId] != udef && !(coverImageNoReloadOnStateChange && sourceId == _linkedStateId)) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
 												setTimeout(function(){ viewUpdateFunction(_linkedCoverUrlId, "forceReloadOfImage"); }, coverImageReloadDelay);
 											});
 											//Special: Also update icons and background-images, that contain the coverUrl and that are _not_ updated via variable
@@ -7975,7 +7999,6 @@ function viewDeviceContextMenuStart(callingElement){
 			}
 			viewDeviceContextMenuLevel += 0.05;
 			var level = (viewDeviceContextMenuLevel - 0.2) * 1.25; //Ignore level <0.2
-			console.log("viewDeviceContextMenu level: " + level);
 			if (level > 0.5 && !viewDeviceContextMenuIgnoreClick){
 				console.log("viewDeviceContextMenu startDeepPress");
 				viewDeviceContextMenuIgnoreClick = true;

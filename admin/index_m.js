@@ -1438,7 +1438,8 @@ var iQontrolRoles = {
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
-				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""}
+				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
+				coverImageNoReloadOnStateChange: {name: "No forced reload of cover-image on change of STATE", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -4180,7 +4181,7 @@ async function load(settings, onChange) {
 				if (type != "section") options[entry] = {value: value, isDefaultValue: (value == defaultValue)};
 			}
 		}
-		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "options.json", true);
+		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "deviceoptions.json", true);
 	});
 	$('#dialogDeviceEditOptionsImport').on('click', function(){
 		if (dialogDeviceEditCommonRole){
@@ -4923,7 +4924,7 @@ async function load(settings, onChange) {
 		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
 			if ($(htmlAsString).filter('meta[name^="widget-"]').length){
-				initDialog('dialogWidgetSettings', function(){ //save dialog<
+				initDialog('dialogWidgetSettings', function(){ //save dialog
 					var result = {};
 					var dialogWidgetSettingsUrlParameters = [];
 					$('.dialogWidgetSettingsUrlParameters').each(function(){
@@ -4935,6 +4936,9 @@ async function load(settings, onChange) {
 						}
 						dialogWidgetSettingsUrlParameters.push(fixedEncodeURIComponent($(this).data('option')) + "=" + fixedEncodeURIComponent(value));
 					});
+					var replaceurl = $('#dialogWidgetSettings').data('replaceurl') || "";
+					if (replaceurl != "") dialogWidgetSettingsUrlParameters.push("widgetReplaceurl=" + fixedEncodeURIComponent(replaceurl));
+					if ($('#dialogWidgetSettings').data('replaceurlabsolute')) dialogWidgetSettingsUrlParameters.push("widgetReplaceurlAbsolute=true");
 					result.urlParameters = dialogWidgetSettingsUrlParameters;
 					var dialogWidgetSettingsOptions = {};
 					$('.dialogWidgetSettingsOptions').each(function(){
@@ -4948,6 +4952,10 @@ async function load(settings, onChange) {
 				$('#dialogWidgetSettingsDescription').html("").show();
 				$('#dialogWidgetSettingsOptions').html("").hide();
 				$('#dialogWidgetSettingsParameters').html("").hide();
+				$('#dialogWidgetSettings').data('replaceurl', '');
+				$('#dialogWidgetSettings').data('replaceurlabsolute', '');
+				$('#dialogWidgetSettingsReplaceurlDestination').html('');
+				$('.dialogWidgetSettingsReplaceurl').hide();
 				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){
 					var metaName = $(this).prop('name');
 					var metaContent = $(this).prop('content');
@@ -5176,6 +5184,16 @@ async function load(settings, onChange) {
 							}
 						}
 						break;
+						
+						case "widget-replaceurl":
+						if (metaContent) {
+							$('#dialogWidgetSettings').data('replaceurl', metaContent);
+							$('#dialogWidgetSettings').data('replaceurlabsolute', $(this).data('absolute'));
+							$('#dialogWidgetSettingsReplaceurlDestination').html(metaContent);
+							$('.dialogWidgetSettingsReplaceurl').show();
+						}
+						break;
+
 					}
 				});
 				$('#dialogWidgetSettings').modal('open');

@@ -51,6 +51,7 @@
 		.multiple-select-dropdown.dropdown-content li span, .multiple-select-dropdown.dropdown-content li span label { pointer-events: none; }
 		.CodeMirror{ width: 100%; width: calc(100% - 25px); height: unset !important; position: absolute; }
 		.collapsible-body .row:not(:first-child) p.sub-title{ padding-top:15px; }
+		.headingIcon{ width:48px; height:48px; float:right; }
 	</style>
 </head>
 
@@ -301,6 +302,7 @@
 			<div id="tabToolbar"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
+						<img src="toolbar.png"  class="headingIcon">
 						<h6 class="translate sub-title">Toolbar</h6>
 					</div>
 				</div>
@@ -337,6 +339,7 @@
 				</div>			
 				<div class="row">
 					<div class="col s12">
+						<img src="homepage.png" class="headingIcon">
 						<h6 class="translate">Homepage</h6>
 						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
 						<p><span class="translate">You can also use URL-Parameters to determine, which view or even dialog will be loaded at start</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#url-parameters" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
@@ -347,6 +350,7 @@
 				</div>			
 				<div class="row">
 					<div class="col s12">
+						<img src="panel.png" class="headingIcon">
 						<h6 class="translate">Panel</h6>
 					</div>
 				</div>
@@ -2671,6 +2675,14 @@
 				<div class="row">
 					<div class="col s12">
 						<div id="dialogWidgetSettingsOptions"></div>
+					</div>
+				</div>
+				<div class="section dialogWidgetSettingsReplaceurl">
+					<div class="divider"></div>
+				</div>
+				<div class="row dialogWidgetSettingsReplaceurl">
+					<div class="col s12">
+						<p><span class="translate">These settings include a redirection to</span>&nbsp;<span id="dialogWidgetSettingsReplaceurlDestination"></span></p>
 					</div>
 				</div>
             </div>

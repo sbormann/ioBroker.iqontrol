@@ -463,6 +463,12 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* syntax: ``<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true'}"/>``
 		* See the expandable section below for the possible options that can be configured by this meta-tag
 
+	* 'widget-replaceurl'
+		* syntax: ``<meta name="widget-replaceurl" content="<url>" data-absolute="<true|false>"/>``
+		* This reconfigures the used URL/BACKGROUND_URL for this widget (this way you could define widget-presets, that are used to give special or simplified configurations to the user. But when calling the widget, iQontrol uses the given ``<url>`` instead of the original url.
+		* By default only the filename (with extention) is replaced. When setting ``data-absolute="true"`` then the whole url is replaced.
+
+
 <details>
 <summary>Show possible options that can be configured by the meta-tag 'widget-options': (<ins>klick to open</ins>)</summary>
 
@@ -473,6 +479,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Default: ""
 * Device Specific Options:
 	* ``showState`` (Show State) - only valid for role Button and Program:
+		* Possible values: "true"|"false"
+		* Default: "false" 
+	* ``showPowerAsState: `` (Show POWER as state) - only valid for role Switch, Light and Fan:
 		* Possible values: "true"|"false"
 		* Default: "false" 
 	* ``buttonCaption`` (Caption for button) - only valid for role Button:
@@ -546,6 +555,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``coverImageReloadDelay`` (Delay reload of cover-image [ms]) - only valid for role Media:
 		* Possible values: number from 0 to 5000
 		* Default: "" 
+	* ``coverImageNoReloadOnStateChange: `` (No forced reload of cover-image on change of STATE) - only valid for role Media:
+		* Possible values: "true"|"false"
+		* Default: "false" 
 	* ``statePlayValue`` (Value of STATE for 'play') - only valid for role Media:
 		* Default: "play" 
 	* ``statePauseValue`` (Value of STATE for 'pause') - only valid for role Media:
@@ -667,6 +679,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideInfoBIfInactive`` (Hide INFO_B, if the device is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``hideIndicatorIfInactive`` (Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is inactive):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``hideStateIfInactive`` (Hide state, if the device is inactive):
 		* Possible values: "true"|"false"
 		* Default: "false"
@@ -707,6 +722,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``hideInfoBIfActive`` (Hide INFO_B, if the device is active):
+		* Possible values: "true"|"false"
+		* Default: "false"
+	* ``hideIndicatorIfActive`` (Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is active):
 		* Possible values: "true"|"false"
 		* Default: "false"
 	* ``hideStateIfActive`` (Hide state, if the device is active):
@@ -766,6 +784,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* ``hideInfoBIfEnlarged`` (Hide INFO_B, if the device is enlarged):
 		* Possible values: "true"|"false"
 		* Default: "false"
+	* ``hideIndicatorIfEnlarged`` (Hide Indicator Icons (ERROR, UNREACH, BATTERY), if the device is enlarged):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``hideStateIfEnlarged`` (Hide state, if the device is enlarged):
 		* Possible values: "true"|"false"
 		* Default: "false"
@@ -797,6 +818,9 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Possible values: "true"|"false"
 		* Default: "false" 
 * BACKGROUND_VIEW/URL/HTML:
+	* ``adjustHeightToBackgroundView: `` (Adjust height of device tile to the size of BACKGROUND_VIEW):
+		* Possible values: "true"|"false"
+		* Default: "false"
 	* ``backgroundURLDynamicIframeZoom`` (Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)):
 		* Possible values: number from 0.01 to 200
 		* Default: ""
@@ -1593,6 +1617,9 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added import and export function to device options.
 * (sbormann) Added option to hide indicator icons if inactive, active or enlarged.
 * (sbormann) Added column-sorting to JSON-Table-Widget.
+* (sbormann) Added widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.
+* (sbormann) Added option to media-player to disable forced reload of cover-image at STATE-change.
+* (sbormann) Small adjustmets for ALTERNATIVE_COLORSPACE.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
