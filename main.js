@@ -355,7 +355,7 @@ class Iqontrol extends utils.Adapter {
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
 								if(listItemIndex == -1){
 									for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
-										if(await this.checkCondition(allObjects[object]._id, "bw", enumerationMembers[enumerationMemberIndex])) {
+										if(await this.checkCondition(allObjects[object]._id, "bw", enumerationMembers[enumerationMemberIndex], ',')) {
 											listItems.push(allObjects[object]._id);
 											//break;
 										}
@@ -365,7 +365,7 @@ class Iqontrol extends utils.Adapter {
 						} else { //Remove enumWithChilds
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
 								for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
-										if(await this.checkCondition(listItems[listItemIndex], "bw", enumerationMembers[enumerationMemberIndex])) {
+										if(await this.checkCondition(listItems[listItemIndex], "bw", enumerationMembers[enumerationMemberIndex], ',')) {
 											listItems.splice(listItemIndex, 1);
 											listItemIndex--; //because splicing inside the loop re-indexes the array
 											//break;
@@ -379,11 +379,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add ids
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]._id, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]._id, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove ids
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(listItems[listItemIndex], selector.operator, selector.value)){
+								if(await this.checkCondition(listItems[listItemIndex], selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -395,11 +395,11 @@ class Iqontrol extends utils.Adapter {
 							if(selector.modifier == "add") { //Add types
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object].type, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object].type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove types
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value)){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -411,11 +411,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonType
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonType
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value)){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -427,11 +427,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonRole
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonRole
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value)){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -642,7 +642,7 @@ class Iqontrol extends utils.Adapter {
 									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 									break;
 								}
-								let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value);
+								let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
 								conditionFulfilled = conditionFulfilled && check;
 								that.log.debug("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionFulfilled);
 								//if(!conditionFulfilled) break;
@@ -659,7 +659,7 @@ class Iqontrol extends utils.Adapter {
 						await that.setStateValue(objId, JSON.stringify(counter.listItems));
 						//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
 						counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
-						if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
+						if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval" && triggeredBy != "triggeredByCreation") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
 							if(counter.repeatTimeouts[repeatTimeoutIndex] && !isNaN(counter.repeatTimeouts[repeatTimeoutIndex])){
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									let _listIndex = lists.length - 1;
@@ -675,6 +675,18 @@ class Iqontrol extends utils.Adapter {
 								})(); //<--End Closure
 							}
 						}
+						//-- -- -- --Call function now one time
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							let _listIndex = lists.length - 1;
+							setTimeout(function(){
+								if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+									for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+										lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByCreation");
+									}
+									lists[_listIndex].timeout = false;
+								} , 200);
+							}, 200);
+						})(); //<--End Closure
 					};
 					lists[lists.length - 1].counterFunctions.push(counterFunction);
 				}
@@ -717,7 +729,6 @@ class Iqontrol extends utils.Adapter {
 	}
 	
 	async checkCondition(value, condition, conditionValue, conditionValueSeparator){
-		conditionValueSeparator = ','; //xxxxxxxxxxxxxxxxxxxxxxx
 		if(typeof conditionValue == udef) return null;
 		let conditionValues = [];
 		if(typeof conditionValue == "string" && conditionValueSeparator){

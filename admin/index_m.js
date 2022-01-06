@@ -5172,7 +5172,7 @@ async function load(settings, onChange) {
 									if (list.active){
 										listsOptions.push(adapter + "." + instance + ".Lists." + list.name + ".TOTAL_LIST_JSON/" + list.name + " - TOTAL");
 										list.counters.forEach(function(counter){
-											if(counter.name) listsOptions.push(namespace + ".Lists." + list.name + "." + counter.name + "_LIST_JSON/" + list.name + " - " + counter.name);
+											if(counter.name) listsOptions.push(adapter + "." + instance + ".Lists." + list.name + "." + counter.name + "_LIST_JSON/" + list.name + " - " + counter.name);
 										});
 									}
 								});
