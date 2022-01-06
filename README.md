@@ -440,7 +440,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
 		* The user will be asked for these parameters when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
-		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``icon``, ``section``, ``divider`` or ``hidden``
+		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``listJsonDatapoint``, ``icon``, ``section``, ``divider`` or ``hidden``
 		    * If type is ``select``, ``multipleSelect`` or ``combobox`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...`` (combobox is a selectbox with the possibility to enter free text)
 		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
 		    * Type ``hidden`` will be passed to the widget, but no configuration dialog is shown
@@ -1205,41 +1205,42 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 
 ## Lists and Counters
-iQontrol provides a powerful tool to create dynamic lists and counters of devices. 
+iQontrol provides a powerful tool to create dynamic lists and counters of devices and states. 
 
 Thus, for example, all open windows can be automatically counted and also visualized in a list. Another example would be the lamps currently switched on in the house. 
 
-Service messages can also be created with it, for example by counting the devices that cannot be reached or the devices with an empty battery. iQontrol updates the lists then automatically.
+Service messages can also be created that way, for example by counting the devices that cannot be reached or the devices with an empty battery. iQontrol updates the lists then automatically.
 
-To visualize the counted devices, you can use the Device-Counter-Widget, which provides an easy but yet highly customizable interface. Experts could also use the JSON-Table-Interface, which provides even more configuration-possibilities (the Device-Counter-Widget is a simplified Version of the JSON-Table-Widget).
+To visualize the counted devices, you can use the Device-Counter-Widget, which provides an easy but yet highly customizable interface. Experts could also use the JSON-Table-Widget, which provides even more configuration-possibilities (the Device-Counter-Widget is a simplified Version of the JSON-Table-Widget).
 
 ### Create a List
 * Go to the LISTS/COUNTERS tab, create a list and give it a uniqe name. Click on **edit**
 * In the upper part you have to define the **selectors**: 
 	* This list will be processed from top to bottom. 
-	* At any time you can add or remove items by defining conditions. This will generate your **TOTAL_LIST**.
+	* At any position you can add or remove items by defining conditions. This will generate your **TOTAL_LIST**.
 	* Conditions consist of the following parts:
 		* Modifier: Add or Remove items to the list
 		* Type: Chose what to add or remove to or from the list. Type could be:
-			* All - selfexplaining
-			* Enumeration - filter by enumeration. You can define enumerations, like 'rooms', 'functions' or 'windows upper floor' in ioBroker admin adapter
-			* Enumeration with Childs - enumerations contain mostly only the device without it's datapoint. Therefore you will mostly use Enumeration with Childs, which includes the datapoints
-			* ID - filter by the ID of datapoints, for example remove IDs that don't end with .STATUS or .Level
-			* Object-Type - filter by Object-Type, which can be device, channel, state or enumeration
-			* Type - filter by the common.type of the datapoint, for example string, number, boolean
-			* Role - filter by the common.role of the datapoint. This is one of the most important filters, as every datapoint schould have a common.role that describes, what it stands for, for example switch, indicator.unreach or level.color.rgb. There are a plenty of common roles inside ioBroker, just have a look at your datapoints, the admin-adapter provides a list with all of them
-		* Compare operators: Some Types can be compared with a value. The operator stands for the comparation that is done, like 'is greater than', 'is lower than' or, for strings, 'begins with' or 'contains'.
-			* They work case insensitive (so 'Text' is 'text')
+			* **All** - selfexplaining
+			* **Enumeration** - filter by enumeration. You can define enumerations, like 'rooms', 'functions' or 'windows upper floor' in ioBroker admin adapter
+			* **Enumeration with Childs** - enumerations contain often only the device without it's datapoint. Therefore you will mostly use Enumeration with Childs, which automatically includes the datapoints as well
+			* **ID** - filter by the ID of datapoints, for example remove IDs that don't end with '.color' or '.saturation'
+			* **Object-Type** - filter by Object-Type, which can be device, channel, state or enumeration
+			* **Type** - filter by the common.type of the datapoint, for example string, number, boolean
+			* **Role** - filter by the common.role of the datapoint. This is one of the most important filters, as every datapoint schould have a common.role that describes, what it stands for, for example switch, indicator.unreach or level.color.rgb. There are a plenty of common roles inside ioBroker, just have a look at your datapoints, the admin-adapter provides a list with all of them
+		* Compare operators: Some Types can be compared with a value. The operator stands for the comparation that is done, like 'is greater than', 'is lower than' or, for strings, 'begins with' or 'contains':
+			* They work case insensitive (so 'Text' is the same as 'text')
 			* You can also compare with multiple values at one time if you provide comma-separated list of arguments
-				* for example: ``|remove|ID|doesn't end with|.error,.overheat|`` will remove all IDs that don't end with '.error' OR with '.overheat'
+				* Example: ``|remove|ID|doesn't end with|.error,.overheat|`` will remove all IDs that don't end with '.error' OR with '.overheat'
 		* Value: The value the compare operator compares to
-	* You can also filter for Aliases: This is useful if you for example create a list that counts devices with low batteries. But you don't want it to count both, the original device, and its alias. So filter alias ensures, that datapoints, that have an alias in the list, will be removed
+	* You can also **filter for Aliases**: This is useful if you for example create a list that counts devices with low batteries. But you don't want it to count both, the original device, and its alias. So filter alias ensures, that datapoints, that have an alias in the list, will be removed
 * In the lower part you can define **counters**:
 	* You can define several counters that count for given conditions in your TOTAL_LIST. Lets say, you have created a list with all your LOW-BATTERY-Datapoints. Now you want to count, how many of them are active at the moment, i.e. have the status 'true'. That is done by a counter
 	* You have to assign a name to every counter
 		* If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled
 	* The counters update everytime a datapoint in your TOTAL_LIST is changes
 	* Additionally, you can set a specific time interval at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
+* The result of the lists and counters are saved in datapoints, which you will find under iqontrol.x.Lists
 
 ### Examples
 * This example shows, how to create an UNREACH-List:
