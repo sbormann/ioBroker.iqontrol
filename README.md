@@ -32,9 +32,20 @@
 
 Fast Web-App for Visualization. 
 
-![Screenshot](img/screenshot_kueche.png)
-![Screenshot](img/screenshot_kueche.png)
 <img src="img/screenshot_kueche.png" width="200">
+<img src="img/screenshot_licht.png" width="200">
+<img src="img/screenshot_heizung.png" width="200">
+<img src="img/screenshot_rauchmelder.png" width="200">
+<img src="img/screenshot_flot.png" width="200">
+<img src="img/screenshot_dslraser.jpg" width="200" alt="&copy; by dslraser">
+<img src="img/screenshot_muuulle.jpg" width="200" alt="&copy; by muuulle">
+<img src="img/screenshot_peks-67.jpg" width="200" alt="&copy; by peks-67">
+
+Runs in any Browser. 
+Easy to setup, allthough it's fully customizable and responsive.
+
+
+![Screenshot](img/screenshot_kueche.png)
 
 \
 ![Screenshot](img/screenshot_licht.png)
