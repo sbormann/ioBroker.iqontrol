@@ -37,36 +37,9 @@ Fast Web-App for Visualization.
 <img src="img/screenshot_heizung.png" width="200">
 <img src="img/screenshot_rauchmelder.png" width="200">
 <img src="img/screenshot_flot.png" width="200">
-<img src="img/screenshot_dslraser.jpg" width="200" alt="&copy; by dslraser">
-<img src="img/screenshot_muuulle.jpg" width="200" alt="&copy; by muuulle">
-<img src="img/screenshot_peks-67.jpg" width="200" alt="&copy; by peks-67">
-
-Runs in any Browser. 
-Easy to setup, allthough it's fully customizable and responsive.
-
-
-![Screenshot](img/screenshot_kueche.png)
-
-\
-![Screenshot](img/screenshot_licht.png)
-
-\
-![Screenshot](img/screenshot_heizung.png)
-
-\
-![Screenshot](img/screenshot_rauchmelder.png)
-
-\
-![Screenshot](img/screenshot_flot.png)
-
-\
-![Screenshot](img/screenshot_dslraser.jpg "&copy; by dslraser")
-
-\
-![Screenshot](img/screenshot_muuulle.jpg "&copy; by muuulle")
-
-\
-![Screenshot](img/screenshot_peks-67.jpg "&copy; by peks-67")
+<img src="img/screenshot_dslraser.jpg" width="200" alt="&copy; by dslraser"> &copy; by dslraser
+<img src="img/screenshot_muuulle.jpg" width="200" alt="&copy; by muuulle"> &copy; by muuulle
+<img src="img/screenshot_peks-67.jpg" width="200" alt="&copy; by peks-67"> &copy; by peks-64
 
 Runs in any Browser. 
 Easy to setup, allthough it's fully customizable and responsive.
@@ -1252,7 +1225,7 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 	* You have to assign a name to every counter
 		* If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled
 	* The counters update everytime a datapoint in your TOTAL_LIST is changes
-	* Additionally, you can set a specific time interval at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
+	* Additionally, you can set a specific **time interval** at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
 * The result of the lists and counters are saved in datapoints, which you will find under iqontrol.x.Lists
 
 ### Examples

@@ -74,6 +74,7 @@ var inbuiltWidgets = [
 	{filename:"clock/clock_analog.html", name:"Analog Clock", icon: "clock/clock_analog.png"},
 	{filename:"flot-chart/flot-chart.html", name:"FLOT Chart", icon: "flot-chart/flot-chart.png"},
 	{filename:"json-table/json-table.html", name:"JSON Table", icon: "json-table/json-table.png"},
+	{filename:"json-table/device-counter.html", name:"Device-Counter", icon: "json-table/device-counter.png"},
 	{filename:"map/map.html", name:"Map", icon: "map/map.png"}
 ];
 
