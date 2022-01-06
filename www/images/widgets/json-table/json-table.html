@@ -35,7 +35,8 @@
 												dataTransposeKeycolCaption/Key/Transpose: Caption of the first column, that contains all the previos column-headers/text;
 												dataTransposeValcolsPrefix/Value /Transpose: Prefix for caption of all the other columns, that contain the values/text;
 												///divider;
-												dataConvertObjectToArrayKeycolCaption/Row/Caption of the first column, if JSON date need to be converted from object to array/text;
+												dataConvertObjectToArrayKeycolCaption/Row/Caption of the first column, if JSON data need to be converted from object to array/text;
+												dataConvertListToTableKeycolCaption/List/Caption of the first column, if JSON data is a simple list (without cols)/text;
 												//Sorting/section;
 												columnSortEnabled/true/Enable column sorting by clicking on a heading/checkbox;
 												columnSortEnabledColsFilter/true/Prevent clicking on this headers (semicolon-separated list of column headers, optional)/checkbox;
@@ -48,6 +49,7 @@
 												rowsLimitLoadMoreCaption/.../Caption of 'Load more' Button/text;
 												headHide/false/Hide Head of table/checkbox;
 												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
+												replaceCRwithBR/true/Replace \r\n with br/checkbox;
 												///divider;
 												colorBackground//Background-Color/color;
 												colorBackgroundOdd//Background-Color for odd lines/color;
@@ -64,6 +66,7 @@
 												colorTextShadowOddDark//Text-Shadow-Color for odd lines in dark mode/color;
 												//Icon-Replacement/section;
 												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
+												///divider;
 												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
 												icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;///divider;
 												icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;///divider;
@@ -83,8 +86,36 @@
 												datapointExtendTableCols/parentName%3BplainText/Add these columns with attributes of the datapoint to the table (semicolon-separated list of attributes, see info text above, - for none);
 												datapointExtendTableColsDefaultTranslationLanguage/en/Add standard translations for these columns/select/,None/en,Englisch/de,German/ru,Russian/pt,Polish/nl,Dutch/fr,French/it,Italian/es,Spanish/zh-cn,Chinese;
 												datapointToggleCols/plainText/Enable toggling of the datapoint in this columns (semicolon-separated list with column headers, - for none);
-	">
-	<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'noOverlayInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'xwideIfActive highIfActive', 'bigIconActive': 'false', 'iconNoPointerEventsActive': 'true', 'noOverlayActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'iconNoPointerEventsEnlarged': 'true', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
+	"/>
+	<meta name="widget-options" content=	"{
+												'noZoomOnHover': 'true', 
+												'hideDeviceName': 'true', 
+												'sizeInactive': 'xwideIfInactive highIfInactive', 
+												'iconNoPointerEventsInactive': 'true', 
+												'noOverlayInactive': 'true', 
+												'hideDeviceNameIfInactive': 'true', 
+												'hideStateIfInactive': 'true', 
+												'sizeActive': 'xwideIfActive highIfActive', 
+												'bigIconActive': 'false', 
+												'iconNoPointerEventsActive': 'true', 
+												'noOverlayActive': 'true', 
+												'hideDeviceNameIfActive': 'true', 
+												'hideStateIfActive': 'true', 
+												'iconNoPointerEventsEnlarged': 'true', 
+												'noOverlayEnlarged': 'true', 
+												'hideDeviceNameIfEnlarged': 'true', 
+												'hideStateIfEnlarged': 'true', 
+												'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 
+												'bigIconEnlarged': 'true', 
+												'popupAllowPostMessage': 'true', 
+												'backgroundURLAllowPostMessage': 'true', 
+												'backgroundURLNoPointerEvents': 'false', 
+												'tileEnlargeShowButtonInactive': 'true', 
+												'tileEnlargeShowButtonActive': 'true', 
+												'tileEnlargeShowInPressureMenuInactive': 'true', 
+												'tileEnlargeShowInPressureMenuActive': 'true'
+												}"
+	/>
  
 	<link rel="stylesheet" href="/iqontrol/jquery/jquery.mobile-1.4.5.min.css"/>
 	<script type="text/javascript" src="/iqontrol/jquery/jquery-1.11.3.min.js"></script>
@@ -479,6 +510,7 @@
 		var dataTransposeKeycolCaption = getUrlParameter("dataTransposeKeycolCaption") || "Key";
 		var dataTransposeValcolsPrefix = getUrlParameter("dataTransposeValcolsPrefix") || "Value ";
 		var dataConvertObjectToArrayKeycolCaption = getUrlParameter("dataConvertObjectToArrayKeycolCaption") || "Row";
+		var dataConvertListToTableKeycolCaption = getUrlParameter("dataConvertListToTableKeycolCaption") || "Row";
 		var columnSortEnabled = getUrlParameter("columnSortEnabled") == "true";
 		var columnSortEnabledColsFilter = (getUrlParameter("columnSortEnabledColsFilter") || "").split(';');
 		var columnSortCol = getUrlParameter("columnSortCol");
@@ -490,6 +522,7 @@
 		var headHide = getUrlParameter("headHide") == "true";
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
+		var replaceCRwithBR = !getUrlParameter("replaceCRwithBR") == "false";
 		var colorBackground = getUrlParameter("colorBackground");
 		var colorBackgroundOdd = getUrlParameter("colorBackgroundOdd");
 		var colorText = getUrlParameter("colorText");
@@ -550,7 +583,7 @@
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
 			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
 			if(headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
-			if(scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; }', 'scrollbarHide');
+			if(scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; } html { scrollbar-width: none; }', 'scrollbarHide');
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");
@@ -621,6 +654,26 @@
 				dataObject = newDataObject;
 				if(colsSort.indexOf(dataConvertObjectToArrayKeycolCaption) == -1) colsSort.unshift(dataConvertObjectToArrayKeycolCaption);
 			}
+			//Check, if there are cols in the object or if it is a simple list
+			var cols = [];
+			for (var row = 0; row < dataObject.length; row++) {
+				if (typeof dataObject[row] == 'object') for (var key in dataObject[row]) {
+					if (cols.indexOf(key) === -1) {
+						cols.push(key);
+					}
+				}
+			}
+			if(!cols.length){
+				var newDataObject = [];
+				for (key in dataObject){
+					var newRow = {};
+					newRow[dataConvertListToTableKeycolCaption] = dataObject[key];
+					newDataObject.push(newRow);
+				}
+				dataObject = newDataObject;
+				if(colsSort.indexOf(dataConvertListToTableKeycolCaption) == -1) colsSort.unshift(dataConvertListToTableKeycolCaption);
+				cols.push(dataConvertListToTableKeycolCaption);
+			}
 			//Transpose
 			if (dataTranspose){
 				var newDataObject = [];
@@ -645,6 +698,10 @@
 			}
 			//Datapoint-Detection
 			tableDatapoints = {};
+			if (cols.length == 1) { //For simplification: if there is only one col (like in lists) always use this col
+				datapointIdCol = cols[0]; 
+				if (datapointDetectionEnabled && datapointIdColFilter && datapointIdCol) colsFilter.push(datapointIdCol);
+			}
 			if (datapointDetectionEnabled && datapointIdCol){
 				for (var row = 0; row < dataObject.length; row++) {
 					var id = dataObject[row][datapointIdCol];
@@ -667,9 +724,9 @@
 				}
 			}
 			//Get cols
-			var cols = [];
+			cols = [];
 			for (var row = 0; row < dataObject.length; row++) {
-				for (var key in dataObject[row]) {
+				if (typeof dataObject[row] == 'object') for (var key in dataObject[row]) {
 					if (cols.indexOf(key) === -1) {
 						cols.push(key);
 					}
@@ -742,7 +799,9 @@
 			for (var row = 0; row < dataObject.length; row++) {
 				bodyString += "<tr data-row='" + row + "'" + (rowsLimit == 0 || row < rowsLimit ? "" : "style='display:none;'") + ">";
 				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					bodyString += "<td data-row='" + row + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + multiReplace(dataObject[row][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true) + "</td>";
+					let result = multiReplace(dataObject[row][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true);
+					if (replaceCRwithBR) result = result.toString().replace(/\r\n/g, "<br>");
+					bodyString += "<td data-row='" + row + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + result + "</td>";
 				}
 				bodyString += "</tr>";
 			}
@@ -772,12 +831,10 @@
 				//jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
 				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; xleft:-100000px; xopacity:0; width:0px !important; height:0px !important;'></button>"); 
 				$('#jsonTablePage').on('scroll', function(event){
-					$('#DialogAutofocusElement').css('top', (-$('#jsonTable-popup').offset().top + 20) + 'px');
-					console.log($('#DialogAutofocusElement').css('top'));
+					$('#DialogAutofocusElement').css('top', (-($('#jsonTable-popup').offset() && $('#jsonTable-popup').offset().top || 0) + 20) + 'px');
 				});
 				$('#jsonTable-popup').on('mousemove', function(event){
-					$('#DialogAutofocusElement').css('top', (-$('#jsonTable-popup').offset().top + 20) + 'px');
-					console.log($('#DialogAutofocusElement').css('top'));
+					$('#DialogAutofocusElement').css('top', (-($('#jsonTable-popup').offset() && $('#jsonTable-popup').offset().top || 0) + 20) + 'px');
 				});
 				if (popupVisible) setTimeout(function(){ $('.ui-table-columntoggle-btn').click(); }, 100);
 				//Show or hide columntoggleButton
@@ -830,11 +887,18 @@
 		//Update datapoint
 		function updateDatapoint(id){
 			if (!id) return;
-			if (typeof datapointsParentNames[id] != "undefined" && typeof datapointsParentNames[id].childIds != "undefined" && datapointsParentNames[id].childIds.length > 0){ //Is parentName-Datepoint
+			if (typeof datapointsParentNames[id] != "undefined" && typeof datapointsParentNames[id].childIds != "undefined" && datapointsParentNames[id].childIds.length > 0){ //Is parentName-Datapoint
 				datapointsParentNames[id].childIds.forEach(function(childId){
 					if(tableDatapoints[childId]){
 						if (typeof datapoints[childId] == "undefined") datapoints[childId] = {};
-						datapoints[childId].parentName = datapoints[id].name; //parentName
+						let parentName = datapoints[id].name; //parentName
+						if(typeof parentName == "object") {
+							if(parentName[datapointExtendTableColsDefaultTranslationLanguage]) parentName = parentName[datapointExtendTableColsDefaultTranslationLanguage];
+							else if(parentName["en"]) parentName = parentName["en"];
+							else if(Object.keys(datapoints[id].name).length && typeof Object.keys(datapoints[id].name)[0] == "string" && parentName[Object.keys(datapoints[id].name)[0]]) parentName = parentName[Object.keys(datapoints[id].name)[0]];
+							else parentName = id;
+						}
+						datapoints[childId].parentName = parentName;
 						updateDatapoint(childId);
 					}
 				});
@@ -848,6 +912,7 @@
 					if (datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					if (datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations), true);
+					if (replaceCRwithBR) result = result.toString().replace(/\r\n/g, "<br>");
 					$("td[data-row='" + row + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
 				});
 				datapointToggleCols.forEach(function(datpointToggleCol){
@@ -906,7 +971,6 @@
 						breakpoints.push(((parseInt(breakpoints[breakpoints.length - 1]) || 10) + 10).toString());
 					}
 				}
-				console.log(breakpoints);
 				var customCSS = "";
 				for(i = 0; i < numberOfNeededBreakpoints; i++){
 					//Add breakpoint

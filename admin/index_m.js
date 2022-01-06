@@ -1439,7 +1439,7 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
-				coverImageNoReloadOnStateChange: {name: "No forced reload of cover-image on change of STATE", type: "checkbox", default: "false"}
+				coverImageNoReloadOnTitleChange: {name: "No forced reload of cover-image on change of TITLE", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -2584,6 +2584,7 @@ async function load(settings, onChange) {
 	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
+		lists = settings.lists || settings.demolists || [];
 		optionsLayoutDefaultIcons = {};
 		optionsLayoutDefaultSymbols = {};
 		version = settings.version || 0;
@@ -2592,6 +2593,7 @@ async function load(settings, onChange) {
 	} else {
 		toolbar = settings.toolbar || [];
 		views = settings.views || [];
+		lists = settings.lists || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || {};
 		optionsLayoutDefaultSymbols = settings.optionsLayoutDefaultSymbols || {};
 		version = settings.version || 0;
@@ -2640,9 +2642,9 @@ async function load(settings, onChange) {
 	});
   
 	//Set initial values of further variables
-	images = [];
-	imagesDirs = [];
-	devicesSelectedView = -1;
+	var images = [];
+	var imagesDirs = [];
+	var devicesSelectedView = -1;
 
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change', 'noOnChange');
@@ -2809,7 +2811,17 @@ async function load(settings, onChange) {
 
 	//++++++++++ TABS ++++++++++
 	//Enhance Tabs with onShow-Function
-	$('ul.tabs li a').on('click', function(){ onTabShow($(this).attr('href'));});
+	$('ul.tabs li a').on('click', function(){ 
+		//Scroll tab to middle
+		$tab = $(this);
+		$parent = $(this).parents('.tabs');
+		var tabLeft = $tab.offset().left - $parent.offset().left + $parent.scrollLeft();
+		var tabWidth = $tab.innerWidth();
+		var parentWidth = $parent.innerWidth();
+		$parent.animate({ scrollLeft: (tabLeft + (tabWidth / 2) - (parentWidth / 2)) }, 250);
+		//Load onTabShow-Function
+		onTabShow($(this).attr('href'));
+	});
 	function onTabShow(tabId){
 		console.log("Open tab: " + tabId);
 		switch(tabId){
@@ -2829,13 +2841,16 @@ async function load(settings, onChange) {
 			loadImages();
 			break;
 
+			case "#tabLists":
+			loadLists();
+			break;
+
 			case "#tabOptions":
 			loadOptions();
 			break;
 		}
 	}
-
-
+	
 	//++++++++++ VIEWS ++++++++++
 	//Load Views
 	function loadViews(){
@@ -2907,12 +2922,14 @@ async function load(settings, onChange) {
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
 			if (command === 'edit') {
+				//Edit view
 				$(this).on('click', function (event) {
 					var _viewIndex = $(this).data('index');
 					M.Tabs.getInstance($('.tabs')).select('tabDevices');
 					setTimeout(function(){ $('#devicesSelectedView').val(_viewIndex).select().trigger('change'); }, 10);
 				});
 			} else if (command === 'delete') {
+				//Delete view
 				$(this).on('click', function (event) {
 					var _viewIndex = $(this).data('index');
 					var changedSymbolicLinks = changeSymbolicLinks(_viewIndex, "*", null, null);
@@ -3335,14 +3352,14 @@ async function load(settings, onChange) {
 					});
 				}
 			}
-			//Copy
+			//Copy Device
 			if (command === 'content_copy') {
 				$(this).find('i').html('content_copy');
 				$(this).on('click', function (event) {
 					$('#devicesCopyFromButton').trigger('click', [devicesSelectedView, $(this).data('index')]);
 				});
 			}
-			//Delete
+			//Delete Device
 			if (command === 'delete') {
 				$(this).on('click', function (event) {
 					var _viewIndex = devicesSelectedView;
@@ -5115,7 +5132,20 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
+									
+									case "listJsonDatapoint":
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s11 m11 l11'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters listJsonDatapoint' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "</div><div class='input-field col s1 m1 l1'>";
+									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
 
+									case "hidden":
+									dialogWidgetSettingsUrlParametersString += "<input style='display:none;' class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+									break;
+									
 									case "text": default:
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
@@ -5136,6 +5166,16 @@ async function load(settings, onChange) {
 								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
 									enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));
 								});
+								listsOptions = [];
+								lists.forEach(function(list){
+									if (list.active){
+										listsOptions.push(adapter + "." + instance + ".Lists." + list.name + ".TOTAL_LIST_JSON/" + list.name + " - TOTAL");
+										list.counters.forEach(function(counter){
+											if(counter.name) listsOptions.push(namespace + ".Lists." + list.name + "." + counter.name + "_LIST_JSON/" + list.name + " - " + counter.name);
+										});
+									}
+								});
+								enhanceTextInputToCombobox('.dialogWidgetSettingsUrlParameters.listJsonDatapoint', listsOptions.join(';'), false);
 								$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
 									$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
 									initSelectId(function (sid) {
@@ -5824,6 +5864,331 @@ async function load(settings, onChange) {
 		});
 	}
 
+	//++++++++++ LISTS ++++++++++
+	//Load Lists
+	function loadLists(){
+		//Fill Table
+		values2table('tableLists', lists, onChange, onTableListsReady);		
+	}
+
+	//Enhance tableLists with functions
+	var dialogListEditSelectors;
+	var dialogListEditCounters;
+	function onTableListsReady(){
+		var $div = $('#tableLists');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			if (command === 'edit') {
+				//Edit List
+				$(this).on('click', function (event) {
+					var listIndex = $(this).data('index');
+					initDialog('dialogListEdit', function(){ //save dialog
+						var listIndex = $('#dialogListEditListIndex').val();
+						lists[listIndex].selectors = dialogListEditSelectors;
+						lists[listIndex].filterAliases = $('#dialogListEditListFilterAliases').prop('checked');
+						lists[listIndex].counters = dialogListEditCounters;
+						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
+						onTableListsReady();
+					});
+					$('#dialogListEditName').html(lists[listIndex].name || "");
+					$('#dialogListEditListIndex').val(listIndex);
+					dialogListEditSelectors = JSON.parse(JSON.stringify(lists[listIndex].selectors || []));
+					values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
+					$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
+					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
+					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
+					$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");
+					$('#dialogListEdit').modal('open');
+					$('#dialogListEdit').css('z-index', modalZIndexCount++);
+					$('#dialogListEdit .modal-content').scrollTop(0);
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Name changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'name') {
+				$(this).on('focusin', function(){
+					$(this).data('oldval', $(this).val());
+				});
+				$(this).on('change', function (){
+					var index = $(this).data('index');
+					var oldVal = $(this).data('oldval');
+					var newVal = $(this).val();
+					changeListsCommonName(index, oldVal, newVal);
+					if (listsCheckDuplicates()) alert(_("No duplicates allowed! List Names have to be unique."));
+				});
+			}
+		});
+		function changeListsCommonName(index, oldVal, newVal){
+			/* Check here, if the name is used somewhere, for example like that (copied from views):
+			toolbar.forEach(function(element){
+				if (element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
+			});
+			views.forEach(function(view){
+				(view.devices || []).forEach(function(device){
+					(device.states || []).forEach(function(state){
+						if (state.state == "BACKGROUND_VIEW" && state.value == (adapter + "." + instance + ".Views." + oldVal)) state.value = (adapter + "." + instance + ".Views." + newVal);
+					});
+				});
+			});
+			*/
+		}
+		//Check for duplicates
+		listsCheckDuplicates();
+		//Make table sortable
+		$("#tableLists tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableLists tbody").sortable('disable');
+				var sequence = [];
+				$('#tableLists').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(lists[sequence[i]]);
+				}
+				lists = tableResorted;
+				onChange();
+				values2table('tableLists', lists, onChange, onTableListsReady);
+				$("#tableLists tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Check for duplicates
+	function listsCheckDuplicates(){
+		var duplicates = false;
+		var listsNames = [];
+		lists.forEach(function(element){
+			if (listsNames.indexOf(element.name) > -1){
+				duplicates = true;
+			} else {
+				listsNames.push(element.name);
+			}
+		});
+		if (duplicates){
+			$('#listsNoDuplicatesAllowed').show();
+		} else {
+			$('#listsNoDuplicatesAllowed').hide();
+		}
+		return duplicates;
+	}
+
+	//Enhance tableDialogListsEditSelectors with functions
+	function onTableDialogListsEditSelectorsReady(){
+		var $div = $('#tableDialogListEditSelectors');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'value') {
+				var index = $(this).data('index');
+				$(this).prop('id', 'tableDialogListsEditSelectorsValue_' + index);
+			}
+		});
+		//Selectbox-Functions
+		enhanceTextInputToCombobox("#tableDialogListEditSelectors input[data-name=value]", "state/State;channel/Channel;device/Device;enum/Enum", false, function(value){});
+		$lines.find('select[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'type') {
+				var index = $(this).data('index');
+				$(this).on('input change', function(){
+					$parentLine = $(this).parents('tr');
+					$operator = $parentLine.find('select[data-name=operator]');
+					$value = $parentLine.find('input[data-name=value]');
+					$edit = $parentLine.find('a[data-command=edit]');
+					switch($(this).val()){
+						case "all":
+						$operator.prop('disabled', true).select().parents('.select-wrapper').css('opacity', '0');
+						$value.css('opacity', '0').prop('disabled', true).next("a").prop('style','display: none !important;'); //Hide complete;
+						$edit.css('opacity', '0').addClass('disabled');
+						break;
+						
+						case "enum": case "enumWithChilds":
+						$operator.prop('disabled', true).select().parents('.select-wrapper').css('opacity', '0');
+						$value.css('opacity', '1').prop('disabled', false).next("a").prop('style','display: none !important;'); //Hide only dropdown-handle
+						$edit.css('opacity', '1').removeClass('disabled').data('selectidtype', 'enum'); //Only Enums
+						break;
+						
+						case "id":
+						$operator.prop('disabled', false).find('option').prop('disabled', false); //Show all operators
+						$operator.select();
+						$operator.parents('.select-wrapper').css('opacity', '1');
+						$value.css('opacity', '1').prop('disabled', false).next("a").prop('style','display: none !important;'); //Hide only dropdown-handle
+						$edit.css('opacity', '1').removeClass('disabled').data('selectidtype', 'state'); //All Ids
+						break;
+						
+						case "type":
+						$operator.prop('disabled', false).find('option').prop('disabled', false).filter(':nth-child(1n+3)').prop('disabled', true); //Show only eq and ne
+						$operator.parents('.select-wrapper').css('opacity', '1');
+						if($operator.val() != "eq" && $operator.val() != "ne") $operator.val("");
+						$operator.select();
+						$value.css('opacity', '1').prop('disabled', false).next("a").prop('style',''); //Show dropdown with state;channel;device;enum
+						$edit.css('opacity', '0').addClass('disabled');
+						break;
+						
+						case "commonType": case "commonRole":
+						$operator.prop('disabled', false).find('option').prop('disabled', false); //Show all operators
+						$operator.parents('.select-wrapper').css('opacity', '1');
+						if($operator.val() != "eq" && $operator.val() != "ne") $operator.val("");
+						$operator.select();
+						$value.css('opacity', '1').prop('disabled', false).next("a").prop('style','display: none !important;'); //Hide only dropdown-handle
+						$edit.css('opacity', '0').addClass('disabled');
+						break;
+					}
+				}).trigger('change');
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var index = $(this).data('index');
+					var selectidtype = $(this).data('selectidtype');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogListsEditSelectorsValue_' + index);
+					initSelectId(function (sid) {
+						sid.selectId('show', $('#tableDialogListsEditSelectorsValue_' + index).val(), {type: selectidtype || 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});					
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogListEditSelectors tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditSelectors tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditSelectors').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditSelectors[sequence[i]]);
+				}
+				dialogListEditSelectors = tableResorted;
+				onChange();
+				values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
+				$("#tableDialogListEditSelectors tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditCounters with functions
+	function onTableDialogListsEditCountersReady(){
+		var $div = $('#tableDialogListEditCounters');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Name changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'name') {
+				$(this).on('change', function (){
+					if (dialogListsEditCounterCheckDuplicates() == null) {
+						alert(_("The first entry has to have a name."));
+					} else if (dialogListsEditCounterCheckDuplicates()) {
+						alert(_("No duplicates allowed! Counter Names have to be unique."));
+					}
+				});
+			}
+		});
+		//Check for duplicates
+		dialogListsEditCounterCheckDuplicates();
+		//Make table sortable
+		$("#tableDialogListEditCounters tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCounters tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCounters').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCounters[sequence[i]]);
+				}
+				dialogListEditCounters = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
+				$("#tableDialogListEditCounters tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Check for duplicates
+	function dialogListsEditCounterCheckDuplicates(){
+		if (dialogListEditCounters[0] && typeof dialogListEditCounters[0].name != udef && !dialogListEditCounters[0].name){
+			$('#dialogListEditCountersNoDuplicatesAllowed').html(_("The first entry has to have a name.")).show();
+			return null;
+		}
+		var duplicates = false;
+		var counterNames = [];
+		dialogListEditCounters.forEach(function(element){
+			if (element.name && counterNames.indexOf(element.name) > -1){
+				duplicates = true;
+			} else {
+				counterNames.push(element.name);
+			}
+		});
+		if (duplicates){
+			$('#dialogListEditCountersNoDuplicatesAllowed').html(_("No duplicates allowed! Counter-Names have to be unique.")).show();
+		} else {
+			$('#dialogListEditCountersNoDuplicatesAllowed').hide();
+		}
+		return duplicates;
+	}
+	
 	//++++++++++ OPTIONS ++++++++++
 	//Load Options
 	function loadOptions(){
@@ -5887,7 +6252,7 @@ async function load(settings, onChange) {
 			$(this).data("selectall", !$(this).data("selectall")); 
 			$(this).nextUntil('.optgroup', '.optgroup-option' + ($(this).data("selectall") ? ":not(.selected)" : ".selected")).find('input').click();
 		});
-		
+
 		//Create Comboboxes for Default Icons / Device Icons
 		var defaultIconsDeviceOptionsString = "";
 		for (iQontrolRole in iQontrolRoles){
@@ -5912,7 +6277,7 @@ async function load(settings, onChange) {
 			defaultIconsDeviceOptionsString += "</div>";
 		}
 		$('#optionsLayoutDefaultIconsDeviceIcons').html(defaultIconsDeviceOptionsString);
-
+			
 		//Fill Comboboxes for DefaultIcons with icons
 		//Default Icon
 		var optionsString = "[" + _("Default Icon") + ":]";
@@ -6602,6 +6967,7 @@ async function load(settings, onChange) {
 		saveStringAsLocalFile(JSON.stringify(views), "charset=utf-8", "text/json", "views.json", true);
 	});
 
+	//Export Selected Views
 	$('#optionsBackupRestoreExportViewsSelectedSelection').on('change', function(){
 		var selected = $('#optionsBackupRestoreExportViewsSelectedSelection').val() || [];
 		if (selected.length){
@@ -6646,6 +7012,11 @@ async function load(settings, onChange) {
 		saveStringAsLocalFile(JSON.stringify(options), "charset=utf-8", "text/json", "panel.json", true);
 	});
 
+	//Export Lists
+	$('#optionsBackupRestoreExportLists').on('click', function(){
+		saveStringAsLocalFile(JSON.stringify(lists), "charset=utf-8", "text/json", "lists.json", true);
+	});
+
 	//Export Options
 	$('#optionsBackupRestoreExportOptions').on('click', function(){
 		//Select elements with class=value and build settings object
@@ -6687,6 +7058,7 @@ async function load(settings, onChange) {
 			var obj = {};
 			obj.views = views;
 			obj.toolbar = toolbar;
+			obj.lists = lists;
 			//Select elements with class=value and build settings object
 			var options = {};
 			$('.value').each(function () {
@@ -6848,6 +7220,33 @@ async function load(settings, onChange) {
 		});
 	});
 
+	//Import Lists
+	$('#optionsBackupRestoreImportListsOverwrite, #optionsBackupRestoreImportListsAppend').on('click', function(){
+		var overwrite = ($(this).data('overwrite') == true);
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if (!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == "function")){
+				resultObjValid = false;
+			}
+			if (resultObjValid) {
+				if (overwrite){
+					if (confirm(_("Really overwrite existing Settings?"))){
+						lists = resultObj;
+						alert(_("Settings imported."));
+					}
+				} else {
+					lists = lists.concat(resultObj);
+					alert(_("Settings imported."));
+				}
+				if(listsCheckDuplicates()) alert(_("Names of lists must be unique. However, importing has created duplicates. Please check the settings!"));
+				onChange();
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
+	});
+
 	//Import Options
 	$('#optionsBackupRestoreImportOptions').on('click', function(){
 		loadLocalFileAsString(".json", function(result){
@@ -6975,6 +7374,10 @@ async function load(settings, onChange) {
 				} else {
 					resultObjValid = false;
 				}
+				//Lists
+				if (!(resultObj.lists && typeof resultObj.lists == "object" && typeof resultObj.lists.forEach == "function")){
+					resultObjValid = false;
+				}
 				//Options and panel
 				if (!(resultObj.options && typeof resultObj.options == "object" && typeof resultObj.options.forEach == udef)){
 					resultObjValid = false;
@@ -7011,6 +7414,8 @@ async function load(settings, onChange) {
 							}
 						}
 					});
+					//Lists
+					if (confirm(_("Import Lists/Counters (overwrite exisiting lists)") + "?")) lists = resultObj.lists;
 					//Options
 					//Select elements with id=key and class=value and insert value
 					if (confirm(_("Import Options") + "?")) $('.value').each(function () {
@@ -7149,6 +7554,7 @@ async function save(callback) {
 	//Get edited subsettings
 	obj.toolbar = toolbar;
 	obj.views = views;
+	obj.lists = lists;
 	obj.optionsLayoutDefaultIcons = optionsLayoutDefaultIcons || {};
 	obj.optionsLayoutDefaultSymbols = optionsLayoutDefaultSymbols || {};
 

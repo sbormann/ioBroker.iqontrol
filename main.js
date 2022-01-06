@@ -11,6 +11,10 @@ const utils = require("@iobroker/adapter-core");
 // Load your modules here, e.g.:
 // const fs = require("fs");
 var createdObjects = [];
+var allObjects = [];
+var usedStates = [];
+var lists = [];
+var triggerIntervals = [];
 var udef = 'undefined';
 
 function idEncode(id){
@@ -307,6 +311,543 @@ class Iqontrol extends utils.Adapter {
 		}
 	}
 	
+	async createLists(){
+		if(typeof this.config.lists != 'undefined'){
+			let that = this;
+			//Lists
+			for(let listIndex = 0; listIndex < this.config.lists.length; listIndex++){
+				if (!this.config.lists[listIndex].active) continue;
+				let listName = this.config.lists[listIndex].name || listIndex.toString();
+				this.log.debug("Creating List " + listName + "...");
+				let listItems = [];
+				//--Selectors
+				for(let selectorIndex = 0; selectorIndex < this.config.lists[listIndex].selectors.length; selectorIndex++){
+					this.log.debug("...processing Selector " + (selectorIndex + 1) + "...");
+					let selector = this.config.lists[listIndex].selectors[selectorIndex];
+					switch(selector.type){
+						case "all":
+						if(selector.modifier == "add") { //Add all
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove all (just in any case :))
+							listItems = [];
+						}
+						break;
+						
+						case "enum":
+						var enumerationMembers = allObjects[selector.value]?.common?.members || [];
+						for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
+							let listItemIndex = listItems.indexOf(enumerationMembers[enumerationMemberIndex]);
+							if(selector.modifier == "add") { //Add Enum
+								if(listItemIndex == -1) listItems.push(enumerationMembers[enumerationMemberIndex]);
+							} else { //Remove Enum
+								if(listItemIndex > -1) listItems.splice(listItemIndex, 1);
+							}
+						};
+						break;
+						
+						case "enumWithChilds":
+						var enumerationMembers = allObjects[selector.value]?.common?.members || [];
+						if(selector.modifier == "add") { //Add enumWithChilds
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1){
+									for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
+										if(await this.checkCondition(allObjects[object]._id, "bw", enumerationMembers[enumerationMemberIndex])) {
+											listItems.push(allObjects[object]._id);
+											//break;
+										}
+									}
+								}
+							};
+						} else { //Remove enumWithChilds
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
+										if(await this.checkCondition(listItems[listItemIndex], "bw", enumerationMembers[enumerationMemberIndex])) {
+											listItems.splice(listItemIndex, 1);
+											listItemIndex--; //because splicing inside the loop re-indexes the array
+											//break;
+										}
+								}
+							}
+						}
+						break;
+						
+						case "id":						
+						if(selector.modifier == "add") { //Add ids
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]._id, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove ids
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(await this.checkCondition(listItems[listItemIndex], selector.operator, selector.value)){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
+						
+						case "type":
+							if(selector.modifier == "add") { //Add types
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object].type, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove types
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value)){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
+						
+						case "commonType":
+						if(selector.modifier == "add") { //Add commonType
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove commonType
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value)){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
+						
+						case "commonRole":
+						if(selector.modifier == "add") { //Add commonRole
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value)) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove commonRole
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value)){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
+					}
+				};
+				//--Filtering Aliases
+				if (this.config.lists[listIndex].filterAliases) {
+					this.log.debug("...filtering Aliases...");
+					let removeTheseItems = [];
+					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+						if(await this.checkCondition(listItems[listItemIndex], "nbw", "alias.")) continue;
+						let itemAlias = allObjects[listItems[listItemIndex]]?.common?.alias;
+						let itemAliasLinks = [];
+						if (itemAlias?.id) {
+							if (typeof itemAlias.id == "string"){
+								itemAliasLinks.push(itemAlias.id);
+							} else {
+								if (itemAlias.id?.read) itemAliasLinks.push(itemAlias.id.read);
+								if (itemAlias.id?.write) itemAliasLinks.push(itemAlias.id.write);
+							}
+						}
+						for(let itemAliasLinkIndex = 0; itemAliasLinkIndex < itemAliasLinks.length; itemAliasLinkIndex++){
+							if(listItems.indexOf(itemAliasLinks[itemAliasLinkIndex]) > -1) removeTheseItems.push(itemAliasLinks[itemAliasLinkIndex]);
+						}
+					}
+					for(let removeTheseItemIndex = 0; removeTheseItemIndex < removeTheseItems.length; removeTheseItemIndex++){
+						let listItemsRemoveIndex = listItems.indexOf(removeTheseItems[removeTheseItemIndex]);
+						if (listItemsRemoveIndex > -1) {
+							listItems.splice(listItemsRemoveIndex, 1);
+						}
+					}
+					this.log.debug("...found and removed " + removeTheseItems.length + " items which had aliases...");
+				}
+				//--Sort
+				listItems.sort();
+				//--Create TOTAL-objects and set States
+				let objName = listName;
+				let objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL";
+				let obj = {
+					"type": "state",
+					"common": {
+						"name": objName,
+						"desc": "List created by iQontrol",
+						"type": "number",
+						"role": "value",
+						"icon": ""
+					},
+					"native": {}
+				};
+				createdObjects.push(objId);
+				await this.setObjectAsync(objId, obj, true).then(async function(){ 
+					that.log.debug("created: " + objId); 
+					await that.setStateValue(objId, listItems.length);
+				}, function(err){
+					that.log.error("ERROR creating " + objId + ": " + err);
+				});
+				objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST";
+				obj = {
+					"type": "state",
+					"common": {
+						"name": objName,
+						"desc": "List created by iQontrol",
+						"type": "string",
+						"role": "value",
+						"icon": ""
+					},
+					"native": {}
+				};
+				createdObjects.push(objId);
+				await this.setObjectAsync(objId, obj, true).then(async function(){ 
+					that.log.debug("created: " + objId); 
+					await that.setStateValue(objId, listItems.join(', '));
+				}, function(err){
+					that.log.error("ERROR creating " + objId + ": " + err);
+				});
+				objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST_JSON";
+				obj = {
+					"type": "state",
+					"common": {
+						"name": objName,
+						"desc": "List created by iQontrol",
+						"type": "json",
+						"role": "value",
+						"icon": ""
+					},
+					"native": {}
+				};
+				createdObjects.push(objId);
+				await this.setObjectAsync(objId, obj, true).then(async function(){ 
+					that.log.debug("created: " + objId); 
+					await that.setStateValue(objId, JSON.stringify(listItems));
+				}, function(err){
+					that.log.error("ERROR creating " + objId + ": " + err);
+				});
+				lists.push({name: listName, listItems: listItems, counterFunctions: []});
+				//--Counters
+				let counters = [];
+				//-- --Find out, how many distict counters are in the list of conditions
+				let counterName = "";
+				for(let counterIndex = 0; counterIndex < this.config.lists[listIndex].counters.length; counterIndex++){
+					this.log.debug("...processing counter condition " + (counterIndex + 1) + "...");
+					let counter = this.config.lists[listIndex].counters[counterIndex];
+					if(counterIndex == 0 || (counter.name && counter.name != counterName)){ //Found new distict Counter (no new name was given)
+						counterName = counter.name;
+						counters.push({name: counterName, conditions: [], listItems: []});
+						//Create counter-objects
+						objName = listName + "_" + counterName;
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "number",
+								"role": "value",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "string",
+								"role": "value",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST_JSON";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "json",
+								"role": "value",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+					}
+					counters[counters.length - 1].conditions.push(counter);
+				}
+				//-- --Loop through the disctinct counters and create the counterFunctions
+				for(let counterIndex = 0; counterIndex < counters.length; counterIndex++){
+					this.log.debug("...processing counter " + listName + "_" + counters[counterIndex].name + "...");
+					let counter = counters[counterIndex];
+					//-- -- --Counter Function
+					let counterFunction = async function(_listItems, triggeredBy){
+						that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
+						counter.listItems = [];
+						counter.repeatTimeouts = [];
+						//-- -- -- --Loop through the listItems the counter belongs to
+						for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
+							let conditionFulfilled = (counter.conditions.length > 0);
+							//-- -- -- -- --Loop through the conditions of this counter and check of this list item fulfills als conditions
+							for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
+								let value;
+								if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
+								switch(counter.conditions[conditionIndex].type){
+									case "value":
+									value = usedStates[_listItems[_listItemIndex]]?.val;
+									break;
+									
+									case "ack":
+									value = usedStates[_listItems[_listItemIndex]]?.ack;
+									break;
+
+									case "lc":
+									value = usedStates[_listItems[_listItemIndex]]?.lc;
+									break;
+
+									case "lcs":
+									value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+									break;
+
+									case "ts":
+									value = usedStates[_listItems[_listItemIndex]]?.ts;
+									break;
+
+									case "tss":
+									value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+									break;
+								}
+								let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value);
+								conditionFulfilled = conditionFulfilled && check;
+								that.log.debug("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionFulfilled);
+								//if(!conditionFulfilled) break;
+							}
+							that.log.debug("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFulfilled);
+							if(conditionFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
+						}
+						//-- -- -- --Set States
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
+						await that.setStateValue(objId, counter.listItems.length);
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST";
+						await that.setStateValue(objId, counter.listItems.join(', '));
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
+						await that.setStateValue(objId, JSON.stringify(counter.listItems));
+						//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
+						counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
+						if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
+							if(counter.repeatTimeouts[repeatTimeoutIndex] && !isNaN(counter.repeatTimeouts[repeatTimeoutIndex])){
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									let _listIndex = lists.length - 1;
+									that.log.debug("set trigger repeat-timeout for list " + lists[_listIndex].name + " to " + parseInt(counter.repeatTimeouts[repeatTimeoutIndex] + "s"));
+									setTimeout(function(){
+										if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+											for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+												lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByRepeatTimeout");
+											}
+											lists[_listIndex].timeout = false;
+										} , 200);
+									}, parseInt(counter.repeatTimeouts[repeatTimeoutIndex] * 1000));
+								})(); //<--End Closure
+							}
+						}
+					};
+					lists[lists.length - 1].counterFunctions.push(counterFunction);
+				}
+				//-- -- --Subscribe to the list items
+				this.log.debug("...subscribing to list items...");										
+				this.subscribeForeignStates(listItems);
+				//-- -- --Start trigger interval (if activated)
+				if (this.config.lists[listIndex].triggerInterval && !isNaN(this.config.lists[listIndex].triggerInterval)) {
+					this.log.debug("...starting trigger interval...");
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _listIndex = lists.length - 1;
+						triggerIntervals.push(setInterval(function(){
+							if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+								for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+									lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByInterval");
+								}
+								lists[_listIndex].timeout = false;
+							} , 200);
+						}, parseInt(that.config.lists[listIndex].triggerInterval * 1000)));
+					})(); //<--End Closure
+				}
+			}
+		}
+	}
+
+	updateListCounters(id){
+		for(let listIndex = 0; listIndex < lists.length; listIndex++){
+			if(lists[listIndex].listItems.indexOf(id) > -1 && !lists[listIndex].timeout){
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					let _listIndex = listIndex;
+					lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+						for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+							lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, id);
+						}
+						lists[_listIndex].timeout = false;
+					} , 200);
+				})(); //<--End Closure
+			}
+		}
+	}
+	
+	async checkCondition(value, condition, conditionValue, conditionValueSeparator){
+		conditionValueSeparator = ','; //xxxxxxxxxxxxxxxxxxxxxxx
+		if(typeof conditionValue == udef) return null;
+		let conditionValues = [];
+		if(typeof conditionValue == "string" && conditionValueSeparator){
+			conditionValues = conditionValue.split(conditionValueSeparator).map(str => str.trim());
+		} else {
+			conditionValues = [conditionValue];
+		}
+		value = value || 0;
+		switch(condition || ""){
+			case "at":
+			return true;
+			break;
+
+			case "af":
+			return false;
+			break;
+
+			case "eqt":
+			if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+				return false;
+			} else {
+				return true;
+			}
+
+			case "eqf":
+			if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+				return true;
+			} else {
+				return false;
+			}
+			break;
+
+			case "eq":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return true;				
+			}
+			return false;
+			break;
+
+			case "ne":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return false;				
+			}
+			return true;
+			break;
+
+			case "gt":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) > parseFloat(conditionValues[i])) return true;				
+			}
+			return false;
+			break;
+
+			case "ge":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) >= parseFloat(conditionValues[i])) return true;				
+			}
+			return false;
+			break;
+
+			case "lt":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) < parseFloat(conditionValues[i])) return true;				
+			}
+			return false;
+			break;
+
+			case "le":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) <= parseFloat(conditionValues[i])) return true;				
+			}
+			return false;
+			break;
+
+			case "c":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return true;				
+			}
+			return false;
+			break;
+
+			case "nc":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return false;				
+			}
+			return true;
+			break;
+
+			case "bw":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return true;				
+			}
+			return false;
+			break;
+
+			case "nbw":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return false;				
+			}
+			return true;
+			break;
+	
+			case "ew":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return true;				
+			}
+			return false;
+			break;
+			
+			case "new":
+			for(let i = 0; i < conditionValues.length; i++){
+				if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return false;				
+			}
+			return true;
+			break;
+
+			default:
+			return null;
+		}
+		return null;
+	}
+	
+	async removeDuplicates(array) { //Removes duplicates from an array
+		let seen = {};
+		return array.filter(function(item) {
+			return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+		});
+	}
+
+	
 	async setStateValue(id, value){
 		let that = this;
 		await this.setStateAsync(id, value).then(function(){ 
@@ -360,8 +901,14 @@ class Iqontrol extends utils.Adapter {
 		this.log.info("Creating Widget States...");
 		await this.createWidgets();
 		
-		//this.log.debug("Created Objects: " + createdObjects.length + " (" + createdObjects.toString() + ")");
-
+		if(this.config.listsActive){
+			this.log.info("Creating List States...");
+			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum')};
+			await this.createLists();
+		} else {
+			this.log.info("Lists deactivated.");			
+		}
+		
 		this.log.info("Deleting unused Objects...");
 		this.deleteUnusedObjects();
 		
@@ -426,6 +973,12 @@ class Iqontrol extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			//Stop trigger intervals
+			this.log.info("Stop trigger intervals");
+			for(let triggerIntervalIndex = 0; triggerIntervalIndex < triggerIntervals.length; triggerIntervalIndex++){
+				clearInterval(triggerIntervals[triggerIntervalIndex]);
+			}
+			triggerIntervals = [];
 			this.log.info("cleaned everything up...");
 			callback();
 		} catch (e) {
@@ -439,12 +992,16 @@ class Iqontrol extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
-		if (obj) {
-			// The object was changed
-			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-		} else {
-			// The object was deleted
-			this.log.info(`object ${id} deleted`);
+		if(this.config.listsActive){
+			if (obj) {
+				// The object was changed
+				this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
+				allObjects[id] = obj;
+			} else {
+				// The object was deleted
+				this.log.info(`object ${id} deleted`);
+				if(allObjects[id]) delete allObjects.id;
+			}
 		}
 	}
 
@@ -470,9 +1027,17 @@ class Iqontrol extends utils.Adapter {
 					this.setState('Popup.Message', { val: "", ack: true });
 				break;
 			}
+			if(this.config.listsActive && (state.lc == state.ts)) { //State has CHANGED
+				usedStates[id] = state;
+				this.updateListCounters(id);
+			}
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);
+			if(this.config.listsActive) {
+				delete usedStates[id];
+				this.updateListCounters(id);
+			}
 		}
 	}
 		 

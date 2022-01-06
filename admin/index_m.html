@@ -36,7 +36,7 @@
 	<script type="text/javascript" src="index_m.js"></script>
 
 	<style>
-		.modal { max-height:85% !important; max-width:95% !important; width:80% !important; height:80% !important; overflow: visible !important;}
+		.modal { max-height:85% !important; max-width:95% !important; width:95% !important; height:80% !important; overflow: visible !important;}
 		.dialog-select-container {max-height: 90% !important;}
 		.m .page {height: auto !important; min-height:75% !important;}
 		#tableViews .dropdown-content {width: auto !important;}
@@ -51,7 +51,9 @@
 		.multiple-select-dropdown.dropdown-content li span, .multiple-select-dropdown.dropdown-content li span label { pointer-events: none; }
 		.CodeMirror{ width: 100%; width: calc(100% - 25px); height: unset !important; position: absolute; }
 		.collapsible-body .row:not(:first-child) p.sub-title{ padding-top:15px; }
+		h6.heading { background: rgba(0,0,0,0.02); padding: 5px 0 7px 5px; box-shadow: rgba(0,0,0,0.25) 1px 1px 2px 0px; }
 		.headingIcon{ width:48px; height:48px; float:right; }
+		.tabs { scrollbar-width: 2px; } .tabs::-webkit-scrollbar { height: 2px; }
 	</style>
 </head>
 
@@ -69,14 +71,15 @@
 		</div>
 
 		<div class="row">
-			<div class="col s12">
+			<div class="col s12 tabcontainer">
 				<ul class="tabs hideOnLoad" id="iQontrolTabs" style="display: none;">
-					<li class="tab col s2"><a href="#tabMain" class="translate active">Start</a></li>
-					<li class="tab col s2"><a href="#tabViews" class="translate">Views</a></li>
-					<li class="tab col s2"><a href="#tabDevices" class="translate">Devices</a></li>
-					<li class="tab col s2"><a href="#tabToolbar" class="translate">Toolbar/Panel</a></li>
-					<li class="tab col s2"><a href="#tabImages" class="translate">Images/Widgets</a></li>
-					<li class="tab col s2"><a href="#tabOptions" class="translate">Options</a></li>
+					<li class="tab"><a href="#tabMain" class="translate active">Start</a></li>
+					<li class="tab"><a href="#tabViews" class="translate">Views</a></li>
+					<li class="tab"><a href="#tabDevices" class="translate">Devices</a></li>
+					<li class="tab"><a href="#tabToolbar" class="translate">Toolbar/Panel</a></li>
+					<li class="tab"><a href="#tabImages" class="translate">Images/Widgets</a></li>
+					<li class="tab"><a href="#tabLists" class="translate">Lists/Counters</a></li>
+					<li class="tab"><a href="#tabOptions" class="translate">Options</a></li>
 				</ul>
 			</div>
 
@@ -84,7 +87,7 @@
 			<div id="tabMain"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Start</h6>
+						<h6 class="translate sub-title heading">Start</h6>
 					</div>
 				</div>
 				<div class="row showOnLoad">
@@ -163,7 +166,8 @@
 			<div id="tabViews"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Operations</h6>
+						<img src="views.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Views</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -173,7 +177,7 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Views</h6>
+						<h6 class="translate sub-title">List of Views</h6>
 					</div>
 				</div>
 				<div class="col s12" id="tableViews">
@@ -199,7 +203,7 @@
 				</div>
 				<div class="row">
 					<div class="col s12 center">
-						<h5 id="viewsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! View Names must be unique.</h5>
+						<h5 id="viewsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! View Names have to be unique.</h5>
 					</div>
 				</div>
 			</div>
@@ -208,7 +212,8 @@
 			<div id="tabDevices"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Select View to edit</h6>
+						<img src="devices.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Devices</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -303,7 +308,7 @@
 				<div class="row">
 					<div class="col s12">
 						<img src="toolbar.png"  class="headingIcon">
-						<h6 class="translate sub-title">Toolbar</h6>
+						<h6 class="translate sub-title heading">Toolbar</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -340,7 +345,7 @@
 				<div class="row">
 					<div class="col s12">
 						<img src="homepage.png" class="headingIcon">
-						<h6 class="translate">Homepage</h6>
+						<h6 class="translate sub-title heading">Homepage</h6>
 						<p class="translate">The first Toolbar-Entry will be your 'Home-View' with will be loaded at start.</p>
 						<p><span class="translate">You can also use URL-Parameters to determine, which view or even dialog will be loaded at start</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#url-parameters" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).</p>
 					</div>
@@ -351,7 +356,7 @@
 				<div class="row">
 					<div class="col s12">
 						<img src="panel.png" class="headingIcon">
-						<h6 class="translate">Panel</h6>
+						<h6 class="translate sub-title heading">Panel</h6>
 					</div>
 				</div>
 				<div class="row">
@@ -477,7 +482,8 @@
 			<div id="tabImages"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Images</h6>
+						<img src="images.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Images</h6>
 					</div>
 				</div>
 				<div class="row showOnLoad">
@@ -557,11 +563,55 @@
 				</div>
 			</div>
 
+			<!-- ++++++++++ TAB: Lists ++++++++++ -->
+			<div id="tabLists"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<img src="lists.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Lists and Counters</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="listsActive" />
+						<label for="listsActive" class="translate" style="display: inline;">Activate Lists</label>
+						<span class="helper-text translate"></span>
+					</div>
+				</div>
+				<div class="col s12" id="tableLists">
+					<div class="row">
+						<div class="col s2 m1 l1">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="active" data-type="checkbox" class="translate" style="width:10px;">Active</th>
+									<th data-name="name" class="translate">Name</th>
+									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 center">
+						<h5 id="listsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! List Names have to be unique.</h5>
+					</div>
+				</div>
+			</div>
+
+
 			<!-- ++++++++++ TAB: Options ++++++++++ -->
 			<div id="tabOptions"    class="col s12 page">
 				<div class="row">
 					<div class="col s12">
-						<h6 class="translate sub-title">Options</h6>
+						<img src="options.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Options</h6>
 					</div>
 				</div>
 				<ul class="collapsible">
@@ -1498,6 +1548,8 @@
 							</div>
 							<div id="optionsLayoutDefaultIconsDeviceIcons">
 								<!-- will be created programmatically -->
+							</div>
+							<div class="divider" style="margin-bottom: 10px;">
 							</div>
 							<div class="row">
 								<div class="col s12">
@@ -2580,6 +2632,9 @@
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportPanel"><i class="material-icons left">file_download</i><i class="material-icons left">chrome_reader_mode</i><span class="translate">Export Panel</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportLists"><i class="material-icons left">file_download</i><i class="material-icons left">format_list_bulleted</i><span class="translate">Export Lists/Counters</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportOptions"><i class="material-icons left">file_download</i><i class="material-icons left">settings</i><span class="translate">Export Options</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
@@ -2605,13 +2660,19 @@
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportViewsAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">apps</i><span class="translate">Import Views (append to existing views)</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
-									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarOverwrite"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (overwrite exisiting toolbar)</span></a> 
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarOverwrite" data-overwrite="true"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (overwrite exisiting toolbar)</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportToolbarAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">more_horiz</i><span class="translate">Import Toolbar (append to exsisting toolbar)</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportPanel"><i class="material-icons left">file_upload</i><i class="material-icons left">chrome_reader_mode</i><span class="translate">Import Panel</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportListsOverwrite" data-overwrite="true"><i class="material-icons left">file_upload</i><i class="material-icons left">format_list_bulleted</i><span class="translate">Import Lists/Counters (overwrite exisiting Lists/Counters)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportListsAppend"><i class="material-icons left">file_upload</i><i class="material-icons left">format_list_bulleted</i><span class="translate">Import Lists/Counters (append to exisiting Lists/Counters)</span></a> 
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportOptions"><i class="material-icons left">file_upload</i><i class="material-icons left">settings</i><span class="translate">Import Options</span></a> 
@@ -3212,6 +3273,137 @@
             <div class="modal-footer">
                 <a class="modal-action waves-effect waves-green btn btn-set"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Close</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ListEdit -->
+        <div id="dialogListEdit" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditListIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit List:</span> <span id="dialogListEditName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Selectors</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditSelectors">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="modifier" data-type="select" data-options="add/Add;remove/Remove" class="translate">Modifier</th>
+									<th data-name="type" data-type="select" data-options="all/All;enum/Enumeration;enumWithChilds/Enumeration with Childs;id/ID;type/Object-Type;commonType/Type;commonRole/Role " class="translate">Type<th>
+									<th data-name="operator" data-type="select" data-options="eq/is;ne/is not;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="dialogListEditListFilterAliases" />
+						<label for="dialogListEditListFilterAliases" class="translate" style="display: inline;">Remove items, that have an alias in this list</label>
+						<span class="helper-text translate"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">This list will be processed from top to bottom. At any time you can add or remove items by defining conditions. This will generate your TOTAL_LIST.</span>
+							<span class="translate">Compare operators work case insensitive. You can also compare with multiple values at one time if you provide comma-separated list of arguments (for example: |remove|ID|doesn't end with|.error,.overheat| will remove all IDs that don't end with .error OR .overheat).</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Counters</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditCounters">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-name="type" data-type="select" data-options="value/Value;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
+									<th data-name="operator" data-type="select" data-options="eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s11 m8 l4">
+						<input class="value validate validateOnlyError" type="number" min="0" max="86400" id="dialogListEditListTriggerIntervall" placeholder="" />
+						<label for="dialogListEditListTriggerIntervall" class="translate">Update counters periodically every [seconds]</label>
+						<span class="helper-text" data-error="0 - 86400 [s]" data-success=""></span>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 center">
+						<h5 id="dialogListEditCountersNoDuplicatesAllowed" class="translate" style="display: none; color: red;">The first entry has to have a name.</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">You can define several counters that count for given conditions in your TOTAL_LIST.</span> 
+							 <span class="translate">You have to assign a name to every counter. If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled.</span> 
+							 <span class="translate">The counters update everytime a datapoint in your TOTAL_LIST is changes.</span> 
+							 <span class="translate">Additionally, you can set a specific time interval at which the counter will be updated.</span> 
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+				<!--div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Trigger</span>:
+						</h6>
+					</div>
+				</div-->
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>
 

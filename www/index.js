@@ -854,7 +854,7 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
-				coverImageNoReloadOnStateChange: {name: "No forced reload of cover-image on change of STATE", type: "checkbox", default: "false"}
+				coverImageNoReloadOnTitleChange: {name: "No forced reload of cover-image on change of TITLE", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -2801,6 +2801,7 @@ function checkCondition(value, condition, conditionValue){
 		} else {
 			return true;
 		}
+		break;
 
 		case "eqf":
 		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
@@ -6907,7 +6908,7 @@ function renderView(viewId, triggeredByReconnection){
 											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
 											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 											var coverImageReloadDelay = 50 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
-											var coverImageNoReloadOnStateChange = (getDeviceOptionValue(_device, "coverImageNoReloadOnStateChange") == "true");
+											var coverImageNoReloadOnTitleChange = (getDeviceOptionValue(_device, "coverImageNoReloadOnTitleChange") == "true");
 											var statePowerSwitch = getStateObject(_linkedPowerSwitchId);
 											var artist = getStateObject(_linkedArtistId);
 											var album = getStateObject(_linkedAlbumId);
@@ -7006,7 +7007,7 @@ function renderView(viewId, triggeredByReconnection){
 											viewShuffleFilterHideDeviceIfInactive();
 											stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
 											//Special: Also update viewUpdate-Functions with _linkedCoverUrlId datapoint (to update icons and background images that are updated via variable)
-											if (typeof viewUpdateFunctions[_linkedCoverUrlId] != udef && !(coverImageNoReloadOnStateChange && sourceId == _linkedStateId)) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
+											if (typeof viewUpdateFunctions[_linkedCoverUrlId] != udef && !(coverImageNoReloadOnTitleChange && sourceId == _linkedTitleId)) viewUpdateFunctions[_linkedCoverUrlId].forEach(function(viewUpdateFunction){
 												setTimeout(function(){ viewUpdateFunction(_linkedCoverUrlId, "forceReloadOfImage"); }, coverImageReloadDelay);
 											});
 											//Special: Also update icons and background-images, that contain the coverUrl and that are _not_ updated via variable

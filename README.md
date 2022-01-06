@@ -440,9 +440,10 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 	* 'widget-urlparameters'
 		* syntax: ``<meta name="widget-urlparameters" content="parameter/default value/description/type;parameter2/default value2/description2/type2"/>``
 		* The user will be asked for these parameters when chosing the widget as URL or BACKGROUND_URL or autocreates a widget
-		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``icon``, ``section`` or ``divider``
+		* ``type`` is optional and may be ``text`` (this is dafault), ``number``, ``checkbox``, ``color``, ``select``, ``multipleSelect``, ``combobox``, ``historyInstance``, ``datapoint``, ``icon``, ``section``, ``divider`` or ``hidden``
 		    * If type is ``select``, ``multipleSelect`` or ``combobox`` then you need to specify the possible options by adding ``/<selectOptions>``, where ``<selectOptions>`` is a string of the format ``<value1>,<caption1>/<value2>,<caption2>/...`` (combobox is a selectbox with the possibility to enter free text)
 		    * If type is ``number`` then can specify min, max and step-width by adding ``/<numberOptions>``, where ``<numberOptions>`` is a string of the format ``<min>,<max>,<step>``
+		    * Type ``hidden`` will be passed to the widget, but no configuration dialog is shown
 		* All these parameters will be given to the widget-website via an url-parameter-string (like ``widget.html?parameter=value&parameter2=value2``)
 		* You can use these settings inside your widget-website by requesting the url-parameters with a function like this:
 			````javascript
@@ -1203,6 +1204,52 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 </details>
 </details>
 
+## Lists and Counters
+iQontrol provides a powerful tool to create dynamic lists and counters of devices. 
+
+Thus, for example, all open windows can be automatically counted and also visualized in a list. Another example would be the lamps currently switched on in the house. 
+
+Service messages can also be created with it, for example by counting the devices that cannot be reached or the devices with an empty battery. iQontrol updates the lists then automatically.
+
+To visualize the counted devices, you can use the Device-Counter-Widget, which provides an easy but yet highly customizable interface. Experts could also use the JSON-Table-Interface, which provides even more configuration-possibilities (the Device-Counter-Widget is a simplified Version of the JSON-Table-Widget).
+
+### Create a List
+* Go to the LISTS/COUNTERS tab, create a list and give it a uniqe name. Click on **edit**
+* In the upper part you have to define the **selectors**: 
+	* This list will be processed from top to bottom. 
+	* At any time you can add or remove items by defining conditions. This will generate your **TOTAL_LIST**.
+	* Conditions consist of the following parts:
+		* Modifier: Add or Remove items to the list
+		* Type: Chose what to add or remove to or from the list. Type could be:
+			* All - selfexplaining
+			* Enumeration - filter by enumeration. You can define enumerations, like 'rooms', 'functions' or 'windows upper floor' in ioBroker admin adapter
+			* Enumeration with Childs - enumerations contain mostly only the device without it's datapoint. Therefore you will mostly use Enumeration with Childs, which includes the datapoints
+			* ID - filter by the ID of datapoints, for example remove IDs that don't end with .STATUS or .Level
+			* Object-Type - filter by Object-Type, which can be device, channel, state or enumeration
+			* Type - filter by the common.type of the datapoint, for example string, number, boolean
+			* Role - filter by the common.role of the datapoint. This is one of the most important filters, as every datapoint schould have a common.role that describes, what it stands for, for example switch, indicator.unreach or level.color.rgb. There are a plenty of common roles inside ioBroker, just have a look at your datapoints, the admin-adapter provides a list with all of them
+		* Compare operators: Some Types can be compared with a value. The operator stands for the comparation that is done, like 'is greater than', 'is lower than' or, for strings, 'begins with' or 'contains'.
+			* They work case insensitive (so 'Text' is 'text')
+			* You can also compare with multiple values at one time if you provide comma-separated list of arguments
+				* for example: ``|remove|ID|doesn't end with|.error,.overheat|`` will remove all IDs that don't end with '.error' OR with '.overheat'
+		* Value: The value the compare operator compares to
+	* You can also filter for Aliases: This is useful if you for example create a list that counts devices with low batteries. But you don't want it to count both, the original device, and its alias. So filter alias ensures, that datapoints, that have an alias in the list, will be removed
+* In the lower part you can define **counters**:
+	* You can define several counters that count for given conditions in your TOTAL_LIST. Lets say, you have created a list with all your LOW-BATTERY-Datapoints. Now you want to count, how many of them are active at the moment, i.e. have the status 'true'. That is done by a counter
+	* You have to assign a name to every counter
+		* If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled
+	* The counters update everytime a datapoint in your TOTAL_LIST is changes
+	* Additionally, you can set a specific time interval at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
+
+### Examples
+* This example shows, how to create an UNREACH-List:
+	![List Edit Unreach](img/list_edit_unreach.png)
+	* The selectors first add all Datapoints with the common role 'indicator.unreach'
+	* But it then removes all Datapoints with 'STICKY_' in it's ID (homematic provides the STICKY_UNREACH-Indicator, which we don't want to count)
+	* We filter duplicates by aliaes out
+	* And lastly, we count all datapoints with the value 'true'
+
+
 ## Modifying Datapoint Configuration
 You can modify the configuration of datapoints via the wrench-icon (or rather gear-icon in new react-ui) behind a datapoint in the device-configuration dialog or in objects-tab of iobroker. 
 
@@ -1617,9 +1664,13 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added import and export function to device options.
 * (sbormann) Added option to hide indicator icons if inactive, active or enlarged.
 * (sbormann) Added column-sorting to JSON-Table-Widget.
+* (sbormann) The JSON-Table-Widget accepts now simple lists (for example an array of datapoints).
 * (sbormann) Added widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.
 * (sbormann) Added option to media-player to disable forced reload of cover-image on TITLE-change.
 * (sbormann) Small adjustmets for ALTERNATIVE_COLORSPACE.
+* (sbormann) Added widget-replaceurl as a widget configuration parameter.
+* (sbormann) Introducing a powerful new feature: Lists and Counters.
+* (sbormann) Added Device-Counter-Widget.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
