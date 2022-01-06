@@ -33,6 +33,8 @@
 Fast Web-App for Visualization. 
 
 ![Screenshot](img/screenshot_kueche.png)
+![Screenshot](img/screenshot_kueche.png)
+<img src="img/screenshot_kueche.png" width="200">
 
 \
 ![Screenshot](img/screenshot_licht.png)
@@ -1247,8 +1249,8 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 	![List Edit Unreach](img/list_edit_unreach.png)
 	* The selectors first add all Datapoints with the common role 'indicator.unreach'
 	* But it then removes all Datapoints with 'STICKY_' in it's ID (homematic provides the STICKY_UNREACH-Indicator, which we don't want to count)
-	* We filter duplicates by aliaes out
-	* And lastly, we count all datapoints with the value 'true'
+	* It filters duplicates by aliaes out
+	* And lastly, it count all datapoints with the value 'true', that have that state for at least 15 seconds
 
 
 ## Modifying Datapoint Configuration
