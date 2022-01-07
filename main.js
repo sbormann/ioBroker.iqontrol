@@ -539,11 +539,11 @@ class Iqontrol extends utils.Adapter {
 				for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
 					this.log.debug("...processing counter condition " + (counterIndex + 1) + "...");
 					let counter = this.config.lists[configListIndex].counters[counterIndex];
-					if(counterIndex == 0 || (counter.name && counter.name != counterName)){ //Found new distict Counter (no new name was given)
+					if(counterIndex == 0 || (counter.name && counter.name != "&&" && counter.name != "||" && counter.name != counterName)){ //Found new distict Counter (new name was given)
 						counterName = counter.name;
 						counters.push({name: counterName, conditions: [], listItems: []});
 						//Create counter-objects
-						objName = listName + "_" + counterName;
+						objName = listName + " - " + counterName;
 						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
 						obj = {
 							"type": "state",
@@ -613,9 +613,15 @@ class Iqontrol extends utils.Adapter {
 							counter.repeatTimeouts = [];
 							//-- -- -- --Loop through the listItems the counter belongs to
 							for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
-								let conditionFulfilled = (counter.conditions.length > 0);
-								//-- -- -- -- --Loop through the conditions of this counter and check of this list item fulfills als conditions
+								let conditionFullyFulfilled = false;
+								let conditionPartFulfilled = (counter.conditions.length > 0);
+								//-- -- -- -- --Loop through the conditions of this counter and check, if this list item fulfills als conditions
 								for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
+									if(counter.conditions[conditionIndex].name == "||"){ //New condition OR-Partial
+										that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " |||| New OR-Part");
+										if(conditionPartFulfilled) conditionFullyFulfilled = true;
+										conditionPartFulfilled = true;
+									}
 									let value;
 									if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
 									switch(counter.conditions[conditionIndex].type){
@@ -646,12 +652,13 @@ class Iqontrol extends utils.Adapter {
 										break;
 									}
 									let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
-									conditionFulfilled = conditionFulfilled && check;
-									that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionFulfilled);
-									//if(!conditionFulfilled) break;
+									conditionPartFulfilled = conditionPartFulfilled && check;
+									that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionPartFulfilled);
+									//if(conditionFullyFulfilled) break;
 								}
-								that.log.silly("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFulfilled);
-								if(conditionFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
+								if(conditionPartFulfilled) conditionFullyFulfilled = true;
+								that.log.silly("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
+								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
 							that.log.info("COUNTER " + listName + "_" + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
