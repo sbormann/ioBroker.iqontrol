@@ -728,7 +728,6 @@ class Iqontrol extends utils.Adapter {
 					let _listIndex = listIndex;
 					lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
 						for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
-							that.log.silly("triggering counter function " + counterFunctionIndex + "/" + lists[_listIndex].counterFunctions.length + " of list " + lists[_listIndex].name + " by ID " + id + " NOW");
 							lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, id);
 						}
 						lists[_listIndex].timeout = false;
