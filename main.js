@@ -315,15 +315,15 @@ class Iqontrol extends utils.Adapter {
 		if(typeof this.config.lists != 'undefined'){
 			let that = this;
 			//Lists
-			for(let listIndex = 0; listIndex < this.config.lists.length; listIndex++){
-				if (!this.config.lists[listIndex].active) continue;
-				let listName = this.config.lists[listIndex].name || listIndex.toString();
+			for(let configListIndex = 0; configListIndex < this.config.lists.length; configListIndex++){
+				if (!this.config.lists[configListIndex].active) continue;
+				let listName = this.config.lists[configListIndex].name || configListIndex.toString();
 				this.log.debug("Creating List " + listName + "...");
 				let listItems = [];
 				//--Selectors
-				for(let selectorIndex = 0; selectorIndex < this.config.lists[listIndex].selectors.length; selectorIndex++){
+				for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors.length; selectorIndex++){
 					this.log.debug("...processing Selector " + (selectorIndex + 1) + "...");
-					let selector = this.config.lists[listIndex].selectors[selectorIndex];
+					let selector = this.config.lists[configListIndex].selectors[selectorIndex];
 					switch(selector.type){
 						case "all":
 						if(selector.modifier == "add") { //Add all
@@ -441,7 +441,7 @@ class Iqontrol extends utils.Adapter {
 					}
 				};
 				//--Filtering Aliases
-				if (this.config.lists[listIndex].filterAliases) {
+				if (this.config.lists[configListIndex].filterAliases) {
 					this.log.debug("...filtering Aliases...");
 					let removeTheseItems = [];
 					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
@@ -529,14 +529,16 @@ class Iqontrol extends utils.Adapter {
 				}, function(err){
 					that.log.error("ERROR creating " + objId + ": " + err);
 				});
-				lists.push({name: listName, listItems: listItems, counterFunctions: []});
+				//--Create entry the lists-Array
+				lists.push({name: listName, listItems: listItems, counterFunctions: [], timeout: false});
+				let listIndex = lists.length - 1;
 				//--Counters
 				let counters = [];
 				//-- --Find out, how many distict counters are in the list of conditions
 				let counterName = "";
-				for(let counterIndex = 0; counterIndex < this.config.lists[listIndex].counters.length; counterIndex++){
+				for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
 					this.log.debug("...processing counter condition " + (counterIndex + 1) + "...");
-					let counter = this.config.lists[listIndex].counters[counterIndex];
+					let counter = this.config.lists[configListIndex].counters[counterIndex];
 					if(counterIndex == 0 || (counter.name && counter.name != counterName)){ //Found new distict Counter (no new name was given)
 						counterName = counter.name;
 						counters.push({name: counterName, conditions: [], listItems: []});
@@ -602,112 +604,119 @@ class Iqontrol extends utils.Adapter {
 				//-- --Loop through the disctinct counters and create the counterFunctions
 				for(let counterIndex = 0; counterIndex < counters.length; counterIndex++){
 					this.log.debug("...processing counter " + listName + "_" + counters[counterIndex].name + "...");
-					let counter = counters[counterIndex];
-					//-- -- --Counter Function
-					let counterFunction = async function(_listItems, triggeredBy){
-						that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
-						counter.listItems = [];
-						counter.repeatTimeouts = [];
-						//-- -- -- --Loop through the listItems the counter belongs to
-						for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
-							let conditionFulfilled = (counter.conditions.length > 0);
-							//-- -- -- -- --Loop through the conditions of this counter and check of this list item fulfills als conditions
-							for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
-								let value;
-								if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
-								switch(counter.conditions[conditionIndex].type){
-									case "value":
-									value = usedStates[_listItems[_listItemIndex]]?.val;
-									break;
-									
-									case "ack":
-									value = usedStates[_listItems[_listItemIndex]]?.ack;
-									break;
-
-									case "lc":
-									value = usedStates[_listItems[_listItemIndex]]?.lc;
-									break;
-
-									case "lcs":
-									value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
-									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
-									break;
-
-									case "ts":
-									value = usedStates[_listItems[_listItemIndex]]?.ts;
-									break;
-
-									case "tss":
-									value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
-									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
-									break;
-								}
-								let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
-								conditionFulfilled = conditionFulfilled && check;
-								that.log.debug("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionFulfilled);
-								//if(!conditionFulfilled) break;
-							}
-							that.log.debug("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFulfilled);
-							if(conditionFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
-						}
-						//-- -- -- --Set States
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
-						await that.setStateValue(objId, counter.listItems.length);
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST";
-						await that.setStateValue(objId, counter.listItems.join(', '));
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
-						await that.setStateValue(objId, JSON.stringify(counter.listItems));
-						//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
-						counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
-						if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval" && triggeredBy != "triggeredByCreation") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
-							if(counter.repeatTimeouts[repeatTimeoutIndex] && !isNaN(counter.repeatTimeouts[repeatTimeoutIndex])){
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									let _listIndex = lists.length - 1;
-									that.log.debug("set trigger repeat-timeout for list " + lists[_listIndex].name + " to " + parseInt(counter.repeatTimeouts[repeatTimeoutIndex] + "s"));
-									setTimeout(function(){
-										if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
-											for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
-												lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByRepeatTimeout");
-											}
-											lists[_listIndex].timeout = false;
-										} , 200);
-									}, parseInt(counter.repeatTimeouts[repeatTimeoutIndex] * 1000));
-								})(); //<--End Closure
-							}
-						}
-						//-- -- -- --Call function now one time
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							let _listIndex = lists.length - 1;
-							setTimeout(function(){
-								if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
-									for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
-										lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByCreation");
-									}
-									lists[_listIndex].timeout = false;
-								} , 200);
-							}, 200);
-						})(); //<--End Closure
-					};
-					lists[lists.length - 1].counterFunctions.push(counterFunction);
-				}
-				//-- -- --Subscribe to the list items
-				this.log.debug("...subscribing to list items...");										
-				this.subscribeForeignStates(listItems);
-				//-- -- --Start trigger interval (if activated)
-				if (this.config.lists[listIndex].triggerInterval && !isNaN(this.config.lists[listIndex].triggerInterval)) {
-					this.log.debug("...starting trigger interval...");
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						let _listIndex = lists.length - 1;
+						let counter = counters[counterIndex];
+						//-- -- -- ###### Counter Function ######
+						let counterFunction = async function(_listItems, triggeredBy){
+							that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
+							counter.listItems = [];
+							counter.repeatTimeouts = [];
+							//-- -- -- --Loop through the listItems the counter belongs to
+							for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
+								let conditionFulfilled = (counter.conditions.length > 0);
+								//-- -- -- -- --Loop through the conditions of this counter and check of this list item fulfills als conditions
+								for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
+									let value;
+									if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
+									switch(counter.conditions[conditionIndex].type){
+										case "value":
+										value = usedStates[_listItems[_listItemIndex]]?.val;
+										break;
+										
+										case "ack":
+										value = usedStates[_listItems[_listItemIndex]]?.ack;
+										break;
+
+										case "lc":
+										value = usedStates[_listItems[_listItemIndex]]?.lc;
+										break;
+
+										case "lcs":
+										value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+										break;
+
+										case "ts":
+										value = usedStates[_listItems[_listItemIndex]]?.ts;
+										break;
+
+										case "tss":
+										value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+										break;
+									}
+									let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
+									conditionFulfilled = conditionFulfilled && check;
+									that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionFulfilled);
+									//if(!conditionFulfilled) break;
+								}
+								that.log.silly("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFulfilled);
+								if(conditionFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
+							}
+							that.log.info("COUNTER " + listName + "_" + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
+							//-- -- -- --Set States
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
+							await that.setStateValue(objId, counter.listItems.length);
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST";
+							await that.setStateValue(objId, counter.listItems.join(', '));
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
+							await that.setStateValue(objId, JSON.stringify(counter.listItems));
+							//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
+							counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
+							if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval" && triggeredBy != "triggeredByCreation") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
+								if(counter.repeatTimeouts[repeatTimeoutIndex] && !isNaN(counter.repeatTimeouts[repeatTimeoutIndex])){
+									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+										let _listIndex = listIndex;
+										that.log.debug("set trigger repeat-timeout for list " + lists[_listIndex].name + " to " + parseInt(counter.repeatTimeouts[repeatTimeoutIndex] + "s"));
+										setTimeout(function(){
+											if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+												for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+													lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByRepeatTimeout");
+												}
+												lists[_listIndex].timeout = false;
+											} , 200);
+										}, parseInt(counter.repeatTimeouts[repeatTimeoutIndex] * 1000));
+									})(); //<--End Closure
+								}
+							}
+						}; // End of ##### COUNTER FUNCTION #####
+						lists[listIndex].counterFunctions.push(counterFunction);
+					})(); //<--End Closure
+				}
+				//--Subscribe to the list items
+				this.log.debug("...subscribing to list items of list " + listName + " (" + listItems.length + " objects)...");										
+				this.subscribeForeignStates(listItems);
+				//--Start trigger interval (if activated)
+				if (this.config.lists[configListIndex].triggerInterval && !isNaN(this.config.lists[configListIndex].triggerInterval)) {
+					this.log.debug("...setting trigger interval of list " + listName + " to " + parseInt(that.config.lists[configListIndex].triggerInterval) + "s...");
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _listIndex = listIndex;
 						triggerIntervals.push(setInterval(function(){
-							if(!lists[listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+							if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
 								for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
 									lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByInterval");
 								}
 								lists[_listIndex].timeout = false;
 							} , 200);
-						}, parseInt(that.config.lists[listIndex].triggerInterval * 1000)));
+						}, parseInt(that.config.lists[configListIndex].triggerInterval * 1000)));
 					})(); //<--End Closure
+				} else {
+					this.log.debug("...no trigger interval for list " + listName + "...");
 				}
+				//--Call function now one time
+				this.log.debug("...triggering counter functions of list " + listName + " by creation...");
+				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					let _listIndex = listIndex;
+					setTimeout(function(){
+						if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+							for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){
+								that.log.silly("...triggering counter function " + counterFunctionIndex + "/" + lists[_listIndex].counterFunctions.length + " of list " + lists[_listIndex].name + " by creation NOW...");
+								lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByCreation");
+							}
+							lists[_listIndex].timeout = false;
+						} , 200);
+					}, 200);
+				})(); //<--End Closure
 			}
 		}
 	}
@@ -719,6 +728,7 @@ class Iqontrol extends utils.Adapter {
 					let _listIndex = listIndex;
 					lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
 						for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
+							that.log.silly("triggering counter function " + counterFunctionIndex + "/" + lists[_listIndex].counterFunctions.length + " of list " + lists[_listIndex].name + " by ID " + id + " NOW");
 							lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, id);
 						}
 						lists[_listIndex].timeout = false;
@@ -882,7 +892,7 @@ class Iqontrol extends utils.Adapter {
 				let filter = ["Images"];
 				let name = ids[i].substr(that.namespace.length + 1);
 				if(createdObjects.indexOf(name) >= 0 || filter.indexOf(name) >= 0){
-					that.log.debug("DeviceObject " + name + " ist still in use - not deleting.")
+					that.log.silly("DeviceObject " + name + " ist still in use - not deleting.")
 				} else {
 					if(name.substr(-1) !== '.'){
 						that.log.debug("<<<deleteObject " + name);
