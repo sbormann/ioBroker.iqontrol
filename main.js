@@ -533,84 +533,74 @@ class Iqontrol extends utils.Adapter {
 				lists.push({name: listName, listItems: listItems, counterFunctions: [], timeout: false});
 				let listIndex = lists.length - 1;
 				//--Counters
-				let counters = [];
-				//-- --Find out, how many distict counters are in the list of conditions
-				let counterName = "";
 				for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
-					this.log.debug("...processing counter condition " + (counterIndex + 1) + "...");
-					let counter = this.config.lists[configListIndex].counters[counterIndex];
-					if(counterIndex == 0 || (counter.name && counter.name != "&&" && counter.name != "||" && counter.name != counterName)){ //Found new distict Counter (new name was given)
-						counterName = counter.name;
-						counters.push({name: counterName, conditions: [], listItems: []});
-						//Create counter-objects
-						objName = listName + " - " + counterName;
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "number",
-								"role": "value",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "string",
-								"role": "value",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST_JSON";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "json",
-								"role": "value",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-					}
-					counters[counters.length - 1].conditions.push(counter);
-				}
-				//-- --Loop through the disctinct counters and create the counterFunctions
-				for(let counterIndex = 0; counterIndex < counters.length; counterIndex++){
-					this.log.debug("...processing counter " + listName + "_" + counters[counterIndex].name + "...");
+					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
+					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
+					//Create counter-objects
+					objName = listName + " - " + counterName;
+					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "number",
+							"role": "value",
+							"icon": "",
+							"unit": this.config.lists[configListIndex].counters[counterIndex].unit || ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST";
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "string",
+							"role": "value",
+							"icon": ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST_JSON";
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "json",
+							"role": "value",
+							"icon": ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						let counter = counters[counterIndex];
-						//-- -- -- ###### Counter Function ######
-						let counterFunction = async function(_listItems, triggeredBy){
+						let counter = that.config.lists[configListIndex].counters[counterIndex];
+						let counterFunction = async function(_listItems, triggeredBy){ // ###### Counter Function ###### --> 
 							that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
 							counter.listItems = [];
 							counter.repeatTimeouts = [];
+							counter.conditions = counter.conditions || [];
 							//-- -- -- --Loop through the listItems the counter belongs to
 							for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
 								let conditionFullyFulfilled = false;
@@ -686,7 +676,7 @@ class Iqontrol extends utils.Adapter {
 									})(); //<--End Closure
 								}
 							}
-						}; // End of ##### COUNTER FUNCTION #####
+						}; //<-- End of ##### COUNTER FUNCTION #####
 						lists[listIndex].counterFunctions.push(counterFunction);
 					})(); //<--End Closure
 				}

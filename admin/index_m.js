@@ -5882,8 +5882,8 @@ async function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit List
 			if (command === 'edit') {
-				//Edit List
 				$(this).on('click', function (event) {
 					var listIndex = $(this).data('index');
 					initDialog('dialogListEdit', function(){ //save dialog
@@ -5893,6 +5893,7 @@ async function load(settings, onChange) {
 						lists[listIndex].counters = dialogListEditCounters;
 						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
 						onTableListsReady();
+						onChange();
 					});
 					$('#dialogListEditName').html(lists[listIndex].name || "");
 					$('#dialogListEditListIndex').val(listIndex);
@@ -5905,6 +5906,24 @@ async function load(settings, onChange) {
 					$('#dialogListEdit').modal('open');
 					$('#dialogListEdit').css('z-index', modalZIndexCount++);
 					$('#dialogListEdit .modal-content').scrollTop(0);
+				});
+			}
+			//Copy List
+			if (command === 'content_copy') {
+				$(this).find('i').html('content_copy');
+				$(this).on('click', function (event) {
+					var listIndex = $(this).data('index');
+					var newName = "";
+					do {
+						if (newName) alert(_("No duplicates allowed! List Names have to be unique."));
+						var newName = prompt(_("Enter new unique name for list"), newName);
+						if(newName == "") return;
+					} while (lists.find(obj => obj.name === newName))
+					var newEntry = JSON.parse(JSON.stringify(lists[listIndex]));
+					newEntry.name = newName;
+					lists.push(newEntry);
+					values2table('tableLists', lists, onChange, onTableListsReady);	
+					onChange();
 				});
 			}
 			//Drag-Icon
@@ -5925,7 +5944,7 @@ async function load(settings, onChange) {
 					var oldVal = $(this).data('oldval');
 					var newVal = $(this).val();
 					changeListsCommonName(index, oldVal, newVal);
-					if (listsCheckDuplicates()) alert(_("No duplicates allowed! List Names have to be unique."));
+					listsCheckUnallowed();
 				});
 			}
 		});
@@ -5944,7 +5963,7 @@ async function load(settings, onChange) {
 			*/
 		}
 		//Check for duplicates
-		listsCheckDuplicates();
+		listsCheckUnallowed();
 		//Make table sortable
 		$("#tableLists tbody").sortable({
 			helper: fixHelper,
@@ -5973,23 +5992,27 @@ async function load(settings, onChange) {
 		});
 	}
 
-	//Check for duplicates
-	function listsCheckDuplicates(){
-		var duplicates = false;
-		var listsNames = [];
+	//Check for unallowed
+	function listsCheckUnallowed(){
+		var unallowed = false;
+		var listNames = [];
 		lists.forEach(function(element){
-			if (listsNames.indexOf(element.name) > -1){
-				duplicates = true;
+			if(element.name == "") {
+				unallowed = _("Lists must have a name.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && listNames.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! List Names have to be unique.");
 			} else {
-				listsNames.push(element.name);
+				listNames.push(element.name);
 			}
 		});
-		if (duplicates){
-			$('#listsNoDuplicatesAllowed').show();
+		if (unallowed){
+			$('#listsCheckUnallowed').html(unallowed).show();
+			return true;
 		} else {
-			$('#listsNoDuplicatesAllowed').hide();
+			$('#listsCheckUnallowed').hide();
 		}
-		return duplicates;
+		return false;
 	}
 
 	//Enhance tableDialogListsEditSelectors with functions
@@ -6118,6 +6141,24 @@ async function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit Counter
+			if (command === 'edit') {
+				$(this).on('click', function (event) {
+					var counterIndex = $(this).data('index');
+					initDialog('dialogListEditCounter', function(){ //save dialog
+						var counterIndex = $('#dialogListEditCounterIndex').val();
+						dialogListEditCounters[counterIndex].conditions = dialogListEditCounterConditions;
+						onTableDialogListsEditCountersReady();
+					});
+					$('#dialogListEditCounterName').html(dialogListEditCounters[counterIndex].name || "");
+					$('#dialogListEditCounterIndex').val(counterIndex);
+					dialogListEditCounterConditions = JSON.parse(JSON.stringify(dialogListEditCounters[counterIndex].conditions || []));
+					values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
+					$('#dialogListEditCounter').modal('open');
+					$('#dialogListEditCounter').css('z-index', modalZIndexCount++);
+					$('#dialogListEditCounter .modal-content').scrollTop(0);
+				});
+			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
@@ -6129,16 +6170,12 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'name') {
 				$(this).on('change', function (){
-					if (dialogListsEditCounterCheckDuplicates() == null) {
-						alert(_("The first entry has to have a name."));
-					} else if (dialogListsEditCounterCheckDuplicates()) {
-						alert(_("No duplicates allowed! Counter Names have to be unique."));
-					}
+					dialogListsEditCounterCheckUnallowed()
 				});
 			}
 		});
-		//Check for duplicates
-		dialogListsEditCounterCheckDuplicates();
+		//Check for unallowed
+		dialogListsEditCounterCheckUnallowed();
 		//Make table sortable
 		$("#tableDialogListEditCounters tbody").sortable({
 			helper: fixHelper,
@@ -6167,27 +6204,83 @@ async function load(settings, onChange) {
 		});
 	}
 
-	//Check for duplicates
-	function dialogListsEditCounterCheckDuplicates(){
-		if (dialogListEditCounters[0] && typeof dialogListEditCounters[0].name != udef && !dialogListEditCounters[0].name){
-			$('#dialogListEditCountersNoDuplicatesAllowed').html(_("The first entry has to have a name.")).show();
-			return null;
-		}
-		var duplicates = false;
+	//Check for unallowed
+	function dialogListsEditCounterCheckUnallowed(){
+		var unallowed = false;
 		var counterNames = [];
 		dialogListEditCounters.forEach(function(element){
-			if (element.name && counterNames.indexOf(element.name) > -1){
-				duplicates = true;
+			if(element.name == "") {
+				unallowed = _("Counters must have a name.");
+			}
+			if(element.name == "TOTAL") {
+				unallowed = _("Counter-Name must not be TOTAL.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && counterNames.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! Counter-Names have to be unique.");
 			} else {
 				counterNames.push(element.name);
 			}
 		});
-		if (duplicates){
-			$('#dialogListEditCountersNoDuplicatesAllowed').html(_("No duplicates allowed! Counter-Names have to be unique.")).show();
+		if (unallowed){
+			$('#dialogListEditCountersCheckUnAllowed').html(unallowed).show();
+			return true;
 		} else {
-			$('#dialogListEditCountersNoDuplicatesAllowed').hide();
+			$('#dialogListEditCountersCheckUnAllowed').hide();
 		}
-		return duplicates;
+		return false;
+	}
+	
+	function onTableDialogListsEditCounterConditionsReady(){
+		var $div = $('#tableDialogListEditCounterConditions');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Selectbox-Functions
+		$lines.find('select[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'modifier') {
+				var index = $(this).data('index');
+				if (index == 0) {
+					$(this).prop('disabled', true).select().parents('.select-wrapper').css('opacity', '0');
+				} else {
+					$(this).prop('disabled', false).select().parents('.select-wrapper').css('opacity', '1');
+				}
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogListEditCounterConditions tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCounterConditions tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCounterConditions').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCounterConditions[sequence[i]]);
+				}
+				dialogListEditCounterConditions = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
+				$("#tableDialogListEditCounterConditions tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
 	}
 	
 	//++++++++++ OPTIONS ++++++++++

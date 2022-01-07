@@ -592,7 +592,7 @@
 								<tr>
 									<th data-name="active" data-type="checkbox" class="translate" style="width:10px;">Active</th>
 									<th data-name="name" class="translate">Name</th>
-									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+									<th data-buttons="edit content_copy delete drag_handle" style="width:135px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -600,9 +600,43 @@
 				</div>
 				<div class="row">
 					<div class="col s12 center">
-						<h5 id="listsNoDuplicatesAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! List Names have to be unique.</h5>
+						<h5 id="listsCheckUnallowed" class="translate" style="display: none; color: red;">No duplicates allowed! List Names have to be unique.</h5>
 					</div>
 				</div>
+				<!--div class="section">
+					<div class="divider"></div>
+				</div>			
+				<div class="row">
+					<div class="col s12">
+						<img src="combinations.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Combinations</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableCombinations">
+					<div class="row">
+						<div class="col s2 m1 l1">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="active" data-type="checkbox" class="translate" style="width:10px;">Active</th>
+									<th data-name="name" class="translate">Name</th>
+									<th data-buttons="edit content_copy delete drag_handle" style="width:135px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 center">
+						<h5 id="combinationsCheckUnallowed" class="translate" style="display: none; color: red;">No duplicates allowed! Combination Names have to be unique.</h5>
+					</div>
+				</div-->
 			</div>
 
 
@@ -3353,10 +3387,8 @@
 							<thead>
 								<tr>
 									<th data-name="name" class="translate">Name</th>
-									<th data-name="type" data-type="select" data-options="value/Value;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
-									<th data-name="operator" data-type="select" data-options="eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
-									<th data-name="value" class="translate">Value</th>
-									<th data-buttons="delete drag_handle" style="width:75px;"></th>
+									<th data-name="unit" class="translate">Unit</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -3376,30 +3408,72 @@
 				</div>
 				<div class="row">
 					<div class="col s12 center">
-						<h5 id="dialogListEditCountersNoDuplicatesAllowed" class="translate" style="display: none; color: red;">The first entry has to have a name.</h5>
+						<h5 id="dialogListEditCountersCheckUnAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! Counter-Names have to be unique.</h5>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
 						<p>
-							<span class="translate">You can define several counters that count for given conditions in your TOTAL_LIST.</span> 
-							 <span class="translate">You have to assign a name to every counter. If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled.</span> 
+							<span class="translate">You can define several counters that count for given conditions in your TOTAL_LIST.</span>
 							 <span class="translate">The counters update everytime a datapoint in your TOTAL_LIST is changes.</span> 
 							 <span class="translate">Additionally, you can set a specific time interval at which the counter will be updated.</span> 
 							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
 						</p>
 					</div>
 				</div>
-				<!--div class="section">
-					<div class="divider"></div>
-				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ListEditCounter -->
+        <div id="dialogListEditCounter" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditCounterIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Counter:</span> <span id="dialogListEditCounterName"></span></h6>
+                    </div>
+                </div>
 				<div class="row">
 					<div class="col s12">
 						<h6 class="sub-title">
-							<span class="translate">Trigger</span>:
+							<span class="translate">Conditions</span>:
 						</h6>
 					</div>
-				</div-->
+				</div>
+				<div class="col s12" id="tableDialogListEditCounterConditions">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="modifier" data-type="select" data-options="&&/   And;||/Or" class="translate">Modifier</th>
+									<th data-name="type" data-type="select" data-options="value/Value;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
+									<th data-name="operator" data-type="select" data-options="eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">The conditions are processed from top to bottom.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>

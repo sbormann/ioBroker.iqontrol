@@ -1223,7 +1223,11 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 * In the lower part you can define **counters**:
 	* You can define several counters that count for given conditions in your TOTAL_LIST. Lets say, you have created a list with all your LOW-BATTERY-Datapoints. Now you want to count, how many of them are active at the moment, i.e. have the status 'true'. That is done by a counter
 	* You have to assign a name to every counter
-		* If you leave the name-field empty in the subsequent lines, all conditions belong to the counter above and all have to be fulfilled
+	* You can assign a unit to every counter
+	* You need to define at least one condition for every counter. To do so, click on the edit-icon:
+		* Add as many conditions, as you like
+		* The conditions are processed from top to bottom
+		* The conditions can be linked with AND or with OR operators, so you can build complex conditions for your counter
 	* The counters update everytime a datapoint in your TOTAL_LIST is changes
 	* Additionally, you can set a specific **time interval** at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
 * The result of the lists and counters are saved in datapoints, which you will find under iqontrol.x.Lists
