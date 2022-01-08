@@ -51,7 +51,7 @@
 		.multiple-select-dropdown.dropdown-content li span, .multiple-select-dropdown.dropdown-content li span label { pointer-events: none; }
 		.CodeMirror{ width: 100%; width: calc(100% - 25px); height: unset !important; position: absolute; }
 		.collapsible-body .row:not(:first-child) p.sub-title{ padding-top:15px; }
-		h6.heading { background: rgba(0,0,0,0.02); padding: 5px 0 7px 5px; box-shadow: rgba(0,0,0,0.25) 1px 1px 2px 0px; }
+		h6.heading { background: rgba(0,0,0,0.02); margin-left:-35px; padding: 5px 0 7px 40px; box-shadow: rgba(0,0,0,0.25) 1px 1px 2px 0px; }
 		.headingIcon{ width:48px; height:48px; float:right; }
 		.tabs { scrollbar-width: 2px; } .tabs::-webkit-scrollbar { height: 2px; }
 	</style>
@@ -603,42 +603,7 @@
 						<h5 id="listsCheckUnallowed" class="translate" style="display: none; color: red;">No duplicates allowed! List Names have to be unique.</h5>
 					</div>
 				</div>
-				<!--div class="section">
-					<div class="divider"></div>
-				</div>			
-				<div class="row">
-					<div class="col s12">
-						<img src="combinations.png"  class="headingIcon">
-						<h6 class="translate sub-title heading">Combinations</h6>
-					</div>
-				</div>
-				<div class="col s12" id="tableCombinations">
-					<div class="row">
-						<div class="col s2 m1 l1">
-							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
-								<i class="material-icons">add</i>
-							</button>
-						</div>
-					</div>
-					<div class="col s12 m12 l12">
-						<table class="table-values highlight" style="width: 90%;">
-							<thead>
-								<tr>
-									<th data-name="active" data-type="checkbox" class="translate" style="width:10px;">Active</th>
-									<th data-name="name" class="translate">Name</th>
-									<th data-buttons="edit content_copy delete drag_handle" style="width:135px;"></th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12 center">
-						<h5 id="combinationsCheckUnallowed" class="translate" style="display: none; color: red;">No duplicates allowed! Combination Names have to be unique.</h5>
-					</div>
-				</div-->
 			</div>
-
 
 			<!-- ++++++++++ TAB: Options ++++++++++ -->
 			<div id="tabOptions"    class="col s12 page">
@@ -3321,9 +3286,8 @@
                 </div>
 				<div class="row">
 					<div class="col s12">
-						<h6 class="sub-title">
-							<span class="translate">Selectors</span>:
-						</h6>
+						<img src="lists.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Selectors</h6>
 					</div>
 				</div>
 				<div class="col s12" id="tableDialogListEditSelectors">
@@ -3369,9 +3333,8 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
-						<h6 class="sub-title">
-							<span class="translate">Counters</span>:
-						</h6>
+						<img src="counters.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Counters</h6>
 					</div>
 				</div>
 				<div class="col s12" id="tableDialogListEditCounters">
@@ -3407,11 +3370,6 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s12 center">
-						<h5 id="dialogListEditCountersCheckUnAllowed" class="translate" style="display: none; color: red;">No duplicates allowed! Counter-Names have to be unique.</h5>
-					</div>
-				</div>
-				<div class="row">
 					<div class="col s12">
 						<p>
 							<span class="translate">You can define several counters that count for given conditions in your TOTAL_LIST.</span>
@@ -3421,8 +3379,84 @@
 						</p>
 					</div>
 				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<img src="calculations.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Calculations</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditCalculations">
+					<div class="row">
+						<div class="col s2 m1 l1">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-name="unit" class="translate">Unit</th>
+									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Calculations can be used to combine numeric datapoints and calculate for example the sum of different counters.</span>
+							 <span class="translate">You can also combine objects like arrays (lists) by addition or subtraction.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>			
+				<div class="row">
+					<div class="col s12">
+						<img src="combinations.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Combinations</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditCombinations">
+					<div class="row">
+						<div class="col s2 m1 l1">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-name="unit" class="translate">Unit</th>
+									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Combinations can be used to combine different datapoints with text.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
+				<span id="dialogListEditCheckUnallowed" class="translate" style="display: none; color: red;"></span>&nbsp;
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3480,6 +3514,119 @@
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>
+
+		<!-- DIALOG: ListEditCalculation -->
+        <div id="dialogListEditCalculation" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditCalculationIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Calculation:</span> <span id="dialogListEditCalculationName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Calculation</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditCalculationSteps">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="operator" data-type="select" data-options="+;-;*;\/" class="translate">Operator</th>
+									<th data-name="id" class="translate">ID</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Calculations can be used to combine numeric datapoints and calculate for example the sum of different counters.</span>
+							 <span class="translate">You can also combine objects like arrays (lists) by addition or subtraction.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ListEditCombination -->
+        <div id="dialogListEditCombination" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditCombinationIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Combination:</span> <span id="dialogListEditCombinationName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Combination</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12" id="tableDialogListEditCombinationSteps">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="prefix" class="translate">Prefix</th>
+									<th data-name="id" class="translate">ID</th>
+									<th data-name="postfix" class="translate">Postfix</th>
+									<th data-name="onlyIfOperator" data-type="select" data-options="/;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Only if</th>
+									<th data-name="onlyIfValue"></th>
+									<th data-name="onlyIfJustPrefix" data-type="checkbox">Just Prefix</th>
+									<th data-name="onlyIfElse">Else</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Combinations can be used to combine different datapoints with text.</span>
+							 <span class="translate">The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.</span>
+							 <span class="translate">In the 'Only If'-Section you can define a condition, if the line schould be placed or not.</span>
+							 <span class="translate">By activating 'Just Prefix' just the prefix is placed (not the value nor the postfix), if the condition matches.</span>
+							 <span class="translate">You can also specify a 'Else' text, that will be placed, if the condition doesn't match.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
 
  		<!-- DIALOG: Generic -->
         <div id="dialogGeneric" class="modal modal-fixed-footer">

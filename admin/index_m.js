@@ -2483,6 +2483,8 @@ async function load(settings, onChange) {
 		customCSS += ".m .dropdown-content li>span { color: rgba(0, 0, 0, 0.86); }";
 		customCSS += ".m .dropdown-content li>a { color: rgba(0, 0, 0, 0.86); }";
 		customCSS += ".m [type=checkbox].filled-in:checked+span:not(.lever):after { border: #164477; background-color: #164477; }";
+
+		customCSS += ".m.react-dark .btn, .m.react-dark .btn-small { background-color: #272727; }";
 		
 		addCustomCSS(customCSS, "reactCSS");
 		$('.table-button-add').addClass('grey lighten-2');
@@ -5875,6 +5877,8 @@ async function load(settings, onChange) {
 	//Enhance tableLists with functions
 	var dialogListEditSelectors;
 	var dialogListEditCounters;
+	var dialogListEditCalculations;
+	var dialogListEditCombinations;
 	function onTableListsReady(){
 		var $div = $('#tableLists');
 		var $table = $div.find('.table-values');
@@ -5892,6 +5896,8 @@ async function load(settings, onChange) {
 						lists[listIndex].filterAliases = $('#dialogListEditListFilterAliases').prop('checked');
 						lists[listIndex].counters = dialogListEditCounters;
 						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
+						lists[listIndex].calculations = dialogListEditCalculations;
+						lists[listIndex].combinations = dialogListEditCombinations;
 						onTableListsReady();
 						onChange();
 					});
@@ -5903,6 +5909,10 @@ async function load(settings, onChange) {
 					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
 					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
 					$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");
+					dialogListEditCalculations = JSON.parse(JSON.stringify(lists[listIndex].calculations || []));
+					values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
+					dialogListEditCombinations = JSON.parse(JSON.stringify(lists[listIndex].combinations || []));
+					values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
 					$('#dialogListEdit').modal('open');
 					$('#dialogListEdit').css('z-index', modalZIndexCount++);
 					$('#dialogListEdit .modal-content').scrollTop(0);
@@ -5917,7 +5927,7 @@ async function load(settings, onChange) {
 					do {
 						if (newName) alert(_("No duplicates allowed! List Names have to be unique."));
 						var newName = prompt(_("Enter new unique name for list"), newName);
-						if(newName == "") return;
+						if(newName == "" || newName == false || newName == null) return;
 					} while (lists.find(obj => obj.name === newName))
 					var newEntry = JSON.parse(JSON.stringify(lists[listIndex]));
 					newEntry.name = newName;
@@ -6134,6 +6144,7 @@ async function load(settings, onChange) {
 	}
 
 	//Enhance tableDialogListsEditCounters with functions
+	var dialogListEditCounterConditions;
 	function onTableDialogListsEditCountersReady(){
 		var $div = $('#tableDialogListEditCounters');
 		var $table = $div.find('.table-values');
@@ -6170,12 +6181,12 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'name') {
 				$(this).on('change', function (){
-					dialogListsEditCounterCheckUnallowed()
+					dialogListsEditCheckUnallowed()
 				});
 			}
 		});
 		//Check for unallowed
-		dialogListsEditCounterCheckUnallowed();
+		dialogListsEditCheckUnallowed();
 		//Make table sortable
 		$("#tableDialogListEditCounters tbody").sortable({
 			helper: fixHelper,
@@ -6204,32 +6215,7 @@ async function load(settings, onChange) {
 		});
 	}
 
-	//Check for unallowed
-	function dialogListsEditCounterCheckUnallowed(){
-		var unallowed = false;
-		var counterNames = [];
-		dialogListEditCounters.forEach(function(element){
-			if(element.name == "") {
-				unallowed = _("Counters must have a name.");
-			}
-			if(element.name == "TOTAL") {
-				unallowed = _("Counter-Name must not be TOTAL.");
-			}
-			if (element.name && element.name != "&&" && element.name != "||" && counterNames.indexOf(element.name) > -1){
-				unallowed = _("No duplicates allowed! Counter-Names have to be unique.");
-			} else {
-				counterNames.push(element.name);
-			}
-		});
-		if (unallowed){
-			$('#dialogListEditCountersCheckUnAllowed').html(unallowed).show();
-			return true;
-		} else {
-			$('#dialogListEditCountersCheckUnAllowed').hide();
-		}
-		return false;
-	}
-	
+	//Enhance tableDialogListsEditCounterConditions with functions	
 	function onTableDialogListsEditCounterConditionsReady(){
 		var $div = $('#tableDialogListEditCounterConditions');
 		var $table = $div.find('.table-values');
@@ -6281,6 +6267,332 @@ async function load(settings, onChange) {
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
 		});
+	}
+
+	//Enhance tableDialogListsEditCalculations with functions	
+	var dialogListEditCalculationSteps;
+	function onTableDialogListsEditCalculationsReady(){
+		var $div = $('#tableDialogListEditCalculations');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Calculation
+			if (command === 'edit') {
+				$(this).on('click', function (event) {
+					var calculationIndex = $(this).data('index');
+					initDialog('dialogListEditCalculation', function(){ //save dialog
+						var calculationIndex = $('#dialogListEditCalculationIndex').val();
+						dialogListEditCalculations[calculationIndex].calculationSteps = dialogListEditCalculationSteps;
+						onTableDialogListsEditCalculationsReady();
+					});
+					$('#dialogListEditCalculationName').html(dialogListEditCalculations[calculationIndex].name || "");
+					$('#dialogListEditCalculationIndex').val(calculationIndex);
+					dialogListEditCalculationSteps = JSON.parse(JSON.stringify(dialogListEditCalculations[calculationIndex].calculationSteps || []));
+					values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
+					$('#dialogListEditCalculation').modal('open');
+					$('#dialogListEditCalculation').css('z-index', modalZIndexCount++);
+					$('#dialogListEditCalculation .modal-content').scrollTop(0);
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Name changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'name') {
+				$(this).on('change', function (){
+					dialogListsEditCheckUnallowed()
+				});
+			}
+		});
+		//Check for unallowed
+		dialogListsEditCheckUnallowed();
+		//Make table sortable
+		$("#tableDialogListEditCalculations tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCalculations tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCalculations').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCalculations[sequence[i]]);
+				}
+				dialogListEditCalculations = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
+				$("#tableDialogListEditCalculations tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditCalculationSteps with functions	
+	function onTableDialogListsEditCalculationStepsReady(){
+		var $div = $('#tableDialogListEditCalculationSteps');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'id') {
+				var index = $(this).data('index');
+				$(this).prop('id', 'tableDialogListEditCalculationSteps_' + index);
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit ID
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var index = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogListEditCalculationSteps_' + index);
+					initSelectId(function (sid) {
+						sid.selectId('show', ($('#tableDialogListEditCalculationSteps_' + index).val() || adapter + "." + instance + ".Lists"), {type: 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});					
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogListEditCalculationSteps tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCalculationSteps tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCalculationSteps').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCalculationSteps[sequence[i]]);
+				}
+				dialogListEditCalculationSteps = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
+				$("#tableDialogListEditCalculationSteps tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditCombinations with functions	
+	var dialogListEditCombinationSteps;
+	function onTableDialogListsEditCombinationsReady(){
+		var $div = $('#tableDialogListEditCombinations');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Combination
+			if (command === 'edit') {
+				$(this).on('click', function (event) {
+					var combinationIndex = $(this).data('index');
+					initDialog('dialogListEditCombination', function(){ //save dialog
+						var combinationIndex = $('#dialogListEditCombinationIndex').val();
+						dialogListEditCombinations[combinationIndex].combinationSteps = dialogListEditCombinationSteps;
+						onTableDialogListsEditCombinationsReady();
+					});
+					$('#dialogListEditCombinationName').html(dialogListEditCombinations[combinationIndex].name || "");
+					$('#dialogListEditCombinationIndex').val(combinationIndex);
+					dialogListEditCombinationSteps = JSON.parse(JSON.stringify(dialogListEditCombinations[combinationIndex].combinationSteps || []));
+					values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
+					$('#dialogListEditCombination').modal('open');
+					$('#dialogListEditCombination').css('z-index', modalZIndexCount++);
+					$('#dialogListEditCombination .modal-content').scrollTop(0);
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Name changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'name') {
+				$(this).on('change', function (){
+					dialogListsEditCheckUnallowed()
+				});
+			}
+		});
+		//Check for unallowed
+		dialogListsEditCheckUnallowed();
+		//Make table sortable
+		$("#tableDialogListEditCombinations tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCombinations tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCombinations').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCombinations[sequence[i]]);
+				}
+				dialogListEditCombinations = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
+				$("#tableDialogListEditCombinations tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditCombinationSteps with functions	
+	function onTableDialogListsEditCombinationStepsReady(){
+		var $div = $('#tableDialogListEditCombinationSteps');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'id') {
+				var index = $(this).data('index');
+				$(this).prop('id', 'tableDialogListEditCombinationSteps_' + index);
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit ID
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var index = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogListEditCombinationSteps_' + index);
+					initSelectId(function (sid) {
+						sid.selectId('show', ($('#tableDialogListEditCombinationSteps_' + index).val() || adapter + "." + instance + ".Lists"), {type: 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});					
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogListEditCombinationSteps tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditCombinationSteps tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditCombinationSteps').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditCombinationSteps[sequence[i]]);
+				}
+				dialogListEditCombinationSteps = tableResorted;
+				onChange();
+				values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
+				$("#tableDialogListEditCombinationSteps tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Check for unallowed
+	function dialogListsEditCheckUnallowed(){
+		var unallowed = false;
+		var names = [];
+		if(dialogListEditCounters && dialogListEditCounters.length) dialogListEditCounters.forEach(function(element){
+			if(element.name == "") {
+				unallowed = _("All items have to have a name.");
+			}
+			if(element.name == "TOTAL") {
+				unallowed = _("Names must not be TOTAL.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && names.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! Names have to be unique.");
+			} else {
+				names.push(element.name);
+			}
+		});
+		if(!unallowed && dialogListEditCalculations && dialogListEditCalculations.length) dialogListEditCalculations.forEach(function(element){
+			if(element.name == "") {
+				unallowed = _("All items have to have a name.");
+			}
+			if(element.name == "TOTAL") {
+				unallowed = _("Names must not be TOTAL.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && names.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! Names have to be unique.");
+			} else {
+				names.push(element.name);
+			}
+		});
+		if(!unallowed && dialogListEditCombinations && dialogListEditCombinations.length) dialogListEditCombinations.forEach(function(element){
+			if(element.name == "") {
+				unallowed = _("All items have to have a name.");
+			}
+			if(element.name == "TOTAL") {
+				unallowed = _("Names must not be TOTAL.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && names.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! Names have to be unique.");
+			} else {
+				names.push(element.name);
+			}
+		});
+		if (unallowed){
+			$('#dialogListEditCheckUnallowed').html(unallowed).show();
+			$('#dialogListEdit .btn-set').addClass('disabled');
+			return true;
+		} else {
+			$('#dialogListEditCheckUnallowed').hide();
+			$('#dialogListEdit .btn-set').removeClass('disabled');
+		}
+		return false;
 	}
 	
 	//++++++++++ OPTIONS ++++++++++

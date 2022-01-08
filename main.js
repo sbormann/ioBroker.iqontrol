@@ -320,7 +320,7 @@ class Iqontrol extends utils.Adapter {
 				let listName = this.config.lists[configListIndex].name || configListIndex.toString();
 				this.log.debug("Creating List " + listName + "...");
 				let listItems = [];
-				//--Selectors
+				//--##### Selectors #####
 				for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors.length; selectorIndex++){
 					this.log.debug("...processing Selector " + (selectorIndex + 1) + "...");
 					let selector = this.config.lists[configListIndex].selectors[selectorIndex];
@@ -530,12 +530,23 @@ class Iqontrol extends utils.Adapter {
 					that.log.error("ERROR creating " + objId + ": " + err);
 				});
 				//--Create entry the lists-Array
-				lists.push({name: listName, listItems: listItems, counterFunctions: [], timeout: false});
+				lists.push({
+					name: listName, 
+					listItems: listItems, 
+					counterFunctions: [], 
+					counterTimeout: false,
+					calculationItems: [],
+					calculationFunctions: [],
+					calculationTimeouts: [], 
+					combinationItems: [],
+					combinationFunctions: [],
+					combinationTimeouts: []
+				});
 				let listIndex = lists.length - 1;
-				//--Counters
-				for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
-					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
+				//--##### Counters #####
+				if(this.config.lists[configListIndex].counters) for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
 					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
+					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
 					//Create counter-objects
 					objName = listName + " - " + counterName;
 					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
@@ -596,7 +607,7 @@ class Iqontrol extends utils.Adapter {
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let counter = that.config.lists[configListIndex].counters[counterIndex];
-						let counterFunction = async function(_listItems, triggeredBy){ // ###### Counter Function ###### --> 
+						let counterFunction = async function(_listItems, triggeredBy){ // ###### COUNTER FUNCTION ###### --> 
 							that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
 							counter.listItems = [];
 							counter.repeatTimeouts = [];
@@ -650,7 +661,7 @@ class Iqontrol extends utils.Adapter {
 								that.log.silly("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
-							that.log.info("COUNTER " + listName + "_" + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
+							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
 							await that.setStateValue(objId, counter.listItems.length);
@@ -666,11 +677,11 @@ class Iqontrol extends utils.Adapter {
 										let _listIndex = listIndex;
 										that.log.debug("set trigger repeat-timeout for list " + lists[_listIndex].name + " to " + parseInt(counter.repeatTimeouts[repeatTimeoutIndex] + "s"));
 										setTimeout(function(){
-											if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+											if(!lists[_listIndex].counterTimeout) lists[_listIndex].counterTimeout = setTimeout(function(){ //Debouncing
 												for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
 													lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByRepeatTimeout");
 												}
-												lists[_listIndex].timeout = false;
+												lists[_listIndex].counterTimeout = false;
 											} , 200);
 										}, parseInt(counter.repeatTimeouts[repeatTimeoutIndex] * 1000));
 									})(); //<--End Closure
@@ -681,7 +692,7 @@ class Iqontrol extends utils.Adapter {
 					})(); //<--End Closure
 				}
 				//--Subscribe to the list items
-				this.log.debug("...subscribing to list items of list " + listName + " (" + listItems.length + " objects)...");										
+				this.log.debug("...subscribing to items of list " + listName + " (" + listItems.length + " objects)...");										
 				this.subscribeForeignStates(listItems);
 				//--Start trigger interval (if activated)
 				if (this.config.lists[configListIndex].triggerInterval && !isNaN(this.config.lists[configListIndex].triggerInterval)) {
@@ -689,11 +700,11 @@ class Iqontrol extends utils.Adapter {
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let _listIndex = listIndex;
 						triggerIntervals.push(setInterval(function(){
-							if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+							if(!lists[_listIndex].counterTimeout) lists[_listIndex].counterTimeout = setTimeout(function(){ //Debouncing
 								for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
 									lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByInterval");
 								}
-								lists[_listIndex].timeout = false;
+								lists[_listIndex].counterTimeout = false;
 							} , 200);
 						}, parseInt(that.config.lists[configListIndex].triggerInterval * 1000)));
 					})(); //<--End Closure
@@ -705,31 +716,267 @@ class Iqontrol extends utils.Adapter {
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					let _listIndex = listIndex;
 					setTimeout(function(){
-						if(!lists[_listIndex].timeout) lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+						if(!lists[_listIndex].counterTimeout) lists[_listIndex].counterTimeout = setTimeout(function(){ //Debouncing
 							for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){
 								that.log.silly("...triggering counter function " + counterFunctionIndex + "/" + lists[_listIndex].counterFunctions.length + " of list " + lists[_listIndex].name + " by creation NOW...");
 								lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, "triggeredByCreation");
 							}
-							lists[_listIndex].timeout = false;
+							lists[_listIndex].counterTimeout = false;
 						} , 200);
 					}, 200);
 				})(); //<--End Closure
+				//--##### Calculations #####
+				if(this.config.lists[configListIndex].calculations) for(let calculationIndex = 0; calculationIndex < this.config.lists[configListIndex].calculations.length; calculationIndex++){
+					this.log.debug("...processing calculation " + listName + "_" + this.config.lists[configListIndex].calculations[calculationIndex].name + "...");
+					let calculationName = this.config.lists[configListIndex].calculations[calculationIndex].name || "Calculation " + calculationIndex.toString();
+					//Create calculation-object
+					objName = listName + " - " + calculationName;
+					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculationName);
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "Calculation created by iQontrol",
+							"type": "number",
+							"role": "value",
+							"icon": "",
+							"unit": this.config.lists[configListIndex].calculations[calculationIndex].unit || ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					//-- --Get used IDs
+					lists[listIndex].calculationItems[calculationIndex] = [];
+					if (that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps.length; calculationStepIndex++){
+						let id = that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps[calculationStepIndex].id;
+						lists[listIndex].calculationItems[calculationIndex].push(id);
+					}
+					//-- --Creating calculationFunctions
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let calculation = that.config.lists[configListIndex].calculations[calculationIndex];
+						let calculationFunction = async function(_listItems, triggeredBy){ // ###### CALCULATION FUNCTION ###### --> 
+							that.log.debug("CALCULATION " + listName + "_" + calculation.name + " function started, TRIGGERED BY " + triggeredBy);
+							calculation.calculationSteps = calculation.calculationSteps || [];
+							let result;
+							let calculationType = null;
+							//-- -- --Loop through the calculationSteps of this counter
+							if (calculation.calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < calculation.calculationSteps.length; calculationStepIndex++){
+								let id = calculation.calculationSteps[calculationStepIndex].id;
+								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
+								let value = usedStates[id]?.val;
+								if(isNaN(value)) value = await that.tryParseJSON(value);
+								if (typeof value == udef) continue;
+								if (calculationType == null) {
+									if(Array.isArray(value)){
+										calculationType = "arrays";
+										result = [];
+									} else if (typeof value == "object") {
+										calculationType = "objects";
+										result = {};
+									} else if (!isNaN(value)) {
+										calculationType = "numbers";
+										result = 0;
+									} else {
+										continue;
+									}
+								}
+								that.log.silly("CALCULATION " + listName + "_" + calculation.name + " value: " + value + ", typeof: " + typeof value + ", isArray: " + Array.isArray(value) + ", isNaN: " + isNaN(value) + ", calculationType: " + calculationType);
+								if (calculationType == "arrays" && Array.isArray(value)){
+									switch (calculation.calculationSteps[calculationStepIndex].operator){
+										case "+":
+										result = result.concat(value);
+										break;
+										
+										case "-":
+										result = result.filter(o => !value.includes(o));
+										break;										
+									}
+								} else if (calculationType == "objects" && typeof value == "object"){
+									switch (calculation.calculationSteps[calculationStepIndex].operator){
+										case "+":
+										Object.assign(result, value);
+										break;
+										
+										case "-":
+										Object.keys(value).forEach(key => {if(typeof result[key] != "undefined") delete result[key]});
+										break;										
+									}
+								} else if (calculationType == "numbers" && !isNaN(value)){
+									value = parseFloat(value);
+									switch (calculation.calculationSteps[calculationStepIndex].operator){
+										case "+":
+										result += value;
+										break;
+										
+										case "-":
+										result -= value;
+										break;
+										
+										case "*":
+										result *= value;
+										break;
+										
+										case "\/":
+										if (value != 0) result /= value;
+										break;									
+									}
+								} else {
+									continue;
+								}
+							}
+							that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + result);
+							//-- -- -- --Set States
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name);
+							await that.setStateValue(objId, result);
+						}; //<-- End of ##### CALCULATION FUNCTION #####
+						lists[listIndex].calculationFunctions.push(calculationFunction);
+					})(); //<--End Closure
+					//-- --Subscribe to the calculation items
+					this.log.debug("...subscribing to items of calculation " + listName + " " + that.config.lists[configListIndex].calculations[calculationIndex].name + " (" + lists[listIndex].calculationItems[calculationIndex].length + " objects)...");										
+					this.subscribeForeignStates(lists[listIndex].calculationItems[calculationIndex]);
+					//-- --Call function now one time
+					this.log.debug("...triggering calculation function " + listName + " " + that.config.lists[configListIndex].calculations[calculationIndex].name + " by creation...");
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _listIndex = listIndex;
+						let _calculationIndex = calculationIndex;
+						setTimeout(function(){
+							if(!lists[_listIndex].calculationTimeouts[_calculationIndex]) lists[_listIndex].calculationTimeouts[_calculationIndex] = setTimeout(function(){ //Debouncing
+								that.log.silly("...triggering calculation function " + _calculationIndex + " of list " + lists[_listIndex].name + " by creation NOW...");
+								lists[_listIndex].calculationFunctions[_calculationIndex](lists[_listIndex].calculationItems[_calculationIndex], "triggeredByCreation");
+								lists[_listIndex].calculationTimeouts[_calculationIndex] = false;
+							} , 200);
+						}, 200);
+					})(); //<--End Closure
+				}
+				//--##### Combinations #####
+				if(this.config.lists[configListIndex].combinations) for(let combinationIndex = 0; combinationIndex < this.config.lists[configListIndex].combinations.length; combinationIndex++){
+					this.log.debug("...processing combination " + listName + "_" + this.config.lists[configListIndex].combinations[combinationIndex].name + "...");
+					let combinationName = this.config.lists[configListIndex].combinations[combinationIndex].name || "Combination " + combinationIndex.toString();
+					//Create combination-object
+					objName = listName + " - " + combinationName;
+					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combinationName);
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "Combination created by iQontrol",
+							"type": "string",
+							"role": "value",
+							"icon": "",
+							"unit": this.config.lists[configListIndex].combinations[combinationIndex].unit || ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					//-- --Get used IDs
+					lists[listIndex].combinationItems[combinationIndex] = [];
+					if (that.config.lists[configListIndex].combinations[combinationIndex].combinationSteps) for(let combinationStepIndex = 0; combinationStepIndex < that.config.lists[configListIndex].combinations[combinationIndex].combinationSteps.length; combinationStepIndex++){
+						let id = that.config.lists[configListIndex].combinations[combinationIndex].combinationSteps[combinationStepIndex].id;
+						lists[listIndex].combinationItems[combinationIndex].push(id);
+					}
+					//-- --Creating combinationFunctions
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let combination = that.config.lists[configListIndex].combinations[combinationIndex];
+						let combinationFunction = async function(_listItems, triggeredBy){ // ###### COMBINATION FUNCTION ###### --> 
+							that.log.debug("COMBINATION " + listName + "_" + combination.name + " function started, TRIGGERED BY " + triggeredBy);
+							combination.combinationSteps = combination.combinationSteps || [];
+							let result = "";
+							//-- -- --Loop through the combinationSteps of this counter
+							if (combination.combinationSteps) for(let combinationStepIndex = 0; combinationStepIndex < combination.combinationSteps.length; combinationStepIndex++){
+								let id = combination.combinationSteps[combinationStepIndex].id;
+								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
+								let value = usedStates[id]?.val;
+								if (typeof value == udef) continue;
+								let onlyIfOperator = combination.combinationSteps[combinationStepIndex].onlyIfOperator;
+								that.log.silly("COMBINATION " + listName + "_" + combination.name + " value: " + value + ", onlyIfOperator: " + onlyIfOperator + ", onlyIfValue: " + combination.combinationSteps[combinationStepIndex].onlyIfValue);
+								if(!onlyIfOperator || (await that.checkCondition(value, onlyIfOperator, combination.combinationSteps[combinationStepIndex].onlyIfValue))){
+									if(combination.combinationSteps[combinationStepIndex].prefix) result += combination.combinationSteps[combinationStepIndex].prefix;
+									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix) result += value;
+									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix && combination.combinationSteps[combinationStepIndex].postfix) result += combination.combinationSteps[combinationStepIndex].postfix;
+								} else {
+									if(combination.combinationSteps[combinationStepIndex].onlyIfElse) result += combination.combinationSteps[combinationStepIndex].onlyIfElse;
+								}
+							}
+							that.log.info("COMBINATION " + listName + " " + combination.name + " result: " + result);
+							//-- -- -- --Set States
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name);
+							await that.setStateValue(objId, result);
+						}; //<-- End of ##### COMBINATION FUNCTION #####
+						lists[listIndex].combinationFunctions.push(combinationFunction);
+					})(); //<--End Closure
+					//-- --Subscribe to the combination items
+					this.log.debug("...subscribing to items of combination " + listName + " " + that.config.lists[configListIndex].combinations[combinationIndex].name + " (" + lists[listIndex].combinationItems[combinationIndex].length + " objects)...");										
+					this.subscribeForeignStates(lists[listIndex].combinationItems[combinationIndex]);
+					//-- --Call function now one time
+					this.log.debug("...triggering combination function " + listName + " " + that.config.lists[configListIndex].combinations[combinationIndex].name + " by creation...");
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _listIndex = listIndex;
+						let _combinationIndex = combinationIndex;
+						setTimeout(function(){
+							if(!lists[_listIndex].combinationTimeouts[_combinationIndex]) lists[_listIndex].combinationTimeouts[_combinationIndex] = setTimeout(function(){ //Debouncing
+								that.log.silly("...triggering combination function " + _combinationIndex + " of list " + lists[_listIndex].name + " by creation NOW...");
+								lists[_listIndex].combinationFunctions[_combinationIndex](lists[_listIndex].combinationItems[_combinationIndex], "triggeredByCreation");
+								lists[_listIndex].combinationTimeouts[_combinationIndex] = false;
+							} , 200);
+						}, 200);
+					})(); //<--End Closure
+				}
 			}
 		}
 	}
 
-	updateListCounters(id){
+	updateLists(id){
 		for(let listIndex = 0; listIndex < lists.length; listIndex++){
-			if(lists[listIndex].listItems.indexOf(id) > -1 && !lists[listIndex].timeout){
+			//Check, if id belongs to listItems and then trigger counterFunctions
+			if(lists[listIndex].listItems.indexOf(id) > -1 && !lists[listIndex].counterTimeout){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					let _id = id;
 					let _listIndex = listIndex;
-					lists[_listIndex].timeout = setTimeout(function(){ //Debouncing
+					lists[_listIndex].counterTimeout = setTimeout(function(){ //Debouncing
 						for(let counterFunctionIndex = 0; counterFunctionIndex < lists[_listIndex].counterFunctions.length; counterFunctionIndex++){							
-							lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, id);
+							lists[_listIndex].counterFunctions[counterFunctionIndex](lists[_listIndex].listItems, _id);
 						}
-						lists[_listIndex].timeout = false;
+						lists[_listIndex].counterTimeout = false;
 					} , 200);
 				})(); //<--End Closure
+			}
+			//Check, if id belongs to calculation
+			for(let calculationIndex = 0; calculationIndex < lists[listIndex].calculationFunctions.length; calculationIndex++){
+				if(lists[listIndex].calculationItems[calculationIndex].indexOf(id) > -1 && !lists[listIndex].calculationTimeouts[calculationIndex]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _id = id;
+						let _listIndex = listIndex;
+						let _calculationIndex = calculationIndex;
+						lists[_listIndex].calculationTimeouts[_calculationIndex] = setTimeout(function(){ //Debouncing
+							lists[_listIndex].calculationFunctions[_calculationIndex](lists[_listIndex].calculationItems[_calculationIndex], _id);
+							lists[_listIndex].calculationTimeouts[_calculationIndex] = false;
+						} , 200);
+					})(); //<--End Closure
+				}
+			}
+			//Check, if id belongs to combinations
+			for(let combinationIndex = 0; combinationIndex < lists[listIndex].combinationFunctions.length; combinationIndex++){
+				if(lists[listIndex].combinationItems[combinationIndex].indexOf(id) > -1 && !lists[listIndex].combinationTimeouts[combinationIndex]){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						let _id = id;
+						let _listIndex = listIndex;
+						let _combinationIndex = combinationIndex;
+						lists[_listIndex].combinationTimeouts[_combinationIndex] = setTimeout(function(){ //Debouncing
+							lists[_listIndex].combinationFunctions[_combinationIndex](lists[_listIndex].combinationItems[_combinationIndex], _id);
+							lists[_listIndex].combinationTimeouts[_combinationIndex] = false;
+						} , 200);
+					})(); //<--End Closure
+				}
 			}
 		}
 	}
@@ -856,6 +1103,21 @@ class Iqontrol extends utils.Adapter {
 		}
 		return null;
 	}
+
+	async tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+		try {
+			var o = JSON.parse(jsonString);
+			// Handle non-exception-throwing cases:
+			// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+			// but... JSON.parse(null) returns null, and typeof null === "object",
+			// so we must check for that, too. Thankfully, null is falsey, so this suffices:
+			if (o && typeof o === "object") {
+				return o;
+			}
+		}
+		catch (e) { }
+		return false;
+	}
 	
 	async removeDuplicates(array) { //Removes duplicates from an array
 		let seen = {};
@@ -863,7 +1125,6 @@ class Iqontrol extends utils.Adapter {
 			return seen.hasOwnProperty(item) ? false : (seen[item] = true);
 		});
 	}
-
 	
 	async setStateValue(id, value){
 		let that = this;
@@ -1046,14 +1307,14 @@ class Iqontrol extends utils.Adapter {
 			}
 			if(this.config.listsActive && (state.lc == state.ts)) { //State has CHANGED
 				usedStates[id] = state;
-				this.updateListCounters(id);
+				this.updateLists(id);
 			}
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);
 			if(this.config.listsActive) {
 				delete usedStates[id];
-				this.updateListCounters(id);
+				this.updateLists(id);
 			}
 		}
 	}

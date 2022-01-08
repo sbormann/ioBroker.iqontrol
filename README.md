@@ -1220,7 +1220,7 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 				* Example: ``|remove|ID|doesn't end with|.error,.overheat|`` will remove all IDs that don't end with '.error' OR with '.overheat'
 		* Value: The value the compare operator compares to
 	* You can also **filter for Aliases**: This is useful if you for example create a list that counts devices with low batteries. But you don't want it to count both, the original device, and its alias. So filter alias ensures, that datapoints, that have an alias in the list, will be removed
-* In the lower part you can define **counters**:
+* Next you can define **counters**:
 	* You can define several counters that count for given conditions in your TOTAL_LIST. Lets say, you have created a list with all your LOW-BATTERY-Datapoints. Now you want to count, how many of them are active at the moment, i.e. have the status 'true'. That is done by a counter
 	* You have to assign a name to every counter
 	* You can assign a unit to every counter
@@ -1230,7 +1230,16 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 		* The conditions can be linked with AND or with OR operators, so you can build complex conditions for your counter
 	* The counters update everytime a datapoint in your TOTAL_LIST is changes
 	* Additionally, you can set a specific **time interval** at which the counter will be updated (for example if you count, how many devices you have with a timestamp older than 5 minutes - this requires a periodically checking)
-* The result of the lists and counters are saved in datapoints, which you will find under iqontrol.x.Lists
+* Next you can define **calculations**:
+	* Calculations can be used to combine numeric datapoints and calculate for example the sum of different counters.
+	* You can also combine objects like arrays (lists) by addition or subtraction.
+* At least you can define **combinations**:
+	* Combinations can be used to combine different datapoints with text.
+	* The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.
+	* In the 'Only If'-Section you can define a condition, if the line schould be placed or not.
+		* By activating 'Just Prefix' just the prefix is placed (not the value nor the postfix), if the condition matches.
+		* You can also specify a 'Else' text, that will be placed, if the condition doesn't match.
+* The result of the lists with counters, calculations and combinations are saved in datapoints, which you will find under iqontrol.x.Lists
 
 ### Examples
 * This example shows, how to create an UNREACH-List:
@@ -1238,6 +1247,7 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 	* The selectors first add all Datapoints with the common role 'indicator.unreach'
 	* But it then removes all Datapoints with 'STICKY_' in it's ID (homematic provides the STICKY_UNREACH-Indicator, which we don't want to count)
 	* It filters duplicates by aliases out
+	![List Edit Unreach](img/list_edit_unreach_counter.png)
 	* And lastly, it count all datapoints with the value 'true', that have that state for at least 15 seconds
 
 
