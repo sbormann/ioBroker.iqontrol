@@ -471,64 +471,164 @@ class Iqontrol extends utils.Adapter {
 				//--Sort
 				listItems.sort();
 				//--Create TOTAL-objects and set States
-				let objName = listName;
-				let objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL";
-				let obj = {
-					"type": "state",
-					"common": {
-						"name": objName,
-						"desc": "List created by iQontrol",
-						"type": "number",
-						"role": "value",
-						"icon": ""
-					},
-					"native": {}
-				};
-				createdObjects.push(objId);
-				await this.setObjectAsync(objId, obj, true).then(async function(){ 
-					that.log.debug("created: " + objId); 
-					await that.setStateValue(objId, listItems.length);
-				}, function(err){
-					that.log.error("ERROR creating " + objId + ": " + err);
-				});
-				objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST";
-				obj = {
-					"type": "state",
-					"common": {
-						"name": objName,
-						"desc": "List created by iQontrol",
-						"type": "string",
-						"role": "value",
-						"icon": ""
-					},
-					"native": {}
-				};
-				createdObjects.push(objId);
-				await this.setObjectAsync(objId, obj, true).then(async function(){ 
-					that.log.debug("created: " + objId); 
-					await that.setStateValue(objId, listItems.join(', '));
-				}, function(err){
-					that.log.error("ERROR creating " + objId + ": " + err);
-				});
-				objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST_JSON";
-				obj = {
-					"type": "state",
-					"common": {
-						"name": objName,
-						"desc": "List created by iQontrol",
-						"type": "json",
-						"role": "value",
-						"icon": ""
-					},
-					"native": {}
-				};
-				createdObjects.push(objId);
-				await this.setObjectAsync(objId, obj, true).then(async function(){ 
-					that.log.debug("created: " + objId); 
-					await that.setStateValue(objId, JSON.stringify(listItems));
-				}, function(err){
-					that.log.error("ERROR creating " + objId + ": " + err);
-				});
+				let objName;
+				let objId;
+				let obj = {};
+				if (listItems.length){
+					objName = listName;
+					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL";
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "number",
+							"role": "value",
+							"icon": ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+						await that.setStateValue(objId, listItems.length);
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST";
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "string",
+							"role": "list",
+							"icon": ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+						await that.setStateValue(objId, listItems.join(', '));
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST_JSON";
+					obj = {
+						"type": "state",
+						"common": {
+							"name": objName,
+							"desc": "List created by iQontrol",
+							"type": "json",
+							"role": "list.json",
+							"icon": ""
+						},
+						"native": {}
+					};
+					createdObjects.push(objId);
+					await this.setObjectAsync(objId, obj, true).then(async function(){ 
+						that.log.debug("created: " + objId); 
+						await that.setStateValue(objId, JSON.stringify(listItems));
+					}, function(err){
+						that.log.error("ERROR creating " + objId + ": " + err);
+					});
+					//--Create optional NAMES and PARENT_NAMES lists
+					let names = [];
+					let parentNames = [];
+					if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
+						for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+							names.push(allObjects[listItems[listItemIndex]]?.common?.name || listItems[listItemIndex]);
+							let parentName = allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))]?.common?.name || listItems[listItemIndex];
+							if(typeof parentName == "object") {
+								if(parentName[that.systemLanguage]) parentName = parentName["en"];
+								else if(parentName["en"]) parentName = parentName["en"];
+								else if(Object.keys(parentName).length && typeof Object.keys(parentName)[0] == "string" && parentName[Object.keys(parentName)[0]]) parentName = parentName[Object.keys(parentName)[0]];
+							}
+							parentNames.push(parentName);
+						}
+					}
+					if (this.config.lists[configListIndex].createNamesList) {
+						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_NAMES_LIST";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "string",
+								"role": "list",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+							await that.setStateValue(objId, names.join(', '));
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_NAMES_LIST_JSON";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "json",
+								"role": "list.json",
+								"icon": ""
+							},
+							"native": {}
+						};					
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+							await that.setStateValue(objId, JSON.stringify(names));
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+					}
+					if (this.config.lists[configListIndex].createParentNamesList) {
+						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_PARENTNAMES_LIST";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "string",
+								"role": "list",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+							await that.setStateValue(objId, parentNames.join(', '));
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_PARENTNAMES_LIST_JSON";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "json",
+								"role": "list.json",
+								"icon": ""
+							},
+							"native": {}
+						};					
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+							await that.setStateValue(objId, JSON.stringify(parentNames));
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+					}
+				}
 				//--Create entry the lists-Array
 				lists.push({
 					name: listName, 
@@ -575,7 +675,7 @@ class Iqontrol extends utils.Adapter {
 							"name": objName,
 							"desc": "List created by iQontrol",
 							"type": "string",
-							"role": "value",
+							"role": "list",
 							"icon": ""
 						},
 						"native": {}
@@ -593,7 +693,7 @@ class Iqontrol extends utils.Adapter {
 							"name": objName,
 							"desc": "List created by iQontrol",
 							"type": "json",
-							"role": "value",
+							"role": "list.json",
 							"icon": ""
 						},
 						"native": {}
@@ -604,11 +704,89 @@ class Iqontrol extends utils.Adapter {
 					}, function(err){
 						that.log.error("ERROR creating " + objId + ": " + err);
 					});
+					//Names
+					if (this.config.lists[configListIndex].createNamesList) {
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_NAMES_LIST";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "string",
+								"role": "list",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_NAMES_LIST_JSON";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "json",
+								"role": "list.json",
+								"icon": ""
+							},
+							"native": {}
+						};					
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+					}
+					//ParentNames
+					if (this.config.lists[configListIndex].createParentNamesList) {
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_PARENTNAMES_LIST";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "string",
+								"role": "list",
+								"icon": ""
+							},
+							"native": {}
+						};
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_PARENTNAMES_LIST_JSON";
+						obj = {
+							"type": "state",
+							"common": {
+								"name": objName,
+								"desc": "List created by iQontrol",
+								"type": "json",
+								"role": "list.json",
+								"icon": ""
+							},
+							"native": {}
+						};					
+						createdObjects.push(objId);
+						await this.setObjectAsync(objId, obj, true).then(async function(){ 
+							that.log.debug("created: " + objId); 
+						}, function(err){
+							that.log.error("ERROR creating " + objId + ": " + err);
+						});
+					}
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let counter = that.config.lists[configListIndex].counters[counterIndex];
 						let counterFunction = async function(_listItems, triggeredBy){ // ###### COUNTER FUNCTION ###### --> 
-							that.log.debug("COUNTER " + listName + "_" + counter.name + " function started, TRIGGERED BY " + triggeredBy);
+							that.log.debug("COUNTER " + listName + " " + counter.name + " function started, TRIGGERED BY " + triggeredBy);
 							counter.listItems = [];
 							counter.repeatTimeouts = [];
 							counter.conditions = counter.conditions || [];
@@ -619,7 +797,7 @@ class Iqontrol extends utils.Adapter {
 								//-- -- -- -- --Loop through the conditions of this counter and check, if this list item fulfills als conditions
 								for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
 									if(counter.conditions[conditionIndex].name == "||"){ //New condition OR-Partial
-										that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " |||| New OR-Part");
+										that.log.silly("COUNTER " + listName + " " + counter.name + ", item " + _listItems[_listItemIndex] + " |||| New OR-Part");
 										if(conditionPartFulfilled) conditionFullyFulfilled = true;
 										conditionPartFulfilled = true;
 									}
@@ -628,6 +806,13 @@ class Iqontrol extends utils.Adapter {
 									switch(counter.conditions[conditionIndex].type){
 										case "value":
 										value = usedStates[_listItems[_listItemIndex]]?.val;
+										break;
+										
+										case "valuelistValue":
+										value = usedStates[_listItems[_listItemIndex]]?.val;
+										if(allObjects[_listItems[_listItemIndex]]?.common?.states && typeof allObjects[_listItems[_listItemIndex]]?.common?.states[value] != "undefined") {
+											value = allObjects[_listItems[_listItemIndex]]?.common?.states[value];
+										}
 										break;
 										
 										case "ack":
@@ -654,11 +839,11 @@ class Iqontrol extends utils.Adapter {
 									}
 									let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
 									conditionPartFulfilled = conditionPartFulfilled && check;
-									that.log.silly("COUNTER " + listName + "_" + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionPartFulfilled);
+									that.log.silly("COUNTER " + listName + " " + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionPartFulfilled);
 									//if(conditionFullyFulfilled) break;
 								}
 								if(conditionPartFulfilled) conditionFullyFulfilled = true;
-								that.log.silly("COUNTER " + listName + "_" + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
+								that.log.silly("COUNTER " + listName + " " + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
@@ -669,6 +854,33 @@ class Iqontrol extends utils.Adapter {
 							await that.setStateValue(objId, counter.listItems.join(', '));
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
 							await that.setStateValue(objId, JSON.stringify(counter.listItems));
+							//Names and ParentNames
+							if (that.config.lists[configListIndex].createNamesList || that.config.lists[configListIndex].createParentNamesList) {
+								let names = [];
+								let parentNames = [];
+								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
+									names.push(allObjects[counter.listItems[counterListItemIndex]]?.common?.name || counter.listItems[counterListItemIndex]);
+									let parentName = allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))]?.common?.name || counter.listItems[counterListItemIndex];
+									if(typeof parentName == "object") {
+										if(parentName[that.systemLanguage]) parentName = parentName["en"];
+										else if(parentName["en"]) parentName = parentName["en"];
+										else if(Object.keys(parentName).length && typeof Object.keys(parentName)[0] == "string" && parentName[Object.keys(parentName)[0]]) parentName = parentName[Object.keys(parentName)[0]];
+									}
+									parentNames.push(parentName);
+								}
+								if (that.config.lists[configListIndex].createNamesList) {
+									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST";
+									await that.setStateValue(objId, names.join(', '));
+									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST_JSON";
+									await that.setStateValue(objId, JSON.stringify(names));
+								}
+								if (that.config.lists[configListIndex].createParentNamesList) {
+									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST";
+									await that.setStateValue(objId, parentNames.join(', '));
+									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST_JSON";
+									await that.setStateValue(objId, JSON.stringify(parentNames));
+								}
+							}
 							//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
 							counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
 							if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval" && triggeredBy != "triggeredByCreation") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
@@ -729,27 +941,6 @@ class Iqontrol extends utils.Adapter {
 				if(this.config.lists[configListIndex].calculations) for(let calculationIndex = 0; calculationIndex < this.config.lists[configListIndex].calculations.length; calculationIndex++){
 					this.log.debug("...processing calculation " + listName + "_" + this.config.lists[configListIndex].calculations[calculationIndex].name + "...");
 					let calculationName = this.config.lists[configListIndex].calculations[calculationIndex].name || "Calculation " + calculationIndex.toString();
-					//Create calculation-object
-					objName = listName + " - " + calculationName;
-					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculationName);
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "Calculation created by iQontrol",
-							"type": "number",
-							"role": "value",
-							"icon": "",
-							"unit": this.config.lists[configListIndex].calculations[calculationIndex].unit || ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
 					//-- --Get used IDs
 					lists[listIndex].calculationItems[calculationIndex] = [];
 					if (that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps.length; calculationStepIndex++){
@@ -758,9 +949,11 @@ class Iqontrol extends utils.Adapter {
 					}
 					//-- --Creating calculationFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-						let calculation = that.config.lists[configListIndex].calculations[calculationIndex];
+						let _configListIndex = configListIndex;
+						let _calculationIndex = calculationIndex;
+						let calculation = that.config.lists[configListIndex].calculations[_calculationIndex];
 						let calculationFunction = async function(_listItems, triggeredBy){ // ###### CALCULATION FUNCTION ###### --> 
-							that.log.debug("CALCULATION " + listName + "_" + calculation.name + " function started, TRIGGERED BY " + triggeredBy);
+							that.log.debug("CALCULATION " + listName + " " + calculation.name + " function started, TRIGGERED BY " + triggeredBy);
 							calculation.calculationSteps = calculation.calculationSteps || [];
 							let result;
 							let calculationType = null;
@@ -807,6 +1000,7 @@ class Iqontrol extends utils.Adapter {
 										break;										
 									}
 								} else if (calculationType == "numbers" && !isNaN(value)){
+									if (!value) value = 0;
 									value = parseFloat(value);
 									switch (calculation.calculationSteps[calculationStepIndex].operator){
 										case "+":
@@ -830,9 +1024,35 @@ class Iqontrol extends utils.Adapter {
 								}
 							}
 							that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + result);
-							//-- -- -- --Set States
+							//-- -- -- --Create calculation-object and set state
+							let type = "number";
+							let role = "value";
+							switch (calculationType){
+								case "objects": case "arrays": 
+								type = "json"; role = "list.json"; 
+								break;
+							}
+							objName = listName + " - " + calculation.name;
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name);
-							await that.setStateValue(objId, result);
+							obj = {
+								"type": "state",
+								"common": {
+									"name": objName,
+									"desc": "Calculation created by iQontrol",
+									"type": type,
+									"role": role,
+									"icon": "",
+									"unit": that.config.lists[_configListIndex].calculations[_calculationIndex].unit || ""
+								},
+								"native": {}
+							};
+							createdObjects.push(objId);
+							await that.setObjectAsync(objId, obj, true).then(async function(){ 
+								that.log.debug("created: " + objId); 
+								await that.setStateValue(objId, result);
+							}, function(err){
+								that.log.error("ERROR creating " + objId + ": " + err);
+							});
 						}; //<-- End of ##### CALCULATION FUNCTION #####
 						lists[listIndex].calculationFunctions.push(calculationFunction);
 					})(); //<--End Closure
@@ -855,7 +1075,7 @@ class Iqontrol extends utils.Adapter {
 				}
 				//--##### Combinations #####
 				if(this.config.lists[configListIndex].combinations) for(let combinationIndex = 0; combinationIndex < this.config.lists[configListIndex].combinations.length; combinationIndex++){
-					this.log.debug("...processing combination " + listName + "_" + this.config.lists[configListIndex].combinations[combinationIndex].name + "...");
+					this.log.debug("...processing combination " + listName + " " + this.config.lists[configListIndex].combinations[combinationIndex].name + "...");
 					let combinationName = this.config.lists[configListIndex].combinations[combinationIndex].name || "Combination " + combinationIndex.toString();
 					//Create combination-object
 					objName = listName + " - " + combinationName;
@@ -866,7 +1086,7 @@ class Iqontrol extends utils.Adapter {
 							"name": objName,
 							"desc": "Combination created by iQontrol",
 							"type": "string",
-							"role": "value",
+							"role": "text",
 							"icon": "",
 							"unit": this.config.lists[configListIndex].combinations[combinationIndex].unit || ""
 						},
@@ -894,8 +1114,42 @@ class Iqontrol extends utils.Adapter {
 							//-- -- --Loop through the combinationSteps of this counter
 							if (combination.combinationSteps) for(let combinationStepIndex = 0; combinationStepIndex < combination.combinationSteps.length; combinationStepIndex++){
 								let id = combination.combinationSteps[combinationStepIndex].id;
+								let value;
 								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
-								let value = usedStates[id]?.val;
+								switch(combination.combinationSteps[combinationStepIndex].type){
+									case "valuelistValue":
+									value = usedStates[id]?.val;
+									if(allObjects[id]?.common?.states && typeof allObjects[id]?.common?.states[value] != "undefined") {
+										value = allObjects[id]?.common?.states[value];
+									}
+									break;
+									
+									case "ack":
+									value = usedStates[id]?.ack;
+									break;
+
+									case "lc":
+									value = usedStates[id]?.lc;
+									break;
+
+									case "lcs":
+									value = (new Date() - usedStates[id]?.lc)/1000;
+									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+									break;
+
+									case "ts":
+									value = usedStates[id]?.ts;
+									break;
+
+									case "tss":
+									value = (new Date() - usedStates[id]?.lc)/1000;
+									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+									break;
+
+									case "value": case "": default:
+									value = usedStates[id]?.val;
+									break;
+								}
 								if (typeof value == udef) continue;
 								let onlyIfOperator = combination.combinationSteps[combinationStepIndex].onlyIfOperator;
 								that.log.silly("COMBINATION " + listName + "_" + combination.name + " value: " + value + ", onlyIfOperator: " + onlyIfOperator + ", onlyIfValue: " + combination.combinationSteps[combinationStepIndex].onlyIfValue);
@@ -1291,7 +1545,7 @@ class Iqontrol extends utils.Adapter {
 	onStateChange(id, state) {
 		if (state) {
 			// The state was changed
-			this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			this.log.silly(`state ${id} updated: ${state.val} (ack = ${state.ack}) ts = ${state.ts} lc = ${state.lc} state changed: ${state.ts == state.lc}`);
 			switch(id){
 				case this.namespace + ".Popup.CLEAR":
 					this.log.info("Popup.CLEAR");

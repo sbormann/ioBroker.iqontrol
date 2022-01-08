@@ -54,6 +54,10 @@
 		h6.heading { background: rgba(0,0,0,0.02); margin-left:-35px; padding: 5px 0 7px 40px; box-shadow: rgba(0,0,0,0.25) 1px 1px 2px 0px; }
 		.headingIcon{ width:48px; height:48px; float:right; }
 		.tabs { scrollbar-width: 2px; } .tabs::-webkit-scrollbar { height: 2px; }
+		.scrollableTable { overflow-y: auto; }
+		.scrollableTable > div { min-width: 520px; width: calc(100% - 15px); }
+		.scrollableTable.wide > div { min-width: 820px; width: calc(100% - 15px); }
+		.scrollableTable.xwide > div { min-width: 1020px; width: calc(100% - 15px); }
 	</style>
 </head>
 
@@ -180,7 +184,7 @@
 						<h6 class="translate sub-title">List of Views</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableViews">
+				<div class="col s12 scrollableTable" id="tableViews">
 					<div class="row">
 						<div class="col s2 m1 l1">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -252,7 +256,7 @@
 						<h6 class="translate sub-title">Devices of selected View</h6>
 					</div>
 				</div>
-				<div class="col s12 divDevices" id="tableDevices">
+				<div class="col s12 divDevices scrollableTable" id="tableDevices">
 					<div class="row">
 						<div class="col s2 m1 l1">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -317,7 +321,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s12" id="tableToolbar">
+					<div class="col s12 scrollableTable" id="tableToolbar">
 						<div class="row">
 							<div class="col s2 m1 l1">
 								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -364,7 +368,7 @@
 						<p class="translate sub-title">States:</p>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row scrollableTable">
 					<div class="col s12">
 						<table class="table-values highlight" data-panel="0" style="width: 90%;">
 							<thead>
@@ -578,7 +582,7 @@
 						<span class="helper-text translate"></span>
 					</div>
 				</div>
-				<div class="col s12" id="tableLists">
+				<div class="col s12 scrollableTable" id="tableLists">
 					<div class="row">
 						<div class="col s2 m1 l1">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -2845,7 +2849,7 @@
 						<h6 class="translate sub-title">Set Corresponding States</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogDeviceEditStates">
+				<div class="col s12 scrollableTable wide" id="tableDialogDeviceEditStates">
 					<div class="col s12 m12 l12">
 						<table class="table-values highlight" style="width: 90%;">
 							<thead>
@@ -2917,7 +2921,7 @@
                         <h6 class="title"><span class="translate">Edit Array:</span> <span id="dialogDeviceEditStateArrayName"></span></h6>
                     </div>
                 </div>
-				<div class="col s12" id="tableDialogDeviceEditStateArray">
+				<div class="col s12 scrollableTable xwide" id="tableDialogDeviceEditStateArray">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3290,7 +3294,7 @@
 						<h6 class="translate sub-title heading">Selectors</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditSelectors">
+				<div class="col s12 scrollableTable wide" id="tableDialogListEditSelectors">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3318,6 +3322,16 @@
 						<label for="dialogListEditListFilterAliases" class="translate" style="display: inline;">Remove items, that have an alias in this list</label>
 						<span class="helper-text translate"></span>
 					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="dialogListEditCreateNamesList" />
+						<label for="dialogListEditCreateNamesList" class="translate" style="display: inline;">Create a list that contains the names of the datapoints</label>
+						<span class="helper-text translate"></span>
+					</div>
+					<div class="input-field col s12 m12 l12">
+						<input class="value" type="checkbox" id="dialogListEditCreateParentNamesList" />
+						<label for="dialogListEditCreateParentNamesList" class="translate" style="display: inline;">Create a list that contains the parent-names of the datapoints</label>
+						<span class="helper-text translate"></span>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col s12">
@@ -3337,7 +3351,7 @@
 						<h6 class="translate sub-title heading">Counters</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCounters">
+				<div class="col s12 scrollableTable" id="tableDialogListEditCounters">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3388,7 +3402,7 @@
 						<h6 class="translate sub-title heading">Calculations</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCalculations">
+				<div class="col s12 scrollableTable" id="tableDialogListEditCalculations">
 					<div class="row">
 						<div class="col s2 m1 l1">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -3426,7 +3440,7 @@
 						<h6 class="translate sub-title heading">Combinations</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCombinations">
+				<div class="col s12 scrollableTable" id="tableDialogListEditCombinations">
 					<div class="row">
 						<div class="col s2 m1 l1">
 							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
@@ -3478,7 +3492,7 @@
 						</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCounterConditions">
+				<div class="col s12 scrollableTable wide" id="tableDialogListEditCounterConditions">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3491,7 +3505,7 @@
 							<thead>
 								<tr>
 									<th data-name="modifier" data-type="select" data-options="&&/   And;||/Or" class="translate">Modifier</th>
-									<th data-name="type" data-type="select" data-options="value/Value;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
+									<th data-name="type" data-type="select" data-options="value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
 									<th data-name="operator" data-type="select" data-options="eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="delete drag_handle" style="width:75px;"></th>
@@ -3531,7 +3545,7 @@
 						</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCalculationSteps">
+				<div class="col s12 scrollableTable" id="tableDialogListEditCalculationSteps">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3583,7 +3597,7 @@
 						</h6>
 					</div>
 				</div>
-				<div class="col s12" id="tableDialogListEditCombinationSteps">
+				<div class="col s12 scrollableTable xwide" id="tableDialogListEditCombinationSteps">
 					<div class="col s12 m12 l12">
 						<div class="row">
 							<div class="col s2 m1 l1">
@@ -3596,9 +3610,10 @@
 							<thead>
 								<tr>
 									<th data-name="prefix" class="translate">Prefix</th>
+									<th data-name="type" data-type="select" data-options="value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
 									<th data-name="id" class="translate">ID</th>
 									<th data-name="postfix" class="translate">Postfix</th>
-									<th data-name="onlyIfOperator" data-type="select" data-options="/;eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Only if</th>
+									<th data-name="onlyIfOperator" data-type="select" data-options=";eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Only if</th>
 									<th data-name="onlyIfValue"></th>
 									<th data-name="onlyIfJustPrefix" data-type="checkbox">Just Prefix</th>
 									<th data-name="onlyIfElse">Else</th>
@@ -3614,6 +3629,7 @@
 							<span class="translate">Combinations can be used to combine different datapoints with text.</span>
 							 <span class="translate">The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.</span>
 							 <span class="translate">In the 'Only If'-Section you can define a condition, if the line schould be placed or not.</span>
+							 <span class="translate">You can leave the id empty, then the original id will be used.</span>
 							 <span class="translate">By activating 'Just Prefix' just the prefix is placed (not the value nor the postfix), if the condition matches.</span>
 							 <span class="translate">You can also specify a 'Else' text, that will be placed, if the condition doesn't match.</span>
 							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
