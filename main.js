@@ -1023,6 +1023,7 @@ class Iqontrol extends utils.Adapter {
 									continue;
 								}
 							}
+							if(calculationType == "arrays" || calculationType == "objects") result = JSON.stringify(result);
 							that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + result);
 							//-- -- -- --Create calculation-object and set state
 							let type = "number";
