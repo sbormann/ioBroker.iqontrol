@@ -1164,6 +1164,7 @@ class Iqontrol extends utils.Adapter {
 							that.log.info("COMBINATION " + listName + " " + combination.name + " result: " + result);
 							//-- -- -- --Set States
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name);
+							result = result.replace(/\\r\\n/g, "\r\n");
 							await that.setStateValue(objId, result);
 						}; //<-- End of ##### COMBINATION FUNCTION #####
 						lists[listIndex].combinationFunctions.push(combinationFunction);
