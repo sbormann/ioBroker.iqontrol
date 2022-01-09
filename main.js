@@ -409,14 +409,14 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...found and removed " + removeTheseItems.length + " items which had aliases...");
 				}
 				//--Sorting
-				let sorting = this.config.lists[configListIndex].createNamesList || "";
+				let sorting = this.config.lists[configListIndex].sorting || "";
 				if (typeof sorting != "string") sorting = "";
 				if(sorting.indexOf("id") > -1){ //id
 					listItems.sort();
 				} else if (sorting.indexOf("names") > -1) { //names
-					listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)) });
+					listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)) });
 				} else { //parentNames
-					listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+					listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)) });
 				}
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL-objects and set States
@@ -429,8 +429,8 @@ class Iqontrol extends utils.Adapter {
 					let parentNames = [];
 					if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
 						for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-							names.push(getName(listItems[listItemIndex]), that.systemLanguage);
-							parentNames.push(getParentName(listItems[listItemIndex]), that.systemLanguage);
+							names.push(getName(listItems[listItemIndex], that.systemLanguage));
+							parentNames.push(getParentName(listItems[listItemIndex], that.systemLanguage));
 						}
 					}
 					names.sort();
@@ -544,14 +544,13 @@ class Iqontrol extends utils.Adapter {
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
 							//--Sorting
-							let sorting = that.config.lists[configListIndex].createNamesList || "";
-							if (typeof sorting != "string") sorting = "";
+							let sorting = that.config.lists[configListIndex].sorting || "";
 							if(sorting.indexOf("id") > -1){ //id
 								counter.listItems.sort();
 							} else if (sorting.indexOf("names") > -1) { //names
-								counter.listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)) });
+								counter.listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)) });
 							} else { //parentNames
-								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)) });
 							}
 							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
@@ -567,8 +566,8 @@ class Iqontrol extends utils.Adapter {
 								let names = [];
 								let parentNames = [];
 								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
-									names.push(getName(counter.listItems[counterListItemIndex]), that.systemLanguage);
-									parentNames.push(getParentName(counter.listItems[counterListItemIndex]), that.systemLanguage);
+									names.push(getName(counter.listItems[counterListItemIndex], that.systemLanguage));
+									parentNames.push(getParentName(counter.listItems[counterListItemIndex], that.systemLanguage));
 								}
 								names.sort();
 								parentNames.sort();
