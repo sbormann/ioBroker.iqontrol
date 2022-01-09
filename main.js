@@ -410,6 +410,7 @@ class Iqontrol extends utils.Adapter {
 				}
 				//--Sorting
 				let sorting = this.config.lists[configListIndex].createNamesList || "";
+				if (typeof sorting != "string") sorting = "";
 				if(sorting.indexOf("id") > -1){ //id
 					listItems.sort();
 				} else if (sorting.indexOf("names") > -1) { //names
@@ -544,6 +545,7 @@ class Iqontrol extends utils.Adapter {
 							}
 							//--Sorting
 							let sorting = that.config.lists[configListIndex].createNamesList || "";
+							if (typeof sorting != "string") sorting = "";
 							if(sorting.indexOf("id") > -1){ //id
 								counter.listItems.sort();
 							} else if (sorting.indexOf("names") > -1) { //names
