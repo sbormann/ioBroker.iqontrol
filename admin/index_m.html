@@ -3336,10 +3336,26 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col s12">
+					</div>
+				</div>
+				<div class="row">
 					<div class="input-field col s12 m12 l12">
 						<input class="value" type="checkbox" id="dialogListEditListFilterAliases" />
 						<label for="dialogListEditListFilterAliases" class="translate" style="display: inline;">Remove items, that have an alias in this list</label>
 						<span class="helper-text translate"></span>
+					</div>
+					<div class="input-field col s12 m12 l2">
+						<select class="value" name='dialogListEditSorting' id='dialogListEditSorting'>
+							<option value="id asc" class="translate">ID ascending</option>
+							<option value="id desc" class="translate">ID descending</option>
+							<option value="names asc" class="translate">Name ascending</option>
+							<option value="names desc" class="translate">Name descending</option>
+							<option value="parentNames asc" selected class="translate">Parent-Name ascending</option>
+							<option value="parentNames desc" class="translate">Parent-Name descending</option>
+						</select>
+						<label for='dialogListEditSorting' class="translate">Sorting:</label>
+						<span class="helper-text"></span>
 					</div>
 					<div class="input-field col s12 m12 l12">
 						<input class="value" type="checkbox" id="dialogListEditCreateNamesList" />

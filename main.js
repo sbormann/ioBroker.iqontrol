@@ -408,8 +408,16 @@ class Iqontrol extends utils.Adapter {
 					}
 					this.log.debug("...found and removed " + removeTheseItems.length + " items which had aliases...");
 				}
-				//--Sort
-				listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+				//--Sorting
+				let sorting = this.config.lists[configListIndex].createNamesList || "";
+				if(sorting.indexOf("id") > -1){ //id
+					listItems.sort();
+				} else if (sorting.indexOf("names") > -1) { //names
+					listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)) });
+				} else { //parentNames
+					listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+				}
+				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL-objects and set States
 				if (listItems.length){
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
@@ -534,7 +542,16 @@ class Iqontrol extends utils.Adapter {
 								that.log.silly("COUNTER " + listName + " " + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
-							counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+							//--Sorting
+							let sorting = that.config.lists[configListIndex].createNamesList || "";
+							if(sorting.indexOf("id") > -1){ //id
+								counter.listItems.sort();
+							} else if (sorting.indexOf("names") > -1) { //names
+								counter.listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)) });
+							} else { //parentNames
+								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
+							}
+							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
 							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
