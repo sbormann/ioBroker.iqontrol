@@ -575,6 +575,14 @@
 					</div>
 				</div>
 				<div class="row">
+					<div class="col s12">
+						<a class='dropdown-trigger waves-effect waves-light btn' id="listsAddDefaultDropdownTrigger" href='#' data-target='listsAddDefaultDropdown'><i class="material-icons left">grain</i><span class="translate">Add Default Lists</span></a>
+						<ul id='listsAddDefaultDropdown' class='dropdown-content'>
+							<li><a id="listsAddDefaultDropdownServiceMessages" href="#!"><i class="material-icons">chat_bubble_outline</i>Service-Messages</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
 					<div class="input-field col s12 m12 l12">
 						<input class="value" type="checkbox" id="listsActive" />
 						<label for="listsActive" class="translate" style="display: inline;">Activate Lists</label>
@@ -606,6 +614,18 @@
 						<h5 id="listsCheckUnallowed" class="translate" style="display: none; color: red;">No duplicates allowed! List Names have to be unique.</h5>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6><i class="material-icons" style="vertical-align: middle; font-size: 1rem; margin-right: 6px;">warning</i>&nbsp;<span class="translate">Please note: Lists are created or updated not until several seconds after saving.</span></h6>
+						<p>
+							<span class="translate">Lists/Counters can be used to create dynamic lists and counters of devices and states.</span>
+							 <span class="translate">Examples of applications are counting open windows, switched on lamps or creating service messages.</span>
+							 <span class="translate">With the Device Counter widget the lists can then be visualized and also used for switching.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+            </div>
 			</div>
 
 			<!-- ++++++++++ TAB: Options ++++++++++ -->

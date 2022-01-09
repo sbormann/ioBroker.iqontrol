@@ -257,7 +257,7 @@ class Iqontrol extends utils.Adapter {
 						break;
 						
 						case "enum":
-						var enumerationMembers = allObjects[selector.value]?.common?.members || [];
+						var enumerationMembers = allObjects[selector.value] && allObjects[selector.value].common && allObjects[selector.value].common.members || [];
 						for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
 							let listItemIndex = listItems.indexOf(enumerationMembers[enumerationMemberIndex]);
 							if(selector.modifier == "add") { //Add Enum
@@ -269,7 +269,7 @@ class Iqontrol extends utils.Adapter {
 						break;
 						
 						case "enumWithChilds":
-						var enumerationMembers = allObjects[selector.value]?.common?.members || [];
+						var enumerationMembers = allObjects[selector.value] && allObjects[selector.value].common && allObjects[selector.value].common.members || [];
 						if(selector.modifier == "add") { //Add enumWithChilds
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
@@ -331,11 +331,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonType
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonType
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value, ',')){
+								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -347,11 +347,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonRole
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.role, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonRole
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value, ',')){
+								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.role, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -366,14 +366,14 @@ class Iqontrol extends utils.Adapter {
 					let removeTheseItems = [];
 					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
 						if(checkCondition(listItems[listItemIndex], "nbw", "alias.")) continue;
-						let itemAlias = allObjects[listItems[listItemIndex]]?.common?.alias;
+						let itemAlias = allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.alias;
 						let itemAliasLinks = [];
-						if (itemAlias?.id) {
+						if (itemAlias && itemAlias.id) {
 							if (typeof itemAlias.id == "string"){
 								itemAliasLinks.push(itemAlias.id);
 							} else {
-								if (itemAlias.id?.read) itemAliasLinks.push(itemAlias.id.read);
-								if (itemAlias.id?.write) itemAliasLinks.push(itemAlias.id.write);
+								if (itemAlias.id && itemAlias.id.read) itemAliasLinks.push(itemAlias.id.read);
+								if (itemAlias.id && itemAlias.id.write) itemAliasLinks.push(itemAlias.id.write);
 							}
 						}
 						for(let itemAliasLinkIndex = 0; itemAliasLinkIndex < itemAliasLinks.length; itemAliasLinkIndex++){
@@ -394,14 +394,14 @@ class Iqontrol extends utils.Adapter {
 				if (listItems.length){
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(', '));
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 		desc: "List created by iQontrol"}, false, JSON.stringify(listItems));
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
 					//--Create optional NAMES and PARENT_NAMES lists
 					let names = [];
 					let parentNames = [];
 					if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
 						for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-							names.push(allObjects[listItems[listItemIndex]]?.common?.name || listItems[listItemIndex]);
-							let parentName = allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))]?.common?.name || listItems[listItemIndex];
+							names.push(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.name || listItems[listItemIndex]);
+							let parentName = allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))] && allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))].common && allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))].common.name || listItems[listItemIndex];
 							if(typeof parentName == "object") {
 								if(parentName[that.systemLanguage]) parentName = parentName["en"];
 								else if(parentName["en"]) parentName = parentName["en"];
@@ -412,11 +412,11 @@ class Iqontrol extends utils.Adapter {
 					}
 					if (this.config.lists[configListIndex].createNamesList) {
 						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(', '));
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
 					}
 					if (this.config.lists[configListIndex].createParentNamesList) {
 						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(', '));
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
 					}
 				}
 				//--Create entry the lists-Array
@@ -442,17 +442,17 @@ class Iqontrol extends utils.Adapter {
 					let commonName = listName + " - " + counterName;
 					await this.createOrUpdateObject(idRoot, 								{type: "state"}, 	{name: commonName, 	type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
 					await this.createOrUpdateObject(idRoot + "_LIST", 						{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-					await this.createOrUpdateObject(idRoot + "_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"}, {iQontrolDatapointList: true});
 
 					//Names
 					if (this.config.lists[configListIndex].createNamesList) {
 						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",				{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",		{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						//await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",		{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
 					}
 					//ParentNames
 					if (this.config.lists[configListIndex].createParentNamesList) {
 						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",		{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",	{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						//await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",	{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
 					}
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -477,35 +477,35 @@ class Iqontrol extends utils.Adapter {
 									if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
 									switch(counter.conditions[conditionIndex].type){
 										case "value":
-										value = usedStates[_listItems[_listItemIndex]]?.val;
+										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].val;
 										break;
 										
 										case "valuelistValue":
-										value = usedStates[_listItems[_listItemIndex]]?.val;
-										if(allObjects[_listItems[_listItemIndex]]?.common?.states && typeof allObjects[_listItems[_listItemIndex]]?.common?.states[value] != "undefined") {
-											value = allObjects[_listItems[_listItemIndex]]?.common?.states[value];
+										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].val;
+										if(allObjects[_listItems[_listItemIndex]] && allObjects[_listItems[_listItemIndex]].common && allObjects[_listItems[_listItemIndex]].common.states && typeof allObjects[_listItems[_listItemIndex]].common.states[value] != "undefined") {
+											value = allObjects[_listItems[_listItemIndex]].common.states[value];
 										}
 										break;
 										
 										case "ack":
-										value = usedStates[_listItems[_listItemIndex]]?.ack;
+										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].ack;
 										break;
 
 										case "lc":
-										value = usedStates[_listItems[_listItemIndex]]?.lc;
+										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc;
 										break;
 
 										case "lcs":
-										value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc || 0))/1000;
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 										break;
 
 										case "ts":
-										value = usedStates[_listItems[_listItemIndex]]?.ts;
+										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].ts;
 										break;
 
 										case "tss":
-										value = (new Date() - usedStates[_listItems[_listItemIndex]]?.lc)/1000;
+										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc || 0))/1000;
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 										break;
 									}
@@ -532,8 +532,8 @@ class Iqontrol extends utils.Adapter {
 								let names = [];
 								let parentNames = [];
 								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
-									names.push(allObjects[counter.listItems[counterListItemIndex]]?.common?.name || counter.listItems[counterListItemIndex]);
-									let parentName = allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))]?.common?.name || counter.listItems[counterListItemIndex];
+									names.push(allObjects[counter.listItems[counterListItemIndex]] && allObjects[counter.listItems[counterListItemIndex]].common && allObjects[counter.listItems[counterListItemIndex]].common.name || counter.listItems[counterListItemIndex]);
+									let parentName = allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))] && allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))].common && allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))].common.name || counter.listItems[counterListItemIndex];
 									if(typeof parentName == "object") {
 										if(parentName[that.systemLanguage]) parentName = parentName["en"];
 										else if(parentName["en"]) parentName = parentName["en"];
@@ -615,7 +615,7 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...processing calculation " + listName + "_" + this.config.lists[configListIndex].calculations[calculationIndex].name + "...");
 					let calculationName = this.config.lists[configListIndex].calculations[calculationIndex].name || "Calculation " + calculationIndex.toString();
 					//-- --Create combination-object
-					await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculationName),		{type: "state"}, 	{name: listName + " - " + calculationName, 										unit: this.config.lists[configListIndex].calculations[calculationIndex].unit || "",		desc: "Calculation created by iQontrol"});
+					await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculationName),		{type: "state"}, 	{name: listName + " - " + calculationName, 		unit: this.config.lists[configListIndex].calculations[calculationIndex].unit || "",		desc: "Calculation created by iQontrol"});
 					//-- --Get used IDs
 					lists[listIndex].calculationItems[calculationIndex] = [];
 					if (that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps.length; calculationStepIndex++){
@@ -632,11 +632,13 @@ class Iqontrol extends utils.Adapter {
 							calculation.calculationSteps = calculation.calculationSteps || [];
 							let result;
 							let calculationType = null;
+							let iQontrolDatapointList = null;
 							//-- -- --Loop through the calculationSteps of this counter
 							if (calculation.calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < calculation.calculationSteps.length; calculationStepIndex++){
 								let id = calculation.calculationSteps[calculationStepIndex].id;
 								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
-								let value = usedStates[id]?.val;
+								let value = usedStates[id] && usedStates[id].val;
+								iQontrolDatapointList = (iQontrolDatapointList == null ? true : iQontrolDatapointList) && allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolDatapointList;
 								if(isNaN(value)) value = tryParseJSON(value);
 								if (typeof value == udef) continue;
 								if (calculationType == null) {
@@ -645,9 +647,11 @@ class Iqontrol extends utils.Adapter {
 										result = [];
 									} else if (typeof value == "object") {
 										calculationType = "objects";
+										iQontrolDatapointList = false;
 										result = {};
 									} else if (!isNaN(value)) {
 										calculationType = "numbers";
+										iQontrolDatapointList = false;
 										result = 0;
 									} else {
 										continue;
@@ -703,12 +707,15 @@ class Iqontrol extends utils.Adapter {
 							//-- -- -- --Create calculation-object and set state
 							let type = "number";
 							let role = "value";
+							let native = false;
 							switch (calculationType){
 								case "objects": case "arrays": 
-								type = "json"; role = "list.json"; 
+								type = "json"; 
+								role = "list.json"; 
+								if(iQontrolDatapointList) native = {iQontrolDatapointList: true};
 								break;
 							}
-							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name), false, {type: type, 	role: role}, false, result);
+							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name), false, {type: type, 	role: role}, native, result);
 						}; //<-- End of ##### CALCULATION FUNCTION #####
 						lists[listIndex].calculationFunctions.push(calculationFunction);
 					})(); //<--End Closure
@@ -755,36 +762,36 @@ class Iqontrol extends utils.Adapter {
 								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
 								switch(combination.combinationSteps[combinationStepIndex].type){
 									case "valuelistValue":
-									value = usedStates[id]?.val;
-									if(allObjects[id]?.common?.states && typeof allObjects[id]?.common?.states[value] != "undefined") {
-										value = allObjects[id]?.common?.states[value];
+									value = usedStates[id] && usedStates[id].val;
+									if(allObjects[id] && allObjects[id].common && allObjects[id].common.states && typeof allObjects[id].common.states[value] != "undefined") {
+										value = allObjects[id].common.states[value];
 									}
 									break;
 									
 									case "ack":
-									value = usedStates[id]?.ack;
+									value = usedStates[id] && usedStates[id].ack;
 									break;
 
 									case "lc":
-									value = usedStates[id]?.lc;
+									value = usedStates[id] && usedStates[id].lc;
 									break;
 
 									case "lcs":
-									value = (new Date() - usedStates[id]?.lc)/1000;
+									value = (new Date() - (usedStates[id] && usedStates[id].lc || 0))/1000;
 									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 									break;
 
 									case "ts":
-									value = usedStates[id]?.ts;
+									value = usedStates[id] && usedStates[id].ts;
 									break;
 
 									case "tss":
-									value = (new Date() - usedStates[id]?.lc)/1000;
+									value = (new Date() - (usedStates[id] && usedStates[id].lc || 0))/1000;
 									counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 									break;
 
 									case "value": case "": default:
-									value = usedStates[id]?.val;
+									value = usedStates[id] && usedStates[id].val;
 									break;
 								}
 								if (typeof value == udef) continue;

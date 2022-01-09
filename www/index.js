@@ -5005,6 +5005,8 @@ function renderView(viewId, triggeredByReconnection){
 												$(iframe).addClass('isBackgroundView');
 												if (adjustHeightToBackgroundView) {
 													$(iframe).addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeightToBackgroundView');
+												} else {
+													$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
 												}
 												var timeout = 2900;
 											} else { //URL
@@ -5041,6 +5043,7 @@ function renderView(viewId, triggeredByReconnection){
 										}
 										setTimeout(function(){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
+											$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
 											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 											iframedoc.open();
 											iframedoc.write(stateBackgroundHTML.valFull.replace(/\\n/g, String.fromCharCode(13)));
@@ -5456,7 +5459,7 @@ function renderView(viewId, triggeredByReconnection){
 											if (stateBattery.type == "level") {
 												var min = stateBattery.min || 0;
 												var max = stateBattery.max || 100;
-												if (typeof stateBattery.val !== udef && stateBattery.val <= (min + ((max-min) * 0.10))){ //<10%
+												if (typeof stateBattery.val !== udef && stateBattery.val <= (min + ((max-min) * 0.10)) && !(typeof stateBattery.min == udef && typeof stateBattery.max == udef && stateBattery.val == 0) ){ //<10%
 													batteryActive = true;
 												}
 											} else if (stateBattery.val) {

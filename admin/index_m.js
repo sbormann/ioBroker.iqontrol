@@ -5169,16 +5169,22 @@ async function load(settings, onChange) {
 								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
 									enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));
 								});
-								listsOptions = [];
-								lists.forEach(function(list){
-									if (list.active){
-										listsOptions.push(adapter + "." + instance + ".Lists." + list.name + ".TOTAL_LIST_JSON/" + list.name + " - TOTAL");
-										list.counters.forEach(function(counter){
-											if(counter.name) listsOptions.push(adapter + "." + instance + ".Lists." + list.name + "." + counter.name + "_LIST_JSON/" + list.name + " - " + counter.name);
-										});
-									}
-								});
-								enhanceTextInputToCombobox('.dialogWidgetSettingsUrlParameters.listJsonDatapoint', listsOptions.join(';'), false);
+								var toDo = function(){
+									listsOptions = [];
+									for(objectId in iobrokerObjects){
+										if (objectId.indexOf(adapter + ".") == 0 && objectId.indexOf(".Lists.") > -1){
+											if (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.role && iobrokerObjects[objectId].common.role == "list.json" && iobrokerObjects[objectId].native && iobrokerObjects[objectId].native.iQontrolDatapointList) {
+												listsOptions.push(objectId + "/" + (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.name || objectId));
+											}
+										}
+									};
+									enhanceTextInputToCombobox('.dialogWidgetSettingsUrlParameters.listJsonDatapoint', listsOptions.join(';'), false);
+								}
+								if (iobrokerObjectsReady) {
+									toDo();
+								} else {
+									iobrokerObjectsReadyFunctions.push(toDo);
+								}
 								$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
 									$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
 									initSelectId(function (sid) {
@@ -5874,6 +5880,19 @@ async function load(settings, onChange) {
 		values2table('tableLists', lists, onChange, onTableListsReady);		
 	}
 
+	//Enhance addDefaultLists with functions
+	$('#listsAddDefaultDropdownTrigger').dropdown();
+	$('#listsAddDefaultDropdownServiceMessages').on('click', function(){
+		if(confirm(_("Really add these lists?"))){
+			let serviceMessages = [{"active":true,"name":"UNREACH","selectors":[{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.unreach"},{"modifier":"remove","type":"id","operator":"c","value":"STICKY_"}],"filterAliases":true,"counters":[{"name":"ACTUAL","type":"value","operator":"eqt","value":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"lcs","operator":"gt","value":"180"}],"unit":"Geräte"}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"LOWBAT","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".LOWBAT"},{"modifier":"add","type":"commonRole","operator":"ew","value":"lowbat"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"Geräte","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"ERROR","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"valuelistValue","operator":"ne","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"MAINTENANCE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".MAINTAIN"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.maintenance"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"SABOTAGE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"valuelistValue","operator":"eq","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"CONFIG_PENDING","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".CONFIG_PENDING"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"FIRMWARE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".firmware"},{"modifier":"remove","type":"commonType","operator":"ne","value":"boolean"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"Servicemeldungen","selectors":[],"filterAliases":false,"counters":[],"triggerInterval":"","calculations":[{"name":"ACTUAL","unit":"","calculationSteps":[{"operator":"+","id":"iqontrol.0.Lists.UNREACH.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.LOWBAT.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.ERROR.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.MAINTENANCE.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.SABOTAGE.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.CONFIG_PENDING.ACTUAL"},{"operator":"+","id":"iqontrol.0.Lists.FIRMWARE.ACTUAL"}]}],"combinations":[{"name":"ACTUAL_TEXT","unit":"","combinationSteps":[{"prefix":"","id":"iqontrol.0.Lists.UNREACH.ACTUAL","postfix":" nicht erreichbares Gerät: ","onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","id":"iqontrol.0.Lists.UNREACH.ACTUAL","postfix":" nicht erreichbare Geräte: ","onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"\\r\\n","id":"iqontrol.0.Lists.UNREACH.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","type":"value","id":"iqontrol.0.Lists.LOWBAT.ACTUAL","postfix":" Gerät mit leerer Batterie: ","onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.LOWBAT.ACTUAL","postfix":" Geräte mit leerer Batterie: ","onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.LOWBAT.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.ERROR.ACTUAL","postfix":" fehlerhaftes Gerät","onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.ERROR.ACTUAL","postfix":" fehlerhafte Geräte","onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.ERROR.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.MAINTENANCE.ACTUAL","postfix":"-mal Wartung erforderlich","onlyIfOperator":"ge","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.MAINTENANCE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.SABOTAGE.ACTUAL","postfix":" Gerät mit Sabotage-Alarm: ","onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.SABOTAGE.ACTUAL","postfix":" Geräte mit Sabotage-Alarm: ","onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.SABOTAGE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.CONFIG_PENDING.ACTUAL","postfix":"-mal Konfigurationsdaten zur Übertragung: ","onlyIfOperator":"ge","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.CONFIG_PENDING.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.FIRMWARE.ACTUAL","postfix":" Gerät mit Firmware-Update: ","onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id":"iqontrol.0.Lists.FIRMWARE.ACTUAL","postfix":" Geräte mit Firmware-Update: ","onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id":"iqontrol.0.Lists.FIRMWARE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""}]}],"createNamesList":false,"createParentNamesList":false}];
+			lists = lists.concat(serviceMessages);
+			onChange();
+			loadLists();
+			alert(_("Settings imported."));
+			if(listsCheckUnallowed()) alert(_("Names of lists must be unique. However, importing has created duplicates. Please check the settings!"));
+		}
+	});
+	
 	//Enhance tableLists with functions
 	var dialogListEditSelectors;
 	var dialogListEditCounters;
@@ -6028,7 +6047,7 @@ async function load(settings, onChange) {
 		}
 		return false;
 	}
-
+	
 	//Enhance tableDialogListsEditSelectors with functions
 	function onTableDialogListsEditSelectorsReady(){
 		var $div = $('#tableDialogListEditSelectors');
@@ -7649,7 +7668,7 @@ async function load(settings, onChange) {
 					lists = lists.concat(resultObj);
 					alert(_("Settings imported."));
 				}
-				if(listsCheckDuplicates()) alert(_("Names of lists must be unique. However, importing has created duplicates. Please check the settings!"));
+				if(listsCheckUnallowed()) alert(_("Names of lists must be unique. However, importing has created duplicates. Please check the settings!"));
 				onChange();
 			} else {
 				alert(_("Error: Invalid data."));
