@@ -19,7 +19,8 @@
 												<br>
 												(C) by Sebastian Bormann
 	'/> 
-	<meta name="widget-urlparameters" content= "tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;
+	<meta name="widget-urlparameters" content= "heading//Heading (optional);
+												tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;
 												colsSort//Order of headings (semioclon-separated list of column headers, optional);
 												colsFilter//Filter these headings (semicolon-separated list of column headers, optional);
 												translations//Translations (semicolon-separated list of comma-separated translations, for example filesize,Size of file);
@@ -53,6 +54,7 @@
 												///divider;
 												colorBackground//Background-Color/color;
 												colorBackgroundOdd//Background-Color for odd lines/color;
+												colorBorders//Border-Colors/color;
 												colorText//Text-Color/color;
 												colorTextOdd//Text-Color for odd lines/color;
 												colorTextShadow//Text-Shadow-Color/color;
@@ -147,6 +149,11 @@
 			   -moz-transition: all 1s;
 					transition: all 1s;
 		}
+		#heading {
+			font-size: smaller;
+			font-weight: bold;
+			margin: 5px 5px 0 5px;
+		}
 		.ui-page {
 			overflow-y: scroll !important;
 			overflow-x: hidden !important;
@@ -186,7 +193,7 @@
 			border: 0;
 			margin: -3px 0px -8px 0px;
 		}
-		html.color-mode-dark .ui-overlay-a, html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {
+		html.color-mode-dark .ui-overlay-a, html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {
 			background-color: #454545;
 			color: #b9b9b9;
 			text-shadow: 0 1px 0 #3c3c3c;
@@ -202,6 +209,7 @@
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
 	<div data-role="page" id="jsonTablePage">
 		<div data-role="content">
+			<div id="heading" style="display: none;"></div>
 			<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
 			<div id="loadMoreButtonContainer" style="display: none; padding: 0px; margin: -7px -10px -5px -10px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton" style="height: 1.3em;">...</a></div>
 		</div>
@@ -498,6 +506,7 @@
 		};
 
 		//UrlParameters
+		var heading = getUrlParameter("heading") || "";
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
 		var colsSort = (getUrlParameter("colsSort") || "").split(';');
 		var colsFilter = (getUrlParameter("colsFilter") || "").split(';');
@@ -525,15 +534,17 @@
 		var replaceCRwithBR = !getUrlParameter("replaceCRwithBR") == "false";
 		var colorBackground = getUrlParameter("colorBackground");
 		var colorBackgroundOdd = getUrlParameter("colorBackgroundOdd");
+		var colorBorders = getUrlParameter("colorBorders");
 		var colorText = getUrlParameter("colorText");
 		var colorTextOdd = getUrlParameter("colorTextOdd");
 		var colorTextShadow = getUrlParameter("colorTextShadow");
 		var colorTextShadowOdd = getUrlParameter("colorTextShadowOdd");
 		if(colorBackground) addCustomCSS(".ui-overlay-a {background-color: " + colorBackground + ";}", "color");
 		if(colorBackgroundOdd || colorBackground) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOdd || colorBackground + ";}", "color");
-		if(colorText) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {color: " + colorText + ";}", "color");
+		if(colorBorders) addCustomCSS(".table-stroke tbody td, .table-stroke thead th {border-bottom-color: " + colorBorders + ";}", "color");
+		if(colorText) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading {color: " + colorText + ";}", "color");
 		if(colorTextOdd || colorText) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOdd || colorText + ";}", "color");
-		if(colorTextShadow) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper {text-shadow: 0 1px 0 " + colorTextShadow + ";}", "color");
+		if(colorTextShadow) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading {text-shadow: 0 1px 0 " + colorTextShadow + ";}", "color");
 		if(colorTextShadowOdd || colorTextShadow) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOdd || colorTextShadow + ";}", "color");
 		var colorBackgroundDark = getUrlParameter("colorBackgroundDark");
 		var colorBackgroundOddDark = getUrlParameter("colorBackgroundOddDark");
@@ -543,9 +554,9 @@
 		var colorTextShadowOddDark = getUrlParameter("colorTextShadowOddDark");
 		if(colorBackgroundDark) addCustomCSS("html.color-mode-dark .ui-overlay-a {background-color: " + colorBackgroundDark + ";}", "color");
 		if(colorBackgroundOddDark || colorBackgroundDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOddDark || colorBackgroundDark + ";}", "color");
-		if(colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {color: " + colorTextDark + ";}", "color");
+		if(colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {color: " + colorTextDark + ";}", "color");
 		if(colorTextOddDark || colorTextDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOddDark || colorTextDark + ";}", "color");
-		if(colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
+		if(colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
 		if(colorTextShadowOddDark || colorTextShadowDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
@@ -579,6 +590,8 @@
 
 		//Document ready
 		$(document).ready(function(){
+			//Heading
+			if(heading) $('#heading').html(heading).show();
 			//Apply some styling
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
 			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
