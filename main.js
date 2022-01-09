@@ -17,6 +17,7 @@ var lists = [];
 var triggerIntervals = [];
 var udef = 'undefined';
 var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+const emptyState = {val: null, ack: false, ts: 0, lc: 0};
 
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
@@ -499,7 +500,13 @@ class Iqontrol extends utils.Adapter {
 										conditionPartFulfilled = true;
 									}
 									let value;
-									if(!usedStates[_listItems[_listItemIndex]]) usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
+									if(!usedStates[_listItems[_listItemIndex]]){
+										try {
+											usedStates[_listItems[_listItemIndex]] = await that.getForeignStateAsync(_listItems[_listItemIndex]);
+										} catch {
+											usedStates[_listItems[_listItemIndex]] = emptyState;
+										}
+									}
 									switch(counter.conditions[conditionIndex].type){
 										case "value":
 										value = usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].val;
@@ -666,7 +673,13 @@ class Iqontrol extends utils.Adapter {
 							//-- -- --Loop through the calculationSteps of this counter
 							if (calculation.calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < calculation.calculationSteps.length; calculationStepIndex++){
 								let id = calculation.calculationSteps[calculationStepIndex].id;
-								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
+								if(!usedStates[id]) {
+									try {
+										usedStates[id] = await that.getForeignStateAsync(id);
+									} catch {
+										usedStates[id] = emptyState;
+									}
+								}
 								let value = usedStates[id] && usedStates[id].val;
 								iQontrolDatapointList = (iQontrolDatapointList == null ? true : iQontrolDatapointList) && allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolDatapointList;
 								if(isNaN(value)) value = tryParseJSON(value);
@@ -789,7 +802,13 @@ class Iqontrol extends utils.Adapter {
 							if (combination.combinationSteps) for(let combinationStepIndex = 0; combinationStepIndex < combination.combinationSteps.length; combinationStepIndex++){
 								let id = combination.combinationSteps[combinationStepIndex].id;
 								let value;
-								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
+								if(!usedStates[id]) {
+									try {
+										usedStates[id] = await that.getForeignStateAsync(id);
+									} catch {
+										usedStates[id] = emptyState;
+									}
+								}
 								switch(combination.combinationSteps[combinationStepIndex].type){
 									case "valuelistValue":
 									value = usedStates[id] && usedStates[id].val;
