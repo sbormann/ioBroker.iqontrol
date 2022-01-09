@@ -16,6 +16,8 @@ var usedStates = [];
 var lists = [];
 var triggerIntervals = [];
 var udef = 'undefined';
+var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
 function idEncode(id){
@@ -169,6 +171,24 @@ function removeDuplicates(array) { //Removes duplicates from an array
 	return array.filter(function(item) {
 		return seen.hasOwnProperty(item) ? false : (seen[item] = true);
 	});
+}
+
+function getName(id, language){
+	let name = allObjects[id] && allObjects[id].common && allObjects[id].common.name || id;
+	if(typeof name == "object") {
+		if(name[language]) name = name["en"];
+		else if(name["en"]) name = name["en"];
+		else if(Object.keys(name).length && typeof Object.keys(name)[0] == "string" && name[Object.keys(name)[0]]) name = name[Object.keys(name)[0]];
+		else name = JSON.stringify(name);
+	}
+	return name;	
+}
+
+function getParentName(id, language) {
+	let parentId = id.substring(0, id.lastIndexOf('.'));
+	let parentName = getName(parentId, language);
+	if (parentName == id) parentName = getName(id, language);
+	return parentName;
 }
 
 //++++++++++ ADAPTER FUNCTIONS ++++++++++
@@ -389,7 +409,7 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...found and removed " + removeTheseItems.length + " items which had aliases...");
 				}
 				//--Sort
-				listItems.sort();
+				listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
 				//--Create TOTAL-objects and set States
 				if (listItems.length){
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
@@ -400,14 +420,8 @@ class Iqontrol extends utils.Adapter {
 					let parentNames = [];
 					if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
 						for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-							names.push(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.name || listItems[listItemIndex]);
-							let parentName = allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))] && allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))].common && allObjects[listItems[listItemIndex].substring(0, listItems[listItemIndex].lastIndexOf('.'))].common.name || listItems[listItemIndex];
-							if(typeof parentName == "object") {
-								if(parentName[that.systemLanguage]) parentName = parentName["en"];
-								else if(parentName["en"]) parentName = parentName["en"];
-								else if(Object.keys(parentName).length && typeof Object.keys(parentName)[0] == "string" && parentName[Object.keys(parentName)[0]]) parentName = parentName[Object.keys(parentName)[0]];
-							}
-							parentNames.push(parentName);
+							names.push(getName(listItems[listItemIndex]), that.systemLanguage);
+							parentNames.push(getParentName(listItems[listItemIndex]), that.systemLanguage);
 						}
 					}
 					names.sort();
@@ -520,7 +534,7 @@ class Iqontrol extends utils.Adapter {
 								that.log.silly("COUNTER " + listName + " " + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
-							counter.listItems.sort();
+							counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)) });
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
 							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
@@ -534,28 +548,22 @@ class Iqontrol extends utils.Adapter {
 								let names = [];
 								let parentNames = [];
 								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
-									names.push(allObjects[counter.listItems[counterListItemIndex]] && allObjects[counter.listItems[counterListItemIndex]].common && allObjects[counter.listItems[counterListItemIndex]].common.name || counter.listItems[counterListItemIndex]);
-									let parentName = allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))] && allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))].common && allObjects[counter.listItems[counterListItemIndex].substring(0, counter.listItems[counterListItemIndex].lastIndexOf('.'))].common.name || counter.listItems[counterListItemIndex];
-									if(typeof parentName == "object") {
-										if(parentName[that.systemLanguage]) parentName = parentName["en"];
-										else if(parentName["en"]) parentName = parentName["en"];
-										else if(Object.keys(parentName).length && typeof Object.keys(parentName)[0] == "string" && parentName[Object.keys(parentName)[0]]) parentName = parentName[Object.keys(parentName)[0]];
-									}
-									parentNames.push(parentName);
+									names.push(getName(counter.listItems[counterListItemIndex]), that.systemLanguage);
+									parentNames.push(getParentName(counter.listItems[counterListItemIndex]), that.systemLanguage);
 								}
 								names.sort();
 								parentNames.sort();
 								if (that.config.lists[configListIndex].createNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST";
 									await that.setStateValue(objId, names.join(', '));
-									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST_JSON";
-									await that.setStateValue(objId, JSON.stringify(names));
+									//objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST_JSON";
+									//await that.setStateValue(objId, JSON.stringify(names));
 								}
 								if (that.config.lists[configListIndex].createParentNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST";
 									await that.setStateValue(objId, parentNames.join(', '));
-									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST_JSON";
-									await that.setStateValue(objId, JSON.stringify(parentNames));
+									//objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST_JSON";
+									//await that.setStateValue(objId, JSON.stringify(parentNames));
 								}
 							}
 							//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
@@ -993,7 +1001,8 @@ class Iqontrol extends utils.Adapter {
 		
 		this.log.info("Deleting unused Objects...");
 		this.deleteUnusedObjects();
-		
+
+		this.log.info("Subscribing to states...");
 		this.subscribeStates("*");
 		
 		this.setState('info.connection', { val: true, ack: true });

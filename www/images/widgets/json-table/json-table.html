@@ -748,7 +748,18 @@
 			//columnSort
 			if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
 				var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-				dataObject.sort(function(a, b){ return collator.compare(a[columnSortCol], b[columnSortCol]); })
+				if (columnSortCols = columnSortCol.split(';').length > 1) { //Sort for multiple cols - not yet fully supported, not yet tested (missing: add multiple sort-icons, ctrl-click enables multiple sort)
+					dataObject.sort(function(a, b){ return collator.compare(getSortValues(a), getSortValues(b)); })
+					function getSortValues(obj){
+						let result = "";
+						let columnSortCols = columnSortCol.split(';');
+						columnSortCols.forEach(function(sortCol){
+							result += obj[sortCol];
+						});
+					}
+				} else { //Sort for 1 Col
+					dataObject.sort(function(a, b){ return collator.compare(a[columnSortCol], b[columnSortCol]); })
+				}
 				if (columnSortColDesc) dataObject.reverse();
 			}
 			//Add breakpoints
