@@ -17,6 +17,7 @@ var lists = [];
 var triggerIntervals = [];
 var udef = 'undefined';
 
+//++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
 function idEncode(id){
 	return id.replace(/[\.\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
 }
@@ -25,8 +26,153 @@ function idEncodePointAllowed(id){
 	return id.replace(/[\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
 }
 
-class Iqontrol extends utils.Adapter {
+function checkCondition(value, condition, conditionValue, conditionValueSeparator){
+	if(typeof conditionValue == udef) return null;
+	let conditionValues = [];
+	if(typeof conditionValue == "string" && conditionValueSeparator){
+		conditionValues = conditionValue.split(conditionValueSeparator).map(str => str.trim());
+	} else {
+		conditionValues = [conditionValue];
+	}
+	value = value || 0;
+	switch(condition || ""){
+		case "at":
+		return true;
+		break;
 
+		case "af":
+		return false;
+		break;
+
+		case "eqt":
+		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+			return false;
+		} else {
+			return true;
+		}
+
+		case "eqf":
+		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		case "eq":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return true;				
+		}
+		return false;
+		break;
+
+		case "ne":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return false;				
+		}
+		return true;
+		break;
+
+		case "gt":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) > parseFloat(conditionValues[i])) return true;				
+		}
+		return false;
+		break;
+
+		case "ge":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) >= parseFloat(conditionValues[i])) return true;				
+		}
+		return false;
+		break;
+
+		case "lt":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) < parseFloat(conditionValues[i])) return true;				
+		}
+		return false;
+		break;
+
+		case "le":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) <= parseFloat(conditionValues[i])) return true;				
+		}
+		return false;
+		break;
+
+		case "c":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return true;				
+		}
+		return false;
+		break;
+
+		case "nc":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return false;				
+		}
+		return true;
+		break;
+
+		case "bw":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return true;				
+		}
+		return false;
+		break;
+
+		case "nbw":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return false;				
+		}
+		return true;
+		break;
+
+		case "ew":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return true;				
+		}
+		return false;
+		break;
+		
+		case "new":
+		for(let i = 0; i < conditionValues.length; i++){
+			if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return false;				
+		}
+		return true;
+		break;
+
+		default:
+		return null;
+	}
+	return null;
+}
+
+function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+	try {
+		var o = JSON.parse(jsonString);
+		// Handle non-exception-throwing cases:
+		// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+		// but... JSON.parse(null) returns null, and typeof null === "object",
+		// so we must check for that, too. Thankfully, null is falsey, so this suffices:
+		if (o && typeof o === "object") {
+			return o;
+		}
+	}
+	catch (e) { }
+	return false;
+}
+
+function removeDuplicates(array) { //Removes duplicates from an array
+	let seen = {};
+	return array.filter(function(item) {
+		return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+	});
+}
+
+//++++++++++ ADAPTER FUNCTIONS ++++++++++
+class Iqontrol extends utils.Adapter {
 	/**
 	 * @param {Partial<ioBroker.AdapterOptions>} [options={}]
 	 */
@@ -43,274 +189,48 @@ class Iqontrol extends utils.Adapter {
 		this.on("unload", this.onUnload.bind(this));
 	}
 
-	//----------------------------------------------------------------------------
+	//++++++++++ INFO ++++++++++
 	async createInfoConnection(){
-		let that = this;
-		let objName = "Adapter Connection";
-		let objId = "info.connection";
-		let obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Shows working adapter connection",
-				"type": "boolean",
-				"role": "indicator.connected",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});		
+		await this.createOrUpdateObject("info.connection", {type: "state"}, {name: "Adapter Connection", desc: "Shows working adapter connection", type: "boolean", role: "indicator.connected"});
 	}
-	
+
+	//++++++++++ POPUP ++++++++++	
 	async createPopup(){
-		let that = this;
-		let objName = "Message";
-		let objId = "Popup.Message";
-		let obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Message to be displayed",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Clear";
-		objId = "Popup.CLEAR";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Clear Popup Settings",
-				"type": "boolean",
-				"role": "button",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Display Duration";
-		objId = "Popup.Duration";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Display duration of message in ms (0 = until clicked)",
-				"type": "number",
-				"role": "timer",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Clicked Value";
-		objId = "Popup.ClickedValue";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Value that will be sent if popup is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Clicked Destination State";
-		objId = "Popup.ClickedDestinationState";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "The value will be sent to this state if popup is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Popup Clicked";
-		objId = "Popup.POPUP_CLICKED";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "The value will be sent to this datapoint if popup is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Button Names";
-		objId = "Popup.ButtonNames";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Comma-separated list of buttons that will be displayd under the popup",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Button Values";
-		objId = "Popup.ButtonValues";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Comma-separated list of values that will be sent if the button is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Button Destination States";
-		objId = "Popup.ButtonDestinationStates";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Comma-separated list of states, the value will be sent to if the button is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Button Closes";
-		objId = "Popup.ButtonCloses";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "Comma-separated list of booleans (true/false) if the popup should close when the button is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
-		objName = "Button Clicked";
-		objId = "Popup.BUTTON_CLICKED";
-		obj = {
-			"type": "state",
-			"common": {
-				"name": objName,
-				"desc": "The value will be sent to this datapoint if button is clicked",
-				"type": "string",
-				"role": "text",
-				"icon": ""
-			},
-			"native": {}
-		};
-		createdObjects.push(objId);
-		await this.setObjectAsync(objId, obj, true).then(function(){ 
-			that.log.debug("created: " + objId); 
-		}, function(err){
-			that.log.error("ERROR creating " + objId + ": " + err);
-		});
+		await this.createOrUpdateObject("Popup.Message", 					{type: "state"}, 	{name: "Message",					type: "string", 	role: "text", 		desc: "Message to be displayed", });
+		await this.createOrUpdateObject("Popup.CLEAR", 						{type: "state"}, 	{name: "Clear", 					type: "boolean", 	role: "button", 	desc: "Clear Popup Settings"});
+		await this.createOrUpdateObject("Popup.Duration", 					{type: "state"}, 	{name: "Display Duration", 			type: "number", 	role: "timer", 		desc: "Display duration of message in ms (0 = until clicked)"});
+		await this.createOrUpdateObject("Popup.ClickedValue", 				{type: "state"}, 	{name: "Clicked Value", 			type: "string", 	role: "text", 		desc: "Value that will be sent if popup is clicked"});
+		await this.createOrUpdateObject("Popup.ClickedDestinationState", 	{type: "state"}, 	{name: "Clicked Destination State", type: "string", 	role: "text", 		desc: "The value will be sent to this state if popup is clicked"});
+		await this.createOrUpdateObject("Popup.POPUP_CLICKED", 				{type: "state"}, 	{name: "Popup Clicked", 			type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if popup is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonNames", 				{type: "state"}, 	{name: "Button Names", 				type: "string", 	role: "text", 		desc: "Comma-separated list of buttons that will be displayd under the popup"});
+		await this.createOrUpdateObject("Popup.ButtonValues", 				{type: "state"}, 	{name: "Button Values", 			type: "string", 	role: "text", 		desc: "Comma-separated list of values that will be sent if the button is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonDestinationStates", 	{type: "state"}, 	{name: "Button Destination States", type: "string", 	role: "text", 		desc: "Comma-separated list of states, the value will be sent to if the button is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonCloses", 				{type: "state"}, 	{name: "Button Closes", 			type: "string", 	role: "text", 		desc: "Comma-separated list of booleans (true/false) if the popup should close when the button is clicked"});
+		await this.createOrUpdateObject("Popup.BUTTON_CLICKED", 			{type: "state"}, 	{name: "Button Clicked", 			type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if button is clicked"});
 	}
 	
+	//++++++++++ WIDGETS ++++++++++	
 	async createWidgets(){
 		if(typeof this.config.widgetsDatapoints != 'undefined'){
 			for(var index = 0; index < this.config.widgetsDatapoints.length; index++){
-				let that = this;
 				let objName = this.config.widgetsDatapoints[index].name || idEncodePointAllowed(this.config.widgetsDatapoints[index].id);
 				let objId = "Widgets." + idEncodePointAllowed(this.config.widgetsDatapoints[index].id);
-				let obj = {
-					"type": "state",
-					"common": {
-						"name": objName,
-						"desc": "created by iQontrol",
-						"type": this.config.widgetsDatapoints[index].type || "string",
-						"role": this.config.widgetsDatapoints[index].role || "",
-						"icon": ""
-					},
-					"native": {}
-				};
-				if(this.config.widgetsDatapoints[index].min) obj.common.min = this.config.widgetsDatapoints[index].min;
-				if(this.config.widgetsDatapoints[index].max) obj.common.max = this.config.widgetsDatapoints[index].max;
-				if(this.config.widgetsDatapoints[index].def) obj.common.def = this.config.widgetsDatapoints[index].def;
-				if(this.config.widgetsDatapoints[index].unit) obj.common.unit = this.config.widgetsDatapoints[index].unit;
-				createdObjects.push(objId);
-				await this.setObjectAsync(objId, obj, true).then(function(){ 
-					that.log.debug("created: " + objId); 
-				}, function(err){
-					that.log.error("ERROR creating " + objId + ": " + err);
-				});
+				let commonOptions = {
+					name: objName,
+					type: this.config.widgetsDatapoints[index].type || "string",
+					role: this.config.widgetsDatapoints[index].role || "",
+					desc: "Widget-State created by iQontrol"
+				}
+				if(this.config.widgetsDatapoints[index].min) commonOptions.min = this.config.widgetsDatapoints[index].min;
+				if(this.config.widgetsDatapoints[index].max) commonOptions.max = this.config.widgetsDatapoints[index].max;
+				if(this.config.widgetsDatapoints[index].def) commonOptions.def = this.config.widgetsDatapoints[index].def;
+				if(this.config.widgetsDatapoints[index].unit) commonOptions.unit = this.config.widgetsDatapoints[index].unit;
+				await this.createOrUpdateObject(objId, 	{type: "state"}, 	commonOptions);
 			}
 		}
 	}
 	
+	//++++++++++ LISTS ++++++++++	
 	async createLists(){
 		if(typeof this.config.lists != 'undefined'){
 			let that = this;
@@ -355,7 +275,7 @@ class Iqontrol extends utils.Adapter {
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
 								if(listItemIndex == -1){
 									for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
-										if(await this.checkCondition(allObjects[object]._id, "bw", enumerationMembers[enumerationMemberIndex], ',')) {
+										if(checkCondition(allObjects[object]._id, "bw", enumerationMembers[enumerationMemberIndex], ',')) {
 											listItems.push(allObjects[object]._id);
 											//break;
 										}
@@ -365,7 +285,7 @@ class Iqontrol extends utils.Adapter {
 						} else { //Remove enumWithChilds
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
 								for(let enumerationMemberIndex = 0; enumerationMemberIndex < enumerationMembers.length; enumerationMemberIndex++){
-										if(await this.checkCondition(listItems[listItemIndex], "bw", enumerationMembers[enumerationMemberIndex], ',')) {
+										if(checkCondition(listItems[listItemIndex], "bw", enumerationMembers[enumerationMemberIndex], ',')) {
 											listItems.splice(listItemIndex, 1);
 											listItemIndex--; //because splicing inside the loop re-indexes the array
 											//break;
@@ -379,11 +299,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add ids
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]._id, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object]._id, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove ids
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(listItems[listItemIndex], selector.operator, selector.value, ',')){
+								if(checkCondition(listItems[listItemIndex], selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -395,11 +315,11 @@ class Iqontrol extends utils.Adapter {
 							if(selector.modifier == "add") { //Add types
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object].type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object].type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove types
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value, ',')){
+								if(checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -411,11 +331,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonType
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object]?.common?.type, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonType
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value, ',')){
+								if(checkCondition(allObjects[listItems[listItemIndex]]?.common?.type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -427,11 +347,11 @@ class Iqontrol extends utils.Adapter {
 						if(selector.modifier == "add") { //Add commonRole
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
-								if(listItemIndex == -1 && await this.checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object]?.common?.role, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
 						} else { //Remove commonRole
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(await this.checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value, ',')){
+								if(checkCondition(allObjects[listItems[listItemIndex]]?.common?.role, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -445,7 +365,7 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...filtering Aliases...");
 					let removeTheseItems = [];
 					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-						if(await this.checkCondition(listItems[listItemIndex], "nbw", "alias.")) continue;
+						if(checkCondition(listItems[listItemIndex], "nbw", "alias.")) continue;
 						let itemAlias = allObjects[listItems[listItemIndex]]?.common?.alias;
 						let itemAliasLinks = [];
 						if (itemAlias?.id) {
@@ -471,68 +391,10 @@ class Iqontrol extends utils.Adapter {
 				//--Sort
 				listItems.sort();
 				//--Create TOTAL-objects and set States
-				let objName;
-				let objId;
-				let obj;
 				if (listItems.length){
-					objName = listName;
-					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL";
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "number",
-							"role": "value",
-							"icon": ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-						await that.setStateValue(objId, listItems.length);
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
-					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST";
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "string",
-							"role": "list",
-							"icon": ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-						await that.setStateValue(objId, listItems.join(', '));
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
-					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_LIST_JSON";
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "json",
-							"role": "list.json",
-							"icon": ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-						await that.setStateValue(objId, JSON.stringify(listItems));
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(', '));
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 		desc: "List created by iQontrol"}, false, JSON.stringify(listItems));
 					//--Create optional NAMES and PARENT_NAMES lists
 					let names = [];
 					let parentNames = [];
@@ -549,84 +411,12 @@ class Iqontrol extends utils.Adapter {
 						}
 					}
 					if (this.config.lists[configListIndex].createNamesList) {
-						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_NAMES_LIST";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "string",
-								"role": "list",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-							await that.setStateValue(objId, names.join(', '));
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_NAMES_LIST_JSON";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "json",
-								"role": "list.json",
-								"icon": ""
-							},
-							"native": {}
-						};					
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-							await that.setStateValue(objId, JSON.stringify(names));
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(', '));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
 					}
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_PARENTNAMES_LIST";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "string",
-								"role": "list",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-							await that.setStateValue(objId, parentNames.join(', '));
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL_PARENTNAMES_LIST_JSON";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "json",
-								"role": "list.json",
-								"icon": ""
-							},
-							"native": {}
-						};					
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-							await that.setStateValue(objId, JSON.stringify(parentNames));
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(', '));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
 					}
 				}
 				//--Create entry the lists-Array
@@ -648,139 +438,21 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
 					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
 					//Create counter-objects
-					let objName = listName + " - " + counterName;
-					let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
-					let obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "number",
-							"role": "value",
-							"icon": "",
-							"unit": this.config.lists[configListIndex].counters[counterIndex].unit || ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
-					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST";
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "string",
-							"role": "list",
-							"icon": ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
-					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_LIST_JSON";
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "List created by iQontrol",
-							"type": "json",
-							"role": "list.json",
-							"icon": ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
+					let idRoot = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
+					let commonName = listName + " - " + counterName;
+					await this.createOrUpdateObject(idRoot, 								{type: "state"}, 	{name: commonName, 	type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST", 						{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+
 					//Names
 					if (this.config.lists[configListIndex].createNamesList) {
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_NAMES_LIST";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "string",
-								"role": "list",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_NAMES_LIST_JSON";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "json",
-								"role": "list.json",
-								"icon": ""
-							},
-							"native": {}
-						};					
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
+						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",				{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",		{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
 					}
 					//ParentNames
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_PARENTNAMES_LIST";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "string",
-								"role": "list",
-								"icon": ""
-							},
-							"native": {}
-						};
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
-						objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName) + "_PARENTNAMES_LIST_JSON";
-						obj = {
-							"type": "state",
-							"common": {
-								"name": objName,
-								"desc": "List created by iQontrol",
-								"type": "json",
-								"role": "list.json",
-								"icon": ""
-							},
-							"native": {}
-						};					
-						createdObjects.push(objId);
-						await this.setObjectAsync(objId, obj, true).then(async function(){ 
-							that.log.debug("created: " + objId); 
-						}, function(err){
-							that.log.error("ERROR creating " + objId + ": " + err);
-						});
+						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",		{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",	{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
 					}
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -837,7 +509,7 @@ class Iqontrol extends utils.Adapter {
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 										break;
 									}
-									let check = await that.checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
+									let check = checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
 									conditionPartFulfilled = conditionPartFulfilled && check;
 									that.log.silly("COUNTER " + listName + " " + counter.name + ", item " + _listItems[_listItemIndex] + " >>>> check condition " + (conditionIndex + 1) + " von " + counter.conditions.length + ": type: " + counter.conditions[conditionIndex].type + ", value: " + value + ", op: " + counter.conditions[conditionIndex].operator + ", condVal: " + counter.conditions[conditionIndex].value + " --> check: " + check + " ==> fulfilled: " + conditionPartFulfilled);
 									//if(conditionFullyFulfilled) break;
@@ -883,7 +555,7 @@ class Iqontrol extends utils.Adapter {
 								}
 							}
 							//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
-							counter.repeatTimeouts = await that.removeDuplicates(counter.repeatTimeouts);
+							counter.repeatTimeouts = removeDuplicates(counter.repeatTimeouts);
 							if(triggeredBy != "triggeredByRepeatTimeout" && triggeredBy != "triggeredByInterval" && triggeredBy != "triggeredByCreation") for(let repeatTimeoutIndex = 0; repeatTimeoutIndex < counter.repeatTimeouts.length; repeatTimeoutIndex++){
 								if(counter.repeatTimeouts[repeatTimeoutIndex] && !isNaN(counter.repeatTimeouts[repeatTimeoutIndex])){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -942,6 +614,8 @@ class Iqontrol extends utils.Adapter {
 				if(this.config.lists[configListIndex].calculations) for(let calculationIndex = 0; calculationIndex < this.config.lists[configListIndex].calculations.length; calculationIndex++){
 					this.log.debug("...processing calculation " + listName + "_" + this.config.lists[configListIndex].calculations[calculationIndex].name + "...");
 					let calculationName = this.config.lists[configListIndex].calculations[calculationIndex].name || "Calculation " + calculationIndex.toString();
+					//-- --Create combination-object
+					await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculationName),		{type: "state"}, 	{name: listName + " - " + calculationName, 										unit: this.config.lists[configListIndex].calculations[calculationIndex].unit || "",		desc: "Calculation created by iQontrol"});
 					//-- --Get used IDs
 					lists[listIndex].calculationItems[calculationIndex] = [];
 					if (that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < that.config.lists[configListIndex].calculations[calculationIndex].calculationSteps.length; calculationStepIndex++){
@@ -963,7 +637,7 @@ class Iqontrol extends utils.Adapter {
 								let id = calculation.calculationSteps[calculationStepIndex].id;
 								if(!usedStates[id]) usedStates[id] = await that.getForeignStateAsync(id);
 								let value = usedStates[id]?.val;
-								if(isNaN(value)) value = await that.tryParseJSON(value);
+								if(isNaN(value)) value = tryParseJSON(value);
 								if (typeof value == udef) continue;
 								if (calculationType == null) {
 									if(Array.isArray(value)){
@@ -1034,27 +708,7 @@ class Iqontrol extends utils.Adapter {
 								type = "json"; role = "list.json"; 
 								break;
 							}
-							let objName = listName + " - " + calculation.name;
-							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name);
-							obj = {
-								"type": "state",
-								"common": {
-									"name": objName,
-									"desc": "Calculation created by iQontrol",
-									"type": type,
-									"role": role,
-									"icon": "",
-									"unit": that.config.lists[_configListIndex].calculations[_calculationIndex].unit || ""
-								},
-								"native": {}
-							};
-							createdObjects.push(objId);
-							await that.setObjectAsync(objId, obj, true).then(async function(){ 
-								that.log.debug("created: " + objId); 
-								await that.setStateValue(objId, result);
-							}, function(err){
-								that.log.error("ERROR creating " + objId + ": " + err);
-							});
+							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name), false, {type: type, 	role: role}, false, result);
 						}; //<-- End of ##### CALCULATION FUNCTION #####
 						lists[listIndex].calculationFunctions.push(calculationFunction);
 					})(); //<--End Closure
@@ -1079,27 +733,8 @@ class Iqontrol extends utils.Adapter {
 				if(this.config.lists[configListIndex].combinations) for(let combinationIndex = 0; combinationIndex < this.config.lists[configListIndex].combinations.length; combinationIndex++){
 					this.log.debug("...processing combination " + listName + " " + this.config.lists[configListIndex].combinations[combinationIndex].name + "...");
 					let combinationName = this.config.lists[configListIndex].combinations[combinationIndex].name || "Combination " + combinationIndex.toString();
-					//Create combination-object
-					objName = listName + " - " + combinationName;
-					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combinationName);
-					obj = {
-						"type": "state",
-						"common": {
-							"name": objName,
-							"desc": "Combination created by iQontrol",
-							"type": "string",
-							"role": "text",
-							"icon": "",
-							"unit": this.config.lists[configListIndex].combinations[combinationIndex].unit || ""
-						},
-						"native": {}
-					};
-					createdObjects.push(objId);
-					await this.setObjectAsync(objId, obj, true).then(async function(){ 
-						that.log.debug("created: " + objId); 
-					}, function(err){
-						that.log.error("ERROR creating " + objId + ": " + err);
-					});
+					//-- --Create combination-object
+					await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combinationName),		{type: "state"}, 	{name: listName + " - " + combinationName, 		type: "string", 	role: "text",		unit: this.config.lists[configListIndex].combinations[combinationIndex].unit || "",		desc: "Combination created by iQontrol"});
 					//-- --Get used IDs
 					lists[listIndex].combinationItems[combinationIndex] = [];
 					if (that.config.lists[configListIndex].combinations[combinationIndex].combinationSteps) for(let combinationStepIndex = 0; combinationStepIndex < that.config.lists[configListIndex].combinations[combinationIndex].combinationSteps.length; combinationStepIndex++){
@@ -1155,7 +790,7 @@ class Iqontrol extends utils.Adapter {
 								if (typeof value == udef) continue;
 								let onlyIfOperator = combination.combinationSteps[combinationStepIndex].onlyIfOperator;
 								that.log.silly("COMBINATION " + listName + "_" + combination.name + " value: " + value + ", onlyIfOperator: " + onlyIfOperator + ", onlyIfValue: " + combination.combinationSteps[combinationStepIndex].onlyIfValue);
-								if(!onlyIfOperator || (await that.checkCondition(value, onlyIfOperator, combination.combinationSteps[combinationStepIndex].onlyIfValue))){
+								if(!onlyIfOperator || (checkCondition(value, onlyIfOperator, combination.combinationSteps[combinationStepIndex].onlyIfValue))){
 									if(combination.combinationSteps[combinationStepIndex].prefix) result += combination.combinationSteps[combinationStepIndex].prefix;
 									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix) result += value;
 									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix && combination.combinationSteps[combinationStepIndex].postfix) result += combination.combinationSteps[combinationStepIndex].postfix;
@@ -1166,8 +801,7 @@ class Iqontrol extends utils.Adapter {
 							that.log.info("COMBINATION " + listName + " " + combination.name + " result: " + result);
 							//-- -- -- --Set States
 							result = result.replace(/\\r\\n/g, "\r\n");
-							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name);
-							await that.setStateValue(objId, result);
+							await that.setStateValue("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name), result);
 						}; //<-- End of ##### COMBINATION FUNCTION #####
 						lists[listIndex].combinationFunctions.push(combinationFunction);
 					})(); //<--End Closure
@@ -1237,152 +871,53 @@ class Iqontrol extends utils.Adapter {
 			}
 		}
 	}
-	
-	async checkCondition(value, condition, conditionValue, conditionValueSeparator){
-		if(typeof conditionValue == udef) return null;
-		let conditionValues = [];
-		if(typeof conditionValue == "string" && conditionValueSeparator){
-			conditionValues = conditionValue.split(conditionValueSeparator).map(str => str.trim());
-		} else {
-			conditionValues = [conditionValue];
+
+	//++++++++++ OBJECT AND STATES-FUNCTIONS ++++++++++
+	async createOrUpdateObject(objId, rootOptions, commonOptions, nativeOptions, setValue){
+		if (!objId) return;
+		let that = this;
+		let created = false;
+		let obj;
+		if (allObjects[objId]) {
+			this.log.silly("createOrUpdateObject: Object " + objId + " found in allObjects");
+			obj = allObjects[objId];
+		} else {			
+			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
+			obj = {...await this.getObjectAsync(objId, 'state'), ...await this.getObjectAsync(objId, 'channel'), ...await this.getObjectAsync(objId, 'device'), ...await this.getObjectAsync(objId, 'enum')};
 		}
-		value = value || 0;
-		switch(condition || ""){
-			case "at":
-			return true;
-			break;
-
-			case "af":
-			return false;
-			break;
-
-			case "eqt":
-			if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
-				return false;
-			} else {
-				return true;
-			}
-
-			case "eqf":
-			if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
-				return true;
-			} else {
-				return false;
-			}
-			break;
-
-			case "eq":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return true;				
-			}
-			return false;
-			break;
-
-			case "ne":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase() == conditionValues[i].toString().toLowerCase()) return false;				
-			}
-			return true;
-			break;
-
-			case "gt":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) > parseFloat(conditionValues[i])) return true;				
-			}
-			return false;
-			break;
-
-			case "ge":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) >= parseFloat(conditionValues[i])) return true;				
-			}
-			return false;
-			break;
-
-			case "lt":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) < parseFloat(conditionValues[i])) return true;				
-			}
-			return false;
-			break;
-
-			case "le":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) <= parseFloat(conditionValues[i])) return true;				
-			}
-			return false;
-			break;
-
-			case "c":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return true;				
-			}
-			return false;
-			break;
-
-			case "nc":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) > -1) return false;				
-			}
-			return true;
-			break;
-
-			case "bw":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return true;				
-			}
-			return false;
-			break;
-
-			case "nbw":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().indexOf(conditionValues[i].toString().toLowerCase()) == 0) return false;				
-			}
-			return true;
-			break;
-	
-			case "ew":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return true;				
-			}
-			return false;
-			break;
-			
-			case "new":
-			for(let i = 0; i < conditionValues.length; i++){
-				if (value.toString().toLowerCase().endsWith(conditionValues[i].toString().toLowerCase())) return false;				
-			}
-			return true;
-			break;
-
-			default:
-			return null;
+		if (!obj){
+			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found - creating a new object...");
+			created = true;
+			obj = {
+				"type": "state",
+				"common": {
+					"name": objId,
+					"desc": "Created by iQontrol",
+					"type": "string",
+					"role": "",
+					"icon": ""
+				},
+				"native": {}
+			};
 		}
-		return null;
-	}
-
-	async tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
-		try {
-			var o = JSON.parse(jsonString);
-			// Handle non-exception-throwing cases:
-			// Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
-			// but... JSON.parse(null) returns null, and typeof null === "object",
-			// so we must check for that, too. Thankfully, null is falsey, so this suffices:
-			if (o && typeof o === "object") {
-				return o;
-			}
+		if (rootOptions) Object.assign(obj, rootOptions);
+		if (!obj.common) obj.common = {};
+		if (commonOptions) {
+			Object.assign(obj.common, commonOptions);
 		}
-		catch (e) { }
-		return false;
-	}
-	
-	async removeDuplicates(array) { //Removes duplicates from an array
-		let seen = {};
-		return array.filter(function(item) {
-			return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+		if (!obj.native) obj.native = {};
+		if (nativeOptions) {
+			Object.assign(obj.native, nativeOptions);
+		}
+		createdObjects.push(objId);
+		await this.setObjectAsync(objId, obj, true).then(async function(){ 
+			that.log.debug((created ? "created" : "updated") + " object: " + objId); 
+			if (setValue) await that.setStateValue(objId, setValue);
+		}, function(err){
+			that.log.error("ERROR " + (created ? "creating" : "updating") + " object: " + objId + ": " + err);
 		});
 	}
-	
+		
 	async setStateValue(id, value){
 		let that = this;
 		await this.setStateAsync(id, value).then(function(){ 
@@ -1421,7 +956,7 @@ class Iqontrol extends utils.Adapter {
 		});
 	}
 	
-
+	//++++++++++ INITIALIZATION ++++++++++
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
@@ -1438,6 +973,7 @@ class Iqontrol extends utils.Adapter {
 		
 		if(this.config.listsActive){
 			this.log.info("Creating List States...");
+			this.log.debug("...fetching all objects from ioBroker...");
 			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum')};
 			await this.createLists();
 		} else {
@@ -1456,15 +992,15 @@ class Iqontrol extends utils.Adapter {
 		//--------------------------------- HELP ------------------------------------
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		//this.log.info("config option1: " + this.config.option1);
-		//this.log.info("config option2: " + this.config.option2);
+		// this.log.info("config option1: " + this.config.option1);
+		// this.log.info("config option2: " + this.config.option2);
 		//
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		//await this.setObjectAsync("testVariable", {
+		//
+		// For every state in the system there has to be also an object of type state
+		// Here a simple template for a boolean variable named "testVariable"
+		// Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
+		//
+		// await this.setObjectAsync("testVariable", {
 		//	type: "state",
 		//	common: {
 		//		name: "testVariable",
@@ -1474,34 +1010,35 @@ class Iqontrol extends utils.Adapter {
 		//		write: true,
 		//	},
 		//	native: {},
-		//});
+		// });
 		//
 		// in this template all states changes inside the adapters namespace are subscribed
-		//this.subscribeStates("*");
+		// this.subscribeStates("*");
 		//
-		/*
-		setState examples
-		you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
+		//
+		// setState examples
+		// you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
+		//
 		// the variable testVariable is set to true as command (ack=false)
-		//await this.setStateAsync("testVariable", true);
+		// await this.setStateAsync("testVariable", true);
 		//
 		// same thing, but the value is flagged "ack"
 		// ack should be always set to true if the value is received from or acknowledged from the target system
-		//await this.setStateAsync("testVariable", { val: true, ack: true });
+		// await this.setStateAsync("testVariable", { val: true, ack: true });
 		//
 		// same thing, but the state is deleted after 30s (getState will return null afterwards)
-		//await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
+		// await this.setStateAsync("testVariable", { val: true, ack: true, expire: 30 });
 		//
 		// examples for the checkPassword/checkGroup functions
-		//let result = await this.checkPasswordAsync("admin", "iobroker");
-		//this.log.info("check user admin pw ioboker: " + result);
+		// let result = await this.checkPasswordAsync("admin", "iobroker");
+		// this.log.info("check user admin pw ioboker: " + result);
 		//
-		//result = await this.checkGroupAsync("admin", "admin");
-		//this.log.info("check group user admin group admin: " + result);
+		// result = await this.checkGroupAsync("admin", "admin");
+		// this.log.info("check group user admin group admin: " + result);
 		//---------------------------------------------------------------------------
 	}
 
+	//++++++++++ SOCKET-FUNCTIONS ++++++++++
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
