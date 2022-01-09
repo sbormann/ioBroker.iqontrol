@@ -410,6 +410,8 @@ class Iqontrol extends utils.Adapter {
 							parentNames.push(parentName);
 						}
 					}
+					names.sort();
+					parentNames.sort();
 					if (this.config.lists[configListIndex].createNamesList) {
 						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(', '));
 						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
@@ -541,6 +543,8 @@ class Iqontrol extends utils.Adapter {
 									}
 									parentNames.push(parentName);
 								}
+								names.sort();
+								parentNames.sort();
 								if (that.config.lists[configListIndex].createNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST";
 									await that.setStateValue(objId, names.join(', '));
