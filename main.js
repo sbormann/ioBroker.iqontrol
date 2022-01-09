@@ -473,7 +473,7 @@ class Iqontrol extends utils.Adapter {
 				//--Create TOTAL-objects and set States
 				let objName;
 				let objId;
-				let obj = {};
+				let obj;
 				if (listItems.length){
 					objName = listName;
 					objId = "Lists." + idEncodePointAllowed(objName) + ".TOTAL";
@@ -648,9 +648,9 @@ class Iqontrol extends utils.Adapter {
 					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
 					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
 					//Create counter-objects
-					objName = listName + " - " + counterName;
-					objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
-					obj = {
+					let objName = listName + " - " + counterName;
+					let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
+					let obj = {
 						"type": "state",
 						"common": {
 							"name": objName,
@@ -846,9 +846,10 @@ class Iqontrol extends utils.Adapter {
 								that.log.silly("COUNTER " + listName + " " + counter.name + ", item: " + _listItems[_listItemIndex] + " >>>>>>>> check completed ==> fulfilled: " + conditionFullyFulfilled);
 								if(conditionFullyFulfilled) counter.listItems.push(_listItems[_listItemIndex]);
 							}
+							counter.listItems.sort();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
-							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
+							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
 							await that.setStateValue(objId, counter.listItems.length);
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST";
 							await that.setStateValue(objId, counter.listItems.join(', '));
@@ -1033,8 +1034,8 @@ class Iqontrol extends utils.Adapter {
 								type = "json"; role = "list.json"; 
 								break;
 							}
-							objName = listName + " - " + calculation.name;
-							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name);
+							let objName = listName + " - " + calculation.name;
+							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name);
 							obj = {
 								"type": "state",
 								"common": {
@@ -1164,8 +1165,8 @@ class Iqontrol extends utils.Adapter {
 							}
 							that.log.info("COMBINATION " + listName + " " + combination.name + " result: " + result);
 							//-- -- -- --Set States
-							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name);
 							result = result.replace(/\\r\\n/g, "\r\n");
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(combination.name);
 							await that.setStateValue(objId, result);
 						}; //<-- End of ##### COMBINATION FUNCTION #####
 						lists[listIndex].combinationFunctions.push(combinationFunction);
