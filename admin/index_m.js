@@ -5914,6 +5914,7 @@ async function load(settings, onChange) {
 						lists[listIndex].selectors = dialogListEditSelectors;
 						lists[listIndex].filterAliases = $('#dialogListEditListFilterAliases').prop('checked');
 						lists[listIndex].sorting = $('#dialogListEditSorting').val();
+						lists[listIndex].separator = $('#dialogListEditListSeparator').val();
 						lists[listIndex].createNamesList = $('#dialogListEditCreateNamesList').prop('checked');
 						lists[listIndex].createParentNamesList = $('#dialogListEditCreateParentNamesList').prop('checked');
 						lists[listIndex].counters = dialogListEditCounters;
@@ -5929,6 +5930,7 @@ async function load(settings, onChange) {
 					values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
 					$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
 					$('#dialogListEditSorting').val(lists[listIndex].sorting || "parentNames asc").select();
+					$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
 					$('#dialogListEditCreateParentNamesList').prop('checked', (lists[listIndex].createParentNamesList == true));
 					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
 					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);

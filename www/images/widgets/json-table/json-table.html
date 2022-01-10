@@ -507,6 +507,7 @@
 
 		//UrlParameters
 		var heading = getUrlParameter("heading") || "";
+		var headingVariable = false;
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
 		var colsSort = (getUrlParameter("colsSort") || "").split(';');
 		var colsFilter = (getUrlParameter("colsFilter") || "").split(';');
@@ -591,7 +592,20 @@
 		//Document ready
 		$(document).ready(function(){
 			//Heading
-			if(heading) $('#heading').html(heading).show();
+			if(heading && heading.split('|').length > 1 && (heading.split('|').slice(1).join('|').match(/\{([^}]+)\}/) || [])[0].length > 2){ //found variable. regex explanation: { (everything but '}' }
+				headingVariable = heading.split('|').slice(1).join('|').match(/\{([^}]+)\}/);
+				let id = headingVariable[1].split('|')[0];
+				if (id.substr(0, 1) == "[" && id.substr(-1) == "]"){
+					id = id.substring(1, id.length - 1);
+					headingVariable.noUnit = true;
+				}
+				headingVariable.id = id;
+				sendPostMessage("getStateSubscribed", id);
+				heading = heading.split('|')[0];
+			}
+			if(heading){
+				$('#heading').html(heading).show();
+			}
 			//Apply some styling
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
 			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
@@ -911,6 +925,19 @@
 		//Update datapoint
 		function updateDatapoint(id){
 			if (!id) return;
+			if(headingVariable && id == headingVariable.id){//variable Heading
+				console.log("Received headingVariable");
+				if(typeof datapoints[id].val != "undefined"){
+					if (typeof datapoints[id].plainText == 'number' && !headingVariable['noUnit']){	//STATE = number
+						var replacement = datapoints[id].val + datapoints[id].unit;
+					} else {																		//STATE = bool or text
+						var replacement = datapoints[id].plainText;
+					}
+					$('#heading').html(headingVariable['input'].replace(headingVariable[0], replacement)).show();
+				} else if (headingVariable[1].split('|').length > 1) {
+					$('#heading').html(headingVariable['input'].replace(headingVariable[0], headingVariable[1].split('|').slice(1).join('|'))).show();
+				}
+			}
 			if (typeof datapointsParentNames[id] != "undefined" && typeof datapointsParentNames[id].childIds != "undefined" && datapointsParentNames[id].childIds.length > 0){ //Is parentName-Datapoint
 				datapointsParentNames[id].childIds.forEach(function(childId){
 					if(tableDatapoints[childId]){
@@ -1059,7 +1086,7 @@
 						if (typeof datapoints[event.data.stateId] == "undefined"){
 							datapoints[event.data.stateId] = event.data.value;
 						} else {
-								datapoints[event.data.stateId] = Object.assign({}, datapoints[event.data.stateId], event.data.value);						
+							datapoints[event.data.stateId] = Object.assign({}, datapoints[event.data.stateId], event.data.value);						
 						}
 						updateDatapoint(event.data.stateId);
 					}

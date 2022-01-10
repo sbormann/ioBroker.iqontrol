@@ -188,7 +188,15 @@ function getName(id, language){
 function getParentName(id, language) {
 	let parentId = id.substring(0, id.lastIndexOf('.'));
 	let parentName = getName(parentId, language);
-	if (parentName == id) parentName = getName(id, language);
+	if (parentName == id) parentName = getName(id, language); //parentName not set - use name
+	if (parentName == id) { //name also not set - build name from id
+		parentName = id.substring(0, id.lastIndexOf('.'));
+		parentName = parentName.substring(parentName.lastIndexOf('.') + 1);   
+	}
+	if (parentName.substr(-2) == ":0"){ //Homematic Maintenence-Kanal
+		parentName = parentName.substr(0, parentName.length-2);
+	}
+	if (parentName == "") parentName = id;
 	return parentName;
 }
 
@@ -421,9 +429,10 @@ class Iqontrol extends utils.Adapter {
 				}
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL-objects and set States
+				let separator = this.config.lists[configListIndex].separator || ", ";
 				if (listItems.length){
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(', '));
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
 					//--Create optional NAMES and PARENT_NAMES lists
 					let names = [];
@@ -437,11 +446,11 @@ class Iqontrol extends utils.Adapter {
 					names.sort();
 					parentNames.sort();
 					if (this.config.lists[configListIndex].createNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(', '));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
 						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
 					}
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(', '));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
 						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
 					}
 				}
@@ -562,10 +571,11 @@ class Iqontrol extends utils.Adapter {
 							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
 							//-- -- -- --Set States
+							let separator = that.config.lists[configListIndex].separator || ", ";
 							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
 							await that.setStateValue(objId, counter.listItems.length);
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST";
-							await that.setStateValue(objId, counter.listItems.join(', '));
+							await that.setStateValue(objId, counter.listItems.join(separator));
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
 							await that.setStateValue(objId, JSON.stringify(counter.listItems));
 							//Names and ParentNames
