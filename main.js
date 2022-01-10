@@ -978,7 +978,7 @@ class Iqontrol extends utils.Adapter {
 		createdObjects.push(objId);
 		await this.setObjectAsync(objId, obj, true).then(async function(){ 
 			that.log.debug((created ? "created" : "updated") + " object: " + objId); 
-			if (setValue) await that.setStateValue(objId, setValue);
+			if (typeof setValue != udef) await that.setStateValue(objId, setValue);
 		}, function(err){
 			that.log.error("ERROR " + (created ? "creating" : "updating") + " object: " + objId + ": " + err);
 		});
