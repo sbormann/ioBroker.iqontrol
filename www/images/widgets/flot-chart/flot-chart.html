@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content="This is a flot-chart widget. It will display the history of the datapoint linked to STATE or LEVEL. You need to have a history adapter up and running and the linked Datapoint needs to be logged to get this working! (C) by Sebastian Bormann"/> 
-	<meta name="widget-urlparameters" content="chartColor/rgb(104,164,255)/Chart color/color;range/360/Period of time to display (minutes)/number/1,525600,1;min//Minimum (leave empty to use datapoint-settings);max//Maximum (leave empty to use datapoint-settings);ignoreMinMax/false/Ignore Min and Max (automatic scaling)/checkbox;fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;showXaxe/off/Show X Axis/select/off,off/bottom,bottom/bottomColor,bottom colored/bottomIfBig,bottom if big/bottomColorIfBig,bottom colored if big/top,top/topColor,top colored/topIfBig,top if big/topColorIfBig,top colored if big;xticks/3/Ticks of X Axis (0 = auto)/number/0,10,1;showYaxe/off/Show Y Axis/select/off,off/right,right/rightColor,right colored/rightIfBig,right if big/rightColorIfBig,right colored if big/left,left/leftColor,left colored/leftIfBig,left if big/leftColorIfBig,left colored if big;yticks/0/Ticks of Y Axis (0 = auto)/number/0,10,1;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint;historyInstance//Use this history instance (if empty, default is used)/historyInstance">
+	<meta name="widget-urlparameters" content="chartColor/rgb(104,164,255)/Chart color/color;range/360/Period of time to display (minutes)/number/1,525600,1;min//Minimum (leave empty to use datapoint-settings);max//Maximum (leave empty to use datapoint-settings);ignoreMinMax/false/Ignore Min and Max from datapoint settings (automatic scaling). Min and Max set here are always respected./checkbox;fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;showXaxe/off/Show X Axis/select/off,off/bottom,bottom/bottomColor,bottom colored/bottomIfBig,bottom if big/bottomColorIfBig,bottom colored if big/top,top/topColor,top colored/topIfBig,top if big/topColorIfBig,top colored if big;xticks/3/Ticks of X Axis (0 = auto)/number/0,10,1;showYaxe/off/Show Y Axis/select/off,off/right,right/rightColor,right colored/rightIfBig,right if big/rightColorIfBig,right colored if big/left,left/leftColor,left colored/leftIfBig,left if big/leftColorIfBig,left colored if big;yticks/0/Ticks of Y Axis (0 = auto)/number/0,10,1;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint;historyInstance//Use this history instance (if empty, default is used)/historyInstance">
 	<meta name="widget-options" content="{'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'true', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
 	<link rel="stylesheet" href="flot-chart.css" />
 	<script type="text/javascript" src="../../../../lib/js/jquery-1.11.2.min.js"></script>
@@ -76,10 +76,7 @@
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || TEMPERATURE || SET_TEMPERATURE || null;
 			if(dp == null) return;
 			var id = dp.id;
-			if(ignoreMinMax){
-				min = "";
-				max = "";
-			} else {
+			if(!ignoreMinMax){
 				min = min || dp.min || "";
 				max = max || dp.max || "";
 			}
