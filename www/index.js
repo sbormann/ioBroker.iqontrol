@@ -4272,6 +4272,11 @@ function handleOptions(){
 		customCSS += "	filter: brightness(" + LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
 		customCSS += "}";
 	};
+	if (options.LayoutColorModeDarkDeviceInfoIconInvert) {
+		customCSS += "html.color-mode-dark .iQontrolDeviceInfoAIcon, html.color-mode-dark .iQontrolDeviceInfoBIcon{";
+		customCSS += "	filter: invert(" + (options.LayoutDefaultSymbolsInfoABInvert ? "0" : "1") + ");";
+		customCSS += "}";
+	};
 	if (options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor) {
 		customCSS += "html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoAText, html.color-mode-dark .iQontrolDevice:not(.active) .iQontrolDeviceInfoBText{";
 		customCSS += "	color: " + options.LayoutColorModeDarkViewDeviceInfoInactiveTextColor + ";";
