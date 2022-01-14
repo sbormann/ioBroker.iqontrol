@@ -270,7 +270,7 @@ class Iqontrol extends utils.Adapter {
 				this.log.debug("Creating List " + listName + "...");
 				let listItems = [];
 				//--##### Selectors #####
-				for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors.length; selectorIndex++){
+				for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length; selectorIndex++){
 					this.log.debug("...processing Selector " + (selectorIndex + 1) + "...");
 					let selector = this.config.lists[configListIndex].selectors[selectorIndex];
 					switch(selector.type){
