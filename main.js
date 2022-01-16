@@ -430,30 +430,28 @@ class Iqontrol extends utils.Adapter {
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL-objects and set States
 				let separator = this.config.lists[configListIndex].separator || ", ";
-				if (listItems.length){
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
-					//--Create optional NAMES and PARENT_NAMES lists
-					let names = [];
-					let parentNames = [];
-					if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
-						for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-							names.push(getName(listItems[listItemIndex], that.systemLanguage));
-							parentNames.push(getParentName(listItems[listItemIndex], that.systemLanguage));
-						}
-					}
-					names.sort();
-					parentNames.sort();
-					if (this.config.lists[configListIndex].createNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
-						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
-					}
-					if (this.config.lists[configListIndex].createParentNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
-						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
+				//--Create optional NAMES and PARENT_NAMES lists
+				let names = [];
+				let parentNames = [];
+				if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
+					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+						names.push(getName(listItems[listItemIndex], that.systemLanguage));
+						parentNames.push(getParentName(listItems[listItemIndex], that.systemLanguage));
 					}
 				}
+				names.sort();
+				parentNames.sort();
+				if (this.config.lists[configListIndex].createNamesList) {
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
+					//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
+				}
+				if (this.config.lists[configListIndex].createParentNamesList) {
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
+					//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
+					}
 				//--Create entry the lists-Array
 				lists.push({
 					name: listName, 
