@@ -185,7 +185,7 @@ function getName(id, language){
 	return name;	
 }
 
-function getParentName(id, language) {
+function getParentName(id, language){
 	let parentId = id.substring(0, id.lastIndexOf('.'));
 	let parentName = getName(parentId, language);
 	if (parentName == id) parentName = getName(id, language); //parentName not set - use name
@@ -198,6 +198,19 @@ function getParentName(id, language) {
 	}
 	if (parentName == "") parentName = id;
 	return parentName;
+}
+
+async function getValue(id, that){
+	if(!usedStates[id]){
+		try {
+			usedStates[id] = await that.getForeignStateAsync(id);
+		} catch {
+			usedStates[id] = emptyState;
+		}
+	}
+	let value = usedStates[id] && usedStates[id].val || null;
+	that.log.silly("Get Value of " + id + ": " + value); 
+	return value;
 }
 
 //++++++++++ ADAPTER FUNCTIONS ++++++++++
@@ -270,7 +283,7 @@ class Iqontrol extends utils.Adapter {
 				this.log.debug("Creating List " + listName + "...");
 				let listItems = [];
 				//--##### Selectors #####
-				for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length; selectorIndex++){
+				if (this.config.lists[configListIndex].selectors) for(let selectorIndex = 0; selectorIndex < this.config.lists[configListIndex].selectors.length; selectorIndex++){
 					this.log.debug("...processing Selector " + (selectorIndex + 1) + "...");
 					let selector = this.config.lists[configListIndex].selectors[selectorIndex];
 					switch(selector.type){
@@ -422,14 +435,17 @@ class Iqontrol extends utils.Adapter {
 				if (typeof sorting != "string") sorting = "";
 				if(sorting.indexOf("id") > -1){ //id
 					listItems.sort();
+				} else if (sorting.indexOf("values") > -1) { //values
+					listItems.sort(function(a, b){ return collator.compare(getValue(a, that), getValue(b, that)); });
 				} else if (sorting.indexOf("names") > -1) { //names
-					listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)) });
+					listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)); });
 				} else { //parentNames
-					listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)) });
+					listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)); });
 				}
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL-objects and set States
 				let separator = this.config.lists[configListIndex].separator || ", ";
+						  
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
@@ -452,6 +468,7 @@ class Iqontrol extends utils.Adapter {
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
 					//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
 					}
+	 
 				//--Create entry the lists-Array
 				lists.push({
 					name: listName, 
@@ -561,10 +578,12 @@ class Iqontrol extends utils.Adapter {
 							let sorting = that.config.lists[configListIndex].sorting || "";
 							if(sorting.indexOf("id") > -1){ //id
 								counter.listItems.sort();
+							} else if (sorting.indexOf("values") > -1) { //values
+								counter.listItems.sort(function(a, b){ return collator.compare(getValue(a, that), getValue(b, that)); });
 							} else if (sorting.indexOf("names") > -1) { //names
-								counter.listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)) });
+								counter.listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)); });
 							} else { //parentNames
-								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)) });
+								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)); });
 							}
 							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
@@ -1039,6 +1058,7 @@ class Iqontrol extends utils.Adapter {
 			this.log.info("Creating List States...");
 			this.log.debug("...fetching all objects from ioBroker...");
 			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum')};
+			this.log.debug("fetched " + Object.keys(allObjects).length + " objects from ioBroker.");
 			await this.createLists();
 		} else {
 			this.log.info("Lists deactivated.");			
