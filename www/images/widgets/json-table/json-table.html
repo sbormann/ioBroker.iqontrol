@@ -67,20 +67,23 @@
 												colorTextShadowDark//Text-Shadow-Color in dark mode/color;
 												colorTextShadowOddDark//Text-Shadow-Color for odd lines in dark mode/color;
 												//Icon-Replacement/section;
+												//Search and replace strings with icons. You can use regular expressions (regEx) in Search-String. You can also use variables like '$&'in the caption./info;
+												/https:\\github.com\sbormann\ioBroker.iqontrol\wiki\JSON-Table-and-Device-Counter-Widget---Icon-Replacements#using-regular-expressions-regex/See here fore more informations/link;
+												///divider;
 												iconCols//Search for strings and replace with icons in these headings (semicolon-separated list of column headers, optional);
 												///divider;
-												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1;///divider;
-												icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2;///divider;
-												icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3;///divider;
-												icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4;///divider;
-												icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5;///divider;
-												icon6Url//Icon 6/icon;icon6Caption//Caption that will be added to icon 6;icon6String//String that will be replaced by icon 6;///divider;
-												icon7Url//Icon 7/icon;icon7Caption//Caption that will be added to icon 7;icon7String//String that will be replaced by icon 7;///divider;
-												icon8Url//Icon 8/icon;icon8Caption//Caption that will be added to icon 8;icon8String//String that will be replaced by icon 8;///divider;
-												icon9Url//Icon 9/icon;icon9Caption//Caption that will be added to icon 9;icon9String//String that will be replaced by icon 9;///divider;
-												icon10Url//Icon 10/icon;icon10Caption//Caption that will be added to icon 10;icon10String//String that will be replaced by icon 10;///divider;
-												icon11Url//Icon 11/icon;icon11Caption//Caption that will be added to icon 11;icon11String//String that will be replaced by icon 11;///divider;
-												icon12Url//Icon 12/icon;icon12Caption//Caption that will be added to icon 12;icon12String//String that will be replaced by icon 12;
+												icon1Url//Icon 1/icon;icon1Caption//Caption that will be added to icon 1;icon1String//String that will be replaced by icon 1 (Search-String);///divider;
+												icon2Url//Icon 2/icon;icon2Caption//Caption that will be added to icon 2;icon2String//String that will be replaced by icon 2 (Search-String);///divider;
+												icon3Url//Icon 3/icon;icon3Caption//Caption that will be added to icon 3;icon3String//String that will be replaced by icon 3 (Search-String);///divider;
+												icon4Url//Icon 4/icon;icon4Caption//Caption that will be added to icon 4;icon4String//String that will be replaced by icon 4 (Search-String);///divider;
+												icon5Url//Icon 5/icon;icon5Caption//Caption that will be added to icon 5;icon5String//String that will be replaced by icon 5 (Search-String);///divider;
+												icon6Url//Icon 6/icon;icon6Caption//Caption that will be added to icon 6;icon6String//String that will be replaced by icon 6 (Search-String);///divider;
+												icon7Url//Icon 7/icon;icon7Caption//Caption that will be added to icon 7;icon7String//String that will be replaced by icon 7 (Search-String);///divider;
+												icon8Url//Icon 8/icon;icon8Caption//Caption that will be added to icon 8;icon8String//String that will be replaced by icon 8 (Search-String);///divider;
+												icon9Url//Icon 9/icon;icon9Caption//Caption that will be added to icon 9;icon9String//String that will be replaced by icon 9 (Search-String);///divider;
+												icon10Url//Icon 10/icon;icon10Caption//Caption that will be added to icon 10;icon10String//String that will be replaced by icon 10 (Search-String);///divider;
+												icon11Url//Icon 11/icon;icon11Caption//Caption that will be added to icon 11;icon11String//String that will be replaced by icon 11 (Search-String);///divider;
+												icon12Url//Icon 12/icon;icon12Caption//Caption that will be added to icon 12;icon12String//String that will be replaced by icon 12 (Search-String);
 												//Datapoint Detection/section;
 												datapointDetectionEnabled/true/Enable datapoint detection/checkbox;
 												datapointIdCol/id/Search for datapoint ids in this column (column header);
@@ -562,7 +565,7 @@
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);
-			translations[i] = {searchValue: entry[0], newValue: entry[1]};
+			translations[i] = {searchValue: entry[0], newValue: entry[1], exactMatch: true};
 		}
 		var iconCols = (getUrlParameter("iconCols") || "").split(';');		
 		var iconReplacements = [];
@@ -571,7 +574,7 @@
             if (iconUrl && iconUrl.indexOf('http') !== 0) iconUrl = '/iqontrol/' + iconUrl
 			var caption = getUrlParameter("icon" + i + "Caption");
 			var string = getUrlParameter("icon" + i + "String");
-			if (iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : "")});
+			if (iconUrl && string) iconReplacements.push({searchValue: string, newValue: "<img src='" + iconUrl + "' class='jsonTableIcon'>" + (caption ? "&nbsp;" + caption : ""), caseInsensitive: true});
 		}
 		var translationsAndIconReplacements = iconReplacements.concat(translations);
 		var datapointDetectionEnabled = !(getUrlParameter("datapointDetectionEnabled") == "false");
@@ -816,7 +819,7 @@
 							priorityNormalIndex++;
 						} else {
 							tableString += colsPreferablyVisible.indexOf(colsSortedAndFiltered[col]) + priorityPreferablyIndex;
-							colsPreferablyVisibleTranslated.push(multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true));
+							colsPreferablyVisibleTranslated.push(multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations));
 						}
 					}
 				}
@@ -824,7 +827,7 @@
 				tableString += "' class='";
 				if (columnSortEnabled && columnSortEnabledColsFilter.indexOf(colsSortedAndFiltered[col]) == -1) tableString += "columnSortEnabled ";
 				tableString += "'>";
-				tableString += multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations, true);
+				tableString += multiReplace(colsSortedAndFiltered[col] || (col + 1).toString(), translations);
 				tableString += "</th>";
 			}
 			tableString += "</tr>";
@@ -837,7 +840,7 @@
 			for (var row = 0; row < dataObject.length; row++) {
 				bodyString += "<tr data-row='" + row + "'" + (rowsLimit == 0 || row < rowsLimit ? "" : "style='display:none;'") + ">";
 				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					let result = multiReplace(dataObject[row][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations), true);
+					let result = multiReplace(dataObject[row][colsSortedAndFiltered[col]] || "", ((iconCols[0] == "" || iconCols.indexOf(colsSortedAndFiltered[col]) != -1) ? translationsAndIconReplacements : translations));
 					if (replaceCRwithBR) result = result.toString().replace(/\r\n/g, "<br>");
 					bodyString += "<td data-row='" + row + "' data-colname='" + colsSortedAndFiltered[col] + "'>" + result + "</td>";
 				}
@@ -962,7 +965,7 @@
 					if (typeof result == "undefined" || result === null) result = ""; else result = result.toString();
 					if (datapointExtendTableCol == "val" && result != "" && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
 					if (datapointExtendTableCol == "plainText" && result != "" && (datapoints[id].val == datapoints[id].plainText) && datapoints[id].unit) result += (datapoints[id].unit == "%" ? "" : "&nbsp;") + datapoints[id].unit;
-					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations), true);
+					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations));
 					if (replaceCRwithBR) result = result.toString().replace(/\r\n/g, "<br>");
 					$("td[data-row='" + row + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
 				});
@@ -1123,12 +1126,19 @@
 		};
 		
 		//multiReplace
-		function multiReplace(string, replacementObj, onlyExactMatches){ //Replaces multiple replacements in string. replacementObj = [{searchValue: "", newValue: ""}, ...]
+		function multiReplace(string, replacementObj, exactMatch){ //Replaces multiple replacements in string. replacementObj = [{searchValue: "", newValue: ""}, ...]
 			replacementObj.forEach(function(replacement){
-				if (onlyExactMatches){
-					if (string == replacement.searchValue) string = replacement.newValue;
+				if (replacement.exactMatch){
+					if (replacement.caseInsensitive) {
+						if (string.toString().toLowerCase() == replacement.searchValue.toString().toLowerCase()) string = replacement.newValue;
+					} else {
+						if (string == replacement.searchValue) string = replacement.newValue;
+					}
 				} else {
-					var regex = new RegExp(replacement.searchValue, "g");
+					let flags = "";
+					if (replacement.caseInsensitive) flags += "i";
+					flags += "g";
+					var regex = new RegExp(replacement.searchValue, flags);
 					string = string.toString().replace(regex, replacement.newValue);
 				}
 			});

@@ -5025,6 +5025,14 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "<div class='divider'></div><br>";
 									break;
 									
+									case "info":
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><p>" + _(name) + "</p></div></div>";
+									break;
+									
+									case "link":
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><a href='" + value.replace(/\\/g, "/") + "' target='_blank'>" + _(name) + "</a></div></div>";
+									break;
+									
 									case "number":
 									var min = (options[0] || "").split(',')[0] || 0;
 									var max = (options[0] || "").split(',')[1] || 100;
