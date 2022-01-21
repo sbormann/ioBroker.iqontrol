@@ -587,7 +587,7 @@
 		datapointExtendTableColsDefaultTranslationLanguage = (datapointExtendTableColsDefaultTranslationLanguage ? datapointExtendTableColsDefaultTranslationLanguage : "en");
 		if (datapointExtendTableColsDefaultTranslationLanguage){
 			for(word in datapointExtendTableColsDefaultTranslationWords){
-				translations.push({searchValue: word, newValue: datapointExtendTableColsDefaultTranslationWords[word][datapointExtendTableColsDefaultTranslationLanguage]});
+				translations.push({searchValue: word, newValue: datapointExtendTableColsDefaultTranslationWords[word][datapointExtendTableColsDefaultTranslationLanguage], exactMatch: true});
 			}
 		}
 		var datapointToggleCols = (getUrlParameter("datapointToggleCols") || "plainText").split(';');
