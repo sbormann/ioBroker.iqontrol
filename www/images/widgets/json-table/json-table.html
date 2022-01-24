@@ -48,9 +48,16 @@
 												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
 												rowsLimitLoadMoreCaption/.../Caption of 'Load more' Button/text;
+												///divider;
 												headHide/false/Hide Head of table/checkbox;
 												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
+												///divider;
 												replaceCRwithBR/true/Replace \r\n with br/checkbox;
+												///divider;
+												fontFamily//Font-Family/fontFamily;
+												fontSize//Font-Size/fontSize;
+												fontWeight//Font-Weight/fontWeight;
+												fontStyle//Font-Style/fontStyle;
 												///divider;
 												colorBackground//Background-Color/color;
 												colorBackgroundOdd//Background-Color for odd lines/color;
@@ -536,6 +543,10 @@
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
 		var replaceCRwithBR = !getUrlParameter("replaceCRwithBR") == "false";
+		var fontFamily = getUrlParameter("fontFamily") || "";
+		var fontSize = getUrlParameter("fontSize") || "";
+		var fontWeight = getUrlParameter("fontWeight") || "";
+		var fontStyle = getUrlParameter("fontStyle") || "";
 		var colorBackground = getUrlParameter("colorBackground");
 		var colorBackgroundOdd = getUrlParameter("colorBackgroundOdd");
 		var colorBorders = getUrlParameter("colorBorders");
@@ -609,11 +620,39 @@
 			if(heading){
 				$('#heading').html(heading).show();
 			}
+			
 			//Apply some styling
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
 			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
 			if(headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
 			if(scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; } html { scrollbar-width: none; }', 'scrollbarHide');
+			if (fontFamily) {
+				fontFamily = getFontFamilyAndAddFontFace(fontFamily);
+				addCustomCSS('* { font-family: ' + fontFamily + ' !important;}', 'fontFamily');
+			};
+			//@font-face
+			function getFontFamilyAndAddFontFace(option){
+				var fontFamily = encodeURIComponent(option.split('@')[0].replace(/\\/g,"").replace(/\//g,"").replace(/ /g,"").replace(/\./g,""));
+				if (option.indexOf("/userfonts/") == 0 && option.split('@').length > 1){
+					var format = option.slice(option.lastIndexOf('.') + 1);
+					switch(format){
+						case "otf": format = "opentype"; break;
+						case "ttf": format = "truetype"; break;
+					}
+					var fontFaceUrl = encodeURI(option.split('@')[1].replace(/\\/g,"/"))
+					if (fontFaceUrl && fontFaceUrl.indexOf('http') !== 0) fontFaceUrl = '/iqontrol/' + fontFaceUrl;
+					var customCSSFontFace = "@font-face{";
+					customCSSFontFace += "	font-family: '" + fontFamily + "';"
+					customCSSFontFace += "	src: url('" + fontFaceUrl + "') format('" + format + "');"
+					customCSSFontFace += "}";
+					if ($('style.customCSS_default').text().indexOf(customCSSFontFace) == -1) addCustomCSS(customCSSFontFace);
+					return fontFamily;
+				}
+				return option;
+			}
+			if (fontSize) addCustomCSS('* { font-size: ' + fontSize + 'px !important;}', 'fontSize');
+			if (fontWeight) addCustomCSS('* { font-weight: ' + fontWeight + ' !important;}', 'fontWeight');
+			if (fontStyle) addCustomCSS('* { font-style: ' + fontStyle + ' !important;}', 'fontStyle');
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");

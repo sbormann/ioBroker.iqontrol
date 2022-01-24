@@ -4998,6 +4998,73 @@ async function load(settings, onChange) {
 								queries[query.split('=')[0]] = query.split('=')[1] || "";
 							});
 							if (urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
+							//Build options string for icons comboboxes
+							//Blank Icon
+							var comboboxesIconsOptions = "[" + _("No Icon") + ":]";
+							comboboxesIconsOptions += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (link + "/images/icons/checkboard.png").replace(/\//g, "\\");
+							//Inbuilt Icons
+							comboboxesIconsOptions += ";[" + _("Inbuilt Icons") + ":]";
+							inbuiltIcons.forEach(function(inbuiltIcon){
+								if (inbuiltIcon != "") {
+									comboboxesIconsOptions += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
+								}
+							});
+							//User Icons
+							var imagenames = [];
+							imagesDirs.forEach(function(imagesDir){
+								if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+									imagenames.push("[" + imagesDir.dirnameBS + ":]");
+									imagesDir.files.forEach(function(file){
+										 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+									});
+								}
+							});
+							if (imagenames.length > 0){
+								comboboxesIconsOptions += ";[" + _("User Icons") + ":]";
+								imagenames.forEach(function(option){
+									comboboxesIconsOptions += ";" + option;
+								});
+							}
+							//Build options string for font family comboboxes
+							//Default Font
+							var comboboxesFontsOptions = "[" + _("Default Font") + ":]";
+							comboboxesFontsOptions += ";/" + _("Default Font") + "/" + (link + "/images/icons/blank.png").replace(/\//g, "\\");
+							//Inbuilt Fonts
+							comboboxesFontsOptions += ";[Sans-Serif:]";
+							comboboxesFontsOptions += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
+							comboboxesFontsOptions += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
+							comboboxesFontsOptions += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
+							comboboxesFontsOptions += ";[Serif:]";
+							comboboxesFontsOptions += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
+							comboboxesFontsOptions += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
+							comboboxesFontsOptions += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
+							comboboxesFontsOptions += ";[Fantasy:]";
+							comboboxesFontsOptions += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
+							comboboxesFontsOptions += ";[Cursive:]";
+							comboboxesFontsOptions += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
+							comboboxesFontsOptions += ";[Monospace:]";
+							comboboxesFontsOptions += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
+							//User Fonts
+							var userfonts = [];
+							imagesDirs.forEach(function(imagesDir){
+								if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
+									imagesDir.files.forEach(function(file){
+										var filename = file.filename || "";
+										if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+											var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+											if (iconIndex > -1) var icon = link + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = link + "/images/icons/file_font.png";
+											userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+										}
+									});
+								}
+							});
+							if (userfonts.length > 0){
+								comboboxesFontsOptions += ";[" + _("User Fonts") + ":]";
+								userfonts.forEach(function(userfont){
+									comboboxesFontsOptions += ";" + userfont;
+								});
+							}
+							//Build URL-Parameters dialog
 							urlParameters.forEach(function(urlParameter){
 								urlParameter = urlParameter.trim().split('/');
 								var entry = decodeURIComponent(urlParameter[0]);
@@ -5102,37 +5169,56 @@ async function load(settings, onChange) {
 									break;
 									
 									case "icon":
-									//Blank Icon
-									var options = "[" + _("No Icon") + ":]";
-									options += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (link + "/images/icons/checkboard.png").replace(/\//g, "\\");
-									//Inbuilt Icons
-									options += ";[" + _("Inbuilt Icons") + ":]";
-									inbuiltIcons.forEach(function(inbuiltIcon){
-										if (inbuiltIcon != "") {
-											options += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-										}
-									});
-									//User Icons
-									var imagenames = [];
-									imagesDirs.forEach(function(imagesDir){
-										if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-											imagenames.push("[" + imagesDir.dirnameBS + ":]");
-											imagesDir.files.forEach(function(file){
-												 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-											});
-										}
-									});
-									if (imagenames.length > 0){
-										options += ";[" + _("User Icons") + ":]";
-										imagenames.forEach(function(option){
-											options += ";" + option;
-										});
-									}
-									//Icons Combobox
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: options});
+									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesIconsOptions});
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("No Icon") + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
+									
+									case "fontFamily":
+									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesFontsOptions});
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("Default Font") + "' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
+
+									case "fontSize":
+									var min = 1;
+									var max = 100;
+									var step = 0.01;
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + " [px]' data-success=''></span>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
+
+									case "fontWeight":
+									var selectOptionsContent = "";
+									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
+									selectOptionsContent += "        <option value='lighter' class='translate'>Lighter</option>";
+									selectOptionsContent += "        <option value='normal' class='translate'>Normal</option>";
+									selectOptionsContent += "        <option value='bold' class='translate'>Bold</option>";
+									selectOptionsContent += "        <option value='bolder' class='translate'>Bolder</option>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
+
+									case "fontStyle":
+									var selectOptionsContent = "";
+									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
+									selectOptionsContent += "        <option value='normal' class='translate'>Normal</option>";
+									selectOptionsContent += "        <option value='italic' class='translate'>Italic</option>";
+									selectOptionsContent += "        <option value='oblique' class='translate'>Oblique</option>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
@@ -6824,7 +6910,6 @@ async function load(settings, onChange) {
 				optionsString += ";" + userfont;
 			});
 		}
-		//enhanceTextInputToCombobox('#optionsLayoutToolbarFontFamily', optionsString, false);
 		enhanceTextInputToCombobox('.optionsFontFamily', optionsString, false, onChange);
 
 		//Fill Selectbox for Export Selected Views
