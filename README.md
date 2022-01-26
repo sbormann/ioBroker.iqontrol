@@ -1676,7 +1676,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added heading and border-color-option to JSON-table widget.
 * (sbormann) Changed behaviour of min/max/ignore-min-max-settings of FLOT-Chart-Widget.
 * (sbormann) Added option to invert color of INFO_A/B icons for dark-mode.
-* (sbormann) You can now chose fonts for the JSON-table widget.
+* (sbormann) Added configurable font to JSON-table widget.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.

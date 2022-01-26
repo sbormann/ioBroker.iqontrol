@@ -1875,6 +1875,27 @@ function isValidColorString(colorString){
 	return (style.color && style.color != "");
 }
 
+//Add function to inputClear-Buttons and selectClear-Buttons
+function initInputClear(){
+	$('.inputClear').off('click').on('click', function(){
+		if ($(this).data('default')){
+			$(this).prevAll('input').val($(this).data('default')).trigger('change');
+		} else {
+			$(this).prevAll('input').val('').removeClass('valid invalid').trigger('change');
+		}
+		M.validate_field($(this).prevAll('input'));
+		M.updateTextFields();
+	});
+	$('.selectClear').off('click').on('click', function(){
+		if ($(this).data('default')){
+			$(this).prevAll('.select-wrapper').children('select').val($(this).data('default'));
+		} else {
+			$(this).prevAll('.select-wrapper').children('select').val('');
+		}
+		$('select').select();
+	});
+}
+
 //Symbolic links
 function updateSymbolicLinks(){
 	var changed = false;
@@ -2547,23 +2568,7 @@ async function load(settings, onChange) {
 	});
 
 	//Add function to inputClear-Buttons and selectClear-Buttons
-	$('.inputClear').on('click', function(){
-		if ($(this).data('default')){
-			$(this).prevAll('input').val($(this).data('default')).trigger('change');
-		} else {
-			$(this).prevAll('input').val('').removeClass('valid invalid').trigger('change');
-		}
-		M.validate_field($(this).prevAll('input'));
-		M.updateTextFields();
-	});
-	$('.selectClear').on('click', function(){
-		if ($(this).data('default')){
-			$(this).prevAll('.select-wrapper').children('select').val($(this).data('default'));
-		} else {
-			$(this).prevAll('.select-wrapper').children('select').val('');
-		}
-		$('select').select();
-	});
+	initInputClear();
 
 	//Select elements with id=key and class=value and insert value
 	if (!settings) return;
@@ -3628,41 +3633,29 @@ async function load(settings, onChange) {
 					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
 					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
 						if ((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
-						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog
-							var filename = null;
-							var path = null;
-							if (stateValue.indexOf("./images/widgets/") == 0){
-								filename = stateValue.substr(8);
-								path = imagePath;
-							}
-							if (stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-								filename = stateValue.substr(29);
-								path = userfilesImagePath;
-							}
-							if (filename && path){
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-									getWidgetSettings(filename, path, true, dialogDeviceEditOptions, false, function(result){
-										var _stateIndex = stateIndex;
-										var _stateValue = stateValue;
-										if (result.urlParameters.length) {
-											var urlParameterString = "?" + result.urlParameters.join('&');
-											$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(_stateValue.split('?')[0] + urlParameterString).trigger('change');
-										}
-										for(option in result.options){
-											if (iQontrolRoles["iQontrolWidget"].options[option]){
-												var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-												if (optionsIndex != -1) {
-													dialogDeviceEditOptions[optionsIndex].value = result.options[option];
-												} else {
-													var entry = {option: option, value: result.options[option]};
-													dialogDeviceEditOptions.push(entry);
-												}
+						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog				
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _stateValue = stateValue;
+								getWidgetSettings(_stateValue,  true, dialogDeviceEditOptions, false, function(result){
+									var _stateIndex = stateIndex;
+									var _stateValue = stateValue;
+									if (result.url) {
+										$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(result.url).trigger('change');
+									}
+									for(option in result.options){
+										if (iQontrolRoles["iQontrolWidget"].options[option]){
+											var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+											if (optionsIndex != -1) {
+												dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+											} else {
+												var entry = {option: option, value: result.options[option]};
+												dialogDeviceEditOptions.push(entry);
 											}
-										};
-										dialogDeviceEditOptionsBuildOptionsContent();
-									});
-								})(); //<--End Closure
-							}
+										}
+									};
+									dialogDeviceEditOptionsBuildOptionsContent();
+								});
+							})(); //<--End Closure
 						} else if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
 							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
 							if ($targetInput.data('materialize-color-picker-initialized')){
@@ -3757,36 +3750,23 @@ async function load(settings, onChange) {
 		}
 	}
 	function dialogDeviceEditStatesWidgetSelected(value){
-		var filename = null;
-		var path = null;
-		if (value.indexOf("./images/widgets/") == 0){
-			filename = value.substr(8);
-			path = imagePath;
-		}
-		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-			filename = value.substr(29);
-			path = userfilesImagePath;
-		}
-		if (filename && path){
-			getWidgetSettings(filename, path, true, dialogDeviceEditOptions, true, function(result){
-				if (result.urlParameters.length) {
-					var urlParameterString = "?" + result.urlParameters.join('&');
-					$enhanceTextInputToComboboxActualTarget.val($enhanceTextInputToComboboxActualTarget.val() + urlParameterString).trigger('change');
-				}
-				for(option in result.options){
-					if (iQontrolRoles["iQontrolWidget"].options[option]){
-						var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-						if (optionsIndex != -1) {
-							dialogDeviceEditOptions[optionsIndex].value = result.options[option];
-						} else {
-							var entry = {option: option, value: result.options[option]};
-							dialogDeviceEditOptions.push(entry);
-						}
+		getWidgetSettings(value, true, dialogDeviceEditOptions, true, function(result){
+			if (result.url) {
+				$enhanceTextInputToComboboxActualTarget.val(result.url).trigger('change');
+			}
+			for(option in result.options){
+				if (iQontrolRoles["iQontrolWidget"].options[option]){
+					var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+					if (optionsIndex != -1) {
+						dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+					} else {
+						var entry = {option: option, value: result.options[option]};
+						dialogDeviceEditOptions.push(entry);
 					}
-				};
-				dialogDeviceEditOptionsBuildOptionsContent();
-			});
-		}
+				}
+			};
+			dialogDeviceEditOptionsBuildOptionsContent();
+		});
 	}
 
 	//Enhance TableDialogDeviceEditStateArrayReady
@@ -4887,9 +4867,10 @@ async function load(settings, onChange) {
 		$('#dialogDevicesAutocreateWidget .modal-content').scrollTop(0);
 	});
 	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
-		$('#dialogDevicesAutocreateWidgetDescription').html("")
-		$('#dialogDevicesAutocreateWidgetOptions').html("")
-		$('#dialogDevicesAutocreateWidgetUrlParameters').html("")
+		$('#dialogDevicesAutocreateWidgetDescription').html("");
+		$('#dialogDevicesAutocreateWidgetOptions').html("");
+		$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
+		$("#dialogDevicesAutocreateWidgetSourceEdit").data('url', '').addClass('disabled');
 		if ($("#dialogDevicesAutocreateWidgetSource").val() != ""){
 			$('#dialogDevicesAutocreateWidget a.btn-set').removeClass('disabled');
 		} else {
@@ -4898,53 +4879,56 @@ async function load(settings, onChange) {
 		dialogDevicesAutocreateWidgetOptions = [];
 		dialogDevicesAutocreateWidgetUrlParameters = "";
 	});
+	$("#dialogDevicesAutocreateWidgetSourceEdit").on('click', function(){
+		dialogDevicesAutocreateWidgetWidgetSelected($(this).data('url'));
+	});
 	function dialogDevicesAutocreateWidgetWidgetSelected(value){
-		var filename = null;
-		var path = null;
-		if (value.indexOf("./images/widgets/") == 0){
-			filename = value.substr(8);
-			path = imagePath;
-		}
-		if (value.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
-			filename = value.substr(29);
-			path = userfilesImagePath;
-		}
-		if (filename && path){
-			getWidgetSettings(filename, path, false, [], true, function(result){
-				if (result.urlParameters.length){
-					dialogDevicesAutocreateWidgetUrlParameters = "?" + result.urlParameters.join('&');
-					var urlParameterString = "<ul class='browser-default'>";
-					result.urlParameters.forEach(function(urlParameter){ urlParameterString += "<li>" + urlParameter + "</li>"; });
-					urlParameterString += "</ul>";
-					$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + urlParameterString);
-				} else {
-					dialogDevicesAutocreateWidgetUrlParameters = "";
-					$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
-				}
-				var dialogDevicesAutocreateWidgetOptionsString = "<ul class='browser-default'>";
-				for(option in result.options){
-					dialogDevicesAutocreateWidgetOptionsString += "<li><b>" + iQontrolRoles["iQontrolWidget"].options[option].name + "</b>: <u>" + result.options[option] + "</u></li>";
-				}
-				dialogDevicesAutocreateWidgetOptionsString += "</ul>";
-				$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Options:") + "</b><br>" + dialogDevicesAutocreateWidgetOptionsString);
-				dialogDevicesAutocreateWidgetOptions = [];
-				for(roleOption in iQontrolRoles["iQontrolWidget"].options){
-					if (iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
-					var value = result.options[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
-					var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
-					dialogDevicesAutocreateWidgetOptions.push(entry);
-				}
-			});
-		}
+		if (value) getWidgetSettings(value, false, [], true, function(result){
+			if (result.urlParameters.length){
+				dialogDevicesAutocreateWidgetUrlParameters = "?" + result.urlParameters.join('&');
+				var urlParameterString = "<ul	class='browser-default'>";
+				result.urlParameters.forEach(function(urlParameter){ urlParameterString += "<li>" + urlParameter + "</li>"; });
+				urlParameterString += "</ul>";
+				$('#dialogDevicesAutocreateWidgetUrlParameters').html("<hr><b>" + _("Parameters:") + "</b><br>" + urlParameterString);
+			} else {
+				dialogDevicesAutocreateWidgetUrlParameters = "";
+				$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
+			}
+			var dialogDevicesAutocreateWidgetOptionsString = "<ul class='browser-default'>";
+			for(option in result.options){
+				dialogDevicesAutocreateWidgetOptionsString += "<li><b>" + iQontrolRoles["iQontrolWidget"].options[option].name + "</b>: <u>" + result.options[option] + "</u></li>";
+			}
+			dialogDevicesAutocreateWidgetOptionsString += "</ul>";
+			$('#dialogDevicesAutocreateWidgetOptions').html("<hr><b>" + _("Options:") + "</b><br>" + dialogDevicesAutocreateWidgetOptionsString);
+			dialogDevicesAutocreateWidgetOptions = [];
+			for(roleOption in iQontrolRoles["iQontrolWidget"].options){
+				if (iQontrolRoles["iQontrolWidget"].options[roleOption].type == "section") continue;
+				var value = result.options[roleOption] || iQontrolRoles["iQontrolWidget"].options[roleOption].default || "";
+				var entry = {option: roleOption, type: iQontrolRoles["iQontrolWidget"].options[roleOption].type, value: value};
+				dialogDevicesAutocreateWidgetOptions.push(entry);
+			}
+			$("#dialogDevicesAutocreateWidgetSourceEdit").data('url', result.url).removeClass('disabled');
+			$("#dialogDevicesAutocreateWidgetSource").val(result.url.split('?')[0]);
+		});
 	}
 
 	//Widget-Settings
-	function getWidgetSettings(filename, path, checkForOptionsAlreadySet, actualOptions, choseOptionsNotSet, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+	function getWidgetSettings(url, checkForOptionsAlreadySet, actualOptions, choseOptionsNotSet, callback){ // callback(result), result = {result.urlParameters (array), result.options (object)]´}
+		var filename = null;
+		var path = null;
+		if (url.indexOf("./images/widgets/") == 0){
+			filename = url.substr(8);
+			path = imagePath;
+		} else if (url.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0){
+			filename = url.substr(29);
+			path = userfilesImagePath;
+		}
+		if (!filename || !path) return;
 		var querystring = filename.split('?')[1] || "";
 		filename = filename.split('?')[0];
 		downloadFileAsStringAsync(filename, path).then(function(htmlAsString){
 			if ($(htmlAsString).filter('meta[name^="widget-"]').length){
-				initDialog('dialogWidgetSettings', function(){ //save dialog
+				initDialog('dialogWidgetSettings', function(replaceurlSwitchToDestination){ //save dialog
 					var result = {};
 					var dialogWidgetSettingsUrlParameters = [];
 					$('.dialogWidgetSettingsUrlParameters').each(function(){
@@ -4957,8 +4941,12 @@ async function load(settings, onChange) {
 						dialogWidgetSettingsUrlParameters.push(fixedEncodeURIComponent($(this).data('option')) + "=" + fixedEncodeURIComponent(value));
 					});
 					var replaceurl = $('#dialogWidgetSettings').data('replaceurl') || "";
-					if (replaceurl != "") dialogWidgetSettingsUrlParameters.push("widgetReplaceurl=" + fixedEncodeURIComponent(replaceurl));
-					if ($('#dialogWidgetSettings').data('replaceurlabsolute')) dialogWidgetSettingsUrlParameters.push("widgetReplaceurlAbsolute=true");
+					if (replaceurl != "") {
+						dialogWidgetSettingsUrlParameters.push("widgetReplaceurl=" + fixedEncodeURIComponent(replaceurl));
+					}
+					if ($('#dialogWidgetSettings').data('replaceurlabsolute')) {
+						dialogWidgetSettingsUrlParameters.push("widgetReplaceurlAbsolute=true");
+					}
 					result.urlParameters = dialogWidgetSettingsUrlParameters;
 					var dialogWidgetSettingsOptions = {};
 					$('.dialogWidgetSettingsOptions').each(function(){
@@ -4967,8 +4955,27 @@ async function load(settings, onChange) {
 						}
 					});
 					result.options = dialogWidgetSettingsOptions;
-					callback(result);
+					if (result.urlParameters.length) {
+						url = url.split('?')[0] + "?" + result.urlParameters.join('&');
+					}
+					result.url = url;
+					if (replaceurlSwitchToDestination){
+						console.log("replaceurlSwitchToDestination");
+						$('#dialogWidgetSettings').modal('close');
+						if ($('#dialogWidgetSettings').data('replaceurlabsolute')){
+							url = url.replace(url.split('?')[0], replaceurl);
+						} else {
+							url = url.replace(url.split('?')[0].substring(url.split('?')[0].lastIndexOf('/') + 1), replaceurl);														
+						}
+						getWidgetSettings(url, checkForOptionsAlreadySet, actualOptions, choseOptionsNotSet, callback);
+					} else {
+						callback(result);
+					}
 				});
+				var name = url.split('?')[0];
+				if (name.lastIndexOf('/') > 0) name = name.substring(name.lastIndexOf('/') + 1);
+				if (name.lastIndexOf('.') > 0) name = name.substring(0, name.lastIndexOf('.'));
+				$('#dialogWidgetSettingsName').html(name);
 				$('#dialogWidgetSettingsDescription').html("").show();
 				$('#dialogWidgetSettingsOptions').html("").hide();
 				$('#dialogWidgetSettingsParameters').html("").hide();
@@ -5069,7 +5076,7 @@ async function load(settings, onChange) {
 								urlParameter = urlParameter.trim().split('/');
 								var entry = decodeURIComponent(urlParameter[0]);
 								var name = decodeURIComponent(urlParameter[2] || urlParameter[0]);
-								var value = decodeURIComponent(queries[entry] || urlParameter[1] || "");
+								var value = decodeURIComponent((typeof queries[entry] != udef ? queries[entry] || "" : urlParameter[1] || ""));
 								var defaultValue = decodeURIComponent(urlParameter[1] || "");
 								var type = decodeURIComponent(urlParameter[3] || "text");
 								var options = urlParameter.slice(4) || [];
@@ -5108,6 +5115,7 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
+									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 
@@ -5128,7 +5136,7 @@ async function load(settings, onChange) {
 									break;
 									
 									case "combobox":
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';')), iconsFromOption: false});
+									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';').replace(/\,/g, "/")), iconsFromOption: false});
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
@@ -5165,6 +5173,7 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
 									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
+									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
@@ -5198,10 +5207,10 @@ async function load(settings, onChange) {
 									case "fontWeight":
 									var selectOptionsContent = "";
 									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
-									selectOptionsContent += "        <option value='lighter' class='translate'>Lighter</option>";
-									selectOptionsContent += "        <option value='normal' class='translate'>Normal</option>";
-									selectOptionsContent += "        <option value='bold' class='translate'>Bold</option>";
-									selectOptionsContent += "        <option value='bolder' class='translate'>Bolder</option>";
+									selectOptionsContent += "        <option value='lighter'" + (value == 'lighter' ? ' selected' : '') + " class='translate'>Lighter</option>";
+									selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
+									selectOptionsContent += "        <option value='bold'" + (value == 'bold' ? ' selected' : '') + " class='translate'>Bold</option>";
+									selectOptionsContent += "        <option value='bolder'" + (value == 'bolder' ? ' selected' : '') + " class='translate'>Bolder</option>";
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
@@ -5212,9 +5221,9 @@ async function load(settings, onChange) {
 									case "fontStyle":
 									var selectOptionsContent = "";
 									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
-									selectOptionsContent += "        <option value='normal' class='translate'>Normal</option>";
-									selectOptionsContent += "        <option value='italic' class='translate'>Italic</option>";
-									selectOptionsContent += "        <option value='oblique' class='translate'>Oblique</option>";
+									selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
+									selectOptionsContent += "        <option value='italic'" + (value == 'italic' ? ' selected' : '') + " class='translate'>Italic</option>";
+									selectOptionsContent += "        <option value='oblique'" + (value == 'oblique' ? ' selected' : '') + " class='translate'>Oblique</option>";
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
@@ -5247,6 +5256,7 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
 									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 								}
@@ -5290,6 +5300,7 @@ async function load(settings, onChange) {
 									});									
 								})
 								initColorpickers(onChange);
+								initInputClear();
 								if (M) M.updateTextFields();
 							} else {
 								$('#dialogWidgetSettingsUrlParameters').html("").hide();
@@ -5333,10 +5344,13 @@ async function load(settings, onChange) {
 							$('#dialogWidgetSettings').data('replaceurl', metaContent);
 							$('#dialogWidgetSettings').data('replaceurlabsolute', $(this).data('absolute'));
 							$('#dialogWidgetSettingsReplaceurlDestination').html(metaContent);
+							$('#dialogWidgetSettingsReplaceurlSwitchToDestination').off('click').on('click', function(){
+								var dialogCallback = $('#dialogWidgetSettings').data('callback');
+								if (typeof dialogCallback === 'function') dialogCallback("replaceurlSwitchToDestination");
+							});
 							$('.dialogWidgetSettingsReplaceurl').show();
 						}
 						break;
-
 					}
 				});
 				$('#dialogWidgetSettings').modal('open');
