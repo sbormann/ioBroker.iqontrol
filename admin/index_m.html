@@ -248,6 +248,8 @@
 						<a class="waves-effect waves-light btn" id="devicesAutocreateButton"><i class="material-icons left">check_circle</i><span class="translate">Autocreate Device</span></a>
 						<a class="waves-effect waves-light btn" id="devicesCopyFromButton"><i class="material-icons left">content_copy</i><span class="translate">Copy Existing Device to this view</span></a>
 						<a class="waves-effect waves-light btn" id="devicesAutocreateWidgetButton"><i class="material-icons left">widgets</i><span class="translate">Autocreate Widget</span></a>
+						<a class="waves-effect waves-light btn" id="devicesExport"><i class="material-icons left">file_download</i><span class="translate">Export Devices</span></a> 
+						<a class="waves-effect waves-light btn" id="devicesImport"><i class="material-icons left">file_upload</i><span class="translate">Import Devices</span></a> 
 					</div>
 				</div>
 				<div class="row divDevices" style="display:none;">
@@ -3172,6 +3174,28 @@
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Autocreate Widget</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+		
+		<!-- DIALOG: DevicesExport  -->
+        <div id="dialogDevicesExport" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Export Devices:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<a class="btn-small chose" onclick="$('.dialogDevicesExportDeviceListDevice').prop('checked', true).trigger('change');"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
+						<a class="btn-small chose" onclick="$('.dialogDevicesExportDeviceListDevice').prop('checked', false).trigger('change');"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+						<ul id="dialogDevicesExportDeviceList"></ul>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set disabled"><i class="large material-icons left">check</i><span class="translate">Export selected devices</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

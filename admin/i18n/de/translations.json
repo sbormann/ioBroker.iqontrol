@@ -1,4 +1,9 @@
 {
+	"There is no device on this view to export": "In dieser Ansicht gibt es keine zu exportierenden Geräte",
+	"Export selected devices": "Ausgewählte Geräte exportieren",
+	"Export Devices:": "Geräte exportieren:",
+	"Export Devices": "Geräte exportieren",
+	"Import Devices": "Geräte importieren",
     "   And": "   Und",
     "%s icons have been exchanged. Don't forget to save your changes!": "%s Icons wurden ausgetauscht. Vergessen Sie nicht, die Änderungen zu speichern!",
     "%s is directory. Only file upload allowed.": "%s ist ein Verzeichnis. Nur Dateien dürfen hochgeladen werden.",

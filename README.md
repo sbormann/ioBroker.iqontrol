@@ -1677,6 +1677,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Changed behaviour of min/max/ignore-min-max-settings of FLOT-Chart-Widget.
 * (sbormann) Added option to invert color of INFO_A/B icons for dark-mode.
 * (sbormann) Added configurable font to JSON-table widget.
+* (sbormann) Added export and import function to devices.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.

@@ -5360,6 +5360,53 @@ async function load(settings, onChange) {
 		});
 	}
 
+	//Export devices
+	$('#devicesExport').on('click', function(){
+		initDialog('dialogDevicesExport', function(){ //save dialog
+			var devicesToExport = [];
+			$('.dialogDevicesExportDeviceListDevice').each(function(){
+				if ($(this).prop('checked')) devicesToExport.push(views[devicesSelectedView].devices[$(this).data('index')]);
+			});
+			saveStringAsLocalFile(JSON.stringify(devicesToExport), "charset=utf-8", "text/json", "devices.json", true);
+		});
+		//Add devices to export list
+		if (devicesSelectedView > -1){
+			$('#dialogDevicesExportDeviceList').html("");
+			views[devicesSelectedView].devices.forEach(function(device, index){
+				$('#dialogDevicesExportDeviceList').append("<label><input class='dialogDevicesExportDeviceListDevice' type='checkbox'" + "' data-index='" + index + "'><span style='height: auto;'><b>" + device.commonName + "</b> (" + device.commonRole + ")</span></label><br>");
+			});
+			$('.dialogDevicesExportDeviceListDevice').on('change', function(){
+				var oneChecked = false;
+				$('.dialogDevicesExportDeviceListDevice').each(function(){
+					if ($(this).prop('checked')) oneChecked = true;					
+				});
+				if (oneChecked) $('#dialogDevicesExport .btn-set').removeClass('disabled'); else $('#dialogDevicesExport .btn-set').addClass('disabled');
+			});
+		} else {
+			$('#dialogDevicesExportDeviceList').html(_("There is no device on this view to export"));
+		}
+		$('#dialogDevicesExport').modal('open');
+		$('#dialogDevicesExport').css('z-index', modalZIndexCount++);
+		$('#dialogDevicesExport .modal-content').scrollTop(0);
+	});
+	$('#devicesImport').on('click', function(){
+		loadLocalFileAsString(".json", function(result){
+			var resultObj = tryParseJSON(result);
+			var resultObjValid = true;
+			if (!(resultObj && typeof resultObj == "object" && typeof resultObj.forEach == "function")){
+				resultObjValid = false;
+			}
+			if (resultObjValid) {
+				views[devicesSelectedView].devices = views[devicesSelectedView].devices.concat(resultObj);
+				alert(_("Settings imported."));
+				values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+				onChange();
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});		
+	});
+
 	//+++++++++ TOOLBAR ++++++++++
 	//Load Toolbar
 	function loadToolbar(){
