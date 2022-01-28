@@ -3647,12 +3647,10 @@ function handleOptions(){
 		customCSS += "}";
 	};
 	if (options.LayoutViewDeviceBorderRadiusLargeScreen) {
-		customCSS += "@media screen and (min-width: 1500px) {";
-		customCSS += "	.iQontrolDevicePressureIndicator, .iQontrolDeviceGlow, .iQontrolDevice, .iQontrolDeviceBackgroundIframeWrapper, .iQontrolDeviceBackgroundImage, .iQontrolDeviceBackground {";
+		customCSS += "html.bigMode .iQontrolDevicePressureIndicator, html.bigMode .iQontrolDeviceGlow, html.bigMode .iQontrolDevice, html.bigMode .iQontrolDeviceBackgroundIframeWrapper, html.bigMode .iQontrolDeviceBackgroundImage, html.bigMode .iQontrolDeviceBackground {";
 		customCSS += "		 -webkit-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 		customCSS += "	   		-moz-border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
 		customCSS += "				 border-radius: " + options.LayoutViewDeviceBorderRadiusLargeScreen + "px;";
-		customCSS += "	}";
 		customCSS += "}";
 	};
 	//Inactive Devices - Background

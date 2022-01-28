@@ -1678,6 +1678,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to invert color of INFO_A/B icons for dark-mode.
 * (sbormann) Added configurable font to JSON-table widget.
 * (sbormann) Added export and import function to devices.
+* (sbormann) Fixed border-radius for big mode.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
