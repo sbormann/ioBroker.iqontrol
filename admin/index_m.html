@@ -579,9 +579,7 @@
 				<div class="row">
 					<div class="col s12">
 						<a class='dropdown-trigger waves-effect waves-light btn' id="listsAddDefaultDropdownTrigger" href='#' data-target='listsAddDefaultDropdown'><i class="material-icons left">grain</i><span class="translate">Add Default Lists</span></a>
-						<ul id='listsAddDefaultDropdown' class='dropdown-content'>
-							<li><a id="listsAddDefaultDropdownServiceMessages" href="#!"><i class="material-icons">chat_bubble_outline</i>Service-Messages</a></li>
-						</ul>
+						<ul id='listsAddDefaultDropdown' class='dropdown-content'></ul>
 					</div>
 				</div>
 				<div class="row">
@@ -3718,6 +3716,56 @@
             </div>
         </div>
 
+ 		<!-- DIALOG: listsAddDefault -->
+        <div id="dialogListsAddDefault" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditCombinationIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Add Default List:</span> <span id="dialogListsAddDefaultName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Lists</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate">The following lists will be added:</p>
+					</div>
+					<div class="col s12">
+						<ul id="dialogListsAddDefaultLists"></ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Widgets</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p class="translate">The following widgets will be added:</p>
+					</div>
+					<div class="col s12">
+						<ul id="dialogListsAddDefaultWidgets"></ul>
+					</div>
+					<div class="input-field col s12">
+						<select class="value icons" name='dialogListsAddDefaultWidgetsDestinationView' id='dialogListsAddDefaultWidgetsDestinationView'></select>
+						<label for='dialogListsAddDefaultWidgetsDestinationView' class="translate"></label>
+						<span class="translate">Add widgets to this view</span>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
 
  		<!-- DIALOG: Generic -->
         <div id="dialogGeneric" class="modal modal-fixed-footer">
