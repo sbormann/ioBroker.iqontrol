@@ -219,6 +219,7 @@
     "Create a list that contains the parent-names of the datapoints": "Maak een lijst die de bovenliggende namen van de datapunten bevat",
     "Create a main view with links to the created views": "Maak een hoofdweergave met links naar de gemaakte weergaven",
     "Create a toolbar-entry for this main view": "Maak een werkbalkitem voor deze hoofdweergave",
+    "Create lists that also contains the values of the datapoints": "Maak lijsten die ook de waarden van de datapunten bevatten",
     "Create selected views?": "Geselecteerde weergaven maken?",
     "Create symbolic link instead of a real copy": "Maak een symbolische link in plaats van een echte kopie",
     "Created %s devices in %s views": "% S apparaten gemaakt in% s weergaven",

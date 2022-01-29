@@ -219,6 +219,7 @@
     "Create a list that contains the parent-names of the datapoints": "Create a list that contains the parent-names of the datapoints",
     "Create a main view with links to the created views": "Create a main view with links to the created views",
     "Create a toolbar-entry for this main view": "Create a toolbar-entry for this main view",
+    "Create lists that also contains the values of the datapoints": "Create lists that also contains the values of the datapoints",
     "Create selected views?": "Create selected views?",
     "Create symbolic link instead of a real copy": "Create symbolic link instead of a real copy",
     "Created %s devices in %s views": "Created %s devices in %s views",

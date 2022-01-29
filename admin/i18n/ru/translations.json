@@ -219,6 +219,7 @@
     "Create a list that contains the parent-names of the datapoints": "Создайте список, содержащий родительские имена точек данных.",
     "Create a main view with links to the created views": "Создайте главное представление со ссылками на созданные представления",
     "Create a toolbar-entry for this main view": "Создайте запись на панели инструментов для этого главного представления",
+    "Create lists that also contains the values of the datapoints": "Создайте списки, которые также содержат значения точек данных",
     "Create selected views?": "Создать выбранные представления?",
     "Create symbolic link instead of a real copy": "Создайте символьную ссылку вместо реальной копии",
     "Created %s devices in %s views": "Создано% s устройств в% s просмотрах",

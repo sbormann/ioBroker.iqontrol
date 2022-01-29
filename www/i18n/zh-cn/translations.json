@@ -273,6 +273,7 @@
     "Create a main view with links to the created views": "创建一个主视图，并带有指向创建的视图的链接",
     "Create a main view with links to the created views.": "创建一个主视图，并带有指向创建的视图的链接。",
     "Create a toolbar-entry for this main view": "为此主视图创建一个工具栏条目",
+    "Create lists that also contains the values of the datapoints": "创建还包含数据点值的列表",
     "Create selected views?": "创建选定的视图？",
     "Create symbolic link instead of a real copy": "创建符号链接而不是真实副本",
     "Created %s devices in %s views": "在％s视图中创建了％s设备",

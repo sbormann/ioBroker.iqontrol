@@ -219,6 +219,7 @@
     "Create a list that contains the parent-names of the datapoints": "Utwórz listę zawierającą nazwy nadrzędne punktów danych",
     "Create a main view with links to the created views": "Utwórz widok główny z łączami do utworzonych widoków",
     "Create a toolbar-entry for this main view": "Utwórz wpis paska narzędzi dla tego widoku głównego",
+    "Create lists that also contains the values of the datapoints": "Twórz listy zawierające również wartości punktów danych",
     "Create selected views?": "Utworzyć wybrane widoki?",
     "Create symbolic link instead of a real copy": "Utwórz dowiązanie symboliczne zamiast prawdziwej kopii",
     "Created %s devices in %s views": "Utworzono% s urządzeń w widokach% s",
