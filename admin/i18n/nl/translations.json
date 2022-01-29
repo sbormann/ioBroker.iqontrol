@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Grootte van tegel, als apparaat inactief is",
     "Slider": "Schuifregelaar",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Sommige bewerkingen worden alleen ondersteund door beheerdersversies>% s. ",
+    "Sorting": "",
     "Sorting:": "Sorteren:",
     "Source-Device": "Bron-Apparaat",
     "Source-View": "Bron-View",

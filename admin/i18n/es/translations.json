@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Tamaño del mosaico, si el dispositivo está inactivo",
     "Slider": "Deslizador",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Algunas operaciones solo son compatibles con las versiones de administrador>% s. ",
+    "Sorting": "",
     "Sorting:": "Clasificación:",
     "Source-Device": "Dispositivo Fuente",
     "Source-View": "Fuente-Ver",

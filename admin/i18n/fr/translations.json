@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Taille de la vignette, si l'appareil est inactif",
     "Slider": "Glissière",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Certaines opérations ne sont prises en charge que par les versions d'administration>% s. ",
+    "Sorting": "",
     "Sorting:": "Tri:",
     "Source-Device": "Appareil Source",
     "Source-View": "Source-Vue",

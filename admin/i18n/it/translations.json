@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Dimensione della tessera, se il dispositivo è inattivo",
     "Slider": "Slider",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Alcune operazioni sono supportate solo dalle versioni di amministrazione>% s. ",
+    "Sorting": "",
     "Sorting:": "Ordinamento:",
     "Source-Device": "Dispositivo Di Sorgente",
     "Source-View": "Fonte-Vista",

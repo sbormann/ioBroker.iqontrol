@@ -981,6 +981,7 @@
     "Slower": "慢点",
     "Socket": "插座",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "某些操作仅受管理员版本>％s支持。",
+    "Sorting": "",
     "Sorting:": "排序：",
     "Source": "资源",
     "Source-Device": "源设备",

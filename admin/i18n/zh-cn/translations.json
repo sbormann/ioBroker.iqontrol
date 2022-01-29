@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "磁贴的大小（如果设备不活动）",
     "Slider": "滑杆",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "某些操作仅受管理员版本>％s支持。",
+    "Sorting": "",
     "Sorting:": "排序：",
     "Source-Device": "源设备",
     "Source-View": "源显示页面",

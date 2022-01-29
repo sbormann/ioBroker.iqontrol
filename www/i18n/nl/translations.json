@@ -981,6 +981,7 @@
     "Slower": "langzamer",
     "Socket": "aansluiting",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Sommige bewerkingen worden alleen ondersteund door beheerdersversies>% s. ",
+    "Sorting": "",
     "Sorting:": "Sorteren:",
     "Source": "Bron",
     "Source-Device": "Bron-Apparaat",

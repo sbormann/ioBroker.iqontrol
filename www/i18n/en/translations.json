@@ -981,6 +981,7 @@
     "Slower": "Slower",
     "Socket": "socket",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Some operations are only supported by admin versions > %s. Please update your admin-adapter!",
+    "Sorting": "Sorting",
     "Sorting:": "Sorting:",
     "Source": "Source",
     "Source-Device": "Source-Device",

@@ -981,6 +981,7 @@
     "Slower": "Más lento",
     "Socket": "zócalo",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Algunas operaciones solo son compatibles con las versiones de administrador>% s. ",
+    "Sorting": "",
     "Sorting:": "Clasificación:",
     "Source": "Fuente",
     "Source-Device": "Dispositivo Fuente",

@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Size of tile, if device is inactive",
     "Slider": "Slider",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Some operations are only supported by admin versions > %s. Please update your admin-adapter!",
+    "Sorting": "Sorting",
     "Sorting:": "Sorting:",
     "Source-Device": "Source-Device",
     "Source-View": "Source-View",

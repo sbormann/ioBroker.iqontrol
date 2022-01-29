@@ -981,6 +981,7 @@
     "Slower": "Ralentissez",
     "Socket": "socket",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Certaines opérations ne sont prises en charge que par les versions d'administration>% s. ",
+    "Sorting": "",
     "Sorting:": "Tri:",
     "Source": "La source",
     "Source-Device": "Appareil Source",

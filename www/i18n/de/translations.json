@@ -981,6 +981,7 @@
     "Slower": "Langsamer",
     "Socket": "Steckdose",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Einige Operationen werden nur von Admin-Adapter-Versionen > %s unterstützt. Bitte führen Sie ein Update des Admin-Adapters durch!",
+    "Sorting": "Sortierung",
     "Sorting:": "Sorting:",
     "Source": "Eingang",
     "Source-Device": "Quell-Gerät",

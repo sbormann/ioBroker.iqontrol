@@ -771,6 +771,7 @@
     "Size of tile, if device is inactive": "Размер плитки, если устройство неактивно",
     "Slider": "Слайдер",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Некоторые операции поддерживаются только версиями администратора>% s. ",
+    "Sorting": "",
     "Sorting:": "Сортировка:",
     "Source-Device": "Источник-Устройство",
     "Source-View": "Источник-Взгляд",
