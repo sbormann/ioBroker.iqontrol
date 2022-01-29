@@ -971,11 +971,11 @@ class Iqontrol extends utils.Adapter {
 								if (calculationType == "arrays" && Array.isArray(value)){
 									switch (calculation.calculationSteps[calculationStepIndex].operator){
 										case "+":
-										result = concat(value);
+										result = result.concat(value);
 										break;
 										
 										case "-":
-										result = filter(o => !value.includes(o));
+										result = result.filter(o => !value.includes(o));
 										break;										
 									}
 								} else if (calculationType == "objects" && typeof value == "object"){

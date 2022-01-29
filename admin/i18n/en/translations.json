@@ -1,4 +1,8 @@
 {
+	"Service": "Service",
+	"messages": "messages",
+	"Adds lists and a widget that counts service messages like unreachable devices or devices with empty battery, firmware-updates and so on": "Adds lists and a widget that counts service messages like unreachable devices or devices with empty battery, firmware-updates and so on",
+	"Sorting": "Sorting",
     "   And": "   And",
     " device with empty battery: ": " device with empty battery: ",
     " device with firmware-update: ": " device with firmware-update: ",
@@ -771,7 +775,6 @@
     "Size of tile, if device is inactive": "Size of tile, if device is inactive",
     "Slider": "Slider",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Some operations are only supported by admin versions > %s. Please update your admin-adapter!",
-    "Sorting": "Sorting",
     "Sorting:": "Sorting:",
     "Source-Device": "Source-Device",
     "Source-View": "Source-View",

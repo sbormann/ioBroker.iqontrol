@@ -1,4 +1,8 @@
 {
+	"Service": "Service",
+	"messages": "meldungen",
+	"Adds lists and a widget that counts service messages like unreachable devices or devices with empty battery, firmware-updates and so on": "Fügt Listen und ein Widget hinzu, das Service-Meldungen wie z.B. nicht erreichbare Geräte oder Geräte mit leeren Batterien, Firmware-Updates u.s.w. zählt",
+	"Sorting": "Sortierung",
     "   And": "   Und",
     " device with empty battery: ": " Gerät mit leerer Batterie: ",
     " device with firmware-update: ": " Gerät mit Firmware-Update: ",
@@ -771,7 +775,6 @@
     "Size of tile, if device is inactive": "Größe der Kachel, wenn das Gerät inaktiv ist",
     "Slider": "Schieberegler",
     "Some operations are only supported by admin versions > %s. Please update your admin-adapter!": "Einige Operationen werden nur von Admin-Adapter-Versionen > %s unterstützt. Bitte führen Sie ein Update des Admin-Adapters durch!",
-    "Sorting": "Sortierung",
     "Sorting:": "Sortierung:",
     "Source-Device": "Quell-Gerät",
     "Source-View": "Quell-Ansicht",
