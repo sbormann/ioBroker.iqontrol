@@ -6101,6 +6101,7 @@ async function load(settings, onChange) {
 						lists[listIndex].separator = $('#dialogListEditListSeparator').val();
 						lists[listIndex].createNamesList = $('#dialogListEditCreateNamesList').prop('checked');
 						lists[listIndex].createParentNamesList = $('#dialogListEditCreateParentNamesList').prop('checked');
+						lists[listIndex].createValuesList = $('#dialogListEditCreateValuesList').prop('checked');
 						lists[listIndex].counters = dialogListEditCounters;
 						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
 						lists[listIndex].calculations = dialogListEditCalculations;
@@ -6115,7 +6116,9 @@ async function load(settings, onChange) {
 					$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
 					$('#dialogListEditSorting').val(lists[listIndex].sorting || "parentNames asc").select();
 					$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
+					$('#dialogListEditCreateNamesList').prop('checked', (lists[listIndex].createNamesList == true));
 					$('#dialogListEditCreateParentNamesList').prop('checked', (lists[listIndex].createParentNamesList == true));
+					$('#dialogListEditCreateValuesList').prop('checked', (lists[listIndex].createValuesList == true));
 					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
 					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
 					$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");

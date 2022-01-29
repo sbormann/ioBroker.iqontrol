@@ -13,12 +13,23 @@ const utils = require("@iobroker/adapter-core");
 var createdObjects = [];
 var allObjects = [];
 var usedStates = [];
+var systemLanguage = "en";
 var lists = [];
 var triggerIntervals = [];
 var udef = 'undefined';
 var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
 const emptyState = {val: null, ack: false, ts: 0, lc: 0};
-
+const translations = {
+    "opened": {                                      "en": "opened",                                          "de": "geöffnet",                                        "ru": "откр",                                            "pt": "aberto",                                          "nl": "geopend",                                         "fr": "ouvert",                                          "it": "aperto",                                          "es": "abierto",                                         "pl": "otwarty",                                         "zh-cn": "打开"},
+    "closed": {                                      "en": "closed",                                          "de": "geschlossen",                                     "ru": "закр",                                            "pt": "fechado",                                         "nl": "gesloten",                                        "fr": "fermé",                                           "it": "chiuso",                                          "es": "cerrado",                                         "pl": "zamknięte",                                       "zh-cn": "关闭"},
+    "OK": {                                          "en": "OK",                                              "de": "OK",                                              "ru": "OK",                                              "pt": "OK",                                              "nl": "OK",                                              "fr": "OK",                                              "it": "OK",                                              "es": "OK",                                              "pl": "OK",                                              "zh-cn": "确定"},
+    "Alarm": {                                       "en": "Alarm",                                           "de": "Alarmgeber",                                      "ru": "Сигнализация",                                    "pt": "Alarme",                                          "nl": "Alarm",                                           "fr": "Alarme",                                          "it": "Allarme",                                         "es": "Alarma",                                          "pl": "Alarm",                                           "zh-cn": "报警"},
+    "triggered": {                                   "en": "triggered",                                       "de": "ausgelöst",                                       "ru": "срабатывает",                                     "pt": "acionado",                                        "nl": "aanleiding",                                      "fr": "déclenché",                                       "it": "attivato",                                        "es": "activa",                                          "pl": "działa",                                          "zh-cn": "触发"},
+    "on": {                                          "en": "on",                                              "de": "Ein",                                             "ru": "вкл",                                             "pt": "no",                                              "nl": "op",                                              "fr": "sur",                                             "it": "su",                                              "es": "en",                                              "pl": "na",                                              "zh-cn": "上"},
+    "off": {                                         "en": "off",                                             "de": "Aus",                                             "ru": "выкл",                                            "pt": "fora",                                            "nl": "uit",                                             "fr": "off",                                             "it": "off",                                             "es": "off",                                             "pl": "od",                                              "zh-cn": "关闭"},
+    "true": {                                        "en": "true",                                            "de": "ja",                                              "ru": "да",                                              "pt": "verdadeiro",                                      "nl": "waar",                                            "fr": "vrai",                                            "it": "vero",                                            "es": "cierto",                                          "pl": "prawda",                                          "zh-cn": "真的"},
+    "false": {                                       "en": "false",                                           "de": "nein",                                            "ru": "нет",                                             "pt": "falso",                                           "nl": "false",                                           "fr": "faux",                                            "it": "false",                                           "es": "falso",                                           "pl": "fałszywe",                                        "zh-cn": "假"},
+};
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
 function idEncode(id){
@@ -174,21 +185,21 @@ function removeDuplicates(array) { //Removes duplicates from an array
 	});
 }
 
-function getName(id, language){
+function getName(id){
 	let name = allObjects[id] && allObjects[id].common && allObjects[id].common.name || id;
 	if(typeof name == "object") {
-		if(name[language]) name = name["en"];
+		if(name[systemLanguage]) name = name["en"];
 		else if(name["en"]) name = name["en"];
 		else if(Object.keys(name).length && typeof Object.keys(name)[0] == "string" && name[Object.keys(name)[0]]) name = name[Object.keys(name)[0]];
 		else name = JSON.stringify(name);
 	}
-	return name;	
+	return name || id;	
 }
 
-function getParentName(id, language){
+function getParentName(id){
 	let parentId = id.substring(0, id.lastIndexOf('.'));
-	let parentName = getName(parentId, language);
-	if (parentName == id) parentName = getName(id, language); //parentName not set - use name
+	let parentName = getName(parentId);
+	if (parentName == id) parentName = getName(id); //parentName not set - use name
 	if (parentName == id) { //name also not set - build name from id
 		parentName = id.substring(0, id.lastIndexOf('.'));
 		parentName = parentName.substring(parentName.lastIndexOf('.') + 1);   
@@ -198,6 +209,132 @@ function getParentName(id, language){
 	}
 	if (parentName == "") parentName = id;
 	return parentName;
+}
+
+function getPlainTextWithUnit(id, that){
+	function _(string){
+		return translations[string] && translations[string][systemLanguage] || string;
+	}
+	let val = (usedStates[id] && typeof usedStates[id].val != "undefined" ? usedStates[id].val : "-");
+	let plainText;
+	let custom = allObjects[id] && allObjects[id].common && typeof allObjects[id].common.custom !== udef && allObjects[id].common.custom !== null && typeof allObjects[id].common.custom[that.namespace] !== udef && allObjects[id].common.custom[that.namespace] || {};
+	let role = allObjects[id] && allObjects[id].common && allObjects[id].common.role || "state";
+	if (typeof custom.role !== udef && custom.role !== "") role = custom.role;
+	var parentId = id.substring(0, id.lastIndexOf("."));
+	if (role == "state" && allObjects[parentId] && typeof allObjects[parentId].common.role != udef && allObjects[parentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
+		switch(parentRole = allObjects[parentId].common.role){
+			case "switch": case "sensor.alarm": case "sensor.alarm.fire":
+			role = parentRole;
+			break;
+		}
+	}
+	//--Modify informations depending on the role
+	switch(role){
+		case "value.window": case "sensor.window": case "sensor.door": case "sensor.lock":
+		if (val) plainText = _("opened"); else plainText = _("closed");
+		break;
+
+		case "sensor.alarm":
+		if (val) plainText = _("OK"); else plainText = _("Alarm");
+		break;
+
+		case "sensor.alarm.fire": case "sensor.fire": case "sensor.alarm.flood": case "sensor.flood": case "sensor.alarm.water": case "sensor.water": case "indicator.alarm.fire": case "indicator.fire": case "indicator.alarm.flood": case "indicator.flood": case "indicator.alarm.water": case "indicator.water": case "indicator.leakage":
+		if (val) plainText = _("triggered"); else plainText = " ";
+		break;
+
+		case "switch": case "Switch": case "switch.light": case "switch.power": case "switch.boost": case "switch.enable": case "switch.active": case "scene.state":
+		if (typeof val == 'string') if (val.toLowerCase() == "false" || val.toLowerCase() == "off" || val.toLowerCase() == "0" || val == "") val = false; else val = true;
+		if (val) plainText = _("on"); else plainText = _("off");
+		break;
+
+		case "button": case "action.execute":
+		if (typeof val == 'string') if (val.toLowerCase() == "false" || val.toLowerCase() == "off" || val.toLowerCase() == "0" || val == "") val = false; else val = true;
+		if (val) plainText = _("on"); else plainText = _("off");
+		break;
+
+		case "state":
+		if (allObjects[id] && typeof allObjects[id].native != udef && allObjects[id].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
+			switch(allObjects[id].native.CONTROL) {
+				case "DOOR_SENSOR.STATE":
+				if (val) plainText = _("opened"); else plainText = _("closed");
+				break;
+
+				case "DANGER.STATE":
+				if (val) plainText = _("triggered"); else plainText = " ";
+				break;
+
+				case "SWITCH.STATE":
+				if (val) plainText = _("on"); else plainText = _("off");
+				break;
+			}
+		}
+		break;
+	}
+	//--Add valueList
+	let valueList = {};
+	let statesSet = false;
+	let valueListString;
+	if (typeof custom.states && custom.states){
+			valueListString = custom.states;
+			statesSet = true;
+	} else if (allObjects[id] && typeof allObjects[id].native != udef && allObjects[id].native.states){
+			valueListString = allObjects[id].native.states;
+			statesSet = true;
+	} else if (allObjects[id] && allObjects[id].common.states){
+			valueListString = allObjects[id].common.states;
+			statesSet = true;
+	}
+	if (statesSet){
+		//----Check format of valueList
+		if (typeof valueListString !== "object"){
+			if (tryParseJSON(valueListString) == false){
+				valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+				if (tryParseJSON(valueListString) == false) {
+					statesSet = false;
+				} else {
+					valueListString = tryParseJSON(valueListString);
+				}
+			} else {
+				valueListString = tryParseJSON(valueListString);
+			}
+		}
+	}
+	if (statesSet){
+		valueList = Object.assign({}, valueListString);
+		//----Further modifications of valueList
+		if (typeof val !== udef && val !== null && (typeof val == 'boolean' || val.toString().toLowerCase() == "true" || val.toString().toLowerCase() == "false")){ //Convert valueList-Keys to boolean, if they are numbers
+			for (let key in valueList){
+				let newKey = null;
+				if (key == -1 || key == 0 || key == false) newKey = "false";
+				if (key == 1 || key == true) newKey = "true";
+				if (newKey != null) {
+					let dummy = {};
+					dummy[newKey] = valueList[key];
+					delete Object.assign(valueList, dummy)[key]; //This renames key to newKey
+				}
+			};
+		}
+		if (typeof val !== udef && val !== null && typeof valueList[val.toString()] !== udef) plainText = _(valueList[val]); //Modify plainText if val matchs a valueList-Entry
+	}
+	//--Try to set a plainText, if it has not been set before
+	if (plainText == null) {
+		if (typeof val == 'string') {
+			var number = val * 1;
+			if (number.toString() == val) val = number;
+		}
+		if (typeof val == 'number'){
+			var n = (typeof custom.roundDigits != udef && custom.roundDigits !== "" ? custom.roundDigits : 2);
+			val =  Math.round(val * Math.pow(10, n)) / Math.pow(10, n);
+		} else {
+		}
+		let unit = (allObjects[id] && allObjects[id].common && typeof allObjects[id].common.unit != "undefined" ? allObjects[id].common.unit : "");
+		if (unit == "%") plainText = val + unit; else if (unit != "") plainText = val + " " + unit;	else plainText = val;
+	}
+	//--Prevent injecting of <script> tags
+	if (typeof plainText == "string") {
+		plainText = plainText.replace(/<script/gi,"&lt;script").replace(/<\/script/gi,"\&lt;\/script");
+	}
+	return plainText;
 }
 
 async function fetchStates(ids, that){
@@ -431,6 +568,7 @@ class Iqontrol extends utils.Adapter {
 				}
 				//--Sorting
 				let sorting = this.config.lists[configListIndex].sorting || "";
+				let createValuesList = this.config.lists[configListIndex].createValuesList;
 				let sortingFunction;
 				if (typeof sorting != "string") sorting = "";
 				if(sorting.indexOf("id") > -1){ //id
@@ -442,44 +580,88 @@ class Iqontrol extends utils.Adapter {
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let _listName = listName;
 						let _sortDesc = (sorting.indexOf("desc") > -1);
+						let _createValuesList = createValuesList;
 						let _sortingFunction = async function(_listItems, triggeredBy){
 							_listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });
 							if(_sortDesc) _listItems.reverse();
 							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST", 		{type: "state"}, 	{name: _listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, _listItems.join(separator));
 							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: _listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(_listItems));
+							//-- --optional TOTAL_LIST_WITH_VALUES list
+							if (_createValuesList) {
+								let listWithValues = [];
+								for(let listItemIndex = 0; listItemIndex < _listItems.length; listItemIndex++){
+									let value = getPlainTextWithUnit(_listItems[listItemIndex], that);
+									listWithValues.push(_listItems[listItemIndex] + ": " +  value);
+								}					
+								await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listWithValues.join(separator));
+							}
 						};
 						sortingFunction = _sortingFunction;
 					})(); //<--End Closure
 				} else if (sorting.indexOf("names") > -1) { //names
-					listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)); });
+					listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)); });
 				} else { //parentNames
-					listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)); });
+					listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)); });
 				}
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
-				//--Create TOTAL-objects and set States
+				//--Create TOTAL lists and set States
 				let separator = this.config.lists[configListIndex].separator || ", ";					  
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
 				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
-				//--Create optional NAMES and PARENT_NAMES lists
-				let names = [];
-				let parentNames = [];
-				if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
+				//--Create optional TOTAL_LIST_WITH_VALUES list
+				if (this.config.lists[configListIndex].createValuesList) {
+					await fetchStates(listItems || [], that);
+					let listWithValues = [];
 					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-						names.push(getName(listItems[listItemIndex], that.systemLanguage));
-						parentNames.push(getParentName(listItems[listItemIndex], that.systemLanguage));
+						let value = getPlainTextWithUnit(listItems[listItemIndex], this);
+						listWithValues.push(listItems[listItemIndex] + ": " +  value);
+					}					
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listWithValues.join(separator));
+				}
+				//--Create optional TOTAL_NAMES, TOTAL_NAMES_WITH_VALUES, TOTAL_PARENT_NAMES and TOTAL_PARENT_NAMES_WITH_VALUES lists
+				if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
+					let names = [];
+					let namesWithValues = [];
+					let parentNames = [];
+					let parentNamesWithValues = [];
+					for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+						let value = "";
+						if (this.config.lists[configListIndex].createValuesList) {
+							value = getPlainTextWithUnit(listItems[listItemIndex], this);
+						}
+						if (this.config.lists[configListIndex].createNamesList){
+							names.push(getName(listItems[listItemIndex]));
+							if (this.config.lists[configListIndex].createValuesList) {
+								namesWithValues.push(getName(listItems[listItemIndex]) + ": " +  value);								
+							}
+						}
+						if (this.config.lists[configListIndex].createParentNamesList){
+							parentNames.push(getParentName(listItems[listItemIndex]));
+							if (this.config.lists[configListIndex].createValuesList) {
+								parentNamesWithValues.push(getParentName(listItems[listItemIndex]) + ": " +  value);								
+							}
+						}
 					}
+					names.sort();
+					namesWithValues.sort();
+					parentNames.sort();
+					parentNamesWithValues.sort();
+					if (this.config.lists[configListIndex].createNamesList) {
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 							{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 					{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
+						if (this.config.lists[configListIndex].createValuesList) {
+							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, namesWithValues.join(separator));
+						}
+					}
+					if (this.config.lists[configListIndex].createParentNamesList) {
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 						{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", 				{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
+						if (this.config.lists[configListIndex].createValuesList) {
+							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_WITH_VALUES", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNamesWithValues.join(separator));
+						}
+					} 
 				}
-				names.sort();
-				parentNames.sort();
-				if (this.config.lists[configListIndex].createNamesList) {
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
-					//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 		{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
-				}
-				if (this.config.lists[configListIndex].createParentNamesList) {
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
-					//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", {type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
-				} 
 				//--Create entry the lists-Array
 				lists.push({
 					name: listName, 
@@ -499,22 +681,33 @@ class Iqontrol extends utils.Adapter {
 				if(this.config.lists[configListIndex].counters) for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
 					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
 					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
-					//Create counter-objects
+					//-- --Create counter-objects
 					let idRoot = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
 					let commonName = listName + " - " + counterName;
-					await this.createOrUpdateObject(idRoot, 								{type: "state"}, 	{name: commonName, 	type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
-					await this.createOrUpdateObject(idRoot + "_LIST", 						{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-					await this.createOrUpdateObject(idRoot + "_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"}, {iQontrolDatapointList: true});
-
-					//Names
-					if (this.config.lists[configListIndex].createNamesList) {
-						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",				{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						//await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",		{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot, 											{type: "state"}, 	{name: commonName, 	type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST", 									{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST_JSON",								{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"}, {iQontrolDatapointList: true});
+					//-- --Create optional LIST_WITH_VALUES
+					if (this.config.lists[configListIndex].createValuesList) {
+						await this.createOrUpdateObject(idRoot + "_LIST_WITH_VALUES",					{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
 					}
-					//ParentNames
+					//-- --Create optional NAMES_LIST
+					if (this.config.lists[configListIndex].createNamesList) {
+						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",							{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						//await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						//-- --Create optional NAMES_LIST_WITH_VALUES
+						if (this.config.lists[configListIndex].createValuesList) {
+							await this.createOrUpdateObject(idRoot + "_NAMES_LIST_WITH_VALUES",			{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						}
+					}
+					//-- --Create optional PARENTNAMES_LIST
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",		{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						//await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",	{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",					{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						//await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",			{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						//-- --Create optional PARENTNAMES_LIST_WITH_VALUES
+						if (this.config.lists[configListIndex].createValuesList) {
+							await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_WITH_VALUES",	{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						}
 					}
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -594,13 +787,13 @@ class Iqontrol extends utils.Adapter {
 								await fetchStates(counter.listItems || [], that);
 								counter.listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });
 							} else if (sorting.indexOf("names") > -1) { //names
-								counter.listItems.sort(function(a, b){ return collator.compare(getName(a, that.systemLanguage), getName(b, that.systemLanguage)); });
+								counter.listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)); });
 							} else { //parentNames
-								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a, that.systemLanguage), getParentName(b, that.systemLanguage)); });
+								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)); });
 							}
 							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
-							//-- -- -- --Set States
+							//--Set States
 							let separator = that.config.lists[configListIndex].separator || ", ";
 							let objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name);
 							await that.setStateValue(objId, counter.listItems.length);
@@ -608,27 +801,61 @@ class Iqontrol extends utils.Adapter {
 							await that.setStateValue(objId, counter.listItems.join(separator));
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
 							await that.setStateValue(objId, JSON.stringify(counter.listItems));
-							//Names and ParentNames
+							//--Set States of LIST_WITH_VALUES
+							let counterListWithValues = [];
+							for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
+								let value = getPlainTextWithUnit(counter.listItems[counterListItemIndex], this);
+								counterListWithValues.push(counter.listItems[counterListItemIndex] + ": " +  value);
+							}					
+							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_WITH_VALUES";
+							await that.setStateValue(objId, counterListWithValues.join(separator));
+							//--Set States of NAMES_LIST, NAMES_LIST_WITH_VALUES, PARENT_NAMES and PARENTNAMES_LIST_WITH_VALUES
 							if (that.config.lists[configListIndex].createNamesList || that.config.lists[configListIndex].createParentNamesList) {
 								let names = [];
+								let namesWithValues = [];
 								let parentNames = [];
+								let parentNamesWithValues = [];
 								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
-									names.push(getName(counter.listItems[counterListItemIndex], that.systemLanguage));
-									parentNames.push(getParentName(counter.listItems[counterListItemIndex], that.systemLanguage));
+									let value = "";
+									if (that.config.lists[configListIndex].createValuesList){
+										value = getPlainTextWithUnit(counter.listItems[counterListItemIndex], that);
+									};
+									if (that.config.lists[configListIndex].createNamesList){
+										names.push(getName(counter.listItems[counterListItemIndex]));
+										if (that.config.lists[configListIndex].createValuesList){
+											namesWithValues.push(getName(counter.listItems[counterListItemIndex]) + ": " +  value);								
+										}
+									}
+									if (that.config.lists[configListIndex].createParentNamesList){
+										parentNames.push(getParentName(counter.listItems[counterListItemIndex]));
+										if (that.config.lists[configListIndex].createValuesList){
+											parentNamesWithValues.push(getParentName(counter.listItems[counterListItemIndex]) + ": " +  value);										
+										}									
+									}
 								}
 								names.sort();
+								namesWithValues.sort();
 								parentNames.sort();
+								parentNamesWithValues.sort();
 								if (that.config.lists[configListIndex].createNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST";
-									await that.setStateValue(objId, names.join(', '));
+									await that.setStateValue(objId, names.join(separator));
 									//objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST_JSON";
 									//await that.setStateValue(objId, JSON.stringify(names));
+									if (that.config.lists[configListIndex].createValuesList){
+										objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST_WITH_VALUES";
+										await that.setStateValue(objId, namesWithValues.join(separator));
+									}
 								}
 								if (that.config.lists[configListIndex].createParentNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST";
-									await that.setStateValue(objId, parentNames.join(', '));
+									await that.setStateValue(objId, parentNames.join(separator));
 									//objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST_JSON";
 									//await that.setStateValue(objId, JSON.stringify(parentNames));
+									if (that.config.lists[configListIndex].createValuesList){
+										objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_PARENTNAMES_LIST_WITH_VALUES";
+										await that.setStateValue(objId, parentNamesWithValues.join(separator));
+									}
 								}
 							}
 							//-- -- -- --Call repeatTimeouts (for conditions, that contain distances to timestamps as argument, the counterFunction has to be called again after that distance)
@@ -744,11 +971,11 @@ class Iqontrol extends utils.Adapter {
 								if (calculationType == "arrays" && Array.isArray(value)){
 									switch (calculation.calculationSteps[calculationStepIndex].operator){
 										case "+":
-										result = result.concat(value);
+										result = concat(value);
 										break;
 										
 										case "-":
-										result = result.filter(o => !value.includes(o));
+										result = filter(o => !value.includes(o));
 										break;										
 									}
 								} else if (calculationType == "objects" && typeof value == "object"){
@@ -1060,6 +1287,10 @@ class Iqontrol extends utils.Adapter {
 		// Initialize your adapter here
 		await this.createInfoConnection();
 		this.setState('info.connection', { val: false, ack: true });
+
+		let systemConfig = await this.getForeignObjectAsync('system.config');
+		systemLanguage = systemConfig && systemConfig.common && systemConfig.common.language || "en";
+		this.log.info("systemLanguage = " + systemLanguage);
 		
 		this.log.info("Creating Popup States...");
 		await this.createPopup();

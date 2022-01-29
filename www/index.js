@@ -2011,9 +2011,9 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 				break;
 
 				case "sensor.alarm":
-				if (result.val) result.plainText = _("OK"); else result.plainText = _("alarm");
+				if (result.val) result.plainText = _("OK"); else result.plainText = _("Alarm");
 				if (typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
-					result.valueList = {"true": _("OK"), "false": _("alarm")};
+					result.valueList = {"true": _("OK"), "false": _("Alarm")};
 					result.type = "valueList";
 				} else { //If not bool and there is no value list, set type to string
 					result.type = "string";
