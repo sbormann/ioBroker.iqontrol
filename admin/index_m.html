@@ -3356,7 +3356,7 @@
 							<thead>
 								<tr>
 									<th data-name="modifier" data-type="select" data-options="add/Add;remove/Remove" class="translate">Modifier</th>
-									<th data-name="type" data-type="select" data-options="all/All;enum/Enumeration;enumWithChilds/Enumeration with Childs;id/ID;type/Object-Type;commonType/Type;commonRole/Role " class="translate">Type<th>
+									<th data-name="type" data-type="select" data-options="all/All;enum/Enumeration;enumWithChilds/Enumeration with Childs;id/ID;type/Object-Type;commonType/Type;commonRole/Role ;commonMode/Mode (Only for Instances);commonEnabled/Enabled (Only for Instances)" class="translate">Type<th>
 									<th data-name="operator" data-type="select" data-options="eq/is;ne/is not;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
@@ -3583,7 +3583,7 @@
 							<thead>
 								<tr>
 									<th data-name="modifier" data-type="select" data-options="&&/   And;||/Or" class="translate">Modifier</th>
-									<th data-name="type" data-type="select" data-options="value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
+									<th data-name="type" data-type="select" data-options="value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp;alive/Alive (Only for Instances);connection/Connection (Only for Instances)" class="translate">Typ</th>
 									<th data-name="operator" data-type="select" data-options="eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Operator</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="delete drag_handle" style="width:75px;"></th>
@@ -3730,6 +3730,18 @@
                         <h6 class="title"><span class="translate">Add Default List:</span> <span id="dialogListsAddDefaultName"></span></h6>
                     </div>
                 </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Description</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p id="dialogListsAddDefaultDescription"></p>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col s12">
 						<h6 class="sub-title">

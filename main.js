@@ -48,7 +48,7 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 	} else {
 		conditionValues = [conditionValue];
 	}
-	value = value || 0;
+	if (typeof value == "undefined" || value === null) value = "null";
 	switch(condition || ""){
 		case "at":
 		return true;
@@ -59,14 +59,14 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 		break;
 
 		case "eqt":
-		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "null" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
 			return false;
 		} else {
 			return true;
 		}
 
 		case "eqf":
-		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
+		if (value.toString().toLowerCase() == "false" || value.toString().toLowerCase() == "null" || value.toString().toLowerCase() == "0" || value.toString().toLowerCase() == "-1" || value.toString().toLowerCase() == ""){
 			return true;
 		} else {
 			return false;
@@ -88,6 +88,8 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 		break;
 
 		case "gt":
+		value = value || 0;
+		if (value == "null") value = 0;
 		for(let i = 0; i < conditionValues.length; i++){
 			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) > parseFloat(conditionValues[i])) return true;				
 		}
@@ -95,6 +97,8 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 		break;
 
 		case "ge":
+		value = value || 0;
+		if (value == "null") value = 0;
 		for(let i = 0; i < conditionValues.length; i++){
 			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) >= parseFloat(conditionValues[i])) return true;				
 		}
@@ -102,6 +106,8 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 		break;
 
 		case "lt":
+		value = value || 0;
+		if (value == "null") value = 0;
 		for(let i = 0; i < conditionValues.length; i++){
 			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) < parseFloat(conditionValues[i])) return true;				
 		}
@@ -109,6 +115,8 @@ function checkCondition(value, condition, conditionValue, conditionValueSeparato
 		break;
 
 		case "le":
+		value = value || 0;
+		if (value == "null") value = 0;
 		for(let i = 0; i < conditionValues.length; i++){
 			if (!isNaN(value) && !isNaN(conditionValues[i]) && parseFloat(value) <= parseFloat(conditionValues[i])) return true;				
 		}
@@ -701,6 +709,7 @@ class Iqontrol extends utils.Adapter {
 					listItems: listItems, 
 					counterFunctions: [], 
 					counterTimeout: false,
+					counterAdditionalTriggerItems: [],
 					calculationItems: [],
 					calculationFunctions: [],
 					calculationTimeouts: [], 
@@ -745,8 +754,9 @@ class Iqontrol extends utils.Adapter {
 					//-- --Creating counterFunctions
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let counter = that.config.lists[configListIndex].counters[counterIndex];
+						let _listIndex = listIndex;
 						let counterFunction = async function(_listItems, triggeredBy){ // ###### COUNTER FUNCTION ###### --> 
-							that.log.debug("COUNTER " + listName + " " + counter.name + " function started, TRIGGERED BY " + triggeredBy);
+							that.log.debug("COUNTER " + listName + " " + counter.name + " function started, TRIGGERED BY " + triggeredBy);							
 							counter.listItems = [];
 							counter.repeatTimeouts = [];
 							counter.conditions = counter.conditions || [];
@@ -756,7 +766,7 @@ class Iqontrol extends utils.Adapter {
 								let conditionPartFulfilled = (counter.conditions.length > 0);
 								//-- -- -- -- --Loop through the conditions of this counter and check, if this list item fulfills als conditions
 								for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
-									if(counter.conditions[conditionIndex].name == "||"){ //New condition OR-Partial
+									if(counter.conditions[conditionIndex].modifier == "||"){ //New condition OR-Partial
 										that.log.silly("COUNTER " + listName + " " + counter.name + ", item " + _listItems[_listItemIndex] + " |||| New OR-Part");
 										if(conditionPartFulfilled) conditionFullyFulfilled = true;
 										conditionPartFulfilled = true;
@@ -801,7 +811,48 @@ class Iqontrol extends utils.Adapter {
 										case "tss":
 										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc || 0))/1000;
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
-										break;										
+										break;
+
+										case "alive":
+										if (_listItems[_listItemIndex].indexOf("system.adapter." == 0) && _listItems[_listItemIndex].split('.').length >= 4) {
+											let id = _listItems[_listItemIndex].split('.');
+											id = id.splice(0, 4).join('.') + ".alive";
+											if(!usedStates[id]){
+												try {
+													usedStates[id] = await that.getForeignStateAsync(id);
+												} catch {
+													usedStates[id] = emptyState;
+												}
+											}
+											value = usedStates[id] && usedStates[id].val;
+											if (lists[_listIndex].counterAdditionalTriggerItems.indexOf(id) == -1){
+												that.log.debug("...subscribing to additional counter trigger item of list " + listName + " " + counter.name + " (" + id + ")...");
+												that.subscribeForeignStates(id);
+												lists[_listIndex].counterAdditionalTriggerItems.push(id);
+											}
+										}
+										break;
+
+										case "connection":
+										if (_listItems[_listItemIndex].indexOf("system.adapter." == 0) && _listItems[_listItemIndex].split('.').length >= 4) {
+											let id = _listItems[_listItemIndex].split('.');
+											id.splice(0, 2);
+											id = id[0] + "." + id[1] + ".info.connection";
+											if(!usedStates[id]){
+												try {
+													usedStates[id] = await that.getForeignStateAsync(id);
+												} catch {
+													usedStates[id] = emptyState;
+												}
+											}
+											value = usedStates[id] && usedStates[id].val;
+											if (lists[_listIndex].counterAdditionalTriggerItems.indexOf(id) == -1){
+												that.log.debug("...subscribing to additional counter trigger item of list " + listName + " " + counter.name + " (" + id + ")...");
+												that.subscribeForeignStates(id);
+												lists[_listIndex].counterAdditionalTriggerItems.push(id);
+											}
+										}
+										break;
 									}
 									let check = checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
 									conditionPartFulfilled = conditionPartFulfilled && check;
@@ -835,13 +886,15 @@ class Iqontrol extends utils.Adapter {
 							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_JSON";
 							await that.setStateValue(objId, JSON.stringify(counter.listItems));
 							//--Set States of LIST_WITH_VALUES
-							let counterListWithValues = [];
-							for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
-								let value = getPlainTextWithUnit(counter.listItems[counterListItemIndex], this);
-								counterListWithValues.push(counter.listItems[counterListItemIndex] + ": " +  value);
+							if (that.config.lists[configListIndex].createValuesList){
+								let counterListWithValues = [];
+								for(let counterListItemIndex = 0; counterListItemIndex < counter.listItems.length; counterListItemIndex++){
+									let value = getPlainTextWithUnit(counter.listItems[counterListItemIndex], this);
+									counterListWithValues.push(counter.listItems[counterListItemIndex] + ": " +  value);
+								}					
+								objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_WITH_VALUES";
+								await that.setStateValue(objId, counterListWithValues.join(separator));
 							}					
-							objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_LIST_WITH_VALUES";
-							await that.setStateValue(objId, counterListWithValues.join(separator));
 							//--Set States of NAMES_LIST, NAMES_LIST_WITH_VALUES, PARENT_NAMES and PARENTNAMES_LIST_WITH_VALUES
 							if (that.config.lists[configListIndex].createNamesList || that.config.lists[configListIndex].createParentNamesList) {
 								let names = [];
@@ -1185,7 +1238,8 @@ class Iqontrol extends utils.Adapter {
 	updateLists(id){
 		for(let listIndex = 0; listIndex < lists.length; listIndex++){
 			//Check, if id belongs to listItems and then trigger counterFunctions
-			if(lists[listIndex].listItems.indexOf(id) > -1 && !lists[listIndex].counterTimeout){
+			let triggerItems = lists[listIndex].listItems.concat(lists[listIndex].counterAdditionalTriggerItems);
+			if(triggerItems.indexOf(id) > -1 && !lists[listIndex].counterTimeout){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					let _id = id;
 					let _listIndex = listIndex;
