@@ -222,7 +222,8 @@ function getPlainTextWithUnit(id, that){
 	if (typeof custom.role !== udef && custom.role !== "") role = custom.role;
 	var parentId = id.substring(0, id.lastIndexOf("."));
 	if (role == "state" && allObjects[parentId] && typeof allObjects[parentId].common.role != udef && allObjects[parentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
-		switch(parentRole = allObjects[parentId].common.role){
+		let parentRole = allObjects[parentId] && allObjects[parentId].common && allObjects[parentId].common.role || "";
+		switch(parentRole){
 			case "switch": case "sensor.alarm": case "sensor.alarm.fire":
 			role = parentRole;
 			break;
@@ -536,6 +537,38 @@ class Iqontrol extends utils.Adapter {
 							};
 						}
 						break;
+						
+						case "commonMode":
+						if(selector.modifier == "add") { //Add commonMode
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.mode, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove commonRole
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.mode, selector.operator, selector.value, ',')){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
+						
+						case "commonEnabled":
+						if(selector.modifier == "add") { //Add commonMode
+							for(let object in allObjects){
+								let listItemIndex = listItems.indexOf(allObjects[object]._id);
+								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.enabled, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
+							};
+						} else { //Remove commonRole
+							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
+								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.enabled, selector.operator, selector.value, ',')){
+									listItems.splice(listItemIndex, 1);
+									listItemIndex--; //because splicing inside the loop re-indexes the array
+								}
+							};
+						}
+						break;
 					}
 				};
 				//--Filtering Aliases
@@ -768,7 +801,7 @@ class Iqontrol extends utils.Adapter {
 										case "tss":
 										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc || 0))/1000;
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
-										break;
+										break;										
 									}
 									let check = checkCondition(value, counter.conditions[conditionIndex].operator, counter.conditions[conditionIndex].value, ',');
 									conditionPartFulfilled = conditionPartFulfilled && check;
@@ -1301,7 +1334,7 @@ class Iqontrol extends utils.Adapter {
 		if(this.config.listsActive){
 			this.log.info("Creating List States...");
 			this.log.debug("...fetching all objects from ioBroker...");
-			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum')};
+			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum'), ...await this.getForeignObjectsAsync('', 'instance')};
 			this.log.debug("fetched " + Object.keys(allObjects).length + " objects from ioBroker.");
 			await this.createLists();
 		} else {
