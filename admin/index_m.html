@@ -579,6 +579,8 @@
 				<div class="row">
 					<div class="col s12">
 						<a class='dropdown-trigger waves-effect waves-light btn' id="listsAddDefaultDropdownTrigger" href='#' data-target='listsAddDefaultDropdown'><i class="material-icons left">grain</i><span class="translate">Add Default Lists</span></a>
+						<a class="waves-effect waves-light btn" id="listsExport"><i class="material-icons left">file_download</i><span class="translate">Export Lists</span></a> 
+						<a class="waves-effect waves-light btn" id="listsImport"><i class="material-icons left">file_upload</i><span class="translate">Import Lists</span></a> 
 						<ul id='listsAddDefaultDropdown' class='dropdown-content'></ul>
 					</div>
 				</div>
@@ -3688,9 +3690,12 @@
 							<thead>
 								<tr>
 									<th data-name="prefix" class="translate">Prefix</th>
+									<!--th data-name="prefixRepeat" data-type="checkbox" class="translate">Rep.</th-->
 									<th data-name="type" data-type="select" data-options="value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
 									<th data-name="id" class="translate">ID</th>
+									<th data-name="separator" class="translate">List-Separator</th>
 									<th data-name="postfix" class="translate">Postfix</th>
+									<!--th data-name="postfixRepeat" data-type="checkbox" class="translate">Rep.</th-->
 									<th data-name="onlyIfOperator" data-type="select" data-options=";eqt/is true;eqf/is false;eq/is;ne/is not;gt/is greater than;ge/is greater or equal;lt/is lower than;le/is lower or equal;c/contains;nc/contains not;bw/begins with;nbw/doens't begin with;ew/ends with;new/doesn't end with" class="translate">Only if</th>
 									<th data-name="onlyIfValue"></th>
 									<th data-name="onlyIfJustPrefix" data-type="checkbox" class="translate">Just Prefix</th>
@@ -3705,12 +3710,16 @@
 					<div class="col s12">
 						<p>
 							<span class="translate">Combinations can be used to combine different datapoints with text.</span>
-							 <span class="translate">The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.</span>
-							 <span class="translate">In the 'Only If'-Section you can define a condition, if the line schould be placed or not.</span>
-							 <span class="translate">You can leave the id empty, then the original id will be used.</span>
+							<br><br>
+							<span class="translate">The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.</span>
+							 <span class="translate">If the value of ID contains a list, the list separator is inserted between each entry of the list.</span>
+							<br><br>
+							<span class="translate">In the 'Only If'-Section you can define a condition, if the line schould be placed or not.</span>
+							 <!-- span class="translate">You can leave the id empty, then the original id will be used.</span-->
 							 <span class="translate">By activating 'Just Prefix' just the prefix is placed (not the value nor the postfix), if the condition matches.</span>
 							 <span class="translate">You can also specify a 'Else' text, that will be placed, if the condition doesn't match.</span>
-							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+							<br><br>
+							<a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
 						</p>
 					</div>
 				</div>
@@ -3780,6 +3789,28 @@
             </div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ListsExport  -->
+        <div id="dialogListsExport" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Export Lists:</span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<a class="btn-small chose" onclick="$('.dialogListsExportListsListListitem').prop('checked', true).trigger('change');"><i class="large material-icons left">check_box</i><span class="translate">All</span></a>
+						<a class="btn-small chose" onclick="$('.dialogListsExportListsListListitem').prop('checked', false).trigger('change');"><i class="large material-icons left">check_box_outline_blank</i><span class="translate">None</span></a>
+						<ul id="dialogListsExportListsList"></ul>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer">
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set disabled"><i class="large material-icons left">check</i><span class="translate">Export selected lists</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

@@ -201,6 +201,10 @@ function getName(id){
 		else if(Object.keys(name).length && typeof Object.keys(name)[0] == "string" && name[Object.keys(name)[0]]) name = name[Object.keys(name)[0]];
 		else name = JSON.stringify(name);
 	}
+	if (allObjects[id] && allObjects[id].type && allObjects[id].type == "instance" && id.lastIndexOf('.') > -1) { //Special: If instance number > 0 add the number to name
+		let instanceNumber = id.substring(id.lastIndexOf('.') + 1);
+		if (instanceNumber && !isNaN(instanceNumber) && parseInt(instanceNumber) > 0) name += " " + instanceNumber;
+	}
 	return name || id;	
 }
 
@@ -625,8 +629,8 @@ class Iqontrol extends utils.Adapter {
 						let _sortingFunction = async function(_listItems, triggeredBy){
 							_listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });
 							if(_sortDesc) _listItems.reverse();
-							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST", 		{type: "state"}, 	{name: _listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, _listItems.join(separator));
-							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: _listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(_listItems));
+							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST", 						{type: "state"}, 	{name: _listName + " - TOTAL - LIST", 				type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 		{iQontrolListSeparator: separator}, 		_listItems.join(separator));
+							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(_listName) + ".TOTAL_LIST_JSON", 					{type: "state"}, 	{name: _listName + " - TOTAL - LIST JSON", 			type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, 		{iQontrolDatapointList: true}, 				JSON.stringify(_listItems));
 							//-- --optional TOTAL_LIST_WITH_VALUES list
 							if (_createValuesList) {
 								let listWithValues = [];
@@ -634,7 +638,7 @@ class Iqontrol extends utils.Adapter {
 									let value = getPlainTextWithUnit(_listItems[listItemIndex], that);
 									listWithValues.push(_listItems[listItemIndex] + ": " +  value);
 								}					
-								await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listWithValues.join(separator));
+								await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName + " - TOTAL - LIST WITH VALUES", 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 		{iQontrolListSeparator: separator}, 		listWithValues.join(separator));
 							}
 						};
 						sortingFunction = _sortingFunction;
@@ -647,9 +651,9 @@ class Iqontrol extends utils.Adapter {
 				if(sorting.indexOf("desc") > -1) listItems.reverse();
 				//--Create TOTAL lists and set States
 				let separator = this.config.lists[configListIndex].separator || ", ";					  
-				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 				{type: "state"}, 	{name: listName, 	type: "number", 	role: "value", 		desc: "List created by iQontrol"}, false, listItems.length);
-				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listItems.join(separator));
-				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 	{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, {iQontrolDatapointList: true}, JSON.stringify(listItems));
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 											{type: "state"}, 	{name: listName + " - TOTAL", 						type: "number", 	role: "value", 		desc: "List created by iQontrol"}, 		false, 										listItems.length);
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 										{type: "state"}, 	{name: listName + " - TOTAL - LIST", 				type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 		{iQontrolListSeparator: separator}, 		listItems.join(separator));
+				await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 								{type: "state"}, 	{name: listName + " - TOTAL - LIST JSON", 			type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, 		{iQontrolDatapointList: true}, 				JSON.stringify(listItems));
 				//--Create optional TOTAL_LIST_WITH_VALUES list
 				if (this.config.lists[configListIndex].createValuesList) {
 					await fetchStates(listItems || [], that);
@@ -658,7 +662,7 @@ class Iqontrol extends utils.Adapter {
 						let value = getPlainTextWithUnit(listItems[listItemIndex], this);
 						listWithValues.push(listItems[listItemIndex] + ": " +  value);
 					}					
-					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, listWithValues.join(separator));
+					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_WITH_VALUES", 						{type: "state"}, 	{name: listName + " - TOTAL - LIST WITH VALUES", 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 		{iQontrolListSeparator: separator}, 		listWithValues.join(separator));
 				}
 				//--Create optional TOTAL_NAMES, TOTAL_NAMES_WITH_VALUES, TOTAL_PARENT_NAMES and TOTAL_PARENT_NAMES_WITH_VALUES lists
 				if (this.config.lists[configListIndex].createNamesList || this.config.lists[configListIndex].createParentNamesList) {
@@ -689,17 +693,17 @@ class Iqontrol extends utils.Adapter {
 					parentNames.sort();
 					parentNamesWithValues.sort();
 					if (this.config.lists[configListIndex].createNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 							{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, names.join(separator));
-						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 					{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(names));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST", 							{type: "state"}, 	{name: listName + " - TOTAL - NAMES LIST", 						type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 			{iQontrolListSeparator: separator}, 		names.join(separator));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_JSON", 					{type: "state"}, 	{name: listName + " - TOTAL - NAMES LIST JSON", 				type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, 			{iQontrolDatapointList: true}, 				JSON.stringify(names));
 						if (this.config.lists[configListIndex].createValuesList) {
-							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, namesWithValues.join(separator));
+							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_NAMES_LIST_WITH_VALUES", 			{type: "state"}, 	{name: listName + " - TOTAL - NAMES LIST WITH VALUES", 			type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 			{iQontrolListSeparator: separator}, 		namesWithValues.join(separator));
 						}
 					}
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 						{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNames.join(separator));
-						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", 				{type: "state"}, 	{name: listName, 	type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, false, JSON.stringify(parentNames));
+						await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST", 						{type: "state"}, 	{name: listName + " - TOTAL - PARENTNAMES LIST", 				type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 			{iQontrolListSeparator: separator}, 		parentNames.join(separator));
+						//await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_JSON", 				{type: "state"}, 	{name: listName + " - TOTAL - PARENTNAMES LIST JSON", 			type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, 			{iQontrolDatapointList: true}, 				JSON.stringify(parentNames));
 						if (this.config.lists[configListIndex].createValuesList) {
-							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_WITH_VALUES", 		{type: "state"}, 	{name: listName, 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, false, parentNamesWithValues.join(separator));
+							await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_PARENTNAMES_LIST_WITH_VALUES", 		{type: "state"}, 	{name: listName + " - TOTAL - PARENTNAMES LIST WITH VALUES", 	type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 			{iQontrolListSeparator: separator}, 		parentNamesWithValues.join(separator));
 						}
 					} 
 				}
@@ -723,32 +727,33 @@ class Iqontrol extends utils.Adapter {
 				if(this.config.lists[configListIndex].counters) for(let counterIndex = 0; counterIndex < this.config.lists[configListIndex].counters.length; counterIndex++){
 					this.log.debug("...processing counter " + listName + "_" + this.config.lists[configListIndex].counters[counterIndex].name + "...");
 					let counterName = this.config.lists[configListIndex].counters[counterIndex].name || counterIndex.toString();
+					let separator = this.config.lists[configListIndex].separator || ", ";
 					//-- --Create counter-objects
 					let idRoot = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counterName);
 					let commonName = listName + " - " + counterName;
-					await this.createOrUpdateObject(idRoot, 											{type: "state"}, 	{name: commonName, 	type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
-					await this.createOrUpdateObject(idRoot + "_LIST", 									{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-					await this.createOrUpdateObject(idRoot + "_LIST_JSON",								{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"}, {iQontrolDatapointList: true});
+					await this.createOrUpdateObject(idRoot, 											{type: "state"}, 	{name: commonName, 											type: "number", 	role: "value", 		unit: this.config.lists[configListIndex].counters[counterIndex].unit || "", 	desc: "List created by iQontrol"});
+					await this.createOrUpdateObject(idRoot + "_LIST", 									{type: "state"}, 	{name: commonName + " - LIST", 								type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
+					await this.createOrUpdateObject(idRoot + "_LIST_JSON",								{type: "state"}, 	{name: commonName + " - LIST JSON", 						type: "json", 		role: "list.json",	desc: "List created by iQontrol"},			{iQontrolDatapointList: true});
 					//-- --Create optional LIST_WITH_VALUES
 					if (this.config.lists[configListIndex].createValuesList) {
-						await this.createOrUpdateObject(idRoot + "_LIST_WITH_VALUES",					{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_LIST_WITH_VALUES",					{type: "state"}, 	{name: commonName + " - LIST WITH VALUES", 					type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
 					}
 					//-- --Create optional NAMES_LIST
 					if (this.config.lists[configListIndex].createNamesList) {
-						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",							{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						//await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",					{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_NAMES_LIST",							{type: "state"}, 	{name: commonName + " - NAMES LIST", 						type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
+						//await this.createOrUpdateObject(idRoot + "_NAMES_LIST_JSON",					{type: "state"}, 	{name: commonName + " - NAMES LIST JSON", 					type: "json", 		role: "list.json",	desc: "List created by iQontrol"},			{iQontrolDatapointList: true});
 						//-- --Create optional NAMES_LIST_WITH_VALUES
 						if (this.config.lists[configListIndex].createValuesList) {
-							await this.createOrUpdateObject(idRoot + "_NAMES_LIST_WITH_VALUES",			{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+							await this.createOrUpdateObject(idRoot + "_NAMES_LIST_WITH_VALUES",			{type: "state"}, 	{name: commonName + " - NAMES LIST WITH VALUES", 			type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
 						}
 					}
 					//-- --Create optional PARENTNAMES_LIST
 					if (this.config.lists[configListIndex].createParentNamesList) {
-						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",					{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
-						//await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",			{type: "state"}, 	{name: commonName, 	type: "json", 		role: "list.json",	desc: "List created by iQontrol"});
+						await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST",					{type: "state"}, 	{name: commonName + " - PARENTNAMES LIST", 					type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
+						//await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_JSON",			{type: "state"}, 	{name: commonName + " - PARENTNAMES LIST JSON", 			type: "json", 		role: "list.json",	desc: "List created by iQontrol"},			{iQontrolDatapointList: true});
 						//-- --Create optional PARENTNAMES_LIST_WITH_VALUES
 						if (this.config.lists[configListIndex].createValuesList) {
-							await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_WITH_VALUES",	{type: "state"}, 	{name: commonName, 	type: "string", 	role: "list",		desc: "List created by iQontrol"});
+							await this.createOrUpdateObject(idRoot + "_PARENTNAMES_LIST_WITH_VALUES",	{type: "state"}, 	{name: commonName + " - PARENTNAMES LIST WITH VALUES", 		type: "string", 	role: "list",		desc: "List created by iQontrol"},			{iQontrolListSeparator: separator});
 						}
 					}
 					//-- --Creating counterFunctions
@@ -1023,6 +1028,7 @@ class Iqontrol extends utils.Adapter {
 							let result;
 							let calculationType = null;
 							let iQontrolDatapointList = null;
+							let iQontrolListSeparator = null;
 							//-- -- --Loop through the calculationSteps of this counter
 							if (calculation.calculationSteps) for(let calculationStepIndex = 0; calculationStepIndex < calculation.calculationSteps.length; calculationStepIndex++){
 								let id = calculation.calculationSteps[calculationStepIndex].id;
@@ -1035,7 +1041,22 @@ class Iqontrol extends utils.Adapter {
 								}
 								let value = usedStates[id] && usedStates[id].val;
 								iQontrolDatapointList = (iQontrolDatapointList == null ? true : iQontrolDatapointList) && allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolDatapointList;
-								if(isNaN(value)) value = tryParseJSON(value);
+								if (iQontrolListSeparator == null){
+									iQontrolListSeparator = allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolListSeparator || false;
+								} else {
+									if (iQontrolListSeparator != iQontrolListSeparator == null && allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolListSeparator) iQontrolListSeparator = false;
+								}
+								if (typeof value != udef){
+									if (iQontrolListSeparator) {
+										if (value == null || value == "") {
+											value = [];
+										} else {
+											value = value.toString().split(iQontrolListSeparator);
+										}
+									} else if (isNaN(value) && tryParseJSON(value)){
+										value = tryParseJSON(value);
+									}
+								}
 								if (typeof value == udef) continue;
 								if (calculationType == null) {
 									if(Array.isArray(value)){
@@ -1044,11 +1065,18 @@ class Iqontrol extends utils.Adapter {
 									} else if (typeof value == "object") {
 										calculationType = "objects";
 										iQontrolDatapointList = false;
+										iQontrolListSeparator = false;
 										result = {};
 									} else if (!isNaN(value)) {
 										calculationType = "numbers";
 										iQontrolDatapointList = false;
+										iQontrolListSeparator = false;
 										result = 0;
+									} else if (typeof value == "string") {
+										calculationType = "string";
+										iQontrolDatapointList = false;
+										iQontrolListSeparator = false;
+										result = "";
 									} else {
 										continue;
 									}
@@ -1062,7 +1090,7 @@ class Iqontrol extends utils.Adapter {
 										
 										case "-":
 										result = result.filter(o => !value.includes(o));
-										break;										
+										break;
 									}
 								} else if (calculationType == "objects" && typeof value == "object"){
 									switch (calculation.calculationSteps[calculationStepIndex].operator){
@@ -1072,7 +1100,7 @@ class Iqontrol extends utils.Adapter {
 										
 										case "-":
 										Object.keys(value).forEach(key => {if(typeof result[key] != "undefined") delete result[key]});
-										break;										
+										break;
 									}
 								} else if (calculationType == "numbers" && !isNaN(value)){
 									if (!value) value = 0;
@@ -1092,23 +1120,45 @@ class Iqontrol extends utils.Adapter {
 										
 										case "\/":
 										if (value != 0) result /= value;
-										break;									
+										break;
+									}
+								} else if (calculationType == "string" && value != null) {
+									value = value.toString();
+									switch (calculation.calculationSteps[calculationStepIndex].operator){
+										case "+":
+										result += value;
+										break;
 									}
 								} else {
 									continue;
 								}
 							}
-							if(calculationType == "arrays" || calculationType == "objects") result = JSON.stringify(result);
-							that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + result);
+							if(calculationType == "arrays" || calculationType == "objects") {
+								that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + JSON.stringify(result));
+							} else {
+								that.log.info("CALCULATION " + listName + " " + calculation.name + " result: " + result);							
+							}
 							//-- -- -- --Create calculation-object and set state
 							let type = "number";
 							let role = "value";
 							let native = false;
 							switch (calculationType){
 								case "objects": case "arrays": 
-								type = "json"; 
-								role = "list.json"; 
-								if(iQontrolDatapointList) native = {iQontrolDatapointList: true};
+								if (iQontrolListSeparator){
+									type = "string"; 
+									role = "list"; 
+									native = {iQontrolListSeparator: iQontrolListSeparator};
+									result = result.join(iQontrolListSeparator);
+								} else {
+									type = "json"; 
+									role = "list.json"; 
+									if (iQontrolDatapointList) native = {iQontrolDatapointList: true}; 
+									result = JSON.stringify(result);
+								}
+								break;
+								
+								case "string":
+								type = "string";
 								break;
 							}
 							await that.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(calculation.name), false, {type: type, 	role: role}, native, result);
@@ -1201,7 +1251,32 @@ class Iqontrol extends utils.Adapter {
 								that.log.silly("COMBINATION " + listName + "_" + combination.name + " value: " + value + ", onlyIfOperator: " + onlyIfOperator + ", onlyIfValue: " + combination.combinationSteps[combinationStepIndex].onlyIfValue);
 								if(!onlyIfOperator || (checkCondition(value, onlyIfOperator, combination.combinationSteps[combinationStepIndex].onlyIfValue))){
 									if(combination.combinationSteps[combinationStepIndex].prefix) result += combination.combinationSteps[combinationStepIndex].prefix;
-									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix) result += value;
+									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix) {
+										let iQontrolDatapointList = allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolDatapointList;
+										let iQontrolListSeparator = allObjects[id] && allObjects[id].native && allObjects[id].native.iQontrolListSeparator;
+										if (typeof value != udef){
+											if (iQontrolListSeparator) {
+												if (value == null) {
+													value = [];
+												} else {
+													value = value.toString().split(iQontrolListSeparator);
+												}
+											} else if (isNaN(value) && tryParseJSON(value)){
+												value = tryParseJSON(value);
+											}
+											if(Array.isArray(value)){
+												result += value.join(combination.combinationSteps[combinationStepIndex].separator || iQontrolListSeparator || ", ");
+											} else if (typeof value == "object") {
+												let valueArray = []
+												for(valueItem in value){
+													valueArray.push(JSON.stringify(value[valueItem]));
+												};
+												result += value.join(combination.combinationSteps[combinationStepIndex].separator || iQontrolListSeparator || ", ");
+											} else {
+												result += value;
+											}
+										}
+									}
 									if(!combination.combinationSteps[combinationStepIndex].onlyIfJustPrefix && combination.combinationSteps[combinationStepIndex].postfix) result += combination.combinationSteps[combinationStepIndex].postfix;
 								} else {
 									if(combination.combinationSteps[combinationStepIndex].onlyIfElse) result += combination.combinationSteps[combinationStepIndex].onlyIfElse;
