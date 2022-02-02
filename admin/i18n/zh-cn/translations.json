@@ -957,6 +957,7 @@
     "Value of DIRECTION for 'closing'": "“关闭”的DIRECTION价值",
     "Value of DIRECTION for 'opening'": "“开放”方向的价值",
     "Value of DIRECTION for 'uncertain'": "“不确定”的方向价值",
+    "Value of LOCK_STATE for 'locked'": "“锁定”的 LOCK_STATE 值",
     "Value of REPEAT for 'off'": "REPEAT表示“关闭”的值",
     "Value of REPEAT for 'repeat all'": "REPEAT对于“重复全部”的价值",
     "Value of REPEAT for 'repeat one'": "REPEAT对于“重复一个”的价值",

@@ -597,7 +597,10 @@ var iQontrolRoles = {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
+				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""}
+			}}
 		}
 	},
 	"iQontrolWindow": {
@@ -6270,10 +6273,10 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || _("closed");
 											var stateTiltedValue = getDeviceOptionValue(_device, "stateTiltedValue") || _("tilted");
 											var stateOpenedValue = getDeviceOptionValue(_device, "stateOpenedValue") || _("opened");
+											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText;
 											if (state && typeof state.plainText == 'number'){		//STATE = number
@@ -6384,34 +6387,58 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
+											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || "false";
+											var lockStateLockedValue = getDeviceOptionValue(_device, "lockStateLockedValue") || "false";
 											var lockState = getStateObject(_linkedLockStateId);
 											var lockStateUncertain = getStateObject(_linkedLockStateUncertainId);
 											var lockOpen = getStateObject(_linkedLockOpenId);
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText = "";
-											if (state && typeof state.val !== udef && state.val){ //Opened
+											if (state 
+												&& typeof state.val !== udef 
+												&& (
+													(state.plainText == stateClosedValue || state.plainText == _(stateClosedValue) || state.plainText == capitalize(stateClosedValue) || state.plainText == capitalize(_(stateClosedValue)))
+													|| (typeof state.val == "boolean" && state.val.toString() == stateClosedValue)
+												)
+											){ //Closed
+												if (lockState 
+													&& typeof lockState.val !== udef 
+													&& (
+														(lockState.plainText == lockStateLockedValue || lockState.plainText == _(lockStateLockedValue) || lockState.plainText == capitalize(lockStateLockedValue) || lockState.plainText == capitalize(_(lockStateLockedValue)))
+														|| (typeof lockState.val == "boolean" && lockState.val.toString() == lockStateLockedValue)
+													)
+												) { //Closed and locked
+													result = false;
+													resultText = _("locked");
+													if (lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
+												} else if (lockState && typeof lockState.val !== udef) { //Closed, but unlocked
+													result = true;
+													resultText = _("unlocked");
+													if (lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "<i>";
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").addClass("active");
+												} else { //Closed (and lockState not set)
+													result = false;
+													resultText = _("closed");
+													if (lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
+													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
+												}
+											} else { //Opened
 												result = true;
 												resultText = _("opened");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
-											} else if (lockState && typeof lockState.val !== udef && lockState.val){ //Closed, but unlocked
-												result = true;
-												resultText = _("unlocked");
-												if (lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "<i>";
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").addClass("active");
-											} else { //Locked
-												result = false;
-												resultText = _("locked");
-												if (lockStateUncertain && typeof lockStateUncertain.val !== udef && lockStateUncertain.val) resultText = "<i>" + resultText + "</i>";
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.on").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").removeClass("active");
-												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.locked").addClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.unlocked").removeClass("active");
 											}
 											var tileActiveCondition = getDeviceOptionValue(_device, "tileActiveCondition");
@@ -13561,6 +13588,7 @@ $(document).ready(function(){
 	}
 
 	//Init socket.io
+	socketUrl = socketUrl || window.location.href.replace(/#[^\?]*/, '&'); //Fix for new socket.io, where # without an argument in url leads to connection error
 	socket = io.connect(socketUrl, {
 		query: {key: socketSession},
 		reconnectionDelay: 500,

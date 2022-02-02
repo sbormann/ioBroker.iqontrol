@@ -1183,7 +1183,10 @@ var iQontrolRoles = {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
-			SECTION_DEVICESPECIFIC: "delete"
+			SECTION_DEVICESPECIFIC: {options: {
+				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
+				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""}
+			}}
 		}
 	},
 	"iQontrolWindow": {

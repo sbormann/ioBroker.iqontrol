@@ -1200,6 +1200,7 @@
     "Value of DIRECTION for 'closing'": "Значение НАПРАВЛЕНИЯ для «закрытия»",
     "Value of DIRECTION for 'opening'": "Значение НАПРАВЛЕНИЯ для «открытия»",
     "Value of DIRECTION for 'uncertain'": "Значение НАПРАВЛЕНИЯ для «неопределенного»",
+    "Value of LOCK_STATE for 'locked'": "Значение LOCK_STATE для «заблокировано»",
     "Value of REPEAT for 'off'": "Значение REPEAT для «выкл»",
     "Value of REPEAT for 'repeat all'": "Значение REPEAT для «повторить все»",
     "Value of REPEAT for 'repeat one'": "Значение REPEAT для «повторить один»",

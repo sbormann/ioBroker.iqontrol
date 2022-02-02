@@ -65,7 +65,12 @@ You can save it as Web-App on Homescreen and it looks and feels like a native ap
 
 
 ## Forum
-Visit [iobroker forum](https://forum.iobroker.net/topic/22039/neuer-adapter-visualisierung-iqontrol). 
+Visit the Support-Thread [iobroker forum](https://forum.iobroker.net/topic/52077). 
+Visit the Developer-Thread [iobroker forum](https://forum.iobroker.net/topic/22039). 
+
+
+## Wiki
+Have a look at the wiki [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki).
 
 
 ## How to use
@@ -497,11 +502,13 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		* Default: "false" 
 	* ``controlModeDisabledValue`` (Value of CONTROL_MODE for 'disabled') - only valid for role Thermostat:
 		* Default: "" 
-	* ``stateClosedValue`` (Value of STATE for 'closed') - only valid for role Window:
+	* ``stateClosedValue`` (Value of STATE for 'closed') - only valid for role Window and Door with Lock:
 		* Default: "" 
 	* ``stateOpenedValue`` (Value of STATE for 'opened') - only valid for role Window:
 		* Default: "" 
 	* ``stateTiltedValue`` (Value of STATE for 'tilted') - only valid for role Window:
+		* Default: "" 
+	* ``lockStateLockedValue`` (Value of LOCK_STATE for 'locked') - only valid for role Door with Lock:
 		* Default: "" 
 	* ``invertActuatorLevel`` (Invert LEVEL (0 = open)) - only valid for role Blind:
 		* Possible values: "true"|"false"
@@ -1250,6 +1257,11 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 	* It filters duplicates by aliases out
 	![List Edit Unreach](img/list_edit_unreach_counter.png)
 	* And lastly, it count all datapoints with the value 'true', that have that state for at least 15 seconds
+* There are some built in default lists you can add, for example complex Service-Messages and a Adapter-Monitor. Just hit the 'Add Default Lists' button and chose what to add. Feel free to examine the lists, to get a better understanding, how the work.
+
+### Wiki
+* There is a very good Explanation with some good Enhancements by dslraser in the wiki: [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Listen-Z%C3%A4hler)
+* Here you can find some tips for configuring the icon-replacements in the device-counter widget: [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/JSON-Table-and-Device-Counter-Widget---Icon-Replacements)
 
 
 ## Modifying Datapoint Configuration
@@ -1658,27 +1670,29 @@ This device has some special predefined size- and display-settings to show a tex
 -->
 
 ### **WORK IN PROGRESS**
+* (sbormann) Introducing a powerful new feature: Lists and Counters.
+* (sbormann) The JSON-Table-Widget accepts now simple lists (for example an array of datapoints).
+* (sbormann) Added configurable font to JSON-table widget.
+* (sbormann) Added column-sorting to JSON-Table-Widget.
+* (sbormann) Added heading and border-color-option to JSON-table widget.
+* (sbormann) Added Device-Counter-Widget.
 * (sbormann) Added option to show POWER as state.
 * (sbormann) Added preview of tile appeareance when setting tile colors.
 * (sbormann) Added scrollbar-settings for firefox.
 * (sbormann) Added option to adjust height of tile to the size of BACKGROUND_VIEW.
 * (sbormann) Added option to change and invert INFO_A/B-Symbols.
-* (sbormann) Added import and export function to device options.
+* (sbormann) Added option to invert color of INFO_A/B icons for dark-mode.
 * (sbormann) Added option to hide indicator icons if inactive, active or enlarged.
-* (sbormann) Added column-sorting to JSON-Table-Widget.
-* (sbormann) The JSON-Table-Widget accepts now simple lists (for example an array of datapoints).
+* (sbormann) Added import and export function to device options.
 * (sbormann) Added widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.
 * (sbormann) Added option to media-player to disable forced reload of cover-image on TITLE-change.
-* (sbormann) Small adjustmets for ALTERNATIVE_COLORSPACE.
+* (sbormann) Adjustmets for ALTERNATIVE_COLORSPACE.
 * (sbormann) Added widget-replaceurl as a widget configuration parameter.
-* (sbormann) Introducing a powerful new feature: Lists and Counters.
-* (sbormann) Added Device-Counter-Widget.
-* (sbormann) Added heading and border-color-option to JSON-table widget.
 * (sbormann) Changed behaviour of min/max/ignore-min-max-settings of FLOT-Chart-Widget.
-* (sbormann) Added option to invert color of INFO_A/B icons for dark-mode.
-* (sbormann) Added configurable font to JSON-table widget.
 * (sbormann) Added export and import function to devices.
 * (sbormann) Fixed border-radius for big mode.
+* (sbormann) Added configurable values for 'closed' and 'locked' for 'Door with Lock'
+* (sbormann) Fixed targetValues for Admin 5.
 
 ### 1.11.0 (2021-12-18)
 * (sbormann) Added the ability to globally change the default icons.
