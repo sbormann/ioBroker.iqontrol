@@ -1241,13 +1241,22 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 * Next you can define **calculations**:
 	* Calculations can be used to combine numeric datapoints and calculate for example the sum of different counters.
 	* You can also combine objects like arrays (lists) by addition or subtraction.
-* At least you can define **combinations**:
+* Then you can define **combinations**:
 	* Combinations can be used to combine different datapoints with text.
 	* The 'Pefix' will be placed before, the 'Postfix' after the value of the given ID.
 	* In the 'Only If'-Section you can define a condition, if the line schould be placed or not.
 		* By activating 'Just Prefix' just the prefix is placed (not the value nor the postfix), if the condition matches.
 		* You can also specify a 'Else' text, that will be placed, if the condition doesn't match.
-* The result of the lists with counters, calculations and combinations are saved in datapoints, which you will find under iqontrol.x.Lists
+* At least you can define **logs**:
+	* Logs can be used to log changes in datapoints with timestamp in a table.
+	* Everytime a value of one of the given IDs changes, the log is updated. 
+		* By adding a debounce-time, you can prevent it from updating to often (for example if some values change nearly simultanously).
+	* The log is a table, that consists of as many columns as you like. 
+		* You have to assign unique names to the columns. 
+		* Then the content of the column can be defined: the entry number, a timestamp or the value of an ID.
+	* The result of the log is saved as JSON-Code and can be displayed by the JSON-Table-Widget.
+
+* The result of the lists with counters, calculations, combinations and logs are saved in datapoints, which you will find under iqontrol.x.Lists
 
 ### Examples
 * This example shows, how to create an UNREACH-List:

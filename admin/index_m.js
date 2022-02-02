@@ -6043,8 +6043,9 @@ async function load(settings, onChange) {
 		name: _("Service") + "&shy;" + _("messages"),
 	 	materialIcon: "chat_bubble_outline", 
 		description: _("Adds lists and a widget that counts service messages like unreachable devices or devices with empty battery, firmware-updates and so on"),
-		lists: [{"active":true,"name":"UNREACH","selectors":[{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.unreach"},{"modifier":"remove","type":"id","operator":"c","value":"STICKY_"}],"filterAliases":true,"counters":[{"name":"ACTUAL","type":"value","operator":"eqt","value":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"lcs","operator":"gt","value":"180"}],"unit":"Geräte"}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"LOWBAT","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".LOWBAT"},{"modifier":"add","type":"commonRole","operator":"ew","value":"lowbat"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"Geräte","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"ERROR","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"valuelistValue","operator":"ne","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"MAINTENANCE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".MAINTAIN"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.maintenance"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"SABOTAGE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"valuelistValue","operator":"eq","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"CONFIG_PENDING","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".CONFIG_PENDING"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"FIRMWARE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".firmware"},{"modifier":"remove","type":"commonType","operator":"ne","value":"boolean"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"Servicemessages","selectors":[],"filterAliases":false,"counters":[],"triggerInterval":"","calculations":[{"name":"ACTUAL","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL"}]}],"combinations":[{"name":"ACTUAL_TEXT","unit":"","combinationSteps":[{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"\\r\\n","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" device with empty battery: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" devices with empty battery: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty devices: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" time maintenance required: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" times maintenance required: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" device with sabotage alarm: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" devices with sabotage alarm: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" time configuration data pending for transmission: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" times configuration data pending for transmission: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" device with firmware-update: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" devices with firmware-update: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""}]}],"createNamesList":false,"createParentNamesList":false}],
-		devices: [{"commonName":_("Service") + "&shy;" + _("messages") + "|{" + adapter + "." + instance + ".Lists.Servicemessages.ACTUAL} " + _("Service") + "&shy;" + _("messages"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":""},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""}]
+		lists: [{"active":true,"name":"UNREACH","selectors":[{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.unreach"},{"modifier":"remove","type":"id","operator":"c","value":"STICKY_"}],"filterAliases":true,"counters":[{"name":"ACTUAL","type":"value","operator":"eqt","value":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"lcs","operator":"gt","value":"180"}],"unit":"Geräte"}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"LOWBAT","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".LOWBAT"},{"modifier":"add","type":"commonRole","operator":"ew","value":"lowbat"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"Geräte","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"ERROR","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""},{"modifier":"&&","type":"valuelistValue","operator":"ne","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"MAINTENANCE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".MAINTAIN"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.maintenance"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"SABOTAGE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".ERROR"},{"modifier":"add","type":"commonRole","operator":"eq","value":"indicator.error"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"valuelistValue","operator":"eq","value":"SABOTAGE"}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"CONFIG_PENDING","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".CONFIG_PENDING"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"FIRMWARE","selectors":[{"modifier":"add","type":"id","operator":"ew","value":".firmware"},{"modifier":"remove","type":"commonType","operator":"ne","value":"boolean"}],"filterAliases":true,"counters":[{"name":"ACTUAL","unit":"","conditions":[{"modifier":"&&","type":"value","operator":"eqt","value":""}]}],"triggerInterval":"","calculations":[],"combinations":[],"createNamesList":false,"createParentNamesList":true},{"active":true,"name":"Servicemessages","selectors":[],"filterAliases":false,"counters":[],"triggerInterval":"","calculations":[{"name":"ACTUAL","unit":"","calculationSteps":[{"operator":"+","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL"},{"operator":"+","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL"}]}],"combinations":[{"name":"ACTUAL_TEXT","unit":"","combinationSteps":[{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL","postfix":_(" inaccessible device: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"\\r\\n","id": adapter + "." + instance + ".Lists.UNREACH.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":"","type":"value"},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" device with empty battery: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL","postfix":_(" devices with empty battery: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty device: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL","postfix":_(" faulty devices: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.ERROR.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" time maintenance required: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL","postfix":_(" times maintenance required: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.MAINTENANCE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" device with sabotage alarm: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL","postfix":_(" devices with sabotage alarm: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.SABOTAGE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" time configuration data pending for transmission: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL","postfix":_(" times configuration data pending for transmission: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.CONFIG_PENDING.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" device with firmware-update: "),"onlyIfOperator":"eq","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL","postfix":_(" devices with firmware-update: "),"onlyIfOperator":"gt","onlyIfValue":"1","onlyIfJustPrefix":false,"onlyIfElse":""},{"prefix":"\\r\\n","type":"value","id": adapter + "." + instance + ".Lists.FIRMWARE.ACTUAL_PARENTNAMES_LIST","postfix":"\\r\\n\\r\\n\\r\\n","onlyIfOperator":"eqt","onlyIfValue":"","onlyIfJustPrefix":false,"onlyIfElse":""}]}],"createNamesList":false,"createParentNamesList":false,"logs":[{"name":"LOG_JSON","onChangeIDs":[{"id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeDebounce":"","logSteps":[{"key":_("No."),"type":"count","id":""},{"key":_("Time"),"type":"octsDMYHMS","id":""},{"key":_("Quantity"),"type":"value","id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"key":_("Messages"),"type":"value","id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeAddAllStepIDs":true,"addTo":"top","onChangeAddAllLogStepIDs":true,"onChangeIds":[{"id": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"}],"onChangeAddAllLogStepIds":false}]}],
+		devices: [{"commonName":_("Service") + "&shy;" + _("messages") + "|{" + adapter + "." + instance + ".Lists.Servicemessages.ACTUAL} " + _("Service") + "&shy;" + _("messages"),"nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","commonRole":"iQontrolValue","states":[{"state":"STATE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL_TEXT"},{"state":"LEVEL","commonRole":"linkedState","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.LOWBAT.ACTUAL"},{"state":"UNREACH","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.UNREACH.ACTUAL"},{"state":"ERROR","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.ERROR.ACTUAL"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":""},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value": adapter + "." + instance + ".Lists.Servicemessages.ACTUAL"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"const","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_on.png"},{"option":"icon_off","type":"icon","value":"./images/icons/fluent/fluent_info_bubble_off.png"},{"option":"readonly","type":"checkbox","value":"true"},{"option":"stateCaption","type":"text","value":""},{"option":"levelCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"openDialog"},{"option":"clickOnTileAction","type":"select","value":"openDialog"},{"option":"noZoomOnHover","type":"checkbox","value":"false"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":""},{"option":"tileActiveCondition","type":"select","value":""},{"option":"tileActiveConditionValue","type":"text","value":""},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"false"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"false"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"false"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":""},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"false"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"false"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"false"},{"option":"hideIconEnlarged","type":"checkbox","value":"false"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"false"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"false"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showStateAndLevelSeparatelyInTile","type":"select","value":""}],"nativeBackgroundImageActive":"","nativeHeadingOptions":""},
+				  {"commonName":"Service-Log","nativeHeading":"","nativeLinkedView":"","nativeBackgroundImage":"","nativeBackgroundImageActive":"","commonRole":"iQontrolButton","states":[{"state":"STATE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_CLEAR"},{"state":"SET_VALUE","commonRole":"const","value":"true"},{"state":"OFF_SET_VALUE","commonRole":"const","value":""},{"state":"INFO_A","commonRole":"array","value":"[]"},{"state":"INFO_B","commonRole":"array","value":"[]"},{"state":"BATTERY","commonRole":"linkedState","value":""},{"state":"UNREACH","commonRole":"linkedState","value":""},{"state":"ERROR","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BACKGROUND_VIEW","commonRole":"const","value":""},{"state":"BACKGROUND_URL","commonRole":"const","value":"./images/widgets/json-table/json-table.html?tableMode=columntoggle&colsSort=timestamp%3Bcount%3Bmessages&colsFilter=&translations=&useThisDatapoint=" + adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON&breakpoints=20%3B30%3B40%3B50%3B60%3B70%3B80&colsAlwaysVisible=&colsPreferablyVisible=messages&colsPreferablyVisibleAreVisibleAtStart=true&headHideColumntoggleButton=false&dataTranspose=false&dataTransposeKeycolCaption=Key&dataTransposeValcolsPrefix=Value%20&dataConvertObjectToArrayKeycolCaption=Nr.&columnSortEnabled=true&columnSortEnabledColsFilter=true&columnSortCol=Nr.&columnSortColDesc=true&columnSortColHideIndicator=false&rowsLimit=25&rowsLimitLoadMore=true&rowsLimitLoadMoreCaption=...&headHide=false&scrollbarHide=true&replaceCRwithBR=true&colorBackground=&colorBackgroundOdd=&colorText=&colorTextOdd=&colorTextShadow=&colorTextShadowOdd=&colorBackgroundDark=&colorBackgroundOddDark=&colorTextDark=&colorTextOddDark=&colorTextShadowDark=&colorTextShadowOddDark=&iconCols=&icon1Url=&icon1Caption=&icon1String=&icon2Url=&icon2Caption=&icon2String=&icon3Url=&icon3Caption=&icon3String=&icon4Url=&icon4Caption=&icon4String=&icon5Url=&icon5Caption=&icon5String=&icon6Url=&icon6Caption=&icon6String=&icon7Url=&icon7Caption=&icon7String=&icon8Url=&icon8Caption=&icon8String=&icon9Url=&icon9Caption=&icon9String=&icon10Url=&icon10Caption=&icon10String=&icon11Url=&icon11Caption=&icon11String=&icon12Url=&icon12Caption=&icon12String=&datapointDetectionEnabled=true&datapointIdCol=id&datapointIdColFilter=true&datapointExtendTableCols=parentName%3BplainText&datapointExtendTableColsDefaultTranslationLanguage=en&datapointToggleCols=plainText&="},{"state":"BACKGROUND_HTML","commonRole":"const","value":""},{"state":"ENLARGE_TILE","commonRole":"linkedState","value":""},{"state":"BADGE","commonRole":"linkedState","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"state":"BADGE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"OVERLAY_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_INACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_ACTIVE_COLOR","commonRole":"const","value":""},{"state":"GLOW_HIDE","commonRole":"linkedState","value":""},{"state":"URL","commonRole":"const","value":""},{"state":"HTML","commonRole":"linkedState","value":""},{"state":"ADDITIONAL_CONTROLS","commonRole":"array","value":"[]"},{"state":"ADDITIONAL_INFO","commonRole":"array","value":"[]"}],"options":[{"option":"icon_on","type":"icon","value":""},{"option":"icon_off","type":"icon","value":""},{"option":"readonly","type":"checkbox","value":"false"},{"option":"stateCaption","type":"text","value":""},{"option":"renderLinkedViewInParentInstance","type":"checkbox","value":"false"},{"option":"renderLinkedViewInParentInstanceClosesPanel","type":"checkbox","value":"false"},{"option":"clickOnIconAction","type":"select","value":"toggle"},{"option":"clickOnTileAction","type":"select","value":"enlarge"},{"option":"noZoomOnHover","type":"checkbox","value":"true"},{"option":"iconNoZoomOnHover","type":"checkbox","value":"false"},{"option":"hideDeviceName","type":"checkbox","value":"false"},{"option":"tileActiveStateId","type":"text","value":adapter + "." + instance + ".Lists.Servicemessages.LOG_JSON_COUNT"},{"option":"tileActiveCondition","type":"select","value":"gt"},{"option":"tileActiveConditionValue","type":"text","value":"0"},{"option":"sizeInactive","type":"select","value":""},{"option":"stateHeightAdaptsContentInactive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceInactive","type":"checkbox","value":"false"},{"option":"stateBigFontInactive","type":"checkbox","value":"false"},{"option":"bigIconInactive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsInactive","type":"checkbox","value":"false"},{"option":"transparentIfInactive","type":"checkbox","value":"false"},{"option":"noOverlayInactive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLInactive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfInactive","type":"checkbox","value":"false"},{"option":"hideStateIfInactive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoAIfInactive","type":"checkbox","value":"false"},{"option":"hideInfoBIfInactive","type":"checkbox","value":"false"},{"option":"hideDeviceIfInactive","type":"checkbox","value":"false"},{"option":"sizeActive","type":"select","value":""},{"option":"stateHeightAdaptsContentActive","type":"checkbox","value":"false"},{"option":"stateFillsDeviceActive","type":"checkbox","value":"false"},{"option":"stateBigFontActive","type":"checkbox","value":"false"},{"option":"bigIconActive","type":"checkbox","value":"false"},{"option":"iconNoPointerEventsActive","type":"checkbox","value":"false"},{"option":"transparentIfActive","type":"checkbox","value":"false"},{"option":"noOverlayActive","type":"checkbox","value":"false"},{"option":"hideBackgroundURLActive","type":"checkbox","value":"true"},{"option":"hideDeviceNameIfActive","type":"checkbox","value":"false"},{"option":"hideStateIfActive","type":"checkbox","value":"true"},{"option":"hideIndicatorIfActive","type":"checkbox","value":"false"},{"option":"hideInfoAIfActive","type":"checkbox","value":"false"},{"option":"hideInfoBIfActive","type":"checkbox","value":"false"},{"option":"hideDeviceIfActive","type":"checkbox","value":"false"},{"option":"sizeEnlarged","type":"select","value":"fullWidthIfEnlarged fullHeightIfEnlarged"},{"option":"stateHeightAdaptsContentEnlarged","type":"checkbox","value":"false"},{"option":"stateFillsDeviceEnlarged","type":"checkbox","value":"false"},{"option":"stateBigFontEnlarged","type":"checkbox","value":"false"},{"option":"bigIconEnlarged","type":"checkbox","value":"true"},{"option":"iconNoPointerEventsEnlarged","type":"checkbox","value":"true"},{"option":"transparentIfEnlarged","type":"checkbox","value":"false"},{"option":"noOverlayEnlarged","type":"checkbox","value":"true"},{"option":"tileEnlargeStartEnlarged","type":"checkbox","value":"false"},{"option":"tileEnlargeShowButtonInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowButtonActive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuInactive","type":"checkbox","value":"true"},{"option":"tileEnlargeShowInPressureMenuActive","type":"checkbox","value":"true"},{"option":"visibilityBackgroundURLEnlarged","type":"select","value":"visibleIfEnlarged"},{"option":"hideDeviceNameIfEnlarged","type":"checkbox","value":"true"},{"option":"hideStateIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIndicatorIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoAIfEnlarged","type":"checkbox","value":"true"},{"option":"hideInfoBIfEnlarged","type":"checkbox","value":"true"},{"option":"hideIconEnlarged","type":"checkbox","value":"true"},{"option":"addTimestampToState","type":"select","value":""},{"option":"showTimestamp","type":"select","value":""},{"option":"infoARoundDigits","type":"number","value":"1"},{"option":"infoBRoundDigits","type":"number","value":"1"},{"option":"infoAShowName","type":"checkbox","value":"false"},{"option":"infoBShowName","type":"checkbox","value":"false"},{"option":"batteryIcon_on","type":"icon","value":""},{"option":"batteryActiveCondition","type":"select","value":""},{"option":"batteryActiveConditionValue","type":"text","value":""},{"option":"unreachIcon_on","type":"icon","value":""},{"option":"invertUnreach","type":"checkbox","value":"false"},{"option":"hideUnreachIfInactive","type":"checkbox","value":"false"},{"option":"errorIcon_on","type":"icon","value":""},{"option":"invertError","type":"checkbox","value":"false"},{"option":"adjustHeightToBackgroundView","type":"checkbox","value":"false"},{"option":"backgroundURLDynamicIframeZoom","type":"number","value":""},{"option":"backgroundURLPadding","type":"number","value":""},{"option":"backgroundURLAllowPostMessage","type":"checkbox","value":"true"},{"option":"backgroundURLNoPointerEvents","type":"checkbox","value":"false"},{"option":"overlayAboveBackgroundURL","type":"checkbox","value":"false"},{"option":"badgeWithoutUnit","type":"checkbox","value":"true"},{"option":"invertGlowHide","type":"checkbox","value":"false"},{"option":"popupWidth","type":"number","value":""},{"option":"popupHeight","type":"number","value":""},{"option":"popupFixed","type":"checkbox","value":"false"},{"option":"openURLExternal","type":"checkbox","value":"false"},{"option":"openURLExternalCaption","type":"text","value":""},{"option":"popupAllowPostMessage","type":"checkbox","value":"true"},{"option":"additionalControlsSectionType","type":"select","value":"collapsible"},{"option":"additionalControlsCaption","type":"text","value":"Additional Controls"},{"option":"additionalControlsHeadingType","type":"select","value":"none"},{"option":"additionalControlsHideNameForButtons","type":"checkbox","value":"false"},{"option":"additionalInfoSectionType","type":"select","value":"collapsible"},{"option":"additionalInfoCaption","type":"text","value":"Additional Infos"},{"option":"additionalInfoListType","type":"select","value":""},{"option":"additionalInfoListColumnCount","type":"select","value":"auto"},{"option":"additionalInfoListColumnWidth","type":"number","value":""},{"option":"showState","type":"checkbox","value":"false"},{"option":"buttonCaption","type":"text","value":"Log leeren"},{"option":"returnToOffSetValueAfter","type":"number","value":""},{"option":"closeDialogAfterExecution","type":"checkbox","value":"false"}],"nativeHeadingOptions":""}]
 	}, {
 		name: "Adapter-Monitor",
 	 	materialIcon: "apps", 
@@ -6093,6 +6094,7 @@ async function load(settings, onChange) {
 	var dialogListEditCounters;
 	var dialogListEditCalculations;
 	var dialogListEditCombinations;
+	var dialogListEditLogs;
 	function onTableListsReady(){
 		var $div = $('#tableLists');
 		var $table = $div.find('.table-values');
@@ -6117,6 +6119,7 @@ async function load(settings, onChange) {
 						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
 						lists[listIndex].calculations = dialogListEditCalculations;
 						lists[listIndex].combinations = dialogListEditCombinations;
+						lists[listIndex].logs = dialogListEditLogs;
 						onTableListsReady();
 						onChange();
 					});
@@ -6137,6 +6140,8 @@ async function load(settings, onChange) {
 					values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
 					dialogListEditCombinations = JSON.parse(JSON.stringify(lists[listIndex].combinations || []));
 					values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
+					dialogListEditLogs = JSON.parse(JSON.stringify(lists[listIndex].logs || []));
+					values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
 					$('#dialogListEdit').modal('open');
 					$('#dialogListEdit').css('z-index', modalZIndexCount++);
 					$('#dialogListEdit .modal-content').scrollTop(0);
@@ -6765,7 +6770,270 @@ async function load(settings, onChange) {
 		});
 	}
 
+	//Enhance tableDialogListEditLogs with functions	
+	var dialogListEditLogOnChangeIds;
+	var dialogListEditLogSteps;
+	function onTableDialogListsEditLogsReady(){
+		var $div = $('#tableDialogListEditLogs');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit Log
+			if (command === 'edit') {
+				$(this).on('click', function (event) {
+					var logIndex = $(this).data('index');
+					initDialog('dialogListEditLog', function(){ //save dialog
+						var logIndex = $('#dialogListEditLogIndex').val();
+						dialogListEditLogs[logIndex].onChangeIds = dialogListEditLogOnChangeIds;
+						dialogListEditLogs[logIndex].onChangeDebounce = $('#dialogListEditLogOnChangeDebounce').val();
+						dialogListEditLogs[logIndex].logSteps = dialogListEditLogSteps;
+						dialogListEditLogs[logIndex].onChangeAddAllLogStepIds = $('#dialogListEditOnChangeAddAllLogStepIds').prop('checked');
+						dialogListEditLogs[logIndex].addTo = $('#dialogListEditLogAddTo').val();
+						onTableDialogListsEditLogsReady();
+					});
+					$('#dialogListEditLogName').html(dialogListEditLogs[logIndex].name || "");
+					$('#dialogListEditLogIndex').val(logIndex);
+					dialogListEditLogOnChangeIds = JSON.parse(JSON.stringify(dialogListEditLogs[logIndex].onChangeIds || []));
+					values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, onTableDialogListsEditLogOnChangeIDsReady);
+					$('#dialogListEditLogOnChangeDebounce').val(dialogListEditLogs[logIndex].onChangeDebounce);
+					dialogListEditLogSteps = JSON.parse(JSON.stringify(dialogListEditLogs[logIndex].logSteps || []));
+					values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, onTableDialogListsEditLogStepsReady);
+					$('#dialogListEditOnChangeAddAllLogStepIds').prop('checked', (dialogListEditLogs[logIndex].onChangeAddAllLogStepIds == true));
+					$('#dialogListEditLogAddTo').val(dialogListEditLogs[logIndex].addTo || "top").select();
+					$('#dialogListEditLog').modal('open');
+					$('#dialogListEditLog').css('z-index', modalZIndexCount++);
+					$('#dialogListEditLog .modal-content').scrollTop(0);
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Name changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'name') {
+				$(this).on('change', function (){
+					dialogListsEditCheckUnallowed()
+				});
+			}
+		});
+		//Check for unallowed
+		dialogListsEditCheckUnallowed();
+		//Make table sortable
+		$("#tableDialogListEditLogs tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditLogs tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditLogs').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditLogs[sequence[i]]);
+				}
+				dialogListEditLogs = tableResorted;
+				onChange();
+				values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
+				$("#tableDialogListEditLogs tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditLogOnChangeIDs with functions	
+	function onTableDialogListsEditLogOnChangeIDsReady(){
+		var $div = $('#tableDialogListEditLogOnChangeIDs');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'id') {
+				var index = $(this).data('index');
+				$(this).prop('id', 'tableDialogListEditLogOnChangeIDs_' + index);
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit ID
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var index = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogListEditLogOnChangeIDs_' + index);
+					initSelectId(function (sid) {
+						sid.selectId('show', ($('#tableDialogListEditLogOnChangeIDs_' + index).val() || adapter + "." + instance + ".Lists"), {type: 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});					
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Make table sortable
+		$("#tableDialogListEditLogOnChangeIDs tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditLogOnChangeIDs tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditLogOnChangeIDs').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditLogOnChangeIds[sequence[i]]);
+				}
+				dialogListEditLogOnChangeIds = tableResorted;
+				onChange();
+				values2table('tableDialogListEditLogOnChangeIDs', dialogListEditLogOnChangeIds, onChange, onTableDialogListsEditLogOnChangeIDsReady);
+				$("#tableDialogListEditLogOnChangeIDs tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+
+	//Enhance tableDialogListsEditLogSteps with functions	
+	function onTableDialogListsEditLogStepsReady(){
+		var $div = $('#tableDialogListEditLogSteps');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'id') {
+				var index = $(this).data('index');
+				$(this).prop('id', 'tableDialogListEditLogSteps_' + index);
+			}
+		});
+		//Selectbox-Functions
+		$lines.find('select[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'type') {
+				var index = $(this).data('index');
+				$(this).on('input change', function(){
+					$parentLine = $(this).parents('tr');
+					$id = $parentLine.find('input[data-name=id]');
+					$edit = $parentLine.find('a[data-command=edit]');
+					if ($(this).val().indexOf('octs') == 0 || $(this).val().indexOf('count') == 0) { //Number or OnChangeTimestamp
+						$id.css('opacity', '0').prop('disabled', true); //Hide
+						$edit.css('opacity', '0').addClass('disabled');						
+					} else {
+						$id.css('opacity', '1').prop('disabled', false); //Show
+						$edit.css('opacity', '1').removeClass('disabled');
+					}
+				}).trigger('change');
+			}
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit ID
+			if (command === 'edit') {
+				$(this).on('click', function(){
+					var index = $(this).data('index');
+					$('#dialogSelectId').data('selectidfor', 'tableDialogListEditLogSteps_' + index);
+					initSelectId(function (sid) {
+						sid.selectId('show', ($('#tableDialogListEditLogSteps_' + index).val() || adapter + "." + instance + ".Lists"), {type: 'state'}, function (newId) {
+							if (newId) {
+								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+							}
+						});
+					});					
+				});
+			}
+			//Drag-Icon
+			if (command === 'drag_handle') {
+				var imageIndex = $(this).data('index');
+				$(this).removeClass('btn-floating').addClass('btn-flat transparent').find('i').html('drag_handle');
+			}
+		});
+		//Key changed
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'key') {
+				$(this).on('change', function (){
+					listsEditLogStepsCheckUnallowed();
+				});
+			}
+		});
+		//Check for duplicates
+		listsEditLogStepsCheckUnallowed();
+		//Make table sortable
+		$("#tableDialogListEditLogSteps tbody").sortable({
+			helper: fixHelper,
+			start: function(event, ui){
+				console.log("Drag started...");
+			},
+			stop: function(event, ui){
+				console.log("Drag ended, start resorting...");
+				$("#tableDialogListEditLogSteps tbody").sortable('disable');
+				var sequence = [];
+				$('#tableDialogListEditLogSteps').find('.table-values').find('.table-lines').find('tr').each(function(){
+					sequence.push($(this).data('index'));
+				});
+				var tableResorted = [];
+				for(var i = 0; i < sequence.length; i++){
+					tableResorted.push(dialogListEditLogSteps[sequence[i]]);
+				}
+				dialogListEditLogSteps = tableResorted;
+				onChange();
+				values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, onTableDialogListsEditLogStepsReady);
+				$("#tableDialogListEditLogSteps tbody").sortable('enable');
+				console.log("resorted.");
+			},
+			axis: "y",
+			handle: "a[data-command='drag_handle']"
+		});
+	}
+	
 	//Check for unallowed
+	function listsEditLogStepsCheckUnallowed(){
+		var unallowed = false;
+		var keys = [];
+		if(dialogListEditLogSteps && dialogListEditLogSteps.length) dialogListEditLogSteps.forEach(function(element){
+			if(element.key == "") {
+				unallowed = _("All items have to have a name.");
+			}
+			if (element.key && keys.indexOf(element.key) > -1){
+				unallowed = _("No duplicates allowed! Names have to be unique.");
+			} else {
+				keys.push(element.key);
+			}
+		});
+		if (unallowed){
+			$('#dialogListEditLogCheckUnallowed').html(unallowed).show();
+			$('#dialogListEditLog .btn-set').addClass('disabled');
+			return true;
+		} else {
+			$('#dialogListEditLogCheckUnallowed').hide();
+			$('#dialogListEditLog .btn-set').removeClass('disabled');
+		}
+		return false;	
+	}
 	function dialogListsEditCheckUnallowed(){
 		var unallowed = false;
 		var names = [];
@@ -6796,6 +7064,19 @@ async function load(settings, onChange) {
 			}
 		});
 		if(!unallowed && dialogListEditCombinations && dialogListEditCombinations.length) dialogListEditCombinations.forEach(function(element){
+			if(element.name == "") {
+				unallowed = _("All items have to have a name.");
+			}
+			if(element.name == "TOTAL") {
+				unallowed = _("Names must not be TOTAL.");
+			}
+			if (element.name && element.name != "&&" && element.name != "||" && names.indexOf(element.name) > -1){
+				unallowed = _("No duplicates allowed! Names have to be unique.");
+			} else {
+				names.push(element.name);
+			}
+		});
+		if(!unallowed && dialogListEditLogs && dialogListEditLogs.length) dialogListEditLogs.forEach(function(element){
 			if(element.name == "") {
 				unallowed = _("All items have to have a name.");
 			}

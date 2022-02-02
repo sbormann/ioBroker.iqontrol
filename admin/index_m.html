@@ -3548,6 +3548,42 @@
 						</p>
 					</div>
 				</div>
+				<div class="section">
+					<div class="divider"></div>
+				</div>			
+				<div class="row">
+					<div class="col s12">
+						<img src="logs.png"  class="headingIcon">
+						<h6 class="translate sub-title heading">Logs</h6>
+					</div>
+				</div>
+				<div class="col s12 scrollableTable" id="tableDialogListEditLogs">
+					<div class="row">
+						<div class="col s2 m1 l1">
+							<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+								<i class="material-icons">add</i>
+							</button>
+						</div>
+					</div>
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="name" class="translate">Name</th>
+									<th data-buttons="edit delete drag_handle" style="width:135px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Logs can be used to log changes in datapoints with timestamp in a table.</span>
+							 <a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
 				<span id="dialogListEditCheckUnallowed" class="translate" style="display: none; color: red;"></span>&nbsp;
@@ -3730,6 +3766,122 @@
             </div>
         </div>
 
+		<!-- DIALOG: ListEditLog -->
+        <div id="dialogListEditLog" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogListEditLogIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Combination:</span> <span id="dialogListEditCombinationName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Update log on change of these IDs</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12 scrollableTable xwide" id="tableDialogListEditLogOnChangeIDs">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="id" class="translate">IDs</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<br>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6 l4">
+						<input class="value validate validateOnlyError" type="number" min="100" max="60000" id="dialogListEditLogOnChangeDebounce" placeholder="100" />
+						<label for="dialogListEditLogOnChangeDebounce" class="translate">Debouncing:</label>
+						<span class="helper-text" data-error="100 - 60000" data-success=""></span>
+						<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="sub-title">
+							<span class="translate">Columns</span>:
+						</h6>
+					</div>
+				</div>
+				<div class="col s12 scrollableTable xwide" id="tableDialogListEditLogSteps">
+					<div class="col s12 m12 l12">
+						<div class="row">
+							<div class="col s2 m1 l1">
+								<button title="Add" class="translateT table-button-add btn-floating waves-effect waves-light btn-small">
+									<i class="material-icons">add</i>
+								</button>
+							</div>
+						</div>
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="key" class="translate">Key (Column-Name)</th>
+									<th data-name="type" data-type="select" data-options="count/Entry Number;octs/Timestamp of Log-Update;octsDMYHMS/Timestamp of Log-Update as dd.mm.yyyy, hh:mm:ss;octsYMDhMSa/Timestamp of Log-Update as yyyy-mm-dd, h:mm:ss am|pm;value/Value;valuelistValue/Value from valuelist;ack/Acknowledged;lc/lastchange;lcs/seconds from lastchange;ts/timestamp;tss/seconds from timestamp" class="translate">Typ</th>
+									<th data-name="id" class="translate">ID</th>
+									<th data-buttons="edit delete drag_handle" style="width:75px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<div class="row">
+					<br>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m6 l4">
+						<select class="value" name='dialogListEditLogAddTo' id='dialogListEditLogAddTo'>
+							<option value="top" class="translate">Top</option>
+							<option value="bottom" class="translate">Bottom</option>
+						</select>
+						<label for='dialogListEditLogAddTo' class="translate">Add new items to:</label>
+						<span class="helper-text"></span>
+					</div>
+					<div class="input-field col s12 m6 l4">
+						<input class="value" type="checkbox" id="dialogListEditOnChangeAddAllLogStepIds" />
+						<label for="dialogListEditOnChangeAddAllLogStepIds" class="translate" style="display: inline;">Update Log on change of one of these IDs</label>
+						<span class="helper-text translate"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<p>
+							<span class="translate">Logs can be used to log changes in datapoints with timestamp in a table.</span>
+							<br><br>
+							<span class="translate">Everytime a value of one of the given IDs changes, the log is updated.</span>
+							 <span class="translate">By adding a debounce-time, you can prevent it from updating to often (for example if some values change nearly simultanously).</span>
+							<br><br>
+							<span class="translate">The log is a table, that consists of as many columns as you like.</span>
+							 <span class="translate">You have to assign unique names to the columns.</span>
+							 <span class="translate">Then the content of the column can be defined: the entry number, a timestamp or the value of an ID.</span>
+							<br><br>
+							<a href="https://github.com/sbormann/ioBroker.iqontrol#lists-and-counters" target="_blank"><span class="translate">See here for more informations and examples</span> <i class="material-icons tiny">live_help</i></a>.
+						</p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+				<span id="dialogListEditLogCheckUnallowed" class="translate" style="display: none; color: red;"></span>&nbsp;
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+		
  		<!-- DIALOG: listsAddDefault -->
         <div id="dialogListsAddDefault" class="modal modal-fixed-footer">
             <div class="modal-content">
