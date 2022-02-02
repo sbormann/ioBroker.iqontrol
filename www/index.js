@@ -1,6 +1,9 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
 
+if (window.location.href.indexOf('#') > -1) window.location.href = window.location.href.replace(/#[^\?]*/, ''); //Fix for new socket.io, where # without an argument in url leads to connection error
+
+
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
@@ -13588,7 +13591,6 @@ $(document).ready(function(){
 	}
 
 	//Init socket.io
-	socketUrl = socketUrl || window.location.href.replace(/#[^\?]*/, '&'); //Fix for new socket.io, where # without an argument in url leads to connection error
 	socket = io.connect(socketUrl, {
 		query: {key: socketSession},
 		reconnectionDelay: 500,
