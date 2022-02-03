@@ -807,9 +807,9 @@ class Iqontrol extends utils.Adapter {
 							for(let _listItemIndex = 0; _listItemIndex < _listItems.length; _listItemIndex++){
 								let conditionFullyFulfilled = false;
 								let conditionPartFulfilled = (counter.conditions.length > 0);
-								//-- -- -- -- --Loop through the conditions of this counter and check, if this list item fulfills als conditions
+								//-- -- -- -- --Loop through the conditions of this counter and check, if this list item fulfills all conditions
 								for(let conditionIndex = 0; conditionIndex < counter.conditions.length; conditionIndex++){
-									if(counter.conditions[conditionIndex].modifier == "||"){ //New condition OR-Partial
+									if(counter.conditions[conditionIndex].modifier == "||"){ //New condition OR-Part
 										that.log.silly("COUNTER " + listName + " " + counter.name + ", item " + _listItems[_listItemIndex] + " |||| New OR-Part");
 										if(conditionPartFulfilled) conditionFullyFulfilled = true;
 										conditionPartFulfilled = true;
