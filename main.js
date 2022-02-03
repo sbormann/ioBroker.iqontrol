@@ -1311,7 +1311,7 @@ class Iqontrol extends utils.Adapter {
 												for(valueItem in value){
 													valueArray.push(JSON.stringify(value[valueItem]));
 												};
-												result += value.join(combination.combinationSteps[combinationStepIndex].separator || iQontrolListSeparator || ", ");
+												result += valueArray.join(combination.combinationSteps[combinationStepIndex].separator || iQontrolListSeparator || ", ");
 											} else {
 												result += value;
 											}
