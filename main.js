@@ -616,6 +616,7 @@ class Iqontrol extends utils.Adapter {
 				let createValuesList = this.config.lists[configListIndex].createValuesList;
 				let createNamesList = this.config.lists[configListIndex].createNamesList;
 				let createParentNamesList = this.config.lists[configListIndex].createParentNamesList;
+				let separator = this.config.lists[configListIndex].separator || ", ";					  
 				let sortingFunction;
 				if (this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length){
 					if (typeof sorting != "string") sorting = "";
@@ -684,7 +685,6 @@ class Iqontrol extends utils.Adapter {
 				}
 				//--Create TOTAL lists and set States
 				if (this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length){
-					let separator = this.config.lists[configListIndex].separator || ", ";					  
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL", 											{type: "state"}, 	{name: listName + " - TOTAL", 						type: "number", 	role: "value", 		desc: "List created by iQontrol"}, 		false, 										listItems.length);
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST", 										{type: "state"}, 	{name: listName + " - TOTAL - LIST", 				type: "string", 	role: "list", 		desc: "List created by iQontrol"}, 		{iQontrolListSeparator: separator}, 		listItems.join(separator));
 					await this.createOrUpdateObject("Lists." + idEncodePointAllowed(listName) + ".TOTAL_LIST_JSON", 								{type: "state"}, 	{name: listName + " - TOTAL - LIST JSON", 			type: "json", 		role: "list.json", 	desc: "List created by iQontrol"}, 		{iQontrolDatapointList: true}, 				JSON.stringify(listItems));
