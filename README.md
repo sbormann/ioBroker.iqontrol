@@ -1677,8 +1677,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.0.0-rc1.0 (2022-02-04)
 * (sbormann) Introducing a powerful new feature: Lists and Counters.
 * (sbormann) The JSON-Table-Widget accepts now simple lists (for example an array of datapoints).
 * (sbormann) Added configurable font to JSON-table widget.
