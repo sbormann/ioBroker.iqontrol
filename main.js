@@ -1472,6 +1472,7 @@ class Iqontrol extends utils.Adapter {
 						}; //<-- End of ##### LOG FUNCTION #####
 						let logClearFunction = async function(triggeredBy){ // ###### LOG CLEAR FUNCTION ###### --> 
 							that.log.debug("LOG " + listName + "_" + logName + " CLEAR, TRIGGERED BY " + triggeredBy);
+							await that.setStateValue(logClearId, true, true);
 							await that.setStateValue(logCountId, 0);
 							await that.setStateValue(logStateId, JSON.stringify([]));
 							await that.setStateValue(logClearId, false, true);
@@ -1535,7 +1536,7 @@ class Iqontrol extends utils.Adapter {
 				}
 			}
 			//Check, if id belongs to logs
-			if(usedStates[id] && usedStates[id].val) for(let logIndex = 0; logIndex < lists[listIndex].logClearFunctions.length; logIndex++){
+			if(usedStates[id] && usedStates[id].val && !usedStates[id].ack) for(let logIndex = 0; logIndex < lists[listIndex].logClearFunctions.length; logIndex++){
 				if(lists[listIndex].logClearIds[logIndex] == id && !lists[listIndex].logClearTimeouts[logIndex]){ //Clear
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						let _id = id;
@@ -1554,10 +1555,12 @@ class Iqontrol extends utils.Adapter {
 						let _id = id;
 						let _listIndex = listIndex;
 						let _logIndex = logIndex;
+						let _debounce = lists[_listIndex].logDebounces[_logIndex] || 1000;
+						if (isNaN(_debounce)) _debounce = 1000;
 						lists[_listIndex].logTimeouts[_logIndex] = setTimeout(function(){ //Debouncing
 							lists[_listIndex].logFunctions[_logIndex](lists[_listIndex].logItems[_logIndex], _id);
 							lists[_listIndex].logTimeouts[_logIndex] = false;
-						} , lists[_listIndex].logDebounces[_logIndex] || 100);
+						} , _debounce);
 					})(); //<--End Closure
 				}
 			}
