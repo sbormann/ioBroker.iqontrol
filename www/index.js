@@ -13275,7 +13275,7 @@ function handleVisibilityChange() {
 			if(visibilityChangeCheckConnectionTimeout) clearTimeout(visibilityChangeCheckConnectionTimeout);
 			visibilityChangeCheckConnectionTimeout = setTimeout(function(){
 				console.log("Page visible-event - socket connection check timeout reached - trigger reconnection");
-				socket.disconnect();
+				socket.close();
 				socket.connect();
 			}, 500);
 			fetchSystemConfig(function(error){
@@ -13285,7 +13285,7 @@ function handleVisibilityChange() {
 				}
 				if(error) {
 					console.log("Page visible-event - socket connection check failed - trigger reconnection");
-					socket.disconnect();
+					socket.close();
 					socket.connect();
 				} else {
 					console.log("Page visible-event - socket is connected");
@@ -13294,7 +13294,7 @@ function handleVisibilityChange() {
 		} else {
 			console.log("Page visible-event - socket is disconnected");
 			//$('.loader').show();
-			socket.disconnect();
+			socket.close();
 			socket.connect();
 		}
 	}
@@ -13403,7 +13403,7 @@ $(document).ready(function(){
 	$('#ViewMain').ptrLight({
 		'refresh': function() {
 			if (homeId !== "" && actualViewId !== "" && actualViewId != homeId) {
-				socket.disconnect();
+				socket.close();
 				socket.connect();
 				getStarted();
 			} else {
@@ -13609,6 +13609,21 @@ $(document).ready(function(){
 		} else {
 			console.log('Socket connected - But it connected shortly before, so this event will be ignored');
 			clearTimeout(reconnectedShortly);
+			$('.loader').hide();
+		}
+		reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
+	});
+	socket.on('reconnect', function () {
+		console.debug('[Socket] reconnect');
+		socket.emit('name', namespace);
+		//Connected -> Starting point
+		if (!reconnectedShortly){
+			console.log('Socket connected - getStarted');
+			getStarted("triggeredByReconnection");
+		} else {
+			console.log('Socket connected - But it connected shortly before, so this event will be ignored');
+			clearTimeout(reconnectedShortly);
+			$('.loader').hide();
 		}
 		reconnectedShortly = setTimeout(function(){reconnectedShortly = false;}, 5000);
 	});
@@ -13640,9 +13655,6 @@ $(document).ready(function(){
 				}
 			}
 		}, 0);
-	});
-	socket.on('reconnect', function () {
-		console.debug('[Socket] reconnect');
 	});
 	socket.on('reauthenticate', function () {
 		console.debug('[Socket] reauthenticate');
