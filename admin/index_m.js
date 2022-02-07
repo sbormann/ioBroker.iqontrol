@@ -2596,8 +2596,8 @@ async function load(settings, onChange) {
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
 		lists = settings.lists || settings.demolists || [];
-		optionsLayoutDefaultIcons = {};
-		optionsLayoutDefaultSymbols = {};
+		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || settings.demooptionsLayoutDefaultIcons || {};
+		optionsLayoutDefaultSymbols = settings.optionsLayoutDefaultSymbols || settings.demooptionsLayoutDefaultSymbols || {};
 		version = settings.version || 0;
 		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
 		newConfig = true;
