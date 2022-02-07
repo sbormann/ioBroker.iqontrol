@@ -4273,7 +4273,7 @@ function handleOptions(){
 	//Dark-Mode - Info
 	if (options.LayoutColorModeDarkDeviceInfoIconBrightness) {
 		customCSS += "html.color-mode-dark .iQontrolDeviceInfoAIcon, html.color-mode-dark .iQontrolDeviceInfoBIcon{";
-		customCSS += "	filter: brightness(" + LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
+		customCSS += "	filter: brightness(" + options.LayoutColorModeDarkDeviceInfoIconBrightness + "%);";
 		customCSS += "}";
 	};
 	if (options.LayoutColorModeDarkDeviceInfoIconInvert) {
