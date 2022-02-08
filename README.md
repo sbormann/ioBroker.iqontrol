@@ -1677,8 +1677,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.0.0-rc1.1 (2022-02-08)
 * (sbormann) Kompatibility to new ioBroker websocket established.
 * (sbormann) Enhanced datapoint-rcognition in json-table-widget.
 * (sbormann) Fixed INFO A/B icon brightness-setting for dark mode.
