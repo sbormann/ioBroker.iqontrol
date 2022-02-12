@@ -1813,6 +1813,25 @@ function saveFromDialog(doSave, doPreview){
 			previewWindow.postMessage({ command: "updateConfig"}, "*")
 	}
 }
+var saveButtonMutationObserver;
+function applySyncSaveFromDialogButtonsToSaveButton(){
+	console.log("Starting saveButtonMutationObserver");
+	if (saveButtonMutationObserver){
+		saveButtonMutationObserver.disconnect();
+	} else {
+		saveButtonMutationObserver = new MutationObserver(function(mutationList){
+			mutationList.forEach(function(mutation){
+				if (mutation.attributeName === 'class'){
+					var newClasses = mutation.target.className.split(' ');
+					if (newClasses.indexOf('disabled') > -1) $('.modal-action.btn-save').addClass('disabled'); else $('.modal-action.btn-save').removeClass('disabled');
+				}
+			});
+		});
+	}
+	$('.dialog-config-buttons .btn-save').each(function(){
+		saveButtonMutationObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
+	});
+}
 
 window.addEventListener("message", function(event){
 	if (event && event.data && event.data.command == "getConfig"){
@@ -2775,6 +2794,9 @@ async function load(settings, onChange) {
 
 			//Signal to admin, that no changes yet
 			if (!newConfig) onChange(false);
+			
+			//Sync saveFromDialog-buttons to save button 
+			applySyncSaveFromDialogButtonsToSaveButton();
 
 			//Create /usericons, /usersymbols, /userwidgets and /userfonts
 			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets", "/userfonts"];
@@ -4216,6 +4238,7 @@ async function load(settings, onChange) {
 			})
 			initColorpickers(onChange);
 			if (M) M.updateTextFields();
+			$('.dialogDeviceEditOption').on('change', onChange);
 		}
 	}
 

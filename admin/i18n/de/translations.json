@@ -1070,6 +1070,7 @@
     "errors": "fehler",
     "false": "falsch",
     "green": "grün",
+    "if checked, the control will be displayed with half width.": "wenn ausgewählt, wird das Steuerelement mit halber Breite dargestellt.",
     "inactive": "deaktiviert",
     "iqontrol adapter settings": "Adaptereinstellungen für iQontrol",
     "is": "ist",

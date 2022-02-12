@@ -1070,6 +1070,7 @@
     "errors": "ошибки",
     "false": "ложный",
     "green": "зеленый",
+    "if checked, the control will be displayed with half width.": "если флажок установлен, элемент управления будет отображаться с половинной шириной.",
     "inactive": "неактивный",
     "iqontrol adapter settings": "Настройки адаптера для iqontrol",
     "is": "является",
