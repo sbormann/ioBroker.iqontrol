@@ -1804,6 +1804,25 @@ function saveFromDialog(save, preview){
 	}
 	if (save) $('.dialog-config-buttons .btn-save').click();
 }
+var saveButtonMutationObserver;
+function applySyncSaveFromDialogButtonsToSaveButton(){
+	console.log("Starting saveButtonMutationObserver");
+	if (saveButtonMutationObserver){
+		saveButtonMutationObserver.disconnect();
+	} else {
+		saveButtonMutationObserver = new MutationObserver(function(mutationList){
+			mutationList.forEach(function(mutation){
+				if (mutation.attributeName === 'class'){
+					var newClasses = mutation.target.className.split(' ');
+					if (newClasses.indexOf('disabled') > -1) $('.modal-action.btn-save').addClass('disabled'); else $('.modal-action.btn-save').removeClass('disabled');
+				}
+			});
+		});
+	}
+	$('.dialog-config-buttons .btn-save').each(function(){
+		saveButtonMutationObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
+	});
+}
 
 //SelectId
 var selectId;
@@ -2753,6 +2772,9 @@ async function load(settings, onChange) {
 
 			//Signal to admin, that no changes yet
 			if (!newConfig) onChange(false);
+			
+			//Sync saveFromDialog-buttons to save button 
+			applySyncSaveFromDialogButtonsToSaveButton();
 
 			//Create /usericons, /usersymbols, /userwidgets and /userfonts
 			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets", "/userfonts"];
