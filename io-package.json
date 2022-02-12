@@ -1,866 +1,866 @@
 {
-  "common": {
-    "name": "iqontrol",
-    "version": "2.0.0-rc2.0",
-    "news": {
-      "2.0.0-rc2.0": {
-        "en": "Fixed counting of logs.\nLists are now saved as readonly and with ack=true.\nFixed glow.\nAdded option to define, how the parent name of lists is determined.\nAdded save-button to dialogs.",
-        "de": "Zählen von Protokollen behoben.\nListen werden jetzt schreibgeschützt und mit ack=true gespeichert.\nFestes Leuchten.\nOption hinzugefügt, um zu definieren, wie der übergeordnete Name von Listen bestimmt wird.\nSpeichern-Schaltfläche zu Dialogen hinzugefügt.",
-        "ru": "Исправлен подсчет логов.\nСписки теперь сохраняются только для чтения и с ack=true.\nФиксированное свечение.\nДобавлена возможность определить, как определяется родительское имя списков.\nДобавлена кнопка сохранения в диалоги.",
-        "pt": "Contagem fixa de logs.\nAs listas agora são salvas como somente leitura e com ack=true.\nBrilho fixo.\nAdicionada opção para definir como o nome pai das listas é determinado.\nAdicionado botão salvar aos diálogos.",
-        "nl": "Vast tellen van logs.\nLijsten worden nu opgeslagen als alleen-lezen en met ack=true.\nVaste gloed.\nOptie toegevoegd om te definiëren hoe de bovenliggende naam van lijsten wordt bepaald.\nOpslaan-knop toegevoegd aan dialoogvensters.",
-        "fr": "Correction du comptage des journaux.\nLes listes sont désormais enregistrées en lecture seule et avec ack=true.\nLueur fixe.\nAjout d'une option pour définir comment le nom parent des listes est déterminé.\nAjout d'un bouton de sauvegarde aux boîtes de dialogue.",
-        "it": "Corretto il conteggio dei log.\nGli elenchi vengono ora salvati in sola lettura e con ack=true.\nBagliore fisso.\nAggiunta opzione per definire come viene determinato il nome principale delle liste.\nAggiunto il pulsante di salvataggio alle finestre di dialogo.",
-        "es": "Se corrigió el conteo de registros.\nLas listas ahora se guardan como de solo lectura y con ack=true.\nResplandor fijo.\nOpción agregada para definir cómo se determina el nombre principal de las listas.\nSe agregó el botón Guardar a los cuadros de diálogo.",
-        "pl": "Naprawiono liczenie dzienników.\nListy są teraz zapisywane jako tylko do odczytu iz ack=true.\nNaprawiono blask.\nDodano możliwość określenia, w jaki sposób określana jest nazwa nadrzędna list.\nDodano przycisk zapisu do okien dialogowych.",
-        "zh-cn": "固定的日志计数。\n列表现在保存为只读且 ack=true。\n固定发光。\n添加了选项来定义，如何确定列表的父名称。\n向对话框添加了保存按钮。"
-      },
-      "2.0.0-rc1.2": {
-        "en": "Fixed counting of logs.\nLists are now saved as readonly and with ack=true.",
-        "de": "Zählen von Protokollen behoben.\nListen werden jetzt schreibgeschützt und mit ack=true gespeichert.",
-        "ru": "Исправлен подсчет логов.\nСписки теперь сохраняются только для чтения и с ack=true.",
-        "pt": "Contagem fixa de logs.\nAs listas agora são salvas como somente leitura e com ack=true.",
-        "nl": "Vast tellen van logs.\nLijsten worden nu opgeslagen als alleen-lezen en met ack=true.",
-        "fr": "Correction du comptage des journaux.\nLes listes sont désormais enregistrées en lecture seule et avec ack=true.",
-        "it": "Corretto il conteggio dei log.\nGli elenchi vengono ora salvati in sola lettura e con ack=true.",
-        "es": "Se corrigió el conteo de registros.\nLas listas ahora se guardan como de solo lectura y con ack=true.",
-        "pl": "Naprawiono liczenie dzienników.\nListy są teraz zapisywane jako tylko do odczytu iz ack=true.",
-        "zh-cn": "固定的日志计数。\n列表现在保存为只读且 ack=true。"
-      },
-      "2.0.0-rc1.1": {
-        "en": "Kompatibility to new ioBroker websocket established.\nEnhanced datapoint-rcognition in json-table-widget.\nFixed INFO A/B icon brightness-setting for dark mode.",
-        "de": "Kompatibilität zum neuen ioBroker-Websocket hergestellt.\nVerbesserte Datenpunkterkennung im json-table-widget.\nDie Helligkeitseinstellung des INFO A/B-Symbols für den Dunkelmodus wurde korrigiert.",
-        "ru": "Установлена совместимость с новым веб-сокетом ioBroker.\nУлучшено распознавание точек данных в виджете json-table.\nИсправлена настройка яркости значка INFO A/B для темного режима.",
-        "pt": "Compatibilidade com o novo websocket ioBroker estabelecido.\nDatapoint-rcognition aprimorado no json-table-widget.\nCorrigida a configuração de brilho do ícone INFO A/B para o modo escuro.",
-        "nl": "Compatibiliteit met nieuwe ioBroker-websocket vastgesteld.\nVerbeterde datapuntherkenning in json-table-widget.\nVaste instelling van de helderheid van het INFO A/B-pictogram voor de donkere modus.",
-        "fr": "Compatibilité avec le nouveau websocket ioBroker établie.\nAmélioration de la reconnaissance des points de données dans json-table-widget.\nRéglage de la luminosité de l'icône INFO A/B fixe pour le mode sombre.",
-        "it": "Compatibilità con il nuovo websocket ioBroker stabilito.\nRiconoscimento dei punti dati migliorato in json-table-widget.\nRisolto il problema con l'impostazione della luminosità dell'icona INFO A/B per la modalità oscura.",
-        "es": "Compatibilidad con el nuevo websocket de ioBroker establecido.\nReconocimiento de puntos de datos mejorado en json-table-widget.\nSe corrigió la configuración de brillo del icono INFO A/B para el modo oscuro.",
-        "pl": "Ustanowiono kompatybilność z nowym websocketem ioBroker.\nUlepszone rozpoznawanie punktów danych w json-table-widget.\nNaprawiono ustawienie jasności ikony INFO A/B dla trybu ciemnego.",
-        "zh-cn": "已建立与新 ioBroker websocket 的兼容性。\n增强了 json-table-widget 中的 datapoint-rcognition。\n修复了黑暗模式的 INFO A/B 图标亮度设置。"
-      },
-      "2.0.0-rc1.0": {
-        "en": "Introducing a powerful new feature: Lists and Counters.\nThe JSON-Table-Widget accepts now simple lists (for example an array of datapoints).\nAdded configurable font to JSON-table widget.\nAdded column-sorting to JSON-Table-Widget.\nAdded heading and border-color-option to JSON-table widget.\nAdded Device-Counter-Widget.\nAdded option to show POWER as state.\nAdded preview of tile appeareance when setting tile colors.\nAdded scrollbar-settings for firefox.\nAdded option to adjust height of tile to the size of BACKGROUND_VIEW.\nAdded option to change and invert INFO_A/B-Symbols.\nAdded option to invert color of INFO_A/B icons for dark-mode.\nAdded option to hide indicator icons if inactive, active or enlarged.\nAdded import and export function to device options.\nAdded widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.\nAdded option to media-player to disable forced reload of cover-image on TITLE-change.\nAdjustmets for ALTERNATIVE_COLORSPACE.\nAdded widget-replaceurl as a widget configuration parameter.\nChanged behaviour of min/max/ignore-min-max-settings of FLOT-Chart-Widget.\nAdded export and import function to devices.\nFixed border-radius for big mode.\nAdded configurable values for 'closed' and 'locked' for 'Door with Lock'\nFixed targetValues for Admin 5.",
-        "de": "Einführung einer leistungsstarken neuen Funktion: Listen und Zähler.\nDas JSON-Table-Widget akzeptiert nun einfache Listen (zB ein Array von Datenpunkten).\nKonfigurierbare Schriftart zum JSON-Tabellen-Widget hinzugefügt.\nSpaltensortierung zum JSON-Table-Widget hinzugefügt.\nÜberschriften- und Rahmenfarbe-Option zum JSON-Tabellen-Widget hinzugefügt.\nDevice-Counter-Widget hinzugefügt.\nOption hinzugefügt, um POWER als Status anzuzeigen.\nVorschau des Aussehens der Kacheln beim Einstellen der Kachelfarben hinzugefügt.\nScrollbar-Einstellungen für Firefox hinzugefügt.\nOption hinzugefügt, um die Kachelhöhe an die Größe von DESCRIPTION_VIEW anzupassen.\nOption zum Ändern und Invertieren von INFO_A/B-Symbolen hinzugefügt.\nOption hinzugefügt, um die Farbe der INFO_A/B-Symbole für den Dunkelmodus umzukehren.\nOption hinzugefügt, um Anzeigesymbole auszublenden, wenn sie inaktiv, aktiv oder vergrößert sind.\nImport- und Exportfunktion zu den Geräteoptionen hinzugefügt.\nWidget-replaceurl zu Widgets hinzugefügt, was die Erstellung vereinfachter Widget-Voreinstellungen als Vorbereitung für die weitere Entwicklung ermöglicht.\nOption zum Media-Player hinzugefügt, um das erzwungene Neuladen des Titelbilds bei TITEL-Änderung zu deaktivieren.\nAnpassungen für ALTERNATIVE_COLORSPACE.\nwidget-replaceurl als Widget-Konfigurationsparameter hinzugefügt.\nVerhalten der Min/Max/Ignore-Min-Max-Einstellungen des FLOT-Chart-Widgets geändert.\nExport- und Importfunktion für Geräte hinzugefügt.\nBegrenzungsradius für den großen Modus korrigiert.\nKonfigurierbare Werte für „geschlossen“ und „verriegelt“ für „Tür mit Schloss“ hinzugefügt\nFeste Zielwerte für Admin 5.",
-        "ru": "Представляем новую мощную функцию: списки и счетчики.\nJSON-Table-Widget теперь принимает простые списки (например, массив точек данных).\nДобавлен настраиваемый шрифт в виджет JSON-таблицы.\nДобавлена сортировка столбцов в JSON-Table-Widget.\nДобавлен заголовок и параметр цвета границы в виджет JSON-таблицы.\nДобавлен виджет устройства-счетчика.\nДобавлена возможность отображать МОЩНОСТЬ как состояние.\nДобавлен предварительный просмотр внешнего вида плитки при настройке цвета плитки.\nДобавлены настройки полосы прокрутки для firefox.\nДобавлена возможность регулировать высоту плитки в соответствии с размером BACKGROUND_VIEW.\nДобавлена возможность изменять и инвертировать символы INFO_A/B.\nДобавлена возможность инвертировать цвет значков INFO_A/B для темного режима.\nДобавлена возможность скрывать значки индикаторов, если они неактивны, активны или увеличены.\nДобавлена функция импорта и экспорта в параметры устройства.\nВ виджеты добавлен widget-replaceurl, позволяющий создавать упрощенные пресеты виджетов в качестве подготовки к дальнейшей разработке.\nВ медиаплеер добавлена возможность отключить принудительную перезагрузку изображения обложки при смене НАЗВАНИЯ.\nНастройки для ALTERNATIVE_COLORSPACE.\nДобавлен widget-replaceurl в качестве параметра конфигурации виджета.\nИзменено поведение min/max/ignore-min-max-settings FLOT-Chart-Widget.\nДобавлена функция экспорта и импорта на устройства.\nИсправлен радиус границы для большого режима.\nДобавлены настраиваемые значения для «закрыто» и «заперто» для «Дверь с замком».\nИсправлены targetValues для администратора 5.",
-        "pt": "Apresentando um novo recurso poderoso: Listas e Contadores.\nO JSON-Table-Widget agora aceita listas simples (por exemplo, uma matriz de pontos de dados).\nFonte configurável adicionada ao widget de tabela JSON.\nClassificação de colunas adicionada ao JSON-Table-Widget.\nAdicionado título e opção de cor de borda ao widget de tabela JSON.\nAdicionado Device-Counter-Widget.\nAdicionada opção para mostrar POWER como estado.\nAdicionada a visualização da aparência do ladrilho ao definir as cores do ladrilho.\nAdicionadas configurações da barra de rolagem para o firefox.\nAdicionada opção para ajustar a altura do ladrilho ao tamanho de FUNDO_VIEW.\nAdicionada opção para alterar e inverter INFO_A/B-Symbols.\nAdicionada opção para inverter a cor dos ícones INFO_A/B para o modo escuro.\nAdicionada opção para ocultar ícones indicadores se inativos, ativos ou ampliados.\nAdicionada função de importação e exportação às opções do dispositivo.\nAdicionado widget-replaceurl aos widgets, o que permite a criação de predefinições de widget simplificadas, como preparação para desenvolvimento posterior.\nAdicionada opção ao media-player para desabilitar o recarregamento forçado da imagem de capa na mudança de TÍTULO.\nAjustes para ALTERNATIVE_COLORSPACE.\nAdicionado widget-replaceurl como um parâmetro de configuração de widget.\nAlterado o comportamento de min/max/ignore-min-max-settings do FLOT-Chart-Widget.\nAdicionada função de exportação e importação para dispositivos.\nCorrigido o raio da borda para o modo grande.\nAdicionados valores configuráveis para 'fechado' e 'travado' para 'Porta com cadeado'\nTargetValues fixos para Admin 5.",
-        "nl": "Introductie van een krachtige nieuwe functie: lijsten en tellers.\nDe JSON-Table-Widget accepteert nu eenvoudige lijsten (bijvoorbeeld een array van datapunten).\nConfigureerbaar lettertype toegevoegd aan JSON-tabelwidget.\nKolomsortering toegevoegd aan JSON-Table-Widget.\nKop- en randkleuroptie toegevoegd aan JSON-tabelwidget.\nApparaat-teller-widget toegevoegd.\nOptie toegevoegd om POWER als status weer te geven.\nVoorbeeld van tegeluiterlijk toegevoegd bij het instellen van tegelkleuren.\nScrollbar-instellingen toegevoegd voor Firefox.\nOptie toegevoegd om de hoogte van de tegel aan te passen aan de grootte van BACKGROUND_VIEW.\nOptie toegevoegd om INFO_A/B-symbolen te wijzigen en om te keren.\nOptie toegevoegd om de kleur van INFO_A/B-pictogrammen om te keren voor de donkere modus.\nOptie toegevoegd om indicatorpictogrammen te verbergen als ze inactief, actief of vergroot zijn.\nImport- en exportfunctie toegevoegd aan apparaatopties.\nWidget-replaceurl toegevoegd aan widgets, waarmee vereenvoudigde widget-presets kunnen worden gemaakt, als voorbereiding op verdere ontwikkeling.\nOptie toegevoegd aan mediaspeler om gedwongen herladen van omslagafbeelding bij TITLE-wijziging uit te schakelen.\nAanpassingen voor ALTERNATIVE_COLORSPACE.\nWidget-replaceurl toegevoegd als widgetconfiguratieparameter.\nGedrag gewijzigd van min/max/neger-min-max-instellingen van FLOT-Chart-Widget.\nExport- en importfunctie toegevoegd aan apparaten.\nVaste grensradius voor grote modus.\nConfigureerbare waarden toegevoegd voor 'gesloten' en 'vergrendeld' voor 'Deur met slot'\nVaste doelwaarden voor Admin 5.",
-        "fr": "Présentation d'une nouvelle fonctionnalité puissante : les listes et les compteurs.\nLe JSON-Table-Widget accepte maintenant des listes simples (par exemple un tableau de points de données).\nAjout d'une police configurable au widget de table JSON.\nAjout du tri des colonnes à JSON-Table-Widget.\nEn-tête et option de couleur de bordure ajoutés au widget de table JSON.\nAjout de Device-Counter-Widget.\nAjout d'une option pour afficher POWER comme état.\nAjout d'un aperçu de l'apparence des carreaux lors de la définition des couleurs des carreaux.\nAjout des paramètres de la barre de défilement pour firefox.\nAjout d'une option pour ajuster la hauteur de la tuile à la taille de BACKGROUND_VIEW.\nAjout d'une option pour modifier et inverser les symboles INFO_A/B.\nAjout d'une option pour inverser la couleur des icônes INFO_A/B pour le mode sombre.\nAjout d'une option pour masquer les icônes d'indicateur si elles sont inactives, actives ou agrandies.\nAjout de la fonction d'importation et d'exportation aux options de l'appareil.\nAjout de widget-replaceurl aux widgets, ce qui permet la création de préréglages de widgets simplifiés, en préparation d'un développement ultérieur.\nAjout d'une option au lecteur multimédia pour désactiver le rechargement forcé de l'image de couverture lors du changement de TITLE.\nAjustements pour ALTERNATIVE_COLORSPACE.\nAjout de widget-replaceurl en tant que paramètre de configuration du widget.\nChangement du comportement des paramètres min/max/ignore-min-max-de FLOT-Chart-Widget.\nAjout de la fonction d'exportation et d'importation aux appareils.\nRayon de bordure fixe pour le grand mode.\nAjout de valeurs configurables pour 'fermé' et 'verrouillé' pour 'Porte avec serrure'\nValeurs cibles fixes pour Admin 5.",
-        "it": "Presentazione di una nuova potente funzionalità: elenchi e contatori.\nIl JSON-Table-Widget ora accetta semplici elenchi (ad esempio una matrice di punti dati).\nAggiunto font configurabile al widget della tabella JSON.\nAggiunto l'ordinamento delle colonne a JSON-Table-Widget.\nAggiunta l'opzione di intestazione e colore del bordo al widget tabella JSON.\nAggiunto dispositivo-contatore-widget.\nAggiunta opzione per mostrare POWER come stato.\nAggiunta l'anteprima dell'aspetto delle tessere durante l'impostazione dei colori delle tessere.\nAggiunte le impostazioni della barra di scorrimento per Firefox.\nAggiunta opzione per regolare l'altezza della piastrella in base alle dimensioni di BACKGROUND_VIEW.\nAggiunta opzione per modificare e invertire INFO_A/B-Simboli.\nAggiunta l'opzione per invertire il colore delle icone INFO_A/B per la modalità oscura.\nAggiunta opzione per nascondere le icone degli indicatori se inattive, attive o ingrandite.\nAggiunta funzione di importazione ed esportazione alle opzioni del dispositivo.\nAggiunto widget-replaceurl ai widget, che consente la creazione di widget predefiniti semplificati, come preparazione per un ulteriore sviluppo.\nAggiunta opzione al lettore multimediale per disabilitare il ricaricamento forzato dell'immagine di copertina al cambio TITOLO.\nRegolazioni per ALTERNATIVE_COLORPACE.\nAggiunto widget-replaceurl come parametro di configurazione del widget.\nComportamento modificato delle impostazioni min/max/ignore-min-max di FLOT-Chart-Widget.\nAggiunta la funzione di esportazione e importazione sui dispositivi.\nCorretto il raggio di confine per la modalità grande.\nAggiunti valori configurabili per 'chiuso' e 'bloccato' per 'Porta con serratura'\nRisolti i valori target per l'amministratore 5.",
-        "es": "Presentamos una nueva y poderosa función: listas y contadores.\nEl widget de tabla JSON ahora acepta listas simples (por ejemplo, una matriz de puntos de datos).\nSe agregó una fuente configurable al widget de tabla JSON.\nSe agregó la clasificación de columnas a JSON-Table-Widget.\nSe agregó encabezado y opción de color de borde al widget de tabla JSON.\nDispositivo-Contador-Widget agregado.\nOpción agregada para mostrar POWER como estado.\nSe agregó una vista previa de la apariencia del mosaico al configurar los colores del mosaico.\nSe agregó la configuración de la barra de desplazamiento para Firefox.\nOpción agregada para ajustar la altura del mosaico al tamaño de BACKGROUND_VIEW.\nOpción agregada para cambiar e invertir INFO_A/B-Symbols.\nOpción agregada para invertir el color de los íconos INFO_A/B para el modo oscuro.\nSe agregó la opción para ocultar los íconos indicadores si están inactivos, activos o ampliados.\nSe agregó la función de importación y exportación a las opciones del dispositivo.\nSe agregó widget-replaceurl a los widgets, lo que permite la creación de ajustes preestablecidos de widgets simplificados, como preparación para un mayor desarrollo.\nSe agregó la opción al reproductor multimedia para deshabilitar la recarga forzada de la imagen de portada en el cambio de TÍTULO.\nAjustes para ALTERNATIVE_COLORSPACE.\nSe agregó widget-replaceurl como parámetro de configuración del widget.\nSe modificó el comportamiento de min/max/ignore-min-max-settings de FLOT-Chart-Widget.\nSe agregó la función de exportación e importación a los dispositivos.\nSe corrigió el radio de borde para el modo grande.\nSe agregaron valores configurables para 'cerrado' y 'bloqueado' para 'Puerta con cerradura'\nTargetValues fijos para Admin 5.",
-        "pl": "Przedstawiamy nową, potężną funkcję: Listy i Liczniki.\nJSON-Table-Widget akceptuje teraz proste listy (na przykład tablicę punktów danych).\nDodano konfigurowalną czcionkę do widżetu tabeli JSON.\nDodano sortowanie kolumn do JSON-Table-Widget.\nDodano opcję nagłówka i koloru obramowania do widżetu tabeli JSON.\nDodano widget licznika urządzeń.\nDodano opcję pokazywania POWER jako stanu.\nDodano podgląd wyglądu kafelków podczas ustawiania kolorów kafelków.\nDodano ustawienia paska przewijania dla firefoxa.\nDodano opcję dostosowania wysokości kafelka do rozmiaru BACKGROUND_VIEW.\nDodano opcję zmiany i odwrócenia symboli INFO_A/B.\nDodano opcję odwrócenia koloru ikon INFO_A/B dla trybu ciemnego.\nDodano opcję ukrywania ikon wskaźników, jeśli są nieaktywne, aktywne lub powiększone.\nDodano funkcję importu i eksportu do opcji urządzenia.\nDodano widget-replaceurl do widgetów, który umożliwia tworzenie uproszczonych widgetów-presetów, jako przygotowanie do dalszego rozwoju.\nDodano opcję do odtwarzacza multimedialnego, aby wyłączyć wymuszone przeładowanie obrazu okładki przy zmianie TITLE.\nKorekty dla ALTERNATIVE_COLORSPACE.\nDodano widget-replaceurl jako parametr konfiguracyjny widgetu.\nZmieniono zachowanie ustawień min/max/ignore-min-max-FLOT-Chart-Widget.\nDodano funkcję eksportu i importu do urządzeń.\nNaprawiono promień graniczny dla dużego trybu.\nDodano konfigurowalne wartości dla „zamkniętych” i „zamkniętych” dla „Drzwi z zamkiem”\nStałe wartości docelowe dla administratora 5.",
-        "zh-cn": "引入一个强大的新功能：列表和计数器。\nJSON-Table-Widget 现在接受简单的列表（例如数据点数组）。\n向 JSON 表小部件添加了可配置字体。\n向 JSON-Table-Widget 添加了列排序。\n向 JSON 表小部件添加了标题和边框颜色选项。\n添加了设备计数器小部件。\n添加了将 POWER 显示为状态的选项。\n在设置瓷砖颜色时添加了瓷砖外观的预览。\n添加了 Firefox 的滚动条设置。\n添加了将平铺高度调整为背景视图大小的选项。\n添加了更改和反转 INFO_A/B 符号的选项。\n添加了在暗模式下反转 INFO_A/B 图标颜色的选项。\n添加了在不活动、活动或放大时隐藏指示器图标的选项。\n在设备选项中添加了导入和导出功能。\n为小部件添加了 widget-replaceurl，它允许创建简化的小部件预设，为进一步开发做准备。\n为媒体播放器添加了选项，以禁用在标题更改时强制重新加载封面图像。\nALTERNATIVE_COLORSPACE 的调整。\n添加了 widget-replaceurl 作为小部件配置参数。\n更改了 FLOT-Chart-Widget 的 min/max/ignore-min-max-settings 的行为。\n为设备添加了导出和导入功能。\n修复了大模式的边界半径。\n为“带锁的门”添加了“关闭”和“锁定”的可配置值\n修复了 Admin 5 的 targetValues。"
-      },
-      "1.11.0": {
-        "en": "Added the ability to globally change the default icons.\nIntroducing iconsets and fluent icons.\nAdded option to change badge font and color.\nFixed setting of font family.\nFixed LayoutViewDeviceInactiveHoverOpacity.",
-        "de": "Möglichkeit hinzugefügt, die Standardsymbole global zu ändern.\nEinführung von Iconsets und fließenden Icons.\nOption zum Ändern der Schriftart und Farbe des Abzeichens hinzugefügt.\nFeste Einstellung der Schriftfamilie.\nLayoutViewDeviceInactiveHoverOpacity behoben.",
-        "ru": "Добавлена возможность глобального изменения значков по умолчанию.\nПредставляем наборы иконок и беглые значки.\nДобавлена возможность изменить шрифт и цвет значка.\nИсправлена установка семейства шрифтов.\nФиксированный LayoutViewDeviceInactiveHoverOpacity.",
-        "pt": "Adicionada a capacidade de alterar globalmente os ícones padrão.\nApresentando conjuntos de ícones e ícones fluentes.\nAdicionada opção para alterar a fonte e a cor do emblema.\nConfiguração fixa da família da fonte.\nLayoutViewDeviceInactiveHoverOpacity corrigido.",
-        "nl": "De mogelijkheid toegevoegd om de standaardpictogrammen globaal te wijzigen.\nIntroductie van pictogrammensets en vloeiende pictogrammen.\nOptie toegevoegd om het lettertype en de kleur van de badge te wijzigen.\nVaste instelling van lettertypefamilie.\nVaste lay-outViewDeviceInactiveHoverOpacity.",
-        "fr": "Ajout de la possibilité de modifier globalement les icônes par défaut.\nPrésentation des ensembles d'icônes et des icônes fluides.\nAjout d'une option pour changer la police et la couleur du badge.\nRéglage fixe de la famille de polices.\nMise en page fixeViewDeviceInactiveHoverOpacity.",
-        "it": "Aggiunta la possibilità di modificare globalmente le icone predefinite.\nPresentazione di set di icone e icone fluenti.\nAggiunta l'opzione per cambiare il carattere e il colore del badge.\nImpostazione fissa della famiglia di caratteri.\nRisolto il problema con LayoutViewDeviceInactiveHoverOpacity.",
-        "es": "Se agregó la capacidad de cambiar globalmente los íconos predeterminados.\nPresentamos conjuntos de iconos e iconos fluidos.\nOpción agregada para cambiar la fuente y el color de la insignia.\nConfiguración fija de la familia de fuentes.\nSe corrigió LayoutViewDeviceInactiveHoverOpacity.",
-        "pl": "Dodano możliwość globalnej zmiany domyślnych ikon.\nPrzedstawiamy zestawy ikon i płynne ikony.\nDodano możliwość zmiany czcionki i koloru znaczka.\nPoprawiono ustawienie rodziny czcionek.\nNaprawiono LayoutViewDeviceInactiveHoverOpacity.",
-        "zh-cn": "添加了全局更改默认图标的功能。\n介绍图标集和流畅的图标。\n添加了更改徽章字体和颜色的选项。\n固定字体系列的设置。\n修复了 LayoutViewDeviceInactiveHoverOpacity。"
-      },
-      "1.10.0": {
-        "en": "Fixed ALTERNATIVE_COLORSPACE.\nAdded option to change the icons for BATTERY, UNREACH and ERROR.",
-        "de": "ALTERNATIVE_COLORSPACE behoben.\nOption zum Ändern der Symbole für BATTERY, UNREACH und ERROR hinzugefügt.",
-        "ru": "Исправлено ALTERNATIVE_COLORSPACE.\nДобавлена возможность изменить значки для АККУМУЛЯТОР, НЕДОСТУПЕН и ОШИБКА.",
-        "pt": "ALTERNATIVE_COLORSPACE corrigido.\nAdicionada opção para alterar os ícones de BATERIA, UNREACH e ERROR.",
-        "nl": "ALTERNATIVE_COLORSPACE opgelost.\nOptie toegevoegd om de pictogrammen voor BATTERY, UNREACH en ERROR te wijzigen.",
-        "fr": "Correction d'ALTERNATIVE_COLORSPACE.\nAjout d'une option pour changer les icônes pour BATTERIE, UNREACH et ERREUR.",
-        "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.\nAggiunta l'opzione per cambiare le icone per BATTERIA, UNREACH ed ERRORE.",
-        "es": "Se corrigió ALTERNATIVE_COLORSPACE.\nOpción agregada para cambiar los íconos de BATERÍA, UNREACH y ERROR.",
-        "pl": "Naprawiono ALTERNATIVE_COLORSPACE.\nDodano opcję zmiany ikon dla BATERIA, UNREACH i ERROR.",
-        "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。\n添加了更改 BATTERY、UNREACH 和 ERROR 图标的选项。"
-      },
-      "1.9.17": {
-        "en": "Fixed ALTERNATIVE_COLORSPACE.",
-        "de": "ALTERNATIVE_COLORSPACE behoben.",
-        "ru": "Исправлено ALTERNATIVE_COLORSPACE.",
-        "pt": "ALTERNATIVE_COLORSPACE corrigido.",
-        "nl": "ALTERNATIVE_COLORSPACE opgelost.",
-        "fr": "Correction d'ALTERNATIVE_COLORSPACE.",
-        "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.",
-        "es": "Se corrigió ALTERNATIVE_COLORSPACE.",
-        "pl": "Naprawiono ALTERNATIVE_COLORSPACE.",
-        "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。"
-      }
+    "common": {
+        "name": "iqontrol",
+        "version": "2.0.0-rc2.0",
+        "news": {
+            "2.0.0-rc2.0": {
+                "en": "Fixed counting of logs.\nLists are now saved as readonly and with ack=true.\nFixed glow.\nAdded option to define, how the parent name of lists is determined.\nAdded save-button to dialogs.",
+                "de": "Zählen von Protokollen behoben.\nListen werden jetzt schreibgeschützt und mit ack=true gespeichert.\nFestes Leuchten.\nOption hinzugefügt, um zu definieren, wie der übergeordnete Name von Listen bestimmt wird.\nSpeichern-Schaltfläche zu Dialogen hinzugefügt.",
+                "ru": "Исправлен подсчет логов.\nСписки теперь сохраняются только для чтения и с ack=true.\nФиксированное свечение.\nДобавлена возможность определить, как определяется родительское имя списков.\nДобавлена кнопка сохранения в диалоги.",
+                "pt": "Contagem fixa de logs.\nAs listas agora são salvas como somente leitura e com ack=true.\nBrilho fixo.\nAdicionada opção para definir como o nome pai das listas é determinado.\nAdicionado botão salvar aos diálogos.",
+                "nl": "Vast tellen van logs.\nLijsten worden nu opgeslagen als alleen-lezen en met ack=true.\nVaste gloed.\nOptie toegevoegd om te definiëren hoe de bovenliggende naam van lijsten wordt bepaald.\nOpslaan-knop toegevoegd aan dialoogvensters.",
+                "fr": "Correction du comptage des journaux.\nLes listes sont désormais enregistrées en lecture seule et avec ack=true.\nLueur fixe.\nAjout d'une option pour définir comment le nom parent des listes est déterminé.\nAjout d'un bouton de sauvegarde aux boîtes de dialogue.",
+                "it": "Corretto il conteggio dei log.\nGli elenchi vengono ora salvati in sola lettura e con ack=true.\nBagliore fisso.\nAggiunta opzione per definire come viene determinato il nome principale delle liste.\nAggiunto il pulsante di salvataggio alle finestre di dialogo.",
+                "es": "Se corrigió el conteo de registros.\nLas listas ahora se guardan como de solo lectura y con ack=true.\nResplandor fijo.\nOpción agregada para definir cómo se determina el nombre principal de las listas.\nSe agregó el botón Guardar a los cuadros de diálogo.",
+                "pl": "Naprawiono liczenie dzienników.\nListy są teraz zapisywane jako tylko do odczytu iz ack=true.\nNaprawiono blask.\nDodano możliwość określenia, w jaki sposób określana jest nazwa nadrzędna list.\nDodano przycisk zapisu do okien dialogowych.",
+                "zh-cn": "固定的日志计数。\n列表现在保存为只读且 ack=true。\n固定发光。\n添加了选项来定义，如何确定列表的父名称。\n向对话框添加了保存按钮。"
+            },
+            "2.0.0-rc1.2": {
+                "en": "Fixed counting of logs.\nLists are now saved as readonly and with ack=true.",
+                "de": "Zählen von Protokollen behoben.\nListen werden jetzt schreibgeschützt und mit ack=true gespeichert.",
+                "ru": "Исправлен подсчет логов.\nСписки теперь сохраняются только для чтения и с ack=true.",
+                "pt": "Contagem fixa de logs.\nAs listas agora são salvas como somente leitura e com ack=true.",
+                "nl": "Vast tellen van logs.\nLijsten worden nu opgeslagen als alleen-lezen en met ack=true.",
+                "fr": "Correction du comptage des journaux.\nLes listes sont désormais enregistrées en lecture seule et avec ack=true.",
+                "it": "Corretto il conteggio dei log.\nGli elenchi vengono ora salvati in sola lettura e con ack=true.",
+                "es": "Se corrigió el conteo de registros.\nLas listas ahora se guardan como de solo lectura y con ack=true.",
+                "pl": "Naprawiono liczenie dzienników.\nListy są teraz zapisywane jako tylko do odczytu iz ack=true.",
+                "zh-cn": "固定的日志计数。\n列表现在保存为只读且 ack=true。"
+            },
+            "2.0.0-rc1.1": {
+                "en": "Kompatibility to new ioBroker websocket established.\nEnhanced datapoint-rcognition in json-table-widget.\nFixed INFO A/B icon brightness-setting for dark mode.",
+                "de": "Kompatibilität zum neuen ioBroker-Websocket hergestellt.\nVerbesserte Datenpunkterkennung im json-table-widget.\nDie Helligkeitseinstellung des INFO A/B-Symbols für den Dunkelmodus wurde korrigiert.",
+                "ru": "Установлена совместимость с новым веб-сокетом ioBroker.\nУлучшено распознавание точек данных в виджете json-table.\nИсправлена настройка яркости значка INFO A/B для темного режима.",
+                "pt": "Compatibilidade com o novo websocket ioBroker estabelecido.\nDatapoint-rcognition aprimorado no json-table-widget.\nCorrigida a configuração de brilho do ícone INFO A/B para o modo escuro.",
+                "nl": "Compatibiliteit met nieuwe ioBroker-websocket vastgesteld.\nVerbeterde datapuntherkenning in json-table-widget.\nVaste instelling van de helderheid van het INFO A/B-pictogram voor de donkere modus.",
+                "fr": "Compatibilité avec le nouveau websocket ioBroker établie.\nAmélioration de la reconnaissance des points de données dans json-table-widget.\nRéglage de la luminosité de l'icône INFO A/B fixe pour le mode sombre.",
+                "it": "Compatibilità con il nuovo websocket ioBroker stabilito.\nRiconoscimento dei punti dati migliorato in json-table-widget.\nRisolto il problema con l'impostazione della luminosità dell'icona INFO A/B per la modalità oscura.",
+                "es": "Compatibilidad con el nuevo websocket de ioBroker establecido.\nReconocimiento de puntos de datos mejorado en json-table-widget.\nSe corrigió la configuración de brillo del icono INFO A/B para el modo oscuro.",
+                "pl": "Ustanowiono kompatybilność z nowym websocketem ioBroker.\nUlepszone rozpoznawanie punktów danych w json-table-widget.\nNaprawiono ustawienie jasności ikony INFO A/B dla trybu ciemnego.",
+                "zh-cn": "已建立与新 ioBroker websocket 的兼容性。\n增强了 json-table-widget 中的 datapoint-rcognition。\n修复了黑暗模式的 INFO A/B 图标亮度设置。"
+            },
+            "2.0.0-rc1.0": {
+                "en": "Introducing a powerful new feature: Lists and Counters.\nThe JSON-Table-Widget accepts now simple lists (for example an array of datapoints).\nAdded configurable font to JSON-table widget.\nAdded column-sorting to JSON-Table-Widget.\nAdded heading and border-color-option to JSON-table widget.\nAdded Device-Counter-Widget.\nAdded option to show POWER as state.\nAdded preview of tile appeareance when setting tile colors.\nAdded scrollbar-settings for firefox.\nAdded option to adjust height of tile to the size of BACKGROUND_VIEW.\nAdded option to change and invert INFO_A/B-Symbols.\nAdded option to invert color of INFO_A/B icons for dark-mode.\nAdded option to hide indicator icons if inactive, active or enlarged.\nAdded import and export function to device options.\nAdded widget-replaceurl to widgets, which allows creation of simplified widget-presets, as preparation for further development.\nAdded option to media-player to disable forced reload of cover-image on TITLE-change.\nAdjustmets for ALTERNATIVE_COLORSPACE.\nAdded widget-replaceurl as a widget configuration parameter.\nChanged behaviour of min/max/ignore-min-max-settings of FLOT-Chart-Widget.\nAdded export and import function to devices.\nFixed border-radius for big mode.\nAdded configurable values for 'closed' and 'locked' for 'Door with Lock'\nFixed targetValues for Admin 5.",
+                "de": "Einführung einer leistungsstarken neuen Funktion: Listen und Zähler.\nDas JSON-Table-Widget akzeptiert nun einfache Listen (zB ein Array von Datenpunkten).\nKonfigurierbare Schriftart zum JSON-Tabellen-Widget hinzugefügt.\nSpaltensortierung zum JSON-Table-Widget hinzugefügt.\nÜberschriften- und Rahmenfarbe-Option zum JSON-Tabellen-Widget hinzugefügt.\nDevice-Counter-Widget hinzugefügt.\nOption hinzugefügt, um POWER als Status anzuzeigen.\nVorschau des Aussehens der Kacheln beim Einstellen der Kachelfarben hinzugefügt.\nScrollbar-Einstellungen für Firefox hinzugefügt.\nOption hinzugefügt, um die Kachelhöhe an die Größe von DESCRIPTION_VIEW anzupassen.\nOption zum Ändern und Invertieren von INFO_A/B-Symbolen hinzugefügt.\nOption hinzugefügt, um die Farbe der INFO_A/B-Symbole für den Dunkelmodus umzukehren.\nOption hinzugefügt, um Anzeigesymbole auszublenden, wenn sie inaktiv, aktiv oder vergrößert sind.\nImport- und Exportfunktion zu den Geräteoptionen hinzugefügt.\nWidget-replaceurl zu Widgets hinzugefügt, was die Erstellung vereinfachter Widget-Voreinstellungen als Vorbereitung für die weitere Entwicklung ermöglicht.\nOption zum Media-Player hinzugefügt, um das erzwungene Neuladen des Titelbilds bei TITEL-Änderung zu deaktivieren.\nAnpassungen für ALTERNATIVE_COLORSPACE.\nwidget-replaceurl als Widget-Konfigurationsparameter hinzugefügt.\nVerhalten der Min/Max/Ignore-Min-Max-Einstellungen des FLOT-Chart-Widgets geändert.\nExport- und Importfunktion für Geräte hinzugefügt.\nBegrenzungsradius für den großen Modus korrigiert.\nKonfigurierbare Werte für „geschlossen“ und „verriegelt“ für „Tür mit Schloss“ hinzugefügt\nFeste Zielwerte für Admin 5.",
+                "ru": "Представляем новую мощную функцию: списки и счетчики.\nJSON-Table-Widget теперь принимает простые списки (например, массив точек данных).\nДобавлен настраиваемый шрифт в виджет JSON-таблицы.\nДобавлена сортировка столбцов в JSON-Table-Widget.\nДобавлен заголовок и параметр цвета границы в виджет JSON-таблицы.\nДобавлен виджет устройства-счетчика.\nДобавлена возможность отображать МОЩНОСТЬ как состояние.\nДобавлен предварительный просмотр внешнего вида плитки при настройке цвета плитки.\nДобавлены настройки полосы прокрутки для firefox.\nДобавлена возможность регулировать высоту плитки в соответствии с размером BACKGROUND_VIEW.\nДобавлена возможность изменять и инвертировать символы INFO_A/B.\nДобавлена возможность инвертировать цвет значков INFO_A/B для темного режима.\nДобавлена возможность скрывать значки индикаторов, если они неактивны, активны или увеличены.\nДобавлена функция импорта и экспорта в параметры устройства.\nВ виджеты добавлен widget-replaceurl, позволяющий создавать упрощенные пресеты виджетов в качестве подготовки к дальнейшей разработке.\nВ медиаплеер добавлена возможность отключить принудительную перезагрузку изображения обложки при смене НАЗВАНИЯ.\nНастройки для ALTERNATIVE_COLORSPACE.\nДобавлен widget-replaceurl в качестве параметра конфигурации виджета.\nИзменено поведение min/max/ignore-min-max-settings FLOT-Chart-Widget.\nДобавлена функция экспорта и импорта на устройства.\nИсправлен радиус границы для большого режима.\nДобавлены настраиваемые значения для «закрыто» и «заперто» для «Дверь с замком».\nИсправлены targetValues для администратора 5.",
+                "pt": "Apresentando um novo recurso poderoso: Listas e Contadores.\nO JSON-Table-Widget agora aceita listas simples (por exemplo, uma matriz de pontos de dados).\nFonte configurável adicionada ao widget de tabela JSON.\nClassificação de colunas adicionada ao JSON-Table-Widget.\nAdicionado título e opção de cor de borda ao widget de tabela JSON.\nAdicionado Device-Counter-Widget.\nAdicionada opção para mostrar POWER como estado.\nAdicionada a visualização da aparência do ladrilho ao definir as cores do ladrilho.\nAdicionadas configurações da barra de rolagem para o firefox.\nAdicionada opção para ajustar a altura do ladrilho ao tamanho de FUNDO_VIEW.\nAdicionada opção para alterar e inverter INFO_A/B-Symbols.\nAdicionada opção para inverter a cor dos ícones INFO_A/B para o modo escuro.\nAdicionada opção para ocultar ícones indicadores se inativos, ativos ou ampliados.\nAdicionada função de importação e exportação às opções do dispositivo.\nAdicionado widget-replaceurl aos widgets, o que permite a criação de predefinições de widget simplificadas, como preparação para desenvolvimento posterior.\nAdicionada opção ao media-player para desabilitar o recarregamento forçado da imagem de capa na mudança de TÍTULO.\nAjustes para ALTERNATIVE_COLORSPACE.\nAdicionado widget-replaceurl como um parâmetro de configuração de widget.\nAlterado o comportamento de min/max/ignore-min-max-settings do FLOT-Chart-Widget.\nAdicionada função de exportação e importação para dispositivos.\nCorrigido o raio da borda para o modo grande.\nAdicionados valores configuráveis para 'fechado' e 'travado' para 'Porta com cadeado'\nTargetValues fixos para Admin 5.",
+                "nl": "Introductie van een krachtige nieuwe functie: lijsten en tellers.\nDe JSON-Table-Widget accepteert nu eenvoudige lijsten (bijvoorbeeld een array van datapunten).\nConfigureerbaar lettertype toegevoegd aan JSON-tabelwidget.\nKolomsortering toegevoegd aan JSON-Table-Widget.\nKop- en randkleuroptie toegevoegd aan JSON-tabelwidget.\nApparaat-teller-widget toegevoegd.\nOptie toegevoegd om POWER als status weer te geven.\nVoorbeeld van tegeluiterlijk toegevoegd bij het instellen van tegelkleuren.\nScrollbar-instellingen toegevoegd voor Firefox.\nOptie toegevoegd om de hoogte van de tegel aan te passen aan de grootte van BACKGROUND_VIEW.\nOptie toegevoegd om INFO_A/B-symbolen te wijzigen en om te keren.\nOptie toegevoegd om de kleur van INFO_A/B-pictogrammen om te keren voor de donkere modus.\nOptie toegevoegd om indicatorpictogrammen te verbergen als ze inactief, actief of vergroot zijn.\nImport- en exportfunctie toegevoegd aan apparaatopties.\nWidget-replaceurl toegevoegd aan widgets, waarmee vereenvoudigde widget-presets kunnen worden gemaakt, als voorbereiding op verdere ontwikkeling.\nOptie toegevoegd aan mediaspeler om gedwongen herladen van omslagafbeelding bij TITLE-wijziging uit te schakelen.\nAanpassingen voor ALTERNATIVE_COLORSPACE.\nWidget-replaceurl toegevoegd als widgetconfiguratieparameter.\nGedrag gewijzigd van min/max/neger-min-max-instellingen van FLOT-Chart-Widget.\nExport- en importfunctie toegevoegd aan apparaten.\nVaste grensradius voor grote modus.\nConfigureerbare waarden toegevoegd voor 'gesloten' en 'vergrendeld' voor 'Deur met slot'\nVaste doelwaarden voor Admin 5.",
+                "fr": "Présentation d'une nouvelle fonctionnalité puissante : les listes et les compteurs.\nLe JSON-Table-Widget accepte maintenant des listes simples (par exemple un tableau de points de données).\nAjout d'une police configurable au widget de table JSON.\nAjout du tri des colonnes à JSON-Table-Widget.\nEn-tête et option de couleur de bordure ajoutés au widget de table JSON.\nAjout de Device-Counter-Widget.\nAjout d'une option pour afficher POWER comme état.\nAjout d'un aperçu de l'apparence des carreaux lors de la définition des couleurs des carreaux.\nAjout des paramètres de la barre de défilement pour firefox.\nAjout d'une option pour ajuster la hauteur de la tuile à la taille de BACKGROUND_VIEW.\nAjout d'une option pour modifier et inverser les symboles INFO_A/B.\nAjout d'une option pour inverser la couleur des icônes INFO_A/B pour le mode sombre.\nAjout d'une option pour masquer les icônes d'indicateur si elles sont inactives, actives ou agrandies.\nAjout de la fonction d'importation et d'exportation aux options de l'appareil.\nAjout de widget-replaceurl aux widgets, ce qui permet la création de préréglages de widgets simplifiés, en préparation d'un développement ultérieur.\nAjout d'une option au lecteur multimédia pour désactiver le rechargement forcé de l'image de couverture lors du changement de TITLE.\nAjustements pour ALTERNATIVE_COLORSPACE.\nAjout de widget-replaceurl en tant que paramètre de configuration du widget.\nChangement du comportement des paramètres min/max/ignore-min-max-de FLOT-Chart-Widget.\nAjout de la fonction d'exportation et d'importation aux appareils.\nRayon de bordure fixe pour le grand mode.\nAjout de valeurs configurables pour 'fermé' et 'verrouillé' pour 'Porte avec serrure'\nValeurs cibles fixes pour Admin 5.",
+                "it": "Presentazione di una nuova potente funzionalità: elenchi e contatori.\nIl JSON-Table-Widget ora accetta semplici elenchi (ad esempio una matrice di punti dati).\nAggiunto font configurabile al widget della tabella JSON.\nAggiunto l'ordinamento delle colonne a JSON-Table-Widget.\nAggiunta l'opzione di intestazione e colore del bordo al widget tabella JSON.\nAggiunto dispositivo-contatore-widget.\nAggiunta opzione per mostrare POWER come stato.\nAggiunta l'anteprima dell'aspetto delle tessere durante l'impostazione dei colori delle tessere.\nAggiunte le impostazioni della barra di scorrimento per Firefox.\nAggiunta opzione per regolare l'altezza della piastrella in base alle dimensioni di BACKGROUND_VIEW.\nAggiunta opzione per modificare e invertire INFO_A/B-Simboli.\nAggiunta l'opzione per invertire il colore delle icone INFO_A/B per la modalità oscura.\nAggiunta opzione per nascondere le icone degli indicatori se inattive, attive o ingrandite.\nAggiunta funzione di importazione ed esportazione alle opzioni del dispositivo.\nAggiunto widget-replaceurl ai widget, che consente la creazione di widget predefiniti semplificati, come preparazione per un ulteriore sviluppo.\nAggiunta opzione al lettore multimediale per disabilitare il ricaricamento forzato dell'immagine di copertina al cambio TITOLO.\nRegolazioni per ALTERNATIVE_COLORPACE.\nAggiunto widget-replaceurl come parametro di configurazione del widget.\nComportamento modificato delle impostazioni min/max/ignore-min-max di FLOT-Chart-Widget.\nAggiunta la funzione di esportazione e importazione sui dispositivi.\nCorretto il raggio di confine per la modalità grande.\nAggiunti valori configurabili per 'chiuso' e 'bloccato' per 'Porta con serratura'\nRisolti i valori target per l'amministratore 5.",
+                "es": "Presentamos una nueva y poderosa función: listas y contadores.\nEl widget de tabla JSON ahora acepta listas simples (por ejemplo, una matriz de puntos de datos).\nSe agregó una fuente configurable al widget de tabla JSON.\nSe agregó la clasificación de columnas a JSON-Table-Widget.\nSe agregó encabezado y opción de color de borde al widget de tabla JSON.\nDispositivo-Contador-Widget agregado.\nOpción agregada para mostrar POWER como estado.\nSe agregó una vista previa de la apariencia del mosaico al configurar los colores del mosaico.\nSe agregó la configuración de la barra de desplazamiento para Firefox.\nOpción agregada para ajustar la altura del mosaico al tamaño de BACKGROUND_VIEW.\nOpción agregada para cambiar e invertir INFO_A/B-Symbols.\nOpción agregada para invertir el color de los íconos INFO_A/B para el modo oscuro.\nSe agregó la opción para ocultar los íconos indicadores si están inactivos, activos o ampliados.\nSe agregó la función de importación y exportación a las opciones del dispositivo.\nSe agregó widget-replaceurl a los widgets, lo que permite la creación de ajustes preestablecidos de widgets simplificados, como preparación para un mayor desarrollo.\nSe agregó la opción al reproductor multimedia para deshabilitar la recarga forzada de la imagen de portada en el cambio de TÍTULO.\nAjustes para ALTERNATIVE_COLORSPACE.\nSe agregó widget-replaceurl como parámetro de configuración del widget.\nSe modificó el comportamiento de min/max/ignore-min-max-settings de FLOT-Chart-Widget.\nSe agregó la función de exportación e importación a los dispositivos.\nSe corrigió el radio de borde para el modo grande.\nSe agregaron valores configurables para 'cerrado' y 'bloqueado' para 'Puerta con cerradura'\nTargetValues fijos para Admin 5.",
+                "pl": "Przedstawiamy nową, potężną funkcję: Listy i Liczniki.\nJSON-Table-Widget akceptuje teraz proste listy (na przykład tablicę punktów danych).\nDodano konfigurowalną czcionkę do widżetu tabeli JSON.\nDodano sortowanie kolumn do JSON-Table-Widget.\nDodano opcję nagłówka i koloru obramowania do widżetu tabeli JSON.\nDodano widget licznika urządzeń.\nDodano opcję pokazywania POWER jako stanu.\nDodano podgląd wyglądu kafelków podczas ustawiania kolorów kafelków.\nDodano ustawienia paska przewijania dla firefoxa.\nDodano opcję dostosowania wysokości kafelka do rozmiaru BACKGROUND_VIEW.\nDodano opcję zmiany i odwrócenia symboli INFO_A/B.\nDodano opcję odwrócenia koloru ikon INFO_A/B dla trybu ciemnego.\nDodano opcję ukrywania ikon wskaźników, jeśli są nieaktywne, aktywne lub powiększone.\nDodano funkcję importu i eksportu do opcji urządzenia.\nDodano widget-replaceurl do widgetów, który umożliwia tworzenie uproszczonych widgetów-presetów, jako przygotowanie do dalszego rozwoju.\nDodano opcję do odtwarzacza multimedialnego, aby wyłączyć wymuszone przeładowanie obrazu okładki przy zmianie TITLE.\nKorekty dla ALTERNATIVE_COLORSPACE.\nDodano widget-replaceurl jako parametr konfiguracyjny widgetu.\nZmieniono zachowanie ustawień min/max/ignore-min-max-FLOT-Chart-Widget.\nDodano funkcję eksportu i importu do urządzeń.\nNaprawiono promień graniczny dla dużego trybu.\nDodano konfigurowalne wartości dla „zamkniętych” i „zamkniętych” dla „Drzwi z zamkiem”\nStałe wartości docelowe dla administratora 5.",
+                "zh-cn": "引入一个强大的新功能：列表和计数器。\nJSON-Table-Widget 现在接受简单的列表（例如数据点数组）。\n向 JSON 表小部件添加了可配置字体。\n向 JSON-Table-Widget 添加了列排序。\n向 JSON 表小部件添加了标题和边框颜色选项。\n添加了设备计数器小部件。\n添加了将 POWER 显示为状态的选项。\n在设置瓷砖颜色时添加了瓷砖外观的预览。\n添加了 Firefox 的滚动条设置。\n添加了将平铺高度调整为背景视图大小的选项。\n添加了更改和反转 INFO_A/B 符号的选项。\n添加了在暗模式下反转 INFO_A/B 图标颜色的选项。\n添加了在不活动、活动或放大时隐藏指示器图标的选项。\n在设备选项中添加了导入和导出功能。\n为小部件添加了 widget-replaceurl，它允许创建简化的小部件预设，为进一步开发做准备。\n为媒体播放器添加了选项，以禁用在标题更改时强制重新加载封面图像。\nALTERNATIVE_COLORSPACE 的调整。\n添加了 widget-replaceurl 作为小部件配置参数。\n更改了 FLOT-Chart-Widget 的 min/max/ignore-min-max-settings 的行为。\n为设备添加了导出和导入功能。\n修复了大模式的边界半径。\n为“带锁的门”添加了“关闭”和“锁定”的可配置值\n修复了 Admin 5 的 targetValues。"
+            },
+            "1.11.0": {
+                "en": "Added the ability to globally change the default icons.\nIntroducing iconsets and fluent icons.\nAdded option to change badge font and color.\nFixed setting of font family.\nFixed LayoutViewDeviceInactiveHoverOpacity.",
+                "de": "Möglichkeit hinzugefügt, die Standardsymbole global zu ändern.\nEinführung von Iconsets und fließenden Icons.\nOption zum Ändern der Schriftart und Farbe des Abzeichens hinzugefügt.\nFeste Einstellung der Schriftfamilie.\nLayoutViewDeviceInactiveHoverOpacity behoben.",
+                "ru": "Добавлена возможность глобального изменения значков по умолчанию.\nПредставляем наборы иконок и беглые значки.\nДобавлена возможность изменить шрифт и цвет значка.\nИсправлена установка семейства шрифтов.\nФиксированный LayoutViewDeviceInactiveHoverOpacity.",
+                "pt": "Adicionada a capacidade de alterar globalmente os ícones padrão.\nApresentando conjuntos de ícones e ícones fluentes.\nAdicionada opção para alterar a fonte e a cor do emblema.\nConfiguração fixa da família da fonte.\nLayoutViewDeviceInactiveHoverOpacity corrigido.",
+                "nl": "De mogelijkheid toegevoegd om de standaardpictogrammen globaal te wijzigen.\nIntroductie van pictogrammensets en vloeiende pictogrammen.\nOptie toegevoegd om het lettertype en de kleur van de badge te wijzigen.\nVaste instelling van lettertypefamilie.\nVaste lay-outViewDeviceInactiveHoverOpacity.",
+                "fr": "Ajout de la possibilité de modifier globalement les icônes par défaut.\nPrésentation des ensembles d'icônes et des icônes fluides.\nAjout d'une option pour changer la police et la couleur du badge.\nRéglage fixe de la famille de polices.\nMise en page fixeViewDeviceInactiveHoverOpacity.",
+                "it": "Aggiunta la possibilità di modificare globalmente le icone predefinite.\nPresentazione di set di icone e icone fluenti.\nAggiunta l'opzione per cambiare il carattere e il colore del badge.\nImpostazione fissa della famiglia di caratteri.\nRisolto il problema con LayoutViewDeviceInactiveHoverOpacity.",
+                "es": "Se agregó la capacidad de cambiar globalmente los íconos predeterminados.\nPresentamos conjuntos de iconos e iconos fluidos.\nOpción agregada para cambiar la fuente y el color de la insignia.\nConfiguración fija de la familia de fuentes.\nSe corrigió LayoutViewDeviceInactiveHoverOpacity.",
+                "pl": "Dodano możliwość globalnej zmiany domyślnych ikon.\nPrzedstawiamy zestawy ikon i płynne ikony.\nDodano możliwość zmiany czcionki i koloru znaczka.\nPoprawiono ustawienie rodziny czcionek.\nNaprawiono LayoutViewDeviceInactiveHoverOpacity.",
+                "zh-cn": "添加了全局更改默认图标的功能。\n介绍图标集和流畅的图标。\n添加了更改徽章字体和颜色的选项。\n固定字体系列的设置。\n修复了 LayoutViewDeviceInactiveHoverOpacity。"
+            },
+            "1.10.0": {
+                "en": "Fixed ALTERNATIVE_COLORSPACE.\nAdded option to change the icons for BATTERY, UNREACH and ERROR.",
+                "de": "ALTERNATIVE_COLORSPACE behoben.\nOption zum Ändern der Symbole für BATTERY, UNREACH und ERROR hinzugefügt.",
+                "ru": "Исправлено ALTERNATIVE_COLORSPACE.\nДобавлена возможность изменить значки для АККУМУЛЯТОР, НЕДОСТУПЕН и ОШИБКА.",
+                "pt": "ALTERNATIVE_COLORSPACE corrigido.\nAdicionada opção para alterar os ícones de BATERIA, UNREACH e ERROR.",
+                "nl": "ALTERNATIVE_COLORSPACE opgelost.\nOptie toegevoegd om de pictogrammen voor BATTERY, UNREACH en ERROR te wijzigen.",
+                "fr": "Correction d'ALTERNATIVE_COLORSPACE.\nAjout d'une option pour changer les icônes pour BATTERIE, UNREACH et ERREUR.",
+                "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.\nAggiunta l'opzione per cambiare le icone per BATTERIA, UNREACH ed ERRORE.",
+                "es": "Se corrigió ALTERNATIVE_COLORSPACE.\nOpción agregada para cambiar los íconos de BATERÍA, UNREACH y ERROR.",
+                "pl": "Naprawiono ALTERNATIVE_COLORSPACE.\nDodano opcję zmiany ikon dla BATERIA, UNREACH i ERROR.",
+                "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。\n添加了更改 BATTERY、UNREACH 和 ERROR 图标的选项。"
+            },
+            "1.9.17": {
+                "en": "Fixed ALTERNATIVE_COLORSPACE.",
+                "de": "ALTERNATIVE_COLORSPACE behoben.",
+                "ru": "Исправлено ALTERNATIVE_COLORSPACE.",
+                "pt": "ALTERNATIVE_COLORSPACE corrigido.",
+                "nl": "ALTERNATIVE_COLORSPACE opgelost.",
+                "fr": "Correction d'ALTERNATIVE_COLORSPACE.",
+                "it": "Risolto il problema con ALTERNATIVE_COLORSPACE.",
+                "es": "Se corrigió ALTERNATIVE_COLORSPACE.",
+                "pl": "Naprawiono ALTERNATIVE_COLORSPACE.",
+                "zh-cn": "修复了 ALTERNATIVE_COLORSPACE。"
+            }
+        },
+        "title": "iQontrol Vis",
+        "titleLang": {
+            "en": "iQontrol Vis",
+            "de": "iQontrol Vis",
+            "ru": "iQontrol Vis",
+            "pt": "iQontrol Vis",
+            "nl": "iQontrol Vis",
+            "fr": "iQontrol Vis",
+            "it": "iQontrol Vis",
+            "es": "iQontrol Vis",
+            "pl": "iQontrol Vis",
+            "zh-cn": "iQontrol Vis"
+        },
+        "desc": {
+            "en": "Fast Web-App for Visualization",
+            "de": "Schnelle Web-App zur Visualisierung",
+            "ru": "Быстрое веб-приложение для визуализации",
+            "pt": "Fast Web-App para visualização",
+            "nl": "Snelle web-app voor visualisatie",
+            "fr": "Web-App rapide pour la visualisation",
+            "it": "App Web veloce per visualizzazione",
+            "es": "Rápida aplicación web para visualización",
+            "pl": "Szybka aplikacja internetowa do wizualizacji",
+            "zh-cn": "用于可视化的快速Web应用程序"
+        },
+        "authors": [
+            "Sebastian Bormann <sebastian@bormann.net>"
+        ],
+        "keywords": [
+            "visualization",
+            "user",
+            "interface",
+            "webapp",
+            "ui"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "iqontrol.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
+        "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "tier": 3,
+        "type": "visualization",
+        "highlight": true,
+        "compact": true,
+        "singleton": false,
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "name": {
+                "en": "iQontrol",
+                "de": "iQontrol",
+                "ru": "iQontrol",
+                "pt": "iQontrol",
+                "nl": "iQontrol",
+                "fr": "iQontrol",
+                "it": "iQontrol",
+                "es": "iQontrol",
+                "pl": "iQontrol",
+                "zh-cn": "iQontrol"
+            },
+            "singleton": false,
+            "fa-icon": "blur_on",
+            "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
+        },
+        "onlyWWW": false,
+        "blockly": true,
+        "messagebox": true,
+        "subscribe": "messagebox",
+        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+        "welcomeScreen": false,
+        "welcomeScreenPro": {
+            "link": "iqontrol/index.html",
+            "name": "iQontrol",
+            "img": "iqontrol.admin/iqontrol.png",
+            "color": "gray",
+            "order": 1,
+            "localLink": false
+        },
+        "noIntro": false,
+        "supportCustoms": true,
+        "jsonCustom": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
+            }
+        },
+        "connectionType": "local",
+        "dataSource": "push",
+        "dependencies": [
+            {
+                "admin": ">=3.0.0"
+            },
+            {
+                "js-controller": ">=1.4.2"
+            },
+            {
+                "web": ">=3.0.12"
+            }
+        ]
     },
-    "title": "iQontrol Vis",
-    "titleLang": {
-      "en": "iQontrol Vis",
-      "de": "iQontrol Vis",
-      "ru": "iQontrol Vis",
-      "pt": "iQontrol Vis",
-      "nl": "iQontrol Vis",
-      "fr": "iQontrol Vis",
-      "it": "iQontrol Vis",
-      "es": "iQontrol Vis",
-      "pl": "iQontrol Vis",
-      "zh-cn": "iQontrol Vis"
+    "native": {
+        "demotoolbar": [
+            {
+                "commonName": "Home",
+                "nativeLinkedView": "Home",
+                "nativeIcon": "home"
+            },
+            {
+                "commonName": "Rooms",
+                "nativeLinkedView": "Rooms",
+                "nativeIcon": "grid"
+            },
+            {
+                "commonName": "Functions",
+                "nativeLinkedView": "Functions",
+                "nativeIcon": "gear"
+            }
+        ],
+        "demoviews": [
+            {
+                "commonName": "Home",
+                "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
+                "devices": [
+                    {
+                        "commonName": "Clock",
+                        "nativeHeading": "Clock",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolWidget",
+                        "options": [
+                            {
+                                "option": "icon_on",
+                                "type": "icon",
+                                "value": ""
+                            },
+                            {
+                                "option": "icon_off",
+                                "type": "icon",
+                                "value": ""
+                            },
+                            {
+                                "option": "transparentIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "noOverlayInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "hideDeviceNameIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "hideStateIfInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "sizeEnlarged",
+                                "type": "select",
+                                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
+                            },
+                            {
+                                "option": "tileEnlargeShowButtonInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowButtonActive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowInPressureMenuInactive",
+                                "type": "checkbox",
+                                "value": "true"
+                            },
+                            {
+                                "option": "tileEnlargeShowInPressureMenuActive",
+                                "type": "checkbox",
+                                "value": "true"
+                            }
+                        ],
+                        "states": [
+                            {
+                                "state": "BACKGROUND_URL",
+                                "commonRole": "const",
+                                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "ioBroker uptime",
+                        "nativeHeading": "ioBroker",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+                        "commonRole": "iQontrolValue",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": "system.adapter.admin.0.uptime"
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Rooms",
+                "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "1st floor",
+                        "nativeLinkedView": "Living-Room",
+                        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "2nd floor",
+                        "nativeLinkedView": "Kitchen",
+                        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Functions",
+                "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
+                "devices": [
+                    {
+                        "commonName": "Lights",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Lights",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Climate-Control",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "Climate-Control",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolView",
+                        "states": [
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Living-Room",
+                "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
+                "devices": [
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Heater",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "TV",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolSwitch",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Kitchen",
+                "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
+                "devices": [
+                    {
+                        "commonName": "Fan",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolFan",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Light",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Lights",
+                "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    {
+                        "commonName": "Kitchen",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolLight",
+                        "states": [
+                            {
+                                "state": "STATE",
+                                "value": ""
+                            },
+                            {
+                                "state": "LEVEL",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUE",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "commonName": "Climate-Control",
+                "nativeBackgroundImage": "./images/wallpaper/green.jpg",
+                "devices": [
+                    {
+                        "commonName": "Living Room",
+                        "nativeHeading": "",
+                        "nativeLinkedView": "",
+                        "nativeBackgroundImage": "",
+                        "commonRole": "iQontrolThermostat",
+                        "states": [
+                            {
+                                "state": "SET_TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "TEMPERATURE",
+                                "value": ""
+                            },
+                            {
+                                "state": "HUMIDITY",
+                                "value": ""
+                            },
+                            {
+                                "state": "CONTROL_MODE",
+                                "value": ""
+                            },
+                            {
+                                "state": "VALVE_STATES",
+                                "value": ""
+                            },
+                            {
+                                "state": "BATTERY",
+                                "value": ""
+                            },
+                            {
+                                "state": "UNREACH",
+                                "value": ""
+                            },
+                            {
+                                "state": "ERROR",
+                                "value": ""
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "demooptionsLayoutDefaultIcons": {
+            "ERROR": {
+                "errorIcon_on": "./images/icons/fluent/fluent_ERROR.png"
+            },
+            "UNREACH": {
+                "unreachIcon_on": "./images/icons/fluent/fluent_UNREACH.png"
+            },
+            "BATTERY": {
+                "batteryIcon_on": "./images/icons/fluent/fluent_BATTERY.png"
+            },
+            "iQontrolView": {
+                "icon_on": "./images/icons/blank.png"
+            },
+            "iQontrolSwitch": {
+                "icon_on": "./images/icons/fluent/fluent_switch_on.png",
+                "icon_off": "./images/icons/fluent/fluent_switch_off.png"
+            },
+            "iQontrolButton": {
+                "icon_on": "./images/icons/fluent/fluent_button.png",
+                "icon_off": "./images/icons/fluent/fluent_button.png"
+            },
+            "iQontrolLight": {
+                "icon_on": "./images/icons/fluent/fluent_light_on.png",
+                "icon_off": "./images/icons/fluent/fluent_light_off.png"
+            },
+            "iQontrolFan": {
+                "icon_on": "./images/icons/fluent/fluent_fan_on.png",
+                "icon_off": "./images/icons/fluent/fluent_fan_off.png"
+            },
+            "iQontrolThermostat": {
+                "icon_on": "./images/icons/fluent/fluent_radiator.png",
+                "icon_off": "./images/icons/fluent/fluent_radiator.png"
+            },
+            "iQontrolHomematicThermostat": {
+                "icon_on": "./images/icons/fluent/fluent_radiator.png",
+                "icon_off": "./images/icons/fluent/fluent_radiator.png"
+            },
+            "iQontrolHomematicIpThermostat": {
+                "icon_on": "./images/icons/fluent/fluent_radiator.png",
+                "icon_off": "./images/icons/fluent/fluent_radiator.png"
+            },
+            "iQontrolTemperature": {
+                "icon_on": "./images/icons/fluent/fluent_temperature.png",
+                "icon_off": "./images/icons/fluent/fluent_temperature.png"
+            },
+            "iQontrolHumidity": {
+                "icon_on": "./images/icons/fluent/fluent_humidity.png",
+                "icon_off": "./images/icons/fluent/fluent_humidity.png"
+            },
+            "iQontrolPressure": {
+                "icon_on": "./images/icons/fluent/fluent_pressure.png",
+                "icon_off": "./images/icons/fluent/fluent_pressure.png"
+            },
+            "iQontrolBrightness": {
+                "icon_on": "./images/icons/fluent/fluent_brightness_light.png",
+                "icon_off": "./images/icons/fluent/fluent_brightness_dark.png"
+            },
+            "iQontrolMotion": {
+                "icon_on": "./images/icons/fluent/fluent_motion_on.png",
+                "icon_off": "./images/icons/fluent/fluent_motion_off.png"
+            },
+            "iQontrolDoor": {
+                "icon_on": "./images/icons/fluent/fluent_door_opened.png",
+                "icon_off": "./images/icons/fluent/fluent_door_closed.png"
+            },
+            "iQontrolGarageDoor": {
+                "icon_on": "./images/icons/fluent/fluent_garagedoor_opened.png",
+                "icon_off": "./images/icons/fluent/fluent_garagedoor_closed.png"
+            },
+            "iQontrolDoorWithLock": {
+                "icon_on": "./images/icons/fluent/fluent_door_opened.png",
+                "icon_off": "./images/icons/fluent/fluent_door_closed.png",
+                "icon_locked": "./images/icons/fluent/fluent_door_locked.png",
+                "icon_unlocked": "./images/icons/fluent/fluent_door_unlocked.png"
+            },
+            "iQontrolWindow": {
+                "icon_on": "./images/icons/fluent/fluent_window_opened.png",
+                "icon_off": "./images/icons/fluent/fluent_window_closed.png",
+                "icon_tilted": "./images/icons/fluent/fluent_window_tilted.png"
+            },
+            "iQontrolBlind": {
+                "icon_on": "./images/icons/fluent/fluent_blind_opened.png",
+                "icon_off": "./images/icons/fluent/fluent_blind_closed.png",
+                "icon_middle": "./images/icons/fluent/fluent_blind_middle.png",
+                "icon_closing": "./images/icons/fluent/fluent_blind_closing.png",
+                "icon_opening": "./images/icons/fluent/fluent_blind_opening.png"
+            },
+            "iQontrolFire": {
+                "icon_on": "./images/icons/fluent/fluent_fire_on.png",
+                "icon_off": "./images/icons/fluent/fluent_fire_off.png"
+            },
+            "iQontrolFlood": {
+                "icon_on": "./images/icons/fluent/fluent_flood_on.png",
+                "icon_off": "./images/icons/fluent/fluent_flood_off.png"
+            },
+            "iQontrolAlarm": {
+                "icon_triggered": "./images/icons/fluent/fluent_alarm_on_triggered.png",
+                "icon_on": "./images/icons/fluent/fluent_alarm_on.png",
+                "icon_off": "./images/icons/fluent/fluent_alarm_off.png"
+            },
+            "iQontrolBattery": {
+                "icon_on": "./images/icons/fluent/fluent_battery_full.png",
+                "icon_off": "./images/icons/fluent/fluent_battery_empty.png",
+                "icon_charged75": "./images/icons/fluent/fluent_battery_75.png",
+                "icon_charged50": "./images/icons/fluent/fluent_battery_50.png",
+                "icon_charged25": "./images/icons/fluent/fluent_battery_25.png",
+                "icon_charged10": "./images/icons/fluent/fluent_battery_10.png",
+                "icon_charging": "./images/icons/fluent/fluent_battery_charging_overlay.png"
+            },
+            "iQontrolDateAndTime": {
+                "icon_on": "./images/icons/fluent/fluent_time_alarmclock_on.png",
+                "icon_off": "./images/icons/fluent/fluent_time_alarmclock_off.png",
+                "icon_ringing": "./images/icons/fluent/fluent_bell_ringing_overlay.png"
+            },
+            "iQontrolValue": {
+                "icon_on": "./images/icons/fluent/fluent_value_on.png",
+                "icon_off": "./images/icons/fluent/fluent_value_off.png"
+            },
+            "iQontrolProgram": {
+                "icon_on": "./images/icons/fluent/fluent_play_on.png",
+                "icon_off": "./images/icons/fluent/fluent_play.png"
+            },
+            "iQontrolScene": {
+                "icon_on": "./images/icons/fluent/fluent_play.png",
+                "icon_off": "./images/icons/fluent/fluent_play.png"
+            },
+            "iQontrolMedia": {
+                "icon_on": "./images/icons/fluent/fluent_media_on.png",
+                "icon_off": "./images/icons/fluent/fluent_media_off.png"
+            },
+            "iQontrolPopup": {
+                "icon_on": "./images/icons/fluent/fluent_popup.png",
+                "icon_off": "./images/icons/fluent/fluent_popup.png"
+            },
+            "iQontrolExternalLink": {
+                "icon_on": "./images/icons/fluent/fluent_link.png",
+                "icon_off": "./images/icons/fluent/fluent_link.png"
+            },
+            "iQontrolWidget": {
+                "icon_on": "./images/icons/blank.png",
+                "icon_off": "./images/icons/blank.png"
+            },
+            "iQontrolInfoText": {
+                "icon_on": "./images/icons/fluent/fluent_info_bubble_off.png",
+                "icon_off": "./images/icons/blank.png"
+            }
+        }
     },
-    "desc": {
-      "en": "Fast Web-App for Visualization",
-      "de": "Schnelle Web-App zur Visualisierung",
-      "ru": "Быстрое веб-приложение для визуализации",
-      "pt": "Fast Web-App para visualização",
-      "nl": "Snelle web-app voor visualisatie",
-      "fr": "Web-App rapide pour la visualisation",
-      "it": "App Web veloce per visualizzazione",
-      "es": "Rápida aplicación web para visualización",
-      "pl": "Szybka aplikacja internetowa do wizualizacji",
-      "zh-cn": "用于可视化的快速Web应用程序"
-    },
-    "authors": [
-      "Sebastian Bormann <sebastian@bormann.net>"
+    "objects": [
+        {
+            "_id": "iqontrol.meta",
+            "type": "meta",
+            "common": {
+                "name": "userfiles and images for iQontrol",
+                "type": "meta.user",
+                "expert": true
+            },
+            "native": {}
+        }
     ],
-    "keywords": [
-      "visualization",
-      "user",
-      "interface",
-      "webapp",
-      "ui"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "main.js",
-    "icon": "iqontrol.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/sbormann/ioBroker.iqontrol/master/admin/iqontrol.png",
-    "readme": "https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "tier": 3,
-    "type": "visualization",
-    "highlight": true,
-    "compact": true,
-    "singleton": false,
-    "materialize": true,
-    "materializeTab": true,
-    "adminTab": {
-      "name": {
-        "en": "iQontrol",
-        "de": "iQontrol",
-        "ru": "iQontrol",
-        "pt": "iQontrol",
-        "nl": "iQontrol",
-        "fr": "iQontrol",
-        "it": "iQontrol",
-        "es": "iQontrol",
-        "pl": "iQontrol",
-        "zh-cn": "iQontrol"
-      },
-      "singleton": false,
-      "fa-icon": "blur_on",
-      "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
-    },
-    "onlyWWW": false,
-    "blockly": true,
-    "messagebox": true,
-    "subscribe": "messagebox",
-    "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
-    "welcomeScreen": false,
-    "welcomeScreenPro": {
-      "link": "iqontrol/index.html",
-      "name": "iQontrol",
-      "img": "iqontrol.admin/iqontrol.png",
-      "color": "gray",
-      "order": 1,
-      "localLink": false
-    },
-    "noIntro": false,
-    "supportCustoms": true,
-    "jsonCustom": true,
-    "plugins": {
-      "sentry": {
-        "dsn": "https://1bc875a7a671418dbe4d5765e4e3cd2f@sentry.iobroker.net/96"
-      }
-    },
-    "connectionType": "local",
-    "dataSource": "push",
-    "dependencies": [
-      {
-        "admin": ">=3.0.0"
-      },
-      {
-        "js-controller": ">=1.4.2"
-      },
-      {
-        "web": ">=3.0.12"
-      }
-    ]
-  },
-  "native": {
-    "demotoolbar": [
-      {
-        "commonName": "Home",
-        "nativeLinkedView": "Home",
-        "nativeIcon": "home"
-      },
-      {
-        "commonName": "Rooms",
-        "nativeLinkedView": "Rooms",
-        "nativeIcon": "grid"
-      },
-      {
-        "commonName": "Functions",
-        "nativeLinkedView": "Functions",
-        "nativeIcon": "gear"
-      }
-    ],
-    "demoviews": [
-      {
-        "commonName": "Home",
-        "nativeBackgroundImage": "./images/wallpaper/bakestone.jpg",
-        "devices": [
-          {
-            "commonName": "Clock",
-            "nativeHeading": "Clock",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolWidget",
-            "options": [
-              {
-                "option": "icon_on",
-                "type": "icon",
-                "value": ""
-              },
-              {
-                "option": "icon_off",
-                "type": "icon",
-                "value": ""
-              },
-              {
-                "option": "transparentIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "noOverlayInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "hideDeviceNameIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "hideStateIfInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "sizeEnlarged",
-                "type": "select",
-                "value": "fullWidthIfEnlarged fullHeightIfEnlarged"
-              },
-              {
-                "option": "tileEnlargeShowButtonInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowButtonActive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowInPressureMenuInactive",
-                "type": "checkbox",
-                "value": "true"
-              },
-              {
-                "option": "tileEnlargeShowInPressureMenuActive",
-                "type": "checkbox",
-                "value": "true"
-              }
-            ],
-            "states": [
-              {
-                "state": "BACKGROUND_URL",
-                "commonRole": "const",
-                "value": "./images/widgets/clock/clock_analog.html?--background-color=rgba(104,164,255,0%25)&--clock-edge-color=rgba(16,16,16,100%25)&--clock-face-color=rgba(255,255,255,100%25)&--clock-hands-color=rgba(132,132,132,100%25)&--clock-hands-seconds-color=rgba(255,103,103,100%25)"
-              }
-            ]
-          },
-          {
-            "commonName": "ioBroker uptime",
-            "nativeHeading": "ioBroker",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-            "commonRole": "iQontrolValue",
-            "states": [
-              {
-                "state": "STATE",
-                "value": "system.adapter.admin.0.uptime"
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Rooms",
-        "nativeBackgroundImage": "./images/wallpaper/grass.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "1st floor",
-            "nativeLinkedView": "Living-Room",
-            "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Kitchen",
-            "nativeHeading": "2nd floor",
-            "nativeLinkedView": "Kitchen",
-            "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Functions",
-        "nativeBackgroundImage": "./images/wallpaper/decor.jpg",
-        "devices": [
-          {
-            "commonName": "Lights",
-            "nativeHeading": "",
-            "nativeLinkedView": "Lights",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Climate-Control",
-            "nativeHeading": "",
-            "nativeLinkedView": "Climate-Control",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolView",
-            "states": [
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Living-Room",
-        "nativeBackgroundImage": "./images/wallpaper/bottle.jpg",
-        "devices": [
-          {
-            "commonName": "Light",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Heater",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolThermostat",
-            "states": [
-              {
-                "state": "SET_TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "HUMIDITY",
-                "value": ""
-              },
-              {
-                "state": "CONTROL_MODE",
-                "value": ""
-              },
-              {
-                "state": "VALVE_STATES",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "TV",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolSwitch",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Kitchen",
-        "nativeBackgroundImage": "./images/wallpaper/whitestone.jpg",
-        "devices": [
-          {
-            "commonName": "Fan",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolFan",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Light",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Lights",
-        "nativeBackgroundImage": "./images/wallpaper/orangedrops.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          },
-          {
-            "commonName": "Kitchen",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolLight",
-            "states": [
-              {
-                "state": "STATE",
-                "value": ""
-              },
-              {
-                "state": "LEVEL",
-                "value": ""
-              },
-              {
-                "state": "HUE",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "commonName": "Climate-Control",
-        "nativeBackgroundImage": "./images/wallpaper/green.jpg",
-        "devices": [
-          {
-            "commonName": "Living Room",
-            "nativeHeading": "",
-            "nativeLinkedView": "",
-            "nativeBackgroundImage": "",
-            "commonRole": "iQontrolThermostat",
-            "states": [
-              {
-                "state": "SET_TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "TEMPERATURE",
-                "value": ""
-              },
-              {
-                "state": "HUMIDITY",
-                "value": ""
-              },
-              {
-                "state": "CONTROL_MODE",
-                "value": ""
-              },
-              {
-                "state": "VALVE_STATES",
-                "value": ""
-              },
-              {
-                "state": "BATTERY",
-                "value": ""
-              },
-              {
-                "state": "UNREACH",
-                "value": ""
-              },
-              {
-                "state": "ERROR",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "demooptionsLayoutDefaultIcons": {
-      "ERROR": {
-        "errorIcon_on": "./images/icons/fluent/fluent_ERROR.png"
-      },
-      "UNREACH": {
-        "unreachIcon_on": "./images/icons/fluent/fluent_UNREACH.png"
-      },
-      "BATTERY": {
-        "batteryIcon_on": "./images/icons/fluent/fluent_BATTERY.png"
-      },
-      "iQontrolView": {
-        "icon_on": "./images/icons/blank.png"
-      },
-      "iQontrolSwitch": {
-        "icon_on": "./images/icons/fluent/fluent_switch_on.png",
-        "icon_off": "./images/icons/fluent/fluent_switch_off.png"
-      },
-      "iQontrolButton": {
-        "icon_on": "./images/icons/fluent/fluent_button.png",
-        "icon_off": "./images/icons/fluent/fluent_button.png"
-      },
-      "iQontrolLight": {
-        "icon_on": "./images/icons/fluent/fluent_light_on.png",
-        "icon_off": "./images/icons/fluent/fluent_light_off.png"
-      },
-      "iQontrolFan": {
-        "icon_on": "./images/icons/fluent/fluent_fan_on.png",
-        "icon_off": "./images/icons/fluent/fluent_fan_off.png"
-      },
-      "iQontrolThermostat": {
-        "icon_on": "./images/icons/fluent/fluent_radiator.png",
-        "icon_off": "./images/icons/fluent/fluent_radiator.png"
-      },
-      "iQontrolHomematicThermostat": {
-        "icon_on": "./images/icons/fluent/fluent_radiator.png",
-        "icon_off": "./images/icons/fluent/fluent_radiator.png"
-      },
-      "iQontrolHomematicIpThermostat": {
-        "icon_on": "./images/icons/fluent/fluent_radiator.png",
-        "icon_off": "./images/icons/fluent/fluent_radiator.png"
-      },
-      "iQontrolTemperature": {
-        "icon_on": "./images/icons/fluent/fluent_temperature.png",
-        "icon_off": "./images/icons/fluent/fluent_temperature.png"
-      },
-      "iQontrolHumidity": {
-        "icon_on": "./images/icons/fluent/fluent_humidity.png",
-        "icon_off": "./images/icons/fluent/fluent_humidity.png"
-      },
-      "iQontrolPressure": {
-        "icon_on": "./images/icons/fluent/fluent_pressure.png",
-        "icon_off": "./images/icons/fluent/fluent_pressure.png"
-      },
-      "iQontrolBrightness": {
-        "icon_on": "./images/icons/fluent/fluent_brightness_light.png",
-        "icon_off": "./images/icons/fluent/fluent_brightness_dark.png"
-      },
-      "iQontrolMotion": {
-        "icon_on": "./images/icons/fluent/fluent_motion_on.png",
-        "icon_off": "./images/icons/fluent/fluent_motion_off.png"
-      },
-      "iQontrolDoor": {
-        "icon_on": "./images/icons/fluent/fluent_door_opened.png",
-        "icon_off": "./images/icons/fluent/fluent_door_closed.png"
-      },
-      "iQontrolGarageDoor": {
-        "icon_on": "./images/icons/fluent/fluent_garagedoor_opened.png",
-        "icon_off": "./images/icons/fluent/fluent_garagedoor_closed.png"
-      },
-      "iQontrolDoorWithLock": {
-        "icon_on": "./images/icons/fluent/fluent_door_opened.png",
-        "icon_off": "./images/icons/fluent/fluent_door_closed.png",
-        "icon_locked": "./images/icons/fluent/fluent_door_locked.png",
-        "icon_unlocked": "./images/icons/fluent/fluent_door_unlocked.png"
-      },
-      "iQontrolWindow": {
-        "icon_on": "./images/icons/fluent/fluent_window_opened.png",
-        "icon_off": "./images/icons/fluent/fluent_window_closed.png",
-        "icon_tilted": "./images/icons/fluent/fluent_window_tilted.png"
-      },
-      "iQontrolBlind": {
-        "icon_on": "./images/icons/fluent/fluent_blind_opened.png",
-        "icon_off": "./images/icons/fluent/fluent_blind_closed.png",
-        "icon_middle": "./images/icons/fluent/fluent_blind_middle.png",
-        "icon_closing": "./images/icons/fluent/fluent_blind_closing.png",
-        "icon_opening": "./images/icons/fluent/fluent_blind_opening.png"
-      },
-      "iQontrolFire": {
-        "icon_on": "./images/icons/fluent/fluent_fire_on.png",
-        "icon_off": "./images/icons/fluent/fluent_fire_off.png"
-      },
-      "iQontrolFlood": {
-        "icon_on": "./images/icons/fluent/fluent_flood_on.png",
-        "icon_off": "./images/icons/fluent/fluent_flood_off.png"
-      },
-      "iQontrolAlarm": {
-        "icon_triggered": "./images/icons/fluent/fluent_alarm_on_triggered.png",
-        "icon_on": "./images/icons/fluent/fluent_alarm_on.png",
-        "icon_off": "./images/icons/fluent/fluent_alarm_off.png"
-      },
-      "iQontrolBattery": {
-        "icon_on": "./images/icons/fluent/fluent_battery_full.png",
-        "icon_off": "./images/icons/fluent/fluent_battery_empty.png",
-        "icon_charged75": "./images/icons/fluent/fluent_battery_75.png",
-        "icon_charged50": "./images/icons/fluent/fluent_battery_50.png",
-        "icon_charged25": "./images/icons/fluent/fluent_battery_25.png",
-        "icon_charged10": "./images/icons/fluent/fluent_battery_10.png",
-        "icon_charging": "./images/icons/fluent/fluent_battery_charging_overlay.png"
-      },
-      "iQontrolDateAndTime": {
-        "icon_on": "./images/icons/fluent/fluent_time_alarmclock_on.png",
-        "icon_off": "./images/icons/fluent/fluent_time_alarmclock_off.png",
-        "icon_ringing": "./images/icons/fluent/fluent_bell_ringing_overlay.png"
-      },
-      "iQontrolValue": {
-        "icon_on": "./images/icons/fluent/fluent_value_on.png",
-        "icon_off": "./images/icons/fluent/fluent_value_off.png"
-      },
-      "iQontrolProgram": {
-        "icon_on": "./images/icons/fluent/fluent_play_on.png",
-        "icon_off": "./images/icons/fluent/fluent_play.png"
-      },
-      "iQontrolScene": {
-        "icon_on": "./images/icons/fluent/fluent_play.png",
-        "icon_off": "./images/icons/fluent/fluent_play.png"
-      },
-      "iQontrolMedia": {
-        "icon_on": "./images/icons/fluent/fluent_media_on.png",
-        "icon_off": "./images/icons/fluent/fluent_media_off.png"
-      },
-      "iQontrolPopup": {
-        "icon_on": "./images/icons/fluent/fluent_popup.png",
-        "icon_off": "./images/icons/fluent/fluent_popup.png"
-      },
-      "iQontrolExternalLink": {
-        "icon_on": "./images/icons/fluent/fluent_link.png",
-        "icon_off": "./images/icons/fluent/fluent_link.png"
-      },
-      "iQontrolWidget": {
-        "icon_on": "./images/icons/blank.png",
-        "icon_off": "./images/icons/blank.png"
-      },
-      "iQontrolInfoText": {
-        "icon_on": "./images/icons/fluent/fluent_info_bubble_off.png",
-        "icon_off": "./images/icons/blank.png"
-      }
-    }
-  },
-  "objects": [
-    {
-      "_id": "iqontrol.meta",
-      "type": "meta",
-      "common": {
-        "name": "userfiles and images for iQontrol",
-        "type": "meta.user",
-        "expert": true
-      },
-      "native": {}
-    }
-  ],
-  "instanceObjects": []
+    "instanceObjects": []
 }

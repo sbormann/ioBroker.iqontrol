@@ -4216,6 +4216,7 @@ async function load(settings, onChange) {
 			})
 			initColorpickers(onChange);
 			if (M) M.updateTextFields();
+			$('.dialogDeviceEditOption').on('change', onChange);
 		}
 	}
 
