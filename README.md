@@ -1682,7 +1682,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Lists are now saved as readonly and with ack=true.
 * (sbormann) Fixed glow.
 * (sbormann) Added option to define, how the parent name of lists is determined.
-* (sbormann) Added save-button to dialogs.
+* (dirkhe, sbormann) Added save-button to dialogs.
 
 ### 2.0.0-rc1.1 (2022-02-08)
 * (sbormann) Kompatibility to new ioBroker websocket established.
