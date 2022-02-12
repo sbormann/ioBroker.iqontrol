@@ -1533,6 +1533,7 @@ function getStarted(triggeredByReconnection){
 				initPanels();
 				$('.loader').hide();
 				$.mobile.loading('hide');
+				fetchStates([namespace + ".info.connection"]);
 			}, "forceFetch");
 	});
 }
@@ -2567,6 +2568,10 @@ function updateState(stateId, ignorePreventUpdate){
 		if (states[namespace + ".Popup.ButtonDestinationStates"] && typeof states[namespace + ".Popup.ButtonDestinationStates"].val !== udef && states[namespace + ".Popup.ButtonDestinationStates"].val !== null && states[namespace + ".Popup.ButtonDestinationStates"].val !== "") buttonDestinationStates = states[namespace + ".Popup.ButtonDestinationStates"].val;
 		if (states[namespace + ".Popup.ButtonCloses"] && typeof states[namespace + ".Popup.ButtonCloses"].val !== udef && states[namespace + ".Popup.ButtonCloses"].val !== null && states[namespace + ".Popup.ButtonCloses"].val !== "") buttonCloses = states[namespace + ".Popup.ButtonCloses"].val;
 		toast(states[stateId].val, duration, clickedValue, clickedDestinationState, buttonNames, buttonValues, buttonDestinationStates, buttonCloses)
+	}
+	if (stateId == namespace + ".info.connection" && states[stateId] && states[stateId].val){
+		if (actualDialogId) openDialogId = actualDialogId;
+		getStarted();
 	}
 }
 
@@ -4784,9 +4789,9 @@ function renderView(viewId, triggeredByReconnection){
 							if (invertGlowHide) glow = !glow;
 							var colorString = stateGlowInactiveColor && isValidColorString(stateGlowInactiveColor.val) && stateGlowInactiveColor.val || null;
 							if (glow && colorString){
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow").css('box-shadow', colorString + " 0 0 10px 2px");
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', colorString + " 0 0 10px 2px");
 							} else {
-								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow").css('box-shadow', "none");
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow:not(.active)").css('box-shadow', "none");
 							}
 						};
 						viewUpdateFunctions[_linkedGlowInactiveColorId].push(updateFunction);

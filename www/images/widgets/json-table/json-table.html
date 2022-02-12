@@ -96,7 +96,7 @@
 												datapointIdCol/id/Search for datapoint ids in this column (column header);
 												datapointIdColFilter/true/Add the datapoint id column to the 'Filter these headings' list/checkbox;
 												datapointExtendTableCols/parentName%3BplainText/Add these columns with attributes of the datapoint to the table (semicolon-separated list of attributes, see info text above, - for none);
-												datapointExtendTableColsDefaultTranslationLanguage/en/Add standard translations for these columns/select/,None/en,Englisch/de,German/ru,Russian/pt,Polish/nl,Dutch/fr,French/it,Italian/es,Spanish/zh-cn,Chinese;
+												datapointExtendTableColsDefaultTranslationLanguage//Add standard translations for these columns/language;
 												datapointToggleCols/plainText/Enable toggling of the datapoint in this columns (semicolon-separated list with column headers, - for none);
 	"/>
 	<meta name="widget-options" content=	"{
@@ -596,7 +596,7 @@
 		var datapointExtendTableCols = (getUrlParameter("datapointExtendTableCols") || "parentName;plainText").split(';');
 		var datapointExtendTableColsDefaultTranslationLanguage = getUrlParameter("datapointExtendTableColsDefaultTranslationLanguage");
 		datapointExtendTableColsDefaultTranslationLanguage = (datapointExtendTableColsDefaultTranslationLanguage ? datapointExtendTableColsDefaultTranslationLanguage : "en");
-		if (datapointExtendTableColsDefaultTranslationLanguage){
+		if (datapointExtendTableColsDefaultTranslationLanguage && datapointExtendTableColsDefaultTranslationLanguage != " "){
 			for(word in datapointExtendTableColsDefaultTranslationWords){
 				translations.push({searchValue: word, newValue: datapointExtendTableColsDefaultTranslationWords[word][datapointExtendTableColsDefaultTranslationLanguage], exactMatch: true});
 			}

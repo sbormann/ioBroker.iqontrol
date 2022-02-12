@@ -1769,6 +1769,7 @@ var modalZIndexCount = 2000;
 var isReact = false;
 
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
+//Dialogs
 function initDialog(id, callback) {
 	var $dialog = $('#' + id);
 	if (!$dialog.data('inited')) {
@@ -1782,9 +1783,26 @@ function initDialog(id, callback) {
 			if (typeof callback === 'function') callback();
 			$dialog.data('callback', null);
 		});
+		$dialog.find('.btn-save').on('click', function () {
+			saveFromDialog(true, false);
+		});
 	}
 	$dialog.find('.btn-set').data('dialogid', id);
 	$dialog.data('callback', callback);
+}
+
+//Save from dialog
+function saveFromDialog(save, preview){
+	let dialogSequence = [];
+	let lastZIndex = 0;
+	$('.open').each(function(){
+		if($(this).css('z-index') > lastZIndex) dialogSequence.unshift($(this).prop('id')); else dialogSequence.push($(this).prop('id'));
+	});
+	console.log(JSON.stringify(dialogSequence));
+	for (dialogId in dialogSequence){
+		if (typeof $('#' + dialogSequence[dialogId]).data('callback') == "function") $('#' + dialogSequence[dialogId]).data('callback')();
+	}
+	if (save) $('.dialog-config-buttons .btn-save').click();
 }
 
 //SelectId
@@ -2445,7 +2463,6 @@ async function checkDirExistance(path){
 	if (result == null) return true; else return false;
 }
 
-
 /************** LOAD ********************************************************
 *** This will be called by the admin adapter when the settings page loads ***
 ****************************************************************************/
@@ -2512,7 +2529,7 @@ async function load(settings, onChange) {
 
 		customCSS += ".m.react-dark .btn, .m.react-dark .btn-small, .m.react-dark button.btn i, .m.react-dark button.btn-small i { background-color: #272727; }";
 		customCSS += ".m.react-dark .dialog-select-container .main-header-table, .m.react-dark .dialog-select-container .main-header-table tr, .m.react-dark .dialog-select-container .objects-list-table { background: #272727!important; }";
-		customCSS += ".m.react-dark .dropdown-content li.grey.lighten-3, .m .dropdown-content li:hover { background-color: #4c4c4c !important; }";
+		customCSS += ".m.react-dark .dropdown-content li.grey.lighten-3, .m.react-dark .dropdown-content li.selected, .m.react-dark .dropdown-content li:hover { background-color: #4c4c4c !important; }";
 		customCSS += ".m.react-dark .dropdown-content li.divider { background-color: #626262; }";
 		addCustomCSS(customCSS, "reactCSS");
 		
@@ -5242,6 +5259,26 @@ async function load(settings, onChange) {
 									dialogWidgetSettingsUrlParametersString += "</div></div>";
 									break;
 									
+									case "language":
+									if (!value) value = systemLang;
+									var selectOptionsContent = "";
+									selectOptionsContent += "        <option value=' ' selected class='translate'>Choose:</option>";
+									selectOptionsContent += "        <option value='en'" + (value == 'en' ? ' selected' : '') + " class='translate'>English</option>";
+									selectOptionsContent += "        <option value='de'" + (value == 'de' ? ' selected' : '') + " class='translate'>German</option>";
+									selectOptionsContent += "        <option value='ru'" + (value == 'ru' ? ' selected' : '') + " class='translate'>Russian</option>";
+									selectOptionsContent += "        <option value='pt'" + (value == 'pt' ? ' selected' : '') + " class='translate'>Polish</option>";
+									selectOptionsContent += "        <option value='nl'" + (value == 'nl' ? ' selected' : '') + " class='translate'>Dutch</option>";
+									selectOptionsContent += "        <option value='fr'" + (value == 'fr' ? ' selected' : '') + " class='translate'>French</option>";
+									selectOptionsContent += "        <option value='it'" + (value == 'it' ? ' selected' : '') + " class='translate'>Italian</option>";
+									selectOptionsContent += "        <option value='es'" + (value == 'es' ? ' selected' : '') + " class='translate'>Spanish</option>";
+									selectOptionsContent += "        <option value='zh-cn'" + (value == 'zh-cn' ? ' selected' : '') + " class='translate'>Chinese</option>";
+									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+									dialogWidgetSettingsUrlParametersString += "</div></div>";
+									break;
+									
 									case "datapoint":
 									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
 									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
@@ -6130,6 +6167,7 @@ async function load(settings, onChange) {
 						lists[listIndex].separator = $('#dialogListEditListSeparator').val();
 						lists[listIndex].createNamesList = $('#dialogListEditCreateNamesList').prop('checked');
 						lists[listIndex].createParentNamesList = $('#dialogListEditCreateParentNamesList').prop('checked');
+						lists[listIndex].createParentNamesListMode = $('#dialogListEditCreateParentNamesListMode').val();
 						lists[listIndex].createValuesList = $('#dialogListEditCreateValuesList').prop('checked');
 						lists[listIndex].counters = dialogListEditCounters;
 						lists[listIndex].triggerInterval = $('#dialogListEditListTriggerIntervall').val();
@@ -6148,6 +6186,7 @@ async function load(settings, onChange) {
 					$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
 					$('#dialogListEditCreateNamesList').prop('checked', (lists[listIndex].createNamesList == true));
 					$('#dialogListEditCreateParentNamesList').prop('checked', (lists[listIndex].createParentNamesList == true));
+					$('#dialogListEditCreateParentNamesListMode').val(lists[listIndex].createParentNamesListMode || "parentName").select();
 					$('#dialogListEditCreateValuesList').prop('checked', (lists[listIndex].createValuesList == true));
 					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
 					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);

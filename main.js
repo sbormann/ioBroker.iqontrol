@@ -196,7 +196,7 @@ function removeDuplicates(array) { //Removes duplicates from an array
 function getName(id){
 	let name = allObjects[id] && allObjects[id].common && allObjects[id].common.name || id;
 	if(typeof name == "object") {
-		if(name[systemLanguage]) name = name["en"];
+		if(name[systemLanguage]) name = name[systemLanguage];
 		else if(name["en"]) name = name["en"];
 		else if(Object.keys(name).length && typeof Object.keys(name)[0] == "string" && name[Object.keys(name)[0]]) name = name[Object.keys(name)[0]];
 		else name = JSON.stringify(name);
@@ -208,16 +208,44 @@ function getName(id){
 	return name || id;	
 }
 
-function getParentName(id){
-	let parentId = id.substring(0, id.lastIndexOf('.'));
-	let parentName = getName(parentId);
-	if (parentName == id) parentName = getName(id); //parentName not set - use name
-	if (parentName == id) { //name also not set - build name from id
-		parentName = id.substring(0, id.lastIndexOf('.'));
-		parentName = parentName.substring(parentName.lastIndexOf('.') + 1);   
+function getParentName(id, mode){
+	let parentId;
+	let parentName;
+	let useId = false;
+	if (mode && mode.endsWith("Id")) useId = true;
+	if(mode == "parentChannelId" || mode == "parentChannelName"){
+		let nextParentId = id.substring(0, id.lastIndexOf('.'));
+		while (!parentId && nextParentId){
+			if(allObjects[nextParentId] && allObjects[nextParentId].type && allObjects[nextParentId].type.toString().toLowerCase() == "channel"){
+				parentId = nextParentId;
+			}
+			nextParentId = nextParentId.substring(0, nextParentId.lastIndexOf('.'));
+		}
 	}
-	if (parentName.substr(-2) == ":0"){ //Homematic Maintenence-Kanal
-		parentName = parentName.substr(0, parentName.length-2);
+	if(((mode == "parentChannelId" || mode == "parentChannelName") && !parentId) || mode == "parentDeviceId" || mode == "parentDeviceName"){
+		let nextParentId = id.substring(0, id.lastIndexOf('.'));
+		while (!parentId && nextParentId){
+			if(allObjects[nextParentId] && allObjects[nextParentId].type && allObjects[nextParentId].type.toString().toLowerCase() == "device"){
+				parentId = nextParentId;
+			}
+			nextParentId = nextParentId.substring(0, nextParentId.lastIndexOf('.'));
+		}
+	}
+	if(!parentId){
+		parentId = id.substring(0, id.lastIndexOf('.'));
+	}
+	if (useId) {
+		parentName = parentId;
+	} else {
+		parentName = getName(parentId);
+		if (parentName == id) parentName = getName(id); //parentName not set - use name
+		if (parentName == id) { //name also not set - build name from id
+			parentName = id.substring(0, id.lastIndexOf('.'));
+			parentName = parentName.substring(parentName.lastIndexOf('.') + 1);   
+		}
+		if (parentName.substr(-2) == ":0"){ //Homematic Maintenence-Kanal
+			parentName = parentName.substr(0, parentName.length-2);
+		}
 	}
 	if (parentName == "") parentName = id;
 	return parentName;
@@ -616,6 +644,7 @@ class Iqontrol extends utils.Adapter {
 				let createValuesList = this.config.lists[configListIndex].createValuesList;
 				let createNamesList = this.config.lists[configListIndex].createNamesList;
 				let createParentNamesList = this.config.lists[configListIndex].createParentNamesList;
+				let createParentNamesListMode = this.config.lists[configListIndex].createParentNamesListMode;
 				let separator = this.config.lists[configListIndex].separator || ", ";					  
 				let sortingFunction;
 				if (this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length){
@@ -632,6 +661,7 @@ class Iqontrol extends utils.Adapter {
 							let _createValuesList = createValuesList;
 							let _createNamesList = createNamesList;
 							let _createParentNamesList = createParentNamesList;
+							let _createParentNamesListMode = createParentNamesListMode;
 							let _sortingFunction = async function(_listItems, triggeredBy){
 								_listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });
 								if(_sortDesc) _listItems.reverse();
@@ -655,8 +685,8 @@ class Iqontrol extends utils.Adapter {
 											if (_createValuesList) namesWithValues.push(getName(_listItems[listItemIndex]) + ": " +  value);
 										}
 										if (_createParentNamesList) {
-											parentNames.push(getParentName(_listItems[listItemIndex]));
-											if (_createValuesList) parentNamesWithValues.push(getParentName(_listItems[listItemIndex]) + ": " +  value);
+											parentNames.push(getParentName(_listItems[listItemIndex], _createParentNamesListMode));
+											if (_createValuesList) parentNamesWithValues.push(getParentName(_listItems[listItemIndex], _createParentNamesListMode) + ": " +  value);
 										}
 									}
 									if (_createValuesList) {
@@ -679,7 +709,7 @@ class Iqontrol extends utils.Adapter {
 					} else if (sorting.indexOf("names") > -1) { //names
 						listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)); });
 					} else { //parentNames
-						listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)); });
+						listItems.sort(function(a, b){ return collator.compare(getParentName(a, createParentNamesListMode), getParentName(b, createParentNamesListMode)); });
 					}
 					if(sorting.indexOf("desc") > -1) listItems.reverse();
 				}
@@ -714,8 +744,8 @@ class Iqontrol extends utils.Adapter {
 								if (createValuesList) namesWithValues.push(getName(listItems[listItemIndex]) + ": " +  value);								
 							}
 							if (createParentNamesList){
-								parentNames.push(getParentName(listItems[listItemIndex]));
-								if (createValuesList) parentNamesWithValues.push(getParentName(listItems[listItemIndex]) + ": " +  value);								
+								parentNames.push(getParentName(listItems[listItemIndex], createParentNamesListMode));
+								if (createValuesList) parentNamesWithValues.push(getParentName(listItems[listItemIndex], createParentNamesListMode) + ": " +  value);								
 							}
 						}
 						//-- --Sorting
@@ -908,6 +938,7 @@ class Iqontrol extends utils.Adapter {
 							}
 							//--Sorting
 							let sorting = that.config.lists[configListIndex].sorting || "";
+							let createParentNamesListMode = that.config.lists[configListIndex].createParentNamesListMode;
 							if(sorting.indexOf("id") > -1){ //id
 								counter.listItems.sort();
 							} else if (sorting.indexOf("values") > -1) { //values
@@ -916,7 +947,7 @@ class Iqontrol extends utils.Adapter {
 							} else if (sorting.indexOf("names") > -1) { //names
 								counter.listItems.sort(function(a, b){ return collator.compare(getName(a), getName(b)); });
 							} else { //parentNames
-								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a), getParentName(b)); });
+								counter.listItems.sort(function(a, b){ return collator.compare(getParentName(a, createParentNamesListMode), getParentName(b, createParentNamesListMode)); });
 							}
 							if(sorting.indexOf("desc") > -1) counter.listItems.reverse();
 							that.log.info("COUNTER " + listName + " " + counter.name + ": " + counter.listItems.length + " of " + lists[listIndex].listItems.length);
@@ -956,9 +987,9 @@ class Iqontrol extends utils.Adapter {
 										}
 									}
 									if (that.config.lists[configListIndex].createParentNamesList){
-										parentNames.push(getParentName(counter.listItems[counterListItemIndex]));
+										parentNames.push(getParentName(counter.listItems[counterListItemIndex], createParentNamesListMode));
 										if (that.config.lists[configListIndex].createValuesList){
-											parentNamesWithValues.push(getParentName(counter.listItems[counterListItemIndex]) + ": " +  value);										
+											parentNamesWithValues.push(getParentName(counter.listItems[counterListItemIndex], createParentNamesListMode) + ": " +  value);										
 										}									
 									}
 								}
@@ -1386,10 +1417,8 @@ class Iqontrol extends utils.Adapter {
 								}
 							}
 							let logCount = usedStates[foreignLogCountId] && usedStates[foreignLogCountId].val || 0;
-							that.log.warn("LOG COUNT READ :" + logCount);
 							if (isNaN(logCount)) logCount = 0; else logCount = parseInt(logCount);
 							logCount += 1;
-							that.log.warn("LOG COUNT +1 :" + logCount);							
 							log.logSteps = log.logSteps || [];
 							let result = {};
 							//-- -- --Loop through the logSteps of this log

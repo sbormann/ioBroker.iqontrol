@@ -57,6 +57,7 @@
 		.scrollableTable table { min-width: 520px; }
 		.scrollableTable.wide table { min-width: 820px; width: }
 		.scrollableTable.xwide table { min-width: 1020px; }
+		.float-left { float: left !important; margin-left: 9px !important; }
 	</style>
 </head>
 
@@ -2777,6 +2778,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -2912,6 +2914,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -2932,6 +2935,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -2984,6 +2988,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3002,6 +3007,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left ">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3408,6 +3414,18 @@
 						<span class="helper-text translate"></span>
 					</div>
 					<div class="input-field col s12 m6 l4">
+						<select class="value" name='dialogListEditCreateParentNamesListMode' id='dialogListEditCreateParentNamesListMode'>
+							<option value="parentName" class="translate">Name of Parent Datapoint</option>
+							<option value="parentId" class="translate">ID of Parent Datapoint</option>
+							<option value="parentChannelName" class="translate">Name of Next Parent Channel</option>
+							<option value="parentChannelId" class="translate">ID of Next Parent Channel</option>
+							<option value="parentDeviceName" class="translate">Name of Next Parent Device</option>
+							<option value="parentDeviceId" class="translate">ID of Next Parent Device</option>
+						</select>
+						<label for='dialogListEditCreateParentNamesListMode' class="translate">Mode, how the parent name is determined</label>
+						<span class="helper-text"></span>
+					</div>
+					<div class="input-field col s12 m6 l4">
 						<input class="value" type="checkbox" id="dialogListEditCreateValuesList" />
 						<label for="dialogListEditCreateValuesList" class="translate" style="display: inline;">Create lists that also contains the values of the datapoints</label>
 						<span class="helper-text translate"></span>
@@ -3586,6 +3604,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
 				<span id="dialogListEditCheckUnallowed" class="translate" style="display: none; color: red;"></span>&nbsp;
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
@@ -3640,6 +3659,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3692,6 +3712,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
@@ -3761,6 +3782,7 @@
 				</div>
             </div>
             <div class="modal-footer">
+                <a class="waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
