@@ -3382,7 +3382,7 @@ function handleOptions(){
 		customCSS += "}";
 	};
 	if (options.LayoutToolbarBorderColor) {
-		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active){";
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active), .iQontrolToolbarLink.ui-btn.ui-btn-active{";
 		customCSS += "	border-color: " + options.LayoutToolbarBorderColor + " !important;";
 		customCSS += "}";
 	};
@@ -3477,6 +3477,11 @@ function handleOptions(){
 	if (options.LayoutToolbarIconBackgroundColor) {
 		customCSS += ".iQontrolToolbarLink.ui-btn:after{";
 		customCSS += "	background-color: " + options.LayoutToolbarIconBackgroundColor + " !important;";
+		customCSS += "}";
+	};
+	if (options.LayoutToolbarSelectedIconBackgroundColor) {
+		customCSS += ".iQontrolToolbarLink.ui-btn-active:after{";
+		customCSS += "	background-color: " + options.LayoutToolbarSelectedIconBackgroundColor + " !important;";
 		customCSS += "}";
 	};
 	if (options.LayoutToolbarIconBackgroundSize) {
@@ -4499,7 +4504,9 @@ function renderToolbar(){
 		if (config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){
 			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
 			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
-			customCSS += "	background-size:cover;";
+			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover");
+			customCSS += "	background-position:center;";
+			customCSS += "	background-repeat:no-repeat;";
 			customCSS += "}";
 			addCustomCSS(customCSS, "toolbarCustomIcons");
 		}

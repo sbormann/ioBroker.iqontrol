@@ -233,9 +233,11 @@
 		var lastColsSortedAndFilteredStringified;
 		var breakpointsCount = -1;
 		var datapointRegex = new RegExp('.*\\.[0-9]+\\..*');
+		var colsSortedAndFiltered = [];
 		var datapoints = {};
 		var datapointsParentNames = {};
 		var tableDatapoints = {};
+		var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
 		var datapointExtendTableColsDefaultTranslationWords = {
 		  "val": {
 			"en": "Value",
@@ -810,26 +812,9 @@
 				if (colsSorted.indexOf(cols[col]) == -1) colsSorted.push(cols[col]);
 			}
 			//Filter cols
-			var colsSortedAndFiltered = [];
+			colsSortedAndFiltered = [];
 			for (var col = 0; col < colsSorted.length; col++) {
 				if (colsFilter.indexOf(colsSorted[col]) == -1) colsSortedAndFiltered.push(colsSorted[col]);
-			}
-			//columnSort
-			if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
-				var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-				if (columnSortCols = columnSortCol.split(';').length > 1) { //Sort for multiple cols - not yet fully supported, not yet tested (missing: add multiple sort-icons, ctrl-click enables multiple sort)
-					dataObject.sort(function(a, b){ return collator.compare(getSortValues(a), getSortValues(b)); })
-					function getSortValues(obj){
-						let result = "";
-						let columnSortCols = columnSortCol.split(';');
-						columnSortCols.forEach(function(sortCol){
-							result += obj[sortCol];
-						});
-					}
-				} else { //Sort for 1 Col
-					dataObject.sort(function(a, b){ return collator.compare(a[columnSortCol], b[columnSortCol]); })
-				}
-				if (columnSortColDesc) dataObject.reverse();
 			}
 			//Add breakpoints
 			createBreakpoints(colsSortedAndFiltered.length);
@@ -923,7 +908,7 @@
 				} else {
 					if ($('.customCSS_headHideColumntoggleButton').length) removeCustomCSS('headHideColumntoggleButton');
 				}
-				//columnSortÊnabled
+				//columnSortEnabled
 				if (columnSortEnabled) {
 					$('th.columnSortEnabled').on('click', function(){
 						var $this = $(this);
@@ -938,7 +923,8 @@
 							columnSortCol = $this.data('col');
 						}
 						columnSortColHideIndicator = false;
-						createTable();
+						//createTable();
+						columnSortTable();
 					}).css('cursor', 'pointer');
 				}
 			} else { //Only update body
@@ -957,13 +943,9 @@
 				$('#loadMoreButtonContainer').show(500);
 			}
 			//columnSort
-			$('.columnSortIndicator').remove();
-			for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-				$th = $('th[data-col="' + colsSortedAndFiltered[col] + '"]');
-				if (colsSortedAndFiltered[col] == columnSortCol) $th.addClass("columnSort" + (columnSortColDesc ? "Desc " : "Asc ")); else $th.removeClass("columnSortAsc").removeClass("columnSortDesc");
-				if (!columnSortColHideIndicator && colsSortedAndFiltered[col] == columnSortCol) $th.append("<span class='columnSortIndicator'>&nbsp;" + (columnSortColDesc ? "&#9660;" : "&#9650;") + "</span>");
-			}
+			columnSortTable();
 		}
+		
 		//Update datapoint
 		function updateDatapoint(id){
 			if (!id) return;
@@ -1014,9 +996,43 @@
 					});
 				});
 			});
+			columnSortTable();
 			$("span.datapoint-toggle:not(.clickEventBound)").on('click', spanToggleClick).addClass('clickEventBound');
 		}
-		
+
+		//columnSort Table
+		function columnSortTable(){
+			$('.columnSortIndicator').remove();
+			if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
+				//columnSort Indicators
+				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+					$th = $('th[data-col="' + colsSortedAndFiltered[col] + '"]');
+					if (colsSortedAndFiltered[col] == columnSortCol) $th.addClass("columnSort" + (columnSortColDesc ? "Desc " : "Asc ")); else $th.removeClass("columnSortAsc").removeClass("columnSortDesc");
+					if (!columnSortColHideIndicator && colsSortedAndFiltered[col] == columnSortCol) $th.append("<span class='columnSortIndicator'>&nbsp;" + (columnSortColDesc ? "&#9660;" : "&#9650;") + "</span>");
+				}
+				//Start sorting
+				$('tbody tr').sort(function(a, b){
+					if (columnSortColDesc){
+						return collator.compare(getSortValues(a), getSortValues(b));
+					} else {
+						return collator.compare(getSortValues(b), getSortValues(a));
+					}
+					function getSortValues(row){
+						let result = "";
+						let columnSortCols = columnSortCol.split(';');
+						for (col of columnSortCols){
+							result += $(row).find('td[data-colname="' + col + '"]').text();
+						}
+						return result;
+					}
+				}).appendTo($('tbody'));
+				//RowLimit
+				$('tbody tr').each(function(index, element){
+					if (rowsLimit == 0 || index < rowsLimit) $(this).css('display', ''); else $(this).css('display', 'none');
+				});			
+			}
+		}
+
 		//Toggle datapoint
 		function spanToggleClick(){
 			var id = $(this).data('id');

@@ -1681,9 +1681,11 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed counting of logs.
 * (sbormann) Lists are now saved as readonly and with ack=true.
 * (sbormann) Fixed glow.
+* (sbormann) Enhanced sorting of JSON-Table-Widget.
 * (sbormann) Added option to define, how the parent name of lists is determined.
 * (dirkhe, sbormann) Added save-button to dialogs.
 * (dirkhe) Added preview mode.
+* (sbormann) Added option to define toolbar selected icon background color.
 
 ### 2.0.0-rc1.1 (2022-02-08)
 * (sbormann) Kompatibility to new ioBroker websocket established.
