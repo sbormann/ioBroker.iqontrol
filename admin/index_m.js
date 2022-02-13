@@ -1785,32 +1785,34 @@ function initDialog(id, callback) {
 			$dialog.data('callback', null);
 		});
 		$dialog.find('.btn-save').on('click', function () {
-			saveFromDialog(true, false);
+			saveFromDialogAndPreview(true, false);
 		});
 		$dialog.find('.btn-preview').on('click', function () {
-			saveFromDialog(false, "#");
+			let renderView = $(this).data('preview-render-view');
+			let openDialog = $(this).data('preview-open-dialog');
+			saveFromDialogAndPreview(false, true, renderView, openDialog);
 		});
 	}
 	$dialog.find('.btn-set').data('dialogid', id);
 	$dialog.data('callback', callback);
 }
 
-//Save from dialog
-function saveFromDialog(doSave, doPreview){
+//Save from dialog and Preview
+function saveFromDialogAndPreview(doSave, doPreview, renderView, openDialog){
 	$('.open').sort(function(a,b){ 
 		return a.style.zIndex > b.style.zIndex; 
 	}).each(function(){ 
-		let callback= $(this).data('callback'); 
-		if ( typeof callback == "function")
-			callback();
+		let callback = $(this).data('callback'); 
+		if (typeof callback == "function") callback();
 	})	
-	if (doSave)
-		$('.dialog-config-buttons .btn-save').click();
+	if (doSave) $('.dialog-config-buttons .btn-save').click();
 	if (doPreview){
 		if (!previewWindow || previewWindow.closed){
-			previewWindow = window.open(previewLink + "/index.html?mode=preview&namespace=" + adapter + "." + instance, "preview");
-		} else 
-			previewWindow.postMessage({ command: "updateConfig"}, "*")
+			previewWindow = window.open(previewLink + "/index.html?mode=preview" + (renderView ? "&renderView=" + renderView : "") + (openDialog ? "&openDialog=" + openDialog : "") +  "&namespace=" + adapter + "." + instance, "preview");
+		} else {
+			previewWindow.postMessage({ command: "updatePreview", renderView: renderView, openDialog: openDialog}, "*");
+			previewWindow.focus();
+		}
 	}
 }
 var saveButtonMutationObserver;
@@ -1832,15 +1834,13 @@ function applySyncSaveFromDialogButtonsToSaveButton(){
 		saveButtonMutationObserver.observe(this, {attributes: true, attributeOldValue: true, childList: false, subtree: false});
 	});
 }
-
 window.addEventListener("message", function(event){
-	if (event && event.data && event.data.command == "getConfig"){
+	if (event && event.data && event.data.command == "getPreviewConfig"){
 		save(function(obj){
 			event.source.postMessage({ 
-				command: "updateConfig", 
+				command: "getPreviewConfig", 
 				value: obj,
-				cbId: event.data.cbId
-				// TODO: context: current DialogData, to show correct Preview, like View, device ...
+				getPreviewConfigCallbackId: event.data.getPreviewConfigCallbackId,
 			}, "*")
 		})
 	} 
@@ -2784,8 +2784,11 @@ async function load(settings, onChange) {
 				var forceWebSockets = result[bestInstance].native.forceWebSockets;
 			}
 			console.log("Got Link: " + previewLink);
-			$('a.mainLink').on('click', function(){ saveFromDialog(false, "#")});
-			$('img.mainLink').on('click', function(){ saveFromDialog(false, "#")}).css('cursor', 'pointer');
+			//Add and enhance preview buttons
+			$('.m .dialog-config-buttons .btn-save').before('<a class="btn btn-preview" style="margin: 0 -10px 0 10px;"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>');
+			$('.m .dialog-config-buttons .btn-preview').on('click', function(){ saveFromDialogAndPreview(false, true)});
+			$('img.mainLink').on('click', function(){ saveFromDialogAndPreview(false, true)}).css('cursor', 'pointer');
+			$('a.mainLink').attr('href', previewLink + "/index.html?namespace=" + adapter + "." + instance);
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
 			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>" + _("Select Role") + "</option>");
@@ -2795,9 +2798,9 @@ async function load(settings, onChange) {
 			//Signal to admin, that no changes yet
 			if (!newConfig) onChange(false);
 			
-			//Sync saveFromDialog-buttons to save button 
+			//Sync saveFromDialogAndPreview-buttons to save button 
 			applySyncSaveFromDialogButtonsToSaveButton();
-
+			
 			//Create /usericons, /usersymbols, /userwidgets and /userfonts
 			var createSpecialDirs = ["/usericons", "/usersymbols", "/userwidgets", "/userfonts"];
 			for(i = 0; i < createSpecialDirs.length; i++){
@@ -3426,6 +3429,8 @@ async function load(settings, onChange) {
 							$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
 						}
 						$('#dialogDeviceEditCommonRole').select();
+						$('#dialogDeviceEdit .btn-preview, #dialogDeviceEditStateConstant .btn-preview, #dialogDeviceEditStateArray .btn-preview').data('preview-render-view', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName);
+						$('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName + ".devices." + _deviceIndex);
 						$('#dialogDeviceEdit').modal('open');
 						$('#dialogDeviceEdit').css('z-index', modalZIndexCount++);
 						$('#dialogDeviceEdit .modal-content').scrollTop(0);

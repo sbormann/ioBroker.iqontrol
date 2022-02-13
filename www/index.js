@@ -1552,7 +1552,7 @@ function fetchSystemConfig(callback){
 	});
 }
 
-var getConfigCallbacks= {};
+var getPreviewConfigCallbacks = {};
 function fetchConfig(_namespace, callback, forceFetch){
 	if (typeof _namespace == "function") {
 		forceFetch = callback;
@@ -1562,18 +1562,17 @@ function fetchConfig(_namespace, callback, forceFetch){
 	if (_namespace == null) _namespace = namespace;
 	if (typeof config[_namespace] == udef || forceFetch){
 		if (configMode == "preview" && opener && !opener.closed){
-			let cbId = new Date().getTime();
-			getConfigCallbacks[cbId]= callback;
-			opener.postMessage({command : "getConfig", cbId: cbId}, "*");
+			let getPreviewConfigCallbackId = new Date().getTime();
+			getPreviewConfigCallbacks[getPreviewConfigCallbackId] = callback;
+			//if (getUrlParameter("previewDestination"))
+			opener.postMessage({command : "getPreviewConfig", getPreviewConfigCallbackId: getPreviewConfigCallbackId}, "*");
 		} else {
 			console.debug("[Socket] getObject system.adapter." + _namespace);
 			socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
 				if (_object) {
 					config[_namespace] = _object.native;
 					if (_namespace == namespace){
-						//Create options- and panel-object
-						console.log("* Creating options-object");
-						cleanUpConfig();
+						createOptionsAndPanelObjectsFromConfig();
 					}
 					if (callback) callback();
 				} else {
@@ -1586,8 +1585,8 @@ function fetchConfig(_namespace, callback, forceFetch){
 		if (callback) callback();
 	}
 }
-
-function cleanUpConfig(){
+function createOptionsAndPanelObjectsFromConfig(){
+	console.log("* Creating options- and panel-objects");
 	for (var key in config[namespace]) {
 		if (key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
 		if (key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
@@ -13598,22 +13597,30 @@ $(document).ready(function(){
 					viewShuffleReshuffle(0, 1250);
 				}
 				break;
-				case "updateConfig":
-					if (typeof event.data.value != udef){
-						console.log("postMessage received: updateConfig " + event.data.value);
-
-						config[namespace] = event.data.value;
-						cleanUpConfig();
-
-						if (event.data.cbId){
-							let callback= getConfigCallbacks[event.data.cbId];
-							delete getConfigCallbacks[event.data.cbId];
-							if (typeof callback == "function")
-								callback();
-						}
-						// event.data.context -> current DialogData, to show correct Preview, like View, device ...
-					} 
-
+				
+				case "updatePreview":
+				console.log("postMessage received: updatePreview");
+				if (configMode == "preview"){
+					if (event.data.renderView) actualViewId = event.data.renderView;
+					if (event.data.openDialog) openDialogId = event.data.openDialog;
+					getStarted();
+				}
+//				if (configMode == "preview" && opener && !opener.closed){
+//					opener.postMessage({command : "getPreviewConfig", previewDestination: (event.data.previewDestination ? event.data.previewDestination : "")}, "*");
+//				}
+				break;
+				
+				case "getPreviewConfig":
+				if (typeof event.data.value != udef){
+					console.log("postMessage received: getPreviewConfig " + JSON.stringify(event.data.value));
+					config[namespace] = event.data.value;
+					createOptionsAndPanelObjectsFromConfig();
+					if (event.data.getPreviewConfigCallbackId){
+						let callback = getPreviewConfigCallbacks[event.data.getPreviewConfigCallbackId];
+						delete getPreviewConfigCallbacks[event.data.getPreviewConfigCallbackId];
+						if (typeof callback == "function") callback();
+					}
+				} 
 				break;
 			}
 		}
