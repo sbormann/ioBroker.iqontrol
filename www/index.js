@@ -7,6 +7,7 @@ if (window.location.href.indexOf('#') > -1) window.location.href = window.locati
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var connectionLink = location.origin;
+var configMode = getUrlParameter('mode') || 'socket';
 var useCache = true;
 var homeId = getUrlParameter('renderView') || '';	//If not specified, the first toolbar-entry will be used
 var openDialogId = getUrlParameter('openDialog');	//If specified, this dialog will be opened (after that this will be set to null)
@@ -1551,6 +1552,7 @@ function fetchSystemConfig(callback){
 	});
 }
 
+var getConfigCallbacks= {};
 function fetchConfig(_namespace, callback, forceFetch){
 	if (typeof _namespace == "function") {
 		forceFetch = callback;
@@ -1559,27 +1561,37 @@ function fetchConfig(_namespace, callback, forceFetch){
 	}
 	if (_namespace == null) _namespace = namespace;
 	if (typeof config[_namespace] == udef || forceFetch){
-		console.debug("[Socket] getObject system.adapter." + _namespace);
-		socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
-			if (_object) {
-				config[_namespace] = _object.native;
-				if (_namespace == namespace){
-					//Create options- and panel-object
-					console.log("* Creating options-object");
-					for (var key in config[namespace]) {
-						if (key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
-						if (key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
-					};
+		if (configMode == "preview" && opener && !opener.closed){
+			let cbId = new Date().getTime();
+			getConfigCallbacks[cbId]= callback;
+			opener.postMessage({command : "getConfig", cbId: cbId}, "*");
+		} else {
+			console.debug("[Socket] getObject system.adapter." + _namespace);
+			socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
+				if (_object) {
+					config[_namespace] = _object.native;
+					if (_namespace == namespace){
+						//Create options- and panel-object
+						console.log("* Creating options-object");
+						cleanUpConfig();
+					}
+					if (callback) callback();
+				} else {
+					console.log("Config-Object not found");
+					if (callback) callback(error = "objectNotFound"); //Object not found
 				}
-				if (callback) callback();
-			} else {
-				console.log("Config-Object not found");
-				if (callback) callback(error = "objectNotFound"); //Object not found
-			}
-		});
+			});
+		}
 	} else {
 		if (callback) callback();
 	}
+}
+
+function cleanUpConfig(){
+	for (var key in config[namespace]) {
+		if (key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
+		if (key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
+	};
 }
 
 function fetchView(viewId, callback){
@@ -13585,6 +13597,23 @@ $(document).ready(function(){
 					});
 					viewShuffleReshuffle(0, 1250);
 				}
+				break;
+				case "updateConfig":
+					if (typeof event.data.value != udef){
+						console.log("postMessage received: updateConfig " + event.data.value);
+
+						config[namespace] = event.data.value;
+						cleanUpConfig();
+
+						if (event.data.cbId){
+							let callback= getConfigCallbacks[event.data.cbId];
+							delete getConfigCallbacks[event.data.cbId];
+							if (typeof callback == "function")
+								callback();
+						}
+						// event.data.context -> current DialogData, to show correct Preview, like View, device ...
+					} 
+
 				break;
 			}
 		}
