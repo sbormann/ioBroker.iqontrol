@@ -1769,32 +1769,87 @@ var modalZIndexCount = 2000;
 var isReact = false;
 var previewWindow = null;
 
+//Subsettings
+var toolbar;
+var views;
+var lists;
+var optionsLayoutDefaultIcons;
+var optionsLayoutDefaultSymbols;
+var version;
+
 //++++++++++ GLOBAL FUNCTIONS ++++++++++
 //Dialogs
-function initDialog(id, callback) {
+function initDialog(id, saveCallback, initFunction) {
 	var $dialog = $('#' + id);
+	//Enhance dialog buttons with functions
 	if (!$dialog.data('inited')) {
 		$dialog.data('inited', true);
 		$dialog.modal({
 			dismissible: false
 		});
 		$dialog.find('.btn-set').on('click', function () {
-			var $dialog = $('#' + $(this).data('dialogid'));
-			var callback = $dialog.data('callback');
-			if (typeof callback === 'function') callback();
-			$dialog.data('callback', null);
+			let $dialog = $('#' + $(this).data('dialogid'));
+			let saveCallback = $dialog.data('save-callback');
+			if (typeof saveCallback === 'function') saveCallback();
+			$dialog.data('save-callback', null);
 		});
 		$dialog.find('.btn-save').on('click', function () {
+			let $dialog = $('#' + $(this).data('dialogid'));
 			saveFromDialogAndPreview(true, false);
+			//Save abort subsettings
 		});
 		$dialog.find('.btn-preview').on('click', function () {
+			let $dialog = $('#' + $(this).data('dialogid'));
 			let renderView = $(this).data('preview-render-view');
 			let openDialog = $(this).data('preview-open-dialog');
 			saveFromDialogAndPreview(false, true, renderView, openDialog);
+			$dialog.find('.btn-close').data('abort-callback-necessary', true);
+		});
+		$dialog.find('.btn-close').on('click', function () {
+			let $dialog = $('#' + $(this).data('dialogid'));
+			if ($dialog.find('.btn-close').data('abort-callback-necessary')){
+				console.log("Abort callback: Restore subsettings and rebuild all open dialogs");
+				//Restore subsettings
+				let abortSettings = $dialog.data('abort-settings');
+				if (abortSettings){ 
+					toolbar = abortSettings.toolbar;
+					views = abortSettings.views;
+					lists = abortSettings.lists;
+					optionsLayoutDefaultIcons = abortSettings.optionsLayoutDefaultIcons;
+					optionsLayoutDefaultSymbols = abortSettings.optionsLayoutDefaultSymbols;
+				}
+				//Rebuild all open dialogs
+				$('.open').sort(function(a,b){ 
+					return a.style.zIndex < b.style.zIndex; 
+				}).each(function(){
+					if ($(this) != $dialog){
+						let initFunction = $(this).data('init-function');
+						if (typeof initFunction === 'function') initFunction();
+					}
+				});
+			}
 		});
 	}
-	$dialog.find('.btn-set').data('dialogid', id);
-	$dialog.data('callback', callback);
+	//Save some informations
+	$dialog.find('.btn-close').data('abort-callback-necessary', false);
+	$dialog.find('.btn-set, .btn-close, .btn-save, .btn-preview').data('dialogid', id);
+	$dialog.data('save-callback', saveCallback);
+	//Save abort subsettings
+	var abortSettings = {};
+	abortSettings.toolbar = JSON.parse(JSON.stringify(toolbar));
+	abortSettings.views = JSON.parse(JSON.stringify(views));
+	abortSettings.lists = JSON.parse(JSON.stringify(lists));
+	abortSettings.optionsLayoutDefaultIcons = JSON.parse(JSON.stringify(optionsLayoutDefaultIcons));
+	abortSettings.optionsLayoutDefaultSymbols = JSON.parse(JSON.stringify(optionsLayoutDefaultSymbols));
+	$dialog.data('abort-settings', abortSettings);
+	//call initFunction
+	if (typeof initFunction == "function"){
+		initFunction();
+		$dialog.data('init-function', initFunction);
+		$dialog.modal('open');
+		$dialog.css('z-index', modalZIndexCount++);
+		$dialog.find('.modal-content').scrollTop(0);		
+	}
 }
 
 //Save from dialog and Preview
@@ -1802,10 +1857,21 @@ function saveFromDialogAndPreview(doSave, doPreview, renderView, openDialog){
 	$('.open').sort(function(a,b){ 
 		return a.style.zIndex > b.style.zIndex; 
 	}).each(function(){ 
-		let callback = $(this).data('callback'); 
-		if (typeof callback == "function") callback();
-	})	
-	if (doSave) $('.dialog-config-buttons .btn-save').click();
+		let saveCallback = $(this).data('save-callback'); 
+		if (typeof saveCallback == "function") saveCallback();
+	});
+	if (doSave){ 
+		$('.dialog-config-buttons .btn-save').click();
+		var abortSettings = {};
+		abortSettings.toolbar = JSON.parse(JSON.stringify(toolbar));
+		abortSettings.views = JSON.parse(JSON.stringify(views));
+		abortSettings.lists = JSON.parse(JSON.stringify(lists));
+		abortSettings.optionsLayoutDefaultIcons = JSON.parse(JSON.stringify(optionsLayoutDefaultIcons));
+		abortSettings.optionsLayoutDefaultSymbols = JSON.parse(JSON.stringify(optionsLayoutDefaultSymbols));
+		$('.open').each(function(){ 
+			$(this).data('abort-settings', abortSettings);
+		});
+	}
 	if (doPreview){
 		if (!previewWindow || previewWindow.closed){
 			previewWindow = window.open(previewLink + "/index.html?mode=preview" + (renderView ? "&renderView=" + renderView : "") + (openDialog ? "&openDialog=" + openDialog : "") +  "&namespace=" + adapter + "." + instance, "preview");
@@ -2658,6 +2724,7 @@ async function load(settings, onChange) {
 	});
 
 	//Get Subsettings
+	//!!! If more subsettings are added - remember to add them to initDialog, saveFromDialogAndPreview, save-function and to backup/restore-section as well!!!
 	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
 		toolbar = settings.toolbar || settings.demotoolbar || [];
 		views = settings.views || settings.demoviews || [];
@@ -3189,15 +3256,13 @@ async function load(settings, onChange) {
 				toolbar = toolbar.concat(viewsAutocreateResult.toolbar);
 				loadViews();
 			}
+		}, function(){ //init dialog function
+			$('#dialogViewsAutocreateEnumerationMain').val("").select();
+			$('#dialogViewsAutocreateEnumerationList').html(_("Please select an enumeration."));
+			$('#dialogViewsAutocreate a.btn.chose').addClass('disabled');
+			$('#dialogViewsAutocreateBtnSetProgress').hide();
+			$('#dialogViewsAutocreate a.btn-set').addClass('disabled');
 		});
-		$('#dialogViewsAutocreateEnumerationMain').val("").select();
-		$('#dialogViewsAutocreateEnumerationList').html(_("Please select an enumeration."));
-		$('#dialogViewsAutocreate a.btn.chose').addClass('disabled');
-		$('#dialogViewsAutocreateBtnSetProgress').hide();
-		$('#dialogViewsAutocreate a.btn-set').addClass('disabled');
-		$('#dialogViewsAutocreate').modal('open');
-		$('#dialogViewsAutocreate').css('z-index', modalZIndexCount++);
-		$('#dialogViewsAutocreate .modal-content').scrollTop(0);
 	});
 	$('#dialogViewsAutocreateEnumerationMain').on('change', function(){
 		var enumerationMain = $('#dialogViewsAutocreateEnumerationMain').val();
@@ -3415,25 +3480,22 @@ async function load(settings, onChange) {
 							views[_viewIndex].devices[_deviceIndex].options = dialogDeviceEditOptions;
 							updateSymbolicLinks();
 							onTableDevicesReady();
+						}, function(){ //init dialog function
+							$('#dialogDeviceEditCommonName').html(views[_viewIndex].devices[_deviceIndex].commonName || "");
+							$('#dialogDeviceEditViewIndex').val(_viewIndex);
+							$('#dialogDeviceEditDeviceIndex').val(_deviceIndex);
+							dialogDeviceEditStates = views[_viewIndex].devices[_deviceIndex].states || [];
+							dialogDeviceEditStatesTable = [];
+							dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
+							$('#dialogDeviceEditOptionsContent').empty();
+							if (views[_viewIndex].devices[_deviceIndex].commonRole) {
+								$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
+							} else {
+								$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
+							}
+							$('#dialogDeviceEditCommonRole').select();
+							$('#dialogDeviceEdit .btn-preview, #dialogDeviceEditStateConstant .btn-preview, #dialogDeviceEditStateArray .btn-preview').data('preview-render-view', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName);
 						});
-						$('#dialogDeviceEditCommonName').html(views[_viewIndex].devices[_deviceIndex].commonName || "");
-						$('#dialogDeviceEditViewIndex').val(_viewIndex);
-						$('#dialogDeviceEditDeviceIndex').val(_deviceIndex);
-						dialogDeviceEditStates = views[_viewIndex].devices[_deviceIndex].states || [];
-						dialogDeviceEditStatesTable = [];
-						dialogDeviceEditOptions = JSON.parse(JSON.stringify(views[_viewIndex].devices[_deviceIndex].options || []));
-						$('#dialogDeviceEditOptionsContent').empty();
-						if (views[_viewIndex].devices[_deviceIndex].commonRole) {
-							$('#dialogDeviceEditCommonRole').val(views[_viewIndex].devices[_deviceIndex].commonRole).trigger('change');
-						} else {
-							$('#dialogDeviceEditCommonRole').val(-1).trigger('change');
-						}
-						$('#dialogDeviceEditCommonRole').select();
-						$('#dialogDeviceEdit .btn-preview, #dialogDeviceEditStateConstant .btn-preview, #dialogDeviceEditStateArray .btn-preview').data('preview-render-view', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName);
-						$('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName + ".devices." + _deviceIndex);
-						$('#dialogDeviceEdit').modal('open');
-						$('#dialogDeviceEdit').css('z-index', modalZIndexCount++);
-						$('#dialogDeviceEdit .modal-content').scrollTop(0);
 					});
 				}
 			}
@@ -3742,36 +3804,35 @@ async function load(settings, onChange) {
 							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
 								$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+							}, function(){ //init dialog function 
+								$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+								$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+								$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+								$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 							});
-							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
-							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
-							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
-							$('#dialogDeviceEditStateConstant').modal('open');
-							$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
-							$('#dialogDeviceEditStateConstant .modal-content').scrollTop(0);
 						}
 					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
+						}, function(){ //init dialog function 
+							$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
+							var _deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
+							var showAdditionalCols = "";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
+							if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
+							if (dialogDeviceEditStatesTable[stateIndex].state.indexOf("INFO_") == 0) $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', false); else $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName + ".devices." + _deviceIndex);
+							$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
+							$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
+							dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
+							values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						});
-						$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-						var showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
-						if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
-						$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
-						$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
-						dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
-						values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
-						$('#dialogDeviceEditStateArray').modal('open');
-						$('#dialogDeviceEditStateArray').css('z-index', modalZIndexCount++);
-						$('#dialogDeviceEditStateArray .modal-content').scrollTop(0);
 					} else { //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 						initSelectId(function (sid) {
@@ -4296,18 +4357,16 @@ async function load(settings, onChange) {
 		initDialog('dialogDeviceAutocreate', function(){ //save dialog
 			views[$('#devicesSelectedView').val()].devices.push(dialogDeviceAutocreateResult);
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
+		}, function(){ //init dialog function 
+			if ($('#dialogDeviceAutocreateSourceId').val() == "") {
+				$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
+			} else {
+				$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
+			}
+			$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
+			$('#dialogDeviceAutocreatePreviewStates').html('');
+			$('#dialogDeviceAutocreate a.btn-set').addClass('disabled');
 		});
-		if ($('#dialogDeviceAutocreateSourceId').val() == "") {
-			$('#dialogDeviceAutocreateCreatePreviewButton').addClass('disabled');
-		} else {
-			$('#dialogDeviceAutocreateCreatePreviewButton').removeClass('disabled');
-		}
-		$('#dialogDeviceAutocreatePreview').html(_('Please select a device ID from ioBroker-Object-Tree and press \'Try to create preview\' first.'));
-		$('#dialogDeviceAutocreatePreviewStates').html('');
-		$('#dialogDeviceAutocreate a.btn-set').addClass('disabled');
-		$('#dialogDeviceAutocreate').modal('open');
-		$('#dialogDeviceAutocreate').css('z-index', modalZIndexCount++);
-		$('#dialogDeviceAutocreate .modal-content').scrollTop(0);
 	});
 	$('#dialogDeviceAutocreateSourceId').on('input change', function(){
 		dialogDeviceAutocreateResult = {};
@@ -4764,28 +4823,26 @@ async function load(settings, onChange) {
 				});
 			}
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
-		});
-		$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
-		$("#dialogDeviceCopyFromNewName").val("");
-		sourceView = (typeof sourceView != udef ? sourceView : $('#dialogDeviceCopyFromSourceView').val());
-		sourceDevice = (typeof sourceDevice != udef ? sourceDevice : $('#dialogDeviceCopyFromSourceDevice').val());
-		$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-		views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
-		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
-		if (typeof sourceView != udef && sourceView != null){
-			$('#dialogDeviceCopyFromSourceView').val(sourceView).trigger('change');
-			if (typeof sourceDevice != udef && sourceDevice != null) {
-				$('#dialogDeviceCopyFromSourceDevice').val(sourceDevice).trigger('change');
+		}, function(){ //init dialog function 
+			$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
+			$("#dialogDeviceCopyFromNewName").val("");
+			sourceView = (typeof sourceView != udef ? sourceView : $('#dialogDeviceCopyFromSourceView').val());
+			sourceDevice = (typeof sourceDevice != udef ? sourceDevice : $('#dialogDeviceCopyFromSourceDevice').val());
+			$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
+			views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+			$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
+			if (typeof sourceView != udef && sourceView != null){
+				$('#dialogDeviceCopyFromSourceView').val(sourceView).trigger('change');
+				if (typeof sourceDevice != udef && sourceDevice != null) {
+					$('#dialogDeviceCopyFromSourceDevice').val(sourceDevice).trigger('change');
+				}
 			}
-		}
-		$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
-		if (!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
-		$('#dialogDeviceCopyFromSourceView').select();
-		$('#dialogDeviceCopyFromSourceDevice').select();
-		$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
-		$('#dialogDeviceCopyFrom').modal('open');
-		$('#dialogDeviceCopyFrom').css('z-index', modalZIndexCount++);
-		$('#dialogDeviceCopyFrom .modal-content').scrollTop(0);
+			$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
+			if (!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
+			$('#dialogDeviceCopyFromSourceView').select();
+			$('#dialogDeviceCopyFromSourceDevice').select();
+			$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
+		});
 	});
 	$('#dialogDeviceCopyFromSourceView').on('change', function(){
 		$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
@@ -4898,51 +4955,49 @@ async function load(settings, onChange) {
 			});
 			console.log("Added Widget");
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
-		});
-		//Add widgets and websites to Selectbox
-		$('#dialogDevicesAutocreateWidgetSource').val("");
-		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
-			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWidgets.length > 0){
-			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
-		}
-		var websitenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				var websitenamesInThisDir = [];
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-				if (websitenamesInThisDir.length > 0){
-					websitenames.push("[" + imagesDir.dirnameBS + ":]");
-					websitenames.push(websitenamesInThisDir.join(";"));
+		}, function(){ //init dialog function 
+			//Add widgets and websites to Selectbox
+			$('#dialogDevicesAutocreateWidgetSource').val("");
+			var inbuiltWidgetsString = "";
+			inbuiltWidgets.forEach(function(widget){
+				if (widget && typeof widget.filename != udef) {
+					inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
 				}
+			});
+			if (inbuiltWidgets.length > 0){
+				inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
 			}
+			var websitenames = [];
+			imagesDirs.forEach(function(imagesDir){
+				if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+					var websitenamesInThisDir = [];
+					imagesDir.files.forEach(function(file){
+						var filename = file.filename || "";
+						if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+							var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+							if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
+							websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+						}
+					});
+					if (websitenamesInThisDir.length > 0){
+						websitenames.push("[" + imagesDir.dirnameBS + ":]");
+						websitenames.push(websitenamesInThisDir.join(";"));
+					}
+				}
+			});
+			if (websitenames.length > 0){
+				websitenames.unshift(";[" + _("User Widgets") + ":]");
+			}
+			enhanceTextInputToCombobox("#dialogDevicesAutocreateWidgetSource", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDevicesAutocreateWidgetWidgetSelected);
+			//Further settings
+			$('#dialogDevicesAutocreateWidgetName').val("");
+			$('#dialogDevicesAutocreateWidgetDescription').html("");
+			$('#dialogDevicesAutocreateWidgetOptions').html("");
+			$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
+			$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
+			dialogDevicesAutocreateWidgetOptions = [];
+			dialogDevicesAutocreateWidgetUrlParameters = "";
 		});
-		if (websitenames.length > 0){
-			websitenames.unshift(";[" + _("User Widgets") + ":]");
-		}
-		enhanceTextInputToCombobox("#dialogDevicesAutocreateWidgetSource", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDevicesAutocreateWidgetWidgetSelected);
-		//Further settings
-		$('#dialogDevicesAutocreateWidgetName').val("");
-		$('#dialogDevicesAutocreateWidgetDescription').html("");
-		$('#dialogDevicesAutocreateWidgetOptions').html("");
-		$('#dialogDevicesAutocreateWidgetUrlParameters').html("");
-		$('#dialogDevicesAutocreateWidget a.btn-set').addClass('disabled');
-		dialogDevicesAutocreateWidgetOptions = [];
-		dialogDevicesAutocreateWidgetUrlParameters = "";
-		$('#dialogDevicesAutocreateWidget').modal('open');
-		$('#dialogDevicesAutocreateWidget').css('z-index', modalZIndexCount++);
-		$('#dialogDevicesAutocreateWidget .modal-content').scrollTop(0);
 	});
 	$("#dialogDevicesAutocreateWidgetSource").on('input change', function(){
 		$('#dialogDevicesAutocreateWidgetDescription').html("");
@@ -5049,411 +5104,409 @@ async function load(settings, onChange) {
 					} else {
 						callback(result);
 					}
-				});
-				var name = url.split('?')[0];
-				if (name.lastIndexOf('/') > 0) name = name.substring(name.lastIndexOf('/') + 1);
-				if (name.lastIndexOf('.') > 0) name = name.substring(0, name.lastIndexOf('.'));
-				$('#dialogWidgetSettingsName').html(name);
-				$('#dialogWidgetSettingsDescription').html("").show();
-				$('#dialogWidgetSettingsOptions').html("").hide();
-				$('#dialogWidgetSettingsParameters').html("").hide();
-				$('#dialogWidgetSettings').data('replaceurl', '');
-				$('#dialogWidgetSettings').data('replaceurlabsolute', '');
-				$('#dialogWidgetSettingsReplaceurlDestination').html('');
-				$('.dialogWidgetSettingsReplaceurl').hide();
-				$(htmlAsString).filter('meta[name^="widget-"]').each(function(){
-					var metaName = $(this).prop('name');
-					var metaContent = $(this).prop('content');
-					var data = $(this).data() || {};
-					switch(metaName){
-						case "widget-description":
-						if (metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
-						break;
+				}, function(){ //init dialog function 
+					var name = url.split('?')[0];
+					if (name.lastIndexOf('/') > 0) name = name.substring(name.lastIndexOf('/') + 1);
+					if (name.lastIndexOf('.') > 0) name = name.substring(0, name.lastIndexOf('.'));
+					$('#dialogWidgetSettingsName').html(name);
+					$('#dialogWidgetSettingsDescription').html("").show();
+					$('#dialogWidgetSettingsOptions').html("").hide();
+					$('#dialogWidgetSettingsParameters').html("").hide();
+					$('#dialogWidgetSettings').data('replaceurl', '');
+					$('#dialogWidgetSettings').data('replaceurlabsolute', '');
+					$('#dialogWidgetSettingsReplaceurlDestination').html('');
+					$('.dialogWidgetSettingsReplaceurl').hide();
+					$(htmlAsString).filter('meta[name^="widget-"]').each(function(){
+						var metaName = $(this).prop('name');
+						var metaContent = $(this).prop('content');
+						var data = $(this).data() || {};
+						switch(metaName){
+							case "widget-description":
+							if (metaContent) $('#dialogWidgetSettingsDescription').html(metaContent).show();
+							break;
 
-						case "widget-urlparameters":
-						if (metaContent){
-							dialogDevicesAutocreateWidgetUrlParameters = "";
-							var dialogWidgetSettingsUrlParametersString = "<ul class='collapsible' id='dialogWidgetSettingsUrlParametersCollapsible'>";
-							var dialogWidgetSettingsUrlParametersComboboxes = [];
-							var urlParameters = metaContent.split(';');
-							var querystringParts = querystring.split('&');
-							var queries = {};
-							var dialogWidgetSettingsUrlParametersStringCollapsibleOpen = false;
-							querystringParts.forEach(function(query){
-								queries[query.split('=')[0]] = query.split('=')[1] || "";
-							});
-							if (urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
-							//Build options string for icons comboboxes
-							//Blank Icon
-							var comboboxesIconsOptions = "[" + _("No Icon") + ":]";
-							comboboxesIconsOptions += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
-							//Inbuilt Icons
-							comboboxesIconsOptions += ";[" + _("Inbuilt Icons") + ":]";
-							inbuiltIcons.forEach(function(inbuiltIcon){
-								if (inbuiltIcon != "") {
-									comboboxesIconsOptions += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-								}
-							});
-							//User Icons
-							var imagenames = [];
-							imagesDirs.forEach(function(imagesDir){
-								if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-									imagenames.push("[" + imagesDir.dirnameBS + ":]");
-									imagesDir.files.forEach(function(file){
-										 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+							case "widget-urlparameters":
+							if (metaContent){
+								dialogDevicesAutocreateWidgetUrlParameters = "";
+								var dialogWidgetSettingsUrlParametersString = "<ul class='collapsible' id='dialogWidgetSettingsUrlParametersCollapsible'>";
+								var dialogWidgetSettingsUrlParametersComboboxes = [];
+								var urlParameters = metaContent.split(';');
+								var querystringParts = querystring.split('&');
+								var queries = {};
+								var dialogWidgetSettingsUrlParametersStringCollapsibleOpen = false;
+								querystringParts.forEach(function(query){
+									queries[query.split('=')[0]] = query.split('=')[1] || "";
+								});
+								if (urlParameters.length > 0 && decodeURIComponent((urlParameters[0] || "").trim().split('/')[3]) != "section") urlParameters.unshift("//" + _("General") + "/section");
+								//Build options string for icons comboboxes
+								//Blank Icon
+								var comboboxesIconsOptions = "[" + _("No Icon") + ":]";
+								comboboxesIconsOptions += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
+								//Inbuilt Icons
+								comboboxesIconsOptions += ";[" + _("Inbuilt Icons") + ":]";
+								inbuiltIcons.forEach(function(inbuiltIcon){
+									if (inbuiltIcon != "") {
+										comboboxesIconsOptions += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
+									}
+								});
+								//User Icons
+								var imagenames = [];
+								imagesDirs.forEach(function(imagesDir){
+									if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+										imagenames.push("[" + imagesDir.dirnameBS + ":]");
+										imagesDir.files.forEach(function(file){
+											 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+										});
+									}
+								});
+								if (imagenames.length > 0){
+									comboboxesIconsOptions += ";[" + _("User Icons") + ":]";
+									imagenames.forEach(function(option){
+										comboboxesIconsOptions += ";" + option;
 									});
 								}
-							});
-							if (imagenames.length > 0){
-								comboboxesIconsOptions += ";[" + _("User Icons") + ":]";
-								imagenames.forEach(function(option){
-									comboboxesIconsOptions += ";" + option;
+								//Build options string for font family comboboxes
+								//Default Font
+								var comboboxesFontsOptions = "[" + _("Default Font") + ":]";
+								comboboxesFontsOptions += ";/" + _("Default Font") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\");
+								//Inbuilt Fonts
+								comboboxesFontsOptions += ";[Sans-Serif:]";
+								comboboxesFontsOptions += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
+								comboboxesFontsOptions += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
+								comboboxesFontsOptions += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
+								comboboxesFontsOptions += ";[Serif:]";
+								comboboxesFontsOptions += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
+								comboboxesFontsOptions += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
+								comboboxesFontsOptions += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
+								comboboxesFontsOptions += ";[Fantasy:]";
+								comboboxesFontsOptions += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
+								comboboxesFontsOptions += ";[Cursive:]";
+								comboboxesFontsOptions += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
+								comboboxesFontsOptions += ";[Monospace:]";
+								comboboxesFontsOptions += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
+								//User Fonts
+								var userfonts = [];
+								imagesDirs.forEach(function(imagesDir){
+									if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
+										imagesDir.files.forEach(function(file){
+											var filename = file.filename || "";
+											if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+												var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+												if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_font.png";
+												userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+											}
+										});
+									}
 								});
-							}
-							//Build options string for font family comboboxes
-							//Default Font
-							var comboboxesFontsOptions = "[" + _("Default Font") + ":]";
-							comboboxesFontsOptions += ";/" + _("Default Font") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\");
-							//Inbuilt Fonts
-							comboboxesFontsOptions += ";[Sans-Serif:]";
-							comboboxesFontsOptions += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
-							comboboxesFontsOptions += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
-							comboboxesFontsOptions += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
-							comboboxesFontsOptions += ";[Serif:]";
-							comboboxesFontsOptions += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
-							comboboxesFontsOptions += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
-							comboboxesFontsOptions += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
-							comboboxesFontsOptions += ";[Fantasy:]";
-							comboboxesFontsOptions += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
-							comboboxesFontsOptions += ";[Cursive:]";
-							comboboxesFontsOptions += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
-							comboboxesFontsOptions += ";[Monospace:]";
-							comboboxesFontsOptions += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
-							//User Fonts
-							var userfonts = [];
-							imagesDirs.forEach(function(imagesDir){
-								if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
-									imagesDir.files.forEach(function(file){
-										var filename = file.filename || "";
-										if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
-											var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-											if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_font.png";
-											userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+								if (userfonts.length > 0){
+									comboboxesFontsOptions += ";[" + _("User Fonts") + ":]";
+									userfonts.forEach(function(userfont){
+										comboboxesFontsOptions += ";" + userfont;
+									});
+								}
+								//Build URL-Parameters dialog
+								urlParameters.forEach(function(urlParameter){
+									urlParameter = urlParameter.trim().split('/');
+									var entry = decodeURIComponent(urlParameter[0]);
+									var name = decodeURIComponent(urlParameter[2] || urlParameter[0]);
+									var value = decodeURIComponent((typeof queries[entry] != udef ? queries[entry] || "" : urlParameter[1] || "")).replace(/'/g, "&#39;");
+									var defaultValue = decodeURIComponent(urlParameter[1] || "");
+									var type = decodeURIComponent(urlParameter[3] || "text");
+									var options = urlParameter.slice(4) || [];
+									if (!Array.isArray(options)) options = [decodeURIComponent(options)];
+									switch(type){
+										case "section":
+										if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
+											dialogWidgetSettingsUrlParametersString += "</div>";
+											dialogWidgetSettingsUrlParametersString += "</li>";
 										}
-									});
-								}
-							});
-							if (userfonts.length > 0){
-								comboboxesFontsOptions += ";[" + _("User Fonts") + ":]";
-								userfonts.forEach(function(userfont){
-									comboboxesFontsOptions += ";" + userfont;
+										dialogWidgetSettingsUrlParametersStringCollapsibleOpen = true;
+										dialogWidgetSettingsUrlParametersString += "<li>";
+										dialogWidgetSettingsUrlParametersString += "<div class='collapsible-header'>";
+										dialogWidgetSettingsUrlParametersString += "		<i class='material-icons'>expand_more</i><h6 class='translate'>" + _(name) + ":</h6>";
+										dialogWidgetSettingsUrlParametersString += "</div>";
+										dialogWidgetSettingsUrlParametersString += "<div class='collapsible-body'>";
+										break;
+
+										case "divider":
+										dialogWidgetSettingsUrlParametersString += "<div class='divider'></div><br>";
+										break;
+										
+										case "info":
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><p>" + _(name) + "</p></div></div>";
+										break;
+										
+										case "link":
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><a href='" + defaultValue.replace(/\\/g, "/") + "' target='_blank'>" + _(name) + "</a></div></div>";
+										break;
+										
+										case "number":
+										var min = (options[0] || "").split(',')[0] || 0;
+										var max = (options[0] || "").split(',')[1] || 100;
+										var step = (options[0] || "").split(',')[2] || 1;
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
+										dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "select": case "multipleSelect":
+										var selectOptionsContent = "";
+										options.forEach(function(option){
+											var parts = option.split(',');
+											if (parts.length < 2) parts.push(parts[0]);
+											parts[0] = decodeURIComponent(parts[0]);
+											parts[1] = decodeURIComponent(parts[1]);
+											selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
+										});
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "combobox":
+										dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';').replace(/\,/g, "/")), iconsFromOption: false});
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "historyInstance":
+										getHistoryInstances();
+										var selectOptionsContent = "";
+										selectOptionsContent += "        <option value=''>" + _('default') + "</option>";
+										historyInstances.forEach(function(historyInstance){
+											selectOptionsContent += "        <option value='" + historyInstance + "'" + (historyInstance == value ? " selected" : "") + ">" + historyInstance + "</option>";
+										});
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "checkbox":
+										if (value == "true") value = true;
+										if (value == "false") value = false;
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l23'>";
+										dialogWidgetSettingsUrlParametersString += "    <p><label>";
+										dialogWidgetSettingsUrlParametersString += "        <input class='value dialogWidgetSettingsUrlParameters filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "' " + (value?"checked='checked'":"") + " />";
+										dialogWidgetSettingsUrlParametersString += "        <span>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "    </label></p>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "color":
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
+										dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "icon":
+										dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesIconsOptions});
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("No Icon") + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "fontFamily":
+										dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesFontsOptions});
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("Default Font") + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "fontSize":
+										var min = 1;
+										var max = 100;
+										var step = 0.01;
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + " [px]' data-success=''></span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "fontWeight":
+										var selectOptionsContent = "";
+										selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
+										selectOptionsContent += "        <option value='lighter'" + (value == 'lighter' ? ' selected' : '') + " class='translate'>Lighter</option>";
+										selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
+										selectOptionsContent += "        <option value='bold'" + (value == 'bold' ? ' selected' : '') + " class='translate'>Bold</option>";
+										selectOptionsContent += "        <option value='bolder'" + (value == 'bolder' ? ' selected' : '') + " class='translate'>Bolder</option>";
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "fontStyle":
+										var selectOptionsContent = "";
+										selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
+										selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
+										selectOptionsContent += "        <option value='italic'" + (value == 'italic' ? ' selected' : '') + " class='translate'>Italic</option>";
+										selectOptionsContent += "        <option value='oblique'" + (value == 'oblique' ? ' selected' : '') + " class='translate'>Oblique</option>";
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "language":
+										if (!value) value = systemLang;
+										var selectOptionsContent = "";
+										selectOptionsContent += "        <option value=' ' selected class='translate'>Choose:</option>";
+										selectOptionsContent += "        <option value='en'" + (value == 'en' ? ' selected' : '') + " class='translate'>English</option>";
+										selectOptionsContent += "        <option value='de'" + (value == 'de' ? ' selected' : '') + " class='translate'>German</option>";
+										selectOptionsContent += "        <option value='ru'" + (value == 'ru' ? ' selected' : '') + " class='translate'>Russian</option>";
+										selectOptionsContent += "        <option value='pt'" + (value == 'pt' ? ' selected' : '') + " class='translate'>Polish</option>";
+										selectOptionsContent += "        <option value='nl'" + (value == 'nl' ? ' selected' : '') + " class='translate'>Dutch</option>";
+										selectOptionsContent += "        <option value='fr'" + (value == 'fr' ? ' selected' : '') + " class='translate'>French</option>";
+										selectOptionsContent += "        <option value='it'" + (value == 'it' ? ' selected' : '') + " class='translate'>Italian</option>";
+										selectOptionsContent += "        <option value='es'" + (value == 'es' ? ' selected' : '') + " class='translate'>Spanish</option>";
+										selectOptionsContent += "        <option value='zh-cn'" + (value == 'zh-cn' ? ' selected' : '') + " class='translate'>Chinese</option>";
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
+										dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "datapoint":
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+										
+										case "listJsonDatapoint":
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s11 m11 l11'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters listJsonDatapoint' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "</div><div class='input-field col s1 m1 l1'>";
+										dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+
+										case "hidden":
+										dialogWidgetSettingsUrlParametersString += "<input style='display:none;' class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										break;
+										
+										case "text": default:
+										dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
+										dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
+										dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
+										dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
+										dialogWidgetSettingsUrlParametersString += "</div></div>";
+										break;
+									}
 								});
-							}
-							//Build URL-Parameters dialog
-							urlParameters.forEach(function(urlParameter){
-								urlParameter = urlParameter.trim().split('/');
-								var entry = decodeURIComponent(urlParameter[0]);
-								var name = decodeURIComponent(urlParameter[2] || urlParameter[0]);
-								var value = decodeURIComponent((typeof queries[entry] != udef ? queries[entry] || "" : urlParameter[1] || "")).replace(/'/g, "&#39;");
-								var defaultValue = decodeURIComponent(urlParameter[1] || "");
-								var type = decodeURIComponent(urlParameter[3] || "text");
-								var options = urlParameter.slice(4) || [];
-								if (!Array.isArray(options)) options = [decodeURIComponent(options)];
-								switch(type){
-									case "section":
+								if (dialogWidgetSettingsUrlParametersString) {
 									if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
 										dialogWidgetSettingsUrlParametersString += "</div>";
 										dialogWidgetSettingsUrlParametersString += "</li>";
 									}
-									dialogWidgetSettingsUrlParametersStringCollapsibleOpen = true;
-									dialogWidgetSettingsUrlParametersString += "<li>";
-									dialogWidgetSettingsUrlParametersString += "<div class='collapsible-header'>";
-									dialogWidgetSettingsUrlParametersString += "		<i class='material-icons'>expand_more</i><h6 class='translate'>" + _(name) + ":</h6>";
-									dialogWidgetSettingsUrlParametersString += "</div>";
-									dialogWidgetSettingsUrlParametersString += "<div class='collapsible-body'>";
-									break;
-
-									case "divider":
-									dialogWidgetSettingsUrlParametersString += "<div class='divider'></div><br>";
-									break;
-									
-									case "info":
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><p>" + _(name) + "</p></div></div>";
-									break;
-									
-									case "link":
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='col s12 m12 l12'><a href='" + value.replace(/\\/g, "/") + "' target='_blank'>" + _(name) + "</a></div></div>";
-									break;
-									
-									case "number":
-									var min = (options[0] || "").split(',')[0] || 0;
-									var max = (options[0] || "").split(',')[1] || 100;
-									var step = (options[0] || "").split(',')[2] || 1;
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + "' data-success=''></span>";
-									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "select": case "multipleSelect":
-									var selectOptionsContent = "";
-									options.forEach(function(option){
-										var parts = option.split(',');
-										if (parts.length < 2) parts.push(parts[0]);
-										parts[0] = decodeURIComponent(parts[0]);
-										parts[1] = decodeURIComponent(parts[1]);
-										selectOptionsContent += "        <option value='" + parts[0] + "' " + ((parts[0] == value)?'selected':'') + " class='translate'>" + _(parts[1] || parts[0]) + "</option>";
+									dialogWidgetSettingsUrlParametersString += "</ul>";
+									$('#dialogWidgetSettingsUrlParameters').html(dialogWidgetSettingsUrlParametersString).show();
+									$('#dialogWidgetSettingsUrlParametersCollapsible').collapsible({accordion: false});
+									$('select.dialogWidgetSettingsUrlParameters').select();
+									dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
+										enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));
 									});
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <select" + (type == "multipleSelect" ? " multiple" : "") + " class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "combobox":
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: decodeURIComponent(options.join(';').replace(/\,/g, "/")), iconsFromOption: false});
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='combobox' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "historyInstance":
-									getHistoryInstances();
-									var selectOptionsContent = "";
-									selectOptionsContent += "        <option value=''>" + _('default') + "</option>";
-									historyInstances.forEach(function(historyInstance){
-										selectOptionsContent += "        <option value='" + historyInstance + "'" + (historyInstance == value ? " selected" : "") + ">" + historyInstance + "</option>";
-									});
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "checkbox":
-									if (value == "true") value = true;
-									if (value == "false") value = false;
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l23'>";
-									dialogWidgetSettingsUrlParametersString += "    <p><label>";
-									dialogWidgetSettingsUrlParametersString += "        <input class='value dialogWidgetSettingsUrlParameters filled-in' data-option='" + entry + "' data-type='checkbox' type='checkbox' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "' " + (value?"checked='checked'":"") + " />";
-									dialogWidgetSettingsUrlParametersString += "        <span>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "    </label></p>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "color":
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value MaterializeColorPicker validate validateOnlyError dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='color' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text'></span>";
-									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "icon":
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesIconsOptions});
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("No Icon") + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "fontFamily":
-									dialogWidgetSettingsUrlParametersComboboxes.push({id: 'dialogWidgetSettingsUrlParameter_' + entry, options: comboboxesFontsOptions});
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters icon' data-option='" + entry + "' data-type='icon' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' placeholder='" + _("Default Font") + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "fontSize":
-									var min = 1;
-									var max = 100;
-									var step = 0.01;
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters validate validateOnlyError' data-option='" + entry + "' data-type='number' type='number' min='" + min + "' max='" + max + "' step='" + step + "' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='helper-text' data-error='" + min + " - " + max + " [px]' data-success=''></span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "fontWeight":
-									var selectOptionsContent = "";
-									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
-									selectOptionsContent += "        <option value='lighter'" + (value == 'lighter' ? ' selected' : '') + " class='translate'>Lighter</option>";
-									selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
-									selectOptionsContent += "        <option value='bold'" + (value == 'bold' ? ' selected' : '') + " class='translate'>Bold</option>";
-									selectOptionsContent += "        <option value='bolder'" + (value == 'bolder' ? ' selected' : '') + " class='translate'>Bolder</option>";
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "fontStyle":
-									var selectOptionsContent = "";
-									selectOptionsContent += "        <option value='' disabled selected class='translate'>Choose:</option>";
-									selectOptionsContent += "        <option value='normal'" + (value == 'normal' ? ' selected' : '') + " class='translate'>Normal</option>";
-									selectOptionsContent += "        <option value='italic'" + (value == 'italic' ? ' selected' : '') + " class='translate'>Italic</option>";
-									selectOptionsContent += "        <option value='oblique'" + (value == 'oblique' ? ' selected' : '') + " class='translate'>Oblique</option>";
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "language":
-									if (!value) value = systemLang;
-									var selectOptionsContent = "";
-									selectOptionsContent += "        <option value=' ' selected class='translate'>Choose:</option>";
-									selectOptionsContent += "        <option value='en'" + (value == 'en' ? ' selected' : '') + " class='translate'>English</option>";
-									selectOptionsContent += "        <option value='de'" + (value == 'de' ? ' selected' : '') + " class='translate'>German</option>";
-									selectOptionsContent += "        <option value='ru'" + (value == 'ru' ? ' selected' : '') + " class='translate'>Russian</option>";
-									selectOptionsContent += "        <option value='pt'" + (value == 'pt' ? ' selected' : '') + " class='translate'>Polish</option>";
-									selectOptionsContent += "        <option value='nl'" + (value == 'nl' ? ' selected' : '') + " class='translate'>Dutch</option>";
-									selectOptionsContent += "        <option value='fr'" + (value == 'fr' ? ' selected' : '') + " class='translate'>French</option>";
-									selectOptionsContent += "        <option value='it'" + (value == 'it' ? ' selected' : '') + " class='translate'>Italian</option>";
-									selectOptionsContent += "        <option value='es'" + (value == 'es' ? ' selected' : '') + " class='translate'>Spanish</option>";
-									selectOptionsContent += "        <option value='zh-cn'" + (value == 'zh-cn' ? ' selected' : '') + " class='translate'>Chinese</option>";
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <select class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='select' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'>" + selectOptionsContent + "</select>";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'></label>";
-									dialogWidgetSettingsUrlParametersString += "    <span class='translate'>" + _(name) + "</span>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "datapoint":
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-									
-									case "listJsonDatapoint":
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s11 m11 l11'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters listJsonDatapoint' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "</div><div class='input-field col s1 m1 l1'>";
-									dialogWidgetSettingsUrlParametersString += "	<a class='dialogWidgetSettingsUrlParametersButton inputEdit waves-effect waves-light btn-small btn-floating' data-selectidfor='dialogWidgetSettingsUrlParameter_" + entry + "'><i class='material-icons'>edit</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-
-									case "hidden":
-									dialogWidgetSettingsUrlParametersString += "<input style='display:none;' class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									break;
-									
-									case "text": default:
-									dialogWidgetSettingsUrlParametersString += "<div class='row'><div class='input-field col s12 m12 l12'>";
-									dialogWidgetSettingsUrlParametersString += "    <input class='value dialogWidgetSettingsUrlParameters' data-option='" + entry + "' data-type='text' type='text' name='dialogWidgetSettingsUrlParameter_" + entry + "' id='dialogWidgetSettingsUrlParameter_" + entry + "'  value='" + value + "' />";
-									dialogWidgetSettingsUrlParametersString += "    <label for='dialogWidgetSettingsUrlParameter_" + entry + "' class='translate'>" + _(name) + "</label>";
-									dialogWidgetSettingsUrlParametersString += "    <a class='inputClear waves-effect waves-light btn-small btn-floating' data-default='" + defaultValue + "'><i class='material-icons'>clear</i></a>";
-									dialogWidgetSettingsUrlParametersString += "</div></div>";
-									break;
-								}
-							});
-							if (dialogWidgetSettingsUrlParametersString) {
-								if (dialogWidgetSettingsUrlParametersStringCollapsibleOpen) {
-									dialogWidgetSettingsUrlParametersString += "</div>";
-									dialogWidgetSettingsUrlParametersString += "</li>";
-								}
-								dialogWidgetSettingsUrlParametersString += "</ul>";
-								$('#dialogWidgetSettingsUrlParameters').html(dialogWidgetSettingsUrlParametersString).show();
-								$('#dialogWidgetSettingsUrlParametersCollapsible').collapsible({accordion: false});
-								$('select.dialogWidgetSettingsUrlParameters').select();
-								dialogWidgetSettingsUrlParametersComboboxes.forEach(function(entry){
-									enhanceTextInputToCombobox('#' + entry.id, entry.options, (typeof entry.iconsFromOption != udef ? entry.iconsFromOption : true));
-								});
-								var toDo = function(){
-									listsOptions = [];
-									for(objectId in iobrokerObjects){
-										if (objectId.indexOf(adapter + ".") == 0 && objectId.indexOf(".Lists.") > -1){
-											if (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.role && iobrokerObjects[objectId].common.role == "list.json" && iobrokerObjects[objectId].native && iobrokerObjects[objectId].native.iQontrolDatapointList) {
-												listsOptions.push(objectId + "/" + (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.name || objectId));
+									var toDo = function(){
+										listsOptions = [];
+										for(objectId in iobrokerObjects){
+											if (objectId.indexOf(adapter + ".") == 0 && objectId.indexOf(".Lists.") > -1){
+												if (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.role && iobrokerObjects[objectId].common.role == "list.json" && iobrokerObjects[objectId].native && iobrokerObjects[objectId].native.iQontrolDatapointList) {
+													listsOptions.push(objectId + "/" + (iobrokerObjects[objectId].common && iobrokerObjects[objectId].common.name || objectId));
+												}
 											}
+										};
+										enhanceTextInputToCombobox('.dialogWidgetSettingsUrlParameters.listJsonDatapoint', listsOptions.join(';'), false);
+									}
+									if (iobrokerObjectsReady) {
+										toDo();
+									} else {
+										iobrokerObjectsReadyFunctions.push(toDo);
+									}
+									$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
+										$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
+										initSelectId(function (sid) {
+											sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
+												if (newId) {
+													$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+												}
+											});
+										});									
+									})
+									initColorpickers(onChange);
+									initInputClear();
+									if (M) M.updateTextFields();
+								} else {
+									$('#dialogWidgetSettingsUrlParameters').html("").hide();
+								}
+							}
+							break;
+
+							case "widget-options":
+							if (metaContent) {
+								widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
+								if (widgetOptions){
+									var dialogWidgetSettingsOptionsString = "";
+									var dialogWidgetSettingsOptionsUnsupportedString;
+									for(option in widgetOptions){
+										if (iQontrolRoles["iQontrolWidget"].options[option]){
+											var optionActualySet = (actualOptions.find(function(element){ return element.option == option;}) || {}).value;
+											var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == optionActualySet);
+											dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;<span style='color: green;'>&check;</span>" : "&nbsp;<span style='color: red;'>&cross;&nbsp;(" + _("actual set to") + ":&nbsp;" + optionActualySet + ")</span>") : "") + "</span></label><br>";
+										} else {
+											dialogWidgetSettingsOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
 										}
 									};
-									enhanceTextInputToCombobox('.dialogWidgetSettingsUrlParameters.listJsonDatapoint', listsOptions.join(';'), false);
-								}
-								if (iobrokerObjectsReady) {
-									toDo();
-								} else {
-									iobrokerObjectsReadyFunctions.push(toDo);
-								}
-								$('.dialogWidgetSettingsUrlParametersButton.inputEdit').off('click').on('click', function(){
-									$('#dialogSelectId').data('selectidfor', $(this).data('selectidfor'));
-									initSelectId(function (sid) {
-										sid.selectId('show', $('#' + $('#dialogSelectId').data('selectidfor')).val(), {type: 'state'}, function (newId) {
-											if (newId) {
-												$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-											}
-										});
-									});									
-								})
-								initColorpickers(onChange);
-								initInputClear();
-								if (M) M.updateTextFields();
-							} else {
-								$('#dialogWidgetSettingsUrlParameters').html("").hide();
-							}
-						}
-						break;
-
-						case "widget-options":
-						if (metaContent) {
-							widgetOptions = tryParseJSON(metaContent.replace(/\'/g, "\""));
-							if (widgetOptions){
-								var dialogWidgetSettingsOptionsString = "";
-								var dialogWidgetSettingsOptionsUnsupportedString;
-								for(option in widgetOptions){
-									if (iQontrolRoles["iQontrolWidget"].options[option]){
-										var optionActualySet = (actualOptions.find(function(element){ return element.option == option;}) || {}).value;
-										var optionAlreadySet = checkForOptionsAlreadySet && (widgetOptions[option] == optionActualySet);
-										dialogWidgetSettingsOptionsString += "<label><input class='dialogWidgetSettingsOptions' type='checkbox'" + (optionAlreadySet || (choseOptionsNotSet && !optionAlreadySet) ? " checked='checked'" : "") + "' data-option='" + option + "' data-value='" + widgetOptions[option] + "'><span style='height: auto;'><b>" + _(iQontrolRoles["iQontrolWidget"].options[option].name) + "</b>: <u>" + widgetOptions[option] + "</u>" + (checkForOptionsAlreadySet ? (optionAlreadySet ? "&nbsp;<span style='color: green;'>&check;</span>" : "&nbsp;<span style='color: red;'>&cross;&nbsp;(" + _("actual set to") + ":&nbsp;" + optionActualySet + ")</span>") : "") + "</span></label><br>";
+									if (dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
+									if (dialogWidgetSettingsOptionsString.length){
+										var html = "<b>" + _("Apply the following device options:") + "</b><br><br>";
+										html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", true).trigger(\"change\");'><i class='large material-icons left'>check_box</i>" + _("All") + "</a>";
+										html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", false).trigger(\"change\");'><i class='large material-icons left'>check_box_outline_blank</i>" + _("None") + "</a>";
+										html += "<br><br>" + dialogWidgetSettingsOptionsString;
+										$('#dialogWidgetSettingsOptions').html(html).show();
 									} else {
-										dialogWidgetSettingsOptionsUnsupportedString += options[option].name + ": " + widgetOptions[option] + "<br>";
+										$('#dialogWidgetSettingsOptions').html("").hide();
 									}
-								};
-								if (dialogWidgetSettingsOptionsUnsupportedString) dialogWidgetSettingsOptionsString += "<br><br>" + _("Unsupported settings:") + "<br>" + dialogWidgetSettingsOptionsUnsupportedString;
-								if (dialogWidgetSettingsOptionsString.length){
-									var html = "<b>" + _("Apply the following device options:") + "</b><br><br>";
-									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", true).trigger(\"change\");'><i class='large material-icons left'>check_box</i>" + _("All") + "</a>";
-									html += "<a class='btn-small chose' onclick='$(\".dialogWidgetSettingsOptions\").prop(\"checked\", false).trigger(\"change\");'><i class='large material-icons left'>check_box_outline_blank</i>" + _("None") + "</a>";
-									html += "<br><br>" + dialogWidgetSettingsOptionsString;
-									$('#dialogWidgetSettingsOptions').html(html).show();
 								} else {
-									$('#dialogWidgetSettingsOptions').html("").hide();
+									alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
 								}
-							} else {
-								alert(_("Found settings for widget options, but the options are not valid (they need to be in a valid JSON-format)."));
 							}
+							break;
+							
+							case "widget-replaceurl":
+							if (metaContent) {
+								$('#dialogWidgetSettings').data('replaceurl', metaContent);
+								$('#dialogWidgetSettings').data('replaceurlabsolute', $(this).data('absolute'));
+								$('#dialogWidgetSettingsReplaceurlDestination').html(metaContent);
+								$('#dialogWidgetSettingsReplaceurlSwitchToDestination').off('click').on('click', function(){
+									var dialogCallback = $('#dialogWidgetSettings').data('callback');
+									if (typeof dialogCallback === 'function') dialogCallback("replaceurlSwitchToDestination");
+								});
+								$('.dialogWidgetSettingsReplaceurl').show();
+							}
+							break;
 						}
-						break;
-						
-						case "widget-replaceurl":
-						if (metaContent) {
-							$('#dialogWidgetSettings').data('replaceurl', metaContent);
-							$('#dialogWidgetSettings').data('replaceurlabsolute', $(this).data('absolute'));
-							$('#dialogWidgetSettingsReplaceurlDestination').html(metaContent);
-							$('#dialogWidgetSettingsReplaceurlSwitchToDestination').off('click').on('click', function(){
-								var dialogCallback = $('#dialogWidgetSettings').data('callback');
-								if (typeof dialogCallback === 'function') dialogCallback("replaceurlSwitchToDestination");
-							});
-							$('.dialogWidgetSettingsReplaceurl').show();
-						}
-						break;
-					}
+					});
 				});
-				$('#dialogWidgetSettings').modal('open');
-				$('#dialogWidgetSettings').css('z-index', modalZIndexCount++);
-				$('#dialogWidgetSettings .modal-content').scrollTop(0);
 			}
 		});
 	}
@@ -5466,26 +5519,24 @@ async function load(settings, onChange) {
 				if ($(this).prop('checked')) devicesToExport.push(views[devicesSelectedView].devices[$(this).data('index')]);
 			});
 			saveStringAsLocalFile(JSON.stringify(devicesToExport), "charset=utf-8", "text/json", "devices.json", true);
-		});
-		//Add devices to export list
-		if (devicesSelectedView > -1){
-			$('#dialogDevicesExportDeviceList').html("");
-			views[devicesSelectedView].devices.forEach(function(device, index){
-				$('#dialogDevicesExportDeviceList').append("<label><input class='dialogDevicesExportDeviceListDevice' type='checkbox'" + "' data-index='" + index + "'><span style='height: auto;'><b>" + device.commonName + "</b> (" + device.commonRole + ")</span></label><br>");
-			});
-			$('.dialogDevicesExportDeviceListDevice').on('change', function(){
-				var oneChecked = false;
-				$('.dialogDevicesExportDeviceListDevice').each(function(){
-					if ($(this).prop('checked')) oneChecked = true;					
+		}, function(){ //init dialog function 
+			//Add devices to export list
+			if (devicesSelectedView > -1){
+				$('#dialogDevicesExportDeviceList').html("");
+				views[devicesSelectedView].devices.forEach(function(device, index){
+					$('#dialogDevicesExportDeviceList').append("<label><input class='dialogDevicesExportDeviceListDevice' type='checkbox'" + "' data-index='" + index + "'><span style='height: auto;'><b>" + device.commonName + "</b> (" + device.commonRole + ")</span></label><br>");
 				});
-				if (oneChecked) $('#dialogDevicesExport .btn-set').removeClass('disabled'); else $('#dialogDevicesExport .btn-set').addClass('disabled');
-			});
-		} else {
-			$('#dialogDevicesExportDeviceList').html(_("There is no device on this view to export"));
-		}
-		$('#dialogDevicesExport').modal('open');
-		$('#dialogDevicesExport').css('z-index', modalZIndexCount++);
-		$('#dialogDevicesExport .modal-content').scrollTop(0);
+				$('.dialogDevicesExportDeviceListDevice').on('change', function(){
+					var oneChecked = false;
+					$('.dialogDevicesExportDeviceListDevice').each(function(){
+						if ($(this).prop('checked')) oneChecked = true;					
+					});
+					if (oneChecked) $('#dialogDevicesExport .btn-set').removeClass('disabled'); else $('#dialogDevicesExport .btn-set').addClass('disabled');
+				});
+			} else {
+				$('#dialogDevicesExportDeviceList').html(_("There is no device on this view to export"));
+			}
+		});
 	});
 	$('#devicesImport').on('click', function(){
 		loadLocalFileAsString(".json", function(result){
@@ -5593,14 +5644,12 @@ async function load(settings, onChange) {
 			} else if ($commonRole.val() == 'const'){ //const
 				initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 					$('#' + $('#dialogDeviceEditStateConstantIndex').val()).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+				}, function(){ //init dialog function 
+					$('#dialogDeviceEditStateConstantName').html(id || "");
+					$('#dialogDeviceEditStateConstantIndex').val(valueId);
+					$('#dialogDeviceEditStateConstantTextarea').val(($value.val() || "").replace(/\\n/g, '\n'));
+					$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 				});
-				$('#dialogDeviceEditStateConstantName').html(id || "");
-				$('#dialogDeviceEditStateConstantIndex').val(valueId);
-				$('#dialogDeviceEditStateConstantTextarea').val(($value.val() || "").replace(/\\n/g, '\n'));
-				$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
-				$('#dialogDeviceEditStateConstant').modal('open');
-				$('#dialogDeviceEditStateConstant').css('z-index', modalZIndexCount++);
-				$('#dialogDeviceEditStateConstant .modal-content').scrollTop(0);
 			}
 		});
 	}
@@ -5936,52 +5985,40 @@ async function load(settings, onChange) {
 		});
 		//ImagePopup
 		$('.thumbnail').on('click', function(){
-			initDialog('dialogImagePopup', function(){});
-			var imageLink = $(this).attr('src');
-			//Check, if images is used
-			var imageName = $(this).data('filepath');
-			var imageUsedIn = [];
-			views.forEach(function(view){
-				if (typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + " " + _("as backgroundimage"));
-				view.devices.forEach(function(device){
-					if ((typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/") == imageName) || (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/") == imageName)) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as backgroundimage"));
-					if (device.options) device.options.forEach(function(option){
-						if (option.type == "icon" && option.value.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as icon"));
+			var that = this;
+			initDialog('dialogImagePopup', function(){}, function(){ //init dialog function 
+				var imageLink = $(that).attr('src');
+				//Check, if images is used
+				var imageName = $(that).data('filepath');
+				var imageUsedIn = [];
+				views.forEach(function(view){
+					if (typeof view.nativeBackgroundImage != udef && view.nativeBackgroundImage.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + " " + _("as backgroundimage"));
+					view.devices.forEach(function(device){
+						if ((typeof device.nativeBackgroundImage != udef && device.nativeBackgroundImage.replace(/\\/g, "/") == imageName) || (typeof device.nativeBackgroundImageActive != udef && device.nativeBackgroundImageActive.replace(/\\/g, "/") == imageName)) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as backgroundimage"));
+						if (device.options) device.options.forEach(function(option){
+							if (option.type == "icon" && option.value.replace(/\\/g, "/") == imageName) imageUsedIn.push(_("View") + ": " + view.commonName + ", " + _("Device") + ": " + device.commonName + " " + _("as icon"));
+						});
 					});
 				});
+				$("#dialogImagePopupImageName").text(imageLink);
+				$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>");
+				if (imageUsedIn.length > 0){
+					$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is used in:") + "</p><ul><li>" + imageUsedIn.join("</li><li>") + "</ul>");
+				} else {
+					$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is not used at the moment") + "</p>");
+				}
 			});
-			$("#dialogImagePopupImageName").text(imageLink);
-			$("#dialogImagePopupImage").html("<img src='" + imageLink + "' style='max-width:80vw; max-height:80vh;'>");
-			if (imageUsedIn.length > 0){
-				$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is used in:") + "</p><ul><li>" + imageUsedIn.join("</li><li>") + "</ul>");
-			} else {
-				$("#dialogImagePopupImageDescription").html("<p>" + _("In this instance this image is not used at the moment") + "</p>");
-			}
-			$("#dialogImagePopup").modal('open');
-			$("#dialogImagePopup").css('z-index', modalZIndexCount++);
-			$('#dialogImagePopup .modal-content').scrollTop(0);
 
 		});
 		//CodeEditor
 		$('.code').on('click', function(){
-			initDialog('dialogCodeEditor', function(){});
-			var fileName = $(this).data('filename');
-			$("#dialogCodeEditorFileName").text(fileName);
-			$("#dialogCodeEditorFileType").text($(this).data('filetype'));
-			dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
-			dialogCodeEditorCodeMirror.setValue("");
-			dialogCodeEditorCodeMirrorChanged = false;
-			$('#dialogCodeEditor .btn-set').addClass('disabled');
-			dialogCodeEditorCodeMirror.execCommand('goDocStart');
-			dialogCodeEditorCodeMirror.refresh();
-			setTimeout(function(){
-				dialogCodeEditorCodeMirror.refresh();
-			}, 250);
-			$("#dialogCodeEditor").modal('open');
-			$("#dialogCodeEditor").css('z-index', modalZIndexCount++);
-			downloadFileAsString(fileName, userfilesImagePath, function(string){
+			var that = this;
+			initDialog('dialogCodeEditor', function(){}, function(){ //init dialog function 
+				var fileName = $(that).data('filename');
+				$("#dialogCodeEditorFileName").text(fileName);
+				$("#dialogCodeEditorFileType").text($(that).data('filetype'));
 				dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
-				dialogCodeEditorCodeMirror.setValue(string);
+				dialogCodeEditorCodeMirror.setValue("");
 				dialogCodeEditorCodeMirrorChanged = false;
 				$('#dialogCodeEditor .btn-set').addClass('disabled');
 				dialogCodeEditorCodeMirror.execCommand('goDocStart');
@@ -5989,6 +6026,18 @@ async function load(settings, onChange) {
 				setTimeout(function(){
 					dialogCodeEditorCodeMirror.refresh();
 				}, 250);
+				//$("#dialogCodeEditor").modal('open');
+				downloadFileAsString(fileName, userfilesImagePath, function(string){
+					dialogCodeEditorCodeMirror.setOption("mode", $("#dialogCodeEditorFileType").text());
+					dialogCodeEditorCodeMirror.setValue(string);
+					dialogCodeEditorCodeMirrorChanged = false;
+					$('#dialogCodeEditor .btn-set').addClass('disabled');
+					dialogCodeEditorCodeMirror.execCommand('goDocStart');
+					dialogCodeEditorCodeMirror.refresh();
+					setTimeout(function(){
+						dialogCodeEditorCodeMirror.refresh();
+					}, 250);
+				});
 			});
 		});
 		imagesSelectedDirFilterList();
@@ -6161,6 +6210,7 @@ async function load(settings, onChange) {
 	});	
 	$('#listsAddDefaultDropdownTrigger').dropdown();
 	$('.istsAddDefaultDropdownItem').on('click', function(){
+		var that = this;
 		initDialog('dialogListsAddDefault', function(){ //save dialog
 			let index = $('#dialogListsAddDefault').data('index');
 			lists = lists.concat(defaultLists[index].lists);
@@ -6169,27 +6219,25 @@ async function load(settings, onChange) {
 			loadLists();
 			alert(_("Settings imported."));
 			if(listsCheckUnallowed()) alert(_("Names of lists must be unique. However, importing has created duplicates. Please check the settings!"));
+		}, function(){ //init dialog function 
+			let index = $(that).data('index');
+			$('#dialogListsAddDefault').data('index', index);
+			$('#dialogListsAddDefaultName').html(defaultLists[index].name);
+			$('#dialogListsAddDefaultDescription').html(defaultLists[index].description);
+			$('#dialogListsAddDefaultLists').html("");
+			if (defaultLists[index].lists.length) defaultLists[index].lists.forEach(function(defaultList){
+				$('#dialogListsAddDefaultLists').append("<li>" + defaultList.name + "</li>");
+			});
+			$('#dialogListsAddDefaultWidgets').html("");
+			if (defaultLists[index].devices.length) defaultLists[index].devices.forEach(function(defaultDevice){
+				$('#dialogListsAddDefaultWidgets').append("<li>" + defaultDevice.commonName + "</li>");
+			});
+			$('#dialogListsAddDefaultWidgetsDestinationView').html("");
+			if (views.length) views.forEach(function(view, index){
+				$('#dialogListsAddDefaultWidgetsDestinationView').append("<option value='" + index + "'>" + view.commonName + "</option>");
+			});
+			$('#dialogListsAddDefaultWidgetsDestinationView').select();
 		});
-		let index = $(this).data('index');
-		$('#dialogListsAddDefault').data('index', index);
-		$('#dialogListsAddDefaultName').html(defaultLists[index].name);
-		$('#dialogListsAddDefaultDescription').html(defaultLists[index].description);
-		$('#dialogListsAddDefaultLists').html("");
-		if (defaultLists[index].lists.length) defaultLists[index].lists.forEach(function(defaultList){
-			$('#dialogListsAddDefaultLists').append("<li>" + defaultList.name + "</li>");
-		});
-		$('#dialogListsAddDefaultWidgets').html("");
-		if (defaultLists[index].devices.length) defaultLists[index].devices.forEach(function(defaultDevice){
-			$('#dialogListsAddDefaultWidgets').append("<li>" + defaultDevice.commonName + "</li>");
-		});
-		$('#dialogListsAddDefaultWidgetsDestinationView').html("");
-		if (views.length) views.forEach(function(view, index){
-			$('#dialogListsAddDefaultWidgetsDestinationView').append("<option value='" + index + "'>" + view.commonName + "</option>");
-		});
-		$('#dialogListsAddDefaultWidgetsDestinationView').select();
-		$('#dialogListsAddDefault').modal('open');
-		$('#dialogListsAddDefault').css('z-index', modalZIndexCount++);
-		$('#dialogListsAddDefault .modal-content').scrollTop(0);
 	});
 	
 	//Enhance tableLists with functions
@@ -6226,30 +6274,28 @@ async function load(settings, onChange) {
 						lists[listIndex].logs = dialogListEditLogs;
 						onTableListsReady();
 						onChange();
+					}, function(){ //init dialog function 
+						$('#dialogListEditName').html(lists[listIndex].name || "");
+						$('#dialogListEditListIndex').val(listIndex);
+						dialogListEditSelectors = JSON.parse(JSON.stringify(lists[listIndex].selectors || []));
+						values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
+						$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
+						$('#dialogListEditSorting').val(lists[listIndex].sorting || "parentNames asc").select();
+						$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
+						$('#dialogListEditCreateNamesList').prop('checked', (lists[listIndex].createNamesList == true));
+						$('#dialogListEditCreateParentNamesList').prop('checked', (lists[listIndex].createParentNamesList == true));
+						$('#dialogListEditCreateParentNamesListMode').val(lists[listIndex].createParentNamesListMode || "parentName").select();
+						$('#dialogListEditCreateValuesList').prop('checked', (lists[listIndex].createValuesList == true));
+						dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
+						values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
+						$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");
+						dialogListEditCalculations = JSON.parse(JSON.stringify(lists[listIndex].calculations || []));
+						values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
+						dialogListEditCombinations = JSON.parse(JSON.stringify(lists[listIndex].combinations || []));
+						values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
+						dialogListEditLogs = JSON.parse(JSON.stringify(lists[listIndex].logs || []));
+						values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
 					});
-					$('#dialogListEditName').html(lists[listIndex].name || "");
-					$('#dialogListEditListIndex').val(listIndex);
-					dialogListEditSelectors = JSON.parse(JSON.stringify(lists[listIndex].selectors || []));
-					values2table('tableDialogListEditSelectors', dialogListEditSelectors, onChange, onTableDialogListsEditSelectorsReady);
-					$('#dialogListEditListFilterAliases').prop('checked', (lists[listIndex].filterAliases == true));
-					$('#dialogListEditSorting').val(lists[listIndex].sorting || "parentNames asc").select();
-					$('#dialogListEditListSeparator').val(lists[listIndex].separator || ", ");
-					$('#dialogListEditCreateNamesList').prop('checked', (lists[listIndex].createNamesList == true));
-					$('#dialogListEditCreateParentNamesList').prop('checked', (lists[listIndex].createParentNamesList == true));
-					$('#dialogListEditCreateParentNamesListMode').val(lists[listIndex].createParentNamesListMode || "parentName").select();
-					$('#dialogListEditCreateValuesList').prop('checked', (lists[listIndex].createValuesList == true));
-					dialogListEditCounters = JSON.parse(JSON.stringify(lists[listIndex].counters || []));
-					values2table('tableDialogListEditCounters', dialogListEditCounters, onChange, onTableDialogListsEditCountersReady);
-					$('#dialogListEditListTriggerIntervall').val(lists[listIndex].triggerInterval || "");
-					dialogListEditCalculations = JSON.parse(JSON.stringify(lists[listIndex].calculations || []));
-					values2table('tableDialogListEditCalculations', dialogListEditCalculations, onChange, onTableDialogListsEditCalculationsReady);
-					dialogListEditCombinations = JSON.parse(JSON.stringify(lists[listIndex].combinations || []));
-					values2table('tableDialogListEditCombinations', dialogListEditCombinations, onChange, onTableDialogListsEditCombinationsReady);
-					dialogListEditLogs = JSON.parse(JSON.stringify(lists[listIndex].logs || []));
-					values2table('tableDialogListEditLogs', dialogListEditLogs, onChange, onTableDialogListsEditLogsReady);
-					$('#dialogListEdit').modal('open');
-					$('#dialogListEdit').css('z-index', modalZIndexCount++);
-					$('#dialogListEdit .modal-content').scrollTop(0);
 				});
 			}
 			//Copy List
@@ -6494,14 +6540,12 @@ async function load(settings, onChange) {
 						var counterIndex = $('#dialogListEditCounterIndex').val();
 						dialogListEditCounters[counterIndex].conditions = dialogListEditCounterConditions;
 						onTableDialogListsEditCountersReady();
+					}, function(){ //init dialog function 
+						$('#dialogListEditCounterName').html(dialogListEditCounters[counterIndex].name || "");
+						$('#dialogListEditCounterIndex').val(counterIndex);
+						dialogListEditCounterConditions = JSON.parse(JSON.stringify(dialogListEditCounters[counterIndex].conditions || []));
+						values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
 					});
-					$('#dialogListEditCounterName').html(dialogListEditCounters[counterIndex].name || "");
-					$('#dialogListEditCounterIndex').val(counterIndex);
-					dialogListEditCounterConditions = JSON.parse(JSON.stringify(dialogListEditCounters[counterIndex].conditions || []));
-					values2table('tableDialogListEditCounterConditions', dialogListEditCounterConditions, onChange, onTableDialogListsEditCounterConditionsReady);
-					$('#dialogListEditCounter').modal('open');
-					$('#dialogListEditCounter').css('z-index', modalZIndexCount++);
-					$('#dialogListEditCounter .modal-content').scrollTop(0);
 				});
 			}
 			//Drag-Icon
@@ -6620,14 +6664,12 @@ async function load(settings, onChange) {
 						var calculationIndex = $('#dialogListEditCalculationIndex').val();
 						dialogListEditCalculations[calculationIndex].calculationSteps = dialogListEditCalculationSteps;
 						onTableDialogListsEditCalculationsReady();
+					}, function(){ //init dialog function 
+						$('#dialogListEditCalculationName').html(dialogListEditCalculations[calculationIndex].name || "");
+						$('#dialogListEditCalculationIndex').val(calculationIndex);
+						dialogListEditCalculationSteps = JSON.parse(JSON.stringify(dialogListEditCalculations[calculationIndex].calculationSteps || []));
+						values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
 					});
-					$('#dialogListEditCalculationName').html(dialogListEditCalculations[calculationIndex].name || "");
-					$('#dialogListEditCalculationIndex').val(calculationIndex);
-					dialogListEditCalculationSteps = JSON.parse(JSON.stringify(dialogListEditCalculations[calculationIndex].calculationSteps || []));
-					values2table('tableDialogListEditCalculationSteps', dialogListEditCalculationSteps, onChange, onTableDialogListsEditCalculationStepsReady);
-					$('#dialogListEditCalculation').modal('open');
-					$('#dialogListEditCalculation').css('z-index', modalZIndexCount++);
-					$('#dialogListEditCalculation .modal-content').scrollTop(0);
 				});
 			}
 			//Drag-Icon
@@ -6756,14 +6798,12 @@ async function load(settings, onChange) {
 						var combinationIndex = $('#dialogListEditCombinationIndex').val();
 						dialogListEditCombinations[combinationIndex].combinationSteps = dialogListEditCombinationSteps;
 						onTableDialogListsEditCombinationsReady();
+					}, function(){ //init dialog function 
+						$('#dialogListEditCombinationName').html(dialogListEditCombinations[combinationIndex].name || "");
+						$('#dialogListEditCombinationIndex').val(combinationIndex);
+						dialogListEditCombinationSteps = JSON.parse(JSON.stringify(dialogListEditCombinations[combinationIndex].combinationSteps || []));
+						values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
 					});
-					$('#dialogListEditCombinationName').html(dialogListEditCombinations[combinationIndex].name || "");
-					$('#dialogListEditCombinationIndex').val(combinationIndex);
-					dialogListEditCombinationSteps = JSON.parse(JSON.stringify(dialogListEditCombinations[combinationIndex].combinationSteps || []));
-					values2table('tableDialogListEditCombinationSteps', dialogListEditCombinationSteps, onChange, onTableDialogListsEditCombinationStepsReady);
-					$('#dialogListEditCombination').modal('open');
-					$('#dialogListEditCombination').css('z-index', modalZIndexCount++);
-					$('#dialogListEditCombination .modal-content').scrollTop(0);
 				});
 			}
 			//Drag-Icon
@@ -6897,7 +6937,7 @@ async function load(settings, onChange) {
 						dialogListEditLogs[logIndex].onChangeAddAllLogStepIds = $('#dialogListEditOnChangeAddAllLogStepIds').prop('checked');
 						dialogListEditLogs[logIndex].addTo = $('#dialogListEditLogAddTo').val();
 						onTableDialogListsEditLogsReady();
-					});
+					}, function(){ //init dialog function 
 					$('#dialogListEditLogName').html(dialogListEditLogs[logIndex].name || "");
 					$('#dialogListEditLogIndex').val(logIndex);
 					dialogListEditLogOnChangeIds = JSON.parse(JSON.stringify(dialogListEditLogs[logIndex].onChangeIds || []));
@@ -6907,9 +6947,7 @@ async function load(settings, onChange) {
 					values2table('tableDialogListEditLogSteps', dialogListEditLogSteps, onChange, onTableDialogListsEditLogStepsReady);
 					$('#dialogListEditOnChangeAddAllLogStepIds').prop('checked', (dialogListEditLogs[logIndex].onChangeAddAllLogStepIds == true));
 					$('#dialogListEditLogAddTo').val(dialogListEditLogs[logIndex].addTo || "top").select();
-					$('#dialogListEditLog').modal('open');
-					$('#dialogListEditLog').css('z-index', modalZIndexCount++);
-					$('#dialogListEditLog .modal-content').scrollTop(0);
+					});
 				});
 			}
 			//Drag-Icon
@@ -7213,18 +7251,19 @@ async function load(settings, onChange) {
 				if ($(this).prop('checked')) listsToExport.push(lists[$(this).data('index')]);
 			});
 			saveStringAsLocalFile(JSON.stringify(listsToExport), "charset=utf-8", "text/json", "lists.json", true);
-		});
-		//Add lists to export list
-		$('#dialogListsExportListsList').html("");
-		lists.forEach(function(list, index){
-			$('#dialogListsExportListsList').append("<label><input class='dialogListsExportListsListListitem' type='checkbox'" + "' data-index='" + index + "'><span style='height: auto;'><b>" + list.name + "</b></span></label><br>");
-		});
-		$('.dialogListsExportListsListListitem').on('change', function(){
-			var oneChecked = false;
-			$('.dialogListsExportListsListListitem').each(function(){
-				if ($(this).prop('checked')) oneChecked = true;					
+		}, function(){ //init dialog function 
+			//Add lists to export list
+			$('#dialogListsExportListsList').html("");
+			lists.forEach(function(list, index){
+				$('#dialogListsExportListsList').append("<label><input class='dialogListsExportListsListListitem' type='checkbox'" + "' data-index='" + index + "'><span style='height: auto;'><b>" + list.name + "</b></span></label><br>");
 			});
-			if (oneChecked) $('#dialogListsExport .btn-set').removeClass('disabled'); else $('#dialogListsExport .btn-set').addClass('disabled');
+			$('.dialogListsExportListsListListitem').on('change', function(){
+				var oneChecked = false;
+				$('.dialogListsExportListsListListitem').each(function(){
+					if ($(this).prop('checked')) oneChecked = true;					
+				});
+				if (oneChecked) $('#dialogListsExport .btn-set').removeClass('disabled'); else $('#dialogListsExport .btn-set').addClass('disabled');
+			});
 		});
 		$('#dialogListsExport').modal('open');
 		$('#dialogListsExport').css('z-index', modalZIndexCount++);
@@ -7488,12 +7527,11 @@ async function load(settings, onChange) {
 
 	//Add function to showChanges-Buttons
 	$('.optionsChangeDeviceOptionsShowChanges').on('click', function(){
-		initDialog('dialogGeneric');
-		$('#dialogGenericTitle').html(_("Matches") + ":");
-		$('#dialogGenericContent').html($(this).data('changes-list'));
-		$('#dialogGeneric').modal('open');
-		$('#dialogGeneric').css('z-index', modalZIndexCount++);	
-		$('#dialogGeneric .modal-content').scrollTop(0);
+		var that = this;
+		initDialog('dialogGeneric', function(){}, function(){ //init dialog function 
+			$('#dialogGenericTitle').html(_("Matches") + ":");
+			$('#dialogGenericContent').html($(that).data('changes-list'));
+		});
 	});
 
 	//ChangeDeviceOptionsIcons
@@ -7957,18 +7995,16 @@ async function load(settings, onChange) {
 				}
 				return false;
 			}
+		}, function(){ //init dialog function 
+			$('#dialogOptionsLayoutDefaultIconsPresetChangePresetName').html(iconPresets[presetNumber].name);
+			$('#dialogOptionsLayoutDefaultIconsPresetChangePresetDescription').html(iconPresets[presetNumber].description);
+			$('#dialogOptionsLayoutDefaultIconsPresetChangeList').empty();
+			for(iconEquivalent in iconPresets[presetNumber].iconEquivalents){
+				if (iconPresets[presetNumber].iconEquivalents[iconEquivalent].length) $('#dialogOptionsLayoutDefaultIconsPresetChangeList').append("<p><label><input class='dialogOptionsLayoutDefaultIconsPresetChangeListItem' type='checkbox' checked='checked' data-iconEquivalent='" + iconEquivalent + "' data-iconsrc='" + iconPresets[presetNumber].iconEquivalents[iconEquivalent][0] + "'><span>" + iconEquivalent + ":&nbsp;<img src='" + previewLink + "/" + iconPresets[presetNumber].iconEquivalents[iconEquivalent][0] + "' style='width:24px; height:24px;'></span></label></p>");
+			};
+			$('#dialogOptionsLayoutDefaultIconsPresetChangeDefaultIcons').prop('checked', 'checked');
+			$('#dialogOptionsLayoutDefaultIconsPresetChangeIconOptions').prop('checked', 'checked');
 		});
-		$('#dialogOptionsLayoutDefaultIconsPresetChangePresetName').html(iconPresets[presetNumber].name);
-		$('#dialogOptionsLayoutDefaultIconsPresetChangePresetDescription').html(iconPresets[presetNumber].description);
-		$('#dialogOptionsLayoutDefaultIconsPresetChangeList').empty();
-		for(iconEquivalent in iconPresets[presetNumber].iconEquivalents){
-			if (iconPresets[presetNumber].iconEquivalents[iconEquivalent].length) $('#dialogOptionsLayoutDefaultIconsPresetChangeList').append("<p><label><input class='dialogOptionsLayoutDefaultIconsPresetChangeListItem' type='checkbox' checked='checked' data-iconEquivalent='" + iconEquivalent + "' data-iconsrc='" + iconPresets[presetNumber].iconEquivalents[iconEquivalent][0] + "'><span>" + iconEquivalent + ":&nbsp;<img src='" + previewLink + "/" + iconPresets[presetNumber].iconEquivalents[iconEquivalent][0] + "' style='width:24px; height:24px;'></span></label></p>");
-		};
-		$('#dialogOptionsLayoutDefaultIconsPresetChangeDefaultIcons').prop('checked', 'checked');
-		$('#dialogOptionsLayoutDefaultIconsPresetChangeIconOptions').prop('checked', 'checked');
-		$("#dialogOptionsLayoutDefaultIconsPresetChange").modal('open');
-		$("#dialogOptionsLayoutDefaultIconsPresetChange").css('z-index', modalZIndexCount++);
-		$('#dialogOptionsLayoutDefaultIconsPresetChange .modal-content').scrollTop(0);
 		$('#optionsLayoutDefaultIconsPreset').val("");
 	})
 	
@@ -8390,15 +8426,13 @@ async function load(settings, onChange) {
 							}
 						});
 					}
+				}, function(){ //init dialog function 
+					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
+					$('#dialogOptionsBackupRestoreImportCustomsList').empty();
+					resultObj.forEach(function(custom, index){
+						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
+					});
 				});
-				$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj)
-				$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-				resultObj.forEach(function(custom, index){
-					$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
-				});
-				$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
-				$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
-				$('#dialogOptionsBackupRestoreImportCustoms .modal-content').scrollTop(0);
 			} else {
 				alert(_("Error: Invalid data."));
 			}
@@ -8529,15 +8563,13 @@ async function load(settings, onChange) {
 								}
 							});
 						}
+					}, function(){ //init dialog function 
+						$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
+						$('#dialogOptionsBackupRestoreImportCustomsList').empty();
+						resultObj.customs.forEach(function(custom, index){
+							$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
+						});
 					});
-					$("#dialogOptionsBackupRestoreImportCustoms").data('customs', resultObj.customs)
-					$('#dialogOptionsBackupRestoreImportCustomsList').empty();
-					resultObj.customs.forEach(function(custom, index){
-						$('#dialogOptionsBackupRestoreImportCustomsList').append("<p><label><input class='dialogOptionsBackupRestoreImportCustomsListItem' type='checkbox' checked='checked' data-index='" + index + "'><span>" + custom.id + "</span></label></p>");
-					});
-					$("#dialogOptionsBackupRestoreImportCustoms").modal('open');
-					$("#dialogOptionsBackupRestoreImportCustoms").css('z-index', modalZIndexCount++);
-					$('#dialogOptionsBackupRestoreImportCustoms .modal-content').scrollTop(0);
 				}
 			} else {
 				alert(_("Error: Invalid data."));

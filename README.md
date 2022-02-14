@@ -1677,6 +1677,9 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) Abort button now works in preview mode.
+
 ### 2.0.0-rc2.0 (2022-02-12)
 * (sbormann) Fixed counting of logs.
 * (sbormann) Lists are now saved as readonly and with ack=true.
