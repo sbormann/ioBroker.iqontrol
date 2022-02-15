@@ -1802,31 +1802,35 @@ function initDialog(id, saveCallback, initFunction) {
 			let $dialog = $('#' + $(this).data('dialogid'));
 			let renderView = $(this).data('preview-render-view');
 			let openDialog = $(this).data('preview-open-dialog');
-			saveFromDialogAndPreview(false, true, renderView, openDialog);
+			saveFromDialogAndPreview(false, true, true, renderView, openDialog);
 			$dialog.find('.btn-close').data('abort-callback-necessary', true);
 		});
 		$dialog.find('.btn-close').on('click', function () {
 			let $dialog = $('#' + $(this).data('dialogid'));
 			if ($dialog.find('.btn-close').data('abort-callback-necessary')){
 				console.log("Abort callback: Restore subsettings and rebuild all open dialogs");
-				//Restore subsettings
-				let abortSettings = $dialog.data('abort-settings');
-				if (abortSettings){ 
-					toolbar = abortSettings.toolbar;
-					views = abortSettings.views;
-					lists = abortSettings.lists;
-					optionsLayoutDefaultIcons = abortSettings.optionsLayoutDefaultIcons;
-					optionsLayoutDefaultSymbols = abortSettings.optionsLayoutDefaultSymbols;
-				}
-				//Rebuild all open dialogs
-				$('.open').sort(function(a,b){ 
-					return a.style.zIndex < b.style.zIndex; 
-				}).each(function(){
-					if ($(this) != $dialog){
-						let initFunction = $(this).data('init-function');
-						if (typeof initFunction === 'function') initFunction();
+				$dialog.modal('close');
+				setTimeout(function(){
+					//Restore subsettings
+					let abortSettings = $dialog.data('abort-settings');
+					if (abortSettings){ 
+						toolbar = abortSettings.toolbar;
+						views = abortSettings.views;
+						lists = abortSettings.lists;
+						optionsLayoutDefaultIcons = abortSettings.optionsLayoutDefaultIcons;
+						optionsLayoutDefaultSymbols = abortSettings.optionsLayoutDefaultSymbols;
 					}
-				});
+					//Rebuild all open dialogs
+					$('.open').sort(function(a,b){ 
+						return a.style.zIndex < b.style.zIndex; 
+					}).each(function(){
+						if ($(this) != $dialog){
+							let initFunction = $(this).data('init-function');
+							if (typeof initFunction === 'function') initFunction();
+						}
+					});
+					saveFromDialogAndPreview(false, true, false);
+				}, 75);
 			}
 		});
 	}
@@ -1853,7 +1857,7 @@ function initDialog(id, saveCallback, initFunction) {
 }
 
 //Save from dialog and Preview
-function saveFromDialogAndPreview(doSave, doPreview, renderView, openDialog){
+function saveFromDialogAndPreview(doSave, doPreview, focusPreview, renderView, openDialog){
 	$('.open').sort(function(a,b){ 
 		return a.style.zIndex > b.style.zIndex; 
 	}).each(function(){ 
@@ -1877,7 +1881,7 @@ function saveFromDialogAndPreview(doSave, doPreview, renderView, openDialog){
 			previewWindow = window.open(previewLink + "/index.html?mode=preview" + (renderView ? "&renderView=" + renderView : "") + (openDialog ? "&openDialog=" + openDialog : "") +  "&namespace=" + adapter + "." + instance, "preview");
 		} else {
 			previewWindow.postMessage({ command: "updatePreview", renderView: renderView, openDialog: openDialog}, "*");
-			previewWindow.focus();
+			if(focusPreview) previewWindow.focus();
 		}
 	}
 }
@@ -2853,8 +2857,8 @@ async function load(settings, onChange) {
 			console.log("Got Link: " + previewLink);
 			//Add and enhance preview buttons
 			$('.m .dialog-config-buttons .btn-save').before('<a class="btn btn-preview" style="margin: 0 -10px 0 10px;"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>');
-			$('.m .dialog-config-buttons .btn-preview').on('click', function(){ saveFromDialogAndPreview(false, true)});
-			$('img.mainLink').on('click', function(){ saveFromDialogAndPreview(false, true)}).css('cursor', 'pointer');
+			$('.m .dialog-config-buttons .btn-preview').on('click', function(){ saveFromDialogAndPreview(false, true, true)});
+			$('img.mainLink').on('click', function(){ saveFromDialogAndPreview(false, true, true)}).css('cursor', 'pointer');
 			$('a.mainLink').attr('href', previewLink + "/index.html?namespace=" + adapter + "." + instance);
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
