@@ -1677,7 +1677,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.0.0-rc2.2 (2022-02-15)
 * (sbormann) Minor enhancements and bugfixes.
 
 ### 2.0.0-rc2.1 (2022-02-14)
