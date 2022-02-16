@@ -5,9 +5,8 @@
 ![Stable version](http://iobroker.live/badges/iqontrol-stable.svg) 
 [![NPM version](http://img.shields.io/npm/v/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
-[![Dependency Status](https://img.shields.io/david/sbormann/iobroker.iqontrol.svg)](https://david-dm.org/sbormann/iobroker.iqontrol)
 [![Known Vulnerabilities](https://snyk.io/test/github/sbormann/ioBroker.iqontrol/badge.svg)](https://snyk.io/test/github/sbormann/ioBroker.iqontrol)
-[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/iqontrol/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
+<!-- [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/iqontrol/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget) -->
 
 
 [![NPM](https://nodei.co/npm/iobroker.iqontrol.png?downloads=true)](https://nodei.co/npm/iobroker.iqontrol/)
@@ -54,6 +53,10 @@ Easy to setup, allthough it's fully customizable and responsive.
 You can save it as Web-App on Homescreen and it looks and feels like a native app:
 ![Add to Homescreeen](img/add_to_homescreen.png)
 
+This also works on your PC with Chrome:
+* Open iQontrol in Chrome
+* Klick on the three-dots-menu - More tools - Create shortcut
+* You will then find iQontrol in the startmenu under chrome apps and can even add it to your taskbar
 
 ## You need...
 * Nodejs 10 or higher
