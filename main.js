@@ -882,7 +882,7 @@ class Iqontrol extends utils.Adapter {
 										break;
 
 										case "tss":
-										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].lc || 0))/1000;
+										value = (new Date() - (usedStates[_listItems[_listItemIndex]] && usedStates[_listItems[_listItemIndex]].ts || 0))/1000;
 										counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 										break;
 
@@ -906,6 +906,27 @@ class Iqontrol extends utils.Adapter {
 										}
 										break;
 
+										case "lcsAlive":
+										if (_listItems[_listItemIndex].indexOf("system.adapter." == 0) && _listItems[_listItemIndex].split('.').length >= 4) {
+											let id = _listItems[_listItemIndex].split('.');
+											id = id.splice(0, 4).join('.') + ".alive";
+											if(!usedStates[id]){
+												try {
+													usedStates[id] = await that.getForeignStateAsync(id);
+												} catch {
+													usedStates[id] = emptyState;
+												}
+											}
+											value = (new Date() - (usedStates[id] && usedStates[id].lc || 0))/1000;
+											counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
+											if (lists[_listIndex].counterAdditionalTriggerItems.indexOf(id) == -1){
+												that.log.debug("...subscribing to additional counter trigger item of list " + listName + " " + counter.name + " (" + id + ")...");
+												that.subscribeForeignStates(id);
+												lists[_listIndex].counterAdditionalTriggerItems.push(id);
+											}
+										}
+										break;
+
 										case "connection":
 										if (_listItems[_listItemIndex].indexOf("system.adapter." == 0) && _listItems[_listItemIndex].split('.').length >= 4) {
 											let id = _listItems[_listItemIndex].split('.');
@@ -919,6 +940,28 @@ class Iqontrol extends utils.Adapter {
 												}
 											}
 											value = usedStates[id] && usedStates[id].val;
+											if (lists[_listIndex].counterAdditionalTriggerItems.indexOf(id) == -1){
+												that.log.debug("...subscribing to additional counter trigger item of list " + listName + " " + counter.name + " (" + id + ")...");
+												that.subscribeForeignStates(id);
+												lists[_listIndex].counterAdditionalTriggerItems.push(id);
+											}
+										}
+										break;
+										
+										case "lcsConnection":
+										if (_listItems[_listItemIndex].indexOf("system.adapter." == 0) && _listItems[_listItemIndex].split('.').length >= 4) {
+											let id = _listItems[_listItemIndex].split('.');
+											id.splice(0, 2);
+											id = id[0] + "." + id[1] + ".info.connection";
+											if(!usedStates[id]){
+												try {
+													usedStates[id] = await that.getForeignStateAsync(id);
+												} catch {
+													usedStates[id] = emptyState;
+												}
+											}
+											value = (new Date() - (usedStates[id] && usedStates[id].lc || 0))/1000;
+											counter.repeatTimeouts.push(counter.conditions[conditionIndex].value);
 											if (lists[_listIndex].counterAdditionalTriggerItems.indexOf(id) == -1){
 												that.log.debug("...subscribing to additional counter trigger item of list " + listName + " " + counter.name + " (" + id + ")...");
 												that.subscribeForeignStates(id);

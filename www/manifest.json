@@ -1,7 +1,6 @@
 {
     "name": "iQontrol",
     "short_name": "iQontrol",
-    "start_url": ".",
     "display": "standalone",
     "background_color": "#fff",
     "description": "Smarthome Control",

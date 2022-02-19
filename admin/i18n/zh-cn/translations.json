@@ -1094,6 +1094,8 @@
     "purple": "紫色",
     "red": "红",
     "right": "对",
+    "seconds from change of Alive": "从改变活着的秒数",
+    "seconds from change of Connection": "连接更改后的秒数",
     "seconds from lastchange": "距上次更改的秒数",
     "seconds from timestamp": "从时间戳开始的秒数",
     "see here": "看这里",

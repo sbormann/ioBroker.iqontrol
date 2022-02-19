@@ -2642,6 +2642,9 @@ async function load(settings, onChange) {
 		customCSS += ".m.react-dark .dialog-select-container .main-header-table, .m.react-dark .dialog-select-container .main-header-table tr, .m.react-dark .dialog-select-container .objects-list-table { background: #272727!important; }";
 		customCSS += ".m.react-dark .dropdown-content li.grey.lighten-3, .m.react-dark .dropdown-content li.selected, .m.react-dark .dropdown-content li:hover { background-color: #4c4c4c !important; }";
 		customCSS += ".m.react-dark .dropdown-content li.divider { background-color: #626262; }";
+
+		customCSS += ".m.react-dark .background_and_overlay { background-color: #272727; box-shadow: 0 0 9px 20px #272727; }";
+
 		addCustomCSS(customCSS, "reactCSS");
 		
 		$('.table-button-add').addClass('grey lighten-2');

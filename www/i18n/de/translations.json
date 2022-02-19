@@ -1388,6 +1388,8 @@
     "second": "Sekunde",
     "second(s)": "Sekunde(n)",
     "seconds": "Sek.",
+    "seconds from change of Alive": "Sekunden seit Änderung von Alive",
+    "seconds from change of Connection": "Sekunden seit Änderung von Connection",
     "seconds from lastchange": "Sekunden seit letzter Änderung",
     "seconds from timestamp": "Sekunden seit letztem Zeitstempel",
     "see here": "weitere Informationen",

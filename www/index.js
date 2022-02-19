@@ -3382,7 +3382,7 @@ function handleOptions(){
 		customCSS += "}";
 	};
 	if (options.LayoutToolbarBorderColor) {
-		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active), .iQontrolToolbarLink.ui-btn.ui-btn-active{";
+		customCSS += ".iQontrolToolbarLink.ui-btn:not(.ui-btn-active), .iQontrolToolbarLink.ui-btn.ui-btn-active, .iQontrolToolbarLink.ui-btn:not(.ui-btn-active):hover, .iQontrolToolbarLink.ui-btn.ui-btn-active:hover {";
 		customCSS += "	border-color: " + options.LayoutToolbarBorderColor + " !important;";
 		customCSS += "}";
 	};
