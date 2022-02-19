@@ -1680,8 +1680,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 2.0.0-rc3.0 (2022-02-19)
 * (sbormann) Added seconds from alive and seconds from connection to counter conditions of lists
 * (sbormann) Removed start_url from manifest.json to allow multiple instances as homescreen app
 
