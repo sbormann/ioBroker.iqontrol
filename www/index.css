@@ -1290,7 +1290,7 @@ html.noscroll body {
 }
 
 
-/* ++++++++++++++ ADJUST HEIGHT TO BACKGROUND VIEW ++++++++++++++ */
+/* ++++++++++++++ ADJUST HEIGHT ++++++++++++++ */
 html.adjustHeightToBackgroundView {
 	overflow-y: hidden !important;
 }
@@ -1300,16 +1300,23 @@ html.adjustHeightToBackgroundView {
 .adjustHeightToBackgroundView #ViewMainBottomSpacer {
 	display: none;
 }
-.iQontrolDeviceBackgroundIframeWrapper.adjustHeightToBackgroundView {
+.iQontrolDeviceBackgroundIframe.adjustHeight {
+	transition: none;
+}
+.iQontrolDeviceBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
+	max-height: 85vh; max-height: calc(100vh - 70px);
+}
+.iQontrolDeviceBackgroundIframeWrapper.adjustHeight {
+	height: unset !important;
 	position: relative !important;
 	left: -3px;
 	width: calc(100% + 6px);
 	top: -3px;
 	margin-bottom: -15px;
-	height: unset !important;
 	padding: 0;
+	transition: none;
 }
-.iQontrolDevice.adjustHeightToBackgroundView{
+.iQontrolDevice.adjustHeight{
 	height: unset !important;
 	min-height: unset !important;
 	max-height: unset !important;

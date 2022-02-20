@@ -48,6 +48,7 @@
 												rowsLimit//Load only this number of rows (0 = no limit)/number/0,1000,1;
 												rowsLimitLoadMore/true/Show 'Load more' button/checkbox;
 												rowsLimitLoadMoreCaption/.../Caption of 'Load more' Button/text;
+												adjustHeight/false/Adjust height of widget to table size (must be allowed in device options)/checkbox;
 												///divider;
 												headHide/false/Hide Head of table/checkbox;
 												scrollbarHide/false/Hide Scrollbar (may not work in all browsers)/checkbox;
@@ -120,6 +121,7 @@
 												'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 
 												'bigIconEnlarged': 'true', 
 												'popupAllowPostMessage': 'true', 
+												'backgroundURLAllowAdjustHeight': 'true',
 												'backgroundURLAllowPostMessage': 'true', 
 												'backgroundURLNoPointerEvents': 'false', 
 												'tileEnlargeShowButtonInactive': 'true', 
@@ -218,7 +220,7 @@
 </head>
 <body style="width: 100%; height: 100%; margin: 0; overflow: auto;">
 	<div data-role="page" id="jsonTablePage">
-		<div data-role="content">
+		<div data-role="content" id="jsonTableContent">
 			<div id="heading" style="display: none;"></div>
 			<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
 			<div id="loadMoreButtonContainer" style="display: none; padding: 0px; margin: -7px -10px -5px -10px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton" style="height: 1.3em;">...</a></div>
@@ -230,6 +232,7 @@
 		var STATE;
 		var LEVEL;
 		var options;
+		var tableCreated = false;
 		var lastColsSortedAndFilteredStringified;
 		var breakpointsCount = -1;
 		var datapointRegex = new RegExp('.*\\.[0-9]+\\..*');
@@ -541,6 +544,7 @@
 		var rowsLimit = parseInt(getUrlParameter("rowsLimit") || "0") || 0;
 		var rowsLimitLoadMore = !(getUrlParameter("rowsLimitLoadMore") == "false");
 		var rowsLimitLoadMoreCaption = getUrlParameter("rowsLimitLoadMoreCaption") || "...";
+		var adjustHeight = getUrlParameter("adjustHeight") == "true";
 		var headHide = getUrlParameter("headHide") == "true";
 		var headHideColumntoggleButton = getUrlParameter("headHideColumntoggleButton") == "true";
 		var scrollbarHide = getUrlParameter("scrollbarHide") == "true";
@@ -663,13 +667,45 @@
 			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
 			//Enhance loadMoreButton
 			$('#loadMoreButton').on('click', function(){
+				let oldRowsLimit = rowsLimit;
 				rowsLimit += (parseInt(getUrlParameter("rowsLimit") || "0") || 0);
 				console.log("New rowsLimit: " + rowsLimit);
-				$('#jsonTable tbody tr:nth-child(-n+' + rowsLimit + ')').slideDown(500);
+				//$('#jsonTable tbody tr:nth-child(-n+' + rowsLimit + ')').slideDown(500);
+				$('#jsonTable tbody tr:nth-child(n+' + (oldRowsLimit + 1) + '):nth-child(-n+' + rowsLimit + ')').css('display','').children('td, th').wrapInner('<div />').children().css('display','none').slideDown(100);
 				if(dataObject.length <= rowsLimit){
 					$('#loadMoreButtonContainer').hide(500);
 				}				
 			});
+
+			//Adjust height
+			if(adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
+				console.log("Starting table resize observer to adjust height");
+				var tabeResizeObserver;
+				var tabeResizeObserverTimeout = false;
+				var tableResizeObserverOldHeight = 0;
+				if (tabeResizeObserver){
+					tabeResizeObserver.disconnect();
+				} else {
+					tabeResizeObserver = new MutationObserver(function(mutationList){
+						mutationList.forEach(function(mutation){
+							if (mutation.attributeName === 'style' && !tabeResizeObserverTimeout && tableCreated){
+								let delay = 10;
+								if (tableResizeObserverOldHeight == 0) delay = 250;
+								tabeResizeObserverTimeout = setTimeout(function(){
+									console.log("adjustHeight to table");
+									var height = $('#jsonTableContent').innerHeight();
+									if (tableResizeObserverOldHeight != height){
+										window.parent.postMessage({ command: "adjustHeight" , value: height }, "*");
+									}
+									tableResizeObserverOldHeight = height;
+									tabeResizeObserverTimeout = false;
+								}, delay);
+							}
+						});
+					});
+				}
+				tabeResizeObserver.observe(document.querySelector('#jsonTableContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
+			}
 		});
 		
 		//Handle Options
@@ -706,6 +742,7 @@
 		
 		//Create Table
 		function createTable(){
+			tableCreated = false;
 			if (typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
 			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
@@ -944,6 +981,7 @@
 			}
 			//columnSort
 			columnSortTable();
+			tableCreated = true;
 		}
 		
 		//Update datapoint
@@ -1210,7 +1248,7 @@
 		function removeCustomCSS(customID){
 			customID = customID || "default";
 			$('.customCSS_' + customID).remove();
-		}		
+		}
 	</script>
 </body>
 </html>

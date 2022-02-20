@@ -1101,6 +1101,8 @@ var iQontrolRolesStandardOptions = {
 	}},
 	SECTION_BACKGROUND_VIEWURLHTML: {name: "BACKGROUND_VIEW/URL/HTML", type: "section", options: {
 		adjustHeightToBackgroundView: {name: "Adjust height of device tile to the size of BACKGROUND_VIEW", type: "checkbox", default: "false"},
+		backgroundURLAllowAdjustHeight: {name: "Allow widget in BACKGROUND_URL to adjust height of device tile", type: "checkbox", default: "false"},
+		backgroundLimitAdjustHeightToScreen: {name: "Limit adjustment of height to screen size", type: "checkbox", default: "false"},
 		backgroundURLDynamicIframeZoom: {name: "Dynamic zoom for BACKGROUND_VIEW/URL/HTML (this is the zoom-level in % that would be needed, to let the content fit into a single 1x1 tile)", type: "number", step: "0.01", min: "0", max: "200", default: ""},
 		backgroundURLPadding: {name: "Apply padding to BACKGROUND_VIEW/URL/HTML", type: "number", min: "0", max: "50", default: ""},
 		backgroundURLAllowPostMessage: {name: "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"},
@@ -1187,6 +1189,7 @@ var states = {}; 								//Contains all used and over the time changed States in
 var usedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
 var waitingForObject = {};						//Contains all IDs where actual tasks to retreive the object are running
 var fetchObjectBufferedCallbacks = {};			//Contains callbacks that are buffered, if fetchObject is called while already waiting for object
+var getPreviewConfigCallbacks = {};				//Contains callbacks that are buffered, if fetchConfig is called while in previewMode
 var preventUpdate = {};							//Contains timer-ids in the form of {ID:{timerId, stateId, deviceIdEscaped, newVal}}. When set, updating of the corresponding stateId is prevented. The contained timer-id is the id of the timer, that will set itself to null, after the time has expired.
 var reconnectedShortly = false;					//Contains timer-id if the socket has reconnected shortly. After a short while it is set fo false.
 
@@ -1552,7 +1555,6 @@ function fetchSystemConfig(callback){
 	});
 }
 
-var getPreviewConfigCallbacks = {};
 function fetchConfig(_namespace, callback, forceFetch){
 	if (typeof _namespace == "function") {
 		forceFetch = callback;
@@ -1585,6 +1587,7 @@ function fetchConfig(_namespace, callback, forceFetch){
 		if (callback) callback();
 	}
 }
+
 function createOptionsAndPanelObjectsFromConfig(){
 	console.log("* Creating options- and panel-objects");
 	for (var key in config[namespace]) {
@@ -4701,6 +4704,8 @@ function renderView(viewId, triggeredByReconnection){
 		//Change Background
 		if (actualView.nativeBackgroundImage) {
 			changeViewBackground(encodeURI(actualView.nativeBackgroundImage));
+		} else {
+			changeViewBackground();
 		}
 		//Render View
 		if (!triggeredByReconnection) {
@@ -5027,23 +5032,21 @@ function renderView(viewId, triggeredByReconnection){
 											var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
 											var paddingStyleString = (padding > 0 ? "style='margin: " + padding + "px; width: calc(100% - " + (2 * padding) + "px); min-height: calc(100% - " + (2 * padding) + "px);'" : "");
 											var dynamicIframeZoomLevel = parseFloat(getDeviceOptionValue(_device, "backgroundURLDynamicIframeZoom")) || 0;
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
+											var backgroundLimitAdjustHeightToScreen = (getDeviceOptionValue(_device, "backgroundLimitAdjustHeightToScreen") == "true");
+											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html("<iframe class='iQontrolDeviceBackgroundIframe" + (dynamicIframeZoomLevel > 0 ? " dynamicIframeZoom" : "") + (backgroundLimitAdjustHeightToScreen ? " limitAdjustHeightToScreen" : "") + "' id='iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped + "' data-iQontrol-Device-ID='" + _deviceIdEscaped + "'" + ((getDeviceOptionValue(_device, "backgroundURLAllowPostMessage") == "true") ? " data-allow-post-message='true'" : "") + paddingStyleString + (dynamicIframeZoomLevel > 0 ? " data-dynamic-iframe-zoom='" + dynamicIframeZoomLevel + "'" : "") + "></iframe>");
 										}
 										setTimeout(function(){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
 											if (stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") { //View
 												var adjustHeightToBackgroundView = (getDeviceOptionValue(_device, "adjustHeightToBackgroundView") == "true");
+												$(iframe).addClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
 												iframe.src = location.href.split('?')[0] + "?renderView=" + encodeURI(stateBackgroundView.val) + "&isBackgroundView=true&noToolbar=true" + (getUrlParameter("namespace") ? "&namespace=" + getUrlParameter("namespace") : "") + (adjustHeightToBackgroundView ? "&adjustHeightToBackgroundView=true" : "") + (bigMode ? "&bigModeEnabled=true" : "");
-												$(iframe).addClass('isBackgroundView');
-												if (adjustHeightToBackgroundView) {
-													$(iframe).addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeightToBackgroundView');
-												} else {
-													$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
-												}
 												var timeout = 2900;
 											} else { //URL
 												var url = stateBackgroundURL.val;
 												var widgetReplaceurl = getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurl');
+												var backgroundURLAllowAdjustHeight = (getDeviceOptionValue(_device, "backgroundURLAllowAdjustHeight") == "true");
+												$(iframe).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
 												if (widgetReplaceurl) {
 													if (getUrlParameterFromUrl(stateBackgroundURL.val, 'widgetReplaceurlAbsolute')) {
 														url = url.replace(url.split('?')[0], widgetReplaceurl);
@@ -5051,8 +5054,10 @@ function renderView(viewId, triggeredByReconnection){
 														url = url.replace(url.split('?')[0].substring(url.split('?')[0].lastIndexOf('/') + 1), widgetReplaceurl);														
 													}
 												}
+												if (backgroundURLAllowAdjustHeight) {
+													url = url + (url.split('?').length > 1 ? "&" : "?") + "allowAdjustHeight=true";
+												}
 												iframe.src = url;
-												$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
 												var timeout = 500;
 											}
 											if (iframe.onload == null) {
@@ -5075,7 +5080,7 @@ function renderView(viewId, triggeredByReconnection){
 										}
 										setTimeout(function(){
 											var iframe = document.getElementById("iQontrolDeviceBackgroundIframe_" + _deviceIdEscaped);
-											$(iframe).removeClass('isBackgroundView').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeightToBackgroundView').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeightToBackgroundView');
+											$(iframe).removeClass('isBackgroundView').parent('.iQontrolDeviceBackgroundIframeWrapper').removeClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').removeClass('adjustHeight');
 											var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 											iframedoc.open();
 											iframedoc.write(stateBackgroundHTML.valFull.replace(/\\n/g, String.fromCharCode(13)));
@@ -8103,12 +8108,16 @@ function openViewDeviceContextMenu(deviceIdEscaped, callingElement){
 }
 
 function changeViewBackground(url){
-	if (!url || url == "") url = "./images/background.png";
-	var isVideo = false;
-	var extention = url.substring(url.lastIndexOf('.'));
-	if (extention == ".avi" || extention == ".mov" || extention == ".mp4") isVideo = true;
-	$.backstretch({url: url, isVideo: isVideo, loop: true, mute: true}, {fade: 300});
-	$('body').addClass('backstretchLoaded');
+	if (!url || url == "") { 
+		$('body').removeClass('backstretchLoaded');
+		$.backstretch({url: "./images/icons/blank.png", isVideo: false, loop: true, mute: true}, {fade: 300});
+	} else {
+		var isVideo = false;
+		var extention = url.substring(url.lastIndexOf('.'));
+		if (extention == ".avi" || extention == ".mov" || extention == ".mp4") isVideo = true;
+		$.backstretch({url: url, isVideo: isVideo, loop: true, mute: true}, {fade: 300});
+		$('body').addClass('backstretchLoaded');
+	}
 }
 
 function viewSwipe(direction){
@@ -13337,26 +13346,28 @@ $(document).ready(function(){
 	if(isBackgroundView && adjustHeightToBackgroundView){
 		console.log("Starting ViewMain resize observer");
 		var viewContentResizeObserver;
+		var viewContentResizeObserverTimeout = false;
 		var viewContentResizeObserverOldHeight = 0;
 		if (viewContentResizeObserver){
 			viewContentResizeObserver.disconnect();
 		} else {
 			viewContentResizeObserver = new MutationObserver(function(mutationList){
 				mutationList.forEach(function(mutation){
-					if (mutation.attributeName === 'style'){
+					if (mutation.attributeName === 'style' && !viewContentResizeObserverTimeout){
 						var delay = 10;
 						if($('html').hasClass('adjustHeightToBackgroundViewInitial')){
 							console.log("adjustHeightToBackgroundView initially delayed");
 							delay = 500;
 						}
-						setTimeout(function(){
+						viewContentResizeObserverTimeout = setTimeout(function(){
 							console.log("adjustHeightToBackgroundView");
 							$('html').removeClass('adjustHeightToBackgroundViewInitial');
 							var height = $('#ViewMain').innerHeight();
 							if (viewContentResizeObserverOldHeight != height){
-								window.parent.postMessage({ command: "adjustHeightToBackgroundView" , value: (($('#ViewHeaderTitle').css('display') == 'none' ? 0 : 1) * $('#ViewHeaderTitle').outerHeight(true)) + ($('#ViewContent').innerHeight() * zoom) + 6 }, "*");
+								window.parent.postMessage({ command: "adjustHeight" , value: (($('#ViewHeaderTitle').css('display') == 'none' ? 0 : 1) * $('#ViewHeaderTitle').outerHeight(true)) + ($('#ViewContent').innerHeight() * zoom) + 6 }, "*");
 							}
 							viewContentResizeObserverOldHeight = height;
+							viewContentResizeObserverTimeout = false;
 						}, delay);
 					}
 				});
@@ -13573,12 +13584,24 @@ $(document).ready(function(){
 					}
 					break;
 
-					case "adjustHeightToBackgroundView":
+					case "adjustHeight":
 					if (event.data.value){
-						console.log("postMessage received: adjustHeightToBackgroundView " + event.data.value);
-						var deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
-						$("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe").css('height', event.data.value);
+						console.log("postMessage received: adjustHeight " + event.data.value);
+						let deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
+						let $iframe = $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe");
+						$iframe.addClass('adjustHeight').css('height', event.data.value).parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeight');
 						viewShuffleReshuffle(0, 100, 750, 1250, 1500, 2000, 2500, 3100);
+						let maxHeight = $iframe.css('max-height').replace('px', '') || "0";
+						if (maxHeight && maxHeight != null && !isNaN(maxHeight)) maxHeight = parseInt(maxHeight);
+						if (maxHeight && $iframe.innerHeight() > maxHeight - 100){
+							var scrollTop = $iframe.offset().top - 5;
+							if (Math.abs($('html,body').scrollTop() - scrollTop) < 150) {
+								console.log("adjustHeight exceeds limit - scroll to " + scrollTop);
+								$('html,body').stop(true, false).animate({
+									scrollTop: scrollTop
+								}, 1000);
+							}
+						}
 					}
 					break;
 				}
@@ -13612,9 +13635,6 @@ $(document).ready(function(){
 					if (event.data.openDialog) openDialogId = event.data.openDialog;
 					getStarted();
 				}
-//				if (configMode == "preview" && opener && !opener.closed){
-//					opener.postMessage({command : "getPreviewConfig", previewDestination: (event.data.previewDestination ? event.data.previewDestination : "")}, "*");
-//				}
 				break;
 				
 				case "getPreviewConfig":
@@ -13708,7 +13728,7 @@ $(document).ready(function(){
 		console.debug('[Socket] reauthenticate');
 	});
 	socket.on('error', function (e) {
-		console.error('[Socket] error: ' + e);;
+		console.error('[Socket] error: ' + e);
 	});
 	socket.on('connect_error', function (e) {
 		console.error('[Socket] connect error: ' + e);
