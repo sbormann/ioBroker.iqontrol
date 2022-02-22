@@ -13250,7 +13250,7 @@ function resizeFullWidthDevicesToFitScreen(){
 		customCSS += "	}";
 		customCSS += "}";
 		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * deviceMargin) - 20);
-		customCSS += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged, {";
+		customCSS += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {";
 		customCSS += "	height: " + (x) + "px !important; max-height: " + (x) + "px !important; min-height: " + (x) + "px !important;";
 		customCSS += "	padding-bottom: unset !important;";
 		customCSS += "}";
