@@ -2033,7 +2033,7 @@ html.adjustHeightToBackgroundView {
 	padding: 0px 0px 5px 0px;
 	transition: none;
 }
-.iQontrolDevice.adjustHeight{
+.iQontrolDevice.adjustHeight, .iQontrolDevice.active.adjustHeightIfActive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice:not(.active).adjustHeightIfInactive:not(.enlarged:not(adjustHeightIfEnlarged)), .iQontrolDevice.enlarged.adjustHeightIfEnlarged {
 	height: unset !important;
 	min-height: unset !important;
 	max-height: unset !important;
