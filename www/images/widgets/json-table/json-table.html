@@ -232,7 +232,6 @@
 		var STATE;
 		var LEVEL;
 		var options;
-		var tableCreated = false;
 		var lastColsSortedAndFilteredStringified;
 		var breakpointsCount = -1;
 		var datapointRegex = new RegExp('.*\\.[0-9]+\\..*');
@@ -659,12 +658,14 @@
 			if (fontSize) addCustomCSS('* { font-size: ' + fontSize + 'px !important;}', 'fontSize');
 			if (fontWeight) addCustomCSS('* { font-weight: ' + fontWeight + ' !important;}', 'fontWeight');
 			if (fontStyle) addCustomCSS('* { font-style: ' + fontStyle + ' !important;}', 'fontStyle');
+
 			//Subscribe to Datapoints
 			console.log("Subscribe to Datapoints");
 			sendPostMessage("getOptions");
 			if (getUrlParameter("useThisDatapoint")) sendPostMessage("getStateSubscribed", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
 			sendPostMessage("getWidgetDeviceStateSubscribed", "STATE");
 			sendPostMessage("getWidgetDeviceStateSubscribed", "LEVEL");
+
 			//Enhance loadMoreButton
 			$('#loadMoreButton').on('click', function(){
 				let oldRowsLimit = rowsLimit;
@@ -676,36 +677,6 @@
 					$('#loadMoreButtonContainer').hide(500);
 				}				
 			});
-
-			//Adjust height
-			if(adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
-				console.log("Starting table resize observer to adjust height");
-				var tabeResizeObserver;
-				var tabeResizeObserverTimeout = false;
-				var tableResizeObserverOldHeight = 0;
-				if (tabeResizeObserver){
-					tabeResizeObserver.disconnect();
-				} else {
-					tabeResizeObserver = new MutationObserver(function(mutationList){
-						mutationList.forEach(function(mutation){
-							if (mutation.attributeName === 'style' && !tabeResizeObserverTimeout && tableCreated){
-								let delay = 10;
-								if (tableResizeObserverOldHeight == 0) delay = 250;
-								tabeResizeObserverTimeout = setTimeout(function(){
-									console.log("adjustHeight to table");
-									var height = $('#jsonTableContent').innerHeight();
-									if (tableResizeObserverOldHeight != height){
-										window.parent.postMessage({ command: "adjustHeight" , value: height }, "*");
-									}
-									tableResizeObserverOldHeight = height;
-									tabeResizeObserverTimeout = false;
-								}, delay);
-							}
-						});
-					});
-				}
-				tabeResizeObserver.observe(document.querySelector('#jsonTableContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
-			}
 		});
 		
 		//Handle Options
@@ -742,7 +713,6 @@
 		
 		//Create Table
 		function createTable(){
-			tableCreated = false;
 			if (typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
 			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
@@ -975,13 +945,13 @@
 			}
 			//Show/Hide Load More Button
 			if(!rowsLimitLoadMore || rowsLimit == 0 || dataObject.length <= rowsLimit){
-				$('#loadMoreButtonContainer').hide(500);
+				$('#loadMoreButtonContainer').hide(500, adjustHeightNow);
 			} else {
-				$('#loadMoreButtonContainer').show(500);
+				$('#loadMoreButtonContainer').show(500, adjustHeightNow);
 			}
 			//columnSort
 			columnSortTable();
-			tableCreated = true;
+			applyAdjustHeight();
 		}
 		
 		//Update datapoint
@@ -1027,10 +997,12 @@
 					result = multiReplace(result, ((iconCols[0] == "" || iconCols.indexOf(datapointExtendTableCol) != -1) ? translationsAndIconReplacements : translations));
 					if (replaceCRwithBR) result = result.toString().replace(/\r\n/g, "<br>");
 					$("td[data-row='" + row + "'][data-colname='" + datapointExtendTableCol + "']").html(result);
+					adjustHeightNow();
 				});
 				datapointToggleCols.forEach(function(datpointToggleCol){
 					$("td[data-row='" + row + "'][data-colname='" + datpointToggleCol + "']:not(:has(>span))").each(function(){
 						$(this).html("<span class='datapoint-toggle' data-id='" + id + "' style='cursor: pointer;'>" + $(this).html() + "</span>");
+						adjustHeightNow();
 					});
 				});
 			});
@@ -1148,6 +1120,41 @@
 			}
 		}
 
+		//Adjust height
+		var tableResizeObserver;
+		var tableResizeObserverTimeout = false;
+		var tableResizeObserverOldHeight = 0;
+		function applyAdjustHeight(){
+			if(adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
+				console.log("Starting table resize observer to adjust height");
+				if (tableResizeObserver){
+					tableResizeObserver.disconnect();
+				} else {
+					tableResizeObserver = new MutationObserver(adjustHeightFunction);
+				}
+				tableResizeObserver.observe(document.querySelector('#jsonTableContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
+				adjustHeightNow();
+			}
+		}
+		function adjustHeightNow(){
+			adjustHeightFunction([{attributeName: 'style'}]);
+		}
+		function adjustHeightFunction(mutationList){
+			mutationList.forEach(function(mutation){
+				if (mutation.attributeName === 'style' && !tableResizeObserverTimeout){
+					tableResizeObserverTimeout = setTimeout(function(){
+						var height = $('#jsonTableContent').innerHeight();
+						if (tableResizeObserverOldHeight != height){
+							console.log("adjustHeight to table: " + height);
+							window.parent.postMessage({ command: "adjustHeight" , value: height }, "*");
+						}
+						tableResizeObserverOldHeight = height;
+						tableResizeObserverTimeout = false;
+					}, 10);
+				}
+			});
+		}
+		
 		//send postMessages
 		function sendPostMessage(command, stateId, value){
 			message = { command: command, stateId: stateId, value: value };

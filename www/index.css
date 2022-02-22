@@ -67,6 +67,7 @@ html.noscroll body {
 	font-size: 70%;
 }
 
+
 /* ++++++++++ Loader ++++++++++ */ 
 .loader {
 	-webkit-user-select: none !important;
@@ -101,6 +102,8 @@ html.noscroll body {
 	left: calc(50% + 30px);
 	top: 50px;
 }
+
+
 /* ++++++++++ Pincode ++++++++++ */ 
 #pincode {
 	display: none;
@@ -193,6 +196,7 @@ html.noscroll body {
 	color: #fff;
 }
 
+
 /* ++++++++++ Toolbar ++++++++++ */ 
 #Toolbar {
 	border-width: 0px !important;
@@ -240,6 +244,7 @@ html.noscroll body {
 .iQontrolToolbarLink.ui-btn:after {
 	background-color: transparent !important;
 }
+
 
 /* ++++++++++ Panel ++++++++++ */ 
 #Panel {
@@ -375,6 +380,7 @@ html.noscroll body {
 	height: 100%;
 	border: none;
 }
+
 
 /* ++++++++++ View ++++++++++ */ 
 #View { /* #View = .ui-page */
@@ -1290,39 +1296,6 @@ html.noscroll body {
 }
 
 
-/* ++++++++++++++ ADJUST HEIGHT ++++++++++++++ */
-html.adjustHeightToBackgroundView {
-	overflow-y: hidden !important;
-}
-.adjustHeightToBackgroundView #ViewMain {
-	min-height: unset !important;
-}
-.adjustHeightToBackgroundView #ViewMainBottomSpacer {
-	display: none;
-}
-.iQontrolDeviceBackgroundIframe.adjustHeight {
-	transition: none;
-}
-.iQontrolDeviceBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
-	max-height: 85vh; max-height: calc(100vh - 70px);
-}
-.iQontrolDeviceBackgroundIframeWrapper.adjustHeight {
-	height: unset !important;
-	position: relative !important;
-	left: -3px;
-	width: calc(100% + 6px);
-	top: -3px;
-	margin-bottom: -15px;
-	padding: 0;
-	transition: none;
-}
-.iQontrolDevice.adjustHeight{
-	height: unset !important;
-	min-height: unset !important;
-	max-height: unset !important;
-}
-
-
 /* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
 	min-width: 300px;
@@ -1559,6 +1532,7 @@ html.adjustHeightToBackgroundView {
 	text-shadow: 0 1px 0 grey;
 }
 
+
 /* ++++++++++ Popup ++++++++++ */ 
 .ui-popup-screen {
 	-webkit-user-select: none !important;
@@ -1756,9 +1730,10 @@ html.color-mode-dark .ui-state-disabled.ui-slider-track .ui-btn.ui-slider-handle
 	}
 }
 
+
 /* ++++++++++++++ BIG MODE ++++++++++++++ */
 html.bigMode #ViewMain {
-	font-size: 22pt;
+	xxxfont-size: 22pt;
 }
 html.bigMode #ViewHeaderTitle {
 	font-size: 22pt;
@@ -2029,4 +2004,37 @@ html.bigMode .jqte.DialogAdditionalControlsString {
 }
 html.bigMode .iQontrolDialogIframeWrapper {
 	min-width: 800px;
+}
+
+
+/* ++++++++++++++ ADJUST HEIGHT ++++++++++++++ */
+html.adjustHeightToBackgroundView {
+	overflow-y: hidden !important;
+}
+.adjustHeightToBackgroundView #ViewMain {
+	min-height: unset !important;
+}
+.adjustHeightToBackgroundView #ViewMainBottomSpacer {
+	display: none;
+}
+.iQontrolDeviceBackgroundIframe.adjustHeight {
+	transition: none;
+}
+.iQontrolDeviceBackgroundIframe.limitAdjustHeightToScreen:not(.isBackgroundView) {
+	max-height: 85vh; max-height: calc(100vh - 70px);
+}
+.iQontrolDeviceBackgroundIframeWrapper.adjustHeight {
+	height: unset !important;
+	position: relative !important;
+	left: -3px;
+	width: calc(100% + 6px);
+	top: -3px;
+	margin-bottom: -15px;
+	padding: 0px 0px 5px 0px;
+	transition: none;
+}
+.iQontrolDevice.adjustHeight{
+	height: unset !important;
+	min-height: unset !important;
+	max-height: unset !important;
 }

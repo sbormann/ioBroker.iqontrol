@@ -13250,14 +13250,18 @@ function resizeFullWidthDevicesToFitScreen(){
 		customCSS += "	}";
 		customCSS += "}";
 		x = parseInt((screenHeight / zoom) - toolbarHeight - (2 * deviceMargin) - 20);
-		customCSS += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged {";
+		customCSS += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged, {";
 		customCSS += "	height: " + (x) + "px !important; max-height: " + (x) + "px !important; min-height: " + (x) + "px !important;";
+		customCSS += "	padding-bottom: unset !important;";
+		customCSS += "}";
+		customCSS += ".iQontrolDevice.fullHeight .iQontrolDeviceBackgroundIframe.adjustHeight, .iQontrolDevice:not(.active).fullHeightIfInactive .iQontrolDeviceBackgroundIframe.adjustHeight, .iQontrolDevice.active.fullHeightIfActive .iQontrolDeviceBackgroundIframe.adjustHeight, .iQontrolDevice.enlarged.fullHeightIfEnlarged .iQontrolDeviceBackgroundIframe.adjustHeight {";
+		customCSS += "	height: " + (x + 5) + "px !important; max-height: " + (x + 5) + "px !important; min-height: " + (x + 5) + "px !important;";
 		customCSS += "	padding-bottom: unset !important;";
 		customCSS += "}";
 		removeCustomCSS('resizeFullWidthDevicesToFitScreen');
 		addCustomCSS(customCSS, "resizeFullWidthDevicesToFitScreen");
 	}
-	if (!options.LayoutViewMarqueeDisabled ){
+	if (!options.LayoutViewMarqueeDisabled){
 		var selector = ".iQontrolDevice.aspect-1-1, .iQontrolDevice:not(.active).aspect-1-1IfInactive, .iQontrolDevice.active.aspect-1-1IfActive, .iQontrolDevice.enlarged.aspect-1-1IfEnlarged";
 		selector += ".iQontrolDevice.aspect-4-3, .iQontrolDevice:not(.active).aspect-4-3IfInactive, .iQontrolDevice.active.aspect-4-3IfActive, .iQontrolDevice.enlarged.aspect-4-3IfEnlarged";
 		selector += ".iQontrolDevice.aspect-3-2, .iQontrolDevice:not(.active).aspect-3-2IfInactive, .iQontrolDevice.active.aspect-3-2IfActive, .iQontrolDevice.enlarged.aspect-3-3IfEnlarged";
@@ -13585,11 +13589,14 @@ $(document).ready(function(){
 					break;
 
 					case "adjustHeight":
-					if (event.data.value){
+					if (typeof event.data.value != udef){
 						console.log("postMessage received: adjustHeight " + event.data.value);
+						let value;
+						if (event.data.value != null && !isNaN(event.data.value)) value = parseInt(event.data.value); else return;
+						if (value < 0) return;
 						let deviceIdEscaped = sourceIframe.dataset.iqontrolDeviceId;
 						let $iframe = $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceBackgroundIframe");
-						$iframe.addClass('adjustHeight').css('height', event.data.value).parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeight');
+						$iframe.addClass('adjustHeight').css('height', value).parent('.iQontrolDeviceBackgroundIframeWrapper').addClass('adjustHeight').parent('.iQontrolDeviceLink').parent('.iQontrolDevice').addClass('adjustHeight');
 						viewShuffleReshuffle(0, 100, 750, 1250, 1500, 2000, 2500, 3100);
 						let maxHeight = $iframe.css('max-height').replace('px', '') || "0";
 						if (maxHeight && maxHeight != null && !isNaN(maxHeight)) maxHeight = parseInt(maxHeight);
