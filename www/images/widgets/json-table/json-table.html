@@ -715,7 +715,10 @@
 		function createTable(){
 			if (typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
-			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") return;
+			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") {
+				applyAdjustHeight();
+				return;
+			}
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
@@ -1011,36 +1014,40 @@
 		}
 
 		//columnSort Table
+		var columnSortTableTimeout = false;
 		function columnSortTable(){
-			$('.columnSortIndicator').remove();
-			if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
-				//columnSort Indicators
-				for (var col = 0; col < colsSortedAndFiltered.length; col++) {
-					$th = $('th[data-col="' + colsSortedAndFiltered[col] + '"]');
-					if (colsSortedAndFiltered[col] == columnSortCol) $th.addClass("columnSort" + (columnSortColDesc ? "Desc " : "Asc ")); else $th.removeClass("columnSortAsc").removeClass("columnSortDesc");
-					if (!columnSortColHideIndicator && colsSortedAndFiltered[col] == columnSortCol) $th.append("<span class='columnSortIndicator'>&nbsp;" + (columnSortColDesc ? "&#9660;" : "&#9650;") + "</span>");
-				}
-				//Start sorting
-				$('tbody tr').sort(function(a, b){
-					if (columnSortColDesc){
-						return collator.compare(getSortValues(a), getSortValues(b));
-					} else {
-						return collator.compare(getSortValues(b), getSortValues(a));
+			if (!columnSortTableTimeout) columnSortTableTimeout = setTimeout(function(){
+				columnSortTableTimeout = false;
+				$('.columnSortIndicator').remove();
+				if (columnSortCol && colsSortedAndFiltered.indexOf(columnSortCol) > -1){
+					//columnSort Indicators
+					for (var col = 0; col < colsSortedAndFiltered.length; col++) {
+						$th = $('th[data-col="' + colsSortedAndFiltered[col] + '"]');
+						if (colsSortedAndFiltered[col] == columnSortCol) $th.addClass("columnSort" + (columnSortColDesc ? "Desc " : "Asc ")); else $th.removeClass("columnSortAsc").removeClass("columnSortDesc");
+						if (!columnSortColHideIndicator && colsSortedAndFiltered[col] == columnSortCol) $th.append("<span class='columnSortIndicator'>&nbsp;" + (columnSortColDesc ? "&#9660;" : "&#9650;") + "</span>");
 					}
-					function getSortValues(row){
-						let result = "";
-						let columnSortCols = columnSortCol.split(';');
-						for (col of columnSortCols){
-							result += $(row).find('td[data-colname="' + col + '"]').text();
+					//Start sorting
+					$('tbody tr').sort(function(a, b){
+						if (columnSortColDesc){
+							return collator.compare(getSortValues(a), getSortValues(b));
+						} else {
+							return collator.compare(getSortValues(b), getSortValues(a));
 						}
-						return result;
-					}
-				}).appendTo($('tbody'));
-				//RowLimit
-				$('tbody tr').each(function(index, element){
-					if (rowsLimit == 0 || index < rowsLimit) $(this).css('display', ''); else $(this).css('display', 'none');
-				});			
-			}
+						function getSortValues(row){
+							let result = "";
+							let columnSortCols = columnSortCol.split(';');
+							for (col of columnSortCols){
+								result += $(row).find('td[data-colname="' + col + '"]').text();
+							}
+							return result;
+						}
+					}).appendTo($('tbody'));
+					//RowLimit
+					$('tbody tr').each(function(index, element){
+						if (rowsLimit == 0 || index < rowsLimit) $(this).css('display', ''); else $(this).css('display', 'none');
+					});			
+				}
+			}, 20);
 		}
 
 		//Toggle datapoint
@@ -1123,7 +1130,7 @@
 		//Adjust height
 		var tableResizeObserver;
 		var tableResizeObserverTimeout = false;
-		var tableResizeObserverOldHeight = 0;
+		var tableResizeObserverOldHeight = -1;
 		function applyAdjustHeight(){
 			if(adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
 				console.log("Starting table resize observer to adjust height");
@@ -1145,6 +1152,7 @@
 					tableResizeObserverTimeout = setTimeout(function(){
 						var height = $('#jsonTableContent').innerHeight();
 						if (tableResizeObserverOldHeight != height){
+							if (height == 0) height = -1;
 							console.log("adjustHeight to table: " + height);
 							window.parent.postMessage({ command: "adjustHeight" , value: height }, "*");
 						}
