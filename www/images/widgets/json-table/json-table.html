@@ -716,6 +716,7 @@
 			if (typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined") return; //Only do this, if all necessary states are fetched
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
 			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") {
+				$('#jsonTableContainer').html('');
 				applyAdjustHeight();
 				return;
 			}
@@ -904,7 +905,7 @@
 				});
 				colsPreferablyVisibleAreVisibleAtStart = false; //Deactivate after first build of table
 				//jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
-				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; xleft:-100000px; xopacity:0; width:0px !important; height:0px !important;'></button>"); 
+				$('#jsonTable-popup').prepend("<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"); 
 				$('#jsonTablePage').on('scroll', function(event){
 					$('#DialogAutofocusElement').css('top', (-($('#jsonTable-popup').offset() && $('#jsonTable-popup').offset().top || 0) + 20) + 'px');
 				});
@@ -1140,6 +1141,7 @@
 					tableResizeObserver = new MutationObserver(adjustHeightFunction);
 				}
 				tableResizeObserver.observe(document.querySelector('#jsonTableContent'), {attributes: true, attributeOldValue: true, childList: false, subtree: true});
+				$(window).off('resize').on('resize', adjustHeightNow);
 				adjustHeightNow();
 			}
 		}

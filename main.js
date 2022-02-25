@@ -1825,7 +1825,7 @@ class Iqontrol extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			//Stop trigger intervals
-			this.log.info("Stop trigger intervals");
+			this.log.info("Stop trigger intervals...");
 			for(let triggerIntervalIndex = 0; triggerIntervalIndex < triggerIntervals.length; triggerIntervalIndex++){
 				clearInterval(triggerIntervals[triggerIntervalIndex]);
 			}
