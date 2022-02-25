@@ -1,8 +1,20 @@
 {
   "common": {
     "name": "iqontrol",
-    "version": "2.0.0-rc4.0",
+    "version": "2.0.0",
     "news": {
+      "2.0.0": {
+        "en": "Minor fixes.",
+        "de": "Kleinere Korrekturen.",
+        "ru": "Мелкие исправления.",
+        "pt": "Pequenas correções.",
+        "nl": "Kleine reparaties.",
+        "fr": "Corrections mineures.",
+        "it": "Piccole correzioni.",
+        "es": "Correcciones menores.",
+        "pl": "Drobne poprawki.",
+        "zh-cn": "小修复。"
+      },
       "2.0.0-rc4.0": {
         "en": "Added option to allow widgets to adjust height of device tile and enhanced JSON-Table-Widget and Device-Counter-Widget to do so.",
         "de": "Option hinzugefügt, um Widgets zu erlauben, die Höhe der Gerätekachel anzupassen, und verbessertes JSON-Table-Widget und Device-Counter-Widget, um dies zu tun.",
@@ -74,18 +86,6 @@
         "es": "Se corrigió el conteo de registros.\nLas listas ahora se guardan como de solo lectura y con ack=true.",
         "pl": "Naprawiono liczenie dzienników.\nListy są teraz zapisywane jako tylko do odczytu iz ack=true.",
         "zh-cn": "固定的日志计数。\n列表现在保存为只读且 ack=true。"
-      },
-      "2.0.0-rc1.1": {
-        "en": "Kompatibility to new ioBroker websocket established.\nEnhanced datapoint-rcognition in json-table-widget.\nFixed INFO A/B icon brightness-setting for dark mode.",
-        "de": "Kompatibilität zum neuen ioBroker-Websocket hergestellt.\nVerbesserte Datenpunkterkennung im json-table-widget.\nDie Helligkeitseinstellung des INFO A/B-Symbols für den Dunkelmodus wurde korrigiert.",
-        "ru": "Установлена совместимость с новым веб-сокетом ioBroker.\nУлучшено распознавание точек данных в виджете json-table.\nИсправлена настройка яркости значка INFO A/B для темного режима.",
-        "pt": "Compatibilidade com o novo websocket ioBroker estabelecido.\nDatapoint-rcognition aprimorado no json-table-widget.\nCorrigida a configuração de brilho do ícone INFO A/B para o modo escuro.",
-        "nl": "Compatibiliteit met nieuwe ioBroker-websocket vastgesteld.\nVerbeterde datapuntherkenning in json-table-widget.\nVaste instelling van de helderheid van het INFO A/B-pictogram voor de donkere modus.",
-        "fr": "Compatibilité avec le nouveau websocket ioBroker établie.\nAmélioration de la reconnaissance des points de données dans json-table-widget.\nRéglage de la luminosité de l'icône INFO A/B fixe pour le mode sombre.",
-        "it": "Compatibilità con il nuovo websocket ioBroker stabilito.\nRiconoscimento dei punti dati migliorato in json-table-widget.\nRisolto il problema con l'impostazione della luminosità dell'icona INFO A/B per la modalità oscura.",
-        "es": "Compatibilidad con el nuevo websocket de ioBroker establecido.\nReconocimiento de puntos de datos mejorado en json-table-widget.\nSe corrigió la configuración de brillo del icono INFO A/B para el modo oscuro.",
-        "pl": "Ustanowiono kompatybilność z nowym websocketem ioBroker.\nUlepszone rozpoznawanie punktów danych w json-table-widget.\nNaprawiono ustawienie jasności ikony INFO A/B dla trybu ciemnego.",
-        "zh-cn": "已建立与新 ioBroker websocket 的兼容性。\n增强了 json-table-widget 中的 datapoint-rcognition。\n修复了黑暗模式的 INFO A/B 图标亮度设置。"
       }
     },
     "title": "iQontrol Vis",
