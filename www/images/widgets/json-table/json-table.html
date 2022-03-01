@@ -20,6 +20,7 @@
 												(C) by Sebastian Bormann
 	'/> 
 	<meta name="widget-urlparameters" content= "heading//Heading (optional);
+												placeholder//Placeholder (will be shown, if table is empty, optional);
 												tableMode/columntoggle/Table Mode (mode how small screens are handled)/select/columntoggle,Hide columns as needed/reflow,Display the table stacked/none,Keep table as it is;
 												colsSort//Order of headings (semioclon-separated list of column headers, optional);
 												colsFilter//Filter these headings (semicolon-separated list of column headers, optional);
@@ -166,6 +167,11 @@
 			font-weight: bold;
 			margin: 5px 5px 0 5px;
 		}
+		#placeholder {
+			font-size: smaller;
+			margin: 0;
+			padding: 5px;
+		}
 		.ui-page {
 			overflow-y: auto !important;
 			overflow-x: hidden !important;
@@ -224,6 +230,7 @@
 			<div id="heading" style="display: none;"></div>
 			<div id="jsonTableContainer" style="width: 100%; height: 100%; overflow: auto;"></div>
 			<div id="loadMoreButtonContainer" style="display: none; padding: 0px; margin: -7px -10px -5px -10px;"><a href="" data-role="button" data-mini="true" id="loadMoreButton" style="height: 1.3em;">...</a></div>
+			<div id="placeholder" style="display: none;"></div>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -522,6 +529,8 @@
 		//UrlParameters
 		var heading = getUrlParameter("heading") || "";
 		var headingVariable = false;
+		var placeholder = getUrlParameter("placeholder") || "";
+		var placeholderVariable = false;
 		var tableMode = getUrlParameter("tableMode") || "columntoggle";
 		var colsSort = (getUrlParameter("colsSort") || "").split(';');
 		var colsFilter = (getUrlParameter("colsFilter") || "").split(';');
@@ -559,25 +568,25 @@
 		var colorTextOdd = getUrlParameter("colorTextOdd");
 		var colorTextShadow = getUrlParameter("colorTextShadow");
 		var colorTextShadowOdd = getUrlParameter("colorTextShadowOdd");
-		if(colorBackground) addCustomCSS(".ui-overlay-a {background-color: " + colorBackground + ";}", "color");
-		if(colorBackgroundOdd || colorBackground) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOdd || colorBackground + ";}", "color");
-		if(colorBorders) addCustomCSS(".table-stroke tbody td, .table-stroke thead th {border-bottom-color: " + colorBorders + ";}", "color");
-		if(colorText) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading {color: " + colorText + ";}", "color");
-		if(colorTextOdd || colorText) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOdd || colorText + ";}", "color");
-		if(colorTextShadow) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading {text-shadow: 0 1px 0 " + colorTextShadow + ";}", "color");
-		if(colorTextShadowOdd || colorTextShadow) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOdd || colorTextShadow + ";}", "color");
+		if (colorBackground) addCustomCSS(".ui-overlay-a {background-color: " + colorBackground + ";}", "color");
+		if (colorBackgroundOdd || colorBackground) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOdd || colorBackground + ";}", "color");
+		if (colorBorders) addCustomCSS(".table-stroke tbody td, .table-stroke thead th {border-bottom-color: " + colorBorders + ";}", "color");
+		if (colorText) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading, #placeholder {color: " + colorText + ";}", "color");
+		if (colorTextOdd || colorText) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOdd || colorText + ";}", "color");
+		if (colorTextShadow) addCustomCSS(".ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper, #heading, #placeholder {text-shadow: 0 1px 0 " + colorTextShadow + ";}", "color");
+		if (colorTextShadowOdd || colorTextShadow) addCustomCSS(".table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOdd || colorTextShadow + ";}", "color");
 		var colorBackgroundDark = getUrlParameter("colorBackgroundDark");
 		var colorBackgroundOddDark = getUrlParameter("colorBackgroundOddDark");
 		var colorTextDark = getUrlParameter("colorTextDark");
 		var colorTextOddDark = getUrlParameter("colorTextOddDark");
 		var colorTextShadowDark = getUrlParameter("colorTextShadowDark");
 		var colorTextShadowOddDark = getUrlParameter("colorTextShadowOddDark");
-		if(colorBackgroundDark) addCustomCSS("html.color-mode-dark .ui-overlay-a {background-color: " + colorBackgroundDark + ";}", "color");
-		if(colorBackgroundOddDark || colorBackgroundDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOddDark || colorBackgroundDark + ";}", "color");
-		if(colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {color: " + colorTextDark + ";}", "color");
-		if(colorTextOddDark || colorTextDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOddDark || colorTextDark + ";}", "color");
-		if(colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
-		if(colorTextShadowOddDark || colorTextShadowDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
+		if (colorBackgroundDark) addCustomCSS("html.color-mode-dark .ui-overlay-a {background-color: " + colorBackgroundDark + ";}", "color");
+		if (colorBackgroundOddDark || colorBackgroundDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {background-color: " + colorBackgroundOddDark || colorBackgroundDark + ";}", "color");
+		if (colorTextDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {color: " + colorTextDark + ";}", "color");
+		if (colorTextOddDark || colorTextDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {color: " + colorTextOddDark || colorTextDark + ";}", "color");
+		if (colorTextShadowDark) addCustomCSS("html.color-mode-dark .ui-page-theme-a, html.color-mode-dark .ui-page-theme-a .ui-panel-wrapper, html.color-mode-dark #heading {text-shadow: 0 1px 0 " + colorTextShadowDark + ";}", "color");
+		if (colorTextShadowOddDark || colorTextShadowDark) addCustomCSS("html.color-mode-dark .table-stripe tbody tr:nth-child(odd) td, html.color-mode-dark .table-stripe tbody tr:nth-child(odd) th {text-shadow: 0 1px 0 " + colorTextShadowOddDark || colorTextShadowDark + ";}", "color");
 		for(var i = 0; i < translations.length; i++){
 			let entry = translations[i].split(',');
 			if (entry.length < 2) entry.push(entry[0]);
@@ -611,7 +620,7 @@
 		//Document ready
 		$(document).ready(function(){
 			//Heading
-			if(heading && heading.split('|').length > 1 && (heading.split('|').slice(1).join('|').match(/\{([^}]+)\}/) || [])[0].length > 2){ //found variable. regex explanation: { (everything but '}' }
+			if (heading && heading.split('|').length > 1 && (heading.split('|').slice(1).join('|').match(/\{([^}]+)\}/) || [])[0].length > 2){ //found variable. regex explanation: { (everything but '}' }
 				headingVariable = heading.split('|').slice(1).join('|').match(/\{([^}]+)\}/);
 				let id = headingVariable[1].split('|')[0];
 				if (id.substr(0, 1) == "[" && id.substr(-1) == "]"){
@@ -622,15 +631,31 @@
 				sendPostMessage("getStateSubscribed", id);
 				heading = heading.split('|')[0];
 			}
-			if(heading){
+			if (heading){
 				$('#heading').html(heading).show();
+			}
+			
+			//Placeholder
+			if (placeholder && placeholder.split('|').length > 1 && (placeholder.split('|').slice(1).join('|').match(/\{([^}]+)\}/) || [])[0].length > 2){ //found variable. regex explanation: { (everything but '}' }
+				placeholderVariable = placeholder.split('|').slice(1).join('|').match(/\{([^}]+)\}/);
+				let id = placeholderVariable[1].split('|')[0];
+				if (id.substr(0, 1) == "[" && id.substr(-1) == "]"){
+					id = id.substring(1, id.length - 1);
+					placeholderVariable.noUnit = true;
+				}
+				placeholderVariable.id = id;
+				sendPostMessage("getStateSubscribed", id);
+				placeholder = placeholder.split('|')[0];
+			}
+			if (placeholder){
+				$('#placeholder').html(placeholder);
 			}
 			
 			//Apply some styling
 			$('#loadMoreButton').html(rowsLimitLoadMoreCaption);
-			if(headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
-			if(headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
-			if(scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; } html { scrollbar-width: none; }', 'scrollbarHide');
+			if (headHide) addCustomCSS('#jsonTable { margin-top: -2.3em; } @media (max-width: 35em) { #jsonTable.ui-table-reflow.ui-responsive { margin-top: 0 !important; } #jsonTable.ui-table-reflow.ui-responsive .ui-table-cell-label { display: none; } }', 'headHide');
+			if (headHideColumntoggleButton) addCustomCSS('.ui-table-columntoggle-btn { display: none; }', 'headHideColumntoggleButton');
+			if (scrollbarHide) addCustomCSS('::-webkit-scrollbar { display: none; } html { scrollbar-width: none; }', 'scrollbarHide');
 			if (fontFamily) {
 				fontFamily = getFontFamilyAndAddFontFace(fontFamily);
 				addCustomCSS('* { font-family: ' + fontFamily + ' !important;}', 'fontFamily');
@@ -673,7 +698,7 @@
 				console.log("New rowsLimit: " + rowsLimit);
 				//$('#jsonTable tbody tr:nth-child(-n+' + rowsLimit + ')').slideDown(500);
 				$('#jsonTable tbody tr:nth-child(n+' + (oldRowsLimit + 1) + '):nth-child(-n+' + rowsLimit + ')').css('display','').children('td, th').wrapInner('<div />').children().css('display','none').slideDown(100);
-				if(dataObject.length <= rowsLimit){
+				if (dataObject.length <= rowsLimit){
 					$('#loadMoreButtonContainer').hide(500);
 				}				
 			});
@@ -717,13 +742,14 @@
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || null;
 			if (dp == null || typeof dp.val == "undefined" || dp.val == null || dp.val == "") {
 				$('#jsonTableContainer').html('');
+				if ($('#placeholder').html() != "") $('#placeholder').show();
 				applyAdjustHeight();
 				return;
 			}
 			dataObject = tryParseJSON(dp.val);
 			console.log("parsed JSON");
 			console.log(dataObject);
-			if(!dataObject) return;
+			if (!dataObject) return;
 			//Try to convert object to array
 			if (!Array.isArray(dataObject)){
 				var newDataObject = [];
@@ -734,7 +760,7 @@
 					newDataObject.push(newRow);
 				}
 				dataObject = newDataObject;
-				if(colsSort.indexOf(dataConvertObjectToArrayKeycolCaption) == -1) colsSort.unshift(dataConvertObjectToArrayKeycolCaption);
+				if (colsSort.indexOf(dataConvertObjectToArrayKeycolCaption) == -1) colsSort.unshift(dataConvertObjectToArrayKeycolCaption);
 			}
 			//Check, if there are cols in the object or if it is a simple list
 			var cols = [];
@@ -745,7 +771,7 @@
 					}
 				}
 			}
-			if(!cols.length){
+			if (!cols.length){
 				var newDataObject = [];
 				for (key in dataObject){
 					var newRow = {};
@@ -753,7 +779,7 @@
 					newDataObject.push(newRow);
 				}
 				dataObject = newDataObject;
-				if(colsSort.indexOf(dataConvertListToTableKeycolCaption) == -1) colsSort.unshift(dataConvertListToTableKeycolCaption);
+				if (colsSort.indexOf(dataConvertListToTableKeycolCaption) == -1) colsSort.unshift(dataConvertListToTableKeycolCaption);
 				cols.push(dataConvertListToTableKeycolCaption);
 			}
 			//Transpose
@@ -776,7 +802,7 @@
 					newDataObject.push(newRow);
 				});
 				dataObject = newDataObject;
-				if(colsSort.indexOf(dataTransposeKeycolCaption) == -1) colsSort.unshift(dataTransposeKeycolCaption);
+				if (colsSort.indexOf(dataTransposeKeycolCaption) == -1) colsSort.unshift(dataTransposeKeycolCaption);
 			}
 			//Datapoint-Detection
 			tableDatapoints = {};
@@ -891,6 +917,7 @@
 				$('.jsonTable.ui-table-columntoggle th.ui-table-cell-hidden').each(function(){ colsHidden.push($(this).text()); })
 				$('.jsonTable.ui-table-columntoggle th.ui-table-cell-visible').each(function(){ colsVisible.push($(this).text()); })
 				//Completely rebuild table
+				$('#placeholder').hide();
 				$('#jsonTable-popup-popup').remove();
 				$('#jsonTableContainer').html(tableString);
 				$('#jsonTableContainer tbody').html(bodyString);
@@ -948,7 +975,7 @@
 				sendPostMessage("getStateSubscribed", id);
 			}
 			//Show/Hide Load More Button
-			if(!rowsLimitLoadMore || rowsLimit == 0 || dataObject.length <= rowsLimit){
+			if (!rowsLimitLoadMore || rowsLimit == 0 || dataObject.length <= rowsLimit){
 				$('#loadMoreButtonContainer').hide(500, adjustHeightNow);
 			} else {
 				$('#loadMoreButtonContainer').show(500, adjustHeightNow);
@@ -961,9 +988,9 @@
 		//Update datapoint
 		function updateDatapoint(id){
 			if (!id) return;
-			if(headingVariable && id == headingVariable.id){//variable Heading
+			if (headingVariable && id == headingVariable.id){//variable Heading
 				console.log("Received headingVariable");
-				if(typeof datapoints[id].val != "undefined"){
+				if (typeof datapoints[id].val != "undefined"){
 					if (typeof datapoints[id].plainText == 'number' && !headingVariable['noUnit']){	//STATE = number
 						var replacement = datapoints[id].val + datapoints[id].unit;
 					} else {																		//STATE = bool or text
@@ -974,15 +1001,28 @@
 					$('#heading').html(headingVariable['input'].replace(headingVariable[0], headingVariable[1].split('|').slice(1).join('|'))).show();
 				}
 			}
+			if (placeholderVariable && id == placeholderVariable.id){//variable Placeholder
+				console.log("Received placeholderVariable");
+				if (typeof datapoints[id].val != "undefined"){
+					if (typeof datapoints[id].plainText == 'number' && !placeholderVariable['noUnit']){	//STATE = number
+						var replacement = datapoints[id].val + datapoints[id].unit;
+					} else {																			//STATE = bool or text
+						var replacement = datapoints[id].plainText;
+					}
+					$('#placeholder').html(placeholderVariable['input'].replace(placeholderVariable[0], replacement));
+				} else if (placeholderVariable[1].split('|').length > 1) {
+					$('#placeholder').html(placeholderVariable['input'].replace(placeholderVariable[0], placeholderVariable[1].split('|').slice(1).join('|')));
+				}
+			}
 			if (typeof datapointsParentNames[id] != "undefined" && typeof datapointsParentNames[id].childIds != "undefined" && datapointsParentNames[id].childIds.length > 0){ //Is parentName-Datapoint
 				datapointsParentNames[id].childIds.forEach(function(childId){
-					if(tableDatapoints[childId]){
+					if (tableDatapoints[childId]){
 						if (typeof datapoints[childId] == "undefined") datapoints[childId] = {};
 						let parentName = datapoints[id].name; //parentName
-						if(typeof parentName == "object") {
-							if(parentName[datapointExtendTableColsDefaultTranslationLanguage]) parentName = parentName[datapointExtendTableColsDefaultTranslationLanguage];
-							else if(parentName["en"]) parentName = parentName["en"];
-							else if(Object.keys(datapoints[id].name).length && typeof Object.keys(datapoints[id].name)[0] == "string" && parentName[Object.keys(datapoints[id].name)[0]]) parentName = parentName[Object.keys(datapoints[id].name)[0]];
+						if (typeof parentName == "object") {
+							if (parentName[datapointExtendTableColsDefaultTranslationLanguage]) parentName = parentName[datapointExtendTableColsDefaultTranslationLanguage];
+							else if (parentName["en"]) parentName = parentName["en"];
+							else if (Object.keys(datapoints[id].name).length && typeof Object.keys(datapoints[id].name)[0] == "string" && parentName[Object.keys(datapoints[id].name)[0]]) parentName = parentName[Object.keys(datapoints[id].name)[0]];
 							else parentName = id;
 						}
 						datapoints[childId].parentName = parentName;
@@ -1133,7 +1173,7 @@
 		var tableResizeObserverTimeout = false;
 		var tableResizeObserverOldHeight = -1;
 		function applyAdjustHeight(){
-			if(adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
+			if (adjustHeight && getUrlParameter("allowAdjustHeight") == "true"){
 				console.log("Starting table resize observer to adjust height");
 				if (tableResizeObserver){
 					tableResizeObserver.disconnect();
