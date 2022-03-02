@@ -1681,7 +1681,7 @@ This device has some special predefined size- and display-settings to show a tex
   ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (sbormann) Fixed json-table sorting.
+* (sbormann) Fixed json-table sorting order.
 * (sbormann) Added placeholder-option for empty tables to json-table-widget.
 
 ### 2.0.0 (2022-02-25)

@@ -1070,9 +1070,9 @@
 					//Start sorting
 					$('tbody tr').sort(function(a, b){
 						if (columnSortColDesc){
-							return collator.compare(getSortValues(a), getSortValues(b));
-						} else {
 							return collator.compare(getSortValues(b), getSortValues(a));
+						} else {
+							return collator.compare(getSortValues(a), getSortValues(b));
 						}
 						function getSortValues(row){
 							let result = "";
