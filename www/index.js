@@ -4885,7 +4885,7 @@ function renderView(viewId, triggeredByReconnection){
 							var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
 							var restartActivateDelay = false;
 							if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
-								console.log("Badge - new color - restartActivateDelay");
+								console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
 								restartActivateDelay = true;
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
 							}
@@ -13610,7 +13610,7 @@ $(document).ready(function(){
 						if (maxHeight && maxHeight != null && !isNaN(maxHeight)) maxHeight = parseInt(maxHeight);
 						if (maxHeight && $iframe.innerHeight() > maxHeight - 100){
 							var scrollTop = $iframe.offset().top - 5;
-							if (Math.abs($('html,body').scrollTop() - scrollTop) < 150) {
+							if (Math.abs($('html,body').scrollTop() - scrollTop) < 75) {
 								console.log("adjustHeight exceeds limit - scroll to " + scrollTop);
 								$('html,body').stop(true, false).animate({
 									scrollTop: scrollTop

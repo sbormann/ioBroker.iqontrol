@@ -772,7 +772,7 @@ html.noscroll body {
     font-family: sans-serif;
     font-weight: 500;
     font-size: 14px;
-	opacity: 0;
+	opacity: 0.00000000001;
 	-webkit-transition: all 0.5s;
 	   -moz-transition: all 0.5s;
 			transition: all 0.5s;
