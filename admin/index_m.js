@@ -5507,7 +5507,7 @@ async function load(settings, onChange) {
 								$('#dialogWidgetSettings').data('replaceurlabsolute', $(this).data('absolute'));
 								$('#dialogWidgetSettingsReplaceurlDestination').html(metaContent);
 								$('#dialogWidgetSettingsReplaceurlSwitchToDestination').off('click').on('click', function(){
-									var dialogCallback = $('#dialogWidgetSettings').data('callback');
+									var dialogCallback = $('#dialogWidgetSettings').data('save-callback');
 									if (typeof dialogCallback === 'function') dialogCallback("replaceurlSwitchToDestination");
 								});
 								$('.dialogWidgetSettingsReplaceurl').show();
