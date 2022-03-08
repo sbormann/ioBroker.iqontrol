@@ -650,7 +650,7 @@ class Iqontrol extends utils.Adapter {
 				if (this.config.lists[configListIndex].selectors && this.config.lists[configListIndex].selectors.length){
 					if (typeof sorting != "string") sorting = "";
 					if(sorting.indexOf("id") > -1){ //id
-						listItems.sort();
+						listItems.sort(function(a, b){ return collator.compare(a, b); });
 					} else if (sorting.indexOf("values") > -1) { //values
 						await fetchStates(listItems || [], that);
 						listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });						
@@ -750,10 +750,10 @@ class Iqontrol extends utils.Adapter {
 						}
 						//-- --Sorting
 						if (sorting.indexOf("values") == -1) { //Do not re-sort, if sorting by values is active
-							names.sort();
-							namesWithValues.sort();
-							parentNames.sort();
-							parentNamesWithValues.sort();
+							names.sort(function(a, b){ return collator.compare(a, b); });
+							namesWithValues.sort(function(a, b){ return collator.compare(a, b); });
+							parentNames.sort(function(a, b){ return collator.compare(a, b); });
+							parentNamesWithValues.sort(function(a, b){ return collator.compare(a, b); });
 						}
 						//-- --Set states
 						if (createNamesList) {
@@ -983,7 +983,7 @@ class Iqontrol extends utils.Adapter {
 							let sorting = that.config.lists[configListIndex].sorting || "";
 							let createParentNamesListMode = that.config.lists[configListIndex].createParentNamesListMode;
 							if(sorting.indexOf("id") > -1){ //id
-								counter.listItems.sort();
+								counter.listItems.sort(function(a, b){ return collator.compare(a, b); });
 							} else if (sorting.indexOf("values") > -1) { //values
 								await fetchStates(counter.listItems || [], that);
 								counter.listItems.sort(function(a, b){ return collator.compare((usedStates[a] && typeof usedStates[a].val != "undefined" ? usedStates[a].val : null), (usedStates[b] && typeof usedStates[b].val != "undefined" ? usedStates[b].val : null)); });
@@ -1038,10 +1038,10 @@ class Iqontrol extends utils.Adapter {
 								}
 								//-- --Sorting
 								if (sorting.indexOf("values") == -1) { //Do not re-sort, if sorting by values is active
-									names.sort();
-									namesWithValues.sort();
-									parentNames.sort();
-									parentNamesWithValues.sort();
+									names.sort(function(a, b){ return collator.compare(a, b); });
+									namesWithValues.sort(function(a, b){ return collator.compare(a, b); });
+									parentNames.sort(function(a, b){ return collator.compare(a, b); });
+									parentNamesWithValues.sort(function(a, b){ return collator.compare(a, b); });
 								}
 								if (that.config.lists[configListIndex].createNamesList) {
 									objId = "Lists." + idEncodePointAllowed(listName) + "." + idEncodePointAllowed(counter.name) + "_NAMES_LIST";
