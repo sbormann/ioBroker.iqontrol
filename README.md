@@ -1685,6 +1685,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added placeholder-option for empty tables to json-table-widget.
 * (sbormann) Fixed 'switch to this widget button' for widgets with replace-url.
 * (sbormann) Added more timestamp options to datapoint-detection of json-table-widget.
+* (sbormann) Enhanced sorting of lists.
 
 ### 2.0.0 (2022-02-25)
 * (sbormann) Minor fixes.
