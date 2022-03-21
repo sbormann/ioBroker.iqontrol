@@ -538,7 +538,7 @@ class Iqontrol extends utils.Adapter {
 							};
 						} else { //Remove types
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value, ',')){
+								if(allObjects[listItems[listItemIndex]] && checkCondition(allObjects[listItems[listItemIndex]].type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -554,7 +554,7 @@ class Iqontrol extends utils.Adapter {
 							};
 						} else { //Remove commonType
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.type, selector.operator, selector.value, ',')){
+								if(allObjects[listItems[listItemIndex]] && checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.type, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -570,7 +570,7 @@ class Iqontrol extends utils.Adapter {
 							};
 						} else { //Remove commonRole
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.role, selector.operator, selector.value, ',')){
+								if(allObjects[listItems[listItemIndex]] && checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.role, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -584,9 +584,9 @@ class Iqontrol extends utils.Adapter {
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
 								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.mode, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
-						} else { //Remove commonRole
+						} else { //Remove commonMode
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.mode, selector.operator, selector.value, ',')){
+								if(allObjects[listItems[listItemIndex]] && checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.mode, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}
@@ -595,14 +595,14 @@ class Iqontrol extends utils.Adapter {
 						break;
 						
 						case "commonEnabled":
-						if(selector.modifier == "add") { //Add commonMode
+						if(selector.modifier == "add") { //Add commonEnabled
 							for(let object in allObjects){
 								let listItemIndex = listItems.indexOf(allObjects[object]._id);
 								if(listItemIndex == -1 && checkCondition(allObjects[object] && allObjects[object].common && allObjects[object].common.enabled, selector.operator, selector.value, ',')) listItems.push(allObjects[object]._id);
 							};
-						} else { //Remove commonRole
+						} else { //Remove commonEnabled
 							for(let listItemIndex = 0; listItemIndex < listItems.length; listItemIndex++){
-								if(checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.enabled, selector.operator, selector.value, ',')){
+								if(allObjects[listItems[listItemIndex]] && checkCondition(allObjects[listItems[listItemIndex]] && allObjects[listItems[listItemIndex]].common && allObjects[listItems[listItemIndex]].common.enabled, selector.operator, selector.value, ',')){
 									listItems.splice(listItemIndex, 1);
 									listItemIndex--; //because splicing inside the loop re-indexes the array
 								}

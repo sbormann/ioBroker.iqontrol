@@ -1075,8 +1075,9 @@ var iQontrolRolesStandardOptions = {
 		hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 		hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"}
 	}},
-	SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+	SECTION_TIMESTAMP: {name: "STATE and Timestamp", type: "section", options: {
 		addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
+		hideStateAndLevelInDialog: {name: "Hide STATE and LEVEL in dialog", type: "checkbox", default: "false"},
 		showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
 	}},
 	SECTION_INFO_A_B: {name: "INFO_A/B", type: "section", options: {
@@ -7610,6 +7611,10 @@ function viewShuffleFilterHideDeviceIfInactive(){
 			);
 		});
 	});
+	//Hide subheadings, if no tile is visible
+	$('#ViewContent h4').each(function(){ 
+		if($(this).nextAll('.viewShuffleContainer').find('.shuffle-item').hasClass('shuffle-item--visible')) $(this).show(500); else $(this).hide(500); 
+	});
 }
 
 function viewShuffleApplyShuffleResizeObserver(){
@@ -7640,14 +7645,14 @@ function viewShuffleApplyShuffleResizeObserver(){
 						//Disable Marquee and re-enable it after change-animation
 						if (!options.LayoutViewMarqueeDisabled ){
 							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
-							var $state = $(mutation.target).find('.iQontrolDeviceState');
+							var $marqueeObjects = $(mutation.target).find('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText');
 							if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
-							$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
+							$marqueeObjects.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
 							viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID] = setTimeout(function(){
-								var _$state = $state;
+								var _$marqueeObjects = $marqueeObjects;
 								if (!options.LayoutViewMarqueeDisabled ){
-									_$state.data('marquee-disabled', 'false');
-									adaptHeightOrStartMarqueeOnOverflow(_$state);
+									_$marqueeObjects.data('marquee-disabled', 'false');
+									adaptHeightOrStartMarqueeOnOverflow(_$marqueeObjects);
 								}
 							}, 1500);
 						}
@@ -7945,6 +7950,7 @@ function adaptHeightOrStartMarqueeOnOverflow(element){
 			direction = 'up';
 			speed /= 2;
 		}
+		element.marquee('destroy');
 		element.marquee({
 			speed: speed,
 			gap: 40,
@@ -8191,7 +8197,7 @@ function renderDialog(deviceIdEscaped){
 				}
 				dialogRenderCount = 0;
 				//--State & Level
-				switch(device.commonRole){
+				if(!(getDeviceOptionValue(device, "hideStateAndLevelInDialog") == "true")) switch(device.commonRole){
 					case "iQontrolButton":
 					if (dialogLinkedStateIds["STATE"]){
 						dialogContentCountAfterHR++;

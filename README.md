@@ -1680,6 +1680,11 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) Fixed marquee for INFO_A/B after resizing tile.
+* (sbormann) Subheading with no visible tiles beneath are now hided.
+* (sbormann) Added option to hide STATE and LEVEL in dialog.
+
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
 * (sbormann) Added placeholder-option for empty tables to json-table-widget.

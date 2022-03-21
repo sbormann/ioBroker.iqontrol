@@ -1301,6 +1301,9 @@ html.noscroll body {
 	min-width: 300px;
 	max-width: 100%;
 }
+.isBackgroundView #Dialog {
+	min-width: 240px;
+}
 #Dialog-popup {
 	max-width: 90vw!important;
 	margin-bottom: 150px;
