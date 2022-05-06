@@ -1,7 +1,7 @@
 ![Logo](admin/iqontrol.png)
 # ioBroker.iqontrol
 
-## iqontrol adaptper for ioBroker: Operating Principle of Frontend
+## iqontrol adapter for ioBroker: Operating Principle of Frontend
 
 Updated for version > 0.0.30
 
@@ -9,7 +9,7 @@ Updated for version > 0.0.30
 
 #### Part A) 
 RenderView runs a loop over all devices that are inside this view. This is what happens inside this loop:
-````
+```
 /** The ID of the actual Device is stored in deviceId **/
 deviceId = iqontrol.0.Views.<view>.<device>
 
@@ -68,11 +68,11 @@ if(viewLinkedStateIds['.STATE']){   //Example for .STATE. May also be any other 
 
 	})(); //<---End of Closure--->
 }
-````
+```
 
 #### Part B) 
-At the end, outside of the loop all the missing states are fetched:
-````
+At the end, outside the loop all the missing states are fetched:
+```
 if(!updateOnly){
 	$("#ViewHeaderTitle").html(usedObjects[id].common.name);
 	$("#ViewContent").html(viewContent + "<br><br>");
@@ -82,11 +82,11 @@ if(!updateOnly){
 		renderView(actualViewId, "updateOnly");
 	});
 }
-````
+```
 
 #### Part C) 
 After that all the generated Update-Functions are called once:
-````
+```
 viewLinkedStateIdsToUpdate = removeDuplicates(viewLinkedStateIdsToUpdate);
 fetchStates(viewLinkedStateIdsToUpdate, function(){
 	for (var i = 0; i < viewLinkedStateIdsToUpdate.length; i++){
@@ -94,5 +94,5 @@ fetchStates(viewLinkedStateIdsToUpdate, function(){
 	}
 	viewLinkedStateIdsToUpdate = [];
 });
-````
+```
 
