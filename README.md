@@ -1,9 +1,9 @@
 ![Logo](admin/iqontrol.png)
 # ioBroker.iqontrol
 
-![Number of Installations](http://iobroker.live/badges/iqontrol-installed.svg) 
-![Stable version](http://iobroker.live/badges/iqontrol-stable.svg) 
-[![NPM version](http://img.shields.io/npm/v/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
+![Number of Installations](https://iobroker.live/badges/iqontrol-installed.svg) 
+![Stable version](https://iobroker.live/badges/iqontrol-stable.svg) 
+[![NPM version](https://img.shields.io/npm/v/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.iqontrol.svg)](https://www.npmjs.com/package/iobroker.iqontrol)
 [![Known Vulnerabilities](https://snyk.io/test/github/sbormann/ioBroker.iqontrol/badge.svg)](https://snyk.io/test/github/sbormann/ioBroker.iqontrol)
 <!-- [![Translation status](https://weblate.iobroker.net/widgets/adapters/-/iqontrol/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget) -->
@@ -13,9 +13,9 @@
 
 **Tests:**
 
-| Linux/Mac/Windows: | Cross-Browser-Checking: |
-| --- | --- |
-| [![Travis-CI](http://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol) | [![Browserstack](img/browserstack.png)](https://www.browserstack.com) |
+| Linux/Mac/Windows:                                                                                                                    | Cross-Browser-Checking: |
+|---------------------------------------------------------------------------------------------------------------------------------------| --- |
+| [![Travis-CI](https://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol) | [![Browserstack](img/browserstack.png)](https://www.browserstack.com) |
 
 <!-- Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/) -->
 
