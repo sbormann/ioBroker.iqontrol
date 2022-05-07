@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-Please open an github issue.
+Please open a GitHub issue.
