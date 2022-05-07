@@ -4735,6 +4735,7 @@ function renderView(viewId, triggeredByReconnection){
 				viewContent += "</div><div class='viewFirstLineNoHeadingSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			}
 			//Render Device
+			if (device.nativeHide) continue;
 			var deviceContent = "";
 			//--Get linked States
 			//  While getting the LinkedStateId the correspondig usedObject is also fetched
