@@ -17,9 +17,6 @@
 |---------------------------------------------------------------------------------------------------------------------------------------| --- |
 | [![Travis-CI](https://img.shields.io/travis/sbormann/ioBroker.iqontrol/master.svg)](https://travis-ci.org/sbormann/ioBroker.iqontrol) | [![Browserstack](img/browserstack.png)](https://www.browserstack.com) |
 
-<!-- Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/sbormann/ioBroker.iqontrol?branch=master&svg=true)](https://ci.appveyor.com/project/sbormann/ioBroker-iqontrol/) -->
-
-\
 **If you like it, please consider a donation:**
   
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LDHZMNPXKRX2N&source=url)
@@ -27,18 +24,28 @@
 
 ****
 
-## iqontrol adapter for ioBroker
+## iQontrol adapter for ioBroker
 
 Fast Web-App for Visualization. 
 
-<img src="img/screenshot_kueche.png" width="200">
-<img src="img/screenshot_licht.png" width="200">
-<img src="img/screenshot_heizung.png" width="200">
-<img src="img/screenshot_rauchmelder.png" width="200">
-<img src="img/screenshot_flot.png" width="200">
-&copy; by dslraser: <img src="img/screenshot_dslraser.jpg" width="200" alt="&copy; by dslraser">
-&copy; by muuulle:<img src="img/screenshot_muuulle.jpg" width="200" alt="&copy; by muuulle">
-&copy; by peks-64:<img src="img/screenshot_peks-67.jpg" width="200" alt="&copy; by peks-67">
+<img src="img/screenshot_kueche.png" width="200" />
+<img src="img/screenshot_licht.png" width="200" />
+<img src="img/screenshot_heizung.png" width="200" />
+<img src="img/screenshot_rauchmelder.png" width="200" />
+<img src="img/screenshot_flot.png" width="200" />
+
+&copy; by dslraser: 
+
+<img src="img/screenshot_dslraser.jpg" width="200" alt="&copy; by dslraser" />
+
+&copy; by muuulle:
+
+<img src="img/screenshot_muuulle.jpg" width="200" alt="&copy; by muuulle" />
+
+&copy; by peks-64:
+
+<img src="img/screenshot_peks-67.jpg" width="200" alt="&copy; by peks-67" />
+
 
 Runs in any Browser. 
 Easy to set up, although it's fully customizable and responsive.
@@ -451,7 +458,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 		    * If type is `number` then can specify min, max and step-width by adding `/<numberOptions>`, where `<numberOptions>` is a string of the format `<min>,<max>,<step>`
 			* The types `section`, `divider`, `info` and `link` have no further function, they are just to display information to the user. For `link` the value should be a URL, but all slashes have to be replaced by backslashes.
 		    * Type `hidden` will be passed to the widget, but no configuration dialog is shown
-		* All these parameters will be given to the widget-website via an URL-parameter-string (like `widget.html?parameter=value&parameter2=value2`)
+		* All these parameters will be given to the widget-website via a URL-parameter-string (like `widget.html?parameter=value&parameter2=value2`)
 		* You can use these settings inside your widget-website by requesting the URL-parameters with a function like this:
 			```
 			function getUrlParameter(name) {
@@ -1331,11 +1338,11 @@ To edit the role and the states of a device, click on the pencil behind the devi
 ### General states:
 #### STATE and LEVEL
 Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this represents the main function of the device. You can assign iobroker-states of the following types to it:
-* *boolean* - if possible, it will be translated to a sensible text like 'on/off', 'opened/closed' or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog
+* *boolean* - if possible, it will be translated to a sensible text like `on/off`, `opened/closed` or similar. If you click on the icon of a tile it tries to toggle the boolean (for example to turn a light on or off). If it is not read-only it will generate a flip-switch in the dialog
 * *number* - will be displayed with its corresponding unit and generate a slider in the dialog
 * *string* - a text to be displayed
 * *value-list* - the selected value will be displayed. If it is not write-protected it will generate a drop-down-menu in dialog 
-    * Technically a *value-list* is a value with a corresponding translation-list, defined in the 'common.custom.iqontrol.<instance>.states', 'native.states' or 'common.states' object of the datapoint:
+    * Technically a *value-list* is a value with a corresponding translation-list, defined in the `common.custom.iqontrol.<instance>.states`, `native.states` or `common.states` object of the datapoint:
         ```
         "native": {
             "states": {`true`: "Text for true", `false`: "Text for false"},
@@ -1344,9 +1351,9 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
         ```
     * You can create your own value list by modifying the datapoint (wrench-icon, or rather gear-icon in new react-ui, behind the datapoint in the objects-tab of iobroker, see above)
 	* iQontrol will display a defined valueList as a drop-down field in the dialog under the following circumstances:
-	    * if type is 'numbers' and the valueList has exact as many entries, as steps between min- and max of the datapoint or
-		* if type is 'boolean', but role is not 'switch' or
-		* if type is 'string' or
+	    * if type is `numbers` and the valueList has exact as many entries, as steps between min- and max of the datapoint or
+		* if type is `boolean`, but role is not `switch` or
+		* if type is `string` or
 		* if "Add option to enter free text" is activated
 * If the device-tile will be displayed as active or inactive is also determined from the STATE or LEVEL-Datapoint. Furthermore, you can freely customize the behavior in the options section 'Conditions for an Active Tile'. You can even set another external datapoint that determines the state of the tile
 
