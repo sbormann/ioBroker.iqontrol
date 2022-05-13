@@ -1351,7 +1351,7 @@ Almost all roles have a **STATE**- and/or a **LEVEL**-state. In most cases this 
         ```
     * You can create your own value list by modifying the datapoint (wrench-icon, or rather gear-icon in new react-ui, behind the datapoint in the objects-tab of iobroker, see above)
 	* iQontrol will display a defined valueList as a drop-down field in the dialog under the following circumstances:
-	    * if type is `numbers` and the valueList has exact as many entries, as steps between min- and max of the datapoint or
+	    * if type is `number` and the valueList has exact as many entries, as steps between min- and max of the datapoint or
 		* if type is `boolean`, but role is not `switch` or
 		* if type is `string` or
 		* if "Add option to enter free text" is activated
