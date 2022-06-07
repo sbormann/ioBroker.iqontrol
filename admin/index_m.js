@@ -3069,7 +3069,7 @@ async function load(settings, onChange) {
 		imagesDirs.forEach(function(imagesDir){
 			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){ //image/, image/, image/, image/, image/, image/svg+xml
-				if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+				if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -3387,7 +3387,7 @@ async function load(settings, onChange) {
 		imagesDirs.forEach(function(imagesDir){
 			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
 			imagesDir.files.forEach(function(file){
-				if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+				if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 				}
 			});
@@ -7323,7 +7323,7 @@ async function load(settings, onChange) {
 			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 					}
 				});
@@ -7407,7 +7407,7 @@ async function load(settings, onChange) {
 			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 					}
 				});
@@ -7439,7 +7439,7 @@ async function load(settings, onChange) {
 			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
 				imagenames.push("[" + imagesDir.dirnameBS + ":]");
 				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
 					}
 				});
@@ -7636,7 +7636,7 @@ async function load(settings, onChange) {
 							if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
 								imagenames.push("[" + imagesDir.dirnameBS + ":]");
 								imagesDir.files.forEach(function(file){
-									if (file.filenameBS.endsWith(".png") || file.filenameBS.endsWith(".jpeg") || file.filenameBS.endsWith(".jpg") || file.filenameBS.endsWith(".gif") || file.filenameBS.endsWith(".svg") || file.filenameBS.endsWith(".svg+xml")){
+									if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
 										imagenames.push((".\\.." + userfilesImagePathBS + file.filenameBS) + "/" + file.filenameBS + "/" + (previewLink.replace(/\//g, "\\") + ".\\.." + userfilesImagePathBS + file.filenameBS));
 									}
 								});

@@ -2178,6 +2178,9 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			}
 		}
 		if (statesSet){
+			if (Array && Array.isArray(valueListString)) { //Since Admin 5 states can be delivered as array - convert back to object
+				valueListString = valueListString.reduce(function(acc, val){ acc[val] = val; return acc; }, {});
+			}
 			result.valueList = Object.assign({}, valueListString);
 			//----Further modifications of valueList
 			var val = result.val;
