@@ -1709,6 +1709,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.
 * (sbormann) Subheading with no visible tiles beneath are now hided.
 * (sbormann) Added option to hide STATE and LEVEL in dialog.
+* (sbormann) Fixed default icons for ERROR, UNREACH and BATTERY (if you have changed them in a previous version you might need to change them again).
+* (sbormann) Fixed size of custom toolbar icons.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

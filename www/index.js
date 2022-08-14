@@ -4511,7 +4511,7 @@ function renderToolbar(){
 		if (config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){
 			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
 			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
-			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover");
+			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover;");
 			customCSS += "	background-position:center;";
 			customCSS += "	background-repeat:no-repeat;";
 			customCSS += "}";
@@ -5434,7 +5434,7 @@ function renderView(viewId, triggeredByReconnection){
 						//--IconLoading
 						deviceContent += "<image class='iQontrolDeviceLoading' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='./images/loading.gif'/>";
 						//--IconError
-						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["ERROR"] && options.LayoutDefaultIcons["ERROR"]["icon_on"]) || "./images/error.png";
+						var errorIcon_on = getDeviceOptionValue(device, "errorIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["ERROR"] && options.LayoutDefaultIcons["ERROR"]["errorIcon_on"]) || "./images/error.png";
 						var errorIcon_onIcon = encodeURI(errorIcon_on.split('|')[0]);
 						var errorIcon_onVariableSrc = encodeURI(errorIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceError" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + errorIcon_onIcon + "' " + (errorIcon_onVariableSrc ? "data-variablesrc='" + errorIcon_onVariableSrc + "' " : "") + " />";
@@ -5455,7 +5455,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconUnreach
-						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["UNREACH"] && options.LayoutDefaultIcons["UNREACH"]["icon_on"]) || "./images/unreach.png";
+						var unreachIcon_on = getDeviceOptionValue(device, "unreachIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["UNREACH"] && options.LayoutDefaultIcons["UNREACH"]["unreachIcon_on"]) || "./images/unreach.png";
 						var unreachIcon_onIcon = encodeURI(unreachIcon_on.split('|')[0]);
 						var unreachIcon_onVariableSrc = encodeURI(unreachIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceUnreach" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + unreachIcon_onIcon + "' " + (unreachIcon_onVariableSrc ? "data-variablesrc='" + unreachIcon_onVariableSrc + "' " : "") + " />";
@@ -5480,7 +5480,7 @@ function renderView(viewId, triggeredByReconnection){
 							})(); //<--End Closure
 						}
 						//--IconBattery
-						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["BATTERY"] && options.LayoutDefaultIcons["BATTERY"]["icon_on"]) || "./images/battery.png";
+						var batteryIcon_on = getDeviceOptionValue(device, "batteryIcon_on") || (options.LayoutDefaultIcons && options.LayoutDefaultIcons["BATTERY"] && options.LayoutDefaultIcons["BATTERY"]["batteryIcon_on"]) || "./images/battery.png";
 						var batteryIcon_onIcon = encodeURI(batteryIcon_on.split('|')[0]);
 						var batteryIcon_onVariableSrc = encodeURI(batteryIcon_on.split('|').slice(1).join('|'));
 						deviceContent += "<image class='iQontrolDeviceBattery" + ((getDeviceOptionValue(device, "hideIndicatorIfInactive") == "true") ? " hideIfInactive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfActive") == "true") ? " hideIfActive" : "") + ((getDeviceOptionValue(device, "hideIndicatorIfEnlarged") == "true") ? " hideIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + batteryIcon_onIcon + "' " + (batteryIcon_onVariableSrc ? "data-variablesrc='" + batteryIcon_onVariableSrc + "' " : "") + " />";
