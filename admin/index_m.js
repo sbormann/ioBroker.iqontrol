@@ -103,7 +103,7 @@ var	optionsLayoutDefaultIconsStandard = {
 	iQontrolFire: 					{icon_on: "./images/icons/fire_on.png", 					icon_off: "./images/icons/fire_off.png"},
 	iQontrolFlood: 					{icon_on: "./images/icons/flood_on.png", 					icon_off: "./images/icons/flood_off.png"},
 	iQontrolAlarm: 					{icon_on: "./images/icons/alarm_on.png", 					icon_off: "./images/icons/alarm_off.png", 					icon_triggered: "./images/icons/alarm_on_triggered.png"},
-	iQontrolBattery: 				{icon_on: "./images/icons/battery_full.png", 				icon_off: "./images/icons/battery_empty.png", 				icon_charged75: "./images/icons/battery_75.png", icon_charged50: "./images/icons/battery_50.png", icon_charged25: "./images/icons/battery_25.png", icon_charged10: "./images/icons/battery_10.png", icon_charging: "./images/icons/battery_charging_overlay.png"},
+	iQontrolBattery: 				{icon_on: "./images/icons/battery_full.png", 				icon_off: "./images/icons/battery_empty.png", 				icon_charged75: "./images/icons/battery_75.png", icon_charged50: "./images/icons/battery_50.png", icon_charged25: "./images/icons/battery_25.png", icon_charged10: "./images/icons/battery_10.png", icon_charging: "./images/icons/battery_charging_overlay.png", icon_discharging: "./images/icons/battery_discharging_overlay.png"},
 	iQontrolDateAndTime: 			{icon_on: "./images/icons/time_alarmclock_on.png", 			icon_off: "./images/icons/time_alarmclock_off.png", 		icon_ringing: "./images/icons/bell_ringing_overlay.png"},
 	iQontrolValue: 					{icon_on: "./images/icons/value_on.png", 					icon_off: "./images/icons/value_off.png"},
 	iQontrolProgram: 				{icon_on: "./images/icons/play_on.png", 					icon_off: "./images/icons/play.png"},
@@ -145,6 +145,7 @@ var iconPresets = [
 			battery_50: ["./images/icons/battery_50.png"],
 			battery_75: ["./images/icons/battery_75.png"],
 			battery_charging_overlay: ["./images/icons/battery_charging_overlay.png"],
+			battery_discharging_overlay: ["./images/icons/battery_discharging_overlay.png"],
 			battery_empty: ["./images/icons/battery_empty.png"],
 			battery_full: ["./images/icons/battery_full.png"],
 			bell_off: ["./images/icons/bell_off.png"],
@@ -261,6 +262,7 @@ var iconPresets = [
 			battery_50: ["./images/icons/fluent/fluent_battery_50.png"],
 			battery_75: ["./images/icons/fluent/fluent_battery_75.png"],
 			battery_charging_overlay: ["./images/icons/fluent/fluent_battery_charging_overlay.png"],
+			battery_discharging_overlay: ["./images/icons/fluent/fluent_battery_discharging_overlay.png"],
 			battery_empty: ["./images/icons/fluent/fluent_battery_empty.png"],
 			battery_full: ["./images/icons/fluent/fluent_battery_full.png"],
 			bell_off: ["./images/icons/fluent/fluent_bell_off.png"],
@@ -1302,7 +1304,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolBattery": {
 		name: "Battery",
-		states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "CHARGING", "DISCHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/battery_full.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1312,7 +1314,8 @@ var iQontrolRoles = {
 				icon_charged50: {name: "Icon 50%", type: "icon", typicalIconEquivalents: ["battery_50"], default: ""},
 				icon_charged25: {name: "Icon 25%", type: "icon", typicalIconEquivalents: ["battery_25"], default: ""},
 				icon_charged10: {name: "Icon 10%", type: "icon", typicalIconEquivalents: ["battery_10"], default: ""},
-				icon_charging: {name: "Icon charging", type: "icon", typicalIconEquivalents: ["battery_charging_overlay"], default: ""}
+				icon_charging: {name: "Icon charging", type: "icon", typicalIconEquivalents: ["battery_charging_overlay"], default: ""},
+				icon_discharging: {name: "Icon discharging", type: "icon", typicalIconEquivalents: ["battery_discharging_overlay"], default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"

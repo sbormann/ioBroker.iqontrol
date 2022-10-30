@@ -720,7 +720,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolBattery": {
 		name: "Battery",
-		states: ["STATE", "CHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "CHARGING", "DISCHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/battery_full.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -730,7 +730,8 @@ var iQontrolRoles = {
 				icon_charged50: {name: "Icon 50%", type: "icon", typicalIconEquivalents: ["battery_50"], default: ""},
 				icon_charged25: {name: "Icon 25%", type: "icon", typicalIconEquivalents: ["battery_25"], default: ""},
 				icon_charged10: {name: "Icon 10%", type: "icon", typicalIconEquivalents: ["battery_10"], default: ""},
-				icon_charging: {name: "Icon charging", type: "icon", typicalIconEquivalents: ["battery_charging_overlay"], default: ""}
+				icon_charging: {name: "Icon charging", type: "icon", typicalIconEquivalents: ["battery_charging_overlay"], default: ""},
+				icon_discharging: {name: "Icon discharging", type: "icon", typicalIconEquivalents: ["battery_discharging_overlay"], default: ""}
 			}},
 			SECTION_GENERAL: {options: {
 				levelCaption: "delete"
@@ -5334,6 +5335,7 @@ function renderView(viewId, triggeredByReconnection){
 							if (icons["charged25"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged25" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged25"] || "./images/icons/battery_25.png") + "' " + (variableSrc["charged25"] ? "data-variablesrc='" + variableSrc["charged25"] + "' " : "") + "/>";
 							if (icons["charged10"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charged10" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charged10"] || "./images/icons/battery_10.png") + "' " + (variableSrc["charged10"] ? "data-variablesrc='" + variableSrc["charged10"] + "' " : "") + "/>";
 							if (icons["charging"] !== "none") iconContent += "<image class='iQontrolDeviceIcon charging overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["charging"] || "./images/icons/battery_charging_overlay.png") + "' " + (variableSrc["charging"] ? "data-variablesrc='" + variableSrc["charging"] + "' " : "") + "/>";
+							if (icons["discharging"] !== "none") iconContent += "<image class='iQontrolDeviceIcon discharging overlay" + (hideIconEnlarged ? " hideIfEnlarged" : "") + (iconNoZoomOnHover ? " noZoomOnHover" : "") + (iconNoPointerEventsActive ? " noPointerEventsIfActive" : "") + (iconNoPointerEventsInactive ? " noPointerEventsIfInactive" : "") + (iconNoPointerEventsEnlarged ? " noPointerEventsIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' src='" + (icons["discharging"] || "./images/icons/battery_discharging_overlay.png") + "' " + (variableSrc["discharging"] ? "data-variablesrc='" + variableSrc["discharging"] + "' " : "") + "/>";
 							break;
 
 							case "iQontrolDateAndTime":
@@ -6689,16 +6691,18 @@ function renderView(viewId, triggeredByReconnection){
 								break;
 
 								case "iQontrolBattery":
-								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING'] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
+								if (deviceLinkedStateIds["STATE"] || deviceLinkedStateIds['CHARGING'] || deviceLinkedStateIds['DISCHARGING'] || deviceLinkedStateIds["tileActiveStateId"] || getDeviceOptionValue(device, "tileActiveCondition")){
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _device = device;
 										var _deviceIdEscaped = deviceIdEscaped;
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedChargingId = deviceLinkedStateIds["CHARGING"];
+										var _linkedDischargingId = deviceLinkedStateIds["DISCHARGING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
 											var state = getStateObject(_linkedStateId);
 											var charging = getStateObject(_linkedChargingId);
+											var discharging = getStateObject(_linkedDischargingId);
 											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
 											var result;
 											var resultText;
@@ -6776,7 +6780,7 @@ function renderView(viewId, triggeredByReconnection){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").removeClass("active");
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevicePressureIndicator").removeClass("active");
 											}
-											resultText = addTimestamp(resultText, [state, charging], [_linkedStateId, _linkedChargingId], _device, tileActive);
+											resultText = addTimestamp(resultText, [state, charging, discharging], [_linkedStateId, _linkedDischargingId], _device, tileActive);
 											if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -6786,13 +6790,19 @@ function renderView(viewId, triggeredByReconnection){
 											} else {
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.charging").removeClass("active");
 											}
+											if (discharging && typeof discharging.val !== udef && discharging.val){ //Discharging
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.discharging").addClass("active");
+											} else {
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.discharging").removeClass("active");
+											}
 											viewShuffleFilterHideDeviceIfInactive();
 											stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
 										};
 										if (_linkedStateId) viewUpdateFunctions[_linkedStateId].push(updateFunction);
 										if (_linkedChargingId) viewUpdateFunctions[_linkedChargingId].push(updateFunction);
+										if (_linkedDischargingId) viewUpdateFunctions[_linkedDischargingId].push(updateFunction);
 										if (_linkedTileActiveStateId) viewUpdateFunctions[_linkedTileActiveStateId].push(updateFunction);
-										if (!_linkedStateId && !_linkedChargingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
+										if (!_linkedStateId && !_linkedChargingId && !_linkedDischargingId && !_linkedTileActiveStateId && getDeviceOptionValue(_device, "tileActiveCondition")) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 									})(); //<--End Closure
 								}
 								break;
