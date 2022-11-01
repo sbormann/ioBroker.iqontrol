@@ -181,8 +181,8 @@
 					
 					default:
 					if (event.data.stateId.substring(0, widgetDatapointsRoot.length + 11) == widgetDatapointsRoot + ".Favorites."){
-						var favoritesIndex = parseInt(event.data.stateId.substring(14,15));
-						switch(event.data.stateId.substring(16)){
+						var favoritesIndex = parseInt(event.data.stateId.substr(widgetDatapointsRoot.length + 11, 1));
+						switch(event.data.stateId.substring(widgetDatapointsRoot.length + 13)){
 							case "Position.latitude":
 							console.log("Set mapFavorite " + favoritesIndex + " latitude to " + event.data.value.valFull);
 							mapFavorites[favoritesIndex].latitude = parseFloat(event.data.value.valFull) || 0;
