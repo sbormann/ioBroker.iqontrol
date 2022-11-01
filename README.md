@@ -1712,6 +1712,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed default icons for ERROR, UNREACH and BATTERY (if you have changed them in a previous version you might need to change them again).
 * (sbormann) Fixed size of custom toolbar icons.
 * (sbormann) Added DISCHARGE to Battery.
+* (sbormann) Fixed Favorites not working in map-widget with instance-number.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

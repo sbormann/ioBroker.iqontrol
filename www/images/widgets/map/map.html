@@ -180,7 +180,7 @@
 					break;
 					
 					default:
-					if (event.data.stateId.substring(0, 14) == widgetDatapointsRoot + ".Favorites."){
+					if (event.data.stateId.substring(0, widgetDatapointsRoot.length + 11) == widgetDatapointsRoot + ".Favorites."){
 						var favoritesIndex = parseInt(event.data.stateId.substring(14,15));
 						switch(event.data.stateId.substring(16)){
 							case "Position.latitude":
