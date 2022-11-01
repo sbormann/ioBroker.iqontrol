@@ -1492,6 +1492,14 @@
 			customID = customID || "default";
 			$('.customCSS_' + customID).remove();
 		}
+		
+		//Addon for ioBroker.alexa-shoppinglist
+		function setOnDblClickCustomShop(myvalue) {
+			let id = myvalue.slice(0,myvalue.indexOf(","));
+			let newVal = myvalue.slice(myvalue.indexOf(",")+1, myvalue.length);
+			if (newVal == "true") newVal = true; else if (newVal == "false") newVal = false;
+			if (typeof newVal !== "undefined") sendPostMessage("setState", id, newVal);
+		}		
 	</script>
 </body>
 </html>

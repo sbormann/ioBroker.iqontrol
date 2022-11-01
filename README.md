@@ -1713,6 +1713,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Fixed size of custom toolbar icons.
 * (sbormann) Added DISCHARGE to Battery.
 * (sbormann) Fixed Favorites not working in map-widget with instance-number.
+* (sbormann) Enhance JSON-Table to work with alexa-shoppinglist-adapter.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
