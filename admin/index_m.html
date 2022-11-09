@@ -342,7 +342,7 @@
 										<th data-name="commonName" class="translate">Name</th>
 										<th data-name="nativeLinkedView" data-type="select" class="translate">Linked View</th>
 										<th data-name="nativeIcon" class="translate">Icon</th>
-										<th data-buttons="delete drag_handle" style="width:100px;"></th>
+										<th data-buttons="edit delete drag_handle" style="width:100px;"></th>
 									</tr>
 								</thead>
 							</table>
@@ -2903,10 +2903,10 @@
 					</div>
 				</div>
 				<br><br>
-				<div class="section">
+				<div class="row">
 					<div class="divider"></div>
 					<div class="col s12">
-						<h5 class="translate sub-title">Options</h5>
+						<h6 class="translate sub-title">Options:</h6>
 						<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleOpenAll"><i class="material-icons">format_line_spacing</i></a>
 						<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleCloseAll"><i class="material-icons">drag_handle</i></a>
 					</div>
@@ -3197,6 +3197,58 @@
 			</div>
             <div class="modal-footer">
                 <a class="modal-action modal-close waves-effect waves-green btn btn-set disabled"><i class="large material-icons left">check</i><span class="translate">Export selected devices</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
+            </div>
+        </div>
+
+		<!-- DIALOG: ToolbarEdit -->
+        <div id="dialogToolbarEdit" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <input type="hidden" id="dialogToolbarEditToolbarIndex" />
+                <div class="row">
+                    <div class="col s12">
+                        <h6 class="title"><span class="translate">Edit Toolbar Element:</span> <span id="dialogToolbarEditCommonName"></span></h6>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col s12">
+						<h6 class="translate sub-title">States:</h6>
+					</div>
+				</div>
+				<div class="col s12 scrollableTable wide" id="tableDialogToolbarEditStates">
+					<div class="col s12 m12 l12">
+						<table class="table-values highlight" style="width: 90%;">
+							<thead>
+								<tr>
+									<th data-name="state" class="translate">State</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant" class="translate">Type</th>
+									<th data-name="value" class="translate">Value</th>
+									<th data-buttons="edit" style="width:45px;"></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+				<br><br>
+				<div class="row">
+					<div class="divider"></div>
+					<div class="col s12">
+						<h6 class="translate sub-title">Options:</h6>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12 m12 l12">
+						<p><label>
+							<input class="dialogToolbarEditOption" type="checkbox" name="dialogToolbarEditOption_BadgeWithoutUnit" id="dialogToolbarEditOption_BadgeWithoutUnit" />
+							<span class="translate">Show badge value without unit</span>
+						</label></p>
+					</div>
+				</div>
+            </div>
+            <div class="modal-footer">
+                <a class="modal-action waves-effect waves-green btn btn-preview float-left"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>
+                <a class="modal-action waves-effect waves-green btn btn-save float-left"><i class="large material-icons left">save</i><span class="translate">Save</span></a>
+                <a class="modal-action modal-close waves-effect waves-green btn btn-set"><i class="large material-icons left">check</i><span class="translate">Ok</span></a>
                 <a class="modal-action modal-close waves-effect waves-green btn btn-close"><i class="large material-icons left">close</i><span class="translate">Cancel</span></a>
             </div>
         </div>

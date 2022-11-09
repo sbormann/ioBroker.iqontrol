@@ -1207,6 +1207,8 @@ var toolbarContextMenuLevel = 0;				//Contains the level = duration of long clic
 var toolbarContextMenuIgnoreClick = false;		//Set to true, if the Click-function is temporarily disabled, for exapmple because a DeepPress has started
 var toolbarContextMenuIgnoreStart = false;		//Set to true, if the toolbarContextMenu-function is temporarily disabled, for example because a click function has been called
 var toolbarContextMenuLinksToOtherViews = [];	//Will become History when clicking on a Context Menu Link
+var toolbarUpdateFunctions = {}; 					//Same as viewUpdateFunctions, but for panels
+var toolbarAdaptHeightOrMarqueeObserver;			//Contains MutationObserver for marquee-enabled elements
 
 var actualView = {};							//Contains the actual view as object
 var actualViewId;								//Contains the ID of the actual View
@@ -1795,12 +1797,14 @@ function getLinkedStateId(device, deviceId, state){
 					"user": "system.user.admin"
 				};
 				states[linkedStateId] = constantState;
+				if (!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
 				return linkedStateId;
 			} else { //role of state is 'linkedState'
 				var linkedStateId = stateObject.val;
+				if (!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
@@ -1843,6 +1847,7 @@ function getLinkedStateId(device, deviceId, state){
 						"user": "system.user.admin"
 					};
 					states[linkedStateId] = constantState;
+					if (!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 					if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 					if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 					if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
@@ -1862,6 +1867,7 @@ function getLinkedStateId(device, deviceId, state){
 						var value = config[2] || null;
 						linkedStateId = createTempLinkedState(stateId, type, role, false, value);
 					}
+					if (!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 					if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 					if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 					if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
@@ -1881,6 +1887,7 @@ function getLinkedStateId(device, deviceId, state){
 				var role = config[1] || "state";
 				var value = config[2] || null;
 				linkedStateId = createTempLinkedState(stateId, type, role, false, value);
+				if (!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 				if (!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if (!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 				if (!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
@@ -2555,6 +2562,11 @@ function updateState(stateId, ignorePreventUpdate){
 		$("[data-iQontrol-Device-ID='" + preventUpdate[stateId].deviceIdEscaped + "'] .iQontrolDeviceLoading").removeClass("active");
 		clearTimeout(preventUpdate[stateId].timerId);
 		delete preventUpdate[stateId];
+	}
+	if (toolbarUpdateFunctions[stateId]) for (i = 0; i < toolbarUpdateFunctions[stateId].length; i++){
+		if (!preventUpdate[stateId] || ignorePreventUpdate == "ignorePreventUpdateForToolbar") {
+			toolbarUpdateFunctions[stateId][i](stateId);
+		}
 	}
 	if (viewUpdateFunctions[stateId]) for (i = 0; i < viewUpdateFunctions[stateId].length; i++){
 		if (!preventUpdate[stateId] || ignorePreventUpdate) {
@@ -4504,12 +4516,15 @@ function renderToolbar(){
 	var toolbarContent = "";
 	removeCustomCSS("toolbarCustomIcons");
 	toolbarLinksToOtherViews = [];
+	var toolbarLinkedStateIdsToFetchAndUpdate = [];
+	var toolbarLinkedStateIds = {};
 	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition !== "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
 	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
 		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon ? (config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') == -1 ? config[namespace].toolbar[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName + "</a></li>";
-		if (config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){
+		toolbarLinkedStateIds = {};
+		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon ? (config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') == -1 ? config[namespace].toolbar[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if (!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName;
+		if (config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){ //Custom icon
 			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
 			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
 			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover;");
@@ -4518,6 +4533,74 @@ function renderToolbar(){
 			customCSS += "}";
 			addCustomCSS(customCSS, "toolbarCustomIcons");
 		}
+		//--Badge		
+		var deviceId = namespace + ".Toolbar." + toolbarIndex;
+		var deviceIdEscaped = escape(deviceId);
+		//Get linkedStates (resp. create a constant one if commonRole is const)
+		["BADGE", "BADGE_COLOR"].forEach(function(toolbarState){
+			var linkedStateId = getLinkedStateId(config[namespace].toolbar[toolbarIndex], deviceId + ".states", toolbarState);
+			if (linkedStateId) { //Call updateFunction after rendering View
+				toolbarLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
+			}
+			toolbarLinkedStateIds[toolbarState] = linkedStateId;
+		});
+ 		if (toolbarLinkedStateIds["BADGE"]){
+			toolbarContent += "<div class='iQontrolToolbarBadge' data-iQontrol-Device-ID='" + deviceIdEscaped +"'></div>";
+			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+				var _deviceIdEscaped = deviceIdEscaped;
+				var _linkedBadgeId = toolbarLinkedStateIds["BADGE"];
+				var _linkedBadgeColorId = toolbarLinkedStateIds["BADGE_COLOR"];
+				var _badgeWithoutUnit = ((config[namespace].toolbar[toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false;
+				var updateFunction = function(){
+					var stateBadge = getStateObject(_linkedBadgeId);
+					var stateBadgeColor = getStateObject(_linkedBadgeColorId);
+					var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
+					var restartActivateDelay = false;
+					if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('background-color-string') != colorString){ //New color
+						console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
+						restartActivateDelay = true;
+						$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").css('background-color', colorString).data('background-color-string', colorString);
+					}
+					if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val && stateBadge.plainText !== ""){ //Active
+						var val = stateBadge.plainText;
+						var unit = stateBadge.unit;
+						if (!isNaN(val)) val = Math.round(val * 10) / 10;
+						if (!_badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
+						if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('val') != val){ //New val
+							$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").html(val).data('val', val);
+						}
+						if (!$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").hasClass('active')){ //Not active until now
+							if (restartActivateDelay || $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+								console.log("Badge - new active - restartActivateDelay");
+								restartActivateDelay = true;
+							} else { //ActivateDelay is over
+								console.log("Badge - new active - activateDelayTimeout is over - activate now");
+								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").addClass('active');
+								stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
+							}
+						}
+					} else { //Inactive
+						$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").removeClass('active');
+						stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
+						if (!restartActivateDelay){
+							clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout'));
+							$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout', null);
+						}
+					}
+					if (restartActivateDelay){
+						clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout'));
+						$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout', setTimeout(function(){
+							console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
+							$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolToolbarBadge").data('activate-delay-timeout', 'over');
+							updateFunction();
+						}, 500));
+					}
+				};
+				toolbarUpdateFunctions[_linkedBadgeId].push(updateFunction);
+				if (_linkedBadgeColorId) toolbarUpdateFunctions[_linkedBadgeColorId].push(updateFunction);
+			})(); //<--End Closure
+		}
+		toolbarContent += "</a></li>";
 		//Create toolbarContextMenu
 		toolbarContextMenu[toolbarIndex] = {};
 		toolbarContextMenuLinksToOtherViews[toolbarIndex] = [];
@@ -4554,6 +4637,20 @@ function renderToolbar(){
 	$("#ToolbarContent").html(toolbarContent);
 	$("#ToolbarContent").enhanceWithin();
 	applyToolbarContextMenu();
+	toolbarLinkedStateIdsToFetchAndUpdate = removeDuplicates(toolbarLinkedStateIdsToFetchAndUpdate);
+	fetchStates(toolbarLinkedStateIdsToFetchAndUpdate, function(){
+		for (var i = 0; i < toolbarLinkedStateIdsToFetchAndUpdate.length; i++){
+			if (typeof usedObjects[toolbarLinkedStateIdsToFetchAndUpdate[i]] == udef) {
+				fetchObject(toolbarLinkedStateIdsToFetchAndUpdate[i], function(){
+					updateState(toolbarLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForToolbar");
+				});
+			} else {
+				updateState(toolbarLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForToolbar");
+			}
+		}
+		toolbarLinkedStateIdsToFetchAndUpdate = [];
+		applyToolbarAdaptHeightOrMarqueeObserver();
+	});
 }
 
 function applyToolbarContextMenu(){
@@ -4661,6 +4758,23 @@ function openToolbarContextMenu(toolbarIndex, callingElement){
 		$(callingElement).click();
 		$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	}
+}
+
+function applyToolbarAdaptHeightOrMarqueeObserver(){
+	console.log("Starting toolbarAdaptHeightOrMarqueeObserver");
+	if (toolbarAdaptHeightOrMarqueeObserver){
+		toolbarAdaptHeightOrMarqueeObserver.disconnect();
+	} else {
+		toolbarAdaptHeightOrMarqueeObserver = new MutationObserver(function(mutationList){
+			if (typeof mutationList[0] == udef || typeof mutationList[0].addedNodes[0] == udef || typeof mutationList[0].addedNodes[0].className == udef || mutationList[0].addedNodes[0].className != "js-marquee"){ //check if the mutation is fired by marquee itself
+				if (!($(mutationList[0].target).data('marquee-disabled') == "true")) adaptHeightOrStartMarqueeOnOverflow($(mutationList[0].target));
+			}
+		});
+	}
+	$('.iQontrolToolbarBadge').each(function(){
+		toolbarAdaptHeightOrMarqueeObserver.observe(this, {attributes: false, childList: true, subtree: false});
+		adaptHeightOrStartMarqueeOnOverflow($(this));
+	});
 }
 
 //++++++++++ VIEW ++++++++++
@@ -7658,7 +7772,7 @@ function viewShuffleApplyShuffleResizeObserver(){
 						stateFillsDeviceCheckForIconToFloat($(mutation.target).find('.iQontrolDeviceState'));
 						//Disable Marquee and re-enable it after change-animation
 						if (!options.LayoutViewMarqueeDisabled ){
-							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
+							var deviceID = $(mutation.target).find('.iQontrolDeviceState').data('iqontrolDeviceId');
 							var $marqueeObjects = $(mutation.target).find('.iQontrolDeviceState, .iQontrolDeviceInfoAText, .iQontrolDeviceInfoBText');
 							if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
 							$marqueeObjects.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
@@ -7926,7 +8040,7 @@ function addTimestamp(stateString, states, linkedStates, device, active){
 }
 
 function applyViewAdaptHeightOrMarqueeObserver(){
-	console.log("Starting marquee observer");
+	console.log("Starting viewAdaptHeightOrMarqueeObserver");
 	if (viewAdaptHeightOrMarqueeObserver){
 		viewAdaptHeightOrMarqueeObserver.disconnect();
 	} else {
@@ -7982,7 +8096,7 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 	if (!$iQontrolDeviceState.hasClass('iQontrolDeviceState')) return;
 	var active = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('active');
 	var enlarged = $iQontrolDeviceState.parents('.iQontrolDevice').hasClass('enlarged');
-	var deviceIdEscaped = $iQontrolDeviceState.data('iqontrol-device-id');
+	var deviceIdEscaped = $iQontrolDeviceState.data('iqontrolDeviceId');
 	if (((!active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfInactive')) || (active && $iQontrolDeviceState.hasClass('stateFillsDeviceIfActive')) || (enlarged && $iQontrolDeviceState.hasClass('stateFillsDeviceIfEnlarged')))
 		&& !((($("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDeviceIcon.active").prop('src') || "").endsWith('/images/icons/blank.png')) || (enlarged && $iQontrolDeviceState.prevAll('.iQontrolDeviceIcon' + (active ? '.active' : '')).hasClass('hideIfEnlarged')))){ //stateFillsDevice && Icon is visible
 		console.log("stateFillsDevice and icon is visible - add iQontrolDeviceStateIconFloatPlaceholder");
@@ -8003,7 +8117,7 @@ function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 
 function dynamicIframeZoom(){
 	$('iframe.dynamicIframeZoom').each(function(){
-		var deviceIdEscaped = $(this).data('iqontrol-device-id');
+		var deviceIdEscaped = $(this).data('iqontrolDeviceId');
 		if (deviceIdEscaped){
 			var zoom = parseFloat($(this).data('dynamic-iframe-zoom') || 33);
 			var $dummy = $("[data-iQontrol-Device-ID='" + deviceIdEscaped + "'].iQontrolDevice").clone().css('display','none').css('transition', 'none').appendTo('#ViewMain'); //Create a dummy without transition to get the goal-width
@@ -8091,7 +8205,7 @@ function viewDeviceContextMenuStart(callingElement){
 			if (level >= 1){ //Maximum reached
 				console.log("viewDeviceContextMenu maximum reached");
 				viewDeviceContextMenuIgnoreStart = true;
-				openViewDeviceContextMenu($(_callingElement).data('iqontrol-device-id'), _callingElement);
+				openViewDeviceContextMenu($(_callingElement).data('iqontrolDeviceId'), _callingElement);
 				viewDeviceContextMenuEnd();
 			} else if (level > 0) {
 				$(_callingElement).parents('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px ' + 10 * level + 'px rgba(175,175,175,0.85)');
@@ -13156,6 +13270,7 @@ $(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Sto
 
 //Resize and Orientationchange
 var resizeTimeout = false;
+var toolbarMarqueeDisabledTimeouts = [];
 var lastWidth;
 $(window).on('orientationchange resize', function(){
 	panelsCheckAutoOpenOnLargeScreens();
@@ -13183,6 +13298,21 @@ $(window).on('orientationchange resize', function(){
 		}, 250);
 	}
 	dialogResized();
+	if (!options.LayoutViewMarqueeDisabled){
+		$(".iQontrolToolbarBadge").each(function(){
+			var deviceID = $(this).data('iqontrolDeviceId');
+			var $state = $(this);
+			if (toolbarMarqueeDisabledTimeouts[deviceID]) clearTimeout(toolbarMarqueeDisabledTimeouts[deviceID]);
+			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
+			toolbarMarqueeDisabledTimeouts[deviceID] = setTimeout(function(){
+				var _$state = $state;
+				if (!options.LayoutViewMarqueeDisabled ){
+					_$state.data('marquee-disabled', 'false');
+					adaptHeightOrStartMarqueeOnOverflow(_$state);
+				}
+			}, 100);
+		});
+	}
 });
 function resizeDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
@@ -13214,7 +13344,6 @@ function resizeDevicesToFitScreen(){
 		}
 	}
 	viewShuffleReshuffle(500, 1250);
-	
 }
 function resizeFullWidthDevicesToFitScreen(){
 	var deviceMargin = parseInt($('.iQontrolDevicePressureIndicator').css('margin-left'), 10) || 6;
@@ -13289,7 +13418,7 @@ function resizeFullWidthDevicesToFitScreen(){
 		selector += ".iQontrolDevice.aspect-21-9, .iQontrolDevice:not(.active).aspect-21-9IfInactive, .iQontrolDevice.active.aspect-21-9IfActive, .iQontrolDevice.enlarged.aspect-21-9IfEnlarged";
 		selector += ".iQontrolDevice.fullHeight, .iQontrolDevice:not(.active).fullHeightIfInactive, .iQontrolDevice.active.fullHeightIfActive, .iQontrolDevice.enlarged.fullHeightIfEnlarged";
 		$(selector).each(function(){
-			var deviceID = $(this).find('.iQontrolDeviceState').data('iQontrol-Device-ID');
+			var deviceID = $(this).find('.iQontrolDeviceState').data('iqontrolDeviceId');
 			var $state = $(this).find('.iQontrolDeviceState');
 			if (viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]) clearTimeout(viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled[deviceID]);
 			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');

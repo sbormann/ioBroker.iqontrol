@@ -5575,14 +5575,14 @@ async function load(settings, onChange) {
 	function loadToolbar(){
 		$('.collapsible').collapsible();
 
-		//Add Views to Selectbox for LinkedView
+		//Add Views to Selectbox for toolbar LinkedView
 		var viewIds = [];
 		views.forEach(function(element){ viewIds.push(element.commonName); });
 		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 		//Fill Table
 		values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
 
-		//Add views to Selectbox for BACKGROUND_VIEW
+		//Add views to Selectbox for panel BACKGROUND_VIEW
 		var viewIds = [""];
 		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
 		enhanceTextInputToCombobox("#panelBackgroundViewValue", "/;" + viewIds.join(";"), false, function(value){
@@ -5593,7 +5593,7 @@ async function load(settings, onChange) {
 			}
 		});
 
-		//Add widgets and websites to Selectbox for BACKGROUND_URL
+		//Add widgets and websites to Selectbox for panel BACKGROUND_URL
 		var inbuiltWidgetsString = "";
 		inbuiltWidgets.forEach(function(widget){
 			if (widget && typeof widget.filename != udef) {
@@ -5626,7 +5626,7 @@ async function load(settings, onChange) {
 		}
 		enhanceTextInputToCombobox("#panelBackgroundURLValue", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true);
 
-		//Enhande commonRole with functions
+		//Enhande panel commonRole with functions
 		$('select.panelStates.commonRole').off('input change').on('input change', function(){
 			var id = $(this).data('id');
 			var valueId = id + "Value";
@@ -5639,7 +5639,7 @@ async function load(settings, onChange) {
 			}
 		}).trigger('change');
 
-		//Enhance Panel edit-buttons with functions
+		//Enhance panel edit-buttons with functions
 		$('a.panelStates[data-command="edit"]').off('click').on('click', function(){
 			var id = $(this).data('id');
 			var commonRoleId = id + "CommonRole";
@@ -5708,6 +5708,43 @@ async function load(settings, onChange) {
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
+			//Edit Toolbar Entry
+			if (command === 'edit') {
+				var toolbarIndex = $(this).data('index');
+				$(this).on('click', function () {
+					var _toolbarIndex = $(this).data('index');
+					initDialog('dialogToolbarEdit', function(){ //save dialog
+						var _toolbarIndex = $('#dialogToolbarEditToolbarIndex').val();
+						$('.colorpicker-element').trigger('blur');
+						toolbar[_toolbarIndex].states = dialogToolbarEditStatesTable;
+						toolbar[_toolbarIndex].options = [{option: "badgeWithoutUnit", type: "checkbox", value: $("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked')}];
+						onTableToolbarReady();
+					}, function(){ //init dialog function
+						$('#dialogToolbarEditCommonName').html(toolbar[_toolbarIndex].commonName || "");
+						$('#dialogToolbarEditToolbarIndex').val(_toolbarIndex);
+						dialogToolbarEditStates = toolbar[_toolbarIndex].states || [];
+						dialogToolbarEditStatesTable = [];
+						//build states table
+						["BADGE", "BADGE_COLOR"].forEach(function(entry){ //push all corresponding states for the selected role into the table
+							var commonRole  = (dialogToolbarEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
+							var value = (dialogToolbarEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
+							if (commonRole == ""){
+								if (entry == "BADGE_COLOR"){
+									commonRole = "const";
+								} else {
+									commonRole = "linkedState";
+								}
+							}
+							dialogToolbarEditStatesTable.push({'state':entry, 'commonRole':commonRole, 'value':value});
+						});
+						//Fill Table
+						values2table('tableDialogToolbarEditStates', dialogToolbarEditStatesTable, onChange, ontableDialogToolbarEditStatesReady);
+						$('#dialogToolbarEdit .btn-preview').data('preview-render-view', "iqontrol." + instance + ".Views." + views[0].commonName);
+						//Options
+						$("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked', ((toolbar[_toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false);
+					});
+				});
+			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
 				var imageIndex = $(this).data('index');
@@ -5738,7 +5775,114 @@ async function load(settings, onChange) {
 			handle: "a[data-command='drag_handle']"
 		});
 	}
-
+	
+	function ontableDialogToolbarEditStatesReady(){
+		var $div = $('#tableDialogToolbarEditStates');
+		var $table = $div.find('.table-values');
+		var $lines = $table.find('.table-lines');
+		//Make State Readonly and add id for selectId-Dialog
+		$lines.find('input[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'state') {
+				$(this).prop('readonly', true);
+			}
+			if (name === 'value') {
+				var stateIndex = $(this).data('index');
+				$(this).prop('id', 'tableDialogToolbarEditStatesValue_' + stateIndex);
+			}
+		});
+		//Role
+		$lines.find('select[data-name]').each(function () {
+			var name = $(this).data('name');
+			if (name === 'commonRole') {
+				var stateIndex = $(this).data('index');
+				$(this).on('input change', function(){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						//Show or hide selectboxes
+						var _stateIndex = stateIndex;
+						if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const'){
+							$("#tableDialogToolbarEditStatesValue_" + _stateIndex).next("a").prop('style','');
+						} else {
+							$("#tableDialogToolbarEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
+						}
+						if (dialogToolbarEditStatesTable[stateIndex].state == "BADGE_COLOR" ){ //COLOR - init ColorPicker
+							var $targetInput = $('#tableDialogToolbarEditStatesValue_' + _stateIndex);
+							if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const'){
+								var oldVal = $targetInput.val();
+								if (!$targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker().on('changeColor', function(event){
+										if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+									});
+									if (oldVal == "") $targetInput.val("");
+									$targetInput.on('change', function(){
+										if ($(this).val() == "") {
+											$(this).css('border-right', '0px solid black');
+										} else {
+											$(this).trigger('changeColor');
+										}
+									});
+									$targetInput.on('blur', function(){
+										dialogToolbarEditStatesTable[$targetInput.data('index')].value = $(this).val();
+										console.log("Saved color-picker value " + $(this).val());
+									});
+									$targetInput.data('materialize-color-picker-initialized', true);
+								}
+								if (isValidColorString(oldVal)){
+									$targetInput.trigger('change');
+								}
+							} else {
+								if ($targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker('destroy');
+									$targetInput.data('materialize-color-picker-initialized', false);
+								}
+								$targetInput.css('border-right', '0px solid black');
+							}
+						}
+					})(); //<--End Closure
+				}).trigger('change');
+			}
+			$(this).select();
+		});
+		//Button-Functions
+		$lines.find('a[data-command]').each(function () {
+			var command = $(this).data('command');
+			//Edit (SelectId or Edit Text)
+			if (command === 'edit') {
+				$(this).on('click', function () {
+					var stateIndex = $(this).data('index');
+					var stateValue = (dialogToolbarEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
+					if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const') { //const
+						if (dialogToolbarEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //const - COLOR - open Colorpicker
+							var $targetInput = $('#tableDialogToolbarEditStatesValue_' + stateIndex);
+							if ($targetInput.data('materialize-color-picker-initialized')){
+								$targetInput.colorpicker('show');
+							}
+						} else { //const TEXT - open editText dialog
+							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+								$('#tableDialogToolbarEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+							}, function(){ //init dialog function 
+								$('#dialogDeviceEditStateConstantName').html(dialogToolbarEditStatesTable[stateIndex].state || "");
+								$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+								$('#dialogDeviceEditStateConstantTextarea').val((dialogToolbarEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+								$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
+							});
+						}
+					} else { //linkedState - open selectID dialog
+						$('#dialogSelectId').data('selectidfor', 'tableDialogToolbarEditStatesValue_' + stateIndex);
+						initSelectId(function (sid) {
+							sid.selectId('show', $('#tableDialogToolbarEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
+								if (newId) {
+									$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+								}
+							});
+						});
+					}
+				});
+			}
+		});
+	}
+	
 	//++++++++++ IMAGES ++++++++++
 	//Load Images
 	function loadImages(){
