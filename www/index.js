@@ -13303,7 +13303,8 @@ $(window).on('orientationchange resize', function(){
 			var deviceID = $(this).data('iqontrolDeviceId');
 			var $state = $(this);
 			if (toolbarMarqueeDisabledTimeouts[deviceID]) clearTimeout(toolbarMarqueeDisabledTimeouts[deviceID]);
-			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '');
+			var $stateBGColor = $state.css('background-color');
+			$state.data('marquee-disabled', 'true').marquee('destroy').attr('style', '').css('background-color', $stateBGColor);
 			toolbarMarqueeDisabledTimeouts[deviceID] = setTimeout(function(){
 				var _$state = $state;
 				if (!options.LayoutViewMarqueeDisabled ){
