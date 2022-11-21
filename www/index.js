@@ -1527,7 +1527,7 @@ function getStarted(triggeredByReconnection){
 				if (config[namespace].passphraseEncrypted){
 					for(i = 0; md5(passphrase || "") != config[namespace].passphraseEncrypted && i < 4; i++){
 						if (i == 3) {
-							alert("Too many attempts, please try again later!");
+							alert(_("Too many attempts, please try again later!"));
 							return;
 						}
 						passphrase = prompt(_("Please enter passphrase:"));
