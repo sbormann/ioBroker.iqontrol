@@ -413,6 +413,11 @@ class Iqontrol extends utils.Adapter {
 		await this.createOrUpdateObject("info.connection", {type: "state"}, {name: "Adapter Connection", desc: "Shows working adapter connection", type: "boolean", role: "indicator.connected"});
 	}
 
+	//++++++++++ PASSPHRASE ++++++++++
+	async createPassphrase(){
+		await this.createOrUpdateObject("passphrase", {type: "state"}, {name: "Passphrase", desc: "See Instance-Settings - Options - Passphrase", type: "string", role: "text", write: false});
+	}
+	
 	//++++++++++ POPUP ++++++++++	
 	async createPopup(){
 		await this.createOrUpdateObject("Popup.Message", 					{type: "state"}, 	{name: "Message",					type: "string", 	role: "text", 		desc: "Message to be displayed", });
@@ -1728,6 +1733,32 @@ class Iqontrol extends utils.Adapter {
 			}
 		});
 	}
+
+	async saveThisConfig(){
+		this.log.debug("saveThisConfig...");
+		//Saving this.config
+		let objId = 'system.adapter.iqontrol.' + this.instance;
+		let obj;
+		let that = this;
+		if (allObjects[objId]) {
+			this.log.silly("saveThisConfig: Object " + objId + " found in allObjects");
+			obj = allObjects[objId];
+		} else {			
+			this.log.silly("saveThisConfig: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
+			obj = {...await this.getForeignObjectAsync(objId, 'instance')};
+		}
+		if (!obj || !obj.common || !obj.native){
+			this.log.error("saveThisConfig: Object " + objId + " NOT found in ioBroker Objects or common or native part is missing! ERROR");
+		} else {
+			Object.assign(obj.native, this.config);
+			this.log.silly("saveThisConfig: writing object " + objId + " now to ioBroker...");
+			await this.setForeignObjectAsync(objId, obj, true).then(async function(){ 
+				that.log.debug("saveThisConfig: Updated object: " + objId); 
+			}, function(err){
+				that.log.error("saveThisConfig: ERROR updating object: " + objId + ": " + err);
+			});
+		}
+	}
 	
 	//++++++++++ INITIALIZATION ++++++++++
 	/**
@@ -1741,6 +1772,9 @@ class Iqontrol extends utils.Adapter {
 		let systemConfig = await this.getForeignObjectAsync('system.config');
 		systemLanguage = systemConfig && systemConfig.common && systemConfig.common.language || "en";
 		this.log.info("systemLanguage = " + systemLanguage);
+
+		this.log.info("Creating Passphrase...");
+		await this.createPassphrase();
 		
 		this.log.info("Creating Popup States...");
 		await this.createPopup();
