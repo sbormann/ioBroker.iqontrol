@@ -1008,6 +1008,7 @@
     "Value of DIRECTION for 'closing'": "Wert von DIRECTION für 'schließend'",
     "Value of DIRECTION for 'opening'": "Wert von DIRECTION für 'öffnend'",
     "Value of DIRECTION for 'uncertain'": "Wert von DIRECTION für 'unsicher'",
+    "Value of LOCK_OPEN for 'open door'": "Wert von LOCK_OPEN für 'Tür öffnen'",
     "Value of LOCK_STATE for 'locked'": "Wert von LOCK_STATE für 'abgeschlossen'",
     "Value of REPEAT for 'off'": "Wert von REPEAT für 'aus'",
     "Value of REPEAT for 'repeat all'": "Wert von REPEAT für 'alle wiederholen'",

@@ -1187,7 +1187,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
-				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""}
+				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""},
+				lockOpenValue: {name: "Value of LOCK_OPEN for 'open door'", type: "text", default: ""}				
 			}}
 		}
 	},

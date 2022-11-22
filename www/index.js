@@ -604,7 +604,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
-				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""}
+				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""},
+				lockOpenValue: {name: "Value of LOCK_OPEN for 'open door'", type: "text", default: ""}
 			}}
 		}
 	},
@@ -10283,11 +10284,13 @@ function renderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLockOpenButton' id='DialogLockOpenButton'>" + _("Open Door") + "</a>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedLockOpenId = dialogLinkedStateIds["LOCK_OPEN"];
+							var _lockOpenValue = getDeviceOptionValue(_device, "lockOpenValue") || true;
 							var bindingFunction = function(){
 								$('#DialogLockOpenButton').on('click', function(e) {
-									if (confirm(_("Open Door") + "?")) startProgram(_linkedLockOpenId, _deviceIdEscaped);
+									if (confirm(_("Open Door") + "?")) setState(_linkedLockOpenId, _deviceIdEscaped, _lockOpenValue, true);;
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
@@ -10321,12 +10324,18 @@ function renderDialog(deviceIdEscaped){
 							})(); //<--End Closure
 						}
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _device = device;
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedLockStateId = dialogLinkedStateIds["LOCK_STATE"];
+							var _lockStateLockedValue = getDeviceOptionValue(_device, "lockStateLockedValue") || "false";
 							var updateFunction = function(){
 								var stateLockState = getStateObject(_linkedLockStateId);
 								if (stateLockState){
-									if (stateLockState.val == false || stateLockState.val.toString().toLowerCase() == "false" || stateLockState.val == 0 || stateLockState.val == "0"){ //Locked
+									if (
+										(stateLockState.plainText == _lockStateLockedValue || stateLockState.plainText == _(_lockStateLockedValue) || stateLockState.plainText == capitalize(_lockStateLockedValue) || stateLockState.plainText == capitalize(_(_lockStateLockedValue)))
+										|| (typeof stateLockState.val == "boolean" && stateLockState.val.toString() == _lockStateLockedValue)
+									) {
+//									if (stateLockState.val == false || stateLockState.val.toString().toLowerCase() == "false" || stateLockState.val == 0 || stateLockState.val == "0"){ //Locked
 										$("#DialogLockStateCheckboxradio_false").prop("checked", true);
 									} else { //Unlocked
 										$("#DialogLockStateCheckboxradio_true").prop("checked", true);
@@ -10338,6 +10347,7 @@ function renderDialog(deviceIdEscaped){
 							var bindingFunction = function(){
 								$("input[name='DialogLockStateCheckboxradio']").on('click', function(e) {
 									var value = $("input[name='DialogLockStateCheckboxradio']:checked").val();
+									if (value == false && _lockStateLockedValue != "false") value = _lockStateLockedValue;
 									setState(_linkedLockStateId, _deviceIdEscaped, value, true, function(){}, 15000);
 								});
 							};

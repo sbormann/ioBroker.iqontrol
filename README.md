@@ -127,6 +127,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To load the page without toolbar you can add `noToolbar=true`
 * To load the page without panel you can add `noPanel=true`
 * To load the page without toolbar and panel, swiping deactivated, no loading-spinner and with transparent loading-screen you can add `isBackgroundView=true`
+* If your iQontrol instance is password protected by a passphrase (see Options - Passphrase-Protection), you can submit the passphrase by adding `passphrase=<MyPassphrase>' 
 
 **Example:**
 * `https://192.168.1.1:8082/iqontrol/index.html?namespace=iqontrol.1&home=iqontrol.1.Views.Living-Room`
@@ -1717,6 +1718,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added badges to toolbar.
 * (sbormann) Enhanced handling of images in BACKGROUND_HTML.
 * (sbormann) Added option to protect instance by passphrase.
+* (sbormann) Added option to set value of LOCK_OPEN for doors with lock.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
