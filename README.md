@@ -1719,6 +1719,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Enhanced handling of images in BACKGROUND_HTML.
 * (sbormann) Added option to protect instance by passphrase.
 * (sbormann) Added option to set value of LOCK_OPEN for doors with lock.
+* (sbormann) Linking color to GLOW or BACKGROUND_COLOR now works when using ALTERNATIVE_COLORSPACE.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

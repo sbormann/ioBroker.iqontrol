@@ -5003,18 +5003,21 @@ function renderView(viewId, triggeredByReconnection){
 					viewContent += "<div class='iQontrolDeviceGlow active' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
 					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 						var _device = device;
+						var _deviceId = deviceId;
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedGlowActiveColorId = deviceLinkedStateIds["GLOW_ACTIVE_COLOR"];
 						var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
 						var _linkGlowActiveColorToHue = linkGlowActiveColorToHue;
 						var _linkedHueId = deviceLinkedStateIds["HUE"];
 						var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+						var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
 						var updateFunction = function(){
 							var stateGlowActiveColor = getStateObject(_linkedGlowActiveColorId);
 							var stateGlowHide = getStateObject(_linkedGlowHideId);
 							var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
 							var glow = !(stateGlowHide && stateGlowHide.val || false);
 							if (invertGlowHide) glow = !glow;
+							if (!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
 							var stateHue = getStateObject(_linkedHueId);
 							if (_linkGlowActiveColorToHue && stateHue && stateHue.val !== ""){
 								var hueMin = stateHue.min || 0;
@@ -5042,6 +5045,7 @@ function renderView(viewId, triggeredByReconnection){
 						if (_linkedGlowActiveColorId) viewUpdateFunctions[_linkedGlowActiveColorId].push(updateFunction);
 						if (_linkedGlowHideId) viewUpdateFunctions[_linkedGlowHideId].push(updateFunction);
 						if (_linkGlowActiveColorToHue && _linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+						if (_linkGlowActiveColorToHue && !_linkedHueId && _linkedAlternativeColorspaceValueId) viewUpdateFunctions[_linkedAlternativeColorspaceValueId].push(updateFunction);
 						if (_linkGlowActiveColorToHue && !_linkedHueId) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 						if (_linkGlowActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
 					})(); //<--End Closure
@@ -5311,13 +5315,16 @@ function renderView(viewId, triggeredByReconnection){
 						var linkOverlayActiveColorToHue = (getDeviceOptionValue(device, "linkOverlayActiveColorToHue") == "true");
 						if (deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"] || linkOverlayActiveColorToHue){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceId = deviceId;
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedOverlayActiveColorId = deviceLinkedStateIds["OVERLAY_ACTIVE_COLOR"];
 								var _linkOverlayActiveColorToHue = linkOverlayActiveColorToHue;
 								var _linkedHueId = deviceLinkedStateIds["HUE"];
 								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
+								var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
 								var updateFunction = function(){
 									var stateOverlayActiveColor = getStateObject(_linkedOverlayActiveColorId);
+									if (!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
 									var stateHue = getStateObject(_linkedHueId);
 									if (_linkOverlayActiveColorToHue && stateHue && stateHue.val !== ""){
 										var hueMin = stateHue.min || 0;
@@ -5344,6 +5351,7 @@ function renderView(viewId, triggeredByReconnection){
 								};
 								if (_linkedOverlayActiveColorId) viewUpdateFunctions[_linkedOverlayActiveColorId].push(updateFunction);
 								if (_linkOverlayActiveColorToHue && _linkedHueId) viewUpdateFunctions[_linkedHueId].push(updateFunction);
+								if (_linkOverlayActiveColorToHue && !_linkedHueId && _linkedAlternativeColorspaceValueId) viewUpdateFunctions[_linkedAlternativeColorspaceValueId].push(updateFunction);
 								if (_linkOverlayActiveColorToHue && !_linkedHueId) viewUpdateFunctions["UPDATE_ONCE"].push(updateFunction);
 								if (_linkOverlayActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[_linkedSaturationId].push(updateFunction);
 							})(); //<--End Closure

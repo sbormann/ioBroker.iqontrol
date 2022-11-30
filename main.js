@@ -33,11 +33,11 @@ const translations = {
 
 //++++++++++ HELPERS: GENERAL FUNCTIONS ++++++++++
 function idEncode(id){
-	return id.replace(/[\.\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
+	return id.replace(/[\.\]\[\*,;'"`<>?]/g, "_").replace(/\.$/g, ""); //Unallowed chars: .][*,;'"`<>?
 }
 
 function idEncodePointAllowed(id){
-	return id.replace(/[\]\[\*,;'"`<>?]/g, "_"); //Unallowed chars: .][*,;'"`<>?
+	return id.replace(/[\]\[\*,;'"`<>?]/g, "_").replace(/\.$/g, ""); //Unallowed chars: ][*,;'"`<>?
 }
 
 function checkCondition(value, condition, conditionValue, conditionValueSeparator){
