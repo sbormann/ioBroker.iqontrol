@@ -127,7 +127,7 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To load the page without toolbar you can add `noToolbar=true`
 * To load the page without panel you can add `noPanel=true`
 * To load the page without toolbar and panel, swiping deactivated, no loading-spinner and with transparent loading-screen you can add `isBackgroundView=true`
-* Normally iQontrol uses the language that is set in ioBroker. You can overwrite that by adding `languate=<xx>`
+* Normally iQontrol uses the language that is set in ioBroker. You can overwrite that by adding `language=<xx>`
 	* `<xx>` can be `de`, `en`, `es`, `fr`, `it`, `nl`, `pl`, `pt`, `ru` or `zh-cn` 
 * If your iQontrol instance is password protected by a passphrase (see Options - Passphrase-Protection), you can submit the passphrase by adding `passphrase=<MyPassphrase>' 
 
