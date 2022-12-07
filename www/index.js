@@ -1518,7 +1518,7 @@ function getStarted(triggeredByReconnection){
 	console.log("* Fetch system config...");
 	fetchSystemConfig(function(){
 		console.log("* System config received.");
-		systemLang = systemConfig.language || systemLang;
+		systemLang = getUrlParameter('language') || systemConfig.language || systemLang;
 		translateAll();
 			//Fetch config
 			console.log("* Fetch config...");

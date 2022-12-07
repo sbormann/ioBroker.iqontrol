@@ -127,6 +127,8 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 * To load the page without toolbar you can add `noToolbar=true`
 * To load the page without panel you can add `noPanel=true`
 * To load the page without toolbar and panel, swiping deactivated, no loading-spinner and with transparent loading-screen you can add `isBackgroundView=true`
+* Normally iQontrol uses the language that is set in ioBroker. You can overwrite that by adding `languate=<xx>`
+	* `<xx>` can be `de`, `en`, `es`, `fr`, `it`, `nl`, `pl`, `pt`, `ru` or `zh-cn` 
 * If your iQontrol instance is password protected by a passphrase (see Options - Passphrase-Protection), you can submit the passphrase by adding `passphrase=<MyPassphrase>' 
 
 **Example:**
@@ -1720,6 +1722,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to protect instance by passphrase.
 * (sbormann) Added option to set value of LOCK_OPEN for doors with lock.
 * (sbormann) Linking color to GLOW or BACKGROUND_COLOR now works when using ALTERNATIVE_COLORSPACE.
+* (sbormann) Added URL-Parameter &language=xx.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
