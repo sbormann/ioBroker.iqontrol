@@ -8265,6 +8265,7 @@ async function load(settings, onChange) {
 			passphrase = obj.val;
 			$('#optionsPassphrase').val(passphrase);
 		}
+		$('#optionsPassphrase').on('change', onChange);
 	})
 	
 	//Passphrase Autogenerate
@@ -8873,7 +8874,7 @@ async function save(callback) {
 	//Set passphrase
 	passphrase = $('#optionsPassphrase').val();
 	socket.emit('setState', 'iqontrol.' + instance + '.passphrase', passphrase);
-	if (passphrase) obj.passphraseEncrypted = md5(passphrase); else delete obj.passphraseEncrypted;
+	if (passphrase) obj.passphraseEncrypted = md5(passphrase); else obj.passphraseEncrypted = "";
 
 	//Get widgetDatapoints
 	var widgetsToDownload = [];
