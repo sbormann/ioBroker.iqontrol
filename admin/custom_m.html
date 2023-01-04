@@ -358,7 +358,7 @@
 				unit_one:				(obj && obj.common && obj.common.unit) || "",
 				min:					(obj && obj.common && typeof obj.common.min !== "undefined" && !isNaN(Number(obj.common.min))) ? Number(obj.common.min) : "",
 				max:					(obj && obj.common && typeof obj.common.max !== "undefined" && !isNaN(Number(obj.common.max))) ? Number(obj.common.max) : "",
-				step:					"",
+				step:					(obj && obj.common && typeof obj.common.step !== "undefined" && !isNaN(Number(obj.common.step))) ? Number(obj.common.step) : "",
 				roundDigits:			2,
 				timeFormat:				"x",
 				timeDisplayFormat:		"dddd, DD.MM.YYYY HH:mm:ss",

@@ -88,7 +88,7 @@
 			"lg": 6,
 			"label":"Step",
 			"help": "(this is only supported for numbers)",
-			"default": ""
+			"defaultFunc": "(customObj && customObj.common && typeof customObj.common.step !== 'undefined' && !isNaN(Number(customObj.common.step))) ? Number(customObj.common.step) : ''"
 		},
 		"roundDigits": {
 			"type": "number",
