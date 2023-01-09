@@ -1723,6 +1723,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option to set value of LOCK_OPEN for doors with lock.
 * (sbormann) Linking color to GLOW or BACKGROUND_COLOR now works when using ALTERNATIVE_COLORSPACE.
 * (sbormann) Added URL-Parameter &language=xx.
+* (sbormann) Added option to center headers and subheaders. 
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

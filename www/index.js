@@ -3641,6 +3641,15 @@ function handleOptions(){
 		customCSS += "	margin-left: calc(" + options.LayoutViewMainHeaderMarginLeft + "px - env(safe-area-inset-left));";
 		customCSS += "}";
 	};
+	if (options.LayoutViewMainHeaderCentered) {
+		customCSS += "#ViewHeaderTitle{";
+		customCSS += "	padding: 0;";
+		customCSS += "}";
+		customCSS += "#ViewHeaderTitle div.headerText{";
+		customCSS += "	width: 100vw;";
+		customCSS += "	text-align: center;";
+		customCSS += "}";
+	};
 	//Sub-Header
 	if (options.LayoutViewSubHeaderColor) {
 		customCSS += "#ViewContent h4{";
@@ -3714,6 +3723,11 @@ function handleOptions(){
 		customCSS += "#ViewContent h4{";
 		customCSS += "	margin-left: " + options.LayoutViewSubHeaderMarginLeft + "px;";
 		customCSS += "	margin-left: calc(" + options.LayoutViewSubHeaderMarginLeft + "px - env(safe-area-inset-left));";
+		customCSS += "}";
+	};
+	if (options.LayoutViewSubHeaderCentered) {
+		customCSS += "#ViewContent h4 div.subHeaderText{";
+		customCSS += "	text-align: center;";
 		customCSS += "}";
 	};
 	//New Line
@@ -4902,7 +4916,7 @@ function renderView(viewId, triggeredByReconnection){
 					viewContent += "	<div class='iQontrolSubheadingCollapsibleIcon minus'><span>" + (options && options.LayoutViewSubHeaderCollapsibleLabelMinus || "&minus;") + "</span></div>";
 					viewContent += "</div>";
 				}
-				viewContent += "<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
+				viewContent += "<div class='subHeaderText fullScreenWidth'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + device.nativeHeading.split('|')[0] + "</div></h4><div class='viewShuffleContainer" + (device.nativeHeadingOptions == "CC" || device.nativeHeadingOptions == "CCC" ? " collapsibleClosed collapsibleContentClosed" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if (device.nativeNewLine) {
 				viewContent += "</div><div class='viewNewLineSpacer'></div><div class='viewShuffleContainer'><div class='iQontrolDeviceShuffleSizer'></div>";
 			} else if (deviceIndex == 0) {
@@ -7453,7 +7467,7 @@ function renderView(viewId, triggeredByReconnection){
 		viewContent += "</div>";
 		//Place content
 		var variablename = encodeURI(actualView.commonName.split('|').slice(1).join('|'));
-		$("#ViewHeaderTitle").html("<div" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + actualView.commonName + "</div>");
+		$("#ViewHeaderTitle").html("<div class='headerText'" + (variablename  ? " data-variablename='" + variablename + "' " : "") + ">" + actualView.commonName + "</div>");
 		if (actualView.nativeHideName) $("#ViewHeaderTitle").hide(); else $("#ViewHeaderTitle").show();
 		$("#ViewContent").html(viewContent);
 		resizeDevicesToFitScreen();

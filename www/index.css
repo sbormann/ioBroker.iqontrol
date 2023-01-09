@@ -468,6 +468,9 @@ html.noscroll body {
 	width: 200vw;
 	font-weight: normal;
 }
+#ViewContent h4 div.subHeaderText{
+	transition: all 1s 0.5s;
+}
 #ViewDeviceContextMenu {
 	background-color: #ffffffbf;
 }
