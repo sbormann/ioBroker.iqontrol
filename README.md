@@ -1724,6 +1724,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Linking color to GLOW or BACKGROUND_COLOR now works when using ALTERNATIVE_COLORSPACE.
 * (sbormann) Added URL-Parameter &language=xx.
 * (sbormann) Added option to center headers and subheaders. 
+* (sbormann) Enhanced FLOT-Chart-Widget to display more Datapoints.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

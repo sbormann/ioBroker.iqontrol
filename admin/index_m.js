@@ -3692,6 +3692,7 @@ async function load(settings, onChange) {
 			if (name === 'state') {
 				$(this).prop('readonly', true);
 				if ($(this).val() == "ALTERNATIVE_COLORSPACE_VALUE") $(this).after('<span style="font-size:x-small;">' + _("The colorspace has to be defined in the devicespecific options below") + '</span>');
+				if ($(this).val() == "BACKGROUND_URL") $(this).after('<span style="font-size:x-small;">' + _("Also used to display and configure widgets") + '</span>');
 				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
 				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
 				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');

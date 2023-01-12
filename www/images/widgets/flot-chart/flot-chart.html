@@ -3,8 +3,48 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta name="widget-description" content="This is a flot-chart widget. It will display the history of the datapoint linked to STATE or LEVEL. You need to have a history adapter up and running and the linked Datapoint needs to be logged to get this working! (C) by Sebastian Bormann"/> 
-	<meta name="widget-urlparameters" content="chartColor/rgb(104,164,255)/Chart color/color;range/360/Period of time to display (minutes)/number/1,525600,1;min//Minimum (leave empty to use datapoint-settings);max//Maximum (leave empty to use datapoint-settings);ignoreMinMax/false/Ignore Min and Max from datapoint settings (automatic scaling). Min and Max set here are always respected./checkbox;fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;showXaxe/off/Show X Axis/select/off,off/bottom,bottom/bottomColor,bottom colored/bottomIfBig,bottom if big/bottomColorIfBig,bottom colored if big/top,top/topColor,top colored/topIfBig,top if big/topColorIfBig,top colored if big;xticks/3/Ticks of X Axis (0 = auto)/number/0,10,1;showYaxe/off/Show Y Axis/select/off,off/right,right/rightColor,right colored/rightIfBig,right if big/rightColorIfBig,right colored if big/left,left/leftColor,left colored/leftIfBig,left if big/leftColorIfBig,left colored if big;yticks/0/Ticks of Y Axis (0 = auto)/number/0,10,1;useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint;historyInstance//Use this history instance (if empty, default is used)/historyInstance">
-	<meta name="widget-options" content="{'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'true', 'tileEnlargeShowButtonInactive': 'true', 'tileEnlargeShowButtonActive': 'true', 'tileEnlargeShowInPressureMenuInactive': 'true', 'tileEnlargeShowInPressureMenuActive': 'true'}"/>
+	<meta name="widget-urlparameters" content= "chartColor/rgb(104,164,255)/Chart color/color;
+												fill/0.25/Fill area (0-1)/number/0.0,1.0,0.01;
+												range/360/Period of time to display (minutes)/number/1,525600,1;
+												min//Minimum (leave empty to use datapoint-settings);
+												max//Maximum (leave empty to use datapoint-settings);
+												ignoreMinMax/false/Ignore Min and Max from datapoint settings (automatic scaling). Min and Max set here are always respected./checkbox;
+												fullScreen/false/Size chart to fit the full tile (Otherwise its only displayed in the lower parts of the tile)/checkbox;
+												showXaxe/off/Show X Axis/select/off,off/bottom,bottom/bottomColor,bottom colored/bottomIfBig,bottom if big/bottomColorIfBig,bottom colored if big/top,top/topColor,top colored/topIfBig,top if big/topColorIfBig,top colored if big;
+												xticks/3/Ticks of X Axis (0 = auto)/number/0,10,1;
+												showYaxe/off/Show Y Axis/select/off,off/right,right/rightColor,right colored/rightIfBig,right if big/rightColorIfBig,right colored if big/left,left/leftColor,left colored/leftIfBig,left if big/leftColorIfBig,left colored if big;
+												yticks/0/Ticks of Y Axis (0 = auto)/number/0,10,1;
+												useThisDatapoint//Use this Datapoint (if empty, the default Datapoint (e.g. the Datapoint defined in STATE of this device) will be used)/datapoint;
+												historyInstance//Use this history instance (if empty, default is used)/historyInstance;
+												//2nd Datapoint/section;
+												useThisDatapoint2//Use this Datapoint/datapoint;
+												chartColor2/rgba(255,0,0,0.5)/Chart color/color;
+												fill2/0.05/Fill area (0-1)/number/0.0,1.0,0.01;
+												useMinMaxFromMain2/true/Use Min and Max settings from main datapoint (everything set below here will be ignored)./checkbox;
+												min2//Minimum (leave empty to use datapoint-settings);
+												max2//Maximum (leave empty to use datapoint-settings);
+												ignoreMinMax2/false/Ignore Min and Max from datapoint settings (automatic scaling). Min and Max set here are always respected./checkbox;
+												//3rd Datapoint/section;
+												useThisDatapoint3//Use this Datapoint/datapoint;
+												chartColor3/rgba(255,200,0,0.5)/Chart color/color;
+												fill3/0.05/Fill area (0-1)/number/0.0,1.0,0.01;
+												useMinMaxFromMain3/true/Use Min and Max settings from main datapoint (everything set below here will be ignored)./checkbox;
+												min3//Minimum (leave empty to use datapoint-settings);
+												max3//Maximum (leave empty to use datapoint-settings);
+												ignoreMinMax3/false/Ignore Min and Max from datapoint settings (automatic scaling). Min and Max set here are always respected./checkbox"
+	/>
+	<meta name="widget-options" content="{
+												'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 
+												'bigIconEnlarged': 'true', 
+												'popupAllowPostMessage': 'true', 
+												'backgroundURLAllowPostMessage': 'true', 
+												'backgroundURLNoPointerEvents': 'true', 
+												'tileEnlargeShowButtonInactive': 'true', 
+												'tileEnlargeShowButtonActive': 'true', 
+												'tileEnlargeShowInPressureMenuInactive': 'true', 
+												'tileEnlargeShowInPressureMenuActive': 'true'
+										}"
+	/>
 	<link rel="stylesheet" href="flot-chart.css" />
 	<script type="text/javascript" src="../../../../lib/js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="../../../../lib/js/socket.io.js"></script>
@@ -31,6 +71,8 @@
 	<script type="text/javascript">
 		//Declarations
 		var USE_THIS_DATAPOINT;
+		var USE_THIS_DATAPOINT2;
+		var USE_THIS_DATAPOINT3;
 		var STATE;
 		var LEVEL;
 		var TEMPERATURE;
@@ -51,20 +93,35 @@
 		}
 
 		//Get URL-Parameters
+		var chartColor = getUrlParameter("chartColor") || "rgb(104,164,255)";
+		var fill = getUrlParameter("fill") || "0.25";
 		var ignoreMinMax = (getUrlParameter("ignoreMinMax") == "true");
 		var min = getUrlParameter("min") || "";
 		var max = getUrlParameter("max") || "";
 		var historyInstance = getUrlParameter("historyInstance");
-		var chartColor = getUrlParameter("chartColor") || "rgb(104,164,255)";
 		var range = getUrlParameter("range") || "360";
 		var showXaxe = getUrlParameter("showXaxe") || "off";
 		var showYaxe = getUrlParameter("showYaxe") || "off";
 		var xticks = getUrlParameter("xticks") || "3";
 		var yticks = getUrlParameter("yticks") || "0";
+		var chartColor2 = getUrlParameter("chartColor2") || "rgba(255,0,0,0.5)";
+		var fill2 = getUrlParameter("fill2") || "0.05";
+		var useMinMaxFromMain2 = !(getUrlParameter("useMinMaxFromMain2") == "false");
+		var ignoreMinMax2 = (getUrlParameter("ignoreMinMax2") == "true");
+		var min2 = getUrlParameter("min2") || "";
+		var max2 = getUrlParameter("max2") || "";
+		var chartColor3 = getUrlParameter("chartColor3") || "rgba(255,200,0,0.5)";
+		var fill3 = getUrlParameter("fill3") || "0.05";
+		var useMinMaxFromMain3 = !(getUrlParameter("useMinMaxFromMain3") == "false");
+		var ignoreMinMax3 = (getUrlParameter("ignoreMinMax3") == "true");
+		var min3 = getUrlParameter("min3") || "";
+		var max3 = getUrlParameter("max3") || "";
 
 		//Subscribe to Datapoints
 		console.log("Subscribe to Datapoints");
 		if(getUrlParameter("useThisDatapoint")) sendPostMessage("getState", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
+		if(getUrlParameter("useThisDatapoint2")) sendPostMessage("getState", getUrlParameter("useThisDatapoint2")); else USE_THIS_DATAPOINT2 = null;
+		if(getUrlParameter("useThisDatapoint3")) sendPostMessage("getState", getUrlParameter("useThisDatapoint3")); else USE_THIS_DATAPOINT3 = null;
 		sendPostMessage("getWidgetDeviceState", "STATE");
 		sendPostMessage("getWidgetDeviceState", "LEVEL");
 		sendPostMessage("getWidgetDeviceState", "TEMPERATURE");
@@ -72,7 +129,7 @@
 	
 		//Create configuration
 		function createConfiguration(noAnimation){
-			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined" || typeof TEMPERATURE == "undefined" || typeof SET_TEMPERATURE == "undefined") return;
+			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof USE_THIS_DATAPOINT2 == "undefined" || typeof USE_THIS_DATAPOINT3 == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined" || typeof TEMPERATURE == "undefined" || typeof SET_TEMPERATURE == "undefined") return;
 			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || TEMPERATURE || SET_TEMPERATURE || null;
 			if(dp == null) return;
 			var id = dp.id;
@@ -80,34 +137,107 @@
 				min = min || dp.min || "";
 				max = max || dp.max || "";
 			}
-			var configurations = {
-				"l[0][id]": id, 
-				"l[0][offset]": "0", 
-				"l[0][aggregate]": "average", 
-				"l[0][smoothing]": "", 
-				"l[0][color]": chartColor, 
-				"l[0][min]": min, 
-				"l[0][max]": max, 
-				"l[0][thickness]": "3", 
-				"l[0][shadowsize]": "3", 
-				"l[0][name]": "Chart", 
-				"l[0][yaxe]": "off", 
-				"l[0][xticks]": xticks,
-				"l[0][xaxe]": "off", 
-				"l[0][yticks]": yticks, 
-				"l[0][chartType]": "steps", 
-				"l[0][points]": "false", 
-				"l[0][fill]": "0.25", 
-				"l[0][ignoreNull]": "true", 
-				"l[0][dashes]": "false", 
-				"l[0][dashLength]": "10", 
-				"l[0][spaceLength]": "10", 
+			var configurations = {}
+			var numberOfDatapoints = 0;
+			if(USE_THIS_DATAPOINT3){
+				if(useMinMaxFromMain3) {
+					min3 = min;
+					max3 = max;
+				} else if(!ignoreMinMax3){
+					min3 = min3 || USE_THIS_DATAPOINT3.min || "";
+					max3 = max3 || USE_THIS_DATAPOINT3.max || "";
+				}
+				var configurations3 = {
+					["l[" + numberOfDatapoints + "][id]"]: USE_THIS_DATAPOINT3.id, 
+					["l[" + numberOfDatapoints + "][offset]"]: "0", 
+					["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
+					["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
+					["l[" + numberOfDatapoints + "][color]"]: chartColor3, 
+					["l[" + numberOfDatapoints + "][min]"]: min3, 
+					["l[" + numberOfDatapoints + "][max]"]: max3, 
+					["l[" + numberOfDatapoints + "][thickness]"]: "3", 
+					["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
+					["l[" + numberOfDatapoints + "][name]"]: "Chart2", 
+					["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
+					["l[" + numberOfDatapoints + "][xticks]"]: xticks,
+					["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
+					["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
+					["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
+					["l[" + numberOfDatapoints + "][points]"]: "false", 
+					["l[" + numberOfDatapoints + "][fill]"]: fill3, 
+					["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
+					["l[" + numberOfDatapoints + "][dashes]"]: "false", 
+					["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
+					["l[" + numberOfDatapoints + "][spaceLength]"]: "10"
+				};
+				if(useMinMaxFromMain3) configurations3["l[" + numberOfDatapoints + "][commonYAxis]"] = "1";
+				Object.assign(configurations, configurations3);
+				numberOfDatapoints++;
+			}
+			if(USE_THIS_DATAPOINT2){
+				if(useMinMaxFromMain2) {
+					min2 = min;
+					max2 = max;
+				} else if(!ignoreMinMax2){
+					min2 = min2 || USE_THIS_DATAPOINT2.min || "";
+					max2 = max2 || USE_THIS_DATAPOINT2.max || "";
+				}
+				var configurations2 = {
+					["l[" + numberOfDatapoints + "][id]"]: USE_THIS_DATAPOINT2.id, 
+					["l[" + numberOfDatapoints + "][offset]"]: "0", 
+					["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
+					["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
+					["l[" + numberOfDatapoints + "][color]"]: chartColor2, 
+					["l[" + numberOfDatapoints + "][min]"]: min2, 
+					["l[" + numberOfDatapoints + "][max]"]: max2, 
+					["l[" + numberOfDatapoints + "][thickness]"]: "3", 
+					["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
+					["l[" + numberOfDatapoints + "][name]"]: "Chart2", 
+					["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
+					["l[" + numberOfDatapoints + "][xticks]"]: xticks,
+					["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
+					["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
+					["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
+					["l[" + numberOfDatapoints + "][points]"]: "false", 
+					["l[" + numberOfDatapoints + "][fill]"]: fill2, 
+					["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
+					["l[" + numberOfDatapoints + "][dashes]"]: "false", 
+					["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
+					["l[" + numberOfDatapoints + "][spaceLength]"]: "10"
+				};
+				if(useMinMaxFromMain2) configurations2["l[" + numberOfDatapoints + "][commonYAxis]"] = "1";
+				Object.assign(configurations, configurations2);
+				numberOfDatapoints++;
+			}
+			var configurations0 = {
+				["l[" + numberOfDatapoints + "][id]"]: id, 
+				["l[" + numberOfDatapoints + "][offset]"]: "0", 
+				["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
+				["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
+				["l[" + numberOfDatapoints + "][color]"]: chartColor, 
+				["l[" + numberOfDatapoints + "][min]"]: min, 
+				["l[" + numberOfDatapoints + "][max]"]: max, 
+				["l[" + numberOfDatapoints + "][commonYAxis]"]: "1", 
+				["l[" + numberOfDatapoints + "][thickness]"]: "3", 
+				["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
+				["l[" + numberOfDatapoints + "][name]"]: "Chart", 
+				["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
+				["l[" + numberOfDatapoints + "][xticks]"]: xticks,
+				["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
+				["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
+				["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
+				["l[" + numberOfDatapoints + "][points]"]: "false", 
+				["l[" + numberOfDatapoints + "][fill]"]: fill, 
+				["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
+				["l[" + numberOfDatapoints + "][dashes]"]: "false", 
+				["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
+				["l[" + numberOfDatapoints + "][spaceLength]"]: "10", 
 				"timeType": "relative", 
 				"relativeEnd": "now", 
 				"range": range, 
 				"live": "30", 
 				"aggregateType": "step", 
-				"aggregateSpan": "1", 
+				"aggregateSpan": "0", 
 				"hoverDetail": "false", 
 				"useComma": "2", 
 				"zoom": "false", 
@@ -116,6 +246,7 @@
 				"border_width": "0",
 				"timeFormat": "%H:%M %d.%m."
 			};
+			Object.assign(configurations, configurations0);
 			if(noAnimation) configurations["animation"] = "0";
 			if(historyInstance) configurations["l[0][instance]"] = historyInstance; 
 			if(showXaxe == "bottom" || (showXaxe == "bottomIfBig" && window.innerHeight > 200)){
@@ -199,6 +330,18 @@
 						case getUrlParameter("useThisDatapoint") || "---undefined---":
 							console.log("Received USE_THIS_DATAPOINT");
 							USE_THIS_DATAPOINT = event.data.value;
+							createConfiguration();
+						break;
+
+						case getUrlParameter("useThisDatapoint2") || "---undefined2---":
+							console.log("Received USE_THIS_DATAPOINT2");
+							USE_THIS_DATAPOINT2 = event.data.value;
+							createConfiguration();
+						break;
+
+						case getUrlParameter("useThisDatapoint3") || "---undefined3---":
+							console.log("Received USE_THIS_DATAPOINT3");
+							USE_THIS_DATAPOINT3 = event.data.value;
 							createConfiguration();
 						break;
 
