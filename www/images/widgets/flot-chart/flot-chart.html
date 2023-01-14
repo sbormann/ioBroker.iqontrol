@@ -248,24 +248,24 @@
 			};
 			Object.assign(configurations, configurations0);
 			if(noAnimation) configurations["animation"] = "0";
-			if(historyInstance) configurations["l[0][instance]"] = historyInstance; 
+			if(historyInstance) configurations["l[" + numberOfDatapoints + "][instance]"] = historyInstance; 
 			if(showXaxe == "bottom" || (showXaxe == "bottomIfBig" && window.innerHeight > 200)){
-				configurations["l[0][xaxe]"] = "bottom"; 
+				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "bottom"; 
 			} else if(showXaxe == "bottomColor" || (showXaxe == "bottomColorIfBig" && window.innerHeight > 200)){
-				configurations["l[0][xaxe]"] = "bottomColor"; 
+				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "bottomColor"; 
 			} else if(showXaxe == "top" || (showXaxe == "topIfBig" && window.innerHeight > 200)){
-				configurations["l[0][xaxe]"] = "top"; 
+				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "top"; 
 			} else if(showXaxe == "topColor" || (showXaxe == "topColorIfBig" && window.innerHeight > 200)){
-				configurations["l[0][xaxe]"] = "topColor"; 
+				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "topColor"; 
 			}
 			if(showYaxe == "right" || (showYaxe == "rightIfBig" && window.innerWidth > 200)){
-				configurations["l[0][yaxe]"] = "right"; 
+				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "right"; 
 			} else if(showYaxe == "rightColor" || (showYaxe == "rightColorIfBig" && window.innerWidth > 200)){
-				configurations["l[0][yaxe]"] = "rightColor"; 
+				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "rightColor"; 
 			} else if(showYaxe == "left" || (showYaxe == "leftIfBig" && window.innerWidth > 200)){
-				configurations["l[0][yaxe]"] = "left"; 
+				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "left"; 
 			} else if(showYaxe == "leftColor" || (showYaxe == "leftColorIfBig" && window.innerWidth > 200)){
-				configurations["l[0][yaxe]"] = "leftColor"; 
+				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "leftColor"; 
 			}
 			if((showXaxe + showYaxe).indexOf("IfBig") > -1) reCreateIfBig = true; else reCreateIfBig = false;
 			//Replace URL-Parameters
