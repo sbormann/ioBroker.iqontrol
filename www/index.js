@@ -1971,21 +1971,31 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		//--Add unit
 		result.unit = getUnit(linkedStateId);
 		//--Add readonly
-		result.readonly = false;
-		if (typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
-		if (typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
-		if (typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
-		if (typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
 		if (typeof result.custom.targetValues !== udef && result.custom.targetValues !== "") result.readonly = false;
+		else if (typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
+		else if (typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
+		else if (typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
+		else if (typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
+		else result.readonly = false;
 		//--Add min and max
-		if (typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if (typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
-		if (typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
+		else if (typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
 		if (typeof result.custom.max !== udef && result.custom.max !== "") result.max = result.custom.max;
+		else if (typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
 		//--Modify min and max for HomematicIP (for temperature sensors it reports min = -3276.8 and max = 3276.7)
 		if (result.min == -3276.8 && result.max == 3276.7){
 			result.min = -34;
 			result.max = 65;
+		}
+		//--Add step
+		if (typeof result.custom.step !== udef && result.custom.step !== "") result.step = result.custom.step;
+		else if (typeof usedObjects[linkedStateId].common.step !== udef) result.step = usedObjects[linkedStateId].common.step;
+		if (!result.step && typeof result.min !== udef && !isNaN(result.min) && typeof result.max !== udef && !isNaN(result.max)) {
+			var diff = result.max - result.min;
+			if (diff < 1) result.step = 0.001;
+			else if (diff < 10) result.step = 0.01;
+			else if (diff < 100) result.step = 0.1;
+			else result.step = 1;
 		}
 		//--Add type
 		result.type = usedObjects[linkedStateId].common.type || "string";
@@ -8636,11 +8646,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var min = dialogStates["STATE"].min || 0;
 							var max = dialogStates["STATE"].max || 100;
-							var step = "1";
-							if (max - min < 100) step = "0.1";
-							if (max - min < 10) step = "0.01";
-							if (max - min < 1) step = "0.001";
-							if (usedObjects[dialogLinkedStateIds["STATE"]] && typeof usedObjects[dialogLinkedStateIds["STATE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom !== udef &&  usedObjects[dialogLinkedStateIds["STATE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["STATE"]].common.custom[namespace].step.toString();
+							var step = dialogStates["STATE"].step || 1;
 							var type = "Level";
 							var sliderSendRate = 500;
 							if (device.commonRole == "iQontrolLight") {
@@ -9012,11 +9018,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var min = dialogStates["LEVEL"].min || 0;
 							var max = dialogStates["LEVEL"].max || 100;
-							var step = "1";
-							if (max - min < 100) step = "0.1";
-							if (max - min < 10) step = "0.01";
-							if (max - min < 1) step = "0.001";
-							if (usedObjects[dialogLinkedStateIds["LEVEL"]] && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["LEVEL"]].common.custom[namespace].step.toString();
+							var step = dialogStates["LEVEL"].step || 1;
 							var type = "Level";
 							var sliderSendRate = 500;
 							if (device.commonRole == "iQontrolLight") {
@@ -9455,11 +9457,7 @@ function renderDialog(deviceIdEscaped){
 					if (dialogStates["HUE"] && typeof dialogStates["HUE"].val !== udef){
 						var min = dialogStates["HUE"] && dialogStates["HUE"].min || 0;
 						var max = dialogStates["HUE"] && dialogStates["HUE"].max || 359;
-						var step = "1";
-						if (max - min < 100) step = "0.1";
-						if (max - min < 10) step = "0.01";
-						if (max - min < 1) step = "0.001";
-						if (usedObjects[dialogLinkedStateIds["HUE"]] && typeof usedObjects[dialogLinkedStateIds["HUE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["HUE"]].common.custom[namespace].step.toString();
+						var step = dialogStates["HUE"] && dialogStates["HUE"].step || 1;
 						if (dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 						dialogContentCountAfterHR++;
 						dialogContent += "<label for='DialogHueSlider' ><image src='./images/symbols/color.png' / style='width:16px; height:16px;'>&nbsp;" + _("Color") + ":</label>";
@@ -9516,11 +9514,7 @@ function renderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						var min = dialogStates["SATURATION"] && dialogStates["SATURATION"].min || 0;
 						var max = dialogStates["SATURATION"] && dialogStates["SATURATION"].max || 100;
-						var step = "1";
-						if (max - min < 100) step = "0.1";
-						if (max - min < 10) step = "0.01";
-						if (max - min < 1) step = "0.001";
-						if (usedObjects[dialogLinkedStateIds["SATURATION"]] && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SATURATION"]].common.custom[namespace].step.toString();
+						var step = dialogStates["SATURATION"] && dialogStates["SATURATION"].step || 1;
 						dialogContent += "<label for='DialogSaturationSlider' ><image src='./images/symbols/saturation.png' / style='width:16px; height:16px;'>&nbsp;" + _("Saturation") + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider colorSaturationPicker' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["SATURATION"] && dialogStates["SATURATION"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='false' data-popup-enabled='true' data-show-value='true' name='DialogSaturationSlider' id='DialogSaturationSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -9578,11 +9572,7 @@ function renderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						var min = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].min || 0;
 						var max = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].max || 100;
-						var step = "1";
-						if (max - min < 100) step = "0.1";
-						if (max - min < 10) step = "0.01";
-						if (max - min < 1) step = "0.001";
-						if (usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]] && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["COLOR_BRIGHTNESS"]].common.custom[namespace].step.toString();
+						var step = dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].step || 1;
 						dialogContent += "<label for='DialogColorBrightnessSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of color") + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["COLOR_BRIGHTNESS"] && dialogStates["COLOR_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogColorBrightnessSlider' id='DialogColorBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -9626,11 +9616,7 @@ function renderDialog(deviceIdEscaped){
 					if (dialogStates["CT"]  && typeof dialogStates["CT"].val !== udef){
 						var min = dialogStates["CT"] && dialogStates["CT"].min || 0;
 						var max = dialogStates["CT"] && dialogStates["CT"].max || 100;
-						var step = "1";
-						if (max - min < 100) step = "0.1";
-						if (max - min < 10) step = "0.01";
-						if (max - min < 1) step = "0.001";
-						if (usedObjects[dialogLinkedStateIds["CT"]] && typeof usedObjects[dialogLinkedStateIds["CT"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["CT"]].common.custom[namespace].step.toString();
+						var step = dialogStates["CT"] && dialogStates["CT"].step || 1;
 						var invertCt = false;
 						if (getDeviceOptionValue(device, "invertCt") == "true") invertCt = !invertCt;
 						if (dialogContentCountAfterHR > 0) dialogContent += "<hr>";
@@ -9679,11 +9665,7 @@ function renderDialog(deviceIdEscaped){
 						dialogContentCountAfterHR++;
 						var min = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].min || 0;
 						var max = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].max || 100;
-						var step = "1";
-						if (max - min < 100) step = "0.1";
-						if (max - min < 10) step = "0.01";
-						if (max - min < 1) step = "0.001";
-						if (usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]] && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["WHITE_BRIGHTNESS"]].common.custom[namespace].step.toString();
+						var step = dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].step || 1;
 						dialogContent += "<label for='DialogWhiteBrightnessSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _("Brightness of white") + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + ((dialogStates["WHITE_BRIGHTNESS"] && dialogStates["WHITE_BRIGHTNESS"].readonly) || (dialogStates["ALTERNATIVE_COLORSPACE_VALUE"] && dialogStates["ALTERNATIVE_COLORSPACE_VALUE"].readonly) || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogWhiteBrightnessSlider' id='DialogWhiteBrightnessSlider' min='" + min + "' max='" + max + "' step='1'/>";
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -10477,11 +10459,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var min = dialogStates["SLATS_LEVEL"].min || 0;
 							var max = dialogStates["SLATS_LEVEL"].max || 100;
-							var step = "1";
-							if (max - min < 100) step = "0.1";
-							if (max - min < 10) step = "0.01";
-							if (max - min < 1) step = "0.001";
-							if (usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]] && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SLATS_LEVEL"]].common.custom[namespace].step.toString();
+							var step = dialogStates["SLATS_LEVEL"].step || 1;
 							var type = "Slats";
 							dialogContent += "<label for='DialogSlatsLevelSlider' ><image src='./images/symbols/slats.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SLATS_LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogSlatsLevelSlider' id='DialogSlatsLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
@@ -10753,11 +10731,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContentCountAfterHR++;
 							var min = dialogStates["ELAPSED"].min || 0;
 							var max = dialogStates["ELAPSED"].max || 200;
-							var step = "1";
-							if (max - min < 100) step = "0.1";
-							if (max - min < 10) step = "0.01";
-							if (max - min < 1) step = "0.001";
-							if (usedObjects[dialogLinkedStateIds["ELAPSED"]] && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["ELAPSED"]].common.custom[namespace].step.toString();
+							var step = dialogStates["ELAPSED"].step || 1;
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["ELAPSED"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='false' data-show-value='false' data-mini='true' name='DialogElapsedLevelSlider' id='DialogElapsedLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							dialogContent += "<div class='ui-grid-a' style='margin: -11px 8px 10px 3px;'><div class='ui-block-a'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogElapsedSpan'></span></div><div class='ui-block-b' style='text-align: right;'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogDurationSpan'></span></div></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
@@ -11311,11 +11285,7 @@ function renderDialog(deviceIdEscaped){
 						if (dialogStates["VOLUME"].type == "level"){
 							var min = dialogStates["VOLUME"].min || 0;
 							var max = dialogStates["VOLUME"].max || 100;
-							var step = "1";
-							if (max - min < 100) step = "0.1";
-							if (max - min < 10) step = "0.01";
-							if (max - min < 1) step = "0.001";
-							if (usedObjects[dialogLinkedStateIds["VOLUME"]] && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["VOLUME"]].common.custom[namespace].step.toString();
+							var step = dialogStates["VOLUME"].step || 1;
 							var type = "Volume";
 							if (dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 							dialogContentCountAfterHR++;
@@ -12095,11 +12065,7 @@ function renderDialog(deviceIdEscaped){
 											case "level":
 											var min = stateValue.min || 0;
 											var max = stateValue.max || 100;
-											var step = "1";
-											if (max - min < 100) step = "0.1";
-											if (max - min < 10) step = "0.01";
-											if (max - min < 1) step = "0.001";
-											if (stateValue.custom && stateValue.custom.step && stateValue.custom.step !== "" && isNaN(stateValue.custom.step) == false) step = stateValue.custom.step.toString();
+											var step = stateValue.step || 1;
 											var type = _(_element.name.split('|')[0] || "Level");
 											var variabletype = encodeURI(_element.name.split('|').slice(1).join('|'));
 											var sliderSendRate = 500;

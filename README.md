@@ -1248,7 +1248,7 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 		* Type: Chose what to add or remove to or from the list. Type could be:
 			* **All** - self-explaining
 			* **Enumeration** - filter by enumeration. You can define enumerations, like 'rooms', 'functions' or 'windows upper floor' in ioBroker admin adapter
-			* **Enumeration with Children** - enumerations contain often only the device without it's datapoint. Therefore, you will mostly use Enumeration with Children, which automatically includes the data points as well
+			* **Enumeration with Children** - enumerations contain often only the device without it's datapoints. Therefore, you will mostly use Enumeration with Children, which automatically includes the data points as well
 			* **ID** - filter by the ID of data points, for example remove IDs that don't end with '.color' or '.saturation'
 			* **Object-Type** - filter by Object-Type, which can be device, channel, state or enumeration
 			* **Type** - filter by the `common.type` of the datapoint, for example string, number, boolean
@@ -1297,7 +1297,7 @@ To visualize the counted devices, you can use the Device-Counter-Widget, which p
 	* It filters duplicates by aliases out
 	![List Edit Unreach](img/list_edit_unreach_counter.png)
 	* And lastly, it counts all data points with the value `true`, that have that state for at least 15 seconds
-* There are some built in default lists you can add, for example complex Service-Messages and a Adapter-Monitor. Just hit the 'Add Default Lists' button and chose what to add. Feel free to examine the lists, to get a better understanding, how the work.
+* There are some built in default lists you can add, for example complex Service-Messages and a Adapter-Monitor. Just hit the 'Add Default Lists' button and chose what to add. Feel free to examine the lists, to get a better understanding, how they work.
 
 ### Wiki
 * There is a very good Explanation with some good Enhancements by `dslraser` in the wiki: [wiki](https://github.com/sbormann/ioBroker.iqontrol/wiki/Listen-Z%C3%A4hler)
@@ -1725,6 +1725,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added URL-Parameter &language=xx.
 * (sbormann) Added option to center headers and subheaders. 
 * (sbormann) Enhanced FLOT-Chart-Widget to display more Datapoints.
+* (sbormann) Fixed timestamp in JSON-Table-Widget.
+* (dirkhe) Fixed and enhanced step attribute.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
