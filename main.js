@@ -329,7 +329,7 @@ function getPlainTextWithUnit(id, that){
 		//----Check format of valueList
 		if (typeof valueListString !== "object"){
 			if (tryParseJSON(valueListString) == false){
-				valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
+				if (typeof valueListString == "string") valueListString = '{"' + valueListString.replace(/;/g, ',').replace(/:/g, '":"').replace(/,/g, '","') + '"}';
 				if (tryParseJSON(valueListString) == false) {
 					statesSet = false;
 				} else {
@@ -1651,6 +1651,7 @@ class Iqontrol extends utils.Adapter {
 	//++++++++++ OBJECT AND STATES-FUNCTIONS ++++++++++
 	async createOrUpdateObject(objId, rootOptions, commonOptions, nativeOptions, setValue, ack){
 		if (!objId) return;
+		objId = objId.replace(/\.$/g, ""); //Remove trailing dot
 		if (ack) ack = true; else ack = false;
 		let that = this;
 		let created = false;
