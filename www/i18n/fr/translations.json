@@ -1230,6 +1230,7 @@
     "Unsupported settings:": "Paramètres non pris en charge:",
     "Up": "Up",
     "Update Log on change of one of these IDs": "Mettre à jour le journal lors du changement d'un de ces identifiants",
+    "Update counters periodically every [seconds]": "Mettre à jour les compteurs périodiquement toutes les [secondes]",
     "Update log on change of these IDs": "Mettre à jour le journal lors du changement de ces identifiants",
     "Upload file here": "Télécharger le fichier ici",
     "Upload file(s) here": "Télécharger le (s) fichier (s) ici",

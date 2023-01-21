@@ -991,6 +991,7 @@
     "Unselected Text-Schadow-Color:": "未选择的文本-日程-颜色：",
     "Unsupported settings:": "不支持的设置：",
     "Update Log on change of one of these IDs": "更新这些 ID 之一的更改日志",
+    "Update counters periodically every [seconds]": "每 [秒] 定期更新计数器",
     "Update log on change of these IDs": "更新这些 ID 的更改日志",
     "Upload file(s) here": "在这里上传文件",
     "Use big font for STATE, if the device is active": "如果设备处于活动状态，请为STATE使用大字体",

@@ -991,6 +991,7 @@
     "Unselected Text-Schadow-Color:": "Невыбранный текст-тень-цвет:",
     "Unsupported settings:": "Неподдерживаемые настройки:",
     "Update Log on change of one of these IDs": "Журнал обновлений при изменении одного из этих идентификаторов",
+    "Update counters periodically every [seconds]": "Периодически обновлять счетчики каждые [секунд]",
     "Update log on change of these IDs": "Журнал обновления при изменении этих идентификаторов",
     "Upload file(s) here": "Загрузить файл (ы) здесь",
     "Use big font for STATE, if the device is active": "Используйте крупный шрифт для STATE, если устройство активно",

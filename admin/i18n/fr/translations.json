@@ -991,6 +991,7 @@
     "Unselected Text-Schadow-Color:": "Couleur du texte non sélectionnée:",
     "Unsupported settings:": "Paramètres non pris en charge:",
     "Update Log on change of one of these IDs": "Mettre à jour le journal lors du changement d'un de ces identifiants",
+    "Update counters periodically every [seconds]": "Mettre à jour les compteurs périodiquement toutes les [secondes]",
     "Update log on change of these IDs": "Mettre à jour le journal lors du changement de ces identifiants",
     "Upload file(s) here": "Télécharger le (s) fichier (s) ici",
     "Use big font for STATE, if the device is active": "Utilisez une grande police pour STATE, si l'appareil est actif",
