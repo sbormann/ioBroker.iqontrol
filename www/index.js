@@ -399,7 +399,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
 				levelCaption: "delete",
-				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
@@ -423,7 +423,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
 				levelCaption: "delete",
-				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
@@ -446,7 +446,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
 				levelCaption: "delete",
-				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
