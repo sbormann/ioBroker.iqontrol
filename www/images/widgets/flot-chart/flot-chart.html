@@ -70,9 +70,7 @@
 	<!--div class="loader" style="display: none"></div-->
 	<script type="text/javascript">
 		//Declarations
-		var USE_THIS_DATAPOINT;
-		var USE_THIS_DATAPOINT2;
-		var USE_THIS_DATAPOINT3;
+		var USE_THIS_DATAPOINT = [];
 		var STATE;
 		var LEVEL;
 		var TEMPERATURE;
@@ -93,35 +91,37 @@
 		}
 
 		//Get URL-Parameters
-		var chartColor = getUrlParameter("chartColor") || "rgb(104,164,255)";
-		var fill = getUrlParameter("fill") || "0.25";
-		var ignoreMinMax = (getUrlParameter("ignoreMinMax") == "true");
-		var min = getUrlParameter("min") || "";
-		var max = getUrlParameter("max") || "";
+		var chartColor =  [getUrlParameter("chartColor") || "rgb(104,164,255)"];
+		chartColor.push(getUrlParameter("chartColor2") || "rgba(255,0,0,0.5)");
+		chartColor.push(getUrlParameter("chartColor3") || "rgba(255,0,0,0.5)");
+		var fill = [getUrlParameter("fill") || "0.25"];
+		fill.push(getUrlParameter("fill2") || "0.05");
+		fill.push(getUrlParameter("fill3") || "0.05");
+		var ignoreMinMax = [(getUrlParameter("ignoreMinMax") == "true")];
+		ignoreMinMax.push(getUrlParameter("ignoreMinMax2") == "true");
+		ignoreMinMax.push(getUrlParameter("ignoreMinMax3") == "true");
+		var min = [getUrlParameter("min") || ""];
+		min.push(getUrlParameter("min2") || "");
+		min.push(getUrlParameter("min3") || "");
+		var max = [getUrlParameter("max") || ""];
+		max.push(getUrlParameter("max2") || "");
+		max.push(getUrlParameter("max3") || "");
+		var useMinMaxFromMain = [""];
+		useMinMaxFromMain.push(!(getUrlParameter("useMinMaxFromMain2") == "false"));
+		useMinMaxFromMain.push(!(getUrlParameter("useMinMaxFromMain3") == "false"));
+		
 		var historyInstance = getUrlParameter("historyInstance");
 		var range = getUrlParameter("range") || "360";
 		var showXaxe = getUrlParameter("showXaxe") || "off";
 		var showYaxe = getUrlParameter("showYaxe") || "off";
 		var xticks = getUrlParameter("xticks") || "3";
 		var yticks = getUrlParameter("yticks") || "0";
-		var chartColor2 = getUrlParameter("chartColor2") || "rgba(255,0,0,0.5)";
-		var fill2 = getUrlParameter("fill2") || "0.05";
-		var useMinMaxFromMain2 = !(getUrlParameter("useMinMaxFromMain2") == "false");
-		var ignoreMinMax2 = (getUrlParameter("ignoreMinMax2") == "true");
-		var min2 = getUrlParameter("min2") || "";
-		var max2 = getUrlParameter("max2") || "";
-		var chartColor3 = getUrlParameter("chartColor3") || "rgba(255,200,0,0.5)";
-		var fill3 = getUrlParameter("fill3") || "0.05";
-		var useMinMaxFromMain3 = !(getUrlParameter("useMinMaxFromMain3") == "false");
-		var ignoreMinMax3 = (getUrlParameter("ignoreMinMax3") == "true");
-		var min3 = getUrlParameter("min3") || "";
-		var max3 = getUrlParameter("max3") || "";
 
 		//Subscribe to Datapoints
 		console.log("Subscribe to Datapoints");
-		if(getUrlParameter("useThisDatapoint")) sendPostMessage("getState", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT = null;
-		if(getUrlParameter("useThisDatapoint2")) sendPostMessage("getState", getUrlParameter("useThisDatapoint2")); else USE_THIS_DATAPOINT2 = null;
-		if(getUrlParameter("useThisDatapoint3")) sendPostMessage("getState", getUrlParameter("useThisDatapoint3")); else USE_THIS_DATAPOINT3 = null;
+		if(getUrlParameter("useThisDatapoint")) sendPostMessage("getState", getUrlParameter("useThisDatapoint")); else USE_THIS_DATAPOINT[0] = null;
+		if(getUrlParameter("useThisDatapoint2")) sendPostMessage("getState", getUrlParameter("useThisDatapoint2")); else USE_THIS_DATAPOINT[1] = null;
+		if(getUrlParameter("useThisDatapoint3")) sendPostMessage("getState", getUrlParameter("useThisDatapoint3")); else USE_THIS_DATAPOINT[2] = null;
 		sendPostMessage("getWidgetDeviceState", "STATE");
 		sendPostMessage("getWidgetDeviceState", "LEVEL");
 		sendPostMessage("getWidgetDeviceState", "TEMPERATURE");
@@ -129,109 +129,73 @@
 	
 		//Create configuration
 		function createConfiguration(noAnimation){
-			if(typeof USE_THIS_DATAPOINT == "undefined" || typeof USE_THIS_DATAPOINT2 == "undefined" || typeof USE_THIS_DATAPOINT3 == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined" || typeof TEMPERATURE == "undefined" || typeof SET_TEMPERATURE == "undefined") return;
-			var dp = USE_THIS_DATAPOINT || LEVEL || STATE || TEMPERATURE || SET_TEMPERATURE || null;
+			if(typeof USE_THIS_DATAPOINT[0] == "undefined" || typeof USE_THIS_DATAPOINT[1] == "undefined" || typeof USE_THIS_DATAPOINT[2] == "undefined" || typeof STATE == "undefined" || typeof LEVEL == "undefined" || typeof TEMPERATURE == "undefined" || typeof SET_TEMPERATURE == "undefined") return;
+			var dp = USE_THIS_DATAPOINT[0] || LEVEL || STATE || TEMPERATURE || SET_TEMPERATURE || null;
 			if(dp == null) return;
-			var id = dp.id;
-			if(!ignoreMinMax){
-				min = min || dp.min || "";
-				max = max || dp.max || "";
-			}
 			var configurations = {}
-			var numberOfDatapoints = 0;
-			if(USE_THIS_DATAPOINT3){
-				if(useMinMaxFromMain3) {
-					min3 = min;
-					max3 = max;
-				} else if(!ignoreMinMax3){
-					min3 = min3 || USE_THIS_DATAPOINT3.min || "";
-					max3 = max3 || USE_THIS_DATAPOINT3.max || "";
+			var datapointCount = 0;
+			for (var datapointIndex = 2; datapointIndex > 0; datapointIndex--){
+				if(USE_THIS_DATAPOINT[datapointIndex]){
+					if(!ignoreMinMax[datapointIndex]){
+						min[datapointIndex] = min[datapointIndex] || USE_THIS_DATAPOINT[datapointIndex].min || "";
+						max[datapointIndex] = max[datapointIndex] || USE_THIS_DATAPOINT[datapointIndex].max || "";
+					}
+					let configuration = {
+						["l[" + datapointCount + "][id]"]: USE_THIS_DATAPOINT[datapointIndex].id, 
+						["l[" + datapointCount + "][offset]"]: "0", 
+						["l[" + datapointCount + "][aggregate]"]: "average", 
+						["l[" + datapointCount + "][smoothing]"]: "0", 
+						["l[" + datapointCount + "][color]"]: chartColor[datapointIndex], 
+						["l[" + datapointCount + "][min]"]: min[datapointIndex], 
+						["l[" + datapointCount + "][max]"]: max[datapointIndex], 
+						["l[" + datapointCount + "][commonYAxis]"]: (datapointCount + 1).toString(), 
+						["l[" + datapointCount + "][thickness]"]: "3", 
+						["l[" + datapointCount + "][shadowsize]"]: "3", 
+						["l[" + datapointCount + "][name]"]: "Chart2", 
+						["l[" + datapointCount + "][yaxe]"]: "off", 
+						["l[" + datapointCount + "][xticks]"]: xticks,
+						["l[" + datapointCount + "][xaxe]"]: "off", 
+						["l[" + datapointCount + "][yticks]"]: yticks, 
+						["l[" + datapointCount + "][chartType]"]: "steps", 
+						["l[" + datapointCount + "][points]"]: "false", 
+						["l[" + datapointCount + "][fill]"]: fill[datapointIndex], 
+						["l[" + datapointCount + "][ignoreNull]"]: "true", 
+						["l[" + datapointCount + "][dashes]"]: "false", 
+						["l[" + datapointCount + "][dashLength]"]: "10", 
+						["l[" + datapointCount + "][spaceLength]"]: "10"
+					};
+					Object.assign(configurations, configuration);
+					datapointCount++;
 				}
-				var configurations3 = {
-					["l[" + numberOfDatapoints + "][id]"]: USE_THIS_DATAPOINT3.id, 
-					["l[" + numberOfDatapoints + "][offset]"]: "0", 
-					["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
-					["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
-					["l[" + numberOfDatapoints + "][color]"]: chartColor3, 
-					["l[" + numberOfDatapoints + "][min]"]: min3, 
-					["l[" + numberOfDatapoints + "][max]"]: max3, 
-					["l[" + numberOfDatapoints + "][thickness]"]: "3", 
-					["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
-					["l[" + numberOfDatapoints + "][name]"]: "Chart2", 
-					["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
-					["l[" + numberOfDatapoints + "][xticks]"]: xticks,
-					["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
-					["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
-					["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
-					["l[" + numberOfDatapoints + "][points]"]: "false", 
-					["l[" + numberOfDatapoints + "][fill]"]: fill3, 
-					["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
-					["l[" + numberOfDatapoints + "][dashes]"]: "false", 
-					["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
-					["l[" + numberOfDatapoints + "][spaceLength]"]: "10"
-				};
-				if(useMinMaxFromMain3) configurations3["l[" + numberOfDatapoints + "][commonYAxis]"] = "1";
-				Object.assign(configurations, configurations3);
-				numberOfDatapoints++;
 			}
-			if(USE_THIS_DATAPOINT2){
-				if(useMinMaxFromMain2) {
-					min2 = min;
-					max2 = max;
-				} else if(!ignoreMinMax2){
-					min2 = min2 || USE_THIS_DATAPOINT2.min || "";
-					max2 = max2 || USE_THIS_DATAPOINT2.max || "";
-				}
-				var configurations2 = {
-					["l[" + numberOfDatapoints + "][id]"]: USE_THIS_DATAPOINT2.id, 
-					["l[" + numberOfDatapoints + "][offset]"]: "0", 
-					["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
-					["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
-					["l[" + numberOfDatapoints + "][color]"]: chartColor2, 
-					["l[" + numberOfDatapoints + "][min]"]: min2, 
-					["l[" + numberOfDatapoints + "][max]"]: max2, 
-					["l[" + numberOfDatapoints + "][thickness]"]: "3", 
-					["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
-					["l[" + numberOfDatapoints + "][name]"]: "Chart2", 
-					["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
-					["l[" + numberOfDatapoints + "][xticks]"]: xticks,
-					["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
-					["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
-					["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
-					["l[" + numberOfDatapoints + "][points]"]: "false", 
-					["l[" + numberOfDatapoints + "][fill]"]: fill2, 
-					["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
-					["l[" + numberOfDatapoints + "][dashes]"]: "false", 
-					["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
-					["l[" + numberOfDatapoints + "][spaceLength]"]: "10"
-				};
-				if(useMinMaxFromMain2) configurations2["l[" + numberOfDatapoints + "][commonYAxis]"] = "1";
-				Object.assign(configurations, configurations2);
-				numberOfDatapoints++;
+			datapointIndex = 0;
+			if(!ignoreMinMax[datapointIndex]){
+				min[datapointIndex] = min[datapointIndex] || dp.min || "";
+				max[datapointIndex] = max[datapointIndex] || dp.max || "";
 			}
-			var configurations0 = {
-				["l[" + numberOfDatapoints + "][id]"]: id, 
-				["l[" + numberOfDatapoints + "][offset]"]: "0", 
-				["l[" + numberOfDatapoints + "][aggregate]"]: "average", 
-				["l[" + numberOfDatapoints + "][smoothing]"]: "0", 
-				["l[" + numberOfDatapoints + "][color]"]: chartColor, 
-				["l[" + numberOfDatapoints + "][min]"]: min, 
-				["l[" + numberOfDatapoints + "][max]"]: max, 
-				["l[" + numberOfDatapoints + "][commonYAxis]"]: "1", 
-				["l[" + numberOfDatapoints + "][thickness]"]: "3", 
-				["l[" + numberOfDatapoints + "][shadowsize]"]: "3", 
-				["l[" + numberOfDatapoints + "][name]"]: "Chart", 
-				["l[" + numberOfDatapoints + "][yaxe]"]: "off", 
-				["l[" + numberOfDatapoints + "][xticks]"]: xticks,
-				["l[" + numberOfDatapoints + "][xaxe]"]: "off", 
-				["l[" + numberOfDatapoints + "][yticks]"]: yticks, 
-				["l[" + numberOfDatapoints + "][chartType]"]: "steps", 
-				["l[" + numberOfDatapoints + "][points]"]: "false", 
-				["l[" + numberOfDatapoints + "][fill]"]: fill, 
-				["l[" + numberOfDatapoints + "][ignoreNull]"]: "true", 
-				["l[" + numberOfDatapoints + "][dashes]"]: "false", 
-				["l[" + numberOfDatapoints + "][dashLength]"]: "10", 
-				["l[" + numberOfDatapoints + "][spaceLength]"]: "10", 
+			let configuration = {
+				["l[" + datapointCount + "][id]"]: dp.id, 
+				["l[" + datapointCount + "][offset]"]: "0", 
+				["l[" + datapointCount + "][aggregate]"]: "average", 
+				["l[" + datapointCount + "][smoothing]"]: "0", 
+				["l[" + datapointCount + "][color]"]: chartColor[datapointIndex], 
+				["l[" + datapointCount + "][min]"]: min[datapointIndex], 
+				["l[" + datapointCount + "][max]"]: max[datapointIndex], 
+				["l[" + datapointCount + "][commonYAxis]"]: (datapointCount + 1).toString(), 
+				["l[" + datapointCount + "][thickness]"]: "3", 
+				["l[" + datapointCount + "][shadowsize]"]: "3", 
+				["l[" + datapointCount + "][name]"]: "Chart", 
+				["l[" + datapointCount + "][yaxe]"]: "off", 
+				["l[" + datapointCount + "][xticks]"]: xticks,
+				["l[" + datapointCount + "][xaxe]"]: "off", 
+				["l[" + datapointCount + "][yticks]"]: yticks, 
+				["l[" + datapointCount + "][chartType]"]: "steps", 
+				["l[" + datapointCount + "][points]"]: "false", 
+				["l[" + datapointCount + "][fill]"]: fill[datapointIndex], 
+				["l[" + datapointCount + "][ignoreNull]"]: "true", 
+				["l[" + datapointCount + "][dashes]"]: "false", 
+				["l[" + datapointCount + "][dashLength]"]: "10", 
+				["l[" + datapointCount + "][spaceLength]"]: "10", 
 				"timeType": "relative", 
 				"relativeEnd": "now", 
 				"range": range, 
@@ -246,26 +210,33 @@
 				"border_width": "0",
 				"timeFormat": "%H:%M %d.%m."
 			};
-			Object.assign(configurations, configurations0);
+			Object.assign(configurations, configuration);
+			var datapointCount2 = 0;
+			for (var datapointIndex = 2; datapointIndex > 0; datapointIndex--){
+				if(USE_THIS_DATAPOINT[datapointIndex]){
+					if(useMinMaxFromMain[datapointIndex]) configurations["l[" + datapointCount2 + "][commonYAxis]"] = (datapointCount + 1).toString();
+					datapointCount2++;
+				}
+			}
 			if(noAnimation) configurations["animation"] = "0";
-			if(historyInstance) configurations["l[" + numberOfDatapoints + "][instance]"] = historyInstance; 
+			if(historyInstance) configurations["l[" + datapointCount + "][instance]"] = historyInstance; 
 			if(showXaxe == "bottom" || (showXaxe == "bottomIfBig" && window.innerHeight > 200)){
-				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "bottom"; 
+				configurations["l[" + datapointCount + "][xaxe]"] = "bottom"; 
 			} else if(showXaxe == "bottomColor" || (showXaxe == "bottomColorIfBig" && window.innerHeight > 200)){
-				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "bottomColor"; 
+				configurations["l[" + datapointCount + "][xaxe]"] = "bottomColor"; 
 			} else if(showXaxe == "top" || (showXaxe == "topIfBig" && window.innerHeight > 200)){
-				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "top"; 
+				configurations["l[" + datapointCount + "][xaxe]"] = "top"; 
 			} else if(showXaxe == "topColor" || (showXaxe == "topColorIfBig" && window.innerHeight > 200)){
-				configurations["l[" + numberOfDatapoints + "][xaxe]"] = "topColor"; 
+				configurations["l[" + datapointCount + "][xaxe]"] = "topColor"; 
 			}
 			if(showYaxe == "right" || (showYaxe == "rightIfBig" && window.innerWidth > 200)){
-				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "right"; 
+				configurations["l[" + datapointCount + "][yaxe]"] = "right"; 
 			} else if(showYaxe == "rightColor" || (showYaxe == "rightColorIfBig" && window.innerWidth > 200)){
-				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "rightColor"; 
+				configurations["l[" + datapointCount + "][yaxe]"] = "rightColor"; 
 			} else if(showYaxe == "left" || (showYaxe == "leftIfBig" && window.innerWidth > 200)){
-				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "left"; 
+				configurations["l[" + datapointCount + "][yaxe]"] = "left"; 
 			} else if(showYaxe == "leftColor" || (showYaxe == "leftColorIfBig" && window.innerWidth > 200)){
-				configurations["l[" + numberOfDatapoints + "][yaxe]"] = "leftColor"; 
+				configurations["l[" + datapointCount + "][yaxe]"] = "leftColor"; 
 			}
 			if((showXaxe + showYaxe).indexOf("IfBig") > -1) reCreateIfBig = true; else reCreateIfBig = false;
 			//Replace URL-Parameters
@@ -329,19 +300,19 @@
 					if(event.data.stateId) switch(event.data.stateId){
 						case getUrlParameter("useThisDatapoint") || "---undefined---":
 							console.log("Received USE_THIS_DATAPOINT");
-							USE_THIS_DATAPOINT = event.data.value;
+							USE_THIS_DATAPOINT[0] = event.data.value;
 							createConfiguration();
 						break;
 
 						case getUrlParameter("useThisDatapoint2") || "---undefined2---":
-							console.log("Received USE_THIS_DATAPOINT2");
-							USE_THIS_DATAPOINT2 = event.data.value;
+							console.log("Received USE_THIS_DATAPOINT 2");
+							USE_THIS_DATAPOINT[1] = event.data.value;
 							createConfiguration();
 						break;
 
 						case getUrlParameter("useThisDatapoint3") || "---undefined3---":
-							console.log("Received USE_THIS_DATAPOINT3");
-							USE_THIS_DATAPOINT3 = event.data.value;
+							console.log("Received USE_THIS_DATAPOINT 3");
+							USE_THIS_DATAPOINT[2] = event.data.value;
 							createConfiguration();
 						break;
 
