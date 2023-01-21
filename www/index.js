@@ -301,8 +301,6 @@ var iQontrolRoles = {
 			}},
 			SECTION_GENERAL: {options: {
 				readonly: "delete",
-				stateCaption: "delete",
-				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
@@ -323,8 +321,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["switch_on", "plug_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["switch_off", "plug_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
@@ -340,8 +339,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["button"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["button"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
@@ -392,13 +392,14 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", typicalIconEquivalents: ["radiator_on", "heating_on", "cooling_on", "airconditioner_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["radiator_off", "heating_off", "cooling_off", "airconditioner_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				stateCaption: {name: "Caption of SET_TEMPERATURE"},
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete",
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
@@ -415,13 +416,14 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", typicalIconEquivalents: ["radiator_on", "heating_on", "cooling_on", "airconditioner_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["radiator_off", "heating_off", "cooling_off", "airconditioner_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				stateCaption: {name: "Caption of SET_TEMPERATURE"},
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete",
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
@@ -437,13 +439,14 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon", type: "icon", typicalIconEquivalents: ["radiator_on", "heating_on", "cooling_on", "airconditioner_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["radiator_off", "heating_off", "cooling_off", "airconditioner_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				stateCaption: {name: "Caption of SET_TEMPERATURE"},
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				stateCaption: {name: "Caption of SET_TEMPERATURE"},
+				levelCaption: "delete",
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "12;17;19;20;21;22"},
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				valveStatesSectionType: {name: "Appereance of VALVE_STATES", type: "select", selectOptions: "none/No collapsible section (always visible);none noCaption/No collapsible section (always visible), without caption;collapsible/Collapsible section, closed at start;collapsible open/Collapsible section, opened at start", default: "collapsible"}
@@ -459,12 +462,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["temperature"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["temperature"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -478,12 +482,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["humidity"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["humidity"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -497,12 +502,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["pressure"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["pressure"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -516,12 +522,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["brightness_light"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["brightness_dark"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -535,14 +542,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["motion_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["motion_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+				levelCaption: "delete",
+				levelFavorites: "delete",
 				addTimestampToState: {default: "SE"}
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
@@ -557,12 +563,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon opened", type: "icon", typicalIconEquivalents: ["door_opened"], default: ""},
 				icon_off: {name: "Icon closed", type: "icon", typicalIconEquivalents: ["door_closed"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -576,8 +583,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon opened", type: "icon", typicalIconEquivalents: ["garagedoor_opened", "gate_opened"], default: ""},
 				icon_off: {name: "Icon closed", type: "icon", typicalIconEquivalents: ["garagedoor_closed", "gate_closed"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
@@ -595,17 +603,18 @@ var iQontrolRoles = {
 				icon_locked: {name: "Icon locked", type: "icon", typicalIconEquivalents: ["door_locked"], default: ""},
 				icon_unlocked: {name: "Icon unlocked", type: "icon", typicalIconEquivalents: ["door_unlocked"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
+			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
 				lockStateLockedValue: {name: "Value of LOCK_STATE for 'locked'", type: "text", default: ""},
-				lockOpenValue: {name: "Value of LOCK_OPEN for 'open door'", type: "text", default: ""}
+				lockOpenValue: {name: "Value of LOCK_OPEN for 'open door'", type: "text", default: ""}				
 			}}
 		}
 	},
@@ -619,12 +628,13 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon closed", type: "icon", typicalIconEquivalents: ["window_closed", "window_toplight_closed"], default: ""},
 				icon_tilted: {name: "Icon tilted", type: "icon", typicalIconEquivalents: ["window_tilted", "window_toplight_tilted"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
@@ -645,7 +655,7 @@ var iQontrolRoles = {
 				icon_closing: {name: "Icon closing", type: "icon", typicalIconEquivalents: ["blind_closing"], default: ""},
 				icon_opening: {name: "Icon opening", type: "icon", typicalIconEquivalents: ["blind_opening"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
+			SECTION_TIMESTAMP: {options: {
 				stateCaption: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -669,12 +679,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["fire_on", "gas_on", "firebox_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["fire_off", "gas_off", "firebox_off", "firebox_green"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -688,12 +699,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["flood_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["flood_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openLinkToOtherView"},
 				clickOnTileAction: {default: "openLinkToOtherView"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -708,12 +720,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on (STATE is false, CONTROL_MODE is armed)", type: "icon", typicalIconEquivalents: ["alarm_on", "alarm_on_triggered", "bell_ringing_on", "bell_on", "firebox_on", "firebox_green", "panic_on"], default: ""},
 				icon_off: {name: "Icon off (STATE is false, CONTROL_MODE is disarmed)", type: "icon", typicalIconEquivalents: ["alarm_off", "bell_off", "bell_ringing_off", "firebox_off", "firebox_green", "panic_off"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}
@@ -735,12 +748,13 @@ var iQontrolRoles = {
 				icon_charging: {name: "Icon charging", type: "icon", typicalIconEquivalents: ["battery_charging_overlay"], default: ""},
 				icon_discharging: {name: "Icon discharging", type: "icon", typicalIconEquivalents: ["battery_discharging_overlay"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -755,11 +769,12 @@ var iQontrolRoles = {
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["time_alarmclock_off", "time_clock_off", "time_timer_off", "time_duration_off", "time_calendar_off"], default: ""},
 				icon_ringing: {name: "Icon ringing", type: "icon", typicalIconEquivalents: ["bell_ringing_overlay"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
+			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				subjectCaption: {name: "Caption of SUBJECT", type: "text", default: ""},
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
+				subjectCaption: {name: "Caption of SUBJECT", type: "text", default: ""},
 				timeCaption: {name: "Caption for TIME", type: "text", default: ""},
 				timeFormat: {name: "Format of TIME (as stored in the datapoint, see readme)", type: "combobox", selectOptions: "~/Use custom datapoint settings;x/timestamp;YYYY-MM-DDTHH:mm:ss.SSSZ;ddd MMM DD YYYY HH:mm:ss ZZ;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;P/Period;Pms/Period in milliseconds;Ps/Period in seconds;Pm/Period in minutes", default: "x"},
 				timeDisplayFormat: {name: "Display-Format of TIME (how it should be displayed, see readme)", type: "combobox", selectOptions: "~/Use custom datapoint settings;HH:mm;HH:mm:ss;DD.MM.YYYY;DD.MM.YYYY HH:mm;DD.MM.YYYY HH:mm:ss;ddd, DD.MM.YYYY;ddd, DD.MM.YYYY HH:mm;ddd, DD.MM.YYYY HH:mm:ss;dddd, DD.MM.YYYY;dddd, DD.MM.YYYY HH:mm;dddd, DD.MM.YYYY HH:mm:ss;hh:mm a;hh:mm:ss a;YYYY-MM-DD;YYYY-MM-DD hh:mm a;YYYY-MM-DD hh:mm:ss a;ddd, YYYY-MM-DD;ddd, YYYY-MM-DD hh:mm a;ddd, YYYY-MM-DD hh:mm:ss a;dddd, YYYY-MM-DD;dddd, YYYY-MM-DD hh:mm a;dddd, YYYY-MM-DD hh:mm:ss a;D [Day(s)], H:m:s/D [Day(s)], H:m:s (for Periods);D [Day(s)], HH:mm:ss/D [Day(s)], HH:mm:ss (for Periods)", default: "dddd, DD.MM.YYYY HH:mm:ss"},
@@ -797,8 +812,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["play_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["play"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
@@ -815,10 +831,9 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["play"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["play"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+				levelCaption: "delete",
+				levelFavorites: "delete",
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -835,9 +850,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["media_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["media_off"], default: ""}
-			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
 			}},
 			SECTION_DEVICESPECIFIC_PLAYPAUSE: {name: "Play/Pause", type: "section", options: {
 				statePlayValue: {name: "Value of STATE for 'play'", type: "text", default: "play"},
@@ -860,6 +872,8 @@ var iQontrolRoles = {
 				remoteAdditionalButtonsCaption: {name: "Caption for section 'Additional Buttons'", type: "text", default: ""}
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+				levelCaption: "delete",
+				levelFavorites: "delete",
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -877,12 +891,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["popup", "link_square_internal", "camera_on", "camera_ptz_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["popup", "link_square_internal", "camera_on", "camera_ptz_on"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
 				clickOnTileAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "openDialog"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -896,12 +911,13 @@ var iQontrolRoles = {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["link", "link_square_external"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["link", "link_square_external"], default: ""}
 			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
-			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {default: "openURLExternal"},
 				clickOnTileAction: {default: "openURLExternal"},
+			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -914,9 +930,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["blank", "widget_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["blank", "widget_off"], default: ""}
-			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				noZoomOnHover: {default: "true"},
@@ -939,6 +952,8 @@ var iQontrolRoles = {
 				tileEnlargeShowInPressureMenuActive: {default: "true"}
 			}},
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
+				levelCaption: "delete",
+				levelFavorites: "delete",
 				addTimestampToState: {default: "N"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -954,9 +969,6 @@ var iQontrolRoles = {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon on", type: "icon", typicalIconEquivalents: ["info_bubble_off", "info_circle_off", "info_square_off", "value_off", "info_bubble_on", "info_circle_off", "info_square_on", "value_on"], default: ""},
 				icon_off: {name: "Icon off", type: "icon", typicalIconEquivalents: ["info_bubble_off", "info_circle_off", "info_square_off", "value_off", "info_bubble_on", "info_circle_off", "info_square_on", "value_on"], default: ""}
-			}},
-			SECTION_GENERAL: {options: {
-				levelCaption: "delete"
 			}},
 			SECTION_TILE: {options: {
 				clickOnIconAction: {selectOptions: "openDialog/Open Dialog;enlarge/Enlarge Tile;openLinkToOtherView/Open Link to other View;openURLExternal/Open URL as External Link;false/Do nothing", default: "false"},
@@ -996,6 +1008,10 @@ var iQontrolRoles = {
 				stateBigFontEnlarged: {default: "true"},
 				hideDeviceNameIfEnlarged: {default: "true"}
 			}},
+			SECTION_TIMESTAMP: {options: {
+				levelCaption: "delete",
+				levelFavorites: "delete"
+			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
 	}
@@ -1005,8 +1021,6 @@ var iQontrolRolesStandardOptions = {
 	SECTION_ICONS: {name: "Icons", type: "section"},
 	SECTION_GENERAL: { name: "General", type: "section", options: {
 		readonly: {name: "Readonly", type: "checkbox", default: "false"},
-		stateCaption: {name: "Caption of STATE", type: "text", default: ""},
-		levelCaption: {name: "Caption of LEVEL", type: "text", default: ""},
 		renderLinkedViewInParentInstance: {name: "Open linked view in parent instance, if this view is used as a BACKGROUND_VIEW", type: "checkbox", default: "false"},
 		renderLinkedViewInParentInstanceClosesPanel: {name: "After opening linked view in parent instance, close panel (if it is dismissible)", type: "checkbox", default: "false"}
 	}},
@@ -1078,7 +1092,10 @@ var iQontrolRolesStandardOptions = {
 		hideInfoBIfEnlarged: {name: "Hide INFO_B, if the device is enlarged", type: "checkbox", default: "false"},
 		hideIconEnlarged: {name: "Hide icon, if device is enlarged", type: "checkbox", default: "false"}
 	}},
-	SECTION_TIMESTAMP: {name: "STATE and Timestamp", type: "section", options: {
+	SECTION_TIMESTAMP: {name: "STATE, LEVEL and Timestamp", type: "section", options: {
+		stateCaption: {name: "Caption of STATE", type: "text", default: ""},
+		levelCaption: {name: "Caption of LEVEL", type: "text", default: ""},
+		levelFavorites: {name: "Favorite values for LEVEL (semicolon separated list of numbers)", type: "text", default: ""},
 		addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 		hideStateAndLevelInDialog: {name: "Hide STATE and LEVEL in dialog", type: "checkbox", default: "false"},
 		showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}
@@ -8453,13 +8470,26 @@ function renderDialog(deviceIdEscaped){
 						var max = dialogStates["SET_TEMPERATURE"].max || 30;
 						var step = "0.5";
 						if (usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
+						var unit = dialogStates["SET_TEMPERATURE"].unit || "";
+						if (unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
 						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+						var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
+						if (levelFavorites.length > 0 && levelFavorites[0] != "") {
+							dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
+								for(index in levelFavorites){
+									let val = levelFavorites[index];
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+									dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
+								}
+							dialogContent += "</fieldset>";
+						}
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
 							var _confirm = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && usedObjects[_linkedSetTemperatureId].common.custom !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
 							var _pincodeSet = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && usedObjects[_linkedSetTemperatureId].common.custom !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== "");
+							var _levelFavorites = levelFavorites;						
 							var DialogStateSliderReadoutTimer;
 							var updateFunction = function(){
 								var stateSetTemperature = getStateObject(_linkedSetTemperatureId);
@@ -8467,6 +8497,11 @@ function renderDialog(deviceIdEscaped){
 									$("#DialogStateSlider").val(stateSetTemperature.val);
 									$("#DialogStateSlider").slider('refresh');
 									dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+								}
+								if (_levelFavorites.length > 0 && levelFavorites[0] != "") {
+									$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+									$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf(stateSetTemperature.val.toString())).prop("checked", true);
+									$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
 								}
 							};
 							dialogUpdateFunctions[_linkedSetTemperatureId].push(updateFunction);
@@ -8477,14 +8512,30 @@ function renderDialog(deviceIdEscaped){
 										if (!_confirm && !_pincodeSet){
 											DialogStateSliderReadoutTimer = setInterval(function(){
 												setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
+												dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
 											}, 5000);
 										}
 									},
 									stop: function(event, ui) {
 										clearInterval(DialogStateSliderReadoutTimer);
+										if (_levelFavorites.length > 0 && levelFavorites[0] != "") {
+											$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+											$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf($("#DialogStateSlider").val())).prop("checked", true);
+											$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+										}
 										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
+										dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
 									}
 								});
+								if (levelFavorites.length > 0 && levelFavorites[0] != "") {
+									$("input[name='DialogLevelFavoritesCheckboxradio']").on('click', function(e) {
+										clearInterval(DialogStateSliderReadoutTimer);
+										$("#DialogStateSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+										$("#DialogStateSlider").slider('refresh');
+										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+										dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+									});	
+								}
 							};
 							dialogBindingFunctions.push(bindingFunction);
 						})(); //<--End Closure
@@ -9019,6 +9070,8 @@ function renderDialog(deviceIdEscaped){
 							var min = dialogStates["LEVEL"].min || 0;
 							var max = dialogStates["LEVEL"].max || 100;
 							var step = dialogStates["LEVEL"].step || 1;
+							var unit = dialogStates["LEVEL"].unit || "";
+							if (unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
 							var type = "Level";
 							var sliderSendRate = 500;
 							if (device.commonRole == "iQontrolLight") {
@@ -9031,12 +9084,23 @@ function renderDialog(deviceIdEscaped){
 							type = getDeviceOptionValue(device, "levelCaption") || type;
 							dialogContent += "<label for='DialogLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
+							if (levelFavorites.length > 0 && levelFavorites[0] != "") {
+								dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
+									for(index in levelFavorites){
+										let val = levelFavorites[index];
+										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+										dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
+									}
+								dialogContent += "</fieldset>";
+							}
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 								var _sliderSendRate = sliderSendRate;
 								var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && usedObjects[_linkedLevelId].common.custom !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
 								var _pincodeSet = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && usedObjects[_linkedLevelId].common.custom !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedLevelId].common.custom[namespace].pincode !== "");
+								var _levelFavorites = levelFavorites;						
 								var DialogLevelSliderReadoutTimer;
 								var updateFunction = function(){
 									var stateLevel = getStateObject(_linkedLevelId);
@@ -9044,6 +9108,11 @@ function renderDialog(deviceIdEscaped){
 										$("#DialogLevelSlider").val(stateLevel.val);
 										$("#DialogLevelSlider").slider('refresh');
 										dialogUpdateTimestamp(states[_linkedLevelId]);
+									}
+									if (_levelFavorites.length > 0 && levelFavorites[0] != "") {
+										$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+										$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf(stateLevel.val.toString())).prop("checked", true);
+										$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
 									}
 								};
 								dialogUpdateFunctions[_linkedLevelId].push(updateFunction);
@@ -9060,10 +9129,24 @@ function renderDialog(deviceIdEscaped){
 										},
 										stop: function(event, ui) {
 											clearInterval(DialogLevelSliderReadoutTimer);
+											if (_levelFavorites.length > 0 && levelFavorites[0] != "") {
+												$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+												$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf($("#DialogLevelSlider").val())).prop("checked", true);
+												$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+											}
 											setState(_linkedLevelId, _deviceIdEscaped, $("#DialogLevelSlider").val());
 											dialogUpdateTimestamp(states[_linkedLevelId]);
 										}
 									});
+									if (levelFavorites.length > 0 && levelFavorites[0] != "") {
+										$("input[name='DialogLevelFavoritesCheckboxradio']").on('change', function(e) {
+											clearInterval(DialogLevelSliderReadoutTimer);
+											$("#DialogLevelSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+											$("#DialogLevelSlider").slider('refresh');
+											setState(_linkedLevelId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+											dialogUpdateTimestamp(states[_linkedLevelId]);
+										});	
+									}
 								};
 								dialogBindingFunctions.push(bindingFunction);
 							})(); //<--End Closure

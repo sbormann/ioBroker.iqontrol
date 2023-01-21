@@ -1725,8 +1725,10 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added URL-Parameter &language=xx.
 * (sbormann) Added option to center headers and subheaders. 
 * (sbormann) Enhanced FLOT-Chart-Widget to display more Datapoints.
-* (sbormann) Fixed timestamp in JSON-Table-Widget.
+* () Fixed timestamp in JSON-Table-Widget.
 * (dirkhe) Fixed and enhanced step attribute.
+* (sbormann) Moved options caption for STATE and caption for LEVEL into section STATE, LEVEL and TIMESTAMP.
+* (sbormann) Added option to set favorite values for LEVEL.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
