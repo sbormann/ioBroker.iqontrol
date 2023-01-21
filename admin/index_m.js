@@ -1793,6 +1793,7 @@ var modalZIndexCount = 2000;
 var isReact = false;
 var previewWindow = null;
 var passphrase;
+var devicesMarkDevice = null;
 
 //Subsettings
 var toolbar;
@@ -2045,6 +2046,19 @@ function md5(inputString) {
     }
     return rh(a)+rh(b)+rh(c)+rh(d);
 }
+
+function scrollTo(target, speed, delay){
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _target = target;
+		var _speed = speed || 750;
+		var _delay = delay || 250;
+		setTimeout(function(){
+			target_position = $(target).get(0).offsetTop; 
+			$('.adapter-body').animate({'scrollTop' : target_position }, speed);
+		}, delay);
+	})(); //<--End Closure
+}
+
 
 function removeDuplicates(array, ignoreEverythingAfterThisString) { //Removes duplicates from an array
     var seen = [];
@@ -3388,6 +3402,7 @@ async function load(settings, onChange) {
 	function loadDevices(){
 		//Add Views to Selectbox for Views and for LinkedView
 		var viewIds = [""];
+		devicesMarkDevice = null;
 		views.forEach(function(element){ viewIds.push(element.commonName); });
 		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 		$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
@@ -3490,7 +3505,7 @@ async function load(settings, onChange) {
 					var deviceNumber = parseInt(views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice) + 1;
 					//1st 2nd 3rd 4th...
 					var deviceNumberString = (deviceNumber == 1 ? _("1st") : (deviceNumber == 2 ? _("2nd") : (deviceNumber == 3 ? _("3rd") : _("%sth", deviceNumber))));
-					$(this).after('<span style="font-size:x-small; color: blue;">' + _('Linked from view') + ' ' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].commonName + ', ' + deviceNumberString  + ' ' + _('device') + ' ' + ' (' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].devices[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice].commonName + ')</span>');
+					$(this).after('<span style="font-size:x-small; color: blue; text-decoration: underline; cursor: pointer;" onclick="devicesMarkDevice = ' +  (deviceNumber - 1) + '; $(\'#devicesSelectedView\').val(' + views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView + ').select().trigger(\'change\');">' + _('Linked from view') + ' ' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].commonName + ', ' + deviceNumberString  + ' ' + _('device') + ' ' + ' (' + views[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceView].devices[views[devicesSelectedView].devices[deviceIndex].symbolicLinkFrom.sourceDevice].commonName + ')</span>');
 				} else { //Normal device
 					if (views[devicesSelectedView].devices[deviceIndex].commonRole){
 						$(this).next('span').remove();
@@ -3637,6 +3652,12 @@ async function load(settings, onChange) {
 			axis: "y",
 			handle: "a[data-command='drag_handle']"
 		});
+		//Mark device
+		if (devicesMarkDevice != null){
+			$('#tableDevices tr[data-index=' + devicesMarkDevice + ']').addClass('marked');
+			scrollTo($('#tableDevices tr[data-index=' + devicesMarkDevice + ']').get(0));
+			devicesMarkDevice = null;
+		}
 	}
 
 	//Enhance dialogDeviceEditCommonRole-Selectbox with functions
