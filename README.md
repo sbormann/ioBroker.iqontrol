@@ -1708,7 +1708,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.1.0 (2023-01-24)
 * (sbormann) Added option to hide STATE and LEVEL in dialog.
 * (sbormann) Added DISCHARGE to Battery.
 * (sbormann) Enhanced JSON-Table to work with alexa-shoppinglist-adapter.
