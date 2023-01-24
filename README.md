@@ -1709,29 +1709,14 @@ This device has some special predefined size- and display-settings to show a tex
   ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
-* (sbormann) Fixed marquee for INFO_A/B after resizing tile.
-* (sbormann) Subheading with no visible tiles beneath are now hided.
 * (sbormann) Added option to hide STATE and LEVEL in dialog.
-* (sbormann) Fixed default icons for ERROR, UNREACH and BATTERY (if you have changed them in a previous version you might need to change them again).
-* (sbormann) Fixed size of custom toolbar icons.
 * (sbormann) Added DISCHARGE to Battery.
-* (sbormann) Fixed Favorites not working in map-widget with instance-number.
-* (sbormann) Enhance JSON-Table to work with alexa-shoppinglist-adapter.
+* (sbormann) Enhanced JSON-Table to work with alexa-shoppinglist-adapter.
 * (sbormann) Added badges to toolbar.
-* (sbormann) Enhanced handling of images in BACKGROUND_HTML.
 * (sbormann) Added option to protect instance by passphrase.
-* (sbormann) Added option to set value of LOCK_OPEN for doors with lock.
-* (sbormann) Linking color to GLOW or BACKGROUND_COLOR now works when using ALTERNATIVE_COLORSPACE.
-* (sbormann) Added URL-Parameter &language=xx.
-* (sbormann) Added option to center headers and subheaders. 
 * (sbormann) Enhanced FLOT-Chart-Widget to display more Datapoints.
-* (sbormann) Fixed timestamp in JSON-Table-Widget.
-* (dirkhe) Fixed and enhanced step attribute.
-* (sbormann) Moved options caption for STATE and caption for LEVEL into section STATE, LEVEL and TIMESTAMP.
 * (sbormann) Added option to set favorite values for LEVEL.
-* (sbormann) You can now click on linked devices.
-* (sbormann) Prevented back-swiping for safari.
-* (sbormann) Updated some dependencies.
+* Many more fixes and changes, see changelog
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.
