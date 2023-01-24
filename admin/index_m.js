@@ -8912,7 +8912,7 @@ async function save(callback) {
 	
 	//Set passphrase
 	passphrase = $('#optionsPassphrase').val();
-	socket.emit('setState', 'iqontrol.' + instance + '.passphrase', passphrase);
+	socket.emit('setState', 'iqontrol.' + instance + '.passphrase', {val: passphrase, ack: true});
 	if (passphrase) obj.passphraseEncrypted = md5(passphrase); else obj.passphraseEncrypted = "";
 
 	//Get widgetDatapoints

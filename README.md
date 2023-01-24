@@ -1730,6 +1730,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Moved options caption for STATE and caption for LEVEL into section STATE, LEVEL and TIMESTAMP.
 * (sbormann) Added option to set favorite values for LEVEL.
 * (sbormann) You can now click on linked devices.
+* (sbormann) Prevented back-swiping for safari.
+* (sbormann) Updated some dependencies.
 
 ### 2.0.1 (2022-03-09)
 * (sbormann) Fixed json-table sorting order.

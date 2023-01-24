@@ -13330,7 +13330,7 @@ function panelsCheckAutoOpenOnLargeScreens(ignoreActiveState){
 }
 
 //++++++++++ GENERAL AND INITIALIZATION ++++++++++
-//Enable swiping
+//Enable swiping, prevent default browser swipe back and forth through history
 (function( $, window, undefined ) { //Extend jQuery swiping with vertical swipes
 	$.event.special.swipe.handleSwipe = function( start, stop, thisObject, origTarget ) { //custom handleSwipe with swiperight, swipeleft, swipeup, swipedown
 		if ( stop.time - start.time < $.event.special.swipe.durationThreshold ) {
@@ -13364,8 +13364,41 @@ function panelsCheckAutoOpenOnLargeScreens(ignoreActiveState){
 		};
 	});
 })( jQuery, this );
+var preventDefaultSwipeEmulateClickData = [false, 0, 0, null]; //clickTimerId, startX, startY, targetElement, actualX, acutalY
 $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open panel if swipe origin is near screen border)
-	$(document).on("swiperight", ".ui-page", function(event){
+ 	$(".ui-page").get(0).addEventListener("touchstart", function(event){ //Prevent browser default swipe back and forth through history
+		if(preventDefaultSwipeEmulateClickData[0]) clearTimeout(preventDefaultSwipeEmulateClickData[0]);
+		if (event.touches && event.touches[0] && (event.touches[0].clientX < 20 || event.touches[0].clientX > (window.innerWidth - 10))){
+			event.preventDefault();
+			preventDefaultSwipeEmulateClickData[0] = setTimeout(function(){ preventDefaultSwipeEmulateClickData[0] = false; }, 200);
+			preventDefaultSwipeEmulateClickData[1] = preventDefaultSwipeEmulateClickData[4] = event.touches[0].clientX || 0;
+			preventDefaultSwipeEmulateClickData[2] = preventDefaultSwipeEmulateClickData[5] = event.touches[0].clientY || 0;
+			preventDefaultSwipeEmulateClickData[3] = event.touches[0].target || null;
+		}
+	});
+	$(".ui-page").get(0).addEventListener("touchmove", function(event){ //save coordniates
+		if(preventDefaultSwipeEmulateClickData[0] && event.touches && event.touches[0]){
+			preventDefaultSwipeEmulateClickData[4] = event.touches[0].clientX || 0;
+			preventDefaultSwipeEmulateClickData[5] = event.touches[0].clientY || 0;
+			if (preventDefaultSwipeEmulateClickData[3]
+			&& Math.abs(preventDefaultSwipeEmulateClickData[1] - preventDefaultSwipeEmulateClickData[4]) > 2
+			&& Math.abs(preventDefaultSwipeEmulateClickData[2] - preventDefaultSwipeEmulateClickData[5]) > 2) {
+				$(preventDefaultSwipeEmulateClickData[3]).trigger('touchstart');
+			}
+		}
+	});
+	$(".ui-page").get(0).addEventListener("touchend", function(event){ //emulate click after preventing default
+		if(preventDefaultSwipeEmulateClickData[0]){
+			clearTimeout(preventDefaultSwipeEmulateClickData[0]);
+			preventDefaultSwipeEmulateClickData[0] = false;
+			if (preventDefaultSwipeEmulateClickData[1] && preventDefaultSwipeEmulateClickData[3]
+			&& Math.abs(preventDefaultSwipeEmulateClickData[1] - preventDefaultSwipeEmulateClickData[4]) < 10
+			&& Math.abs(preventDefaultSwipeEmulateClickData[2] - preventDefaultSwipeEmulateClickData[5]) < 10) {
+				$(preventDefaultSwipeEmulateClickData[3]).trigger('click');
+			}
+		}
+	});	
+	$(document).on("swiperight", ".swipePage", function(event) {
 		toolbarContextMenuEnd();
 		viewDeviceContextMenuEnd();
 		if (event.swipestart.coords[0] < 100){
@@ -13378,7 +13411,7 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 			return false;
 		}
 	});
-	$(document).on("swipeleft", ".ui-page", function(event){
+	$(document).on("swipeleft", ".swipePage", function(event){
 		toolbarContextMenuEnd();
 		viewDeviceContextMenuEnd();
 		if (window.innerWidth - event.swipestart.coords[0] < 100){
@@ -13391,13 +13424,6 @@ $(document).one("pagecreate", ".swipePage", function(){ //Swipe view (or open pa
 			return false;
 		}
 	});
-	$(document).on('click', function(event){
-		if (!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
-			viewSwipe("right");
-		} else if (!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
-			viewSwipe("left");
-		}
-	}); 
 });
 $(document).on('swipeleft swiperight', '#Dialog', function(event) { //Disable swiping on dialog
 	event.stopPropagation();
@@ -13407,6 +13433,13 @@ $(document).on('swipeleft swiperight swipeup swipedown', function(event) { //Sto
 	toolbarContextMenuEnd();
 	viewDeviceContextMenuEnd();
 });
+$(document).on('click', function(event){
+	if (!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX < 55 && event.clientY && event.clientY < 15) {
+		viewSwipe("right");
+	} else if (!options.LayoutViewSwipingDisabled && !options.LayoutViewHideSwipeGoals && !isBackgroundView && event.clientX && event.clientX > (window.innerWidth - 55) && event.clientY && event.clientY < 15) {
+		viewSwipe("left");
+	}
+}); 
 
 //Resize and Orientationchange
 var resizeTimeout = false;
@@ -13753,7 +13786,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 		return false;
 	};
-
+	
 	//Listen for postMessages from iframes
 	window.addEventListener("message", receivePostMessage, false);
 	function receivePostMessage(event) { //event: .data = message data, .origin = url of origin, .source = id of sending iframe
