@@ -2767,7 +2767,7 @@ This device has some special predefined size- and display-settings to show a tex
 ## License
 MIT License
 
-Copyright (c) 2019-2022 Sebastian Bormann
+Copyright (c) 2019-2023 Sebastian Bormann
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
