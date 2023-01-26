@@ -1708,6 +1708,8 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+* (sbormann) You can now chose destination when copying devices.
 
 ### 2.1.0 (2023-01-24)
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.
