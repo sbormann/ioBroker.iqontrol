@@ -4890,12 +4890,14 @@ async function load(settings, onChange) {
 		initDialog('dialogDeviceCopyFrom', function(){ //save dialog
 			var sourceView =   $('#dialogDeviceCopyFromSourceView').val();
 			var sourceDevice = $('#dialogDeviceCopyFromSourceDevice').val();
-			var length = views[$('#devicesSelectedView').val()].devices.push(JSON.parse(JSON.stringify(views[sourceView].devices[sourceDevice]))); //This creates new object, not just a reference
-			if ($("#dialogDeviceCopyFromNewName").val()) views[$('#devicesSelectedView').val()].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
+			var destinationView = $('#dialogDeviceCopyFromDestinationView').val();
+			// var destinationView = devicesSelectedView; oder $('#devicesSelectedView').val()   xxxxx
+			var length = views[destinationView].devices.push(JSON.parse(JSON.stringify(views[sourceView].devices[sourceDevice]))); //This creates new object, not just a reference
+			if ($("#dialogDeviceCopyFromNewName").val()) views[destinationView].devices[length - 1].commonName = $("#dialogDeviceCopyFromNewName").val(); //New Name
 			if ($("#dialogDeviceCopyFromCreateSymbolicLink").prop('checked')){ //Symbolic link
-				views[$('#devicesSelectedView').val()].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
+				views[destinationView].devices[length - 1].symbolicLinkFrom = {sourceView: sourceView, sourceDevice: sourceDevice};
 			} else if ($("#dialogDeviceCopyFromReplaceCheckbox").prop('checked')) { //Replace Datapoints
-				(views[$('#devicesSelectedView').val()].devices[length - 1].states || []).forEach(function(state){ 
+				(views[destinationView].devices[length - 1].states || []).forEach(function(state){ 
 					if (state.commonRole && state.commonRole == "linkedState" && state.value) {
 						$('#dialogDeviceCopyFromReplaceDatapointsList > li').each(function(){
 							var index = $(this).data('index');
@@ -4925,9 +4927,14 @@ async function load(settings, onChange) {
 			$('#dialogDeviceCopyFrom a.btn-set').addClass('disabled');
 			$("#dialogDeviceCopyFromNewName").val("");
 			sourceView = (typeof sourceView != udef ? sourceView : $('#dialogDeviceCopyFromSourceView').val());
-			sourceDevice = (typeof sourceDevice != udef ? sourceDevice : $('#dialogDeviceCopyFromSourceDevice').val());
+			destinationView = devicesSelectedView;
 			$('#dialogDeviceCopyFromSourceView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-			views.forEach(function(element, index){ $('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+			$('#dialogDeviceCopyFromDestinationView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
+			views.forEach(function(element, index){ 
+				$('#dialogDeviceCopyFromSourceView').append("<option value='" + index + "'>" + element.commonName + "</option>"); 
+				$('#dialogDeviceCopyFromDestinationView').append("<option value='" + index + "'>" + element.commonName + "</option>"); 
+			});
+			sourceDevice = (typeof sourceDevice != udef ? sourceDevice : $('#dialogDeviceCopyFromSourceDevice').val());
 			$('#dialogDeviceCopyFromSourceDevice').empty().append("<option disabled selected value>" + _("Select device") + "</option>");
 			if (typeof sourceView != udef && sourceView != null){
 				$('#dialogDeviceCopyFromSourceView').val(sourceView).trigger('change');
@@ -4935,11 +4942,12 @@ async function load(settings, onChange) {
 					$('#dialogDeviceCopyFromSourceDevice').val(sourceDevice).trigger('change');
 				}
 			}
+			$('#dialogDeviceCopyFromDestinationView').val(destinationView).trigger('change');
 			$("#dialogDeviceCopyFromCreateSymbolicLink").trigger('change');
 			if (!$('#dialogDeviceCopyFromReplaceDatapointsList li').length > 0) $("#dialogDeviceCopyFromReplaceCheckbox").prop('checked', false).trigger('change');
 			$('#dialogDeviceCopyFromSourceView').select();
+			$('#dialogDeviceCopyFromDestinationView').select();
 			$('#dialogDeviceCopyFromSourceDevice').select();
-			$('#dialogDeviceCopyFromDestinationView').html(views[devicesSelectedView].commonName);
 		});
 	});
 	$('#dialogDeviceCopyFromSourceView').on('change', function(){
