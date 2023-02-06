@@ -959,6 +959,7 @@
     "Timestamp only (if active)": "Timestamp only (if active)",
     "To give everything a fancy style, you can upload your own images.": "To give everything a fancy style, you can upload your own images.",
     "Toggle": "Toggle",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)",
     "Toolbar": "Toolbar",
     "Toolbar - General:": "Toolbar - General:",
     "Toolbar - Icons:": "Toolbar - Icons:",

@@ -878,7 +878,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				coverImageReloadDelay: {name: "Delay reload of cover-image [ms]", type: "number", min: "0", max: "5000", default: ""},
-				coverImageNoReloadOnTitleChange: {name: "No forced reload of cover-image on change of TITLE", type: "checkbox", default: "false"}
+				coverImageNoReloadOnTitleChange: {name: "No forced reload of cover-image on change of TITLE", type: "checkbox", default: "false"},
+				togglePowerSwitch: {name: "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)", type: "checkbox", default: "false"}
 			}}
 		}
 	},
@@ -2722,35 +2723,39 @@ function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedSt
 function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 	var deviceId = unescape(deviceIdEscaped);
 	var device = getDevice(deviceId);
-	var state = getStateObject(linkedStateId);
-	var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
-	var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
-	var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
-	var useStateValuesForPlayPauseStop = getDeviceOptionValue(device, "useStateValuesForPlayPauseStop") == "true";
-	var deviceReadonly = false;
-	if (getDeviceOptionValue(device, "readonly") == "true") deviceReadonly = true;
-	if (state && deviceReadonly == false){
-		var linkedPlayId = getLinkedStateId(device, deviceId, "PLAY");
-		var linkedPauseId = getLinkedStateId(device, deviceId,"PAUSE");
-		var linkedStopId = getLinkedStateId(device, deviceId,"STOP");
-		var statePlay = getStateObject(linkedPlayId);
-		var statePause = getStateObject(linkedPauseId);
-		var stateStop = getStateObject(linkedStopId);
-		if (state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
-			if (statePause && statePause.type) {
-				setState(linkedPauseId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePauseValue : true), true);
-			} else if (stateStop && stateStop.type) {
-				setState(linkedStopId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? stateStopValue : true), true);
+	if (getDeviceOptionValue(device, "togglePowerSwitch") == "true"){ //toggle POWER_SWITCH
+		var linkedPowerSwitchId = getLinkedStateId(device,deviceId,"POWER_SWITCH");
+		toggleState(linkedPowerSwitchId, deviceIdEscaped, callback);
+	} else { //toggle STATE
+		var state = getStateObject(linkedStateId);
+		var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
+		var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
+		var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
+		var useStateValuesForPlayPauseStop = getDeviceOptionValue(device, "useStateValuesForPlayPauseStop") == "true";
+		var deviceReadonly = (getDeviceOptionValue(device, "readonly") == "true");
+		if (state && deviceReadonly == false){
+			var linkedPlayId = getLinkedStateId(device, deviceId, "PLAY");
+			var linkedPauseId = getLinkedStateId(device, deviceId,"PAUSE");
+			var linkedStopId = getLinkedStateId(device, deviceId,"STOP");
+			var statePlay = getStateObject(linkedPlayId);
+			var statePause = getStateObject(linkedPauseId);
+			var stateStop = getStateObject(linkedStopId);
+			if (state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
+				if (statePause && statePause.type) {
+					setState(linkedPauseId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePauseValue : true), true);
+				} else if (stateStop && stateStop.type) {
+					setState(linkedStopId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? stateStopValue : true), true);
+				}
+			} else if (state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
+				if (statePlay && statePlay.type) {
+					setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
+				}
+			} else if (state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
+				if (statePlay && statePlay.type) {
+					setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
+				}
+			} else { //Undefined
 			}
-		} else if (state && typeof state.val !== udef && ((typeof state.val == "boolean" && !state.val) || state.val == statePauseValue)){ //Pause
-			if (statePlay && statePlay.type) {
-				setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
-			}
-		} else if (state && typeof state.val !== udef && state.val == stateStopValue){ //Stop
-			if (statePlay && statePlay.type) {
-				setState(linkedPlayId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePlayValue : true), true);
-			}
-		} else { //Undefined
 		}
 	}
 }
@@ -2996,6 +3001,7 @@ function capitalize(string){ //Makes first char uppercase
 }
 
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
+	if(typeof jsonString == udef) return false;
     try {
         var o = JSON.parse(jsonString);
         // Handle non-exception-throwing cases:
@@ -10182,7 +10188,6 @@ function renderDialog(deviceIdEscaped){
 									if (states[_linkedStateId]){
 										state = getStateObject(_linkedStateId);
 										var partyModeTemperature = state.val;
-										partyModeObjectsToFetch = [];
 										if (partyModeTemperature >= 6.0){ //Party-Mode active
 											$("#DialogThermostatPartyModeText").html("<br>" + _("programmed to") + " " + partyModeTemperature + state.unit);
 											var partyModeStartTimeObject = getStateObject(_linkedParentId + ".PARTY_START_TIME");
@@ -10191,28 +10196,28 @@ function renderDialog(deviceIdEscaped){
 												var partyModeStartHour = partyModeStartTime.split(":")[0];
 												var partyModeStartMin = partyModeStartTime.split(":")[1];
 											} else {
-												partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_TIME");
+												dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_TIME");
 											}
 											var partyModeStartDayObject = getStateObject(_linkedParentId + ".PARTY_START_DAY")
-											if (partyModeStartDayObject.val) var partyModeStartDay = partyModeStartDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_DAY");
+											if (partyModeStartDayObject.val) var partyModeStartDay = partyModeStartDayObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_DAY");
 											var partyModeStartMonthObject = getStateObject(_linkedParentId + ".PARTY_START_MONTH")
-											if (partyModeStartMonthObject.val) var partyModeStartMonth = partyModeStartMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_MONTH");
+											if (partyModeStartMonthObject.val) var partyModeStartMonth = partyModeStartMonthObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_MONTH");
 											var partyModeStartYEARObject = getStateObject(_linkedParentId + ".PARTY_START_YEAR")
-											if (partyModeStartYEARObject.val) var partyModeStartYEAR = partyModeStartYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_START_YEAR");
+											if (partyModeStartYEARObject.val) var partyModeStartYEAR = partyModeStartYEARObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_YEAR");
 											var partyModeStopTimeObject = getStateObject(_linkedParentId + ".PARTY_STOP_TIME");
 											if (partyModeStopTimeObject.val) {
 												var partyModeStopTime = getTimeFromHMTimeCode(partyModeStopTimeObject.val);
 												var partyModeStopHour = partyModeStopTime.split(":")[0];
 												var partyModeStopMin = partyModeStopTime.split(":")[1];
 											} else {
-												partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_TIME");
+												dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_TIME");
 											}
 											var partyModeStopDayObject = getStateObject(_linkedParentId + ".PARTY_STOP_DAY")
-											if (partyModeStopDayObject.val) var partyModeStopDay = partyModeStopDayObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_DAY");
+											if (partyModeStopDayObject.val) var partyModeStopDay = partyModeStopDayObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_DAY");
 											var partyModeStopMonthObject = getStateObject(_linkedParentId + ".PARTY_STOP_MONTH")
-											if (partyModeStopMonthObject.val) var partyModeStopMonth = partyModeStopMonthObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_MONTH");
+											if (partyModeStopMonthObject.val) var partyModeStopMonth = partyModeStopMonthObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_MONTH");
 											var partyModeStopYEARObject = getStateObject(_linkedParentId + ".PARTY_STOP_YEAR")
-											if (partyModeStopYEARObject.val) var partyModeStopYEAR = partyModeStopYEARObject.val; else partyModeObjectsToFetch.push(_linkedParentId + ".PARTY_STOP_YEAR");
+											if (partyModeStopYEARObject.val) var partyModeStopYEAR = partyModeStopYEARObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_YEAR");
 										} else { //Party-Mode inactive
 											$("#DialogThermostatPartyModeText").html("<br>" + _("inactive"));
 											partyModeTemperature = "21";
@@ -10251,9 +10256,6 @@ function renderDialog(deviceIdEscaped){
 											$("#DialogThermostatPartyModeStopMin")[0].selectedIndex = partyModeStopMin / 30;
 											$("#DialogThermostatPartyModeStopMin").selectmenu('refresh');
 											dialogThermostatPartyModeCheckConsistency();
-										}
-										if (partyModeObjectsToFetch.length > 0) {
-											fetchStates(partyModeObjectsToFetch, function(){ setTimeout(function(){updateState(_linkedStateId);}, 100); });
 										}
 									}
 								};

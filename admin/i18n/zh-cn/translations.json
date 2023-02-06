@@ -959,6 +959,7 @@
     "Timestamp only (if active)": "仅时间戳（如果处于活动状态）",
     "To give everything a fancy style, you can upload your own images.": "您可以上传自己的图片，将界面设计的更加美观。",
     "Toggle": "切换",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "切换 POWER_SWITCH 而不是 STATE（例如单击图标时）",
     "Toolbar": "导航栏",
     "Toolbar - General:": "工具栏 - 常规：",
     "Toolbar - Icons:": "工具栏 - 图标：",

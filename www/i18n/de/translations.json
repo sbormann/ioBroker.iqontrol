@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "Alles zu geben einen schicken Stil, Sie können laden Sie Ihre eigenen Bilder.",
     "To work you need to activate socket.IO in web-adapter-settings!": "Im ioBroker \"web-Adapter\" muss \"socket.IO -> intergiert\" aktiviert sein!",
     "Toggle": "Schalten",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Schalte POWER_SWITCH statt STATE (z.B. beim Klick auf das Icon)",
     "Too many attempts, please try again later!": "Zu viele Versuche, bitte versuchen Sie es später wieder!",
     "Toolbar": "Symbolleiste",
     "Toolbar - General:": "Toolbar - Allgemein:",

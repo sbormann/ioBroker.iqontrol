@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "Oddać wszystkie modne style, możesz przesłać swoje zdjęcia.",
     "To work you need to activate socket.IO in web-adapter-settings!": "Aby pracować, musisz aktywować socket.IO w ustawieniach adaptera sieciowego!",
     "Toggle": "Przełącznik",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Przełącz POWER_SWITCH zamiast STATE (na przykład po kliknięciu ikony)",
     "Too many attempts, please try again later!": "Zbyt wiele prób, spróbuj ponownie później!",
     "Toolbar": "Pasek narzędzi",
     "Toolbar - General:": "Pasek narzędzi — Ogólne:",

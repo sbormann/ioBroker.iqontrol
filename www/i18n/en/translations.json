@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "To give everything a fancy style, you can upload your own images.",
     "To work you need to activate socket.IO in web-adapter-settings!": "To work you need to activate socket.IO in web-adapter-settings!",
     "Toggle": "Toggle",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)",
     "Too many attempts, please try again later!": "Too many attempts, please try again later!",
     "Toolbar": "Toolbar",
     "Toolbar - General:": "Toolbar - General:",

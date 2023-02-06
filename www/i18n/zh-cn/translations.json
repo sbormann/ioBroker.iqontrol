@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "您可以上传自己的图片，将界面设计的更加美观。",
     "To work you need to activate socket.IO in web-adapter-settings!": "要工作，您需要在web-adapter-settings中激活socket.IO！",
     "Toggle": "切换",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "切换 POWER_SWITCH 而不是 STATE（例如单击图标时）",
     "Too many attempts, please try again later!": "尝试次数过多，请稍后再试！",
     "Toolbar": "导航栏",
     "Toolbar - General:": "工具栏 - 常规：",

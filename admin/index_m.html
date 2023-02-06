@@ -57,6 +57,8 @@
 		.scrollableTable table { min-width: 520px; }
 		.scrollableTable.wide table { min-width: 820px; width: }
 		.scrollableTable.xwide table { min-width: 1020px; }
+		a[data-command="drag_handle"] { cursor: grab !important; }
+		a[data-command="drag_handle"]:active { cursor: grabbing !important; }
 		.float-left { float: left !important; margin-left: 9px !important; }
 		@keyframes marked { from {background-color: yellow;} to {background-color: unset;} }
 		tr.marked td { animation: marked 5s linear; }

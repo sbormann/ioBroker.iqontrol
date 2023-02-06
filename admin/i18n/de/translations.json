@@ -959,6 +959,7 @@
     "Timestamp only (if active)": "Nur Zeitstempel (wenn aktiv)",
     "To give everything a fancy style, you can upload your own images.": "Um dem ganzen einen eigenen Stil zu verpassen, können Sie eigene Bilder hochladen.",
     "Toggle": "Schalten",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Schalte POWER_SWITCH statt STATE (z.B. beim Klick auf das Icon)",
     "Toolbar": "Symbolleiste",
     "Toolbar - General:": "Toolbar - Allgemein:",
     "Toolbar - Icons:": "Toolbar - Icons:",

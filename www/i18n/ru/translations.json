@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "Отдать все модные стиль, вы можете загружать свои собственные изображения.",
     "To work you need to activate socket.IO in web-adapter-settings!": "Для работы необходимо активировать socket.IO в настройках web-адаптера!",
     "Toggle": "тумблер",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Переключить POWER_SWITCH вместо STATE (например, при нажатии на значок)",
     "Too many attempts, please try again later!": "Слишком много попыток, повторите попытку позже!",
     "Toolbar": "Панель инструментов",
     "Toolbar - General:": "Панель инструментов - Общие:",

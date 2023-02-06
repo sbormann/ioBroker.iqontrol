@@ -1187,6 +1187,7 @@
     "To give everything a fancy style, you can upload your own images.": "Alles te geven wat een mooie stijl, kunt u het uploaden van je eigen foto ' s.",
     "To work you need to activate socket.IO in web-adapter-settings!": "Om te werken moet je socket.IO activeren in web-adapter-instellingen!",
     "Toggle": "toggle",
+    "Toggle POWER_SWITCH instead of STATE (for example when clicking on icon)": "Schakel POWER_SWITCH in plaats van STATE (bijvoorbeeld wanneer u op het pictogram klikt)",
     "Too many attempts, please try again later!": "Te veel pogingen. Probeer het later opnieuw!",
     "Toolbar": "Werkbalk",
     "Toolbar - General:": "Werkbalk - Algemeen:",
