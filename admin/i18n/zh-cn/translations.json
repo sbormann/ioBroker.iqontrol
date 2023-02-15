@@ -420,6 +420,7 @@
     "Hide icon, if device is enlarged": "隐藏图标（如果设备放大）",
     "Hide pause and stop icon": "隐藏暂停和停止图标",
     "Hide play icon": "隐藏播放图标",
+    "Hide slider for LEVEL, if Favorite values are set": "如果设置了收藏值，则隐藏 LEVEL 滑块",
     "Hide state, if the device is active": "隐藏状态（如果设备处于活动状态）",
     "Hide state, if the device is enlarged": "隐藏状态（如果设备放大）",
     "Hide state, if the device is inactive": "隐藏状态（如果设备不活动）",

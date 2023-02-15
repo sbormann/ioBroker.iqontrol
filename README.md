@@ -1711,6 +1711,7 @@ This device has some special predefined size- and display-settings to show a tex
 ### **WORK IN PROGRESS**
 * (sbormann) You can now chose destination when copying devices.
 * (sbormann) Added option Toggle POWER_SWITCH instead of STATE (for example when clicking on icon) for media.
+* (sbormann) Added option to hide slider for LEVEL, if favorites are set.
 
 ### 2.1.0 (2023-01-24)
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.

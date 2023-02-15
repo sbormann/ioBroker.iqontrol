@@ -906,7 +906,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showPowerAsState: {name: "Show POWER as state", type: "checkbox", default: "false"}
@@ -924,7 +925,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
@@ -982,7 +984,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {options: {
 				stateCaption: {name: "Caption of SET_TEMPERATURE"},
 				levelCaption: "delete",
-				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "17;19;20;21;22"},
+				levelFavorites: {name: "Favorite values for SET_TEMPERATURE (semicolon separated list of numbers)", default: "17;19;20;21;22"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisabledValue: {name: "Value of CONTROL_MODE for 'disabled'", type: "text", default: ""},
@@ -1051,7 +1053,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1071,7 +1074,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1091,7 +1095,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1111,7 +1116,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1132,6 +1138,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
 				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete",
 				addTimestampToState: {default: "SE"}
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
@@ -1152,7 +1159,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1168,7 +1176,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				noConfirmationForTogglingViaIcon: {name: "Don't ask for confirmation when toggling via icon", type: "checkbox", default: "false"}
@@ -1192,7 +1201,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
@@ -1217,7 +1227,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				stateClosedValue: {name: "Value of STATE for 'closed'", type: "text", default: ""},
@@ -1268,7 +1279,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1288,7 +1300,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1309,7 +1322,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				controlModeDisarmedValue: {name: "Value of CONTROL_MODE for 'disarmed'", type: "text", default: "0"}
@@ -1337,7 +1351,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1354,7 +1369,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				subjectCaption: {name: "Caption of SUBJECT", type: "text", default: ""},
@@ -1397,7 +1413,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
 				showState: {name: "Show State", type: "checkbox", default: "false"},
@@ -1417,6 +1434,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
 				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete",
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -1457,6 +1475,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
 				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete",
 				addTimestampToState: {selectOptions: "/Nothing;T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active)"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -1481,7 +1500,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1501,7 +1521,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1538,6 +1559,7 @@ var iQontrolRoles = {
 			SECTION_TIMESTAMP: {name: "Timestamp", type: "section", options: {
 				levelCaption: "delete",
 				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete",
 				addTimestampToState: {default: "N"}
 			}},
 			SECTION_DEVICESPECIFIC: {options: {
@@ -1594,7 +1616,8 @@ var iQontrolRoles = {
 			}},
 			SECTION_TIMESTAMP: {options: {
 				levelCaption: "delete",
-				levelFavorites: "delete"
+				levelFavorites: "delete",
+				levelFavoritesHideSlider: "delete"
 			}},
 			SECTION_DEVICESPECIFIC: "delete"
 		}
@@ -1680,6 +1703,7 @@ var iQontrolRolesStandardOptions = {
 		stateCaption: {name: "Caption of STATE", type: "text", default: ""},
 		levelCaption: {name: "Caption of LEVEL", type: "text", default: ""},
 		levelFavorites: {name: "Favorite values for LEVEL (semicolon separated list of numbers)", type: "text", default: ""},
+		levelFavoritesHideSlider: {name: "Hide slider for LEVEL, if Favorite values are set", type: "checkbox", default: "false"},
 		addTimestampToState: {name: "Add timestamp to state", type: "select", selectOptions: "/State only;SA/State only (if active);ST/State + Timestamp;STA/State + Timestamp (if active);SE/State + Elapsed;SEA/State + Elapsed (if active);SE./State + Elapsed (since);SE.A/State + Elapsed (since, if active);Se/State + Elapsed (short);SeA/State + Elapsed (short, if active);STE/State + Timestamp + Elapsed;STEA/State + Timestamp + Elapsed (if active);STE./State + Timestamp + Elapsed (since);STE.A/State + Timestamp + Elapsed (since, if active);STe/State + Timestamp + Elapsed (short);STeA/State + Timestamp + Elapsed (short, if active);T/Timestamp only;TA/Timestamp only (if active);TE/Timestamp + Elapsed;TEA/Timestamp + Elapsed (if active);TE./Timestamp + Elapsed (since);TE.A/Timestamp + Elapsed (since, if active);Te/Timestamp + Elapsed (short);TeA/Timestamp + Elapsed (short, if active);E/Elapsed only;EA/Elapsed only (if active);E./Elapsed only (since);E.A/Elapsed only (since, if active);e/Elapsed only (short);eA/Elapsed only (short, if active);N/Nothing (Hide state)", default: ""},
 		hideStateAndLevelInDialog: {name: "Hide STATE and LEVEL in dialog", type: "checkbox", default: "false"},
 		showTimestamp: {name: "Show Timestamp in dialog", type: "select", selectOptions: "/Auto;yes/Yes;no/No;always/Always;never/Never", default: ""}

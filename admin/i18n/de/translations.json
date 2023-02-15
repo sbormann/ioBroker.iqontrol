@@ -420,6 +420,7 @@
     "Hide icon, if device is enlarged": "Icon ausblenden, wenn das Gerät vergrößert ist",
     "Hide pause and stop icon": "Pause- und Stop-Icon ausblenden",
     "Hide play icon": "Play-Icon ausblenden",
+    "Hide slider for LEVEL, if Favorite values are set": "Blende den Slider für LEVEL aus, wenn Favoriten angegeben wurden",
     "Hide state, if the device is active": "Status ausblenden, wenn das Gerät aktiv ist",
     "Hide state, if the device is enlarged": "Status ausblenden, wenn das Gerät vergrößert ist",
     "Hide state, if the device is inactive": "Status ausblenden, wenn das Gerät inaktiv ist",
