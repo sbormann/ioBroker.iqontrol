@@ -1017,6 +1017,7 @@
     "Show Timestamp": "Показать метку времени",
     "Show Timestamp in dialog": "Показать метку времени в диалоге",
     "Show Vol and Ch +/- inside Pad": "Показать Vol и Ch +/- внутри Pad",
+    "Show badge even if the value is zero": "Показывать значок, даже если значение равно нулю",
     "Show badge value without unit": "Показывать значение значка без единицы измерения",
     "Show big icon, if device is active": "Показывать большой значок, если устройство активно",
     "Show big icon, if device is enlarged": "Показывать большой значок, если устройство увеличено",

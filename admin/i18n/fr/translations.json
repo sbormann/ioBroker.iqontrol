@@ -810,6 +810,7 @@
     "Show Timestamp": "Afficher l'horodatage",
     "Show Timestamp in dialog": "Afficher l'horodatage dans la boîte de dialogue",
     "Show Vol and Ch +/- inside Pad": "Afficher Vol et Ch +/- à l'intérieur du Pad",
+    "Show badge even if the value is zero": "Afficher le badge même si la valeur est zéro",
     "Show badge value without unit": "Afficher la valeur du badge sans unité",
     "Show big icon, if device is active": "Afficher la grande icône, si l'appareil est actif",
     "Show big icon, if device is enlarged": "Afficher une grande icône, si l'appareil est agrandi",

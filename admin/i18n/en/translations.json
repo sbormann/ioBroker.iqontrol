@@ -810,6 +810,7 @@
     "Show Timestamp": "Show Timestamp",
     "Show Timestamp in dialog": "Show Timestamp in dialog",
     "Show Vol and Ch +/- inside Pad": "Show Vol and Ch +/- inside Pad",
+    "Show badge even if the value is zero": "Show badge even if the value is zero",
     "Show badge value without unit": "Show badge value without unit",
     "Show big icon, if device is active": "Show big icon, if device is active",
     "Show big icon, if device is enlarged": "Show big icon, if device is enlarged",

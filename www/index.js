@@ -1156,7 +1156,8 @@ var iQontrolRolesStandardOptions = {
 		overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"}
 	}},
 	SECTION_BADGE: {name: "BADGE", type: "section", options: {
-		badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"}
+		badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"},
+		showBadgeIfZero: {name: "Show badge even if the value is zero", type: "checkbox", default: "false"},
 	}},
 	SECTION_GLOW: {name: "GLOW", type: "section", options: {
 		invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"}
@@ -5164,6 +5165,7 @@ function renderView(viewId, triggeredByReconnection){
 							var stateBadge = getStateObject(_linkedBadgeId);
 							var stateBadgeColor = getStateObject(_linkedBadgeColorId);
 							var badgeWithoutUnit = (getDeviceOptionValue(_device, "badgeWithoutUnit") == "true");
+							var showBadgeIfZero = (getDeviceOptionValue(_device, "showBadgeIfZero") == "true");
 							var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
 							var restartActivateDelay = false;
 							if ($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
@@ -5171,7 +5173,7 @@ function renderView(viewId, triggeredByReconnection){
 								restartActivateDelay = true;
 								$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
 							}
-							if (stateBadge && typeof stateBadge.val !== udef && stateBadge.val && stateBadge.plainText !== ""){ //Active
+							if (stateBadge && typeof stateBadge.val !== udef && (showBadgeIfZero || stateBadge.val) && stateBadge.plainText !== ""){ //Active
 								var val = stateBadge.plainText;
 								var unit = stateBadge.unit;
 								if (!isNaN(val)) val = Math.round(val * 10) / 10;

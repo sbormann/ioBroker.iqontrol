@@ -810,6 +810,7 @@
     "Show Timestamp": "Tijdstempel weergeven",
     "Show Timestamp in dialog": "Toon tijdstempel in dialoogvenster",
     "Show Vol and Ch +/- inside Pad": "Toon Vol en Ch +/- in Pad",
+    "Show badge even if the value is zero": "Toon badge, zelfs als de waarde nul is",
     "Show badge value without unit": "Toon badgewaarde zonder eenheid",
     "Show big icon, if device is active": "Groot pictogram weergeven als het apparaat actief is",
     "Show big icon, if device is enlarged": "Groot pictogram weergeven als het apparaat is vergroot",

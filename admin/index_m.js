@@ -1739,7 +1739,8 @@ var iQontrolRolesStandardOptions = {
 		overlayAboveBackgroundURL: {name: "Position Overlay above BACKGROUND_VIEW/URL/HTML", type: "checkbox", default: "false"}
 	}},
 	SECTION_BADGE: {name: "BADGE", type: "section", options: {
-		badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"}
+		badgeWithoutUnit: {name: "Show badge value without unit", type: "checkbox", default: "false"},
+		showBadgeIfZero: {name: "Show badge even if the value is zero", type: "checkbox", default: "false"},
 	}},
 	SECTION_GLOW: {name: "GLOW", type: "section", options: {
 		invertGlowHide: {name: "Invert GLOW_HIDE", type: "checkbox", default: "false"}
