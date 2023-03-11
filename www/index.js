@@ -875,7 +875,9 @@ var iQontrolRoles = {
 				stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"},
 				useStateValuesForPlayPauseStop: {name: "Send these values (instead of true) when clicking on PLAY, PAUSE and STOP", type: "checkbox", default: "false"},
 				hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"},
-				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}
+				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"},
+				durationIsMilliseconds: {name: "DURATION and ELAPSED are values in milliseconds", type: "checkbox", default: "false"},
+				elapsedIsPercentage: {name: "ELAPSED is a value in percentage", type: "checkbox", default: "false"}
 			}},
 			SECTION_DEVICESPECIFIC_REPEAT: {name: "Repeat", type: "section", options: {
 				repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"},
@@ -1274,6 +1276,9 @@ var viewShuffleInstances = [];					//Instances of shuffle-Objects
 var viewShuffleReshuffleTimeouts = {};			//Contains timouts to reshuffle
 var viewShuffleResizeObserver;					//Contains MutationObserver for class changes in Devices to trigger shuffle-update
 var viewShuffleApplyShuffleResizeObserverTimeoutsMarqueeDisabled = []; //Timeouts for disabling Marquee-Observer while resizing
+var viewScrollToDeviceTimeout1 = false;			//Contains timeout for scrollToDevice
+var viewScrollToDeviceTimeout2 = false;			//Contains timeout for scrollToDevice
+var viewScrollToDeviceRunning = false;			//Is true, while scrollToDevice ist scrolling
 
 var viewInfoASliderLength = [];					//Array of deviceIdEscaped that contains the length of InfoA-Slider-Array
 var viewInfoASliderIndex = [];					//Array of deviceIdEscaped that contains the actual index of InfoA-Slider-Array
@@ -4942,7 +4947,7 @@ function renderView(viewId, triggeredByReconnection){
 	if (!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
 	if (!viewId){ console.log("No viewId to render!"); return; }
 	if (actualViewId != addNamespaceToViewId(viewId)) triggeredByReconnection = false;
-	actualViewId = addNamespaceToViewId(viewId);
+	actualViewId = addNamespaceToViewId(viewId).split('#')[0];
 	//Mark actual view on toolbar
 	var toolbarIndex = -1;
 	if (config[namespace] && config[namespace].toolbar) for (var i = 0; i < config[namespace].toolbar.length; i++){
@@ -5042,8 +5047,8 @@ function renderView(viewId, triggeredByReconnection){
 			//--Get viewLinksToOtherViews
 			if (device.nativeLinkedView && device.nativeLinkedView !== "") { //Link to other view
 				var deviceLinkedViewId = addNamespaceToViewId(device.nativeLinkedView);
-				if (deviceLinkedViewId && typeof getView(deviceLinkedViewId) !== udef && getView(deviceLinkedViewId) && typeof getView(deviceLinkedViewId).commonName !== udef){
-					var deviceLinkedViewName = getView(deviceLinkedViewId).commonName;
+				if (deviceLinkedViewId && typeof getView(deviceLinkedViewId.split("#")[0]) !== udef && getView(deviceLinkedViewId.split("#")[0]) && typeof getView(deviceLinkedViewId.split("#")[0]).commonName !== udef){
+					var deviceLinkedViewName = getView(deviceLinkedViewId.split("#")[0]).commonName;
 					if (isBackgroundView && getDeviceOptionValue(device, "renderLinkedViewInParentInstance") == "true"){ // renderLinkedViewInParentInstance
 						var closePanel = (getDeviceOptionValue(device, "renderLinkedViewInParentInstanceClosesPanel") == "true");
 						viewDeviceContextMenu[deviceIdEscaped].linkedView = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ViewDeviceContextMenu").popup("close"); renderViewInParentInstance(unescape("' + escape(deviceLinkedViewId) + '"), ' + closePanel + ');'};
@@ -6290,12 +6295,25 @@ function renderView(viewId, triggeredByReconnection){
 									var _device = device;
 									var _linkedStateId = deviceLinkedStateIds["STATE"];
 									var _linkedElapsedId = deviceLinkedStateIds["ELAPSED"];
+									var _linkedDurationId = deviceLinkedStateIds["DURATION"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
 										var stateElapsed = getStateObject(_linkedElapsedId);
+										var stateDuration = getStateObject(_linkedDurationId);
 										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active");
 										if (active && stateElapsed && typeof stateElapsed.val !== udef && stateElapsed.val !== "" && !isNaN(stateElapsed.val)){
-											var val = secondsToHHMMSS(stateElapsed.val);
+											var divider = (getDeviceOptionValue(_device, "durationIsMilliseconds") == "true" ? 1000 : 1);
+											var elapsedIsPercentage = (getDeviceOptionValue(_device, "elapsedIsPercentage") == "true");
+											if(elapsedIsPercentage){
+												let percentageDivider = (stateElapsed.val > 1 ? 100 : 1);
+												if (stateDuration && stateDuration.val && !isNaN(stateDuration.val)){
+													var val = secondsToHHMMSS(stateElapsed.val / percentageDivider * stateDuration.val / divider);
+												} else {
+													var val = (stateElapsed.val / percentageDivider) + "%";
+												}
+											} else {
+												var val = secondsToHHMMSS(stateElapsed.val / divider);
+											}
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBIcon").show();
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoBText").html(val);
 										} else {
@@ -7577,6 +7595,24 @@ function renderView(viewId, triggeredByReconnection){
 			viewShuffleFilterHideDeviceIfInactive();
 			viewShuffleApplyShuffleResizeObserver();
 		}
+		//scroll to device or heading if anchor present in viewId
+		if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
+		if(viewScrollToDeviceTimeout2) clearTimeout(viewScrollToDeviceTimeout2);
+		let scrollToDevice = viewId.split('#')[1];
+		if(scrollToDevice){
+			(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+				var _scrollToDeviceId = actualViewId + ".devices." + scrollToDevice
+				viewScrollToDevice(_scrollToDeviceId);
+				viewScrollToDeviceTimeout1 = setTimeout(function(){
+					console.log("scrollToDevice (timeout 1): " + _scrollToDeviceId);
+					viewScrollToDevice(_scrollToDeviceId);
+				}, 1500);
+				viewScrollToDeviceTimeout2 = setTimeout(function(){
+					console.log("scrollToDevice (timeout 2): " + _scrollToDeviceId);
+					viewScrollToDevice(_scrollToDeviceId);
+				}, 3000);
+			})(); //<--End Closure
+		}
 		//if isBackgroundView tell parent, that it has loaded (to make it visible)
 		if (isBackgroundView) window.parent.postMessage({ command: "backgroundViewLoaded" , value: true}, "*");
 		//Find variablesrc in images
@@ -8263,6 +8299,46 @@ function adaptHeightOrStartMarqueeOnOverflow(element){
 	}
 }
 
+function viewScrollToDevice(scrollToDeviceId){ //add "h" to scrollToDeviceId to scroll to the corresponding heading
+	let scrollToHeading = false;
+	let scrollTop;
+	if(scrollToDeviceId.substr(-1).toLowerCase() == "h"){ //scroll to heading
+		scrollToDeviceId = scrollToDeviceId.substring(0, scrollToDeviceId.length - 1);
+		$heading = $("[data-iQontrol-Device-ID='" + scrollToDeviceId + "'].viewShuffleTile").parent('.viewShuffleContainer').prev('h4');
+		if($heading.length){
+			scrollToHeading = true;
+			scrollTop = $heading.offset().top;
+			console.log("scrollToDevice heading of " + scrollToDeviceId + ": " + scrollTop);
+		}
+	} 
+	if(!scrollToHeading){ //scroll to device
+		let scrollToShuffleInstanceIndex = null;
+		let targetShuffleItemIndex = null;
+		for(let i = 0; i < viewShuffleInstances.length; i++){
+			for(let j = 0; j < viewShuffleInstances[i].items.length; j++){
+				if (viewShuffleInstances[i].items[j].element.dataset.iqontrolDeviceId == scrollToDeviceId){
+					scrollToShuffleInstanceIndex = i;
+					scrollToShuffleItemIndex = j;
+					break;
+				}
+			}
+			if (scrollToShuffleInstanceIndex != null) break;
+		}
+		if (scrollToShuffleInstanceIndex != null){
+			 scrollTop = $(viewShuffleInstances[scrollToShuffleInstanceIndex].element).offset().top + (viewShuffleInstances[scrollToShuffleInstanceIndex].items[scrollToShuffleItemIndex].point.y * zoom) - 5;
+			console.log("scrollToDevice " + scrollToDeviceId + ": " + scrollTop);
+		}
+	}
+	if(scrollTop){
+		viewScrollToDeviceRunning = true;
+		$('html,body').animate({
+			scrollTop: scrollTop
+		}, 1000, function(){
+			setTimeout(function(){ viewScrollToDeviceRunning = false; }, 100);
+		});
+	}
+}
+
 function stateFillsDeviceCheckForIconToFloat($iQontrolDeviceState){
 	if (!$iQontrolDeviceState) return;
 	if (!$iQontrolDeviceState.hasClass('iQontrolDeviceState')) return;
@@ -8339,7 +8415,7 @@ function applyViewDeviceContextMenu(){
 		//console.log("viewDeviceContextMenu end via TOUCHEND/MOUSEUP");
 		viewDeviceContextMenuEnd();
 	});
-	$(window).scroll(function(){
+	$(window).scroll(function(event){
 		if (!viewDeviceContextMenuIgnoreStart){
 			//console.log("viewDeviceContextMenu end via SCROLL");
 			viewDeviceContextMenuEnd();
@@ -10883,6 +10959,7 @@ function renderDialog(deviceIdEscaped){
 							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["ELAPSED"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='false' data-show-value='false' data-mini='true' name='DialogElapsedLevelSlider' id='DialogElapsedLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
 							dialogContent += "<div class='ui-grid-a' style='margin: -11px 8px 10px 3px;'><div class='ui-block-a'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogElapsedSpan'></span></div><div class='ui-block-b' style='text-align: right;'><span class='small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogDurationSpan'></span></div></div>";
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _device = device;
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedElapsedLevelId = dialogLinkedStateIds["ELAPSED"];
 								var _linkedDurationLevelId = dialogLinkedStateIds["DURATION"];
@@ -10892,18 +10969,32 @@ function renderDialog(deviceIdEscaped){
 								var updateFunction = function(){
 									var stateElapsedLevel = getStateObject(_linkedElapsedLevelId);
 									var stateDurationLevel = getStateObject(_linkedDurationLevelId);
+									var divider = (getDeviceOptionValue(_device, "durationIsMilliseconds") == "true" ? 1000 : 1);
+									var elapsedIsPercentage = (getDeviceOptionValue(_device, "elapsedIsPercentage") == "true");
 									if (stateDurationLevel && stateDurationLevel.val && !isNaN(stateDurationLevel.val)){
-										$("#DialogElapsedLevelSlider").prop('max', stateDurationLevel.val);
+										$("#DialogElapsedLevelSlider").prop('max', stateDurationLevel.val / divider);
 										$("#DialogElapsedLevelSlider").slider('refresh');
-										$("#DialogDurationSpan").html(secondsToHHMMSS(stateDurationLevel.val));
+										$("#DialogDurationSpan").html(secondsToHHMMSS(stateDurationLevel.val / divider));
 									} else {
+										if(elapsedIsPercentage) $("#DialogElapsedLevelSlider").prop('max', 100);
 										$("#DialogDurationSpan").html("");
 									}
 									if (stateElapsedLevel && stateElapsedLevel.val && !isNaN(stateElapsedLevel.val)){
-										$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val);
+										if(elapsedIsPercentage){
+											let percentageDivider = (stateElapsedLevel.val > 1 ? 100 : 1);
+											if (stateDurationLevel && stateDurationLevel.val && !isNaN(stateDurationLevel.val)){
+												$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val / percentageDivider * stateDurationLevel.val / divider);
+												$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val / percentageDivider * stateDurationLevel.val / divider));												
+											} else {
+												$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val / percentageDivider);
+												$("#DialogElapsedSpan").html((stateElapsedLevel.val / percentageDivider) + "%");
+											}
+										} else {
+											$("#DialogElapsedLevelSlider").val(stateElapsedLevel.val / divider);
+											$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val / divider));											
+										}
 										$("#DialogElapsedLevelSlider").slider('refresh');
 										$("#DialogElapsedLevelSlider").parent("div").show(500);
-										$("#DialogElapsedSpan").html(secondsToHHMMSS(stateElapsedLevel.val));
 										$("#DialogElapsedSpan").show();
 										$("#DialogDurationSpan").show();
 									} else {
@@ -12827,7 +12918,7 @@ function renderDialog(deviceIdEscaped){
 					if (dialogContentCountAfterHR > 0) dialogContent += "<hr>";
 					dialogContentCountAfterHR++;
 					dialogContent += "<label for='DialogLinkedViewButton' ><image src='./images/symbols/view.png' / style='width:16px; height:16px;'>&nbsp;" + _("Link to other view") + ":</label>";
-					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName) + "</a>";
+					dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLinkedViewButton' id='DialogLinkedViewButton' onclick='$(\"#DialogContent\").empty(); setTimeout(function(){$(\"#Dialog\").popup(\"close\"); setTimeout(function(){viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + linkedViewHistoryPosition + "; renderView(unescape(\"" + escape(linkedView) + "\"));}, 200);}, 200);'>" + _("Open %s", linkedViewName.split("#")[0]) + "</a>";
 				}
 			dialogContent += "</form>";
 			$("#DialogContent").html(dialogContent);
@@ -13844,14 +13935,24 @@ $(document).ready(function(){
 		scrollingDom: $('html')
 	});
 
-	//Disable context-Menu
-	window.oncontextmenu = function(event) {
+	//Disable context-Menu (right click)
+	let userAgent =  navigator && navigator.userAgent || "";
+	if(!userAgent.indexOf("wioBrowser") == 0) window.oncontextmenu = function(event) {
 		console.log("oncontextmenu - preventDefault and stopPropagation");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	};
-	
+
+	//Scroll Event
+	$(window).scroll(function(){
+		if(!viewScrollToDeviceRunning && $(window).scrollTop()){ 
+			console.log("Scroll by user " + $(window).scrollTop());
+			if(viewScrollToDeviceTimeout1) clearTimeout(viewScrollToDeviceTimeout1);
+			if(viewScrollToDeviceTimeout2) clearTimeout(viewScrollToDeviceTimeout2);
+		}
+	});
+
 	//Listen for postMessages from iframes
 	window.addEventListener("message", receivePostMessage, false);
 	function receivePostMessage(event) { //event: .data = message data, .origin = url of origin, .source = id of sending iframe

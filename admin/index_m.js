@@ -1458,7 +1458,9 @@ var iQontrolRoles = {
 				stateStopValue: {name: "Value of STATE for 'stop'", type: "text", default: "stop"},
 				useStateValuesForPlayPauseStop: {name: "Send these values (instead of true) when clicking on PLAY, PAUSE and STOP", type: "checkbox", default: "false"},
 				hidePlayOverlay: {name: "Hide play icon", type: "checkbox", default: "false"},
-				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"}
+				hidePauseAndStopOverlay: {name: "Hide pause and stop icon", type: "checkbox", default: "false"},
+				durationIsMilliseconds: {name: "DURATION and ELAPSED are values in milliseconds", type: "checkbox", default: "false"},
+				elapsedIsPercentage: {name: "ELAPSED is a value in percentage", type: "checkbox", default: "false"}
 			}},
 			SECTION_DEVICESPECIFIC_REPEAT: {name: "Repeat", type: "section", options: {
 				repeatOffValue: {name: "Value of REPEAT for 'off'", type: "text", default: "false"},
@@ -3239,13 +3241,14 @@ async function load(settings, onChange) {
 		});
 		function changeViewsCommonName(index, oldVal, newVal){
 			toolbar.forEach(function(element){
-				if (element.nativeLinkedView == oldVal) element.nativeLinkedView = newVal;
+				if (element.nativeLinkedView.split("#")[0] == oldVal.split("#")[0]) element.nativeLinkedView = newVal.split("#")[0] + (element.nativeLinkedView.split("#")[1] ? "#" + element.nativeLinkedView.split("#")[1] : "");
 			});
-			if ($('#panelBackgroundViewValue').val() == adapter + "." + instance + ".Views." + oldVal) $('#panelBackgroundViewValue').val(adapter + "." + instance + ".Views." + newVal);
+			if ($('#panelBackgroundViewValue').val().split("#")[0] == adapter + "." + instance + ".Views." + oldVal.split("#")[0]) $('#panelBackgroundViewValue').val(adapter + "." + instance + ".Views." + newVal.split("#")[0] + ($('#panelBackgroundViewValue').val().split("#")[1] ? "#" + $('#panelBackgroundViewValue').val().split("#")[1] : ""));
 			views.forEach(function(view){
 				(view.devices || []).forEach(function(device){
+					if (device.nativeLinkedView && device.nativeLinkedView.split("#")[0] == oldVal.split("#")[0]) device.nativeLinkedView = newVal.split("#")[0] + (device.nativeLinkedView.split("#")[1] ? "#" + device.nativeLinkedView.split("#")[1] : "");
 					(device.states || []).forEach(function(state){
-						if (state.state == "BACKGROUND_VIEW" && state.value == (adapter + "." + instance + ".Views." + oldVal)) state.value = (adapter + "." + instance + ".Views." + newVal);
+						if (state.state == "BACKGROUND_VIEW" && state.value.split("#")[0] == (adapter + "." + instance + ".Views." + oldVal.split("#")[0])) state.value = (adapter + "." + instance + ".Views." + newVal.split("#")[0] + (state.value.split("#")[1] ? "#" + state.value.split("#")[1] : ""));
 					});
 				});
 			});
@@ -3426,13 +3429,10 @@ async function load(settings, onChange) {
 	//++++++++++ DEVICES ++++++++++
 	//Load Devices
 	function loadDevices(){
-		//Add Views to Selectbox for Views and for LinkedView
-		var viewIds = [""];
 		devicesMarkDevice = null;
-		views.forEach(function(element){ viewIds.push(element.commonName); });
-		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
+		//Add Views to Selectbox for Views
 		$('#devicesSelectedView').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
-		views.forEach(function(element, index){ $('#devicesSelectedView').append("<option value='" + index + "'>" + element.commonName + "</option>"); });
+		views.forEach(function(view, viewIndex){ $('#devicesSelectedView').append("<option value='" + viewIndex + "'>" + view.commonName + "</option>"); });
 		$('#devicesSelectedView').select();
 		//Reset devicesSelecteView
 		devicesSelectedView = -1;
@@ -3450,6 +3450,16 @@ async function load(settings, onChange) {
 			views[devicesSelectedView].devices.forEach(function(device){
 				if (typeof device.nativeBackgroundImageActive == udef && typeof device.nativeBackgroundImage !== udef) device.nativeBackgroundImageActive = device.nativeBackgroundImage;
 			});
+			//Add Views to Selectbox for LinkedView
+			var viewIds = [""];
+			views.forEach(function(view, viewIndex){ 
+				viewIds.push(view.commonName);
+				if(view.devices && view.devices.length) view.devices.forEach(function(device, deviceIndex){
+					if(device.nativeHeading) viewIds.push(view.commonName + "#" + deviceIndex + "h/" + view.commonName + "#" + device.nativeHeading.replaceAll("/", "_"));
+					//viewIds.push(view.commonName + "#" + deviceIndex + "/" + view.commonName + "#" + deviceIndex + " (" + device.commonName.replaceAll("/", "_") + ")");
+				});
+			});
+			$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 			//Fill Table
 			values2table('tableDevices', views[devicesSelectedView].devices, onChange, onTableDevicesReady);
 			$('.divDevicesNothingSelected').hide();
@@ -5313,7 +5323,7 @@ async function load(settings, onChange) {
 								comboboxesFontsOptions += ";[Fantasy:]";
 								comboboxesFontsOptions += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
 								comboboxesFontsOptions += ";[Cursive:]";
-								comboboxesFontsOptions += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
+								comboboxesFontsOptions += ";\"Comic Sans\", \"Comic Sans MS\", \"Chalkboard\", \"ChalkboardSE-Regular\", cursive, sans-serif/Comic Sans/.\\fonts\\font_comic.png";
 								comboboxesFontsOptions += ";[Monospace:]";
 								comboboxesFontsOptions += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
 								//User Fonts
@@ -7735,7 +7745,7 @@ async function load(settings, onChange) {
 		optionsString += ";[Fantasy:]";
 		optionsString += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
 		optionsString += ";[Cursive:]";
-		optionsString += ";\"Comic Sans MS\", cursive/Comic Sans/.\\fonts\\font_comic.png";
+		optionsString += ";\"Comic Sans\", \"Comic Sans MS\", \"Chalkboard\", \"ChalkboardSE-Regular\", cursive, sans-serif/Comic Sans/.\\fonts\\font_comic.png";
 		optionsString += ";[Monospace:]";
 		optionsString += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
 		//User Fonts
@@ -8915,9 +8925,11 @@ async function save(callback) {
 	});
 	if (typeof views != udef && existingViews.length > 0) views.forEach(function(view){
 		if (typeof view.devices != udef) view.devices.forEach(function(device){
-			if (typeof device.nativeLinkedView != udef && device.nativeLinkedView != "" && existingViews.indexOf(device.nativeLinkedView) == -1){
-				console.log("Removed dead link to " + device.nativeLinkedView);
-				device.nativeLinkedView = "";
+			if (typeof device.nativeLinkedView != udef && device.nativeLinkedView != ""){
+				if(existingViews.indexOf(device.nativeLinkedView.split('#')[0]) == -1){
+					console.log("Removed dead link to " + device.nativeLinkedView);
+					device.nativeLinkedView = "";
+				}
 			}
 		});
 	});

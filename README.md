@@ -1716,6 +1716,10 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added option Toggle POWER_SWITCH instead of STATE (for example when clicking on icon) for media.
 * (sbormann) Added option to hide slider for LEVEL, if favorites are set.
 * (sbormann) Added option to show BADGE, even if value is zero.
+* (sbormann) Added option to set DURATION and ELAPSED in milliseconds respective percentage for media.
+* (sbormann) Added ability to set links to other views with anchor to sub-headings.
+* (sbormann) Corrected some fonts.
+* (sbormann/Wal) Enabled right-click for wioBrowser.
 
 ### 2.1.0 (2023-01-24)
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.

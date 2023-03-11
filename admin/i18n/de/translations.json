@@ -1,4 +1,6 @@
 {
+	"DURATION and ELAPSED are values in milliseconds": "DURATION und ELAPSED sind Werte in Millisekunden",
+	"ELAPSED is a value in percentage": "ELAPSED ist ein Prozentwert",
     "   And": "   Und",
     " device with empty battery: ": " Gerät mit leerer Batterie: ",
     " device with firmware-update: ": " Gerät mit Firmware-Update: ",
