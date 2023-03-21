@@ -420,17 +420,26 @@ class Iqontrol extends utils.Adapter {
 	
 	//++++++++++ POPUP ++++++++++	
 	async createPopup(){
-		await this.createOrUpdateObject("Popup.Message", 					{type: "state"}, 	{name: "Message",					type: "string", 	role: "text", 		desc: "Message to be displayed", });
-		await this.createOrUpdateObject("Popup.CLEAR", 						{type: "state"}, 	{name: "Clear", 					type: "boolean", 	role: "button", 	desc: "Clear Popup Settings"});
-		await this.createOrUpdateObject("Popup.Duration", 					{type: "state"}, 	{name: "Display Duration", 			type: "number", 	role: "timer", 		desc: "Display duration of message in ms (0 = until clicked)"});
-		await this.createOrUpdateObject("Popup.ClickedValue", 				{type: "state"}, 	{name: "Clicked Value", 			type: "string", 	role: "text", 		desc: "Value that will be sent if popup is clicked"});
-		await this.createOrUpdateObject("Popup.ClickedDestinationState", 	{type: "state"}, 	{name: "Clicked Destination State", type: "string", 	role: "text", 		desc: "The value will be sent to this state if popup is clicked"});
-		await this.createOrUpdateObject("Popup.POPUP_CLICKED", 				{type: "state"}, 	{name: "Popup Clicked", 			type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if popup is clicked"});
-		await this.createOrUpdateObject("Popup.ButtonNames", 				{type: "state"}, 	{name: "Button Names", 				type: "string", 	role: "text", 		desc: "Comma-separated list of buttons that will be displayd under the popup"});
-		await this.createOrUpdateObject("Popup.ButtonValues", 				{type: "state"}, 	{name: "Button Values", 			type: "string", 	role: "text", 		desc: "Comma-separated list of values that will be sent if the button is clicked"});
-		await this.createOrUpdateObject("Popup.ButtonDestinationStates", 	{type: "state"}, 	{name: "Button Destination States", type: "string", 	role: "text", 		desc: "Comma-separated list of states, the value will be sent to if the button is clicked"});
-		await this.createOrUpdateObject("Popup.ButtonCloses", 				{type: "state"}, 	{name: "Button Closes", 			type: "string", 	role: "text", 		desc: "Comma-separated list of booleans (true/false) if the popup should close when the button is clicked"});
-		await this.createOrUpdateObject("Popup.BUTTON_CLICKED", 			{type: "state"}, 	{name: "Button Clicked", 			type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if button is clicked"});
+		await this.createOrUpdateObject("Popup.Message", 							{type: "state"}, 	{name: "Message",											type: "string", 	role: "text", 		desc: "Message to be displayed", });
+		await this.createOrUpdateObject("Popup.PersistentMessage",		 			{type: "state"}, 	{name: "Persistent Message",								type: "string", 	role: "text", 		desc: "Persistent message to be displayed (persistent means, the popop will be opened on all currently and all in future opened iqontrol instances until confirmed or expired)"});
+		await this.createOrUpdateObject("Popup.PersistentExpires",					{type: "state"}, 	{name: "Persistent Message Expires",						type: "number", 	role: "date", 		desc: "Persistent messages will be automatically deleted at this timestamp"});
+		await this.createOrUpdateObject("Popup.PersistentUndismissible",			{type: "state"}, 	{name: "Persistent Message Undismissible",					type: "boolean", 	role: "switch", 	desc: "If true, persistent messages won't be deleted after closing them (the are kept until they are expired, so make shure PersistentExpires is set!)"});
+		await this.createOrUpdateObject("Popup.PersistentId", 						{type: "state"}, 	{name: "Persistent Message ID",								type: "string", 	role: "text", 		desc: "The message will be saved associated with this (optional) id. Messages can then be deleted with this Id."});
+		await this.createOrUpdateObject("Popup.PERSISTENT_MESSAGES_DELETE_ID",		{type: "state"}, 	{name: "Delete this Persistent Message ID",					type: "string", 	role: "text", 		desc: "All pending persistent messages with this id will be deleted. Send null to delete all pending messages."});
+		await this.createOrUpdateObject("Popup.PERSISTENT_MESSAGES_SHOW_ID",		{type: "state"}, 	{name: "Show Pending Persistent Messages",					type: "string", 	role: "text", 		desc: "Show pending persistent messages with this id again on all currently opened iQontrol-Instances."});
+		await this.createOrUpdateObject("Popup.PERSISTENT_MESSAGES_PENDING",		{type: "state"}, 	{name: "Persistent Messages Pending",						type: "json", 		role: "list.json", 	desc: "Array of pending persistent messages (readonly)", 		write: false});
+		await this.createOrUpdateObject("Popup.Duration", 							{type: "state"}, 	{name: "Display Duration", 									type: "number", 	role: "timer", 		desc: "Display duration of message in ms (0 = until clicked)"});
+		await this.createOrUpdateObject("Popup.ClickKeepsOpen",						{type: "state"}, 	{name: "Click Keeps Open",									type: "boolean", 	role: "switch", 	desc: "If true, the popup will not close after it is clicked"});
+		await this.createOrUpdateObject("Popup.ClickedValue", 						{type: "state"}, 	{name: "Clicked Value", 									type: "string", 	role: "text", 		desc: "Value that will be sent if popup is clicked"});
+		await this.createOrUpdateObject("Popup.ClickedDestinationState",		 	{type: "state"}, 	{name: "Clicked Destination State",					 		type: "string", 	role: "text", 		desc: "The value will be sent to this state if popup is clicked"});
+		await this.createOrUpdateObject("Popup.POPUP_CLICKED", 						{type: "state"}, 	{name: "Popup Clicked", 									type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if popup is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonNames", 						{type: "state"}, 	{name: "Button Names", 										type: "string", 	role: "text", 		desc: "Comma-separated list of buttons that will be displayd under the popup"});
+		await this.createOrUpdateObject("Popup.ButtonValues", 						{type: "state"}, 	{name: "Button Values", 									type: "string", 	role: "text", 		desc: "Comma-separated list of values that will be sent if the button is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonDestinationStates",		 	{type: "state"}, 	{name: "Button Destination States", 						type: "string", 	role: "text", 		desc: "Comma-separated list of states, the value will be sent to if the button is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonCloses", 						{type: "state"}, 	{name: "Button Closes", 									type: "string", 	role: "text", 		desc: "Comma-separated list of booleans (true/false) if the popup should close when the button is clicked"});
+		await this.createOrUpdateObject("Popup.ButtonClears", 						{type: "state"}, 	{name: "Button Clears", 									type: "string", 	role: "text", 		desc: "Comma-separated list of booleans (true/false) if the popup settings schoult be cleared when the button is clicked"});
+		await this.createOrUpdateObject("Popup.BUTTON_CLICKED", 					{type: "state"}, 	{name: "Button Clicked",				 					type: "string", 	role: "text", 		desc: "The value will be sent to this datapoint if button is clicked"});
+		await this.createOrUpdateObject("Popup.CLEAR", 								{type: "state"}, 	{name: "Clear", 											type: "boolean", 	role: "button", 	desc: "Clear popup settings"});
 	}
 	
 	//++++++++++ WIDGETS ++++++++++	
@@ -1896,29 +1905,89 @@ class Iqontrol extends utils.Adapter {
 	 * @param {string} id
 	 * @param {ioBroker.State | null | undefined} state
 	 */
-	onStateChange(id, state) {
-		if (state) {
-			// The state was changed
+	async onStateChange(id, state) {
+		if (state) { // The state was updated or changed
 			this.log.silly(`state ${id} updated: ${state.val} (ack = ${state.ack}) ts = ${state.ts} lc = ${state.lc} state changed: ${state.ts == state.lc}`);
 			switch(id){
 				case this.namespace + ".Popup.CLEAR":
 					this.log.info("Popup.CLEAR");
+					this.setState('Popup.Message', { val: "", ack: true });
+					this.setState('Popup.PersistentMessage', { val: "", ack: true });
+					this.setState('Popup.PersistentExpires', { val: "", ack: true });
+					this.setState('Popup.PersistentUndismissible', { val: false, ack: true });
+					this.setState('Popup.PersistentId', { val: "", ack: true });
 					this.setState('Popup.Duration', { val: "", ack: true });
-					this.setState('Popup.ClickedValue', { val: "", ack: true });
-					this.setState('Popup.ClickedDestinationState', { val: "", ack: true });
 					this.setState('Popup.ButtonNames', { val: "", ack: true });
 					this.setState('Popup.ButtonValues', { val: "", ack: true });
 					this.setState('Popup.ButtonDestinationStates', { val: "", ack: true });
 					this.setState('Popup.ButtonCloses', { val: "", ack: true });
-					this.setState('Popup.Message', { val: "", ack: true });
+					this.setState('Popup.ButtonClears', { val: "", ack: true });
+					this.setState('Popup.ClickKeepsOpen', { val: false, ack: true });
+					this.setState('Popup.ClickedValue', { val: "", ack: true });
+					this.setState('Popup.ClickedDestinationState', { val: "", ack: true });
+				break;
+				
+				case this.namespace + ".Popup.PersistentMessage":
+					var persistentMessageState = await this.getStateAsync('Popup.PersistentMessage');
+					if(persistentMessageState && persistentMessageState.val){
+						this.log.info("Persistent Popup Message received");
+						var persistentMessage = persistentMessageState.val;
+						var persistentExpires = (await this.getStateAsync('Popup.PersistentExpires') || {}).val || 0;
+						var persistentUndismissible = (await this.getStateAsync('Popup.PersistentUndismissible') || {}).val || false;
+						var persistentId = (await this.getStateAsync('Popup.PersistentId') || {}).val || "";
+						var persistentMessagesPending = (await this.getStateAsync('Popup.PERSISTENT_MESSAGES_PENDING') || {}).val || "[]";
+						if(!Array.isArray(persistentMessagesPending)) persistentMessagesPending = [];
+						var duration = (await this.getStateAsync('Popup.Duration') || {}).val || 0;
+						var clickKeepsOpen = (await this.getStateAsync('Popup.ClickKeepsOpen') || {}).val || false;
+						var clickedValue = (await this.getStateAsync('Popup.ClickedValue') || {}).val || "";
+						var clickedDestinationState = (await this.getStateAsync('Popup.ClickedDestinationState') || {}).val || "";
+						var buttonNames = (await this.getStateAsync('Popup.ButtonNames') || {}).val || "";
+						var buttonValues = (await this.getStateAsync('Popup.ButtonValues') || {}).val || "";
+						var buttonDestinationStates = (await this.getStateAsync('Popup.ButtonDestinationStates') || {}).val || "";
+						var buttonCloses = (await this.getStateAsync('Popup.ButtonCloses') || {}).val || "";
+						var buttonClears = (await this.getStateAsync('Popup.ButtonClears') || {}).val || "";
+						var popup = {
+							message: persistentMessage,
+							persistentExpires: persistentExpires,
+							persistentUndismissible: persistentUndismissible,
+							persistentId: persistentId,
+							duration: duration, 
+							clickKeepsOpen: clickKeepsOpen, 
+							clickedValue: clickedValue, 
+							clickedDestinationState: clickedDestinationState, 
+							buttonNames: buttonNames, 
+							buttonValues: buttonValues, 
+							buttonDestinationStates: buttonDestinationStates, 
+							buttonCloses: buttonCloses, 
+							buttonClears: buttonClears, 
+							ts: Math.floor(new Date().getTime()/1000)
+						};
+						persistentMessagesPending.push(popup);
+						this.setState('Popup.PERSISTENT_MESSAGES_PENDING', { val: persistentMessagesPending, ack: true });
+					}
+				break;
+				
+				case this.namespace + ".Popup.PERSISTENT_MESSAGES_DELETE_ID":
+					var deleteId = (await this.getStateAsync('Popup.PERSISTENT_MESSAGES_DELETE_ID') || {}).val;
+					this.log.info("PERSISTENT_MESSAGES_DELETE_ID: " + deleteId);
+					if(deleteId === null || deleteId == "null"){
+						this.log.info("Deleting all pending persistent messages");
+						this.setState('Popup.PERSISTENT_MESSAGES_PENDING', { val: [], ack: true });
+					} else {
+						var persistentMessagesPending = (await this.getStateAsync('Popup.PERSISTENT_MESSAGES_PENDING') || {}).val || "[]";
+						if(!Array.isArray(persistentMessagesPending)) persistentMessagesPending = [];
+						persistentMessagesPending = persistentMessagesPending.filter(function(item){
+							return item.persistentId != deleteId;
+						});
+						this.setState('Popup.PERSISTENT_MESSAGES_PENDING', { val: persistentMessagesPending, ack: true });
+					}
 				break;
 			}
 			if(this.config.listsActive && (state.lc == state.ts)) { //State has CHANGED
 				usedStates[id] = state;
 				this.updateLists(id);
 			}
-		} else {
-			// The state was deleted
+		} else { // The state was deleted
 			this.log.info(`state ${id} deleted`);
 			if(this.config.listsActive) {
 				delete usedStates[id];
@@ -1937,10 +2006,26 @@ class Iqontrol extends utils.Adapter {
 			if (obj.command === "send") {
 				// e.g. send email or pushover or whatever
 				this.log.info("send command");
-				if(obj.message.PopupMessage){
+				if(obj.message.PopupMessage || obj.message.PopupPersistentMessage){
 					let PopupDuration = 0;
 					if(typeof obj.message.PopupDuration !== "undefined" && !isNaN(obj.message.PopupDuration)){
 						PopupDuration = parseInt(obj.message.PopupDuration);
+					}
+					let PopupPersistentExpires = "";
+					if(typeof obj.message.PopupPersistentExpires !== "undefined"){
+						PopupPersistentExpires = obj.message.PopupPersistentExpires;
+					}
+					let PopupPersistentUndismissible = "";
+					if(typeof obj.message.PopupPersistentUndismissible !== "undefined"){
+						PopupPersistentUndismissible = obj.message.PopupPersistentUndismissible;
+					}
+					let PopupPersistentId = "";
+					if(typeof obj.message.PopupPersistentId !== "undefined"){
+						PopupPersistentId = obj.message.PopupPersistentId;
+					}
+					let PopupClickKeepsOpen = "";
+					if(typeof obj.message.PopupClickKeepsOpen !== "undefined"){
+						PopupClickKeepsOpen = obj.message.PopupClickKeepsOpen;
 					}
 					let PopupClickedValue = "";
 					if(typeof obj.message.PopupClickedValue !== "undefined"){
@@ -1966,8 +2051,20 @@ class Iqontrol extends utils.Adapter {
 					if(typeof obj.message.PopupButtonCloses !== "undefined"){
 						PopupButtonCloses = obj.message.PopupButtonCloses;
 					}
+					let PopupButtonClears = "";
+					if(typeof obj.message.PopupButtonClears !== "undefined"){
+						PopupButtonClears = obj.message.PopupButtonClears;
+					}
 					this.log.debug("PopupDuration: " + PopupDuration);
 					this.setState('Popup.Duration', { val: PopupDuration, ack: true });
+					this.log.debug("PopupPersistentExpires: " + PopupPersistentExpires);
+					this.setState('Popup.PersistentExpires', { val: PopupPersistentExpires, ack: true });
+					this.log.debug("PopupPersistentUndismissible: " + PopupPersistentUndismissible);
+					this.setState('Popup.PersistentUndismissible', { val: PopupPersistentUndismissible, ack: true });
+					this.log.debug("PopupPersistentId: " + PopupPersistentId);
+					this.setState('Popup.PersistentId', { val: PopupPersistentId, ack: true });
+					this.log.debug("PopupClickKeepsOpen: " + PopupClickKeepsOpen);
+					this.setState('Popup.ClickKeepsOpen', { val: PopupClickKeepsOpen, ack: true });
 					this.log.debug("PopupClickedValue: " + PopupClickedValue);
 					this.setState('Popup.ClickedValue', { val: PopupClickedValue, ack: true });
 					this.log.debug("PopupClickedDestinationState: " + PopupClickedDestinationState);
@@ -1980,8 +2077,15 @@ class Iqontrol extends utils.Adapter {
 					this.setState('Popup.ButtonDestinationStates', { val: PopupButtonDestinationStates, ack: true });
 					this.log.debug("PopupButtonCloses: " + PopupButtonCloses);
 					this.setState('Popup.ButtonCloses', { val: PopupButtonCloses, ack: true });
-					this.log.info("Popup Message: " + obj.message.PopupMessage);
-					this.setState('Popup.Message', { val: obj.message.PopupMessage, ack: true });
+					this.log.debug("PopupButtonClears: " + PopupButtonClears);
+					this.setState('Popup.ButtonClears', { val: PopupButtonClears, ack: true });
+					if(obj.message.PopupPersistentMessage){
+						this.log.info("Popup Persistent Message: " + obj.message.PopupPersistentMessage);
+						this.setState('Popup.PersistentMessage', { val: obj.message.PopupPersistentMessage, ack: true });
+					} else {
+						this.log.info("Popup Message: " + obj.message.PopupMessage);
+						this.setState('Popup.Message', { val: obj.message.PopupMessage, ack: true });
+					}
 				}
 				// Send response in callback if required
 				if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
