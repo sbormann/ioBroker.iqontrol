@@ -1788,7 +1788,8 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann) Added ability to set links to other views with anchor to sub-headings.
 * (sbormann) Corrected some fonts.
 * (sbormann/Wal) Enabled right-click for wioBrowser.
-* (sbormann) Addes some new options for popup-messages and introduced persistent popups.
+* (sbormann) Added some new options for popup-messages and introduced persistent popups.
+* (sbormann) Uploading of userfiles via ZIP-File is now possible.
 
 ### 2.1.0 (2023-01-24)
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.

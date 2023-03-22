@@ -10241,7 +10241,7 @@ function renderDialog(deviceIdEscaped){
 										if(_valueList[value] == "BOOST-MODE") { modeStateIds.push(linkedParentId + ".BOOST_MODE"); 	setValues.push(true); }
 									}
 									modeStateIds.forEach(function(modeStateId, index){
-										var setValue = setValues[index] || true;
+										var setValue = (typeof setValues[index] == udef ? true : setValues[index]);
 										if(typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
 										setState(modeStateId, _deviceIdEscaped, setValue, true);
 									});

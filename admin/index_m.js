@@ -2452,9 +2452,12 @@ function uploadFile(file, path, callback) {
 		parts.splice(0, 2);
 		var data = e.target.result;
 		const base64 = btoa(new Uint8Array(data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-		socket.emit('writeFile64', adapter, parts.join('/'), base64, function () {
-			if (callback) callback(file.name);
-		});
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _path = path;
+			socket.emit('writeFile64', adapter, parts.join('/'), base64, function(){
+				if (callback) callback(_path);
+			});
+		})(); //<--End Closure
 	};
 	reader.readAsArrayBuffer(file);
 }
@@ -2618,7 +2621,7 @@ function readDirAsZip(path, callback) {
 		callback(data.error || null, data.data || null);
 	});		
 }
-function writeDirAsZip(path, base64Zip, callback) {
+function writeDirAsZip(path, base64Zip, callback) { //xxx not working properly xxx
 	var pathWithoutSlashNamespace = path.substring(namespace.length + 1)
 	socket.emit('sendToHost', common.host, 'writeDirAsZip', {id: namespace, name: pathWithoutSlashNamespace, data: base64Zip}, function(data){
 		callback(data.error || null, null);
@@ -2765,6 +2768,7 @@ async function load(settings, onChange) {
 		if ($('.m.adapter-container').hasClass('react-dark')) $('.m.material-dialogs').addClass('react-dark');
 	}
 	
+
 	//If tab, hide close buttons
 	if (window.location.search.indexOf('noCloseButtons') !== -1) addCustomCSS('.btn-save-close, .btn-cancel { visibility: hidden; }', 'noCloseButtons'); 
 
@@ -3009,6 +3013,11 @@ async function load(settings, onChange) {
 
 				//Reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
 				if (M) M.updateTextFields();
+				
+				//Add warning to native config save button
+				$('.adapter-config-save').on('click', function(){ 
+					alert(_("Warning: This does not save the complete configuration of iQontrol. Please use the functions under Options - Backup/Restore for backups!")); 
+				});
 
 				//Get iobrokerObjects
 				getIobrokerObjects();
@@ -8879,15 +8888,58 @@ async function load(settings, onChange) {
 		});
 	});
 
-	//Import Userfiles 		xxxx 	not working with large zip-files 	xxxx
+	//Import Userfiles
 	$('#optionsBackupRestoreImportUserfiles').on('click', function(){
 		loadLocalFileAsArrayBuffer(".zip", function(result){
 			if (result) {
 				if (confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
 					$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
 					$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
-					$('#optionsBackupRestoreImportUserfilesProgress').show();
-					writeDirAsZip(userfilesImagePath + '/', result, function(err){
+					$('#optionsBackupRestoreImportUserfilesProgress').show().find('.indeterminate, .determinate').removeClass('determinate').addClass('indeterminate').css('width', '');
+					console.log('++++++++++++++++++++++++++++++');
+					JSZip.loadAsync(result).then(function(zip){
+						var uploadCount = 0;
+						var uploadCountMax = 0;
+						zip.forEach(function(relativePath, file){
+							console.log("Processing ZIP-File entry " + file.name);
+							if(!file.dir){
+								uploadCount++;
+								if(uploadCountMax < uploadCount) uploadCountMax = uploadCount;
+								console.log("Uploading " + file.name + ". " + (uploadCountMax - uploadCount) + "/" + uploadCountMax);
+								$('#optionsBackupRestoreImportUserfilesProgress').show().find('.indeterminate, .determinate').removeClass('indeterminate').addClass('determinate').css('width', Math.floor((uploadCountMax - uploadCount) / uploadCountMax * 100) + '%');
+								file.async("blob").then(function(blob){
+									blob.name = relativePath.substr(relativePath.lastIndexOf("/") + 1);
+									var _path = userfilesImagePath + "/" + relativePath;
+									_path = _path.substr(0, _path.lastIndexOf("/"));
+									uploadFile(blob, _path, function(name){
+										uploadCount--;
+										console.log(name + " uploaded. " + (uploadCountMax - uploadCount) + "/" + uploadCountMax);
+										$('#optionsBackupRestoreImportUserfilesProgress').show().find('.indeterminate, .determinate').removeClass('indeterminate').addClass('determinate').css('width', Math.floor((uploadCountMax - uploadCount) / uploadCountMax * 100) + '%');
+										if(uploadCount == 0){
+											getImages(function(){
+												values2table('tableImages', images, onChange, onTableImagesReady);
+												var dummy = $('#imagesSelectedDir').val();
+												$('#imagesSelectedDir').val(dummy).trigger('change');
+												$('#imagesSelectedDir').select();
+											});
+											alert(_("Files imported."));
+											$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
+											$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
+											$('#optionsBackupRestoreImportUserfilesProgress').hide();										
+										}
+									})
+								});
+							}
+						});
+					}, function(err){
+						console.log("Error reading zip file: " + err.message);
+						alert(_("Error: Invalid data."));
+						$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
+						$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
+						$('#optionsBackupRestoreImportUserfilesProgress').hide();
+					});
+					console.log('#############################');
+/* 					writeDirAsZip(userfilesImagePath + '/', result, function(err){ //xxxx still not working xxxx, therefore the above implementation with local zip-processing via jszip is used
 						if (err){
 							alert(_("Error: Invalid data."));
 						} else {
@@ -8902,7 +8954,7 @@ async function load(settings, onChange) {
 						$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
 						$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
 						$('#optionsBackupRestoreImportUserfilesProgress').hide();
-					});
+					}); */
 				}
 			} else {
 				alert(_("Error: Invalid data."));

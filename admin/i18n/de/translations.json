@@ -1,4 +1,5 @@
 {
+	"Warning: This does not save the complete configuration of iQontrol. Please use the functions under Options - Backup/Restore for backups!": "Achtung: Dies speichert nicht die vollständige Konfiguration von iQontrol. Bitte nutzen Sie für Backups die Funktionen unter Optionen - Sichern/Wiederherstellen!",
 	"DURATION and ELAPSED are values in milliseconds": "DURATION und ELAPSED sind Werte in Millisekunden",
 	"ELAPSED is a value in percentage": "ELAPSED ist ein Prozentwert",
     "   And": "   Und",

@@ -31,6 +31,7 @@
 	<script type="text/javascript" src="./codemirror/mode/css/css.js"></script>
 	<script type="text/javascript" src="./codemirror/mode/htmlmixed/htmlmixed.js"></script>
 	<script type="text/javascript" src="./jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="jszip.min.js"></script>
 	<script type="text/javascript" src="words.js"></script>
     <script type="text/javascript" src="type-detector.js"></script>
 	<script type="text/javascript" src="index_m.js"></script>
@@ -2704,6 +2705,15 @@
 								</div>
 							</div>
 							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreExportEverything"><i class="material-icons left">file_download</i><i class="material-icons left">blur_on</i><span class="translate">Export Everything (but userfiles)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn orange" id="optionsBackupRestoreExportUserfiles"><i class="material-icons left" id="optionsBackupRestoreExportUserfilesIcon">file_download</i><i class="material-icons left">cloud</i><span class="translate">Export Userfiles</span><div id="optionsBackupRestoreExportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
+								</div>
+							</div>
+							<div class="divider" style="margin-bottom: 10px;"></div>
+							<div class="row">
 								<div class="input-field col s12 m4 l6">
 									<select multiple name='optionsBackupRestoreExportViewsSelectedSelection' id='optionsBackupRestoreExportViewsSelectedSelection'></select>
 									<label for='optionsBackupRestoreExportViewsSelectedSelection' class="translate">Views:</label>
@@ -2730,18 +2740,22 @@
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreExportCustoms"><i class="material-icons left">file_download</i><i class="material-icons left">build</i><span class="translate">Export Custom Datapoint-Settings</span></a> 
 								</div>
-								<div class="input-field col s12 m12 l12">
-									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreExportEverything"><i class="material-icons left">file_download</i><i class="material-icons left">blur_on</i><span class="translate">Export Everything (but userfiles)</span></a> 
-								</div>
-								<div class="input-field col s12 m12 l12">
-									<a class="waves-effect waves-light btn orange" id="optionsBackupRestoreExportUserfiles"><i class="material-icons left" id="optionsBackupRestoreExportUserfilesIcon">file_download</i><i class="material-icons left">cloud</i><span class="translate">Export Userfiles</span><div id="optionsBackupRestoreExportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
-								</div>
 							</div>
 							<div class="row">
 								<div class="col s12">
 									<p class="translate sub-title">Restore:</p>
 								</div>
 							</div>
+							<div class="row">
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreImportEverything"><i class="material-icons left">file_upload</i><i class="material-icons left">blur_on</i><span class="translate">Import Everything (but userfiles)</span></a> 
+								</div>
+								<div class="input-field col s12 m12 l12">
+									<a class="waves-effect waves-light btn orange" style="background-color: orange !important;" id="optionsBackupRestoreImportUserfiles"><i class="material-icons left" id="optionsBackupRestoreImportUserfilesIcon">file_upload</i><i class="material-icons left">cloud</i><span class="translate">Import Userfiles</span><div id="optionsBackupRestoreImportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
+									<!--p><i class="material-icons left tiny">warning</i><span class="translate">Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.</span></p-->
+								</div>
+							</div>
+							<div class="divider" style="margin-bottom: 10px;"></div>
 							<div class="row">
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportViewsOverwrite" data-overwrite="true"><i class="material-icons left">file_upload</i><i class="material-icons left">apps</i><span class="translate">Import Views (delete existing views)</span></a> 
@@ -2769,13 +2783,6 @@
 								</div>
 								<div class="input-field col s12 m12 l12">
 									<a class="waves-effect waves-light btn" id="optionsBackupRestoreImportCustoms"><i class="material-icons left">file_upload</i><i class="material-icons left">build</i><span class="translate">Import Custom Datapoint-Settings</span></a> 
-								</div>
-								<div class="input-field col s12 m12 l12">
-									<a class="waves-effect waves-light btn red" id="optionsBackupRestoreImportEverything"><i class="material-icons left">file_upload</i><i class="material-icons left">blur_on</i><span class="translate">Import Everything (but userfiles)</span></a> 
-								</div>
-								<div class="input-field col s12 m12 l12">
-									<a class="waves-effect waves-light btn orange" style="background-color: orange !important;" disabled="disabled" id="optionsBackupRestoreImportUserfiles"><i class="material-icons left" id="optionsBackupRestoreImportUserfilesIcon">file_upload</i><i class="material-icons left">cloud</i><span class="translate">Import Userfiles</span><div id="optionsBackupRestoreImportUserfilesProgress" class="progress" style="position: absolute; bottom: -17px; left: 0px; width: 100%; display: none;"><div class="indeterminate"></div></div></a>
-									<p><i class="material-icons left tiny">warning</i><span class="translate">Restoring of userfiles via zip-file is not supported. You might need to re-upload the files manually in the Images/Widgets-Tab.</span></p>
 								</div>
 							</div>
 						</div>
