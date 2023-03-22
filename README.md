@@ -1790,7 +1790,7 @@ This device has some special predefined size- and display-settings to show a tex
 * (sbormann/Wal) Enabled right-click for wioBrowser.
 * (sbormann) Added some new options for popup-messages and introduced persistent popups.
 * (sbormann) Uploading of userfiles via ZIP-File is now possible.
-* (sbormann) Fixed CONTROL_MODE of HP-IP-Thermostat (hopefully finally...)
+* (sbormann/hetti72) Fixed CONTROL_MODE of HP-IP-Thermostat (hopefully finally...)
 
 ### 2.1.0 (2023-01-24)
 * (sbormann) Fixed marquee for INFO_A/B after resizing tile.
