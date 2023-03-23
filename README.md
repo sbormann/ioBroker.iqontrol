@@ -231,6 +231,33 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <details>
 <summary>Widget development (for experts only): (<ins>klick to open</ins>)</summary>
 
+### jQuery
+* In order to use jQuery, you can transfer it from iQontrol to the iFrame with the following code: 
+    ``window.$=window.jQuery=parent.jQuery.extend(function(s){return parent.jQuery(s,document)},parent.jQuery);``
+* Example:
+	````
+	<!doctype html>
+	<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta name="widget-description" content="This is a demo widget-preset. It has no useful funcion. (C) by Sebastian Bormann"/> 
+		<meta name="widget-options" content="{'noZoomOnHover': 'true', 'hideDeviceName': 'true', 'sizeInactive': 'xwideIfInactive highIfInactive', 'iconNoPointerEventsInactive': 'true', 'hideDeviceNameIfInactive': 'true', 'hideStateIfInactive': 'true', 'sizeActive': 'fullWidthIfActive fullHeightIfActive', 'bigIconActive': 'true', 'iconNoPointerEventsActive': 'true', 'hideDeviceNameIfActive': 'true', 'hideStateIfActive': 'true', 'sizeEnlarged': 'fullWidthIfEnlarged fullHeightIfEnlarged', 'bigIconEnlarged': 'true', 'iconNoPointerEventsEnlarged': 'false', 'noOverlayEnlarged': 'true', 'hideDeviceNameIfEnlarged': 'true', 'hideStateIfEnlarged': 'true', 'popupAllowPostMessage': 'true', 'backgroundURLAllowPostMessage': 'true', 'backgroundURLNoPointerEvents': 'false'}"/>
+		<title>iQontrol Widget Test</title>
+	</head>
+	<body>
+		<div id="testDiv">Loading...</div>
+		<script type="text/javascript">
+			console.log("JQUERY-TEST");
+			window.$=window.jQuery=parent.jQuery.extend(function(s){return parent.jQuery(s,document)},parent.jQuery);
+			$(document).ready(function(){
+				$('#testDiv').html("<h1>Hello World</h1)");
+				console.log("Jquery works!!");
+			});
+		</script>	
+	</body>
+	</html>
+	````
+
 ### postMessage-Communication
 * Technically the content of BACKGROUND_VIEW/URL/HTML is placed inside a HTML-Element called iframe, which is a website inside a website
 * By enabling the option "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML" you can enable postMessage-Communication between the website inside this iframe and iQontrol itself
@@ -1779,6 +1806,9 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+
+
 ### 2.2.0 (2023-03-23)
 * (sbormann) You can now chose destination when copying devices.
 * (sbormann) Added option Toggle POWER_SWITCH instead of STATE (for example when clicking on icon) for media.
