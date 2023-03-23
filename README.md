@@ -1779,7 +1779,7 @@ This device has some special predefined size- and display-settings to show a tex
   Placeholder for the next version (at the beginning of the line):
   ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 2.2.0 (2023-03-23)
 * (sbormann) You can now chose destination when copying devices.
 * (sbormann) Added option Toggle POWER_SWITCH instead of STATE (for example when clicking on icon) for media.
 * (sbormann) Added option to hide slider for LEVEL, if favorites are set.
