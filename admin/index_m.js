@@ -6412,6 +6412,7 @@ async function load(settings, onChange) {
 		getImages(function(){
 			values2table('tableImages', images, onChange, onTableImagesReady);
 			var dummy = $('#imagesSelectedDir').val();
+			imagesSelectedDirFillSelectbox();
 			$('#imagesSelectedDir').val(dummy).trigger('change');
 			$('#imagesSelectedDir').select();
 		});
@@ -6441,6 +6442,65 @@ async function load(settings, onChange) {
 			$('#imagesUploadDownloadDirAsZip').removeClass('disabled');
 		$('#imagesUploadDownloadDirAsZipProgress').hide();
 		}
+	});
+	
+	//Upload Dir As Zip
+	$('#imagesUploadUploadDirAsZip').on('click', function(){
+		loadLocalFileAsArrayBuffer(".zip", function(result){
+			if (result) {
+				if (confirm(_("Really import files? Exisiting files will be overwritten. Depending on the size it may take a while to unpack the zip file."))){
+					$('#imagesUploadUploadDirAsZip').addClass('disabled');
+					$('#imagesUploadUploadDirAsZipIcon').text("hourglass_empty");
+					$('#imagesUploadUploadDirAsZipProgress').show().find('.indeterminate, .determinate').removeClass('determinate').addClass('indeterminate').css('width', '');
+					JSZip.loadAsync(result).then(function(zip){
+						var uploadCount = 0;
+						var uploadCountMax = 0;
+						zip.forEach(async function(relativePath, file){
+							console.log("Processing ZIP-File entry " + file.name);
+							if(!file.dir){
+								uploadCount++;
+								if(uploadCountMax < uploadCount) uploadCountMax = uploadCount;
+								console.log("Uploading " + file.name + ". " + (uploadCountMax - uploadCount) + "/" + uploadCountMax);
+								$('#imagesUploadUploadDirAsZipProgress').show().find('.indeterminate, .determinate').removeClass('indeterminate').addClass('determinate').css('width', Math.floor((uploadCountMax - uploadCount) / uploadCountMax * 100) + '%');
+								file.async("blob").then(function(blob){
+									blob.name = relativePath.substr(relativePath.lastIndexOf("/") + 1);
+									var _path = userfilesImagePath + $('#imagesSelectedDir').val() + "/" + relativePath;
+									_path = _path.substr(0, _path.lastIndexOf("/"));
+									uploadFile(blob, _path, function(name){
+										uploadCount--;
+										console.log(name + " uploaded. " + (uploadCountMax - uploadCount) + "/" + uploadCountMax);
+										$('#imagesUploadUploadDirAsZipProgress').show().find('.indeterminate, .determinate').removeClass('indeterminate').addClass('determinate').css('width', Math.floor((uploadCountMax - uploadCount) / uploadCountMax * 100) + '%');
+										if(uploadCount == 0){
+											alert(_("Files imported."));
+											$('#imagesUploadRefresh').trigger("click");
+											$('#imagesUploadUploadDirAsZipIcon').text("file_upload");
+											$('#imagesUploadUploadDirAsZip').removeClass('disabled');
+											$('#imagesUploadUploadDirAsZipProgress').hide();										
+										}
+									})
+								});
+							} else {
+								var _path = userfilesImagePath + $('#imagesSelectedDir').val() + "/" + relativePath.substr(0, relativePath.lastIndexOf("/"));
+								var dirExistance = await checkDirExistance(_path);
+								console.log(dirExistance);
+								if (!dirExistance) {
+									console.log("Creating directory " + _path);
+									await createDirAsync(_path);
+								}
+							}
+						});
+					}, function(err){
+						console.log("Error reading zip file: " + err.message);
+						alert(_("Error: Invalid data."));
+						$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
+						$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
+						$('#optionsBackupRestoreImportUserfilesProgress').hide();
+					});
+				}
+			} else {
+				alert(_("Error: Invalid data."));
+			}
+		});
 	});
 
 	//CreateFile-Buttons
@@ -8896,11 +8956,10 @@ async function load(settings, onChange) {
 					$('#optionsBackupRestoreImportUserfiles').addClass('disabled');
 					$('#optionsBackupRestoreImportUserfilesIcon').text("hourglass_empty");
 					$('#optionsBackupRestoreImportUserfilesProgress').show().find('.indeterminate, .determinate').removeClass('determinate').addClass('indeterminate').css('width', '');
-					console.log('++++++++++++++++++++++++++++++');
 					JSZip.loadAsync(result).then(function(zip){
 						var uploadCount = 0;
 						var uploadCountMax = 0;
-						zip.forEach(function(relativePath, file){
+						zip.forEach(async function(relativePath, file){
 							console.log("Processing ZIP-File entry " + file.name);
 							if(!file.dir){
 								uploadCount++;
@@ -8916,19 +8975,22 @@ async function load(settings, onChange) {
 										console.log(name + " uploaded. " + (uploadCountMax - uploadCount) + "/" + uploadCountMax);
 										$('#optionsBackupRestoreImportUserfilesProgress').show().find('.indeterminate, .determinate').removeClass('indeterminate').addClass('determinate').css('width', Math.floor((uploadCountMax - uploadCount) / uploadCountMax * 100) + '%');
 										if(uploadCount == 0){
-											getImages(function(){
-												values2table('tableImages', images, onChange, onTableImagesReady);
-												var dummy = $('#imagesSelectedDir').val();
-												$('#imagesSelectedDir').val(dummy).trigger('change');
-												$('#imagesSelectedDir').select();
-											});
 											alert(_("Files imported."));
+											$('#imagesUploadRefresh').trigger("click");
 											$('#optionsBackupRestoreImportUserfilesIcon').text("file_upload");
 											$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
 											$('#optionsBackupRestoreImportUserfilesProgress').hide();										
 										}
 									})
 								});
+							} else {
+								var _path = userfilesImagePath + $('#imagesSelectedDir').val() + "/" + relativePath.substr(0, relativePath.lastIndexOf("/"));
+								var dirExistance = await checkDirExistance(_path);
+								console.log(dirExistance);
+								if (!dirExistance) {
+									console.log("Creating directory " + _path);
+									await createDirAsync(_path);
+								}
 							}
 						});
 					}, function(err){
@@ -8938,7 +9000,6 @@ async function load(settings, onChange) {
 						$('#optionsBackupRestoreImportUserfiles').removeClass('disabled');
 						$('#optionsBackupRestoreImportUserfilesProgress').hide();
 					});
-					console.log('#############################');
 /* 					writeDirAsZip(userfilesImagePath + '/', result, function(err){ //xxxx still not working xxxx, therefore the above implementation with local zip-processing via jszip is used
 						if (err){
 							alert(_("Error: Invalid data."));

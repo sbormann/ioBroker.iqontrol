@@ -3096,6 +3096,21 @@ function objectsEqual(obj1, obj2, ignoreKeys){ //Returns true, if two objects ar
 	return sortedObj1 === sortedObj2;
 }
 
+function getObjectValue(obj, keyPath, defaultValue, defaultIfNull, defaultIfEmptyString){
+	var keys = keyPath.split('.');
+	var current = obj;
+	for(var i = 0; i < keys.length; i++){
+		var key = keys[i];
+		if(current === undefined || (current === null && i < keys.length)){
+			return (typeof defaultValue != udef ? defaultValue : undefined);
+		}
+		current = current[key];
+	}
+	if(current === null && typeof defaultValue != udef && defaultIfNull) return defaultValue;
+	if(current === "" && typeof defaultValue != udef && defaultIfEmptyString) return defaultValue;
+	return current;
+}
+
 function isHTML(testString){
 	return /<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(testString);
 }
@@ -4793,7 +4808,7 @@ function renderToolbar(){
 			fetchView(_linkedViewId, function(){
 				var view = getView(_linkedViewId);
 				if(view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
-					if(typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView !== ""){ //Link to other view
+					if(typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView !== "" && !view.devices[deviceIndex].nativeHide){ //Link to other view
 						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 						if(deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
 							var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
