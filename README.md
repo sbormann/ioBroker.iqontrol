@@ -1,5 +1,5 @@
 ![Logo](admin/iqontrol.png)
-# ioBroker.iqontrol
+# ioBroker.iqontrol 3
 
 ![Number of Installations](https://iobroker.live/badges/iqontrol-installed.svg) 
 ![Stable version](https://iobroker.live/badges/iqontrol-stable.svg) 
