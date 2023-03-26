@@ -1,7 +1,7 @@
 {
     "common": {
-        "name": "iqontrol",
-        "version": "2.2.0",
+        "name": "iqontrol3",
+        "version": "3.0.0-alpha0.1",
         "news": {
 			"2.2.0": {
 			  "en": "You can now chose destination when copying devices.\nAdded new options for media, badge and sliders (see readme).\nAdded ability to set links to other views with anchor to sub-headings.\nAdded new options for popup-messages and introduced persistent popups.\nUploading of userfiles via ZIP-File is now possible.\nFixed CONTROL_MODE of HP-IP-Thermostat.",
