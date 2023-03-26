@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch TypeScript Adapter",
             "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/src/main.ts",
+            "program": "${workspaceFolder}/main.js",
             "args": ["--debug", "0"],
             "preLaunchTask": "tsc: build - tsconfig.build.json",
             "outFiles": ["${workspaceFolder}/build/**/*.js"]
