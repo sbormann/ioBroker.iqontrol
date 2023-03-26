@@ -232,10 +232,11 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 <summary>Widget development (for experts only): (<ins>klick to open</ins>)</summary>
 
 ### jQuery
+* Technically the content of BACKGROUND_VIEW/URL/HTML is placed inside a HTML-Element called iframe, which is a website inside a website
 * In order to use jQuery, you can transfer it from iQontrol to the iFrame with the following code: 
     ``window.$=window.jQuery=parent.jQuery.extend(function(s){return parent.jQuery(s,document)},parent.jQuery);``
 * Example:
-	````
+	```html
 	<!doctype html>
 	<html>
 	<head>
@@ -251,16 +252,15 @@ Most things work right out of the box. You *can*, but you don't have to use all 
 			window.$=window.jQuery=parent.jQuery.extend(function(s){return parent.jQuery(s,document)},parent.jQuery);
 			$(document).ready(function(){
 				$('#testDiv').html("<h1>Hello World</h1)");
-				console.log("Jquery works!!");
+				console.log("jQuery works!!");
 			});
 		</script>	
 	</body>
 	</html>
-	````
+	```
 
 ### postMessage-Communication
-* Technically the content of BACKGROUND_VIEW/URL/HTML is placed inside a HTML-Element called iframe, which is a website inside a website
-* By enabling the option "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML" you can enable postMessage-Communication between the website inside this iframe and iQontrol itself
+* By enabling the option "Allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML" you can enable postMessage-Communication between the widget in its iframe and iQontrol itself
 * To send commands to iQontrol you can use the following javascript-command: `window.parent.postMessage(message, "*");` 
     * `message` is a javascript object of the format `{ command: command, stateId: stateId, value: value }`
     * The following message-commands are supported:
