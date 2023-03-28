@@ -1,7 +1,8 @@
-# No dot-directories except github/vscode
+# No dot-directories except github/vscode/devcontainer
 .*/
 !.vscode/
 !.github/
+!.devcontainer/
 
 *.code-workspace
 node_modules
