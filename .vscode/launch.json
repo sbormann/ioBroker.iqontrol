@@ -10,7 +10,7 @@
             "name": "Launch ioBroker Adapter",
             "skipFiles": ["<node_internals>/**"],
             "args": ["--debug", "0"],
-            "program": "node_modules/iobroker.iqontrol3/main.js",
+            "program": "node_modules/iobroker.iqontrol/main.js",
             "cwd": "${workspaceFolder}/.dev-server/default"
         }
     ]
