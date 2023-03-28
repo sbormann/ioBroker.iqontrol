@@ -54,18 +54,18 @@
                 "zh-cn": "自上一个稳定版本以来有很多变化。以下是最重大的变化：\n添加了暗模式，\n添加了带有强大小部件的列表和计数器，以显示例如空电池、打开的窗户、燃烧的灯等等，\n添加了新的现代流畅的图标以及快速更改默认图标的能力，\n为您自己的字体文件添加了上传，\n子标题现在可以配置为可折叠，\nmap-widget 现在可以有多个实例，\n添加了预览模式以快速测试您的配置更改，\n更好的性能和连接时间，\n错误修正等等。有关完整的变更日志，请查看自述文件。\n"
             }
         },
-        "title": "iQontrol3 Vis",
+        "title": "iQontrol Vis",
         "titleLang": {
-            "en": "iQontrol3 Vis",
-            "de": "iQontrol3 Vis",
-            "ru": "iQontrol3 Vis",
-            "pt": "iQontrol3 Vis",
-            "nl": "iQontrol3 Vis",
-            "fr": "iQontrol3 Vis",
-            "it": "iQontrol3 Vis",
-            "es": "iQontrol3 Vis",
-            "pl": "iQontrol3 Vis",
-            "zh-cn": "iQontrol3 Vis"
+            "en": "iQontrol Vis",
+            "de": "iQontrol Vis",
+            "ru": "iQontrol Vis",
+            "pt": "iQontrol Vis",
+            "nl": "iQontrol Vis",
+            "fr": "iQontrol Vis",
+            "it": "iQontrol Vis",
+            "es": "iQontrol Vis",
+            "pl": "iQontrol Vis",
+            "zh-cn": "iQontrol Vis"
         },
         "desc": {
             "en": "Fast Web-App for Visualization",
@@ -107,31 +107,31 @@
         "materializeTab": true,
         "adminTab": {
             "name": {
-                "en": "iQontrol3",
-                "de": "iQontrol3",
-                "ru": "iQontrol3",
-                "pt": "iQontrol3",
-                "nl": "iQontrol3",
-                "fr": "iQontrol3",
-                "it": "iQontrol3",
-                "es": "iQontrol3",
-                "pl": "iQontrol3",
-                "zh-cn": "iQontrol3"
+                "en": "iQontrol",
+                "de": "iQontrol",
+                "ru": "iQontrol",
+                "pt": "iQontrol",
+                "nl": "iQontrol",
+                "fr": "iQontrol",
+                "it": "iQontrol",
+                "es": "iQontrol",
+                "pl": "iQontrol",
+                "zh-cn": "iQontrol"
             },
             "singleton": false,
             "fa-icon": "blur_on",
-            "link": "/adapter/iqontrol3/index_m.html?noCloseButtons"
+            "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
         },
         "onlyWWW": false,
         "blockly": true,
         "messagebox": true,
         "subscribe": "messagebox",
-        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol3/index.html?namespace=iqontrol.%instance%",
+        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": false,
         "welcomeScreenPro": {
-            "link": "iqontrol3/index.html",
-            "name": "iQontrol3",
-            "img": "iqontrol3.admin/iqontrol.png",
+            "link": "iqontrol/index.html",
+            "name": "iQontrol",
+            "img": "iqontrol.admin/iqontrol.png",
             "color": "gray",
             "order": 1,
             "localLink": false
