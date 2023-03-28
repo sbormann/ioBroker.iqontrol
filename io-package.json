@@ -1,6 +1,6 @@
 {
     "common": {
-        "name": "iqontrol",
+        "name": "iqontrol3",
         "version": "3.0.0-alpha0.1",
         "news": {
 			"2.2.0": {
@@ -52,68 +52,20 @@
                 "es": "Hay muchos cambios desde la última versión estable. Estos son los cambios más importantes:\nAñadido modo oscuro,\nSe agregaron listas y contadores con poderosos widgets para mostrar, por ejemplo, baterías vacías, ventanas abiertas, luces encendidas y mucho más.\nSe agregaron íconos nuevos, modernos y fluidos y la capacidad de cambiar rápidamente los íconos predeterminados,\nCarga agregada para sus propios archivos de fuentes,\nLos subtítulos ahora se pueden configurar para que sean plegables,\nEl widget de mapa ahora puede tener múltiples instancias,\nSe agregó un modo de vista previa para probar rápidamente los cambios de su configuración,\nMejor rendimiento y tiempo de conexión,\nCorrección de errores y muchos más. Para ver el registro de cambios completo, eche un vistazo al archivo Léame.\n",
                 "pl": "Jest wiele zmian od ostatniej stabilnej wersji. Oto najbardziej przełomowe zmiany:\nDodano tryb ciemny,\nDodano listy i liczniki z potężnymi widżetami do wyświetlania np. wyczerpanych baterii, otwartych okien, palących się świateł i wielu innych,\nDodano nowe, nowoczesne i płynne ikony oraz możliwość szybkiej zmiany ikon domyślnych,\nDodano możliwość przesyłania własnych plików czcionek,\nPodnagłówki można teraz skonfigurować tak, aby były zwijane,\nWidżet mapy może teraz mieć wiele instancji,\nDodano tryb podglądu, aby szybko przetestować zmiany w Twojej konfiguracji,\nLepsza wydajność i czas połączenia,\nPoprawki błędów i wiele innych. Aby zobaczyć pełny dziennik zmian, zajrzyj do readme.\n",
                 "zh-cn": "自上一个稳定版本以来有很多变化。以下是最重大的变化：\n添加了暗模式，\n添加了带有强大小部件的列表和计数器，以显示例如空电池、打开的窗户、燃烧的灯等等，\n添加了新的现代流畅的图标以及快速更改默认图标的能力，\n为您自己的字体文件添加了上传，\n子标题现在可以配置为可折叠，\nmap-widget 现在可以有多个实例，\n添加了预览模式以快速测试您的配置更改，\n更好的性能和连接时间，\n错误修正等等。有关完整的变更日志，请查看自述文件。\n"
-            },
-            "2.0.0-rc4.0": {
-                "en": "Added option to allow widgets to adjust height of device tile and enhanced JSON-Table-Widget and Device-Counter-Widget to do so.",
-                "de": "Option hinzugefügt, um Widgets zu erlauben, die Höhe der Gerätekachel anzupassen, und verbessertes JSON-Table-Widget und Device-Counter-Widget, um dies zu tun.",
-                "ru": "Добавлена опция, позволяющая виджетам регулировать высоту плитки устройства, и для этого улучшены JSON-Table-Widget и Device-Counter-Widget.",
-                "pt": "Opção adicionada para permitir que os widgets ajustem a altura do bloco do dispositivo e JSON-Table-Widget e Device-Counter-Widget aprimorados para fazer isso.",
-                "nl": "Optie toegevoegd om widgets in staat te stellen de hoogte van apparaattegel aan te passen en verbeterde JSON-Table-Widget en Device-Counter-Widget om dit te doen.",
-                "fr": "Ajout d'une option pour permettre aux widgets d'ajuster la hauteur de la vignette de l'appareil et amélioration de JSON-Table-Widget et Device-Counter-Widget pour le faire.",
-                "it": "Aggiunta opzione per consentire ai widget di regolare l'altezza del riquadro del dispositivo e JSON-Table-Widget e Device-Counter-Widget migliorati per farlo.",
-                "es": "Opción agregada para permitir que los widgets ajusten la altura del mosaico del dispositivo y JSON-Table-Widget y Device-Counter-Widget mejorados para hacerlo.",
-                "pl": "Dodano opcję umożliwiającą widżetom dostosowanie wysokości kafelka urządzenia oraz ulepszone JSON-Table-Widget i Device-Counter-Widget, aby to zrobić.",
-                "zh-cn": "添加了允许小部件调整设备磁贴高度的选项，并增强了 JSON-Table-Widget 和 Device-Counter-Widget 这样做。"
-            },
-            "2.0.0-rc3.0": {
-                "en": "Added seconds from alive and seconds from connection to counter conditions of lists\nRemoved start_url from manifest.json to allow multiple instances as homescreen app",
-                "de": "Sekunden von lebendig und Sekunden von Verbindung zu Zählerbedingungen von Listen hinzugefügt\nstart_url aus manifest.json entfernt, um mehrere Instanzen als Homescreen-App zuzulassen",
-                "ru": "Добавлены секунды от живого и секунды от подключения к условиям счетчика списков\nУдален start_url из manifest.json, чтобы разрешить несколько экземпляров в качестве приложения на домашнем экране.",
-                "pt": "Adicionados segundos de vida e segundos de conexão para condições de contador de listas\nRemovido start_url do manifest.json para permitir várias instâncias como aplicativo de tela inicial",
-                "nl": "Seconden van levend en seconden van verbinding toegevoegd aan tegenvoorwaarden van lijsten\nStart_url verwijderd uit manifest.json om meerdere instanties als homescreen-app toe te staan",
-                "fr": "Ajout de secondes à partir de la vie et de secondes à partir de la connexion pour contrer les conditions des listes\nSuppression de start_url de manifest.json pour autoriser plusieurs instances en tant qu'application d'écran d'accueil",
-                "it": "Aggiunti secondi dal vivo e secondi dalla connessione alle condizioni di contatore delle liste\nRimosso start_url da manifest.json per consentire più istanze come app per la schermata iniziale",
-                "es": "Se agregaron segundos de vivo y segundos de conexión a condiciones de contador de listas\nSe eliminó start_url de manifest.json para permitir múltiples instancias como aplicación de pantalla de inicio",
-                "pl": "Dodano sekundy od życia i sekundy od połączenia do stanu licznika list\nUsunięto start_url z manifest.json, aby umożliwić wiele wystąpień jako aplikacji na ekranie głównym",
-                "zh-cn": "增加了存活秒数和连接秒数到列表的计数器条件\n从 manifest.json 中删除 start_url 以允许多个实例作为主屏幕应用程序"
-            },
-            "2.0.0-rc2.2": {
-                "en": "Minor enhancements and bugfixes.",
-                "de": "Kleinere Verbesserungen und Bugfixes.",
-                "ru": "Мелкие улучшения и исправления.",
-                "pt": "Pequenas melhorias e correções de bugs.",
-                "nl": "Kleine verbeteringen en bugfixes.",
-                "fr": "Améliorations mineures et corrections de bugs.",
-                "it": "Miglioramenti minori e correzioni di bug.",
-                "es": "Mejoras menores y correcciones de errores.",
-                "pl": "Drobne ulepszenia i poprawki błędów.",
-                "zh-cn": "小改进和错误修正。"
-            },
-            "2.0.0-rc2.1": {
-                "en": "Abort button now works in preview mode.",
-                "de": "Die Abbrechen-Schaltfläche funktioniert jetzt im Vorschaumodus.",
-                "ru": "Кнопка «Отмена» теперь работает в режиме предварительного просмотра.",
-                "pt": "O botão Abortar agora funciona no modo de visualização.",
-                "nl": "De knop Afbreken werkt nu in de voorbeeldmodus.",
-                "fr": "Le bouton Abandonner fonctionne maintenant en mode aperçu.",
-                "it": "Il pulsante Annulla ora funziona in modalità anteprima.",
-                "es": "El botón Cancelar ahora funciona en modo de vista previa.",
-                "pl": "Przycisk Przerwij działa teraz w trybie podglądu.",
-                "zh-cn": "中止按钮现在在预览模式下工作。"
             }
         },
-        "title": "iQontrol Vis",
+        "title": "iQontrol3 Vis",
         "titleLang": {
-            "en": "iQontrol Vis",
-            "de": "iQontrol Vis",
-            "ru": "iQontrol Vis",
-            "pt": "iQontrol Vis",
-            "nl": "iQontrol Vis",
-            "fr": "iQontrol Vis",
-            "it": "iQontrol Vis",
-            "es": "iQontrol Vis",
-            "pl": "iQontrol Vis",
-            "zh-cn": "iQontrol Vis"
+            "en": "iQontrol3 Vis",
+            "de": "iQontrol3 Vis",
+            "ru": "iQontrol3 Vis",
+            "pt": "iQontrol3 Vis",
+            "nl": "iQontrol3 Vis",
+            "fr": "iQontrol3 Vis",
+            "it": "iQontrol3 Vis",
+            "es": "iQontrol3 Vis",
+            "pl": "iQontrol3 Vis",
+            "zh-cn": "iQontrol3 Vis"
         },
         "desc": {
             "en": "Fast Web-App for Visualization",
@@ -155,31 +107,31 @@
         "materializeTab": true,
         "adminTab": {
             "name": {
-                "en": "iQontrol",
-                "de": "iQontrol",
-                "ru": "iQontrol",
-                "pt": "iQontrol",
-                "nl": "iQontrol",
-                "fr": "iQontrol",
-                "it": "iQontrol",
-                "es": "iQontrol",
-                "pl": "iQontrol",
-                "zh-cn": "iQontrol"
+                "en": "iQontrol3",
+                "de": "iQontrol3",
+                "ru": "iQontrol3",
+                "pt": "iQontrol3",
+                "nl": "iQontrol3",
+                "fr": "iQontrol3",
+                "it": "iQontrol3",
+                "es": "iQontrol3",
+                "pl": "iQontrol3",
+                "zh-cn": "iQontrol3"
             },
             "singleton": false,
             "fa-icon": "blur_on",
-            "link": "/adapter/iqontrol/index_m.html?noCloseButtons"
+            "link": "/adapter/iqontrol3/index_m.html?noCloseButtons"
         },
         "onlyWWW": false,
         "blockly": true,
         "messagebox": true,
         "subscribe": "messagebox",
-        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol/index.html?namespace=iqontrol.%instance%",
+        "localLink": "%web_protocol%://%ip%:%web_port%/iqontrol3/index.html?namespace=iqontrol.%instance%",
         "welcomeScreen": false,
         "welcomeScreenPro": {
-            "link": "iqontrol/index.html",
-            "name": "iQontrol",
-            "img": "iqontrol.admin/iqontrol.png",
+            "link": "iqontrol3/index.html",
+            "name": "iQontrol3",
+            "img": "iqontrol3.admin/iqontrol.png",
             "color": "gray",
             "order": 1,
             "localLink": false
