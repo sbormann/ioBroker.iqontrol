@@ -18,16 +18,7 @@
 			"label": "8082 (ioBroker web-Adapter)"
 		}
 	},
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8081, 8082]
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+	"forwardPorts": [8081, 8082],
+	"postCreateCommand": "npm install --global @iobroker/dev-server && dev-server setup",
+	"postStartCommand": "dev-server run"
 }
