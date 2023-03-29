@@ -17,13 +17,13 @@
 		"8082": {
 			"label": "8082 (ioBroker web-Adapter)"
 		}
-	}
+	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [8081, 8082]
 
 	// Configure tool-specific properties.
 	// "customizations": {},

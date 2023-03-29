@@ -1,6 +1,6 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
-
+alert("test");
 if(window.location.href.indexOf('#') > -1) window.location.href = window.location.href.replace(/#[^\?]*/, ''); //Fix for new socket.io, where # without an argument in url leads to connection error
 
 
