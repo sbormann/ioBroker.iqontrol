@@ -1670,7 +1670,7 @@ class Iqontrol extends utils.Adapter {
 			obj = allObjects[objId];
 		} else {			
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
-			obj = {...await this.getObjectAsync(objId, 'state'), ...await this.getObjectAsync(objId, 'channel'), ...await this.getObjectAsync(objId, 'device'), ...await this.getObjectAsync(objId, 'enum')};
+			obj = {...await this.getObjectAsync(objId, {type: 'state'}), ...await this.getObjectAsync(objId, {type: 'channel'}), ...await this.getObjectAsync(objId, {type: 'device'}), ...await this.getObjectAsync(objId, {type: 'enum'})};
 		}
 		if (!obj){
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found - creating a new object...");
@@ -1755,7 +1755,7 @@ class Iqontrol extends utils.Adapter {
 			obj = allObjects[objId];
 		} else {			
 			this.log.silly("saveThisConfig: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
-			obj = {...await this.getForeignObjectAsync(objId, 'instance')};
+			obj = {...await this.getForeignObjectAsync(objId, {type: 'instance'})};
 		}
 		if (!obj || !obj.common || !obj.native){
 			this.log.error("saveThisConfig: Object " + objId + " NOT found in ioBroker Objects or common or native part is missing! ERROR");
@@ -1795,7 +1795,7 @@ class Iqontrol extends utils.Adapter {
 		if(this.config.listsActive){
 			this.log.info("Creating List States...");
 			this.log.debug("...fetching all objects from ioBroker...");
-			allObjects = {...await this.getForeignObjectsAsync('', 'state'), ...await this.getForeignObjectsAsync('', 'channel'), ...await this.getForeignObjectsAsync('', 'device'), ...await this.getForeignObjectsAsync('', 'enum'), ...await this.getForeignObjectsAsync('', 'instance')};
+			allObjects = {...await this.getForeignObjectsAsync('', {type: 'state'}), ...await this.getForeignObjectsAsync('', {type: 'channel'}), ...await this.getForeignObjectsAsync('', {type: 'device'}), ...await this.getForeignObjectsAsync('', {type: 'enum'}), ...await this.getForeignObjectsAsync('', {type: 'instance'})};
 			this.log.debug("fetched " + Object.keys(allObjects).length + " objects from ioBroker.");
 			await this.createLists();
 		} else {
