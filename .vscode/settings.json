@@ -1,0 +1,10 @@
+{
+    "fsdeploy.nodes": [
+		{
+			"source":"/opt/iobroker/ioBroker.iqontrol/www/",
+			"target":"/opt/iobroker/iobroker-data/files/iqontrol/",
+			"include":"**/*.*",
+			"deleteTargetOnDeploy": true
+		}
+    ]
+}

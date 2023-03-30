@@ -1,3 +1,15 @@
 {
-	"recommendations": ["dbaeumer.vscode-eslint"]
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"llgxvi.click-n-save",
+		"alefragnani.bookmarks",
+		"pkief.material-icon-theme",
+		"ms-vscode-remote.remote-ssh",
+		"ms-vscode-remote.remote-ssh-edit",
+		"ms-vscode.remote-explorer",
+		"nabeelvalley.easyzoom",
+		"denjay.fold-level",
+		"mightycoco.fsdeploy",
+		"ryu1kn.text-marker"
+	]
 }

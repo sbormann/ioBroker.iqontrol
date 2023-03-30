@@ -1,17 +1,15 @@
-// Use IntelliSense to learn about possible attributes.
-// Hover to view descriptions of existing attributes.
-// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-{
+  {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
+        { 
             "type": "node",
-            "request": "launch",
-            "name": "Launch ioBroker Adapter",
-            "skipFiles": ["<node_internals>/**"],
-            "args": ["--debug", "0"],
-            "program": "node_modules/iobroker.iqontrol/main.js",
-            "cwd": "${workspaceFolder}/.dev-server/default"
+            "name": "Debug main.js",
+            "request": "attach",
+            "port": 9229
+            "preLaunchTask": "inspectBrkMain.js"
         }
     ]
 }
