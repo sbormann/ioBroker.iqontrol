@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [{
         "label": "inspectBrkMain.js",
-        "command": "iob stop iqontrol && node --inspect-brk=0.0.0.0:9229 /opt/iobroker/node_modules/iobroker.iqontrol/main.js --force --logs", // Could be any other shell command
+        "command": "iob stop iqontrol && node --inspect-brk=0.0.0.0:9229 /opt/iobroker/node_modules/iobroker.iqontrol/main.js --force --logs",
         "type": "shell",
         "isBackground": true,
-        "problemMatcher": ["$eslint-stylish"]
+        "problemMatcher":[]
     }]
 }

@@ -1,0 +1,84 @@
+[
+    {
+        "type": "Group",
+        "name": "admin",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "2dqpHL9nyP740o5z"
+    },
+    {
+        "type": "Group",
+        "name": "www",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "e7EkQnJxyuWcANdP"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/admin/index_m.html",
+        "parent_id": "2dqpHL9nyP740o5z",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "admin/index_m.html",
+        "id": "Ot8970jzWdiaCDIN"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/admin/index_m.js",
+        "parent_id": "2dqpHL9nyP740o5z",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "admin/index_m.js",
+        "id": "7rixHpeUMuJftBVO"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/www/index.html",
+        "parent_id": "e7EkQnJxyuWcANdP",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "www/index.html",
+        "id": "nXlLFv42uSqi76VC"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/www/index.js",
+        "parent_id": "e7EkQnJxyuWcANdP",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "www/index.js",
+        "id": "eIRpjqtdUVfm7FxE"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/www/index.css",
+        "parent_id": "e7EkQnJxyuWcANdP",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "www/index.css",
+        "id": "Ewt2OkCriX5GLfxB"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/main.js",
+        "parent_id": null,
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "main.js",
+        "id": "JKyoEVdC7HtpXaA4"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/admin/i18n/en/translations.json",
+        "parent_id": "2dqpHL9nyP740o5z",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "admin/i18n/en/translations.json",
+        "id": "wDHRK6QEs0qLdBjG",
+        "label": "en"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/admin/i18n/de/translations.json",
+        "parent_id": "2dqpHL9nyP740o5z",
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "admin/i18n/de/translations.json",
+        "id": "q8Jgt6QOo7czfCvV",
+        "label": "de"
+    }
+]

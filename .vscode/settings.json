@@ -6,5 +6,6 @@
 			"include":"**/*.*",
 			"deleteTargetOnDeploy": true
 		}
-    ]
+	],
+	"favorites.sortDirection": "ASC"
 }
