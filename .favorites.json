@@ -80,5 +80,13 @@
         "workspacePath": "admin/i18n/de/translations.json",
         "id": "q8Jgt6QOo7czfCvV",
         "label": "de"
+    },
+    {
+        "type": "File",
+        "name": "/opt/iobroker/ioBroker.iqontrol/README.md",
+        "parent_id": null,
+        "workspaceRoot": "/opt/iobroker/ioBroker.iqontrol",
+        "workspacePath": "README.md",
+        "id": "HySUbNaKJPCqghcm"
     }
 ]
