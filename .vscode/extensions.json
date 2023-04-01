@@ -13,6 +13,13 @@
 		"ryu1kn.text-marker",
 		"kdcro101.favorites",
 		"bierner.github-markdown-preview",
-		"ivanzusko.theme-chrome-devtools-dark"
+		"ivanzusko.theme-chrome-devtools-dark",
+		"yzhang.markdown-all-in-one",
+		"bierner.markdown-checkbox",
+		"bierner.markdown-emoji",
+		"bierner.markdown-footnotes",
+		"bierner.markdown-preview-github-styles",
+		"bierner.markdown-mermaid",
+		"bierner.markdown-yaml-preamble"
 	]
 }

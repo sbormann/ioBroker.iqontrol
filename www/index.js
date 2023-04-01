@@ -1,6 +1,8 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
+
 if(window.location.href.indexOf('#') > -1) window.location.href = window.location.href.replace(/#[^\?]*/, ''); //Fix for new socket.io, where # without an argument in url leads to connection error
+
 
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
@@ -1232,8 +1234,8 @@ var zoom = 1;									//Zoom-Factor from resizeDevicesToFitScreen()
 var bigMode = false;							//If bigMode is active
 
 var config = {};								//Contains iQontrol config-object
-var states = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
-var usedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
+var fetchedStates = {}; 								//Contains all used and over the time changed States in the form of {id:stateobject}
+var fetchedObjects = {}; 							//Contains all used Objekte in the form of {id:object}
 var waitingForObject = {};						//Contains all IDs where actual tasks to retreive the object are running
 var fetchObjectBufferedCallbacks = {};			//Contains callbacks that are buffered, if fetchObject is called while already waiting for object
 var getPreviewConfigCallbacks = {};				//Contains callbacks that are buffered, if fetchConfig is called while in previewMode
@@ -1584,11 +1586,11 @@ function getStarted(triggeredByReconnection){
 	if(!isBackgroundView) $('.loader').show(); else $('.loader').hide();
 	$("#ToolbarContextMenu, #ViewDeviceContextMenu, #Dialog").popup("close");
 	$('#pincode').hide(150);
-	states = {};
+	fetchedStates = {};
 	dialogStateIdsToFetch = [];
 	viewLinkedStateIdsToFetchAndUpdate = [];
 	dialogLinkedStateIdsToUpdate = [];
-	usedObjects = {};
+	fetchedObjects = {};
 	waitingForObject = {};
 	preventUpdate = {};
 	//Fetch systemConfig
@@ -1660,13 +1662,12 @@ function fetchConfig(_namespace, callback, forceFetch){
 		if(configMode == "preview" && opener && !opener.closed){
 			let getPreviewConfigCallbackId = new Date().getTime();
 			getPreviewConfigCallbacks[getPreviewConfigCallbackId] = callback;
-			//if(getUrlParameter("previewDestination"))
 			opener.postMessage({command : "getPreviewConfig", getPreviewConfigCallbackId: getPreviewConfigCallbackId}, "*");
 		} else {
 			console.debug("[Socket] getObject system.adapter." + _namespace);
 			socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
 				if(_object) {
-					config[_namespace] = _object.native;
+					config[_namespace] = convertConfigV3(_object.native); //#####
 					if(_namespace == namespace){
 						createOptionsAndPanelObjectsFromConfig();
 					}
@@ -1693,13 +1694,9 @@ function createOptionsAndPanelObjectsFromConfig(){
 function fetchView(viewId, callback){
 	var _namespace = getNamespace(viewId);
 	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, function(){
-			var view = config[_namespace].views[getViewIndex(viewId)];
-			if(callback) callback(view);
-		});
+		fetchConfig(_namespace, callback);
 	} else {
-		var view = config[_namespace].views[getViewIndex(viewId)];
-		if(callback) callback(view);
+		if(callback) callback();
 	}
 }
 
@@ -1709,7 +1706,7 @@ function fetchObject(id, callback, bufferCallbackIfAlreadyWaitingForObject){
 		if(callback) callback(error = "emptyId");
 		return;
 	}
-	if(usedObjects[id]) {
+	if(fetchedObjects[id]) {
 		console.log("Object was already Received: " + id);
 		if(callback) callback(error = "objectWasAlreadyReceived");	//Do nothing - object is already retreived
 	} else if(waitingForObject[id]){
@@ -1729,9 +1726,9 @@ function fetchObject(id, callback, bufferCallbackIfAlreadyWaitingForObject){
 			if(_object) {
 				var _id = _object._id;
 				delete waitingForObject._id;
-				usedObjects[_id] = _object;
+				fetchedObjects[_id] = _object;
 				console.log("Fetched Object: " + _id);
-				if(states[_id]) updateState(_id);
+				if(fetchedStates[_id]) updateState(_id);
 				if(callback) callback();
 				if(fetchObjectBufferedCallbacks[_id]){
 					fetchObjectBufferedCallbacks[_id].forEach(function(callbackFunction){
@@ -1751,14 +1748,14 @@ function fetchStates(ids, callback){
 	var _ids = [];
 	if(ids.constructor === Array) _ids = Object.assign([], ids); else _ids.push(ids);
 	for(i = _ids.length -1; i >= 0; i--){
-		if(!_ids[i] || states[_ids[i]]) _ids.splice(i, 1);
+		if(!_ids[i] || fetchedStates[_ids[i]]) _ids.splice(i, 1);
 	}
 	if(_ids.length > 0){
 		console.debug("[Socket] getStates " + _ids);
 		socket.emit('subscribe', _ids);
 		socket.emit('getStates', _ids, function (err, _states) {
 			if(_states){
-				states = Object.assign(_states, states);
+				fetchedStates = Object.assign(_states, fetchedStates);
 			}
 			if(callback) callback(err);
 		});
@@ -1780,7 +1777,7 @@ function deliverObject(objId, obj, callback){
 	console.debug("[Socket] addObject " + objId);
 	socket.emit('setObject', objId, obj, function(error){
 		console.log("deliverObject done");
-		if(!error) usedObjects[objId] = obj;
+		if(!error) fetchedObjects[objId] = obj;
 		if(callback) callback(error);
 	});
 }
@@ -1860,8 +1857,8 @@ function getDeviceOptionValue(device, option, nullForDefault){
 function getLinkedStateId(device, deviceId, state){
 	var stateId = deviceId + "." + state;
 	var stateObject = null;
-	if(states[stateId]){ //State exists in fetched states (maybe because its a TEMP: state. Value is stored in .val)
-		stateObject = states[stateId];
+	if(fetchedStates[stateId]){ //State exists in fetched states (maybe because its a TEMP: state. Value is stored in .val)
+		stateObject = fetchedStates[stateId];
 		if(typeof stateObject.val != udef){
 			if(stateObject.val.substring(0, 6) == 'CONST:' || stateObject.val.substring(0, 6) == 'ARRAY:') { //role of state is 'const' or 'array'
 				var linkedStateId = "CONST:" + stateId;
@@ -1880,7 +1877,7 @@ function getLinkedStateId(device, deviceId, state){
 					},
 					"native": {}
 				};
-				usedObjects[linkedStateId] = constantObject;
+				fetchedObjects[linkedStateId] = constantObject;
 				var constantState = {
 					"val": constantValue,
 					"ack": true,
@@ -1890,7 +1887,7 @@ function getLinkedStateId(device, deviceId, state){
 					"ts": 0,
 					"user": "system.user.admin"
 				};
-				states[linkedStateId] = constantState;
+				fetchedStates[linkedStateId] = constantState;
 				if(!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 				if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
@@ -1902,13 +1899,13 @@ function getLinkedStateId(device, deviceId, state){
 				if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 				if(!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
-				if(linkedStateId && typeof usedObjects[linkedStateId] == udef) {
+				if(linkedStateId && typeof fetchedObjects[linkedStateId] == udef) {
 					fetchObject(linkedStateId);
 				}
 				return linkedStateId;
 			}
 		}
-	} else if(device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value) or doesen`t exist
+	} else if(device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value)
 		var stateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 		if(stateIndex > -1){ //State exists in config
 			stateObject = device.states[stateIndex];
@@ -1930,7 +1927,7 @@ function getLinkedStateId(device, deviceId, state){
 						},
 						"native": {}
 					};
-					usedObjects[linkedStateId] = constantObject;
+					fetchedObjects[linkedStateId] = constantObject;
 					var constantState = {
 						"val": constantValue,
 						"ack": true,
@@ -1940,7 +1937,7 @@ function getLinkedStateId(device, deviceId, state){
 						"ts": 0,
 						"user": "system.user.admin"
 					};
-					states[linkedStateId] = constantState;
+					fetchedStates[linkedStateId] = constantState;
 					if(!toolbarUpdateFunctions[linkedStateId]) toolbarUpdateFunctions[linkedStateId] = [];
 					if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 					if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
@@ -1965,7 +1962,7 @@ function getLinkedStateId(device, deviceId, state){
 					if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 					if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 					if(!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
-					if(linkedStateId && typeof usedObjects[linkedStateId] == udef) {
+					if(linkedStateId && typeof fetchedObjects[linkedStateId] == udef) {
 						fetchObject(linkedStateId);
 					}
 					return linkedStateId;
@@ -1985,7 +1982,7 @@ function getLinkedStateId(device, deviceId, state){
 				if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 				if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 				if(!panelUpdateFunctions[linkedStateId]) panelUpdateFunctions[linkedStateId] = [];
-				if(linkedStateId && typeof usedObjects[linkedStateId] == udef) {
+				if(linkedStateId && typeof fetchedObjects[linkedStateId] == udef) {
 					fetchObject(linkedStateId);
 				}
 				return linkedStateId;
@@ -1996,15 +1993,15 @@ function getLinkedStateId(device, deviceId, state){
 }
 
 function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, value){
-	if(tempValuesStoredInObjectId && typeof usedObjects[tempValuesStoredInObjectId] == udef) return null;
-	if(typeof states[stateId] == udef) states[stateId] = {};
-	if(typeof states[stateId].val == udef) states[stateId].val = "";
-	if(typeof states[stateId] != udef && typeof states[stateId].val != udef && states[stateId].val == "") { //stateId is empty
+	if(tempValuesStoredInObjectId && typeof fetchedObjects[tempValuesStoredInObjectId] == udef) return null;
+	if(typeof fetchedStates[stateId] == udef) fetchedStates[stateId] = {};
+	if(typeof fetchedStates[stateId].val == udef) fetchedStates[stateId].val = "";
+	if(typeof fetchedStates[stateId] != udef && typeof fetchedStates[stateId].val != udef && fetchedStates[stateId].val == "") { //stateId is empty
 		var linkedStateId = "TEMP:" + stateId;
-		states[stateId].val = linkedStateId;
+		fetchedStates[stateId].val = linkedStateId;
 		var tempType = (typeof type != udef && type) || "string";
 		var tempRole = (typeof role != udef && role) || "state";
-		var tempValue = (typeof value !== udef && value) || (usedObjects[tempValuesStoredInObjectId] && typeof usedObjects[tempValuesStoredInObjectId].native != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && usedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
+		var tempValue = (typeof value !== udef && value) || (fetchedObjects[tempValuesStoredInObjectId] && typeof fetchedObjects[tempValuesStoredInObjectId].native != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
 		var tempObject = {
 			"type": "state",
 			"common": {
@@ -2021,7 +2018,7 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 				"tempValuesStoredInObjectId": tempValuesStoredInObjectId
 			}
 		};
-		usedObjects[linkedStateId] = tempObject;
+		fetchedObjects[linkedStateId] = tempObject;
 		var tempState = {
 			"val": tempValue,
 			"ack": false,
@@ -2031,7 +2028,7 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 			"ts": 0,
 			"user": "system.user.admin"
 		};
-		states[linkedStateId] = tempState;
+		fetchedStates[linkedStateId] = tempState;
 		if(!viewUpdateFunctions[linkedStateId]) viewUpdateFunctions[linkedStateId] = [];
 		if(!dialogUpdateFunctions[linkedStateId]) dialogUpdateFunctions[linkedStateId] = [];
 		return linkedStateId;
@@ -2041,28 +2038,28 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
 	if(!linkedStateId || linkedStateId == "") return;
 	var result = {};
-	if(typeof states[linkedStateId] !== udef && states[linkedStateId] !== null) {
-		result = Object.assign(result, states[linkedStateId]);
+	if(typeof fetchedStates[linkedStateId] !== udef && fetchedStates[linkedStateId] !== null) {
+		result = Object.assign(result, fetchedStates[linkedStateId]);
 	}
-	if(typeof usedObjects[linkedStateId] !== udef && usedObjects[linkedStateId] !== null) {
+	if(typeof fetchedObjects[linkedStateId] !== udef && fetchedObjects[linkedStateId] !== null) {
 		//--Declare plainText
 		result.plainText = null;
 		//--Add custom
-		result.custom = typeof usedObjects[linkedStateId].common.custom !== udef && usedObjects[linkedStateId].common.custom !== null && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace] || {};
+		result.custom = typeof fetchedObjects[linkedStateId].common.custom !== udef && fetchedObjects[linkedStateId].common.custom !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace] !== udef && fetchedObjects[linkedStateId].common.custom[namespace] || {};
 		//--Add unit
 		result.unit = getUnit(linkedStateId);
 		//--Add readonly
 		if(typeof result.custom.targetValues !== udef && result.custom.targetValues !== "") result.readonly = false;
 		else if(typeof result.custom.targetValueId !== udef && result.custom.targetValueId !== "") result.readonly = false;
 		else if(typeof result.custom.readonly !== udef) result.readonly = result.custom.readonly;
-		else if(typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.write !== udef) result.readonly = !usedObjects[linkedStateId].native.write;
-		else if(typeof usedObjects[linkedStateId].common.write !== udef) result.readonly = !usedObjects[linkedStateId].common.write;
+		else if(typeof fetchedObjects[linkedStateId].native !== udef && typeof fetchedObjects[linkedStateId].native.write !== udef) result.readonly = !fetchedObjects[linkedStateId].native.write;
+		else if(typeof fetchedObjects[linkedStateId].common.write !== udef) result.readonly = !fetchedObjects[linkedStateId].common.write;
 		else result.readonly = false;
 		//--Add min and max
 		if(typeof result.custom.min !== udef && result.custom.min !== "") result.min = result.custom.min;
-		else if(typeof usedObjects[linkedStateId].common.min !== udef) result.min = usedObjects[linkedStateId].common.min;
+		else if(typeof fetchedObjects[linkedStateId].common.min !== udef) result.min = fetchedObjects[linkedStateId].common.min;
 		if(typeof result.custom.max !== udef && result.custom.max !== "") result.max = result.custom.max;
-		else if(typeof usedObjects[linkedStateId].common.max !== udef) result.max = usedObjects[linkedStateId].common.max;
+		else if(typeof fetchedObjects[linkedStateId].common.max !== udef) result.max = fetchedObjects[linkedStateId].common.max;
 		//--Modify min and max for HomematicIP (for temperature sensors it reports min = -3276.8 and max = 3276.7)
 		if(result.min == -3276.8 && result.max == 3276.7){
 			result.min = -34;
@@ -2070,7 +2067,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		}
 		//--Add step
 		if(typeof result.custom.step !== udef && result.custom.step !== "") result.step = result.custom.step;
-		else if(typeof usedObjects[linkedStateId].common.step !== udef) result.step = usedObjects[linkedStateId].common.step;
+		else if(typeof fetchedObjects[linkedStateId].common.step !== udef) result.step = fetchedObjects[linkedStateId].common.step;
 		if(!result.step && typeof result.min !== udef && !isNaN(result.min) && typeof result.max !== udef && !isNaN(result.max)) {
 			var diff = result.max - result.min;
 			if(diff < 1) result.step = 0.001;
@@ -2079,22 +2076,22 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			else result.step = 1;
 		}
 		//--Add type
-		result.type = usedObjects[linkedStateId].common.type || "string";
+		result.type = fetchedObjects[linkedStateId].common.type || "string";
 		if(typeof result.custom.type !== udef && result.custom.type !== "") result.type = result.custom.type;
 		//--Add role
-		result.role = usedObjects[linkedStateId].common.role || "state";
+		result.role = fetchedObjects[linkedStateId].common.role || "state";
 		if(typeof result.custom.role !== udef && result.custom.role !== "") result.role = result.custom.role;
 		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
-		if(result.role == "state" && usedObjects[linkedParentId] && typeof usedObjects[linkedParentId].common.role != udef && usedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
-			switch(parentRole = usedObjects[linkedParentId].common.role){
+		if(result.role == "state" && fetchedObjects[linkedParentId] && typeof fetchedObjects[linkedParentId].common.role != udef && fetchedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
+			switch(parentRole = fetchedObjects[linkedParentId].common.role){
 				case "switch": case "sensor.alarm": case "sensor.alarm.fire":
 				result.role = parentRole;
 				break;
 			}
 		}
 		//--Add name and desc
-		result.name = usedObjects[linkedStateId].common.name;
-		result.desc = usedObjects[linkedStateId].common.desc;
+		result.name = fetchedObjects[linkedStateId].common.name;
+		result.desc = fetchedObjects[linkedStateId].common.desc;
 		//--If val is not present (state is not set yet), set it - depending from the type - to 0/""
 		if(typeof result.val == udef || result.val == null){
 			if(result.type && result.type == "string") result.val = ""; else result.val = 0;
@@ -2190,8 +2187,8 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 
 				case "state":
 				result.type = "string";
-				if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
-					switch(usedObjects[linkedStateId].native.CONTROL) {
+				if(fetchedObjects[linkedStateId] && typeof fetchedObjects[linkedStateId].native != udef && fetchedObjects[linkedStateId].native.CONTROL) { //if role is not set correctly it can try to determine role from native.CONTROL
+					switch(fetchedObjects[linkedStateId].native.CONTROL) {
 						case "DOOR_SENSOR.STATE":
 						if(result.val) result.plainText = _("opened"); else result.plainText = _("closed");
 						if(typeof result.val == 'boolean' || result.val == true || result.val.toString().toLowerCase() == "true" || result.val == false || result.val.toString().toLowerCase() == "false"){ //If bool, add a value list with boolean values
@@ -2267,11 +2264,11 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 		if(typeof result.custom.states && result.custom.states){
 				valueListString = result.custom.states;
 				statesSet = true;
-		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native != udef && usedObjects[linkedStateId].native.states){
-				valueListString = usedObjects[linkedStateId].native.states;
+		} else if(fetchedObjects[linkedStateId] && typeof fetchedObjects[linkedStateId].native != udef && fetchedObjects[linkedStateId].native.states){
+				valueListString = fetchedObjects[linkedStateId].native.states;
 				statesSet = true;
-		} else if(usedObjects[linkedStateId] && usedObjects[linkedStateId].common.states){
-				valueListString = usedObjects[linkedStateId].common.states;
+		} else if(fetchedObjects[linkedStateId] && fetchedObjects[linkedStateId].common.states){
+				valueListString = fetchedObjects[linkedStateId].common.states;
 				statesSet = true;
 		}
 		if(statesSet){
@@ -2310,7 +2307,7 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 			}
 			if(typeof val !== udef && val !== null && typeof result.valueList[val.toString()] !== udef) result.plainText = _(result.valueList[val]); //Modify plainText if val matchs a valueList-Entry
 			if(((result.max != udef && result.min != udef && Object.keys(result.valueList).length == result.max - result.min + 1)
-			|| (typeof usedObjects[linkedStateId].common.type != udef && usedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
+			|| (typeof fetchedObjects[linkedStateId].common.type != udef && fetchedObjects[linkedStateId].common.type == "boolean")) && result.type != "switch"
 			|| result.type == 'string') { //If the valueList contains as many entrys as steps between min and max the type is a valueList
 					result.type = "valueList";
 			}
@@ -2370,22 +2367,22 @@ function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, 
 
 function getUnit(linkedStateId){
 	var unit = "";
-	if(usedObjects[linkedStateId]){
-		if(typeof usedObjects[linkedStateId].common.custom !== udef && usedObjects[linkedStateId].common.custom !== null && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace] !== null && typeof usedObjects[linkedStateId].common.custom[namespace].unit !== udef){
-			unit = _(usedObjects[linkedStateId].common.custom[namespace].unit);
-		} else if(usedObjects[linkedStateId].common.unit) {
-			unit = _(usedObjects[linkedStateId].common.unit);
+	if(fetchedObjects[linkedStateId]){
+		if(typeof fetchedObjects[linkedStateId].common.custom !== udef && fetchedObjects[linkedStateId].common.custom !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace] !== udef && fetchedObjects[linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace].unit !== udef){
+			unit = _(fetchedObjects[linkedStateId].common.custom[namespace].unit);
+		} else if(fetchedObjects[linkedStateId].common.unit) {
+			unit = _(fetchedObjects[linkedStateId].common.unit);
 		}
-		if(states[linkedStateId] && typeof states[linkedStateId].val != udef){
-			var val = states[linkedStateId].val;
+		if(fetchedStates[linkedStateId] && typeof fetchedStates[linkedStateId].val != udef){
+			var val = fetchedStates[linkedStateId].val;
 			if(val * 1 == 0){
-				if(typeof usedObjects[linkedStateId].common.custom !== udef && usedObjects[linkedStateId].common.custom !== null && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace] !== null && typeof usedObjects[linkedStateId].common.custom[namespace].unit_zero !== udef){
-					unit = usedObjects[linkedStateId].common.custom[namespace].unit_zero;
+				if(typeof fetchedObjects[linkedStateId].common.custom !== udef && fetchedObjects[linkedStateId].common.custom !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace] !== udef && fetchedObjects[linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace].unit_zero !== udef){
+					unit = fetchedObjects[linkedStateId].common.custom[namespace].unit_zero;
 				}
 			}
 			if(val * 1 == 1){
-				if(typeof usedObjects[linkedStateId].common.custom !== udef && usedObjects[linkedStateId].common.custom !== null && typeof usedObjects[linkedStateId].common.custom[namespace] !== udef && usedObjects[linkedStateId].common.custom[namespace] !== null && typeof usedObjects[linkedStateId].common.custom[namespace].unit_one !== udef){
-					unit = usedObjects[linkedStateId].common.custom[namespace].unit_one;
+				if(typeof fetchedObjects[linkedStateId].common.custom !== udef && fetchedObjects[linkedStateId].common.custom !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace] !== udef && fetchedObjects[linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[linkedStateId].common.custom[namespace].unit_one !== udef){
+					unit = fetchedObjects[linkedStateId].common.custom[namespace].unit_one;
 				}
 			}
 		}
@@ -2396,10 +2393,10 @@ function getUnit(linkedStateId){
 
 function setState(stateId, deviceIdEscaped, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
-	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue = states[stateId].val;
+	if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null && typeof fetchedStates[stateId].val !== udef && fetchedStates[stateId].val != null) oldValue = fetchedStates[stateId].val;
 	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
 		//Confirm
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && typeof usedObjects[stateId].common.custom[namespace].confirm !== udef && usedObjects[stateId].common.custom[namespace].confirm == true) {
+		if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && typeof fetchedObjects[stateId].common.custom[namespace].confirm !== udef && fetchedObjects[stateId].common.custom[namespace].confirm == true) {
 			if(!confirm(_("Please confirm change"))) {
 				updateState(stateId, "ignorePreventUpdateForDialog");
 				if(callback) callback();
@@ -2407,8 +2404,8 @@ function setState(stateId, deviceIdEscaped, newValue, forceSend, callback, preve
 			}
 		}
 		//PIN-Code
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].pincode !== udef && usedObjects[stateId].common.custom[namespace].pincode !== "") {
-			var givenPincode = usedObjects[stateId].common.custom[namespace].pincode;
+		if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].pincode !== udef && fetchedObjects[stateId].common.custom[namespace].pincode !== "") {
+			var givenPincode = fetchedObjects[stateId].common.custom[namespace].pincode;
 			if(isNaN(givenPincode)){ //Alphanumeric PIN
 				if(prompt(_("Please enter Code")) != givenPincode) {
 					alert(_("Wrong Code"));
@@ -2434,10 +2431,10 @@ function setState(stateId, deviceIdEscaped, newValue, forceSend, callback, preve
 function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSend, callback, preventUpdateTime){
 	var oldValue = "";
 	if(typeof preventUpdateTime != "number") preventUpdateTime = 5000;
-	if(typeof states[stateId] !== udef && states[stateId] !== null && typeof states[stateId].val !== udef && states[stateId].val != null) oldValue= states[stateId].val;
+	if(typeof fetchedStates[stateId] !== udef && fetchedStates[stateId] !== null && typeof fetchedStates[stateId].val !== udef && fetchedStates[stateId].val != null) oldValue= fetchedStates[stateId].val;
 	if(newValue.toString() !== oldValue.toString() || forceSend == true){ //For pushbuttons send command even when oldValue equals newValue
 		console.log(">>>>>> setState " + stateId + ": " + oldValue + " --> " + newValue);
-		var stateType = (typeof usedObjects[stateId] != udef && typeof usedObjects[stateId].common != udef && typeof usedObjects[stateId].common.type != udef && usedObjects[stateId].common.type) || null;
+		var stateType = (typeof fetchedObjects[stateId] != udef && typeof fetchedObjects[stateId].common != udef && typeof fetchedObjects[stateId].common.type != udef && fetchedObjects[stateId].common.type) || null;
 		var convertTo = "";
 		if(stateType == "string" || stateType == "number" || stateType == "boolean"){
 			if(typeof newValue != stateType) convertTo = stateType;
@@ -2468,26 +2465,26 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			console.log("       converted state to " + typeof oldValue + ". New value is: " + newValue);
 		}
 		//Invert (iQontrol -> ioBroker - the opposite way is inside updateState-Function)
-		if(usedObjects[stateId] && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
+		if(fetchedObjects[stateId] && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].invert !== udef && fetchedObjects[stateId].common.custom[namespace].invert == true) {
 			switch(typeof newValue){
 				case "boolean":
 					console.log("       Inverting boolean value for state " + stateId + " from " + newValue + "...");
 					newValue = !newValue;
-					if(!states[stateId]) states[stateId] = {};
-					states[stateId].isInverted = false;
+					if(!fetchedStates[stateId]) fetchedStates[stateId] = {};
+					fetchedStates[stateId].isInverted = false;
 					console.log("       ...to " + newValue);
 					break;
 
 				case "number":
 				console.log("       Inverting number value for state " + stateId + " from " + newValue + "...");
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") var min = usedObjects[stateId].common.custom[namespace].min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") var max = usedObjects[stateId].common.custom[namespace].max;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.min !== udef) var min = fetchedObjects[stateId].common.min;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].min !== udef && fetchedObjects[stateId].common.custom[namespace].min !== "") var min = fetchedObjects[stateId].common.custom[namespace].min;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.max !== udef) var max = fetchedObjects[stateId].common.max;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].max !== udef && fetchedObjects[stateId].common.custom[namespace].max !== "") var max = fetchedObjects[stateId].common.custom[namespace].max;
 				if(typeof min !== udef && typeof max !== udef){
 					newValue = max - (newValue - min);
-					if(!states[stateId]) states[stateId] = {};
-					states[stateId].isInverted = false;
+					if(!fetchedStates[stateId]) fetchedStates[stateId] = {};
+					fetchedStates[stateId].isInverted = false;
 					console.log("       ...to " + newValue);
 				} else {
 					console.log("       ...aborted inverting, because min or max is missing");
@@ -2505,15 +2502,15 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 		//----Scale % from 0-100 if min-max=0-1
 		if(typeof newValue == "number") {
 			var unit = "";
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.unit !== udef) unit = usedObjects[stateId].common.unit;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].unit !== udef && usedObjects[stateId].common.custom[namespace].unit !== "") unit = usedObjects[stateId].common.custom[namespace].min;
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.unit !== udef) unit = fetchedObjects[stateId].common.unit;
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].unit !== udef && fetchedObjects[stateId].common.custom[namespace].unit !== "") unit = fetchedObjects[stateId].common.custom[namespace].min;
 			if(unit == "%") {
 				var min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) min = usedObjects[stateId].common.min;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.min !== udef) min = fetchedObjects[stateId].common.min;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].min !== udef && fetchedObjects[stateId].common.custom[namespace].min !== "") min = fetchedObjects[stateId].common.custom[namespace].min;
 				var max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) max = usedObjects[stateId].common.max;
-				if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.max !== udef) max = fetchedObjects[stateId].common.max;
+				if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].max !== udef && fetchedObjects[stateId].common.custom[namespace].max !== "") max = fetchedObjects[stateId].common.custom[namespace].max;
 				if(min == 0 && max == 1){
 					newValue = newValue / 100;
 					console.log("       Scaled %-Value to: " + newValue);
@@ -2540,14 +2537,14 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			//Do not send (only treat locally), if state is CONST, ARRAY or TEMP:
 			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') {
 				console.log("       setState only local, because state ist CONST, ARRAY or TEMP");
-				if(!states[_stateId]) states[_stateId] = {};
-				states[_stateId].val = newValue;
-				states[_stateId].ack = false;
+				if(!fetchedStates[_stateId]) fetchedStates[_stateId] = {};
+				fetchedStates[_stateId].val = newValue;
+				fetchedStates[_stateId].ack = false;
 				if(_stateId.substring(0, 5) == 'TEMP:'){ //Save TEMP Value in parent DeviceObject
 					var _tempStateId = _stateId.substring(5);
-					var _tempValuesStoredInObjectId = usedObjects[_stateId].native.tempValuesStoredInObjectId;
+					var _tempValuesStoredInObjectId = fetchedObjects[_stateId].native.tempValuesStoredInObjectId;
 					if(_tempValuesStoredInObjectId) setTimeout(function(){
-						var tempValuesObject = usedObjects[_tempValuesStoredInObjectId];
+						var tempValuesObject = fetchedObjects[_tempValuesStoredInObjectId];
 						if(typeof tempValuesObject.native == udef) tempValuesObject.native = {};
 						if(typeof tempValuesObject.native.iQontrolTempValues == udef) tempValuesObject.native.iQontrolTempValues = {};
 						tempValuesObject.native.iQontrolTempValues[_tempStateId] = newValue;
@@ -2557,16 +2554,16 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 				if(callback) callback(error);
 			} else {
 				//TargetValueId
-				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && usedObjects[_stateId].common.custom !== null && typeof usedObjects[_stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[_stateId].common.custom[namespace].targetValueId !== udef && usedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
-					var _targetValueId = usedObjects[_stateId].common.custom[namespace].targetValueId;
+				if(fetchedObjects[_stateId] && typeof fetchedObjects[_stateId].common !== udef && typeof fetchedObjects[_stateId].common.custom !== udef && fetchedObjects[_stateId].common.custom !== null && typeof fetchedObjects[_stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[_stateId].common.custom[namespace].targetValueId !== udef && fetchedObjects[_stateId].common.custom[namespace].targetValueId !== "") {
+					var _targetValueId = fetchedObjects[_stateId].common.custom[namespace].targetValueId;
 					console.log("       Changed target datapoint id to " + _targetValueId + " because targetValueId was set.");
 				} else {
 					var _targetValueId = _stateId;
 				}
 				//TargetValues
-				if(usedObjects[_stateId] && typeof usedObjects[_stateId].common !== udef && typeof usedObjects[_stateId].common.custom !== udef && usedObjects[_stateId].common.custom !== null && typeof usedObjects[_stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[_stateId].common.custom[namespace].targetValues !== udef && usedObjects[_stateId].common.custom[namespace].targetValues !== "") {
+				if(fetchedObjects[_stateId] && typeof fetchedObjects[_stateId].common !== udef && typeof fetchedObjects[_stateId].common.custom !== udef && fetchedObjects[_stateId].common.custom !== null && typeof fetchedObjects[_stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[_stateId].common.custom[namespace].targetValues !== udef && fetchedObjects[_stateId].common.custom[namespace].targetValues !== "") {
 					var targetValuesSet = true;
-					var targetValues = usedObjects[_stateId].common.custom[namespace].targetValues;
+					var targetValues = fetchedObjects[_stateId].common.custom[namespace].targetValues;
 					//Check format of targetValues
 					if(typeof targetValues !== "object"){
 						if(tryParseJSON(targetValues) == false){
@@ -2626,25 +2623,25 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 
 function updateState(stateId, ignorePreventUpdate){
 	//Invert (ioBroker -> iQontrol - the opposite way is inside setState-Function)
-	if(usedObjects[stateId]  && typeof usedObjects[stateId].common !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].invert !== udef && usedObjects[stateId].common.custom[namespace].invert == true) {
-		if(states[stateId] && typeof states[stateId].val !== udef && !states[stateId].isInverted) switch(typeof states[stateId].val){
+	if(fetchedObjects[stateId]  && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].invert !== udef && fetchedObjects[stateId].common.custom[namespace].invert == true) {
+		if(fetchedStates[stateId] && typeof fetchedStates[stateId].val !== udef && !fetchedStates[stateId].isInverted) switch(typeof fetchedStates[stateId].val){
 			case "boolean":
-			console.log("Inverting boolean state " + stateId + " from " + states[stateId].val + "...");
-			states[stateId].val = !states[stateId].val;
-			states[stateId].isInverted = true;
-			console.log("...to " + states[stateId].val);
+			console.log("Inverting boolean state " + stateId + " from " + fetchedStates[stateId].val + "...");
+			fetchedStates[stateId].val = !fetchedStates[stateId].val;
+			fetchedStates[stateId].isInverted = true;
+			console.log("...to " + fetchedStates[stateId].val);
 			break;
 
 			case "number":
-			console.log("Inverting number state " + stateId + " from " + states[stateId].val + "...");
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.min !== udef) var min = usedObjects[stateId].common.min;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].min !== udef && usedObjects[stateId].common.custom[namespace].min !== "") min = usedObjects[stateId].common.custom[namespace].min;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.max !== udef) var max = usedObjects[stateId].common.max;
-			if(typeof usedObjects[stateId] !== udef && typeof usedObjects[stateId].common.custom !== udef && usedObjects[stateId].common.custom !== null && typeof usedObjects[stateId].common.custom[namespace] !== udef && usedObjects[stateId].common.custom[namespace] !== null && typeof usedObjects[stateId].common.custom[namespace].max !== udef && usedObjects[stateId].common.custom[namespace].max !== "") max = usedObjects[stateId].common.custom[namespace].max;
+			console.log("Inverting number state " + stateId + " from " + fetchedStates[stateId].val + "...");
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.min !== udef) var min = fetchedObjects[stateId].common.min;
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].min !== udef && fetchedObjects[stateId].common.custom[namespace].min !== "") min = fetchedObjects[stateId].common.custom[namespace].min;
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.max !== udef) var max = fetchedObjects[stateId].common.max;
+			if(typeof fetchedObjects[stateId] !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].max !== udef && fetchedObjects[stateId].common.custom[namespace].max !== "") max = fetchedObjects[stateId].common.custom[namespace].max;
 			if(typeof min !== udef && typeof max !== udef){
-				states[stateId].val = max - (states[stateId].val - min);
-				states[stateId].isInverted = true;
-				console.log("...to " + states[stateId].val);
+				fetchedStates[stateId].val = max - (fetchedStates[stateId].val - min);
+				fetchedStates[stateId].isInverted = true;
+				console.log("...to " + fetchedStates[stateId].val);
 			} else {
 				console.log("...aborted inverting, because min or max is missing");
 			}
@@ -2655,13 +2652,13 @@ function updateState(stateId, ignorePreventUpdate){
 			break;
 
 			default:
-			console.log("Inverting state " + stateId + " is impossible - type not known: " + typeof states[stateId].val);
+			console.log("Inverting state " + stateId + " is impossible - type not known: " + typeof fetchedStates[stateId].val);
 		}
 	}
-	if(preventUpdate[stateId] && states[stateId]){
-		console.log(">> ack: " + states[stateId].ack + " val: " + states[stateId].val + " newVal: " + preventUpdate[stateId].newVal);
+	if(preventUpdate[stateId] && fetchedStates[stateId]){
+		console.log(">> ack: " + fetchedStates[stateId].ack + " val: " + fetchedStates[stateId].val + " newVal: " + preventUpdate[stateId].newVal);
 	}
-	if(preventUpdate[stateId] && states[stateId] && states[stateId].ack && typeof states[stateId].val != udef && states[stateId].val != null && states[stateId].val.toString() == preventUpdate[stateId].newVal.toString()) { //An ack-true value has reached the new value - preventUpdate can be cancelled
+	if(preventUpdate[stateId] && fetchedStates[stateId] && fetchedStates[stateId].ack && typeof fetchedStates[stateId].val != udef && fetchedStates[stateId].val != null && fetchedStates[stateId].val.toString() == preventUpdate[stateId].newVal.toString()) { //An ack-true value has reached the new value - preventUpdate can be cancelled
 		console.log("<< ack-val reached new val: preventUpdate regular ended.");
 		$("[data-iQontrol-Device-ID='" + preventUpdate[stateId].deviceIdEscaped + "'] .iQontrolDeviceLoading").removeClass("active");
 		clearTimeout(preventUpdate[stateId].timerId);
@@ -2688,29 +2685,29 @@ function updateState(stateId, ignorePreventUpdate){
 		}
 	}
 	if(stateId == namespace + ".Popup.PERSISTENT_MESSAGES_SHOW_ID"){
-		popupShowPersistentMessages(states[stateId].val);
+		popupShowPersistentMessages(fetchedStates[stateId].val);
 	}
 	if(stateId == namespace + ".Popup.Message" || stateId == namespace + ".Popup.PersistentMessage"){
 		var message = {};
-		message.message = states[stateId].val;
+		message.message = fetchedStates[stateId].val;
 		if(stateId == namespace + ".Popup.PersistentMessage") {
-			message.persistentExpires = states[namespace + ".Popup.PersistentExpires"] && typeof states[namespace + ".Popup.PersistentExpires"].val !== udef && states[namespace + ".Popup.PersistentExpires"].val !== null && !isNaN(states[namespace + ".Popup.PersistentExpires"].val) && parseInt(states[namespace + ".Popup.PersistentExpires"].val) || 0;
-			message.persistentUndismissible = states[namespace + ".Popup.PersistentUndismissible"] && typeof states[namespace + ".Popup.PersistentUndismissible"].val !== udef && states[namespace + ".Popup.PersistentUndismissible"].val || false;
-			message.persistentId = states[namespace + ".Popup.PersistentId"] && typeof states[namespace + ".Popup.PersistentId"].val !== udef && states[namespace + ".Popup.PersistentId"].val || "";
+			message.persistentExpires = fetchedStates[namespace + ".Popup.PersistentExpires"] && typeof fetchedStates[namespace + ".Popup.PersistentExpires"].val !== udef && fetchedStates[namespace + ".Popup.PersistentExpires"].val !== null && !isNaN(fetchedStates[namespace + ".Popup.PersistentExpires"].val) && parseInt(fetchedStates[namespace + ".Popup.PersistentExpires"].val) || 0;
+			message.persistentUndismissible = fetchedStates[namespace + ".Popup.PersistentUndismissible"] && typeof fetchedStates[namespace + ".Popup.PersistentUndismissible"].val !== udef && fetchedStates[namespace + ".Popup.PersistentUndismissible"].val || false;
+			message.persistentId = fetchedStates[namespace + ".Popup.PersistentId"] && typeof fetchedStates[namespace + ".Popup.PersistentId"].val !== udef && fetchedStates[namespace + ".Popup.PersistentId"].val || "";
 		}
-		message.duration = states[namespace + ".Popup.Duration"] && typeof states[namespace + ".Popup.Duration"].val !== udef && states[namespace + ".Popup.Duration"].val !== null && !isNaN(states[namespace + ".Popup.Duration"].val) && parseInt(states[namespace + ".Popup.Duration"].val) || 0;
-		message.clickKeepsOpen = states[namespace + ".Popup.ClickKeepsOpen"] && typeof states[namespace + ".Popup.ClickKeepsOpen"].val !== udef && states[namespace + ".Popup.ClickKeepsOpen"].val || false;
-		message.clickedValue = states[namespace + ".Popup.ClickedValue"] && typeof states[namespace + ".Popup.ClickedValue"].val !== udef && states[namespace + ".Popup.ClickedValue"].val || "";
-		message.clickedDestinationState = states[namespace + ".Popup.ClickedDestinationState"] && typeof states[namespace + ".Popup.ClickedDestinationState"].val !== udef && states[namespace + ".Popup.ClickedDestinationState"].val  || "";
-		message.buttonNames = states[namespace + ".Popup.ButtonNames"] && typeof states[namespace + ".Popup.ButtonNames"].val !== udef && states[namespace + ".Popup.ButtonNames"].val || "";
-		message.buttonValues = states[namespace + ".Popup.ButtonValues"] && typeof states[namespace + ".Popup.ButtonValues"].val !== udef && states[namespace + ".Popup.ButtonValues"].val || "";
-		message.buttonDestinationStates = states[namespace + ".Popup.ButtonDestinationStates"] && typeof states[namespace + ".Popup.ButtonDestinationStates"].val !== udef && states[namespace + ".Popup.ButtonDestinationStates"].val || "";
-		message.buttonCloses = states[namespace + ".Popup.ButtonCloses"] && typeof states[namespace + ".Popup.ButtonCloses"].val !== udef && states[namespace + ".Popup.ButtonCloses"].val || "";
-		message.buttonClears = states[namespace + ".Popup.ButtonClears"] && typeof states[namespace + ".Popup.ButtonClears"].val !== udef && states[namespace + ".Popup.ButtonClears"].val || "";
+		message.duration = fetchedStates[namespace + ".Popup.Duration"] && typeof fetchedStates[namespace + ".Popup.Duration"].val !== udef && fetchedStates[namespace + ".Popup.Duration"].val !== null && !isNaN(fetchedStates[namespace + ".Popup.Duration"].val) && parseInt(fetchedStates[namespace + ".Popup.Duration"].val) || 0;
+		message.clickKeepsOpen = fetchedStates[namespace + ".Popup.ClickKeepsOpen"] && typeof fetchedStates[namespace + ".Popup.ClickKeepsOpen"].val !== udef && fetchedStates[namespace + ".Popup.ClickKeepsOpen"].val || false;
+		message.clickedValue = fetchedStates[namespace + ".Popup.ClickedValue"] && typeof fetchedStates[namespace + ".Popup.ClickedValue"].val !== udef && fetchedStates[namespace + ".Popup.ClickedValue"].val || "";
+		message.clickedDestinationState = fetchedStates[namespace + ".Popup.ClickedDestinationState"] && typeof fetchedStates[namespace + ".Popup.ClickedDestinationState"].val !== udef && fetchedStates[namespace + ".Popup.ClickedDestinationState"].val  || "";
+		message.buttonNames = fetchedStates[namespace + ".Popup.ButtonNames"] && typeof fetchedStates[namespace + ".Popup.ButtonNames"].val !== udef && fetchedStates[namespace + ".Popup.ButtonNames"].val || "";
+		message.buttonValues = fetchedStates[namespace + ".Popup.ButtonValues"] && typeof fetchedStates[namespace + ".Popup.ButtonValues"].val !== udef && fetchedStates[namespace + ".Popup.ButtonValues"].val || "";
+		message.buttonDestinationStates = fetchedStates[namespace + ".Popup.ButtonDestinationStates"] && typeof fetchedStates[namespace + ".Popup.ButtonDestinationStates"].val !== udef && fetchedStates[namespace + ".Popup.ButtonDestinationStates"].val || "";
+		message.buttonCloses = fetchedStates[namespace + ".Popup.ButtonCloses"] && typeof fetchedStates[namespace + ".Popup.ButtonCloses"].val !== udef && fetchedStates[namespace + ".Popup.ButtonCloses"].val || "";
+		message.buttonClears = fetchedStates[namespace + ".Popup.ButtonClears"] && typeof fetchedStates[namespace + ".Popup.ButtonClears"].val !== udef && fetchedStates[namespace + ".Popup.ButtonClears"].val || "";
 		message.ts = null;
 		toast(message);
 	}
-	if(stateId == namespace + ".info.connection" && states[stateId] && states[stateId].val){
+	if(stateId == namespace + ".info.connection" && fetchedStates[stateId] && fetchedStates[stateId].val){
 		if(actualDialogId) openDialogId = actualDialogId;
 		getStarted();
 	}
@@ -2836,15 +2833,15 @@ function toggleScene(linkedStateId, deviceIdEscaped, callback){
 	if(state && state.readonly == false && deviceReadonly == false){
 		if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "alwaysSendTrue") == "true") { //Always send true enabled
 			setState(linkedStateId, deviceIdEscaped, true, true, callback);
-		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.virtualGroup !== udef && usedObjects[linkedStateId].native.virtualGroup == true){ //ioBroker-Virtual Group
+		} else if(fetchedObjects[linkedStateId] && typeof fetchedObjects[linkedStateId].native !== udef && typeof fetchedObjects[linkedStateId].native.virtualGroup !== udef && fetchedObjects[linkedStateId].native.virtualGroup == true){ //ioBroker-Virtual Group
 			if(state.val.toString().toLowerCase() == "true") setState(linkedStateId, deviceIdEscaped, false, true, callback); // true -> false
 			else if(state.val.toString().toLowerCase() == "false") setState(linkedStateId, deviceIdEscaped, true, true, callback); // false -> true
 			else if(state.val.toString().toLowerCase() == "uncertain") setState(linkedStateId, deviceIdEscaped, false, true, callback); // uncertain -> false
 			else if(typeof state.val == "number" && state.val <= 0) setState(linkedStateId, deviceIdEscaped, state.max || 100, true, callback); // 0 -> max || 100
 			else if(typeof state.val == "number") setState(linkedStateId, deviceIdEscaped, state.min || 0, true, callback); // number > 0 -> min || 0
 			else setState(linkedStateId, deviceIdEscaped, true, true, callback); // else -> true
-		} else if(usedObjects[linkedStateId] && typeof usedObjects[linkedStateId].native !== udef && typeof usedObjects[linkedStateId].native.onFalse !== udef){ //ioBroker-Scene
-			if(typeof usedObjects[linkedStateId].native.onFalse.enabled !== udef && usedObjects[linkedStateId].native.onFalse.enabled == true){ //ioBroker-Scene with enabled onFalse
+		} else if(fetchedObjects[linkedStateId] && typeof fetchedObjects[linkedStateId].native !== udef && typeof fetchedObjects[linkedStateId].native.onFalse !== udef){ //ioBroker-Scene
+			if(typeof fetchedObjects[linkedStateId].native.onFalse.enabled !== udef && fetchedObjects[linkedStateId].native.onFalse.enabled == true){ //ioBroker-Scene with enabled onFalse
 				if(state.val.toString().toLowerCase() == "true") setState(linkedStateId, deviceIdEscaped, false, true, callback); // true -> false
 				else if(state.val.toString().toLowerCase() == "false") setState(linkedStateId, deviceIdEscaped, true, true, callback); // false -> true
 				else if(state.val.toString().toLowerCase() == "uncertain") setState(linkedStateId, deviceIdEscaped, false, true, callback); // uncertain -> false
@@ -2870,31 +2867,31 @@ function startProgram(linkedStateId, deviceIdEscaped, callback){
 
 function startButton(linkedStateId, linkedSetValueId, linkedOffSetValueId, returnToOffSetValueAfter, deviceIdEscaped, callback){
 	if(returnToOffSetValueAfter == 0){
-		if(states[linkedStateId].val  == (states[linkedSetValueId] && states[linkedSetValueId].val || true)){
-			var newValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || false;
+		if(fetchedStates[linkedStateId].val  == (fetchedStates[linkedSetValueId] && fetchedStates[linkedSetValueId].val || true)){
+			var newValue = (fetchedStates[linkedOffSetValueId] && fetchedStates[linkedOffSetValueId].val) || false;
 		} else {
-			var newValue = (states[linkedSetValueId] && states[linkedSetValueId].val) || true;
+			var newValue = (fetchedStates[linkedSetValueId] && fetchedStates[linkedSetValueId].val) || true;
 		}
 		console.log("Button " + linkedStateId + " --> " + newValue);
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _linkedStateId = linkedStateId;
 			var _deviceIdEscaped = deviceIdEscaped;
 			var _linkedOffSetValueId = linkedOffSetValueId;
-			var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
+			var _newOffSetValue = (fetchedStates[linkedOffSetValueId] && fetchedStates[linkedOffSetValueId].val) || "";
 			var _returnToOffSetValueAfter = returnToOffSetValueAfter;
 			setState(_linkedStateId, _deviceIdEscaped, newValue, true);
 		})(); //<--End Closure
 	} else {
-		var newValue = states[linkedSetValueId] && states[linkedSetValueId].val || "";
+		var newValue = fetchedStates[linkedSetValueId] && fetchedStates[linkedSetValueId].val || "";
 		console.log("Button " + linkedStateId + " --> " + newValue);
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 			var _linkedStateId = linkedStateId;
 			var _deviceIdEscaped = deviceIdEscaped;
 			var _linkedOffSetValueId = linkedOffSetValueId;
-			var _newOffSetValue = (states[linkedOffSetValueId] && states[linkedOffSetValueId].val) || "";
+			var _newOffSetValue = (fetchedStates[linkedOffSetValueId] && fetchedStates[linkedOffSetValueId].val) || "";
 			var _returnToOffSetValueAfter = returnToOffSetValueAfter;
 			setState(_linkedStateId, _deviceIdEscaped, newValue, true, function(){
-				if(states[_linkedOffSetValueId] && states[_linkedOffSetValueId].val && states[_linkedOffSetValueId].val !== "") {
+				if(fetchedStates[_linkedOffSetValueId] && fetchedStates[_linkedOffSetValueId].val && fetchedStates[_linkedOffSetValueId].val !== "") {
 					setTimeout(function(){
 						console.log("Button " + _linkedStateId + " return --> " + _newOffSetValue);
 						setStateWithoutVerification(_linkedStateId, _deviceIdEscaped, _newOffSetValue, false);
@@ -3100,16 +3097,24 @@ function objectsEqual(obj1, obj2, ignoreKeys){ //Returns true, if two objects ar
 
 function getObjectValue(obj, keyPath, defaultValue, defaultIfNull, defaultIfEmptyString){
 	var keys = keyPath.split('.');
+	var accumulateKeys = [];
+	var last = null;
 	var current = obj;
-	for(var i = 0; i < keys.length; i++){
-		var key = keys[i];
-		if(current === undefined || (current === null && i < keys.length)){
-			return (typeof defaultValue != udef ? defaultValue : undefined);
+	keys.forEach(function(key, keyIndex){
+		if(current === null && i < keys.length){
+			return (typeof defaultValue !== udef ? defaultValue : undefined);
+		} else if(typeof current == udef){
+			accumulateKeys.push(key);
+			current = last[accumulateKeys.join('.')];
+		} else {
+			accumulateKeys = [key];
+			last = current;
+			current = current[key];
 		}
-		current = current[key];
-	}
-	if(current === null && typeof defaultValue != udef && defaultIfNull) return defaultValue;
-	if(current === "" && typeof defaultValue != udef && defaultIfEmptyString) return defaultValue;
+	});
+	if(typeof current == udef && typeof defaultValue !== udef) return defaultValue;
+	if(current === null && typeof defaultValue !== udef && defaultIfNull) return defaultValue;
+	if(current === "" && typeof defaultValue !== udef && defaultIfEmptyString) return defaultValue;
 	return current;
 }
 
@@ -3354,7 +3359,7 @@ function convertToAlternativeColorspace(device, linkedHueId, linkedSaturationId,
 }
 
 function convertFromAlternativeColorspace(device, linkedAlternativeColorspaceValueId, linkedHueId, linkedSaturationId, linkedColorBrightnessId, linkedCtId, linkedWhiteBrightnessId){
-	var alternativeColorspaceValue = states[linkedAlternativeColorspaceValueId].val || "";
+	var alternativeColorspaceValue = fetchedStates[linkedAlternativeColorspaceValueId].val || "";
 	var invertCt = false;
 	if(getDeviceOptionValue(device, "invertCt") == "true") invertCt = !invertCt;
 	var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
@@ -4706,27 +4711,27 @@ function pincodeClear(){
 
 //++++++++++ TOOLBAR ++++++++++
 function renderToolbar(){
-	if(!(config[namespace] && typeof config[namespace].toolbar !== udef && config[namespace].toolbar.length > 0)) {
-		if(homeId == '' && config[namespace] && config[namespace].views && config[namespace].views.length > 0) homeId = addNamespaceToViewId(config[namespace].views[0].commonName);
+	var toolbarItems = getObjectValue(config, namespace + ".toolbar.items", [], true, true);
+	if(toolbarItems.length == 0){
+		if(homeId == '') homeId = getObjectValue(config, namespace + ".views.0.commonName", "", true, true);
 		return;
 	}
-	if(getUrlParameter('home')) config[namespace].toolbar[0].nativeLinkedView = getUrlParameter('home');
-	if(homeId == '') homeId = addNamespaceToViewId(config[namespace].toolbar[0].nativeLinkedView);
+	if(getUrlParameter('home')) config[namespace].toolbar.items[0].nativeLinkedView = getUrlParameter('home');
+	if(homeId == '') homeId = addNamespaceToViewId(toolbarItems[0].nativeLinkedView);
 	if(getUrlParameter('noToolbar')) return;
-	var toolbarContent = "";
 	removeCustomCSS("toolbarCustomIcons");
 	toolbarLinksToOtherViews = [];
 	var toolbarLinkedStateIdsToFetchAndUpdate = [];
 	var toolbarLinkedStateIds = {};
-	toolbarContent += "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition !== "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
-	for (var toolbarIndex = 0; toolbarIndex < config[namespace].toolbar.length; toolbarIndex++){
-		var linkedViewId = addNamespaceToViewId(config[namespace].toolbar[toolbarIndex].nativeLinkedView);
+	var toolbarContent = "<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition !== "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>";
+	for (var toolbarIndex = 0; toolbarIndex < toolbarItems.length; toolbarIndex++){
+		var linkedViewId = addNamespaceToViewId(toolbarItems[toolbarIndex].nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
 		toolbarLinkedStateIds = {};
-		toolbarContent += "<li><a data-icon='" + (config[namespace].toolbar[toolbarIndex].nativeIcon ? (config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') == -1 ? config[namespace].toolbar[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + config[namespace].toolbar[toolbarIndex].commonName;
-		if(config[namespace].toolbar[toolbarIndex].nativeIcon && config[namespace].toolbar[toolbarIndex].nativeIcon.indexOf('.') > -1){ //Custom icon
+		toolbarContent += "<li><a data-icon='" + (toolbarItems[toolbarIndex].nativeIcon ? (toolbarItems[toolbarIndex].nativeIcon.indexOf('.') == -1 ? toolbarItems[toolbarIndex].nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItems[toolbarIndex].commonName;
+		if(toolbarItems[toolbarIndex].nativeIcon && toolbarItems[toolbarIndex].nativeIcon.indexOf('.') > -1){ //Custom icon
 			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
-			customCSS += "	background:url('" + config[namespace].toolbar[toolbarIndex].nativeIcon + "');";
+			customCSS += "	background:url('" + toolbarItems[toolbarIndex].nativeIcon + "');";
 			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover;");
 			customCSS += "	background-position:center;";
 			customCSS += "	background-repeat:no-repeat;";
@@ -4736,9 +4741,9 @@ function renderToolbar(){
 		//--Badge		
 		var deviceId = namespace + ".Toolbar." + toolbarIndex;
 		var deviceIdEscaped = escape(deviceId);
-		//Get linkedStates (resp. create a constant one if commonRole is const)
+		//Get linkedStates (resp. create a constant one if role is const)
 		["BADGE", "BADGE_COLOR"].forEach(function(toolbarState){
-			var linkedStateId = getLinkedStateId(config[namespace].toolbar[toolbarIndex], deviceId + ".states", toolbarState);
+			var linkedStateId = getLinkedStateId(toolbarItems[toolbarIndex], deviceId + ".states", toolbarState);
 			if(linkedStateId) { //Call updateFunction after rendering View
 				toolbarLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
 			}
@@ -4750,7 +4755,7 @@ function renderToolbar(){
 				var _deviceIdEscaped = deviceIdEscaped;
 				var _linkedBadgeId = toolbarLinkedStateIds["BADGE"];
 				var _linkedBadgeColorId = toolbarLinkedStateIds["BADGE_COLOR"];
-				var _badgeWithoutUnit = ((config[namespace].toolbar[toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false;
+				var _badgeWithoutUnit = ((toolbarItems[toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false;
 				var updateFunction = function(){
 					var stateBadge = getStateObject(_linkedBadgeId);
 					var stateBadgeColor = getStateObject(_linkedBadgeColorId);
@@ -4809,7 +4814,7 @@ function renderToolbar(){
 			var _linkedViewId = linkedViewId;
 			fetchView(_linkedViewId, function(){
 				var view = getView(_linkedViewId);
-				if(view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on linkedView of the toolbar
+				if(view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on nativeLinkedView of the toolbar
 					if(typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView !== "" && !view.devices[deviceIndex].nativeHide){ //Link to other view
 						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 						if(deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
@@ -4825,7 +4830,7 @@ function renderToolbar(){
 	toolbarContent += "</ul></div>";
 	if(options.LayoutToolbarSingleLine) {
 		customCSS = "#Toolbar li {";
-		customCSS += "	width: calc(100% / " + config[namespace].toolbar.length + ") !important;";
+		customCSS += "	width: calc(100% / " + toolbarItems.length + ") !important;";
 		customCSS += "	clear: none !important;";
 		customCSS += "}";
 		customCSS += "#Toolbar li a {";
@@ -4840,7 +4845,7 @@ function renderToolbar(){
 	toolbarLinkedStateIdsToFetchAndUpdate = removeDuplicates(toolbarLinkedStateIdsToFetchAndUpdate);
 	fetchStates(toolbarLinkedStateIdsToFetchAndUpdate, function(){
 		for (var i = 0; i < toolbarLinkedStateIdsToFetchAndUpdate.length; i++){
-			if(typeof usedObjects[toolbarLinkedStateIdsToFetchAndUpdate[i]] == udef) {
+			if(typeof fetchedObjects[toolbarLinkedStateIdsToFetchAndUpdate[i]] == udef) {
 				fetchObject(toolbarLinkedStateIdsToFetchAndUpdate[i], function(){
 					updateState(toolbarLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForToolbar");
 				});
@@ -4977,230 +4982,6 @@ function applyToolbarAdaptHeightOrMarqueeObserver(){
 	});
 }
 
-// #####################################################################################################
-
-// ##### im Moment wird ein Array noch als CONST gespeichert und dann im renderView/Dialog weiter ausgewertet. Das muss hier noch rein und irgendwie in ARRAY: verpackt werden
-// ##### return sollte dann ggf. ein array werden mit allen enthaltenen states? Was wenn in einem array noch ein array steckt???
-function getDeviceState(device, deviceState){ // gets or creates device states and fetchs or creates corresponding objects ##### replaces getLinkedStateId
-	var deviceStateId = device.deviceId + "." + deviceState;
-	var stateObject = null;
-	if(states[deviceStateId]){ //deviceState exists in fetched states (maybe because its a TEMP:, CONST: or ARRAY: state. Value is stored in .val)
-		stateObject = states[deviceStateId];
-		if(typeof stateObject.val == udef) return null;
-		if(stateObject.val.substring(0, 6) == 'CONST:' || stateObject.val.substring(0, 6) == 'ARRAY:') { //role of deviceState is 'const' or 'array'
-			var stateId = "CONST:" + deviceStateId;
-			var constantValue = stateObject.val.substring(6);
-			var constantObject = {
-				"type": "state",
-				"common": {
-					"name": deviceState,
-					"desc": "Constant state created by iQontrol",
-					"role": "state",
-					"type": "string",
-					"icon": "",
-					"read": true,
-					"write": false,
-					"def": ""
-				},
-				"native": {}
-			};
-			usedObjects[stateId] = constantObject;
-			var constantState = {
-				"val": constantValue,
-				"ack": true,
-				"from": "iQontrol",
-				"lc": 0,
-				"q": 0,
-				"ts": 0,
-				"user": "system.user.admin"
-			};
-			states[stateId] = constantState;
-			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-			return stateId;
-		} else { //role of deviceState is 'linkedState', its a TEMP: state
-			var stateId = stateObject.val;
-			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-			if(stateId && typeof usedObjects[stateId] == udef) {
-				fetchObject(stateId);
-			}
-			return stateId;
-		}
-	} else { //deviceState needs to be read from config (value ist stored in .value)
-		if(typeof device != "object") device = {};
-		if(typeof device.states != "object") device.states = {};
-		if(device.states[deviceState]){ //deviceState exists in config
-			stateObject = device.states[deviceState];
-			if(stateObject && typeof stateObject.value != udef){
-				if(stateObject.commonRole == 'const' || stateObject.commonRole == 'array') { //role of deviceState is 'const' or 'array'
-					var stateId = "CONST:" + deviceStateId;
-					var constantValue = stateObject.val || stateObject.value;
-					var constantObject = {
-						"type": "state",
-						"common": {
-							"name": deviceState,
-							"desc": "created by iQontrol",
-							"role": "state",
-							"type": "string",
-							"icon": "",
-							"read": true,
-							"write": false,
-							"def": ""
-						},
-						"native": {}
-					};
-					usedObjects[stateId] = constantObject;
-					var constantState = {
-						"val": constantValue,
-						"ack": true,
-						"from": "iQontrol",
-						"lc": 0,
-						"q": 0,
-						"ts": 0,
-						"user": "system.user.admin"
-					};
-					states[stateId] = constantState;
-					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-					return stateId;
-				} else { //role of deviceState is 'linkedState'
-					var stateId = stateObject.value;
-					//--Special: If STATE of iQontrolWidget is empty, create VIRTUAL DP
-					if(device.commonRole == "iQontrolWidget" && deviceState == "STATE" && stateId == "" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
-						stateId = "VIRTUAL:boolean,switch,false";
-						device.states[deviceState].stateId = stateId;
-					}
-					//--If VIRTUAL DP, create TempLinkedState
-					if(stateId.substring(0, 8) == 'VIRTUAL:') {
-						var config = (stateId.substring(8) || "").split(',');
-						var type = config[0] || "boolean";
-						var role = config[1] || "state";
-						var value = config[2] || null;
-						stateId = createTempLinkedState(deviceStateId, type, role, false, value);
-					}
-					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-					if(stateId && typeof usedObjects[stateId] == udef) {
-						fetchObject(stateId);
-					}
-					return stateId;
-				}
-			}
-		} else { //deviceState doesn't exist in config
-			//--Special: If deviceState = "tileEnlarged", create VIRTUAL DP (this is valid for devices with no defined state "tileEnlarged")
-			if(deviceState == "tileEnlarged"){
-				var stateId = "VIRTUAL:boolean,switch," + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false");
-				device.states[stateId] = {stateId: stateId};
-				var config = (stateId.substring(8) || "").split(',');
-				var type = config[0] || "boolean";
-				var role = config[1] || "state";
-				var value = config[2] || null;
-				stateId = createTempLinkedState(deviceStateId, type, role, false, value);
-				if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-				if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-				if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-				if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-				if(stateId && typeof usedObjects[stateId] == udef) {
-					fetchObject(stateId);
-				}
-				return stateId;
-			}
-		}
-	}
-	return null;
-}
-
-function fetchAndExtendView(viewId, callback){ // fetches View configuration and extends all devices if not done before #####  replaces fetchView 
-	var _namespace = getNamespace(viewId);
-	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, function(){
-			var view = config[_namespace].views[getViewIndex(viewId)];
-			view = extendView(view);
-			if(callback) callback(view);
-		});
-	} else {
-		var view = config[_namespace].views[getViewIndex(viewId)];
-		view = extendView(view);
-		if(callback) callback(view);
-	}
-	function extendView(view){
-		view = convertViewV3(view); // ##### has to be removed, when convert-function is transfered to convertConfig
-		view.devices && view.devices.forEach(function(device, deviceIndex){
-			view.devices[deviceIndex] = extendDevice(device, viewId + ".devices." + deviceIndex);
-		});
-		return view;
-	}
-}
-
-function extendDevice(device, deviceId){ // #####
-	if(device.deviceId && device.deviceId == deviceId) return device; //was already extended before
-	device.deviceId = deviceId;
-	//Get deviceStates
-	if(device.role && iQontrolRoles[device.role] && typeof iQontrolRoles[device.role].states != udef) iQontrolRoles[device.role].states.forEach(function(roleState){
-		var stateId = getDeviceState(device, roleState); //While getting the device state the corresponding objects are also fetched
-		if(!device.states[roleState]) device.states[roleState] = {};
-		device.states[roleState].stateId = stateId;
-	});
-	return device;
-}
-
-function convertViewV3(view){ // ##### must be integrated into convertConfigV3-function in admin 
-	let newView = {};
-	newView.name = view.commonName;
-	newView.backgroundImage = view.nativeBackgroundImage;
-	newView.hideName = view.nativeHideName;
-	newView.devices = [];
-	view.devices && view.devices.forEach(function(device, deviceIndex){
-		newView.devices[deviceIndex] = convertDeviceV3(device);
-	});
-	return newView;
-}
-
-function convertDeviceV3(device){ // ##### must be integrated into convertConfigV3-function in admin 
-	let newDevice = {};
-	newDevice.name = device.commonName;
-	newDevice.role = device.commonRole;
-	newDevice.backgroundImage = device.nativeBackgroundImage;
-	newDevice.backgroundImageActive = device.nativeBackgroundImageActive;
-	newDevice.heading = device.nativeHeading;
-	newDevice.headingOptions = device.nativeHeadingOptions;
-	newDevice.linkedView = device.nativeLinkedView;
-	newDevice.newLine = device.nativeNewLine;
-	newDevice.hide = device.nativeHide;
-	newDevice.options = device.options;
-	newDevice.states = {};
-	device.states && device.states.forEach(function(deviceState){
-		newDevice.states[deviceState.state] = {
-			type: deviceState.commonRole,
-			value: deviceState.value
-		};
-	});
-	return newDevice;
-} 
-
-
-//++++++++++ TEST VIEW ++++++++++
-function testRenderView(viewId){ // ##### replaces renderView
-	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
-	fetchAndExtendView(viewId, function(view){
-		console.log(view);
-		view.devices && view.devices.forEach(function(device, deviceIndex){ //Iterate over all devices of the view
-			console.log(device);
-		})
-	});
-}
-//#####################################################################################################
-
-
 //++++++++++ VIEW ++++++++++
 function renderView(viewId, triggeredByReconnection){
 	console.log("renderView " + viewId + ", triggeredByReconnection: " + !!triggeredByReconnection);
@@ -5291,7 +5072,7 @@ function renderView(viewId, triggeredByReconnection){
 					deviceLinkedStateIds[roleState] = linkedStateId;
 				});
 			}
-			//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["optionTileActiveStateId"] and fetched
+			//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["tileActiveStateId"] and fetched
 			var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
 			if(linkedTileActiveStateId) { //Call updateFunction after rendering View
 				if(!viewUpdateFunctions[linkedTileActiveStateId]) viewUpdateFunctions[linkedTileActiveStateId] = [];
@@ -6329,15 +6110,15 @@ function renderView(viewId, triggeredByReconnection){
 										}
 										if(_linkedAlternativeColorspaceValueId){
 											var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
-												if(states[_linkedAlternativeColorspaceValueId] && states[callingStateId] && typeof states[callingStateId].val !== udef && states[callingStateId].val !== ""){
-													var ack = states[callingStateId].ack;
+												if(fetchedStates[_linkedAlternativeColorspaceValueId] && fetchedStates[callingStateId] && typeof fetchedStates[callingStateId].val !== udef && fetchedStates[callingStateId].val !== ""){
+													var ack = fetchedStates[callingStateId].ack;
 													var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
 													var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
 													if(alternativeColorspaceValue) {
 														if((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
 															console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
 														} else {
-															if(typeof states[_linkedAlternativeColorspaceValueId].val == "string" && states[_linkedAlternativeColorspaceValueId].val == states[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
+															if(typeof fetchedStates[_linkedAlternativeColorspaceValueId].val == "string" && fetchedStates[_linkedAlternativeColorspaceValueId].val == fetchedStates[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
 															setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);
 														}
 													}
@@ -6349,26 +6130,26 @@ function renderView(viewId, triggeredByReconnection){
 											if(_linkedCtId) viewUpdateFunctions[_linkedCtId].push(updateFunction);
 											if(_linkedWhiteBrightnessId) viewUpdateFunctions[_linkedWhiteBrightnessId].push(updateFunction);
 											var updateFunction = function(){ //ConvertFromAlternativeColorspace
-												if(states[_linkedAlternativeColorspaceValueId]){
-													var ack = states[_linkedAlternativeColorspaceValueId].ack;
+												if(fetchedStates[_linkedAlternativeColorspaceValueId]){
+													var ack = fetchedStates[_linkedAlternativeColorspaceValueId].ack;
 													var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
-													if(typeof usedObjects[_linkedAlternativeColorspaceValueId] == udef) usedObjects[_linkedAlternativeColorspaceValueId] = {};
-													usedObjects[_linkedAlternativeColorspaceValueId].result = {};
+													if(typeof fetchedObjects[_linkedAlternativeColorspaceValueId] == udef) fetchedObjects[_linkedAlternativeColorspaceValueId] = {};
+													fetchedObjects[_linkedAlternativeColorspaceValueId].result = {};
 													//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
 													if(result.hue != null){
-														if(_linkedHueId && _linkedHueId !== "" && (!states[_linkedHueId] || (states[_linkedHueId] && typeof states[_linkedHueId].val != udef && Math.abs(states[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
+														if(_linkedHueId && _linkedHueId !== "" && (!fetchedStates[_linkedHueId] || (fetchedStates[_linkedHueId] && typeof fetchedStates[_linkedHueId].val != udef && Math.abs(fetchedStates[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
 													}
 													if(result.saturation != null){
-														if(_linkedSaturationId && _linkedSaturationId !== "" && (!states[_linkedSaturationId] || (states[_linkedSaturationId] && typeof states[_linkedSaturationId].val != udef && Math.abs(states[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
+														if(_linkedSaturationId && _linkedSaturationId !== "" && (!fetchedStates[_linkedSaturationId] || (fetchedStates[_linkedSaturationId] && typeof fetchedStates[_linkedSaturationId].val != udef && Math.abs(fetchedStates[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
 													}
 													if(result.colorBrightness != null){
-														if(_linkedColorBrightnessId && _linkedColorBrightnessId !== "" && (!states[_linkedColorBrightnessId] || (states[_linkedColorBrightnessId] && typeof states[_linkedColorBrightnessId].val != udef && Math.abs(states[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
+														if(_linkedColorBrightnessId && _linkedColorBrightnessId !== "" && (!fetchedStates[_linkedColorBrightnessId] || (fetchedStates[_linkedColorBrightnessId] && typeof fetchedStates[_linkedColorBrightnessId].val != udef && Math.abs(fetchedStates[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
 													}
 													if(result.ct != null){
-														if(_linkedCtId && _linkedCtId !== "" && (!states[_linkedCtId] || (states[_linkedCtId] && typeof states[_linkedCtId].val != udef && Math.abs(states[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
+														if(_linkedCtId && _linkedCtId !== "" && (!fetchedStates[_linkedCtId] || (fetchedStates[_linkedCtId] && typeof fetchedStates[_linkedCtId].val != udef && Math.abs(fetchedStates[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
 													}
 													if(result.whiteBrightness != null){
-														if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId !== "" && (!states[_linkedWhiteBrightnessId] || (states[_linkedWhiteBrightnessId] && typeof states[_linkedWhiteBrightnessId].val != udef && Math.abs(states[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
+														if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId !== "" && (!fetchedStates[_linkedWhiteBrightnessId] || (fetchedStates[_linkedWhiteBrightnessId] && typeof fetchedStates[_linkedWhiteBrightnessId].val != udef && Math.abs(fetchedStates[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
 													}
 												}
 											};
@@ -6377,7 +6158,7 @@ function renderView(viewId, triggeredByReconnection){
 										_deviceLinkedStateIdsToFetchAndUpdate = removeDuplicates(_deviceLinkedStateIdsToFetchAndUpdate);
 										fetchStates(_deviceLinkedStateIdsToFetchAndUpdate, function(){
 											for (var i = 0; i < _deviceLinkedStateIdsToFetchAndUpdate.length; i++){
-												if(typeof usedObjects[_deviceLinkedStateIdsToFetchAndUpdate[i]] == udef) {
+												if(typeof fetchedObjects[_deviceLinkedStateIdsToFetchAndUpdate[i]] == udef) {
 													fetchObject(_deviceLinkedStateIdsToFetchAndUpdate[i], function(){
 														updateState(_deviceLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForView");
 													});
@@ -6847,8 +6628,8 @@ function renderView(viewId, triggeredByReconnection){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceIcon.off").addClass("active");
 											}
 											resultText = addTimestamp(resultText, [setTemperature, controlMode], [_linkedSetTemperatureId, _linkedControlModeId], _device, tileActive);
-											if(device.commonRole != "iQontrolHomematicIpThermostat" && _linkedPartyTemperatureId && typeof states[_linkedPartyTemperatureId] !== udef && typeof states[_linkedPartyTemperatureId].val !== udef && states[_linkedPartyTemperatureId].val >= 6) resultText += "&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />";
-											if(_linkedWindowOpenReportingId && typeof states[_linkedWindowOpenReportingId] !== udef && states[_linkedWindowOpenReportingId] !== null && typeof states[_linkedWindowOpenReportingId].val !== udef && states[_linkedWindowOpenReportingId].val) resultText += "&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />";
+											if(device.commonRole != "iQontrolHomematicIpThermostat" && _linkedPartyTemperatureId && typeof fetchedStates[_linkedPartyTemperatureId] !== udef && typeof fetchedStates[_linkedPartyTemperatureId].val !== udef && fetchedStates[_linkedPartyTemperatureId].val >= 6) resultText += "&nbsp;<image src='./images/party.png' style='width:12px; height:12px;' />";
+											if(_linkedWindowOpenReportingId && typeof fetchedStates[_linkedWindowOpenReportingId] !== udef && fetchedStates[_linkedWindowOpenReportingId] !== null && typeof fetchedStates[_linkedWindowOpenReportingId].val !== udef && fetchedStates[_linkedWindowOpenReportingId].val) resultText += "&nbsp;<image src='./images/wot.png' style='width:12px; height:12px;' />";
 											if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value') !== resultText){
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").data('old-value', resultText);
 												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState").html(resultText);
@@ -8046,7 +7827,7 @@ function renderView(viewId, triggeredByReconnection){
 		viewLinkedStateIdsToFetchAndUpdate = removeDuplicates(viewLinkedStateIdsToFetchAndUpdate);
 		fetchStates(viewLinkedStateIdsToFetchAndUpdate, function(){
 			for (var i = 0; i < viewLinkedStateIdsToFetchAndUpdate.length; i++){
-				if(typeof usedObjects[viewLinkedStateIdsToFetchAndUpdate[i]] == udef) {
+				if(typeof fetchedObjects[viewLinkedStateIdsToFetchAndUpdate[i]] == udef) {
 					fetchObject(viewLinkedStateIdsToFetchAndUpdate[i], function(){
 						updateState(viewLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForView");
 					});
@@ -8810,7 +8591,7 @@ function renderDialog(deviceIdEscaped){
 					var linkedStateId = getLinkedStateId(device, deviceId, elementState);
 					if(linkedStateId) { //Call updateFunction after rendering Dialog
 						dialogLinkedStateIdsToUpdate.push(linkedStateId);
-						if(!states[linkedStateId]) dialogLinkedStateIdsToFetch.push(linkedStateId);
+						if(!fetchedStates[linkedStateId]) dialogLinkedStateIdsToFetch.push(linkedStateId);
 					}
 					dialogLinkedStateIds[elementState] = linkedStateId;
 				});
@@ -8818,7 +8599,7 @@ function renderDialog(deviceIdEscaped){
 			console.info(dialogLinkedStateIdsToFetch);
 			fetchStates(dialogLinkedStateIdsToFetch, function(){
 				for (elementState in dialogLinkedStateIds) {
-					if(dialogLinkedStateIds[elementState] && !usedObjects[dialogLinkedStateIds[elementState]]) { //If a dialog is rendered without the view being rendered before, there might be some objects that are beeing fetched at this moment. If this is the case, the dialog is re-rendered after a little delay.
+					if(dialogLinkedStateIds[elementState] && !fetchedObjects[dialogLinkedStateIds[elementState]]) { //If a dialog is rendered without the view being rendered before, there might be some objects that are beeing fetched at this moment. If this is the case, the dialog is re-rendered after a little delay.
 						console.log("Render Dialog - Missing Object: " + elementState + " | " + dialogLinkedStateIds[elementState]);
 						if(dialogRenderCount < 20){
 							dialogRenderCount++;
@@ -8852,7 +8633,7 @@ function renderDialog(deviceIdEscaped){
 							var bindingFunction = function(){
 								$('#DialogStateButton').on('click', function(e) {
 									startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceIdEscaped);
-									dialogUpdateTimestamp(states[_linkedStateId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 								});
 							};
@@ -8868,7 +8649,7 @@ function renderDialog(deviceIdEscaped){
 						var min = dialogStates["SET_TEMPERATURE"].min || 6;
 						var max = dialogStates["SET_TEMPERATURE"].max || 30;
 						var step = "0.5";
-						if(usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = usedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
+						if(fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
 						var unit = dialogStates["SET_TEMPERATURE"].unit || "";
 						if(unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
 						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
@@ -8887,8 +8668,8 @@ function renderDialog(deviceIdEscaped){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
-							var _confirm = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && usedObjects[_linkedSetTemperatureId].common.custom !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedSetTemperatureId] && typeof usedObjects[_linkedSetTemperatureId].common !== udef && typeof usedObjects[_linkedSetTemperatureId].common.custom !== udef && usedObjects[_linkedSetTemperatureId].common.custom !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedSetTemperatureId] && typeof fetchedObjects[_linkedSetTemperatureId].common !== udef && typeof fetchedObjects[_linkedSetTemperatureId].common.custom !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedSetTemperatureId] && typeof fetchedObjects[_linkedSetTemperatureId].common !== udef && typeof fetchedObjects[_linkedSetTemperatureId].common.custom !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== "");
 							var _levelFavorites = levelFavorites;
 							var _levelFavoritesHideSlider = levelFavoritesHideSlider;
 							var DialogStateSliderReadoutTimer;
@@ -8897,7 +8678,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateSetTemperature){
 									$("#DialogStateSlider").val(stateSetTemperature.val);
 									$("#DialogStateSlider").slider('refresh');
-									dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
 								}
 								if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
 									if(_levelFavoritesHideSlider && _levelFavorites.indexOf(stateSetTemperature.val.toString()) > -1) $('#DialogStateSlider').parents('div.ui-slider').hide();
@@ -8914,7 +8695,7 @@ function renderDialog(deviceIdEscaped){
 										if(!_confirm && !_pincodeSet){
 											DialogStateSliderReadoutTimer = setInterval(function(){
 												setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
-												dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+												dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
 											}, 5000);
 										}
 									},
@@ -8926,7 +8707,7 @@ function renderDialog(deviceIdEscaped){
 											$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
 										}
 										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
-										dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
 									}
 								});
 								if(levelFavorites.length > 0 && levelFavorites[0] != "") {
@@ -8935,7 +8716,7 @@ function renderDialog(deviceIdEscaped){
 										$("#DialogStateSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
 										$("#DialogStateSlider").slider('refresh');
 										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
-										dialogUpdateTimestamp(states[_linkedSetTemperatureId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
 									});	
 								}
 							};
@@ -8958,7 +8739,7 @@ function renderDialog(deviceIdEscaped){
 								if(state){
 									if(state.val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
 									$("#DialogStateValue").button('refresh');
-									dialogUpdateTimestamp(states[_linkedStateId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -8986,7 +8767,7 @@ function renderDialog(deviceIdEscaped){
 							var bindingFunction = function(){
 								$('#DialogStateButton').on('click', function(e) {
 									toggleScene(_linkedStateId, _deviceIdEscaped);
-									dialogUpdateTimestamp(states[_linkedStateId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 								});
 							};
@@ -9009,7 +8790,7 @@ function renderDialog(deviceIdEscaped){
 							var bindingFunction = function(){
 								$('#DialogStateButton').on('click', function(e) {
 									startProgram(_linkedStateId, _deviceIdEscaped);
-									dialogUpdateTimestamp(states[_linkedStateId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 								});
 							};
@@ -9049,7 +8830,7 @@ function renderDialog(deviceIdEscaped){
 										if(typeof state.val != udef && (state.val.toString().toLowerCase() == "true" || state.val.toString() > 0)) index = 1; else index = 0;
 										$("#DialogStateSwitch")[0].selectedIndex = index;
 										$("#DialogStateSwitch").flipswitch('refresh');
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -9061,7 +8842,7 @@ function renderDialog(deviceIdEscaped){
 											if(newVal == true) newVal = 1; else newVal = 0;
 										}
 										setState(_linkedStateId, _deviceIdEscaped, newVal);
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9086,7 +8867,7 @@ function renderDialog(deviceIdEscaped){
 									var bindingFunction = function(){
 										$('#DialogStateButton').on('click', function(e) {
 											startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceIdEscaped);
-											dialogUpdateTimestamp(states[_linkedStateId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 											if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
 										});
 									};
@@ -9116,15 +8897,15 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
 								var _sliderSendRate = sliderSendRate;
-								var _confirm = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && usedObjects[_linkedStateId].common.custom !== null && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && usedObjects[_linkedStateId].common.custom[namespace] !== null && typeof usedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && usedObjects[_linkedStateId].common.custom[namespace].confirm == true);
-								var _pincodeSet = (usedObjects[_linkedStateId] && typeof usedObjects[_linkedStateId].common !== udef && typeof usedObjects[_linkedStateId].common.custom !== udef && usedObjects[_linkedStateId].common.custom !== null && typeof usedObjects[_linkedStateId].common.custom[namespace] !== udef && usedObjects[_linkedStateId].common.custom[namespace] !== null && typeof usedObjects[_linkedStateId].common.custom[namespace].pincode !== udef && usedObjects[_linkedStateId].common.custom[namespace].pincode !== "");
+								var _confirm = (fetchedObjects[_linkedStateId] && typeof fetchedObjects[_linkedStateId].common !== udef && typeof fetchedObjects[_linkedStateId].common.custom !== udef && fetchedObjects[_linkedStateId].common.custom !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace] !== udef && fetchedObjects[_linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedStateId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedStateId] && typeof fetchedObjects[_linkedStateId].common !== udef && typeof fetchedObjects[_linkedStateId].common.custom !== udef && fetchedObjects[_linkedStateId].common.custom !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace] !== udef && fetchedObjects[_linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== "");
 								var DialogStateSliderReadoutTimer;
 								var updateFunction = function(){
 									var state = getStateObject(_linkedStateId);
 									if(state){
 										$("#DialogStateSlider").val(state.val);
 										$("#DialogStateSlider").slider('refresh');
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -9135,14 +8916,14 @@ function renderDialog(deviceIdEscaped){
 											if(!_confirm && !_pincodeSet){
 												DialogStateSliderReadoutTimer = setInterval(function(){
 													setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateSlider").val());
-													dialogUpdateTimestamp(states[_linkedStateId]);
+													dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 												}, _sliderSendRate);
 											}
 										},
 										stop: function(event, ui) {
 											clearInterval(DialogStateSliderReadoutTimer);
 											setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateSlider").val());
-											dialogUpdateTimestamp(states[_linkedStateId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 										}
 									});
 								};
@@ -9183,7 +8964,7 @@ function renderDialog(deviceIdEscaped){
 												}
 											}
 										}
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
@@ -9199,7 +8980,7 @@ function renderDialog(deviceIdEscaped){
 											$("#DialogStateValueList").prev("span").html(val + "&nbsp;");
 										}
 										setState(_linkedStateId, _deviceIdEscaped, val);
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9226,14 +9007,14 @@ function renderDialog(deviceIdEscaped){
 										} else {
 											$("#DialogStateString").jqteVal(state.val);
 										}
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedStateId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogStateStringSubmit').on('click', function(e) {
 										setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateString").val(), true);
-										dialogUpdateTimestamp(states[_linkedStateId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9448,7 +9229,7 @@ function renderDialog(deviceIdEscaped){
 											//Special: Call itsself periodicyally to update distance
 											if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
 										}
-										dialogUpdateTimestamp(states[_linkedTimeId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
@@ -9456,7 +9237,7 @@ function renderDialog(deviceIdEscaped){
 									$('#DialogStateTimeString').on('change', function(e) {
 										var timeMoment = $("#DialogStateTimeString").data('moment');
 										setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
-										dialogUpdateTimestamp(states[_linkedTimeId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9501,8 +9282,8 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 								var _sliderSendRate = sliderSendRate;
-								var _confirm = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && usedObjects[_linkedLevelId].common.custom !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
-								var _pincodeSet = (usedObjects[_linkedLevelId] && typeof usedObjects[_linkedLevelId].common !== udef && typeof usedObjects[_linkedLevelId].common.custom !== udef && usedObjects[_linkedLevelId].common.custom !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedLevelId].common.custom[namespace].pincode !== "");
+								var _confirm = (fetchedObjects[_linkedLevelId] && typeof fetchedObjects[_linkedLevelId].common !== udef && typeof fetchedObjects[_linkedLevelId].common.custom !== udef && fetchedObjects[_linkedLevelId].common.custom !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedLevelId] && typeof fetchedObjects[_linkedLevelId].common !== udef && typeof fetchedObjects[_linkedLevelId].common.custom !== udef && fetchedObjects[_linkedLevelId].common.custom !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace].pincode !== "");
 								var _levelFavorites = levelFavorites;
 								var _levelFavoritesHideSlider = levelFavoritesHideSlider;
 								var DialogLevelSliderReadoutTimer;
@@ -9511,7 +9292,7 @@ function renderDialog(deviceIdEscaped){
 									if(stateLevel){
 										$("#DialogLevelSlider").val(stateLevel.val);
 										$("#DialogLevelSlider").slider('refresh');
-										dialogUpdateTimestamp(states[_linkedLevelId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 									}
 									if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
 										if(_levelFavoritesHideSlider && _levelFavorites.indexOf(stateLevel.val.toString()) > -1) $('#DialogStateSlider').parents('div.ui-slider').hide();
@@ -9528,7 +9309,7 @@ function renderDialog(deviceIdEscaped){
 											if(!_confirm && !_pincodeSet) {
 												DialogLevelSliderReadoutTimer = setInterval(function(){
 													setState(_linkedLevelId, _deviceIdEscaped, $("#DialogLevelSlider").val());
-													dialogUpdateTimestamp(states[_linkedLevelId]);
+													dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 												}, _sliderSendRate);
 											}
 										},
@@ -9540,7 +9321,7 @@ function renderDialog(deviceIdEscaped){
 												$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
 											}
 											setState(_linkedLevelId, _deviceIdEscaped, $("#DialogLevelSlider").val());
-											dialogUpdateTimestamp(states[_linkedLevelId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 										}
 									});
 									if(levelFavorites.length > 0 && levelFavorites[0] != "") {
@@ -9549,7 +9330,7 @@ function renderDialog(deviceIdEscaped){
 											$("#DialogLevelSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
 											$("#DialogLevelSlider").slider('refresh');
 											setState(_linkedLevelId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
-											dialogUpdateTimestamp(states[_linkedLevelId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 										});	
 									}
 								};
@@ -9587,7 +9368,7 @@ function renderDialog(deviceIdEscaped){
 												}
 											}
 										}
-										dialogUpdateTimestamp(states[_linkedLevelId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedLevelId].push(updateFunction);
@@ -9603,7 +9384,7 @@ function renderDialog(deviceIdEscaped){
 											$("#DialogLevelValueList").prev("span").html(val + "&nbsp;");
 										}
 										setState(_linkedLevelId, _deviceIdEscaped, val);
-										dialogUpdateTimestamp(states[_linkedLevelId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9656,7 +9437,7 @@ function renderDialog(deviceIdEscaped){
 												}
 											}
 										}
-										dialogUpdateTimestamp(states[_linkedSubjectId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSubjectId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedSubjectId].push(updateFunction);
@@ -9672,7 +9453,7 @@ function renderDialog(deviceIdEscaped){
 											$("#DialogSubjectValueList").prev("span").html(val + "&nbsp;");
 										}
 										setState(_linkedSubjectId, _deviceIdEscaped, val);
-										dialogUpdateTimestamp(states[_linkedSubjectId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSubjectId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9697,14 +9478,14 @@ function renderDialog(deviceIdEscaped){
 										} else {
 											$("#DialogSubjectString").jqteVal(subject.val);
 										}
-										dialogUpdateTimestamp(states[_linkedSubjectId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSubjectId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedSubjectId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogSubjectString').on('change', function(e) {
 										setState(_linkedSubjectId, _deviceIdEscaped, $("#DialogSubjectString").val(), true);
-										dialogUpdateTimestamp(states[_linkedSubjectId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSubjectId]);
 									});
 								};
 								dialogBindingFunctions.push(bindingFunction);
@@ -9923,7 +9704,7 @@ function renderDialog(deviceIdEscaped){
 										//Special: Call itsself periodicyally to update distance
 										if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
 									}
-									dialogUpdateTimestamp(states[_linkedTimeId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
@@ -9931,7 +9712,7 @@ function renderDialog(deviceIdEscaped){
 								$('#DialogTimeString').on('change', function(e) {
 									var timeMoment = $("#DialogTimeString").data('moment');
 									setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
-									dialogUpdateTimestamp(states[_linkedTimeId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
@@ -9953,8 +9734,8 @@ function renderDialog(deviceIdEscaped){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
-							var _confirm = (usedObjects[_linkedHueId] && typeof usedObjects[_linkedHueId].common !== udef && typeof usedObjects[_linkedHueId].common.custom !== udef && usedObjects[_linkedHueId].common.custom !== null && typeof usedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace].confirm !== udef && usedObjects[_linkedHueId].common.custom[namespace].confirm !== null && usedObjects[_linkedHueId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedHueId] && typeof usedObjects[_linkedHueId].common !== udef && typeof usedObjects[_linkedHueId].common.custom !== udef && usedObjects[_linkedHueId].common.custom !== null && typeof usedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof usedObjects[_linkedHueId].common.custom[namespace].pincode !== udef && usedObjects[_linkedHueId].common.custom[namespace].confirm !== null && usedObjects[_linkedHueId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedHueId] && typeof fetchedObjects[_linkedHueId].common !== udef && typeof fetchedObjects[_linkedHueId].common.custom !== udef && fetchedObjects[_linkedHueId].common.custom !== null && typeof fetchedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof fetchedObjects[_linkedHueId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedHueId].common.custom[namespace].confirm !== null && fetchedObjects[_linkedHueId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedHueId] && typeof fetchedObjects[_linkedHueId].common !== udef && typeof fetchedObjects[_linkedHueId].common.custom !== udef && fetchedObjects[_linkedHueId].common.custom !== null && typeof fetchedObjects[_linkedHueId].common.custom[namespace] !== udef && typeof fetchedObjects[_linkedHueId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedHueId].common.custom[namespace].confirm !== null && fetchedObjects[_linkedHueId].common.custom[namespace].pincode !== "");
 							var DialogHueSliderReadoutTimer;
 							var DialogHueSliderReadoutTimer2;
 							var updateFunction = function(){
@@ -10009,8 +9790,8 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedHueId = dialogLinkedStateIds["HUE"];
 							var _linkedSaturationId = dialogLinkedStateIds["SATURATION"];
-							var _confirm = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && usedObjects[_linkedSaturationId].common.custom !== null && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && usedObjects[_linkedSaturationId].common.custom[namespace] !== null && typeof usedObjects[_linkedSaturationId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedSaturationId] && typeof usedObjects[_linkedSaturationId].common !== udef && typeof usedObjects[_linkedSaturationId].common.custom !== udef && usedObjects[_linkedSaturationId].common.custom !== null && typeof usedObjects[_linkedSaturationId].common.custom[namespace] !== udef && usedObjects[_linkedSaturationId].common.custom[namespace] !== null && typeof usedObjects[_linkedSaturationId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSaturationId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedSaturationId] && typeof fetchedObjects[_linkedSaturationId].common !== udef && typeof fetchedObjects[_linkedSaturationId].common.custom !== udef && fetchedObjects[_linkedSaturationId].common.custom !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace] !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedSaturationId] && typeof fetchedObjects[_linkedSaturationId].common !== udef && typeof fetchedObjects[_linkedSaturationId].common.custom !== udef && fetchedObjects[_linkedSaturationId].common.custom !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace] !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace].pincode !== "");
 							var DialogSaturationSliderReadoutTimer;
 							var updateFunction = function(){
 								var stateSaturation = getStateObject(_linkedSaturationId);
@@ -10066,8 +9847,8 @@ function renderDialog(deviceIdEscaped){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedColorBrightnessId = dialogLinkedStateIds["COLOR_BRIGHTNESS"];
-							var _confirm = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && usedObjects[_linkedColorBrightnessId].common.custom !== null && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== null && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedColorBrightnessId] && typeof usedObjects[_linkedColorBrightnessId].common !== udef && typeof usedObjects[_linkedColorBrightnessId].common.custom !== udef && usedObjects[_linkedColorBrightnessId].common.custom !== null && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace] !== null && typeof usedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== udef && usedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedColorBrightnessId] && typeof fetchedObjects[_linkedColorBrightnessId].common !== udef && typeof fetchedObjects[_linkedColorBrightnessId].common.custom !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedColorBrightnessId] && typeof fetchedObjects[_linkedColorBrightnessId].common !== udef && typeof fetchedObjects[_linkedColorBrightnessId].common.custom !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== "");
 							var DialogColorBrightnessSliderReadoutTimer;
 							var updateFunction = function(){
 								var stateColorBrightness = getStateObject(_linkedColorBrightnessId);
@@ -10114,8 +9895,8 @@ function renderDialog(deviceIdEscaped){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedCtId = dialogLinkedStateIds["CT"];
-							var _confirm = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && usedObjects[_linkedCtId].common.custom !== null && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && usedObjects[_linkedCtId].common.custom[namespace] !== null && typeof usedObjects[_linkedCtId].common.custom[namespace].confirm !== udef && usedObjects[_linkedCtId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedCtId] && typeof usedObjects[_linkedCtId].common !== udef && typeof usedObjects[_linkedCtId].common.custom !== udef && usedObjects[_linkedCtId].common.custom !== null && typeof usedObjects[_linkedCtId].common.custom[namespace] !== udef && usedObjects[_linkedCtId].common.custom[namespace] !== null && typeof usedObjects[_linkedCtId].common.custom[namespace].pincode !== udef && usedObjects[_linkedCtId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedCtId] && typeof fetchedObjects[_linkedCtId].common !== udef && typeof fetchedObjects[_linkedCtId].common.custom !== udef && fetchedObjects[_linkedCtId].common.custom !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace] !== udef && fetchedObjects[_linkedCtId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedCtId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedCtId] && typeof fetchedObjects[_linkedCtId].common !== udef && typeof fetchedObjects[_linkedCtId].common.custom !== udef && fetchedObjects[_linkedCtId].common.custom !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace] !== udef && fetchedObjects[_linkedCtId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedCtId].common.custom[namespace].pincode !== "");
 							var DialogCtSliderReadoutTimer;
 							var updateFunction = function(){
 								var stateCt = getStateObject(_linkedCtId);
@@ -10159,8 +9940,8 @@ function renderDialog(deviceIdEscaped){
 						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedWhiteBrightnessId = dialogLinkedStateIds["WHITE_BRIGHTNESS"];
-							var _confirm = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom !== null && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== null && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm == true);
-							var _pincodeSet = (usedObjects[_linkedWhiteBrightnessId] && typeof usedObjects[_linkedWhiteBrightnessId].common !== udef && typeof usedObjects[_linkedWhiteBrightnessId].common.custom !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom !== null && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== null && typeof usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== udef && usedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== "");
+							var _confirm = (fetchedObjects[_linkedWhiteBrightnessId] && typeof fetchedObjects[_linkedWhiteBrightnessId].common !== udef && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedWhiteBrightnessId] && typeof fetchedObjects[_linkedWhiteBrightnessId].common !== udef && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== "");
 							var DialogWhiteBrightnessSliderReadoutTimer;
 							var updateFunction = function(){
 								var stateWhiteBrightness = getStateObject(_linkedWhiteBrightnessId);
@@ -10385,10 +10166,10 @@ function renderDialog(deviceIdEscaped){
 							additionalLinkedStates.push(linkedParentId + ".BOOST_MODE");
 						}
 						for(var i = 0; i < additionalLinkedStates.length; i++){
-							if(typeof states[additionalLinkedStates[i]] == udef) {
+							if(typeof fetchedStates[additionalLinkedStates[i]] == udef) {
 								dialogStateIdsToFetch.push(additionalLinkedStates[i]);
 							}
-							if(typeof usedObjects[additionalLinkedStates[i]] == udef) {
+							if(typeof fetchedObjects[additionalLinkedStates[i]] == udef) {
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _additionalLinkedState = additionalLinkedStates[i];
 									fetchObject(_additionalLinkedState, function(error){ updateState(_additionalLinkedState, "ignorePreventUpdateForDialog"); });
@@ -10449,8 +10230,8 @@ function renderDialog(deviceIdEscaped){
 								var value = $("input[name='DialogThermostatControlModeCheckboxradio']:checked").val();
 								if(_valueList && typeof _valueList[value] !== udef && _valueList[value] == "BOOST-MODE"){
 									var unit = getUnit(_linkedBoostStateId);
-									if(states[_linkedBoostStateId] && typeof states[_linkedBoostStateId].val != udef){
-										var val = states[_linkedBoostStateId].val;
+									if(fetchedStates[_linkedBoostStateId] && typeof fetchedStates[_linkedBoostStateId].val != udef){
+										var val = fetchedStates[_linkedBoostStateId].val;
 										if(device.commonRole == "iQontrolHomematicIpThermostat" && !unit) {
 											val = Math.floor(val/60) + 1;
 											unit = " " + _("minutes");
@@ -10483,7 +10264,7 @@ function renderDialog(deviceIdEscaped){
 									}
 									modeStateIds.forEach(function(modeStateId, index){
 										var setValue = (typeof setValues[index] == udef ? true : setValues[index]);
-										if(typeof usedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
+										if(typeof fetchedObjects[modeStateId] == udef) { modeStateId = _linkedControlModeId; setValue = value; }; //If additionalLinkedState not exists, write it directly to CONTROL_MODE
 										setState(modeStateId, _deviceIdEscaped, setValue, true);
 									});
 								});
@@ -10584,7 +10365,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedStateId = dialogLinkedStateIds["PARTY_TEMPERATURE"];
 								var _linkedParentId = _linkedStateId.substring(0, _linkedStateId.lastIndexOf("."));
 								var updateFunction = function(){
-									if(states[_linkedStateId]){
+									if(fetchedStates[_linkedStateId]){
 										state = getStateObject(_linkedStateId);
 										var partyModeTemperature = state.val;
 										if(partyModeTemperature >= 6.0){ //Party-Mode active
@@ -10711,10 +10492,10 @@ function renderDialog(deviceIdEscaped){
 					if(linkedValveStateIdsAreValid){
 						//get additional linkedStates from Array:
 						linkedValveStateIds.forEach(function(element){
-							if(typeof states[element.value] == udef) {
+							if(typeof fetchedStates[element.value] == udef) {
 								dialogStateIdsToFetch.push(element.value);
 							}
-							if(typeof usedObjects[element.value] == udef) {
+							if(typeof fetchedObjects[element.value] == udef) {
 								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 									var _elementValue = element.value;
 									fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
@@ -10950,15 +10731,15 @@ function renderDialog(deviceIdEscaped){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSlatsLevelId = dialogLinkedStateIds["SLATS_LEVEL"];
-								var _confirm = (usedObjects[_linkedSlatsLevelId] && typeof usedObjects[_linkedSlatsLevelId].common !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom !== udef && usedObjects[_linkedSlatsLevelId].common.custom !== null && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm == true);
-								var _pincodeSet = (usedObjects[_linkedSlatsLevelId] && typeof usedObjects[_linkedSlatsLevelId].common !== udef && typeof usedObjects[_linkedSlatsLevelId].common.custom !== udef && usedObjects[_linkedSlatsLevelId].common.custom !== null && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== "");
+								var _confirm = (fetchedObjects[_linkedSlatsLevelId] && typeof fetchedObjects[_linkedSlatsLevelId].common !== udef && typeof fetchedObjects[_linkedSlatsLevelId].common.custom !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedSlatsLevelId] && typeof fetchedObjects[_linkedSlatsLevelId].common !== udef && typeof fetchedObjects[_linkedSlatsLevelId].common.custom !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== "");
 								var DialogSlatsLevelSliderReadoutTimer;
 								var updateFunction = function(){
 									var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
 									if(stateSlatsLevel){
 										$("#DialogSlatsLevelSlider").val(stateSlatsLevel.val);
 										$("#DialogSlatsLevelSlider").slider('refresh');
-										dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedSlatsLevelId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedSlatsLevelId].push(updateFunction);
@@ -10969,14 +10750,14 @@ function renderDialog(deviceIdEscaped){
 											if(!_confirm && !_pincodeSet) {
 												DialogSlatsLevelSliderReadoutTimer = setInterval(function(){
 													setState(_linkedSlatsLevelId, _deviceIdEscaped, $("#DialogSlatsLevelSlider").val());
-													dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+													dialogUpdateTimestamp(fetchedStates[_linkedSlatsLevelId]);
 												}, 500);
 											}
 										},
 										stop: function(event, ui) {
 											clearInterval(DialogSlatsLevelSliderReadoutTimer);
 											setState(_linkedSlatsLevelId, _deviceIdEscaped, $("#DialogSlatsLevelSlider").val());
-											dialogUpdateTimestamp(states[_linkedSlatsLevelId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedSlatsLevelId]);
 										}
 									});
 								};
@@ -11016,7 +10797,7 @@ function renderDialog(deviceIdEscaped){
 											}
 										}
 									}
-									dialogUpdateTimestamp(states[_linkedControlModeId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedControlModeId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedControlModeId].push(updateFunction);
@@ -11032,7 +10813,7 @@ function renderDialog(deviceIdEscaped){
 										$("#DialogControlModeValueList").prev("span").html(val + "&nbsp;");
 									}
 									setState(_linkedControlModeId, _deviceIdEscaped, val);
-									dialogUpdateTimestamp(states[_linkedControlModeId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedControlModeId]);
 								});
 							};
 							dialogBindingFunctions.push(bindingFunction);
@@ -11083,7 +10864,7 @@ function renderDialog(deviceIdEscaped){
 												});
 											}, 250);
 											$("#DialogMediaCoverImage").slideDown();
-											dialogUpdateTimestamp(states[_linkedCoverUrlId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedCoverUrlId]);
 										}
 									} else {
 										$("#DialogMediaCoverImage").slideUp(500).removeAttr('src');
@@ -11113,7 +10894,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateArtist){
 									$("#DialogMediaArtist").html("<br>" + stateArtist.plainText);
 									if(stateArtist.plainText == "") $("#DialogMediaArtist").hide(); else $("#DialogMediaArtist").show();
-									dialogUpdateTimestamp(states[_linkedArtistId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedArtistId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedArtistId].push(updateFunction);
@@ -11131,7 +10912,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateAlbum){
 									$("#DialogMediaAlbum").html("<br>" + stateAlbum.plainText);
 									if(stateAlbum.plainText == "") $("#DialogMediaAlbum").hide(); else $("#DialogMediaAlbum").show();
-									dialogUpdateTimestamp(states[_linkedAlbumId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedAlbumId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedAlbumId].push(updateFunction);
@@ -11149,7 +10930,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateTitle){
 									$("#DialogMediaTitle").html("<br>" + stateTitle.plainText);
 									if(stateTitle.plainText == "") $("#DialogMediaTitle").hide(); else $("#DialogMediaTitle").show();
-									dialogUpdateTimestamp(states[_linkedTitleId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedTitleId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedTitleId].push(updateFunction);
@@ -11167,7 +10948,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateTrack){
 									$("#DialogMediaTrack").html("<br>" + _("Track") + "&nbsp;" + stateTrack.plainText);
 									if(stateTrack.plainText == "") $("#DialogMediaTrack").hide(); else $("#DialogMediaTrack").show();
-									dialogUpdateTimestamp(states[_linkedTrackId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedTrackId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedTitleId].push(updateFunction);
@@ -11185,7 +10966,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateSeason){
 									$("#DialogMediaSeason").html("<br>" + stateSeason.plainText);
 									if(stateSeason.plainText == "") $("#DialogMediaSeason").hide(); else $("#DialogMediaSeason").show();
-									dialogUpdateTimestamp(states[_linkedSeasonId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedSeasonId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedSeasonId].push(updateFunction);
@@ -11203,7 +10984,7 @@ function renderDialog(deviceIdEscaped){
 								if(stateEpisode){
 									$("#DialogMediaEpisode").html("<br>" + stateEpisode.plainText);
 									if(stateEpisode.plainText == "") $("#DialogMediaEpisode").hide(); else $("#DialogMediaEpisode").show();
-									dialogUpdateTimestamp(states[_linkedEpisodeId]);
+									dialogUpdateTimestamp(fetchedStates[_linkedEpisodeId]);
 								}
 							};
 							dialogUpdateFunctions[_linkedEpisodeId].push(updateFunction);
@@ -11223,8 +11004,8 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedElapsedLevelId = dialogLinkedStateIds["ELAPSED"];
 								var _linkedDurationLevelId = dialogLinkedStateIds["DURATION"];
-								var _confirm = (usedObjects[_linkedElapsedLevelId] && typeof usedObjects[_linkedElapsedLevelId].common !== udef && typeof usedObjects[_linkedElapsedLevelId].common.custom !== udef && usedObjects[_linkedElapsedLevelId].common.custom !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm == true);
-								var _pincodeSet = (usedObjects[_linkedElapsedLevelId] && typeof usedObjects[_linkedElapsedLevelId].common !== udef && typeof usedObjects[_linkedElapsedLevelId].common.custom !== udef && usedObjects[_linkedElapsedLevelId].common.custom !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== "");
+								var _confirm = (fetchedObjects[_linkedElapsedLevelId] && typeof fetchedObjects[_linkedElapsedLevelId].common !== udef && typeof fetchedObjects[_linkedElapsedLevelId].common.custom !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedElapsedLevelId] && typeof fetchedObjects[_linkedElapsedLevelId].common !== udef && typeof fetchedObjects[_linkedElapsedLevelId].common.custom !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== "");
 								var DialogElapsedLevelSliderReadoutTimer;
 								var updateFunction = function(){
 									var stateElapsedLevel = getStateObject(_linkedElapsedLevelId);
@@ -11793,15 +11574,15 @@ function renderDialog(deviceIdEscaped){
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedVolumeLevelId = dialogLinkedStateIds["VOLUME"];
-								var _confirm = (usedObjects[_linkedVolumeLevelId] && typeof usedObjects[_linkedVolumeLevelId].common !== udef && typeof usedObjects[_linkedVolumeLevelId].common.custom !== udef && usedObjects[_linkedVolumeLevelId].common.custom !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm == true);
-								var _pincodeSet = (usedObjects[_linkedVolumeLevelId] && typeof usedObjects[_linkedVolumeLevelId].common !== udef && typeof usedObjects[_linkedVolumeLevelId].common.custom !== udef && usedObjects[_linkedVolumeLevelId].common.custom !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof usedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== udef && usedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== "");
+								var _confirm = (fetchedObjects[_linkedVolumeLevelId] && typeof fetchedObjects[_linkedVolumeLevelId].common !== udef && typeof fetchedObjects[_linkedVolumeLevelId].common.custom !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedVolumeLevelId] && typeof fetchedObjects[_linkedVolumeLevelId].common !== udef && typeof fetchedObjects[_linkedVolumeLevelId].common.custom !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== "");
 								var DialogVolumeLevelSliderReadoutTimer;
 								var updateFunction = function(){
 									var stateVolumeLevel = getStateObject(_linkedVolumeLevelId);
 									if(stateVolumeLevel){
 										$("#DialogVolumeLevelSlider").val(stateVolumeLevel.val);
 										$("#DialogVolumeLevelSlider").slider('refresh');
-										dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+										dialogUpdateTimestamp(fetchedStates[_linkedVolumeLevelId]);
 									}
 								};
 								dialogUpdateFunctions[_linkedVolumeLevelId].push(updateFunction);
@@ -11812,14 +11593,14 @@ function renderDialog(deviceIdEscaped){
 											if(!_confirm && !_pincodeSet) {
 												DialogVolumeLevelSliderReadoutTimer = setInterval(function(){
 													setState(_linkedVolumeLevelId, _deviceIdEscaped, $("#DialogVolumeLevelSlider").val());
-													dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+													dialogUpdateTimestamp(fetchedStates[_linkedVolumeLevelId]);
 												}, 500);
 											}
 										},
 										stop: function(event, ui) {
 											clearInterval(DialogVolumeLevelSliderReadoutTimer);
 											setState(_linkedVolumeLevelId, _deviceIdEscaped, $("#DialogVolumeLevelSlider").val());
-											dialogUpdateTimestamp(states[_linkedVolumeLevelId]);
+											dialogUpdateTimestamp(fetchedStates[_linkedVolumeLevelId]);
 										}
 									});
 								};
@@ -12068,10 +11849,10 @@ function renderDialog(deviceIdEscaped){
 						if(linkedRemoteAdditionalButtonsIdsAreValid){
 							//get additional linkedStates from Array:
 							linkedRemoteAdditionalButtonsIds.forEach(function(element){
-								if(typeof states[element.value] == udef) {
+								if(typeof fetchedStates[element.value] == udef) {
 									dialogStateIdsToFetch.push(element.value);
 								}
-								if(typeof usedObjects[element.value] == udef) {
+								if(typeof fetchedObjects[element.value] == udef) {
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _elementValue = element.value;
 										fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
@@ -12119,10 +11900,10 @@ function renderDialog(deviceIdEscaped){
 						if(linkedRemoteChannelsIdsAreValid){
 							//get additional linkedStates from Array:
 							linkedRemoteChannelsIds.forEach(function(element){
-								if(typeof states[element.value] == udef) {
+								if(typeof fetchedStates[element.value] == udef) {
 									dialogStateIdsToFetch.push(element.value);
 								}
-								if(typeof usedObjects[element.value] == udef) {
+								if(typeof fetchedObjects[element.value] == udef) {
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _elementValue = element.value;
 										fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
@@ -12895,7 +12676,7 @@ function renderDialog(deviceIdEscaped){
 															//Special: Call itsself periodicyally to update distance
 															if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
 														}
-														dialogUpdateTimestamp(states[_linkedTimeId]);
+														dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 													}
 												};
 												dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
@@ -12905,7 +12686,7 @@ function renderDialog(deviceIdEscaped){
 														var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
 														var timeMoment = $("#DialogAdditionalControlsTimeString_" + _index).data('moment');
 														setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
-														dialogUpdateTimestamp(states[_linkedTimeId]);
+														dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
 													});
 												};
 												dialogAdditionalControlsBindingFunctions.push(bindingFunction);
@@ -12983,7 +12764,7 @@ function renderDialog(deviceIdEscaped){
 							});
 							dialogAdditionalControlsLinkedStateIdsToFetchAndUpdate.forEach(function(id){
 								fetchStates(id, function(){
-									if(typeof usedObjects[id] == udef) {
+									if(typeof fetchedObjects[id] == udef) {
 										(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 											var _id = id;
 											fetchObject(_id, function(error){
@@ -13000,7 +12781,7 @@ function renderDialog(deviceIdEscaped){
 						var createDialogAdditionalControlsNumberOfStatesToFetch = _linkedAdditionalControls.length;
 						_linkedAdditionalControls.forEach(function(element){
 							fetchStates(element.value, function(){
-								if(typeof usedObjects[element.value] == udef) {
+								if(typeof fetchedObjects[element.value] == udef) {
 									(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 										var _elementValue = element.value;
 										fetchObject(_elementValue, function(error){
@@ -13038,8 +12819,8 @@ function renderDialog(deviceIdEscaped){
 						var _deviceIdEscaped = deviceIdEscaped;
 						var _linkedUrlId = dialogLinkedStateIds["URL"];
 						var updateFunction = function(){
-							if(states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val !== "") {
-								$('#DialogExternalLinkButton').attr('href', states[_linkedUrlId].val);
+							if(fetchedStates[_linkedUrlId] && fetchedStates[_linkedUrlId].val && fetchedStates[_linkedUrlId].val !== "") {
+								$('#DialogExternalLinkButton').attr('href', fetchedStates[_linkedUrlId].val);
 							}
 						}
 						if(_linkedUrlId) dialogUpdateFunctions[_linkedUrlId].push(updateFunction);
@@ -13075,8 +12856,8 @@ function renderDialog(deviceIdEscaped){
 						var updateFunction = function(){
 							setTimeout(function(){
 								var iframe = document.getElementById('DialogPopupIframe');
-								if(states[_linkedUrlId] && states[_linkedUrlId].val && states[_linkedUrlId].val !== "" && getDeviceOptionValue(_device, "openURLExternal") != "true") {
-									iframe.src = states[_linkedUrlId].val;
+								if(fetchedStates[_linkedUrlId] && fetchedStates[_linkedUrlId].val && fetchedStates[_linkedUrlId].val !== "" && getDeviceOptionValue(_device, "openURLExternal") != "true") {
+									iframe.src = fetchedStates[_linkedUrlId].val;
 									if(iframe.onload == null) {
 										iframe.onload = function(){
 											this.onload = function(){};
@@ -13085,7 +12866,7 @@ function renderDialog(deviceIdEscaped){
 											setTimeout(function(){ $('#Dialog').popup('reposition', {positionTo: 'window'}); }, 500);
 										}
 									}
-								} else if(states[_linkedHtmlId] && states[_linkedHtmlId].val && states[_linkedHtmlId].val !== "") {
+								} else if(fetchedStates[_linkedHtmlId] && fetchedStates[_linkedHtmlId].val && fetchedStates[_linkedHtmlId].val !== "") {
 									var iframedoc = iframe.contentDocument || iframe.contentWindow.document;
 									if(iframe.onload == null) {
 										iframe.onload = function(){
@@ -13096,7 +12877,7 @@ function renderDialog(deviceIdEscaped){
 										}
 									}
 									iframedoc.open();
-									iframedoc.write(states[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
+									iframedoc.write(fetchedStates[_linkedHtmlId].val.replace(/\\n/g, String.fromCharCode(13)));
 									$(iframedoc).find('body').css('font-family', 'sans-serif');
 									iframedoc.close();
 								} else {
@@ -13122,10 +12903,10 @@ function renderDialog(deviceIdEscaped){
 				if(linkedAdditionalInfoIdsAreValid){
 					//get additional linkedStates from Array:
 					linkedAdditionalInfoIds.forEach(function(element){
-						if(typeof states[element.value] == udef) {
+						if(typeof fetchedStates[element.value] == udef) {
 							dialogStateIdsToFetch.push(element.value);
 						}
-						if(typeof usedObjects[element.value] == udef) {
+						if(typeof fetchedObjects[element.value] == udef) {
 							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 								var _elementValue = element.value;
 								fetchObject(_elementValue, function(error){ updateState(_elementValue, "ignorePreventUpdateForDialog"); });
@@ -13260,7 +13041,7 @@ function renderDialog(deviceIdEscaped){
 				(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
 					var _dialogStateIdsToFetch = dialogStateIdsToFetch;
 					for (var i = 0; i < _dialogStateIdsToFetch.length; i++){
-						if(typeof usedObjects[_dialogStateIdsToFetch[i]] == udef) {
+						if(typeof fetchedObjects[_dialogStateIdsToFetch[i]] == udef) {
 							fetchObject(_dialogStateIdsToFetch[i], function(){
 								updateState(_dialogStateIdsToFetch[i], "ignorePreventUpdateForDialog");
 							});
@@ -13673,7 +13454,7 @@ function initPanels(){
 	panelLinkedStateIdsToFetchAndUpdate = removeDuplicates(panelLinkedStateIdsToFetchAndUpdate);
 	fetchStates(panelLinkedStateIdsToFetchAndUpdate, function(){
 		for (var i = 0; i < panelLinkedStateIdsToFetchAndUpdate.length; i++){
-			if(typeof usedObjects[panelLinkedStateIdsToFetchAndUpdate[i]] == udef) {
+			if(typeof fetchedObjects[panelLinkedStateIdsToFetchAndUpdate[i]] == udef) {
 				fetchObject(panelLinkedStateIdsToFetchAndUpdate[i], function(){
 					updateState(panelLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForPanel");
 				});
@@ -14311,7 +14092,7 @@ $(document).ready(function(){
 								if(_stateId) fetchStates(_stateId, function(){
 									fetchObject(_stateId, function(){
 										var updateFunction = function(){
-											if(usedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
+											if(fetchedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
 												var value = getStateObject(_stateId);
 												value.id = _stateId;
 												_eventSource.postMessage({command: "getState", stateId: _eventDataStateId, value: value}, "*");
@@ -14320,7 +14101,7 @@ $(document).ready(function(){
 										}
 										if(!viewUpdateFunctions[_stateId]) viewUpdateFunctions[_stateId] = [];
 										viewUpdateFunctions[_stateId].push(updateFunction);
-										if(typeof states[_stateId] != udef){
+										if(typeof fetchedStates[_stateId] != udef){
 											updateFunction();
 										}
 									});
@@ -14355,7 +14136,7 @@ $(document).ready(function(){
 							// if(_stateId) deliverState(_stateId, _value);
 							if(_stateId) fetchStates(_stateId, function(){
 								fetchObject(_stateId, function(){
-									if(usedObjects[_stateId]){
+									if(fetchedObjects[_stateId]){
 										setState(_stateId, _deviceIdEscaped, _value.val, true, null, 0);
 									}
 								});
@@ -14462,7 +14243,7 @@ $(document).ready(function(){
 				case "getPreviewConfig":
 				if(typeof event.data.value != udef){
 					console.log("postMessage received: getPreviewConfig " + JSON.stringify(event.data.value));
-					config[namespace] = event.data.value;
+					config[namespace] = convertConfigV3(event.data.value); // #####
 					createOptionsAndPanelObjectsFromConfig();
 					if(event.data.getPreviewConfigCallbackId){
 						let callback = getPreviewConfigCallbacks[event.data.getPreviewConfigCallbackId];
@@ -14470,8 +14251,7 @@ $(document).ready(function(){
 						if(typeof callback == "function") callback();
 					}
 				} 
-				break;
-			}
+				break;			}
 		}
 	}
 
@@ -14527,8 +14307,8 @@ $(document).ready(function(){
 	socket.on('stateChange', function (stateId, state) {
 		//console.debug('[Socket] State Change: ' + stateId);
 		setTimeout(function() {
-			if(states[stateId] && states[stateId] != state){
-				states[stateId] = state;
+			if(fetchedStates[stateId] && fetchedStates[stateId] != state){
+				fetchedStates[stateId] = state;
 				updateState(stateId);
 			}
 			$('.loader').hide();
@@ -14559,3 +14339,332 @@ $(document).ready(function(){
 		console.error('[Socket] permission error: ' + e);
 	});
 });
+
+
+// #####################################################################################################
+
+function convertConfigV3(config){ // ##### must be integrated into convertConfigV3-function in admin 
+	config.toolbar = convertToolbarV3(config.toolbar);
+	config.views && config.views.forEach(function(view, viewIndex){
+		config.views[viewIndex] = convertViewV3(view);
+	});
+	return config;
+}
+
+function convertToolbarV3(toolbar){ // ##### must be integrated into convertConfigV3-function in admin 
+	let newToolbar = {};
+	newToolbar.items = [];
+	toolbar.forEach(function(item, itemIndex){
+		newToolbar.items.push(convertToolbarItemV3(item));
+	});
+	return newToolbar;
+}
+
+function convertToolbarItemV3(item){ // ##### must be integrated into convertConfigV3-function in admin 
+	var newItem = {};
+	newItem.commonName = item.commonName;
+	newItem.nativeLinkedView = item.nativeLinkedView;
+	newItem.nativeIcon = item.nativeIcon;
+	newItem.options = item.options;
+	newItem.states = item.states;
+	return newItem;
+}
+
+function convertViewV3(view){ // ##### must be integrated into convertConfigV3-function in admin 
+	let newView = {};
+	newView.commonName = view.commonName;
+	newView.nativeBackgroundImage = view.nativeBackgroundImage;
+	newView.nativeHideName = view.nativeHideName;
+	newView.devices = [];
+	view.devices && view.devices.forEach(function(device, deviceIndex){
+		newView.devices[deviceIndex] = convertDeviceV3(device);
+	});
+	return newView;
+}
+
+function convertDeviceV3(device){ // ##### must be integrated into convertConfigV3-function in admin 
+	let newDevice = {};
+	newDevice.commonName = device.commonName;
+	newDevice.commonRole = device.commonRole;
+	newDevice.nativeBackgroundImage = device.nativeBackgroundImage;
+	newDevice.nativeBackgroundImageActive = device.nativeBackgroundImageActive;
+	newDevice.nativeHeading = device.nativeHeading;
+	newDevice.nativeHeadingOptions = device.nativeHeadingOptions;
+	newDevice.nativeLinkedView = device.nativeLinkedView;
+	newDevice.nativeNewLine = device.nativeNewLine;
+	newDevice.nativeHide = device.nativeHide;
+	newDevice.options = device.options;
+	newDevice.states = device.states;
+	return newDevice;
+} 
+
+//#####################################################################################################
+
+// ##### im Moment wird ein Array noch als CONST gespeichert und dann im renderView/Dialog weiter ausgewertet. Das muss hier noch rein und irgendwie in ARRAY: verpackt werden
+// ##### return sollte dann ggf. ein array werden mit allen enthaltenen states? Was wenn in einem array noch ein array steckt???
+function getDeviceState(device, deviceState){ // gets or creates device states and fetchs or creates corresponding objects ##### replaces getLinkedStateId
+	var deviceStateId = device.deviceId + "." + deviceState;
+	var state = null;
+	if(fetchedStates[deviceStateId]){ //deviceStateId exists in usedSstates (maybe because its a TEMP:, CONST: or ARRAY: state. Value is stored in .val)
+		state = fetchedStates[deviceStateId];
+		if(typeof state.val == udef) return null;
+		if(state.val.substring(0, 6) == 'CONST:' || state.val.substring(0, 6) == 'ARRAY:') { //role of deviceState is 'const' or 'array'
+			var stateId = "CONST:" + deviceStateId;
+			var constantValue = state.val.substring(6);
+			var constantObject = {
+				"type": "state",
+				"common": {
+					"name": deviceState,
+					"desc": "Constant state created by iQontrol",
+					"role": "state",
+					"type": "string",
+					"icon": "",
+					"read": true,
+					"write": false,
+					"def": ""
+				},
+				"native": {}
+			};
+			fetchedObjects[stateId] = constantObject;
+			var constantState = {
+				"val": constantValue,
+				"ack": true,
+				"from": "iQontrol",
+				"lc": 0,
+				"q": 0,
+				"ts": 0,
+				"user": "system.user.admin"
+			};
+			fetchedStates[stateId] = constantState;
+			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+			return {id: stateId, type: "state"};
+		} else { //role of deviceState is 'linkedState', its a TEMP: state
+			var stateId = state.val;
+			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+			if(stateId && typeof fetchedObjects[stateId] == udef) {
+				fetchObject(stateId);
+			}
+			return {id: stateId, type: "state"};
+		}
+	} else { //deviceState needs to be read from config (value ist stored in .value)
+		if(typeof device != "object") device = {};
+		if(typeof device.deviceStates != "object") device.deviceStates = {};
+		if(device.deviceStates[deviceState]){ //deviceState exists in config
+			state = device.deviceStates[deviceState];
+			if(state && typeof state.value != udef){
+				if(state.role == 'const' || state.role == 'array') { //role of deviceState is 'const' or 'array'
+					var stateId = "CONST:" + deviceStateId;
+					var constantValue = state.val || state.value;
+					var constantObject = {
+						"type": "state",
+						"common": {
+							"name": deviceState,
+							"desc": "created by iQontrol",
+							"role": "state",
+							"type": "string",
+							"icon": "",
+							"read": true,
+							"write": false,
+							"def": ""
+						},
+						"native": {}
+					};
+					fetchedObjects[stateId] = constantObject;
+					var constantState = {
+						"val": constantValue,
+						"ack": true,
+						"from": "iQontrol",
+						"lc": 0,
+						"q": 0,
+						"ts": 0,
+						"user": "system.user.admin"
+					};
+					fetchedStates[stateId] = constantState;
+					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+					return stateId;
+				} else { //role of deviceState is 'linkedState'
+					var stateId = state.value;
+					//--Special: If STATE of iQontrolWidget is empty, create VIRTUAL DP
+					if(device.role == "iQontrolWidget" && deviceState == "STATE" && stateId == "" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
+						stateId = "VIRTUAL:boolean,switch,false";
+						device.states[deviceState].stateId = stateId;
+					}
+					//--If VIRTUAL DP, create TempLinkedState
+					if(stateId.substring(0, 8) == 'VIRTUAL:') {
+						var config = (stateId.substring(8) || "").split(',');
+						var type = config[0] || "boolean";
+						var role = config[1] || "state";
+						var value = config[2] || null;
+						stateId = createTempLinkedState(deviceStateId, type, role, false, value);
+					}
+					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+					if(stateId && typeof fetchedObjects[stateId] == udef) {
+						fetchObject(stateId);
+					}
+					return stateId;
+				}
+			}
+		} else { //deviceState doesn't exist in config
+			//--Special: If deviceState = "tileEnlarged", create VIRTUAL DP (this is valid for devices with no defined state "tileEnlarged")
+			if(deviceState == "tileEnlarged"){
+				var stateId = "VIRTUAL:boolean,switch," + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false");
+				device.states[stateId] = {stateId: stateId};
+				var config = (stateId.substring(8) || "").split(',');
+				var type = config[0] || "boolean";
+				var role = config[1] || "state";
+				var value = config[2] || null;
+				stateId = createTempLinkedState(deviceStateId, type, role, false, value);
+				if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+				if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+				if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+				if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+				if(stateId && typeof fetchedObjects[stateId] == udef) {
+					fetchObject(stateId);
+				}
+				return stateId;
+			}
+		}
+	}
+	return null;
+}
+
+//#####################################################################################################
+
+function fetchAndExtendView(viewId, callback){ // fetches View configuration and extends all devices if not done before #####  replaces fetchView 
+	var _namespace = getNamespace(viewId);
+	if(typeof config[_namespace] == udef) {
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			view = extendView(view);
+			if(callback) callback(view);
+		});
+	} else {
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		view = extendView(view);
+		if(callback) callback(view);
+	}
+	function extendView(view){
+		view = convertViewV3(view); // ##### has to be removed, when convert-function is transfered to convertConfig
+		view.devices && view.devices.forEach(function(device, deviceIndex){
+			view.devices[deviceIndex] = extendDevice(device, viewId + ".devices." + deviceIndex);
+		});
+		return view;
+	}
+}
+
+function extendDevice(device, deviceId){ // #####
+	if(device.deviceId && device.deviceId == deviceId) return device; //was already extended before
+	device.deviceId = deviceId;
+	//Get deviceStates
+	if(device.role && iQontrolRoles[device.role] && typeof iQontrolRoles[device.role].states != udef) iQontrolRoles[device.role].states.forEach(function(roleState){
+		if(!device.states) device.states = {};
+		device.states[roleState] = getDeviceState(device, roleState); //While getting the device state the corresponding objects are also fetched
+	});
+	return device;
+}
+
+//++++++++++ TEST VIEW ++++++++++
+function testRenderView(viewId){ // ##### replaces renderView
+	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
+	fetchAndExtendView(viewId, function(view){
+		console.log(view);
+		view.devices && view.devices.forEach(function(device, deviceIndex){ //Iterate over all devices of the view
+			console.log(device);
+		})
+	});
+}
+
+//#####################################################################################################
+
+var updateFunctions = {};
+var bindingFunctions = {};
+
+function addDeviceCollection(collectionId, appendHtmlToSelector, deviceList, addDeviceFunction){ //addDeviceFunction(initializedDevice) has to return an object with keys $html, updateFunction, bindingFunctions, statesToUpdate
+	unbindDeviceCollection(collectionId);
+	var $appendHtmlToSelector = $(appendHtmlToSelector);
+	var collectionUpdateFunctions = [];
+	var collectionBindingFunctions = [];
+	var collectionStatesToUpdate = [];
+	deviceList.forEach(function(device, deviceIndex){
+
+		//xxxxx initDevice
+
+		deviceResult = addDeviceFunction(device);
+		if(deviceResult.$html) $appendHtmlToSelector.append(deviceResult.$html);
+		if(deviceResult.updateFunctions && Array.isArray(deviceResult.updateFunctions)) collectionUpdateFunctions = collectionUpdateFunctions.concat(deviceResult.updateFunctions);
+		if(deviceResult.bindingFunctions && Array.isArray(deviceResult.bindingFunctions)) collectionBindingFunctions = collectionBindingFunctions.concat(deviceResult.bindingFunctions);
+		if(deviceResult.statesToUpdate && Array.isArray(deviceResult.statesToUpdate)) deviceResult.statesToUpdate.forEach(function(stateToUpdate){ if(!collectionStatesToUpdate[stateToUpdate]) collectionStatesToUpdate.push(stateToUpdate); });
+	});
+	bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions);
+	collectionStatesToUpdate.forEach(function(stateToUpdate){ updateState(stateToUpdate)});
+}
+
+function bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions){
+	updateFunctions[collectionId] = collectionUpdateFunctions;
+	bindingFunctions[collectionId] = collectionBindingFunctions;
+}
+
+function unbindDeviceCollection(collectionId){
+	delete updateFunctions[collectionId];
+	delete bindingFunctions[collectionId];
+}
+
+
+function newRenderView(viewId){
+	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
+	newFetchView(viewId, function(view){
+
+		$('body').append('<div id="newViewContainer"></div>');
+		//xxxxx add pre-work here
+
+		addDeviceCollection('view', '#newViewContainer', view.devices, function(device){
+			//xxxxx define, how device is added here
+			var updateFunctions = [];
+			var $device = $('<div class="device"></div>').data('device-id', device.deviceId);
+			$device.append('<h1>' + device.commonName + ': </h1><h3 class="value"></h3>');
+			var updateFunction = function(){
+				$('.device[data-device-id=' + device.deviceId + ']').find('.value').html(new Date().getMilliseconds());
+			};
+
+			var deviceResult = {
+				$html: $device,
+				updateFunctions: updateFunctions,
+				bindingFunctions: [],
+				statesToUpdate: []
+			};
+			return deviceResult;
+		});
+
+		//xxxxx add post-work here
+
+	});
+}
+
+function newFetchView(viewId, callback){ // fetches View configuration 
+	var _namespace = getNamespace(viewId);
+	if(typeof config[_namespace] == udef) {
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			if(callback) callback(view);
+		});
+	} else {
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		if(callback) callback(view);
+	}
+}
+
+
+
+

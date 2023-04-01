@@ -9,9 +9,8 @@
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:8082/iqontrol/index.html",
-            "webRoot": "/opt/iobroker/iobroker-data/files/iqontrol",
-            "runtimeExecutable": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-
+            "webRoot": "/opt/iobroker/iobroker-data/files/",
+            "browserLaunchLocation": "ui"
         }, { 
             "name": "Debug main.js",
             "type": "node",
