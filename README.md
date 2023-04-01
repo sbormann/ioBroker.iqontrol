@@ -52,9 +52,31 @@ Easy to set up, although it's fully customizable and responsive.
 
 > **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
-## Video-Tutorial (German Language):
-[![Demo-Video](img/play_demo.png "Open Tutorial on Youtube")](https://youtube.com/playlist?list=PL8epyNz8pGEv6-R8dnfXm-m5aBlZFKOBG)
+****
 
+## Table of contents
+- [ioBroker.iqontrol 3](#iobrokeriqontrol-3)
+	- [iQontrol adapter for ioBroker](#iqontrol-adapter-for-iobroker)
+	- [Table of contents](#table-of-contents)
+	- [Add to Homescreen](#add-to-homescreen)
+	- [You need...](#you-need)
+	- [Forum](#forum)
+	- [Wiki](#wiki)
+	- [How to use](#how-to-use)
+	- [URL-Parameters](#url-parameters)
+	- [Fonts](#fonts)
+	- [Icons and Background-Images](#icons-and-background-images)
+	- [Device-Names](#device-names)
+	- [Popup-Messages](#popup-messages)
+	- [Widgets](#widgets)
+	- [Lists and Counters](#lists-and-counters)
+	- [Modifying Datapoint Configuration](#modifying-datapoint-configuration)
+	- [Description of roles and associated states](#description-of-roles-and-associated-states)
+	- [Troubleshooting](#troubleshooting)
+	- [Changelog](#changelog)
+	- [License](#license)
+
+****
 
 ## Add to Homescreen
 You can save it as Web-App on Homescreen, and it looks and feels like a native app:
