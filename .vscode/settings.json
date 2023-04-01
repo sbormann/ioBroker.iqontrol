@@ -5,6 +5,11 @@
 			"target":"/opt/iobroker/iobroker-data/files/iqontrol/",
 			"include":"**/*.*",
 			"deleteTargetOnDeploy": true
+		}, {
+			"source":"/opt/iobroker/ioBroker.iqontrol/admin/",
+			"target":"/opt/iobroker/iobroker-data/files/iqontrol.admin/",
+			"include":"**/*.*",
+			"deleteTargetOnDeploy": true
 		}
 	],
 	"favorites.sortDirection": "ASC"

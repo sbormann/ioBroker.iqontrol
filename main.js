@@ -1670,7 +1670,7 @@ class Iqontrol extends utils.Adapter {
 			obj = allObjects[objId];
 		} else {			
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
-			obj = {...await this.getObjectAsync(objId, 'state'), ...await this.getObjectAsync(objId, 'channel'), ...await this.getObjectAsync(objId, 'device'), ...await this.getObjectAsync(objId, 'enum')};
+			obj = await this.getObjectAsync(objId);
 		}
 		if (!obj){
 			this.log.silly("createOrUpdateObject: Object " + objId + " NOT found - creating a new object...");
@@ -1755,7 +1755,7 @@ class Iqontrol extends utils.Adapter {
 			obj = allObjects[objId];
 		} else {			
 			this.log.silly("saveThisConfig: Object " + objId + " NOT found in allObjects, fetching it now from ioBroker...");
-			obj = {...await this.getForeignObjectAsync(objId, 'instance')};
+			obj = {...await this.getForeignObjectAsync(objId)};
 		}
 		if (!obj || !obj.common || !obj.native){
 			this.log.error("saveThisConfig: Object " + objId + " NOT found in ioBroker Objects or common or native part is missing! ERROR");

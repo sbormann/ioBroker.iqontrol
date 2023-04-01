@@ -1,6 +1,5 @@
 //iQontrol - Copyright (c) by Sebatian Bormann
 //Please visit https://github.com/sbormann/ioBroker.iqontrol for licence-agreement and further information
-
 if(window.location.href.indexOf('#') > -1) window.location.href = window.location.href.replace(/#[^\?]*/, ''); //Fix for new socket.io, where # without an argument in url leads to connection error
 
 //Settings
@@ -1694,9 +1693,13 @@ function createOptionsAndPanelObjectsFromConfig(){
 function fetchView(viewId, callback){
 	var _namespace = getNamespace(viewId);
 	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, callback);
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			if(callback) callback(view);
+		});
 	} else {
-		if(callback) callback();
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		if(callback) callback(view);
 	}
 }
 
@@ -1905,7 +1908,7 @@ function getLinkedStateId(device, deviceId, state){
 				return linkedStateId;
 			}
 		}
-	} else if(device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value)
+	} else if(device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value) or doesen`t exist
 		var stateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 		if(stateIndex > -1){ //State exists in config
 			stateObject = device.states[stateIndex];
@@ -4973,6 +4976,230 @@ function applyToolbarAdaptHeightOrMarqueeObserver(){
 		adaptHeightOrStartMarqueeOnOverflow($(this));
 	});
 }
+
+// #####################################################################################################
+
+// ##### im Moment wird ein Array noch als CONST gespeichert und dann im renderView/Dialog weiter ausgewertet. Das muss hier noch rein und irgendwie in ARRAY: verpackt werden
+// ##### return sollte dann ggf. ein array werden mit allen enthaltenen states? Was wenn in einem array noch ein array steckt???
+function getDeviceState(device, deviceState){ // gets or creates device states and fetchs or creates corresponding objects ##### replaces getLinkedStateId
+	var deviceStateId = device.deviceId + "." + deviceState;
+	var stateObject = null;
+	if(states[deviceStateId]){ //deviceState exists in fetched states (maybe because its a TEMP:, CONST: or ARRAY: state. Value is stored in .val)
+		stateObject = states[deviceStateId];
+		if(typeof stateObject.val == udef) return null;
+		if(stateObject.val.substring(0, 6) == 'CONST:' || stateObject.val.substring(0, 6) == 'ARRAY:') { //role of deviceState is 'const' or 'array'
+			var stateId = "CONST:" + deviceStateId;
+			var constantValue = stateObject.val.substring(6);
+			var constantObject = {
+				"type": "state",
+				"common": {
+					"name": deviceState,
+					"desc": "Constant state created by iQontrol",
+					"role": "state",
+					"type": "string",
+					"icon": "",
+					"read": true,
+					"write": false,
+					"def": ""
+				},
+				"native": {}
+			};
+			usedObjects[stateId] = constantObject;
+			var constantState = {
+				"val": constantValue,
+				"ack": true,
+				"from": "iQontrol",
+				"lc": 0,
+				"q": 0,
+				"ts": 0,
+				"user": "system.user.admin"
+			};
+			states[stateId] = constantState;
+			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+			return stateId;
+		} else { //role of deviceState is 'linkedState', its a TEMP: state
+			var stateId = stateObject.val;
+			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+			if(stateId && typeof usedObjects[stateId] == udef) {
+				fetchObject(stateId);
+			}
+			return stateId;
+		}
+	} else { //deviceState needs to be read from config (value ist stored in .value)
+		if(typeof device != "object") device = {};
+		if(typeof device.states != "object") device.states = {};
+		if(device.states[deviceState]){ //deviceState exists in config
+			stateObject = device.states[deviceState];
+			if(stateObject && typeof stateObject.value != udef){
+				if(stateObject.commonRole == 'const' || stateObject.commonRole == 'array') { //role of deviceState is 'const' or 'array'
+					var stateId = "CONST:" + deviceStateId;
+					var constantValue = stateObject.val || stateObject.value;
+					var constantObject = {
+						"type": "state",
+						"common": {
+							"name": deviceState,
+							"desc": "created by iQontrol",
+							"role": "state",
+							"type": "string",
+							"icon": "",
+							"read": true,
+							"write": false,
+							"def": ""
+						},
+						"native": {}
+					};
+					usedObjects[stateId] = constantObject;
+					var constantState = {
+						"val": constantValue,
+						"ack": true,
+						"from": "iQontrol",
+						"lc": 0,
+						"q": 0,
+						"ts": 0,
+						"user": "system.user.admin"
+					};
+					states[stateId] = constantState;
+					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+					return stateId;
+				} else { //role of deviceState is 'linkedState'
+					var stateId = stateObject.value;
+					//--Special: If STATE of iQontrolWidget is empty, create VIRTUAL DP
+					if(device.commonRole == "iQontrolWidget" && deviceState == "STATE" && stateId == "" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
+						stateId = "VIRTUAL:boolean,switch,false";
+						device.states[deviceState].stateId = stateId;
+					}
+					//--If VIRTUAL DP, create TempLinkedState
+					if(stateId.substring(0, 8) == 'VIRTUAL:') {
+						var config = (stateId.substring(8) || "").split(',');
+						var type = config[0] || "boolean";
+						var role = config[1] || "state";
+						var value = config[2] || null;
+						stateId = createTempLinkedState(deviceStateId, type, role, false, value);
+					}
+					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+					if(stateId && typeof usedObjects[stateId] == udef) {
+						fetchObject(stateId);
+					}
+					return stateId;
+				}
+			}
+		} else { //deviceState doesn't exist in config
+			//--Special: If deviceState = "tileEnlarged", create VIRTUAL DP (this is valid for devices with no defined state "tileEnlarged")
+			if(deviceState == "tileEnlarged"){
+				var stateId = "VIRTUAL:boolean,switch," + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false");
+				device.states[stateId] = {stateId: stateId};
+				var config = (stateId.substring(8) || "").split(',');
+				var type = config[0] || "boolean";
+				var role = config[1] || "state";
+				var value = config[2] || null;
+				stateId = createTempLinkedState(deviceStateId, type, role, false, value);
+				if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
+				if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
+				if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
+				if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
+				if(stateId && typeof usedObjects[stateId] == udef) {
+					fetchObject(stateId);
+				}
+				return stateId;
+			}
+		}
+	}
+	return null;
+}
+
+function fetchAndExtendView(viewId, callback){ // fetches View configuration and extends all devices if not done before #####  replaces fetchView 
+	var _namespace = getNamespace(viewId);
+	if(typeof config[_namespace] == udef) {
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			view = extendView(view);
+			if(callback) callback(view);
+		});
+	} else {
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		view = extendView(view);
+		if(callback) callback(view);
+	}
+	function extendView(view){
+		view = convertViewV3(view); // ##### has to be removed, when convert-function is transfered to convertConfig
+		view.devices && view.devices.forEach(function(device, deviceIndex){
+			view.devices[deviceIndex] = extendDevice(device, viewId + ".devices." + deviceIndex);
+		});
+		return view;
+	}
+}
+
+function extendDevice(device, deviceId){ // #####
+	if(device.deviceId && device.deviceId == deviceId) return device; //was already extended before
+	device.deviceId = deviceId;
+	//Get deviceStates
+	if(device.role && iQontrolRoles[device.role] && typeof iQontrolRoles[device.role].states != udef) iQontrolRoles[device.role].states.forEach(function(roleState){
+		var stateId = getDeviceState(device, roleState); //While getting the device state the corresponding objects are also fetched
+		if(!device.states[roleState]) device.states[roleState] = {};
+		device.states[roleState].stateId = stateId;
+	});
+	return device;
+}
+
+function convertViewV3(view){ // ##### must be integrated into convertConfigV3-function in admin 
+	let newView = {};
+	newView.name = view.commonName;
+	newView.backgroundImage = view.nativeBackgroundImage;
+	newView.hideName = view.nativeHideName;
+	newView.devices = [];
+	view.devices && view.devices.forEach(function(device, deviceIndex){
+		newView.devices[deviceIndex] = convertDeviceV3(device);
+	});
+	return newView;
+}
+
+function convertDeviceV3(device){ // ##### must be integrated into convertConfigV3-function in admin 
+	let newDevice = {};
+	newDevice.name = device.commonName;
+	newDevice.role = device.commonRole;
+	newDevice.backgroundImage = device.nativeBackgroundImage;
+	newDevice.backgroundImageActive = device.nativeBackgroundImageActive;
+	newDevice.heading = device.nativeHeading;
+	newDevice.headingOptions = device.nativeHeadingOptions;
+	newDevice.linkedView = device.nativeLinkedView;
+	newDevice.newLine = device.nativeNewLine;
+	newDevice.hide = device.nativeHide;
+	newDevice.options = device.options;
+	newDevice.states = {};
+	device.states && device.states.forEach(function(deviceState){
+		newDevice.states[deviceState.state] = {
+			type: deviceState.commonRole,
+			value: deviceState.value
+		};
+	});
+	return newDevice;
+} 
+
+
+//++++++++++ TEST VIEW ++++++++++
+function testRenderView(viewId){ // ##### replaces renderView
+	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
+	fetchAndExtendView(viewId, function(view){
+		console.log(view);
+		view.devices && view.devices.forEach(function(device, deviceIndex){ //Iterate over all devices of the view
+			console.log(device);
+		})
+	});
+}
+//#####################################################################################################
+
 
 //++++++++++ VIEW ++++++++++
 function renderView(viewId, triggeredByReconnection){
