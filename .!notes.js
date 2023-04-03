@@ -10,6 +10,18 @@
 
 */
 
+
+
+
+
+//#####################################################################################
+// Rechenaufgaben
+const rechenaufgabe = "(25 * 12) + 8**3";
+const funktion = new Function(`return ${rechenaufgabe}`);
+const ergebnis = funktion();
+console.log(ergebnis); // gibt 2108 aus
+
+
 //#####################################################################################
 // Variables
 $myDiv = $("<div id='myDiv'>Loading...|Variable 1: {javascript.0.Test.Teststring|1 not found}, Variable 2: {javascript.0.Test.Testnumber|2 not found} , Variable [2b]: {[javascript.0.Test.Testnumber]|2b not found}</div>");
