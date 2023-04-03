@@ -1691,12 +1691,16 @@ function createOptionsAndPanelObjectsFromConfig(){
 	};
 }
 
-function fetchView(viewId, callback){
+function fetchView(viewId, callback){ // fetches View configuration 
 	var _namespace = getNamespace(viewId);
 	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, callback);
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			if(callback) callback(view);
+		});
 	} else {
-		if(callback) callback();
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		if(callback) callback(view);
 	}
 }
 
@@ -1751,7 +1755,7 @@ function fetchStates(ids, callback){
 		if(!_ids[i] || fetchedStates[_ids[i]]) _ids.splice(i, 1);
 	}
 	if(_ids.length > 0){
-		console.debug("[Socket] getStates " + _ids);
+		console.debug("[Socket] subscribe & getStates " + _ids);
 		socket.emit('subscribe', _ids);
 		socket.emit('getStates', _ids, function (err, _states) {
 			if(_states){
@@ -1905,7 +1909,7 @@ function getLinkedStateId(device, deviceId, state){
 				return linkedStateId;
 			}
 		}
-	} else if(device && typeof device == "object" && typeof device.states != udef){ //State exists in config (value ist stored in .value)
+	} else if(device && typeof device == "object" && typeof device.states != udef){ //Search if state exists in config (value ist stored in .value)
 		var stateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 		if(stateIndex > -1){ //State exists in config
 			stateObject = device.states[stateIndex];
@@ -2006,7 +2010,7 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 			"type": "state",
 			"common": {
 				"name": stateId.substring(stateId.lastIndexOf('.') + 1),
-				"desc": "created by iQontrol",
+				"desc": "Temp state created by iQontrol",
 				"role": tempRole,
 				"type": tempType,
 				"icon": "",
@@ -2035,7 +2039,7 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 	}
 }
 
-function getStateObject(linkedStateId, calledRecoursive){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
+function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
 	if(!linkedStateId || linkedStateId == "") return;
 	var result = {};
 	if(typeof fetchedStates[linkedStateId] !== udef && fetchedStates[linkedStateId] !== null) {
@@ -2664,6 +2668,17 @@ function updateState(stateId, ignorePreventUpdate){
 		clearTimeout(preventUpdate[stateId].timerId);
 		delete preventUpdate[stateId];
 	}
+
+	// ##### replaces the functions after that
+	for(let collectionId in updateFunctions){
+		(updateFunctions[collectionId][stateId] || []).forEach(function(updateFunction){
+			if(!preventUpdate[stateId] || ignorePreventUpdate == collectionId) {
+				updateFunctions[collectionId][stateId][i](stateId);
+			}	
+		});
+	}
+	// #####
+
 	if(toolbarUpdateFunctions[stateId]) for (i = 0; i < toolbarUpdateFunctions[stateId].length; i++){
 		if(!preventUpdate[stateId] || ignorePreventUpdate == "ignorePreventUpdateForToolbar") {
 			toolbarUpdateFunctions[stateId][i](stateId);
@@ -4710,7 +4725,7 @@ function pincodeClear(){
 }
 
 //++++++++++ TOOLBAR ++++++++++
-function renderToolbar(){
+function renderToolbar(){ return; //##########
 	var toolbarItems = getObjectValue(config, namespace + ".toolbar.items", [], true, true);
 	if(toolbarItems.length == 0){
 		if(homeId == '') homeId = getObjectValue(config, namespace + ".views.0.commonName", "", true, true);
@@ -4983,7 +4998,7 @@ function applyToolbarAdaptHeightOrMarqueeObserver(){
 }
 
 //++++++++++ VIEW ++++++++++
-function renderView(viewId, triggeredByReconnection){
+function renderView(viewId, triggeredByReconnection){ return; //###########
 	console.log("renderView " + viewId + ", triggeredByReconnection: " + !!triggeredByReconnection);
 	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
 	if(!viewId){ console.log("No viewId to render!"); return; }
@@ -14255,7 +14270,7 @@ $(document).ready(function(){
 		}
 	}
 
-	//--Special: Extend iQontrolRoles and append tileEnlarged to states of each role (then a VIRTUAL DP is created inside getLinkedStateId-Function)
+	//--Special: Extend iQontrolRoles and append tileEnlarged to states of each role (then a VIRTUAL DP is created while extending the device)
 	for (role in iQontrolRoles){
 		iQontrolRoles[role].states.push("tileEnlarged");
 	}
@@ -14400,236 +14415,256 @@ function convertDeviceV3(device){ // ##### must be integrated into convertConfig
 
 //#####################################################################################################
 
-// ##### im Moment wird ein Array noch als CONST gespeichert und dann im renderView/Dialog weiter ausgewertet. Das muss hier noch rein und irgendwie in ARRAY: verpackt werden
-// ##### return sollte dann ggf. ein array werden mit allen enthaltenen states? Was wenn in einem array noch ein array steckt???
-function getDeviceState(device, deviceState){ // gets or creates device states and fetchs or creates corresponding objects ##### replaces getLinkedStateId
-	var deviceStateId = device.deviceId + "." + deviceState;
-	var state = null;
-	if(fetchedStates[deviceStateId]){ //deviceStateId exists in usedSstates (maybe because its a TEMP:, CONST: or ARRAY: state. Value is stored in .val)
-		state = fetchedStates[deviceStateId];
-		if(typeof state.val == udef) return null;
-		if(state.val.substring(0, 6) == 'CONST:' || state.val.substring(0, 6) == 'ARRAY:') { //role of deviceState is 'const' or 'array'
-			var stateId = "CONST:" + deviceStateId;
-			var constantValue = state.val.substring(6);
-			var constantObject = {
-				"type": "state",
-				"common": {
-					"name": deviceState,
-					"desc": "Constant state created by iQontrol",
-					"role": "state",
-					"type": "string",
-					"icon": "",
-					"read": true,
-					"write": false,
-					"def": ""
-				},
-				"native": {}
-			};
-			fetchedObjects[stateId] = constantObject;
-			var constantState = {
-				"val": constantValue,
-				"ack": true,
-				"from": "iQontrol",
-				"lc": 0,
-				"q": 0,
-				"ts": 0,
-				"user": "system.user.admin"
-			};
-			fetchedStates[stateId] = constantState;
-			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-			return {id: stateId, type: "state"};
-		} else { //role of deviceState is 'linkedState', its a TEMP: state
-			var stateId = state.val;
-			if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-			if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-			if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-			if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-			if(stateId && typeof fetchedObjects[stateId] == udef) {
-				fetchObject(stateId);
-			}
-			return {id: stateId, type: "state"};
-		}
-	} else { //deviceState needs to be read from config (value ist stored in .value)
-		if(typeof device != "object") device = {};
-		if(typeof device.deviceStates != "object") device.deviceStates = {};
-		if(device.deviceStates[deviceState]){ //deviceState exists in config
-			state = device.deviceStates[deviceState];
-			if(state && typeof state.value != udef){
-				if(state.role == 'const' || state.role == 'array') { //role of deviceState is 'const' or 'array'
-					var stateId = "CONST:" + deviceStateId;
-					var constantValue = state.val || state.value;
-					var constantObject = {
-						"type": "state",
-						"common": {
-							"name": deviceState,
-							"desc": "created by iQontrol",
-							"role": "state",
-							"type": "string",
-							"icon": "",
-							"read": true,
-							"write": false,
-							"def": ""
-						},
-						"native": {}
-					};
-					fetchedObjects[stateId] = constantObject;
-					var constantState = {
-						"val": constantValue,
-						"ack": true,
-						"from": "iQontrol",
-						"lc": 0,
-						"q": 0,
-						"ts": 0,
-						"user": "system.user.admin"
-					};
-					fetchedStates[stateId] = constantState;
-					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-					return stateId;
-				} else { //role of deviceState is 'linkedState'
-					var stateId = state.value;
-					//--Special: If STATE of iQontrolWidget is empty, create VIRTUAL DP
-					if(device.role == "iQontrolWidget" && deviceState == "STATE" && stateId == "" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
-						stateId = "VIRTUAL:boolean,switch,false";
-						device.states[deviceState].stateId = stateId;
-					}
-					//--If VIRTUAL DP, create TempLinkedState
-					if(stateId.substring(0, 8) == 'VIRTUAL:') {
-						var config = (stateId.substring(8) || "").split(',');
-						var type = config[0] || "boolean";
-						var role = config[1] || "state";
-						var value = config[2] || null;
-						stateId = createTempLinkedState(deviceStateId, type, role, false, value);
-					}
-					if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-					if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-					if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-					if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-					if(stateId && typeof fetchedObjects[stateId] == udef) {
-						fetchObject(stateId);
-					}
-					return stateId;
-				}
-			}
-		} else { //deviceState doesn't exist in config
-			//--Special: If deviceState = "tileEnlarged", create VIRTUAL DP (this is valid for devices with no defined state "tileEnlarged")
-			if(deviceState == "tileEnlarged"){
-				var stateId = "VIRTUAL:boolean,switch," + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false");
-				device.states[stateId] = {stateId: stateId};
-				var config = (stateId.substring(8) || "").split(',');
-				var type = config[0] || "boolean";
-				var role = config[1] || "state";
-				var value = config[2] || null;
-				stateId = createTempLinkedState(deviceStateId, type, role, false, value);
-				if(!toolbarUpdateFunctions[stateId]) toolbarUpdateFunctions[stateId] = [];
-				if(!viewUpdateFunctions[stateId]) viewUpdateFunctions[stateId] = [];
-				if(!dialogUpdateFunctions[stateId]) dialogUpdateFunctions[stateId] = [];
-				if(!panelUpdateFunctions[stateId]) panelUpdateFunctions[stateId] = [];
-				if(stateId && typeof fetchedObjects[stateId] == udef) {
-					fetchObject(stateId);
-				}
-				return stateId;
-			}
-		}
-	}
-	return null;
-}
-
-//#####################################################################################################
-
-function fetchAndExtendView(viewId, callback){ // fetches View configuration and extends all devices if not done before #####  replaces fetchView 
-	var _namespace = getNamespace(viewId);
-	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, function(){
-			var view = config[_namespace].views[getViewIndex(viewId)];
-			view = extendView(view);
-			if(callback) callback(view);
-		});
-	} else {
-		var view = config[_namespace].views[getViewIndex(viewId)];
-		view = extendView(view);
-		if(callback) callback(view);
-	}
-	function extendView(view){
-		view = convertViewV3(view); // ##### has to be removed, when convert-function is transfered to convertConfig
-		view.devices && view.devices.forEach(function(device, deviceIndex){
-			view.devices[deviceIndex] = extendDevice(device, viewId + ".devices." + deviceIndex);
-		});
-		return view;
-	}
-}
-
-function extendDevice(device, deviceId){ // #####
-	if(device.deviceId && device.deviceId == deviceId) return device; //was already extended before
-	device.deviceId = deviceId;
-	//Get deviceStates
-	if(device.role && iQontrolRoles[device.role] && typeof iQontrolRoles[device.role].states != udef) iQontrolRoles[device.role].states.forEach(function(roleState){
-		if(!device.states) device.states = {};
-		device.states[roleState] = getDeviceState(device, roleState); //While getting the device state the corresponding objects are also fetched
-	});
-	return device;
-}
-
-//++++++++++ TEST VIEW ++++++++++
-function testRenderView(viewId){ // ##### replaces renderView
-	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
-	fetchAndExtendView(viewId, function(view){
-		console.log(view);
-		view.devices && view.devices.forEach(function(device, deviceIndex){ //Iterate over all devices of the view
-			console.log(device);
-		})
-	});
-}
-
-//#####################################################################################################
-
 var updateFunctions = {};
 var bindingFunctions = {};
 
-function addDeviceCollection(collectionId, appendHtmlToSelector, deviceList, addDeviceFunction){ //addDeviceFunction(initializedDevice) has to return an object with keys $html, updateFunction, bindingFunctions, statesToUpdate
+/** Adds a collection of devices to a given HTML-Element and handles the registration and deletion of update- and binding-functions
+ * @param {string} collectionId 
+ * @param {string} appendHtmlToSelector 
+ * @param {string} deviceIdPrefix 
+ * @param {object[]} deviceList 
+ * @param {function(device:object, deviceIndex:integer)} addDeviceFunction 
+ * @param {function} beforeUpdateStatesFunction 
+ */
+function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix, deviceList, addDeviceFunction, beforeUpdateStatesFunction){
 	unbindDeviceCollection(collectionId);
 	var $appendHtmlToSelector = $(appendHtmlToSelector);
 	var collectionUpdateFunctions = [];
 	var collectionBindingFunctions = [];
 	var collectionStatesToUpdate = [];
 	deviceList.forEach(function(device, deviceIndex){
-
-		//xxxxx initDevice
-
+		var deviceId = deviceIdPrefix + ".devices." + deviceIndex; 
+		extendDevice(device, deviceId);
+		Object.keys(device.deviceStates).forEach(function(deviceState){
+			collectionUpdateFunctions[deviceState] = [];
+			collectionBindingFunctions[deviceState] = [];
+		})
 		deviceResult = addDeviceFunction(device);
+		if(typeof deviceResult == "string") deviceResult = {$html: $(deviceResult)};
 		if(deviceResult.$html) $appendHtmlToSelector.append(deviceResult.$html);
 		if(deviceResult.updateFunctions && Array.isArray(deviceResult.updateFunctions)) collectionUpdateFunctions = collectionUpdateFunctions.concat(deviceResult.updateFunctions);
 		if(deviceResult.bindingFunctions && Array.isArray(deviceResult.bindingFunctions)) collectionBindingFunctions = collectionBindingFunctions.concat(deviceResult.bindingFunctions);
 		if(deviceResult.statesToUpdate && Array.isArray(deviceResult.statesToUpdate)) deviceResult.statesToUpdate.forEach(function(stateToUpdate){ if(!collectionStatesToUpdate[stateToUpdate]) collectionStatesToUpdate.push(stateToUpdate); });
 	});
+	if(typeof beforeUpdateStatesFunction == "function") beforeUpdateStatesFunction();
 	bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions);
 	collectionStatesToUpdate.forEach(function(stateToUpdate){ updateState(stateToUpdate)});
 }
 
+/** Adds the update- and binding-functions of a collection
+ * @param {string} collectionId 
+ * @param {function[]} collectionUpdateFunctions 
+ * @param {function[]} collectionBindingFunctions 
+ */
 function bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions){
 	updateFunctions[collectionId] = collectionUpdateFunctions;
 	bindingFunctions[collectionId] = collectionBindingFunctions;
 }
-
+/** Deletes the update- and binding-functions of a collection
+ * @param {string} collectionId 
+*/
 function unbindDeviceCollection(collectionId){
 	delete updateFunctions[collectionId];
 	delete bindingFunctions[collectionId];
 }
 
+//#####################################################################################################
+
+/** Extends devices with deviceId, deviceIdEscaped and deviceStates.
+ * DeviceStates are generated out of the state-array by calling getDeviceStateId(), which in turn calls fetchAndSubscribeOrCreateState().
+ * There are some specials like empty Widgets STATE or tileEnlarge that are taken into account.
+ * Returns the extended device.
+ * @param {object} device
+ * @param {string} deviceId 
+ * @returns {object} extended device
+ */
+function extendDevice(device, deviceId){ // #####
+	if(device.deviceId && device.deviceId == deviceId) return device; //was already extended before
+	device.deviceId = deviceId;
+	device.deviceIdEscaped = escape(deviceId);
+	//Get deviceStates (gets all states defined in the device and in the role, if the device has a commonRole)
+	var statesToGet = [];
+	device.states && device.states.forEach(function(stateObj){
+		var state = stateObj.state;
+		if(state && !statesToGet[state]) statesToGet.push(state);
+	});
+	if(device.commonRole && iQontrolRoles[device.commonRole] && typeof iQontrolRoles[device.commonRole].states != udef) iQontrolRoles[device.commonRole].states.forEach(function(state){
+		if(state && !statesToGet[state]) statesToGet.push(state);
+	}); 
+	if(!device.deviceStates) device.deviceStates = {};
+	statesToGet.forEach(function(state){ 
+		if(typeof device.deviceStates[state] != "object") device.deviceStates[state] = {};
+		//--Special: If the STATE of an iQontrolWidget is empty, create VIRTUAL DP
+		if(device.commonRole == "iQontrolWidget" && state == "STATE" &&!(getDeviceOptionValue(device, "noVirtualState") == "true")){
+			var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
+			if(deviceStateIndex > -1){
+				if(typeof device.states[deviceStateIndex].value == udef || device.states[deviceStateIndex].value == ""){
+					device.states[deviceStateIndex].value = 'VIRTUAL:boolean,switch,false';
+				}	
+			} else {
+				device.states.push({state: 'STATE', commonRole: 'linkedState', value: 'VIRTUAL:boolean,switch,false'});
+			}
+		}
+		//--Special: for tileEnlarge create a VIRTUAL DP
+		if(state == "enlargeTile"){
+			var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
+			if(deviceStateIndex == -1){
+				device.states.push({state: 'tileEnlarged', commonRole: 'linkedState', value: 'VIRTUAL:boolean,switch,' + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false")});
+			}
+		}
+		device.deviceStates[state].stateId = getDeviceStateId(device, state); //While getting the device state the corresponding objects are also fetched or created
+	});
+	return device;
+}
+
+/** Gets the stateId of a deviceState and calls fetchAndSubscribeState() or createTemporaryState() or createVirtualState().
+ * Returns null if state is not found in device.
+ * Returns 'CONST:deviceId.state' if the found deviceState's role is 'const'.
+ * Returns 'CALC:deviceId.state' if the found deviceState's role ist 'calc'.
+ * Returns 'ARRAY:deviceId.state' if the found deviceState's role ist 'array'.
+ * Returns 'VIRTUAL:deviceId.state' if the found deviceState's role is 'linkedState' and value is ' VIRTUAL:<type>,<role>,<value>'.
+ * Returns stateId if the found deviceState's role is 'linkedState'
+ * @param {object} device
+ * @param {string} state
+ * @returns {string|null} stateId or null, if state is not found
+*/
+function getDeviceStateId(device, state){
+	var deviceStateId = device.deviceId + "." + state;
+	var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
+	var deviceStateObject = device.states[deviceStateIndex] || {state: state};
+	deviceStateObject.value = (typeof deviceStateObject.value != udef ? deviceStateObject.value : '');
+	deviceStateObject.commonRole = (typeof deviceStateObject.commonRole != udef ? deviceStateObject.commonRole : '');
+	var stateId = null;
+	var statesToFetchAndSubscribe = [];
+	if(deviceStateObject.commonRole == 'const' || deviceStateObject.commonRole == 'calc'){ //deviceState is const or calc
+		stateId = deviceStateObject.commonRole.toUpperCase() + ":" + deviceStateId; //CONST: or CALC: + deviceStateId
+		var variables = (deviceStateObject.value.match(/{([^}]+)}/g) || []).map(function(match){ return match.slice(1, -1); }); //check for {variables}
+		variables.forEach(function(variable){
+			if(!fetchedStates[variable] && !statesToFetchAndSubscribe[variable]) statesToFetchAndSubscribe.push(variable);
+		});
+		createTemporaryState(stateId, 'string', 'state', false, deviceStateObject.value);
+	} else if(deviceStateObject.commonRole == 'array'){ //deviceState is array
+		var array = tryParseJSON(deviceStateObject.value);
+		if(Array.isArray(array)) array.forEach(function(element){
+			stateId = "ARRAY:" + deviceStateId;
+			element.value = (typeof element.value != udef ? element.value : '');
+			element.commonRole = (typeof element.commonRole != udef ? element.commonRole : '');
+			if(element.commonRole == 'const' || element.commonRole == 'calc'){ //array element is const or calc
+				var variables = (element.value.match(/{([^}]+)}/g) || []).map(function(match){ return match.slice(1, -1); }); //check for {variables}
+				variables.forEach(function(variable){
+					if(!fetchedStates[variable] && !statesToFetchAndSubscribe[variable]) statesToFetchAndSubscribe.push(variable);
+				});
+			} else { //array element is linkedState
+				if(!fetchedStates[element.value] && !statesToFetchAndSubscribe[element.value]) statesToFetchAndSubscribe.push(element.value);
+			}
+			createTemporaryState(stateId, 'array', 'list', false, array);
+		});
+	} else { //deviceState is linkedState (including when the value is 'VIRTUAL:<type>,<role>,<value>'
+		if(deviceStateObject.value.substring(0, 8) == 'VIRTUAL:'){ //VIRTUAL state
+			stateId = "VIRTUAL:" + deviceStateId;
+			var config = (stateId.substring(8) || "").split(',');
+			var type = config[0] || "boolean";
+			var role = config[1] || "state";
+			var value = config[2] || null;
+			createTemporaryState(stateId, type, role, false, value);
+		} else { //normal linkedState to fetch
+			stateId = deviceStateObject.value;
+			if(!fetchedStates[stateId] && !statesToFetchAndSubscribe[stateId]) statesToFetchAndSubscribe.push(stateId);
+		}
+	}
+	fetchAndSubscribeStates(statesToFetchAndSubscribe);
+	return stateId;
+}
+
+/** Creates a temporary State in fetchedObjects and fetchedStates.
+ * Examples for temporary states are 'CONST:', 'ARRAY:', 'CALC:' or 'VIRTUAL:' states
+ * @param {string} stateId
+ * @param {string} type - type of the state object, for example "string", "boolean", "number", "array", "object" 
+ * @param {string} role - role of state object, for example "value", "level" etc.
+ * @param {string} tempValuesStoredInObjectId - Temporary states can write their value on changes back to ioBroker into a specified object. That is necessary for example for non bijective conversion functions like the usage of the ALTERNATIVE-COLORSPACE for lights to prevent cycling between two values
+ * @param {*} value 
+ * @returns {string} - temporaryStateId (for 'CONST:', 'ARRAY:', 'CALC:' or 'VIRTUAL:' it is the same as stateId, for all others (normal linkedStates) it is "TEMP:" + stateId)
+ */
+function createTemporaryState(stateId, type, role, tempValuesStoredInObjectId, value){
+	if(tempValuesStoredInObjectId && typeof fetchedObjects[tempValuesStoredInObjectId] == udef) return null;
+	var stateIdParts = stateId.split(':');
+	var stateIdRole = stateIdParts.length > 1 && stateIdParts[0] || null; // 'CONST:', 'ARRAY:', 'CALC:' or 'VIRTUAL:'
+	if(typeof fetchedStates[stateId] == udef) fetchedStates[stateId] = {};
+	if(typeof fetchedStates[stateId].val == udef) fetchedStates[stateId].val = "";
+	if(typeof fetchedStates[stateId] != udef && typeof fetchedStates[stateId].val != udef && fetchedStates[stateId].val == "") { //stateId is empty
+		var temporaryStateId = (stateIdRole ? stateId : "TEMP:" + stateId); //
+		fetchedStates[stateId].val = temporaryStateId;
+		var tempType = (typeof type != udef && type) || "string";
+		var tempRole = (typeof role != udef && role) || "state";
+		var tempValue = (typeof value !== udef && value) || (fetchedObjects[tempValuesStoredInObjectId] && typeof fetchedObjects[tempValuesStoredInObjectId].native != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
+		var tempObject = {
+			"type": "state",
+			"common": {
+				"name": stateId.substring(stateId.lastIndexOf('.') + 1),
+				"desc": "Temporary state created by iQontrol",
+				"role": tempRole,
+				"type": tempType,
+				"icon": "",
+				"read": true,
+				"write": true,
+				"def": ""
+			},
+			"native": {
+				"tempValuesStoredInObjectId": tempValuesStoredInObjectId
+			}
+		};
+		fetchedObjects[temporaryStateId] = tempObject;
+		var now = new Date().getMilliseconds();
+		var tempState = {
+			"val": tempValue,
+			"ack": false,
+			"from": "iQontrol",
+			"lc": now,
+			"q": 0,
+			"ts": now,
+			"user": "system.user.admin"
+		};
+		fetchedStates[temporaryStateId] = tempState;
+		return temporaryStateId;
+	}
+}
+
+/** Fetchs the given stateId(s) from server and subscribes them, so that changes are transmitted to fetchedStates
+ * @param {string|string[]} stateIds 
+ * @param {function} [callback] 
+ */
+function fetchAndSubscribeStates(stateIds, callback){
+	var _stateIds = [];
+	if(Array.isArray(stateIds)) _stateIds = Object.assign([], stateIds); else _stateIds.push(stateIds);
+	for(i = _stateIds.length -1; i >= 0; i--){
+		if(!_stateIds[i] || fetchedStates[_stateIds[i]]) _stateIds.splice(i, 1);
+	}
+	if(_stateIds.length > 0){
+		console.debug("[Socket] subscribe & getStates " + _stateIds);
+		socket.emit('subscribe', _stateIds);
+		socket.emit('getStates', _stateIds, function (err, _states) {
+			if(_states){
+				fetchedStates = Object.assign(_states, fetchedStates);
+			}
+			if(callback) callback(err);
+		});
+	} else {
+		if(callback) callback();
+	}
+}
+
+
+//#####################################################################################################
 
 function newRenderView(viewId){
 	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
-	newFetchView(viewId, function(view){
+	if(!viewId) return;
+	fetchView(viewId, function(view){
 
 		$('body').append('<div id="newViewContainer"></div>');
 		//xxxxx add pre-work here
 
-		addDeviceCollection('view', '#newViewContainer', view.devices, function(device){
+		addDeviceCollection('view', '#newViewContainer', viewId, view.devices, function(device){
 			//xxxxx define, how device is added here
 			var updateFunctions = [];
 			var $device = $('<div class="device"></div>').data('device-id', device.deviceId);
@@ -14652,19 +14687,83 @@ function newRenderView(viewId){
 	});
 }
 
-function newFetchView(viewId, callback){ // fetches View configuration 
-	var _namespace = getNamespace(viewId);
-	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, function(){
-			var view = config[_namespace].views[getViewIndex(viewId)];
-			if(callback) callback(view);
-		});
-	} else {
-		var view = config[_namespace].views[getViewIndex(viewId)];
-		if(callback) callback(view);
+
+function newRenderToolbar(){
+	var toolbarItems = getObjectValue(config, namespace + ".toolbar.items", [], true, true);
+	if(toolbarItems.length == 0){
+		if(homeId == '') homeId = getObjectValue(config, namespace + ".views.0.commonName", "", true, true);
+		return;
 	}
+	if(getUrlParameter('home')) config[namespace].toolbar.items[0].nativeLinkedView = getUrlParameter('home');
+	if(homeId == '') homeId = addNamespaceToViewId(toolbarItems[0].nativeLinkedView);
+	if(getUrlParameter('noToolbar')) return;
+	removeCustomCSS("toolbarCustomIcons");
+	toolbarLinksToOtherViews = [];
+//	var toolbarLinkedStateIdsToFetchAndUpdate = [];
+//	var toolbarLinkedStateIds = {};
+	$("#ToolbarContent").html("<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition !== "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>");
+	addDeviceCollection('toolbar', '#iQontrolToolbar ul', namespace + ".toolbar.items", toolbarItems, function(device, deviceIndex){
+		var linkedViewId = addNamespaceToViewId(device.nativeLinkedView);
+		toolbarLinksToOtherViews.push(linkedViewId);
+	//	toolbarLinkedStateIds = {};
+		var toolbarItemContent = "<li><a data-icon='" + (device.nativeIcon ? (device.nativeIcon.indexOf('.') == -1 ? device.nativeIcon : "grid") : "") + "' data-index='" + deviceIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + deviceIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + deviceIndex + "'>" + device.commonName;
+		if(device.nativeIcon && device.nativeIcon.indexOf('.') > -1){ //Custom icon
+			customCSS = ".iQontrolToolbarLink[data-index='" + deviceIndex + "']:after {";
+			customCSS += "	background:url('" + device.nativeIcon + "');";
+			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover;");
+			customCSS += "	background-position:center;";
+			customCSS += "	background-repeat:no-repeat;";
+			customCSS += "}";
+			addCustomCSS(customCSS, "toolbarCustomIcons");
+		}
+		//xxx BADGE
+
+		toolbarItemContent += "</a></li>";
+		//Create toolbarContextMenu
+		toolbarContextMenu[deviceIndex] = {};
+		toolbarContextMenuLinksToOtherViews[deviceIndex] = [];
+		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+			var _toolbarIndex = deviceIndex;
+			var _linkedViewId = linkedViewId;
+			fetchView(_linkedViewId, function(){
+				var view = getView(_linkedViewId);
+				if(view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on nativeLinkedView of the toolbar
+					if(typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView !== "" && !view.devices[deviceIndex].nativeHide){ //Link to other view
+						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
+						if(deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
+							var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
+							toolbarContextMenu[deviceIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarContextMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarContextMenuLinksToOtherViews[' + deviceIndex + ']; viewHistoryPosition = ' + toolbarContextMenuLinksToOtherViews[deviceIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + deviceIndex + '").addClass("ui-btn-active");'};
+							toolbarContextMenuLinksToOtherViews[deviceIndex].push(deviceLinkedViewId);
+						}
+					}
+				};
+			});
+		})(); //<--End Closure
+
+		var deviceResult = {
+			$html: $(toolbarItemContent),
+			updateFunctions: [],
+			bindingFunctions: [],
+			statesToUpdate: []
+		};
+		return deviceResult;
+	});
+	if(options.LayoutToolbarSingleLine) {
+		customCSS = "#Toolbar li {";
+		customCSS += "	width: calc(100% / " + toolbarItems.length + ") !important;";
+		customCSS += "	clear: none !important;";
+		customCSS += "}";
+		customCSS += "#Toolbar li a {";
+		customCSS += "	border-top-width: 1px !important;";
+		customCSS += "}";
+		removeCustomCSS("toolbarSingleLine");
+		addCustomCSS(customCSS, "toolbarSingleLine");
+	};
+	$("#ToolbarContent").enhanceWithin();
+	applyToolbarContextMenu();
+
 }
 
 
 
-
+//#####################################################################################################
