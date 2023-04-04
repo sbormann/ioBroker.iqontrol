@@ -6,7 +6,7 @@
 //ToDo
 /*
 * Popup: Options-Section with transparency, background-color; ack-flag setzen https://forum.iobroker.net/post/971356
-
+* selectId: Icon search or list or colorize
 
 */
 

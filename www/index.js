@@ -2673,7 +2673,7 @@ function updateState(stateId, ignorePreventUpdate){
 	for(let collectionId in updateFunctions){
 		(updateFunctions[collectionId][stateId] || []).forEach(function(updateFunction){
 			if(!preventUpdate[stateId] || ignorePreventUpdate == collectionId) {
-				updateFunctions[collectionId][stateId][i](stateId);
+				updateFunction(stateId);
 			}	
 		});
 	}
@@ -4725,7 +4725,7 @@ function pincodeClear(){
 }
 
 //++++++++++ TOOLBAR ++++++++++
-function renderToolbar(){ return; //##########
+function OLDrenderToolbar(){ //##########
 	var toolbarItems = getObjectValue(config, namespace + ".toolbar.items", [], true, true);
 	if(toolbarItems.length == 0){
 		if(homeId == '') homeId = getObjectValue(config, namespace + ".views.0.commonName", "", true, true);
@@ -4935,12 +4935,12 @@ function toolbarContextMenuStart(callingElement){
 }
 
 function toolbarContextMenuEnd(dontEndIgnoreStart){
-	console.log("toolbarContextMenu end function");
+	//console.log("toolbarContextMenu end function");
 	toolbarContextMenuIgnoreStart = true;
 	$('.iQontrolToolbarLink.ui-btn, #ViewMain, .backstretch').css('filter', 'blur(0px)');
 	if(toolbarContextMenuInterval) clearInterval(toolbarContextMenuInterval);
 	setTimeout(function(){
-		console.log("toolbarContextMenu end function - find active Toolbar Index");
+		//console.log("toolbarContextMenu end function - find active Toolbar Index");
 		var toolbarIndex = -1;
 		for (var i = 0; i < config[namespace].toolbar.length; i++){
 			if(addNamespaceToViewId(config[namespace].toolbar[i].nativeLinkedViaew) == actualViewId) {
@@ -4954,7 +4954,7 @@ function toolbarContextMenuEnd(dontEndIgnoreStart){
 		}
 	}, 1);
 	if(!dontEndIgnoreStart) setTimeout(function(){
-		console.log("toolbarContextMenu end function - end ignoreStart");
+		//console.log("toolbarContextMenu end function - end ignoreStart");
 		toolbarContextMenuIgnoreStart = false;
 		toolbarContextMenuIgnoreClick = false;
 	}, 300);
@@ -14423,32 +14423,33 @@ var bindingFunctions = {};
  * @param {string} appendHtmlToSelector 
  * @param {string} deviceIdPrefix 
  * @param {object[]} deviceList 
- * @param {function(device:object, deviceIndex:integer)} addDeviceFunction 
- * @param {function} beforeUpdateStatesFunction 
+ * @param {function(device, deviceIndex, uiElements): UIElements} addDeviceFunction - has to return (modified) uiElements
+ * @param {[function]} beforeUpdateStatesFunction 
+ * @param {[UIElements]} initialUiElements
  */
-function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix, deviceList, addDeviceFunction, beforeUpdateStatesFunction){
+function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix, deviceList, addDeviceFunction,  beforeUpdateStatesFunction, initialUiElements){
+	if(beforeUpdateStatesFunction && beforeUpdateStatesFunction instanceof UIElements){
+		initialUiElements = beforeUpdateStatesFunction;
+		beforeUpdateStatesFunction = null;
+	}
+	if(initialUiElements && initialUiElements instanceof UIElements) uiElements = initialUiElements; else uiElements = new UIElements();
 	unbindDeviceCollection(collectionId);
 	var $appendHtmlToSelector = $(appendHtmlToSelector);
-	var collectionUpdateFunctions = [];
-	var collectionBindingFunctions = [];
-	var collectionStatesToUpdate = [];
+	var statesToUpdate = [];
 	deviceList.forEach(function(device, deviceIndex){
 		var deviceId = deviceIdPrefix + ".devices." + deviceIndex; 
 		extendDevice(device, deviceId);
 		Object.keys(device.deviceStates).forEach(function(deviceState){
-			collectionUpdateFunctions[deviceState] = [];
-			collectionBindingFunctions[deviceState] = [];
+			uiElements.updateFunctions[device.deviceStates[deviceState].stateId] = [];
+			uiElements.bindingFunctions[device.deviceStates[deviceState].stateId] = [];
+			if(!uiElements.statesToUpdate[device.deviceStates[deviceState].stateId]) uiElements.statesToUpdate.push(device.deviceStates[deviceState].stateId);
 		})
-		deviceResult = addDeviceFunction(device);
-		if(typeof deviceResult == "string") deviceResult = {$html: $(deviceResult)};
-		if(deviceResult.$html) $appendHtmlToSelector.append(deviceResult.$html);
-		if(deviceResult.updateFunctions && Array.isArray(deviceResult.updateFunctions)) collectionUpdateFunctions = collectionUpdateFunctions.concat(deviceResult.updateFunctions);
-		if(deviceResult.bindingFunctions && Array.isArray(deviceResult.bindingFunctions)) collectionBindingFunctions = collectionBindingFunctions.concat(deviceResult.bindingFunctions);
-		if(deviceResult.statesToUpdate && Array.isArray(deviceResult.statesToUpdate)) deviceResult.statesToUpdate.forEach(function(stateToUpdate){ if(!collectionStatesToUpdate[stateToUpdate]) collectionStatesToUpdate.push(stateToUpdate); });
+		uiElements = addDeviceFunction(device, deviceIndex, uiElements);
 	});
+	if(uiElements.html) $appendHtmlToSelector.append(uiElements.html);
 	if(typeof beforeUpdateStatesFunction == "function") beforeUpdateStatesFunction();
-	bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions);
-	collectionStatesToUpdate.forEach(function(stateToUpdate){ updateState(stateToUpdate)});
+	bindDeviceCollection(collectionId, (Array.isArray(uiElements.updateFunctions) && uiElements.updateFunctions || null), (Array.isArray(uiElements.bindingFunctions) && uiElements.bindingFunctions || null));
+	Array.isArray(uiElements.statesToUpdate) && uiElements.statesToUpdate.forEach(function(stateToUpdate){ updateState(stateToUpdate); });
 }
 
 /** Adds the update- and binding-functions of a collection
@@ -14638,13 +14639,17 @@ function fetchAndSubscribeStates(stateIds, callback){
 	if(Array.isArray(stateIds)) _stateIds = Object.assign([], stateIds); else _stateIds.push(stateIds);
 	for(i = _stateIds.length -1; i >= 0; i--){
 		if(!_stateIds[i] || fetchedStates[_stateIds[i]]) _stateIds.splice(i, 1);
+		if(_stateIds[i] && !fetchedObjects[_stateIds[i]]) fetchObject(_stateIds[i]);
 	}
 	if(_stateIds.length > 0){
-		console.debug("[Socket] subscribe & getStates " + _stateIds);
+		console.debug("[Socket] & subscribe & getStates " + _stateIds);
 		socket.emit('subscribe', _stateIds);
 		socket.emit('getStates', _stateIds, function (err, _states) {
 			if(_states){
 				fetchedStates = Object.assign(_states, fetchedStates);
+				Object.keys(_states).forEach(function(_stateId){
+					if(fetchedObjects[_stateId]) updateState(_stateId);
+				});
 			}
 			if(callback) callback(err);
 		});
@@ -14666,20 +14671,7 @@ function newRenderView(viewId){
 
 		addDeviceCollection('view', '#newViewContainer', viewId, view.devices, function(device){
 			//xxxxx define, how device is added here
-			var updateFunctions = [];
-			var $device = $('<div class="device"></div>').data('device-id', device.deviceId);
-			$device.append('<h1>' + device.commonName + ': </h1><h3 class="value"></h3>');
-			var updateFunction = function(){
-				$('.device[data-device-id=' + device.deviceId + ']').find('.value').html(new Date().getMilliseconds());
-			};
 
-			var deviceResult = {
-				$html: $device,
-				updateFunctions: updateFunctions,
-				bindingFunctions: [],
-				statesToUpdate: []
-			};
-			return deviceResult;
 		});
 
 		//xxxxx add post-work here
@@ -14688,7 +14680,7 @@ function newRenderView(viewId){
 }
 
 
-function newRenderToolbar(){
+function renderToolbar(){
 	var toolbarItems = getObjectValue(config, namespace + ".toolbar.items", [], true, true);
 	if(toolbarItems.length == 0){
 		if(homeId == '') homeId = getObjectValue(config, namespace + ".views.0.commonName", "", true, true);
@@ -14699,71 +14691,167 @@ function newRenderToolbar(){
 	if(getUrlParameter('noToolbar')) return;
 	removeCustomCSS("toolbarCustomIcons");
 	toolbarLinksToOtherViews = [];
-//	var toolbarLinkedStateIdsToFetchAndUpdate = [];
-//	var toolbarLinkedStateIds = {};
 	$("#ToolbarContent").html("<div data-role='navbar' data-iconpos='" + (typeof options.LayoutToolbarIconPosition != udef && options.LayoutToolbarIconPosition !== "" ? options.LayoutToolbarIconPosition : 'top') +  "' id='iQontrolToolbar'><ul>");
-	addDeviceCollection('toolbar', '#iQontrolToolbar ul', namespace + ".toolbar.items", toolbarItems, function(device, deviceIndex){
-		var linkedViewId = addNamespaceToViewId(device.nativeLinkedView);
+	addDeviceCollection('toolbar', '#iQontrolToolbar ul', namespace + ".toolbar.items", toolbarItems, function(toolbarItem, toolbarIndex, uiElements){
+		var linkedViewId = addNamespaceToViewId(toolbarItem.nativeLinkedView);
 		toolbarLinksToOtherViews.push(linkedViewId);
-	//	toolbarLinkedStateIds = {};
-		var toolbarItemContent = "<li><a data-icon='" + (device.nativeIcon ? (device.nativeIcon.indexOf('.') == -1 ? device.nativeIcon : "grid") : "") + "' data-index='" + deviceIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + deviceIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + deviceIndex + "'>" + device.commonName;
-		if(device.nativeIcon && device.nativeIcon.indexOf('.') > -1){ //Custom icon
-			customCSS = ".iQontrolToolbarLink[data-index='" + deviceIndex + "']:after {";
-			customCSS += "	background:url('" + device.nativeIcon + "');";
+		var toolbarItemContent = "<li><a data-icon='" + (toolbarItem.nativeIcon ? (toolbarItem.nativeIcon.indexOf('.') == -1 ? toolbarItem.nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItem.commonName;
+		if(toolbarItem.nativeIcon && toolbarItem.nativeIcon.indexOf('.') > -1){ //Custom icon
+			customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
+			customCSS += "	background:url('" + toolbarItem.nativeIcon + "');";
 			customCSS += "	background-size:" + (options.LayoutToolbarIconSize ? options.LayoutToolbarIconSize + "px;" : "cover;");
 			customCSS += "	background-position:center;";
 			customCSS += "	background-repeat:no-repeat;";
 			customCSS += "}";
 			addCustomCSS(customCSS, "toolbarCustomIcons");
 		}
-		//xxx BADGE
-
-		toolbarItemContent += "</a></li>";
+		uiElements
+			.addHtml(toolbarItemContent)
+			.addBadge(toolbarItem, {
+				badgeDeviceState: "BADGE",
+				badgeColorDeviceState: "BADGE_COLOR",
+				class: "iQontrolToolbarBadge"
+			})
+			.addHtml("</a></li>");
 		//Create toolbarContextMenu
-		toolbarContextMenu[deviceIndex] = {};
-		toolbarContextMenuLinksToOtherViews[deviceIndex] = [];
+		toolbarContextMenu[toolbarIndex] = {};
+		toolbarContextMenuLinksToOtherViews[toolbarIndex] = [];
 		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-			var _toolbarIndex = deviceIndex;
+			var _toolbarIndex = toolbarIndex;
 			var _linkedViewId = linkedViewId;
-			fetchView(_linkedViewId, function(){
-				var view = getView(_linkedViewId);
+			fetchView(_linkedViewId, function(view){
 				if(view && typeof view.devices != udef) for (var deviceIndex = 0; deviceIndex < view.devices.length; deviceIndex++){ //Go through all devices on nativeLinkedView of the toolbar
 					if(typeof view.devices[deviceIndex].nativeLinkedView != udef && view.devices[deviceIndex].nativeLinkedView != null && view.devices[deviceIndex].nativeLinkedView !== "" && !view.devices[deviceIndex].nativeHide){ //Link to other view
 						var deviceLinkedViewId = addNamespaceToViewId(view.devices[deviceIndex].nativeLinkedView);
 						if(deviceLinkedViewId && typeof getViewIndex(deviceLinkedViewId) !== udef && typeof config[namespace].views[getViewIndex(deviceLinkedViewId)] !== udef) {
 							var deviceLinkedViewName = config[namespace].views[getViewIndex(deviceLinkedViewId)].commonName;
-							toolbarContextMenu[deviceIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarContextMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarContextMenuLinksToOtherViews[' + deviceIndex + ']; viewHistoryPosition = ' + toolbarContextMenuLinksToOtherViews[deviceIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + deviceIndex + '").addClass("ui-btn-active");'};
-							toolbarContextMenuLinksToOtherViews[deviceIndex].push(deviceLinkedViewId);
+							toolbarContextMenu[toolbarIndex][deviceLinkedViewId] = {name: _("Open %s", deviceLinkedViewName), icon:'grid', href: '', target: '', onclick: '$("#ToolbarContextMenu").popup("close"); renderView(unescape("' + escape(deviceLinkedViewId) + '")); viewHistory = toolbarContextMenuLinksToOtherViews[' + toolbarIndex + ']; viewHistoryPosition = ' + toolbarContextMenuLinksToOtherViews[toolbarIndex].length + '; $(".iQontrolToolbarLink").removeClass("ui-btn-active"); $("#iQontrolToolbarLink_' + toolbarIndex + '").addClass("ui-btn-active");'};
+							toolbarContextMenuLinksToOtherViews[toolbarIndex].push(deviceLinkedViewId);
 						}
 					}
 				};
 			});
 		})(); //<--End Closure
-
-		var deviceResult = {
-			$html: $(toolbarItemContent),
-			updateFunctions: [],
-			bindingFunctions: [],
-			statesToUpdate: []
+		return uiElements;
+	}, function(){
+		$("#ToolbarContent").enhanceWithin();
+		if(options.LayoutToolbarSingleLine) {
+			customCSS = "#Toolbar li {";
+			customCSS += "	width: calc(100% / " + toolbarItems.length + ") !important;";
+			customCSS += "	clear: none !important;";
+			customCSS += "}";
+			customCSS += "#Toolbar li a {";
+			customCSS += "	border-top-width: 1px !important;";
+			customCSS += "}";
+			removeCustomCSS("toolbarSingleLine");
+			addCustomCSS(customCSS, "toolbarSingleLine");
 		};
-		return deviceResult;
 	});
-	if(options.LayoutToolbarSingleLine) {
-		customCSS = "#Toolbar li {";
-		customCSS += "	width: calc(100% / " + toolbarItems.length + ") !important;";
-		customCSS += "	clear: none !important;";
-		customCSS += "}";
-		customCSS += "#Toolbar li a {";
-		customCSS += "	border-top-width: 1px !important;";
-		customCSS += "}";
-		removeCustomCSS("toolbarSingleLine");
-		addCustomCSS(customCSS, "toolbarSingleLine");
-	};
-	$("#ToolbarContent").enhanceWithin();
 	applyToolbarContextMenu();
-
+	applyToolbarAdaptHeightOrMarqueeObserver();
 }
 
 
 
 //#####################################################################################################
+
+
+/**
+ * @typedef {object} UIElements
+ * @property {string} html
+ * @property {function[]} updateFunctions
+ * @property {function[]} bindingFunctions
+ * @property {string[]} statesToUpdate
+ */
+/** Class of UI-Elements to add to deviceCollections 
+ * @class
+ * @param {UIElements} [initialUiElements]
+ */
+function UIElements(initialUiElements) {
+	if(typeof initialUiElements != "object") initialUiElements = {};
+	this.html = initialUiElements.html || "";
+	this.updateFunctions = initialUiElements.updateFunctions || [];
+	this.bindingFunctions = initialUiElements.bindingFunctions || [];
+	this.statesToUpdate = initialUiElements.statesToUpdate || [];
+
+	/** Adds given HTML-Code to uiElements
+	 * @param {*} html 
+	 * @returns {UIElements} 
+	 */
+	this.addHtml = function(html){
+		this.html += html;
+		return this;
+	}
+
+	/** Adds a Badge to uiElements
+	 * @param {object} device 
+	 * @param {object} badgeOptions 
+	 * @param {string} badgeOptions.badgeDeviceStateId
+	 * @param {string} badgeOptions.badgeColorDeviceStateId 
+	 * @param {string} badgeOptions.class
+	 * @returns {UIElements}  
+	 */
+	this.addBadge = function(device, badgeOptions){
+		if(typeof badgeOptions != "object") badgeOptions = {};
+		var badgeDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE";
+		var badgeColorDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE_COLOR";
+		var badgeColorDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE_COLOR";
+		var badgeClass = badgeOptions.class || "iQontrolDeviceBadge";
+//		(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var deviceStateBadge = getObjectValue(device, "deviceStates." + badgeDeviceStateId + ".stateId");
+		var deviceStateBadgeColor = getObjectValue(device, "deviceStates." + badgeColorDeviceStateId + ".stateId");
+		if(!deviceStateBadge) return this;
+		this.html += "<div class='" + badgeClass + "' data-iQontrol-Device-ID='" + device.deviceIdEscaped +"'></div>";
+		var updateFunction = function(){
+			var stateBadge = getStateObject(deviceStateBadge);
+			var stateBadgeColor = getStateObject(deviceStateBadgeColor);
+			var badgeWithoutUnit = (getDeviceOptionValue(device, "badgeWithoutUnit") == "true");
+			var showBadgeIfZero = (getDeviceOptionValue(device, "showBadgeIfZero") == "true");
+			var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
+			var restartActivateDelay = false;
+			if($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('background-color-string') != colorString){ //New color
+				console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
+				restartActivateDelay = true;
+				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).css('background-color', colorString).data('background-color-string', colorString);
+			}
+			if(stateBadge && typeof stateBadge.val !== udef && (showBadgeIfZero || stateBadge.val) && stateBadge.plainText !== ""){ //Active
+				var val = stateBadge.plainText;
+				var unit = stateBadge.unit;
+				if(!isNaN(val)) val = Math.round(val * 10) / 10;
+				if(!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
+				if($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('val') != val){ //New val
+					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).html(val).data('val', val);
+				}
+				if(!$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).hasClass('active')){ //Not active until now
+					if(restartActivateDelay || $("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
+						console.log("Badge - new active - restartActivateDelay");
+						restartActivateDelay = true;
+					} else { //ActivateDelay is over
+						console.log("Badge - new active - activateDelayTimeout is over - activate now");
+						$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).addClass('active');
+						stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
+					}
+				}
+			} else { //Inactive
+				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).removeClass('active');
+				stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "'].iQontrolDeviceState"));
+				if(!restartActivateDelay){
+					clearTimeout($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
+					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', null);
+				}
+			}
+			if(restartActivateDelay){
+				clearTimeout($("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout'));
+				$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', setTimeout(function(){
+					console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
+					$("[data-iQontrol-Device-ID='" + device.deviceIdEscaped + "']." + badgeClass).data('activate-delay-timeout', 'over');
+					updateFunction();
+				}, 500));
+			}
+		};
+		this.updateFunctions[deviceStateBadge].push(updateFunction);
+		if(deviceStateBadgeColor) this.updateFunctions[deviceStateBadgeColor].push(updateFunction);
+//		})(); //<--End Closure
+		return this;
+	};
+}
