@@ -5,44 +5,64 @@
 
 ## Since Version 3 the principle has changed to the following: 
 
-* Devices with states:
+* **Devices**:
 	* A device is an object that contains the configuration of a device on a view
 	* device.states contains the configuration of the device's states like STATE, VALUE, BACKGROUND_URL etc.
 	* Every state has a commonRole = 'linkedState', 'const', 'calc' or 'array' and a value
 	* If commonRole is 'array' then the value is an array of objects, each itsself containing a commonRole = 'linkedState', 'const' or 'calc' and a value
+	* As you will read below, the devices will be extended with a deviceId and deviceStates if they are added to a deviceCollection
 
 * **addDeviceCollection**:
 	* Adds a collection of devices to a given HTML-Element and handles the registration and deletion of update- and binding-functions
 	* At first all devices get extended by calling the **extendDevice** function:
-		* This add unique identifiers deviceId and deviceIdEscaped to the device
-		* Then it adds an object 'deviceStates' which contains all STATES specified by the role of the device. Each deviceState looks like:
+		* This adds the unique identifiers '*deviceId*' and '*deviceIdEscaped*' to the device
+		* Then it adds an object '*deviceStates*' which contains all STATES specified by the role of the device. Each *deviceState* looks like:
 			````
-			{
+			STATE: {
 				stateId: the stateId, that is stored in fetchedStates and fetchedObjects and represents the acutal values in the ioBroker-System. Additional it contains CONST:, ARRAY:, CALC:, and VIRTUAL:-States, that are only living inside the actual iQontrol-Instance
 			} 
 			````
 		* To generate the stateId the **getDeviceStateId**-function is called:
 			* This returnes the stateId of linkedStates or CONST:|CALC:|ARRAY:|VIRTUAL:deviceId.deviceState for constants, calculations, arrays or vitual datapoints
 			* While generating the stateId the function **fetchAndSubscribeState** is called with all recognized linkedStates, also these that come from {variables}:
-					* This fetches all linkedStates from the server and writes the stateObject and the state itsself into fetchedObjects and fetchedStates
-					* Then all linkedStates are subscribed, which means, changes are transmitted to iQontrol and stored in fetchedStates and the **updateState**-Function is called
+					* This fetches the objects of all linkkedStates by calling **fetchObject** and writes them into fetchedObjects 
+    					* After the object is fetched, it checks, if the corresponding state in fetchedStates is also present and then calls **updateState**
+					* Then it fetches all linkedStates from the server and writes them into fetchedStates
+    					* After the state is fetched, it checks, if the corresponding object in fetchedObjects is also present and then calls **updateState**
+					* Then all linkedStates are subscribed, which means, changes are transmitted to iQontrol and stored in fetchedStates
+    					* Everytime a subscribed state changes, **updateState** is called
   			* For temporary states like CONST:, CALC:, ARRAY: and VIRTUAL: the **createTemporaryState** function is called:
     			* This creates objects in fetchedObjects and fetchedStates that represent the acutal value of the temporary state
 				* Temporary states can write their value on changes back to ioBroker into a specified object. That is necessary for example for non bijective conversion functions like the usage of the ALTERNATIVE-COLORSPACE for lights to prevent cycling between two values
 
-	* For every device a callback-function ('addDeviceFunction') is called. This function needs to return an object like this:
+	* For every device to add a callback-function ('***addDeviceFunction***') is called with the arguments '*device*', '*deviceIndex*' and '*uiElements*'. 
+    	* '*uiElements*' is an object of the class **UIElements**
+    	* The function has to *return* the (modified) '*uiElements*' object
+	* After creating all devices and adding the html to the collection, the second callback-function ('***beforeUpdateStatesFunction***') is called. Here you could for example call the jquery function enhanceWithin() and call further methods.
+	* After that, the **updateState** function is called with all statesToUpdate.
+
+* Class **UIElements**:
+  * UIElements has the following variables:
 		````
 		{
-			$html: jQuery-Object with html to add,
-			updateFunctionss: An associative array of updateFunctions (key = stateId),
-			bindingFunctions: An associative array of bindingFunctions (key = stateId),
-			statesToUpdate: An array of the used stateIds
+			html: jQuery-Object with html to add,
+			updateFunctionss: An associative array of updateFunctions (keys = stateIds, values = functions),
+			bindingFunctions: An array of bindingFunctions,
+			unbindingFunctions: An array of functions that are called when the collection is replaced, 
+			statesToUpdate: An array of additional states that need to be updated, after the collection is ready (all statesIs of the deviceStates of all devices of the collection are called automatically and don't need to be set here. Only external states, that don't belong to the collection itself but that are needed for calculations in the updateFunctions need to be pushed here)
 		}
 		````
-	* After creating all devices and adding the html to the collection, the get enhancedWithin and **updateState** with all statesToUpdate is called. Additional the updateFunctions with key 'UPDATE_ONCE' are called
+  * Further it serves multiple chainable methods to add uiElements like Icons, Text, Badges etc. like
+    * **addHtml(html)**
+    * **addUpdateFunction(stateId, updateFunction)**
+    * **addBindingFunction(bindingFunction)**
+    * **addBadge(device, badgeOptions)**, badgeOptions = {badgeDeviceStateId, badgeColorDeviceStateId, class}
 
 
 
+* **updateState**:
+  * Everytime a subscribed state changes, this function is called. It then calles all the registered updateFunctions that belong to the state.
+  * The updateFunctions then update the uiElement it belongs to
 
 
 ## Older versions (< 3.0.0, > 0.0.30) 

@@ -4,15 +4,20 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
-            "name": "Debug www",
+            "name": "www debug",
             "type": "chrome",
             "request": "launch",
             "url": "http://localhost:8082/iqontrol/index.html",
-            "webRoot": "/opt/iobroker/iobroker-data/files/",
-            "browserLaunchLocation": "ui"
-        }, { 
+            "sourceMaps": false,
+            "webRoot": "/opt/iobroker/iobroker-data/files",
+            "pathMapping": {
+                "/iqontrol": "${workspaceFolder}/www"
+            },
+            "browserLaunchLocation": "ui",
+            "trace": true
+        }, 
+        { 
             "name": "Debug main.js",
             "type": "node",
             "request": "attach",
