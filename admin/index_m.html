@@ -44,6 +44,9 @@
 		#tableDevices .dropdown-content {width: auto !important;}
 		.table-values.highlight > tbody > tr:hover { background-color: rgba(0,0,0,0.04) !important; }
 		.table-values.highlight > tbody > tr:nth-child(2n):hover { background-color: rgba(0,0,0,0.2) !important; }
+		tr.newGroup { background-color: transparent !important; border-bottom: solid 2px grey !important;}
+		tr.newGroup td { padding-top: 45px !important; background-color: transparent !important; }
+		td span.groupHeading{ position: absolute; margin-top: -25px; margin-left: -1px; font-weight: bold; font-size: 1.2em; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif; }
 		.validateOnlyError.valid { border-bottom: 1px solid #9e9e9e !important; box-shadow: none !important;}
 		.inputClear, .selectClear, .inputEdit { display: block !important; position: absolute !important; right: 20px !important; top: 7px !important; margin: auto !important; }
 		.combobox{ position: relative; }
@@ -650,6 +653,7 @@
 					</div>
 				</div>
 				<ul class="collapsible">
+					<!-- ---------- Options: Change Device-Options ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Change Device-Options:</h6>
@@ -788,6 +792,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Toolbar-Layout ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Toolbar-Layout:</h6>
@@ -1021,6 +1026,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Headers ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Headers:</h6>
@@ -1277,6 +1283,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Device-Tiles ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Device-Tiles:</h6>
@@ -1555,6 +1562,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Default Icons ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Default Icons:</h6>
@@ -1667,6 +1675,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Device Text ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Device-Text:</h6>
@@ -2013,6 +2022,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Dark Mode ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Dark-Mode:</h6>
@@ -2561,6 +2571,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Passphrase Protection ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Passphrase Protection:</h6>
@@ -2594,6 +2605,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Misc ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Miscellaneous:</h6>
@@ -2696,6 +2708,7 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Backup/Restore ---------- -->
 					<li>
 						<div class="collapsible-header">
 							<i class="material-icons">expand_more</i><h6 class="translate">Backup/Restore:</h6>
@@ -2796,7 +2809,7 @@
 
 	<!-- ++++++++++ DIALOGS ++++++++++ -->
     <div class="m material-dialogs">
-		<!-- DIALOG: WidgetSettings  -->
+		<!-- ---------- DIALOG: WidgetSettings ---------- -->
         <div id="dialogWidgetSettings" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -2855,8 +2868,8 @@
             </div>
         </div>
 
-		<!-- DIALOG: viewsAutocreate -->
-        <div id="dialogViewsAutocreate" class="modal modal-fixed-footer">
+		<!-- ---------- DIALOG: viewsAutocreate ---------- -->
+        <div id="dialogViewsAutocreate" class="modal modal-fixed-foo ">
             <div class="modal-content"> 
                 <div class="row">
                     <div class="col s12">
@@ -2918,7 +2931,7 @@
             </div>
         </div>		
 
-		<!-- DIALOG: DeviceEdit -->
+		<!-- ---------- DIALOG: DeviceEdit ---------- -->
         <div id="dialogDeviceEdit" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditViewIndex" />
@@ -2954,7 +2967,12 @@
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
-									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;array/Array;linkedStateArray/Array from State" class="translate">Type</th>
+									<th data-name="description" class="hideCol" style="display:none;" data-tdstyle="display:none;">Description</th>
+									<th data-name="groupName" class="hideCol" style="display:none;" data-tdstyle="display:none;">Group Name</th>
+									<th data-name="arrayKeys" class="hideCol" style="display:none;" data-tdstyle="display:none;">Default Array Keys</th>
+									<th data-name="userDefined" data-type="checkbox" class="hideCol" style="display:none;" data-tdstyle="display:none;">userDefined</th>
+									<th data-name="commonType" data-type="select" data-options="string/String;icon/Icon;color/Color;url/URL;view/View;array/Array" class="translate">Type</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calculation" class="translate">Role</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit openCustom" style="width:100px;"></th>
 								</tr>
@@ -2992,7 +3010,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DeviceEditStateConstant -->
+		<!-- ---------- DIALOG: DeviceEditStateConstant ---------- -->
         <div id="dialogDeviceEditStateConstant" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditStateConstantIndex" />
@@ -3014,7 +3032,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DeviceEditStateArray -->
+		<!-- ---------- DIALOG: DeviceEditStateArray ---------- -->
         <div id="dialogDeviceEditStateArray" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditStateArrayIndex" />
@@ -3068,7 +3086,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DeviceAutocreate  -->
+		<!-- ----------DIALOG: Dev iceAutocreate ---------- -->
         <div id="dialogDeviceAutocreate" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -3117,7 +3135,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DeviceCopyFrom  -->
+		<!-- ---------- DIALOG: DeviceCopyFrom ---------- -->
         <div id="dialogDeviceCopyFrom" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -3186,7 +3204,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: DevicesAutocreateWidget  -->
+		<!-- ---------- DIALOG: DevicesAutocreateWidget ---------- -->
         <div id="dialogDevicesAutocreateWidget" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -3246,7 +3264,7 @@
             </div>
         </div>
 		
-		<!-- DIALOG: DevicesExport  -->
+		<!-- ---------- DIALOG: DevicesExport ---------- -->
         <div id="dialogDevicesExport" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
@@ -3268,7 +3286,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: ToolbarEdit -->
+		<!-- ---------- DIALOG: ToolbarEdit ---------- -->
         <div id="dialogToolbarEdit" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogToolbarEditToolbarIndex" />
@@ -3320,7 +3338,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: SelectID -->
+		<!-- ---------- DIALOG: SelectID ---------- -->
         <div id="dialogSelectId" class="modal modal-fixed-footer" style="z-index:20000 !important;">
             <div class="modal-content">
                 <div class="row">
@@ -3337,7 +3355,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: optionsBackupRestoreImportCustoms -->
+		<!-- ---------- DIALOG: optionsBackupRestoreImportCustoms ---------- -->
         <div id="dialogOptionsBackupRestoreImportCustoms" class="modal modal-fixed-footer">
             <div class="modal-content"> 
                 <div class="row">
@@ -3363,7 +3381,7 @@
             </div>
         </div>		
 
-		<!-- DIALOG: optionsLayoutDefaultIconsPresetChange -->
+		<!-- ---------- DIALOG: optionsLayoutDefaultIconsPresetChange ---------- -->
         <div id="dialogOptionsLayoutDefaultIconsPresetChange" class="modal modal-fixed-footer">
             <div class="modal-content"> 
                 <div class="row">
@@ -3406,7 +3424,7 @@
             </div>
         </div>		
 
-		<!-- DIALOG: ImagePopup -->
+		<!-- ---------- DIALOG: ImagePopup ---------- -->
         <div id="dialogImagePopup" class="modal modal-fixed-footer">
             <div class="modal-content"> 
                 <div class="row">
@@ -3430,7 +3448,7 @@
             </div>
         </div>
 		
- 		<!-- DIALOG: CodeEditor -->
+ 		<!-- ---------- DIALOG: CodeEditor ---------- -->
         <div id="dialogCodeEditor" class="modal modal-fixed-footer">
             <div class="modal-content"> 
                 <div class="row">
@@ -3450,7 +3468,7 @@
             </div>
         </div>
 
-		<!-- DIALOG: ListEdit -->
+		<!-- ---------- DIALOG: ListEdit ---------- -->
         <div id="dialogListEdit" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogListEditListIndex" />

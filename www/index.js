@@ -3,7 +3,6 @@
 
 if(window.location.href.indexOf('#') > -1) window.location.href = window.location.href.replace(/#[^\?]*/, ''); //Fix for new socket.io, where # without an argument in url leads to connection error
 
-
 //Settings
 var namespace = getUrlParameter('namespace') || 'iqontrol.0';
 var passphrase = getUrlParameter('passphrase');
@@ -1579,7 +1578,7 @@ moment.duration.fn.format = function (input) {
     return output;
 }
 
-//++++++++++ SOCKET  FUNCTIONS ++++++++++
+//++++++++++ GET STARTED ++++++++++
 /*Initialization of socket is done at the end of the document in the $(document).ready-section*/
 function getStarted(triggeredByReconnection){
 	console.log("* Get started...");
@@ -1638,6 +1637,7 @@ function getStarted(triggeredByReconnection){
 	});
 }
 
+//++++++++++ SOCKET  FUNCTIONS ++++++++++
 function fetchSystemConfig(callback){
 	console.debug("[Socket] getConfig");
 	socket.emit('getObject', 'system.config', function (err, _config) {
@@ -1667,7 +1667,7 @@ function fetchConfig(_namespace, callback, forceFetch){
 			console.debug("[Socket] getObject system.adapter." + _namespace);
 			socket.emit('getObject', "system.adapter." + _namespace, function (err, _object) {
 				if(_object) {
-					config[_namespace] = convertConfigV3(_object.native); //#####
+					config[_namespace] = _object.native;
 					if(_namespace == namespace){
 						createOptionsAndPanelObjectsFromConfig();
 					}
@@ -1680,27 +1680,6 @@ function fetchConfig(_namespace, callback, forceFetch){
 		}
 	} else {
 		if(callback) callback();
-	}
-}
-
-function createOptionsAndPanelObjectsFromConfig(){
-	console.log("* Creating options- and panel-objects");
-	for (var key in config[namespace]) {
-		if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
-		if(key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
-	};
-}
-
-function fetchView(viewId, callback){ // fetches View configuration 
-	var _namespace = getNamespace(viewId);
-	if(typeof config[_namespace] == udef) {
-		fetchConfig(_namespace, function(){
-			var view = config[_namespace].views[getViewIndex(viewId)];
-			if(callback) callback(view);
-		});
-	} else {
-		var view = config[_namespace].views[getViewIndex(viewId)];
-		if(callback) callback(view);
 	}
 }
 
@@ -1787,6 +1766,27 @@ function deliverObject(objId, obj, callback){
 }
 
 //++++++++++ HELPERS: OBJECT AND STATES-FUNCTIONS ++++++++++
+function createOptionsAndPanelObjectsFromConfig(){
+	console.log("* Creating options- and panel-objects");
+	for (var key in config[namespace]) {
+		if(key.indexOf("options") == 0) options[key.substring(7)] = config[namespace][key];
+		if(key.indexOf("panel") == 0){ panels[0][key.substring(5)] = config[namespace][key]; }
+	};
+}
+
+function fetchView(viewId, callback){ // fetches View configuration 
+	var _namespace = getNamespace(viewId);
+	if(typeof config[_namespace] == udef) {
+		fetchConfig(_namespace, function(){
+			var view = config[_namespace].views[getViewIndex(viewId)];
+			if(callback) callback(view);
+		});
+	} else {
+		var view = config[_namespace].views[getViewIndex(viewId)];
+		if(callback) callback(view);
+	}
+}
+
 function addNamespaceToViewId(viewId){
 	if(viewId){
 		if(viewId.indexOf("iqontrol.") == 0){
@@ -2039,11 +2039,56 @@ function createTempLinkedState(stateId, type, role, tempValuesStoredInObjectId, 
 	}
 }
 
-function getStateObject(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
+function getState(linkedStateId){ //Extends state with, type, readonly-attribute and plain text (that is the text from a state that is a value-list)
 	if(!linkedStateId || linkedStateId == "") return;
 	var result = {};
 	if(typeof fetchedStates[linkedStateId] !== udef && fetchedStates[linkedStateId] !== null) {
 		result = Object.assign(result, fetchedStates[linkedStateId]);
+	}
+	result.valRaw = result.val;
+	//Processing variables
+	var linkedStateIdParts = linkedStateId.split(':');
+	var linkedStateIdRole = linkedStateIdParts.length > 1 && linkedStateIdParts[0] || null; // 'CONST', 'ARRAY', 'CALC', 'VIRTUAL' or null
+	if((linkedStateIdRole == 'CONST' || linkedStateIdRole == 'CALC') && typeof result.val == "string"){
+		result.val = result.val.replace(/{([^}]+)}/g, function(match, p1){ 
+			var parts = processVariable(p1);
+			var state = getState(parts.linkedStateId);
+			var replacement = null;
+			if(state && typeof state.val !== udef) {
+				if(typeof state.plainText == 'number' && !parts.noUnit){	//STATE = number
+					replacement = state.val + state.unit;
+				} else {													//STATE = bool or text
+					replacement = state.plainText;
+				}
+			} else if(parts.placeholder) {									//Replace by placeholder
+				replacement = parts.placeholder;
+			}
+			if(replacement != null) return replacement; else return p1;
+		});
+		function processVariable(variable){
+			var result = {};
+			var variableParts = variable.split('|');
+			var _linkedStateId = variableParts[0];
+			var noUnit = false;
+			if(_linkedStateId.substr(0, 1) == "[" && _linkedStateId.substr(-1) == "]"){
+				_linkedStateId = _linkedStateId.substring(1, _linkedStateId.length - 1);
+				noUnit = true;
+			}
+			result.linkedStateId = _linkedStateId;
+			result.noUnit = noUnit;
+			result.placeholder = variableParts[1] || null;
+			return result;		
+		}
+		//--Calculation
+		if(linkedStateIdRole == 'CALC'){
+			var calcResult = calculate(result.val);
+			if(calcResult != null){
+				result.val = calcResult;
+				if(typeof calcResult == "number") result.type = "number"; 
+				else if(typeof calcResult == "boolean") result.type = "boolean"; 
+				else result.type = "string";
+			}
+		}
 	}
 	if(typeof fetchedObjects[linkedStateId] !== udef && fetchedObjects[linkedStateId] !== null) {
 		//--Declare plainText
@@ -2080,10 +2125,10 @@ function getStateObject(linkedStateId){ //Extends state with, type, readonly-att
 			else result.step = 1;
 		}
 		//--Add type
-		result.type = fetchedObjects[linkedStateId].common.type || "string";
+		result.type = result.type || fetchedObjects[linkedStateId].common.type || "string";
 		if(typeof result.custom.type !== udef && result.custom.type !== "") result.type = result.custom.type;
 		//--Add role
-		result.role = fetchedObjects[linkedStateId].common.role || "state";
+		result.role = result.role || fetchedObjects[linkedStateId].common.role || "state";
 		if(typeof result.custom.role !== udef && result.custom.role !== "") result.role = result.custom.role;
 		var linkedParentId = linkedStateId.substring(0, linkedStateId.lastIndexOf("."));
 		if(result.role == "state" && fetchedObjects[linkedParentId] && typeof fetchedObjects[linkedParentId].common.role != udef && fetchedObjects[linkedParentId].common.role){ //For role 'state' look if there are more informations about the role in the parentObject
@@ -2526,7 +2571,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 			var _stateId = stateId;
 			var _deviceIdEscaped = deviceIdEscaped;
 			var _preventUpdateTime = preventUpdateTime;
-			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') _preventUpdateTime = 200;
+			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 5) == 'CALC:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:' || _stateId.substring(0, 8) == 'VIRTUAL:') _preventUpdateTime = 200;
 			$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceLoading").addClass("active");
 			preventUpdate[_stateId] = {};
 			preventUpdate[_stateId].stateId = _stateId;
@@ -2538,8 +2583,8 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 				delete preventUpdate[_stateId];
 				updateState(_stateId);
 			}, _preventUpdateTime);
-			//Do not send (only treat locally), if state is CONST, ARRAY or TEMP:
-			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:') {
+			//Do not send (only treat locally), if state is CONST, CALC, ARRAY, TEMP or VIRTUAL:
+			if(_stateId.substring(0, 6) == 'CONST:' || _stateId.substring(0, 5) == 'CALC:' || _stateId.substring(0, 6) == 'ARRAY:' || _stateId.substring(0, 5) == 'TEMP:' || _stateId.substring(0, 8) == 'VIRTUAL:') {
 				console.log("       setState only local, because state ist CONST, ARRAY or TEMP");
 				if(!fetchedStates[_stateId]) fetchedStates[_stateId] = {};
 				fetchedStates[_stateId].val = newValue;
@@ -2626,6 +2671,7 @@ function setStateWithoutVerification(stateId, deviceIdEscaped, newValue, forceSe
 }
 
 function updateState(stateId, ignorePreventUpdate){
+	//console.debug("updateState: " + stateId + " ignorePreventUpdate: " + ignorePreventUpdate);
 	//Invert (ioBroker -> iQontrol - the opposite way is inside setState-Function)
 	if(fetchedObjects[stateId]  && typeof fetchedObjects[stateId].common !== udef && typeof fetchedObjects[stateId].common.custom !== udef && fetchedObjects[stateId].common.custom !== null && typeof fetchedObjects[stateId].common.custom[namespace] !== udef && fetchedObjects[stateId].common.custom[namespace] !== null && typeof fetchedObjects[stateId].common.custom[namespace].invert !== udef && fetchedObjects[stateId].common.custom[namespace].invert == true) {
 		if(fetchedStates[stateId] && typeof fetchedStates[stateId].val !== udef && !fetchedStates[stateId].isInverted) switch(typeof fetchedStates[stateId].val){
@@ -2670,8 +2716,8 @@ function updateState(stateId, ignorePreventUpdate){
 	}
 
 	// ##### replaces the functions after that
-	for(let collectionId in updateFunctions){
-		(updateFunctions[collectionId][stateId] || []).forEach(function(updateFunction){
+	for(let collectionId in deviceCollections.updateFunctions){
+		(deviceCollections.updateFunctions[collectionId][stateId] || []).forEach(function(updateFunction){
 			if(!preventUpdate[stateId] || ignorePreventUpdate == collectionId) {
 				updateFunction(stateId);
 			}	
@@ -2729,7 +2775,7 @@ function updateState(stateId, ignorePreventUpdate){
 }
 
 function toggleState(linkedStateId, deviceIdEscaped, callback, preventUpdateTime){
-	var state = getStateObject(linkedStateId);
+	var state = getState(linkedStateId);
 	var deviceReadonly = false;
 	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true" && linkedStateId.substr(-12) != "tileEnlarged") deviceReadonly = true;
 	if(state && state.readonly == false && deviceReadonly == false){
@@ -2768,15 +2814,15 @@ function toggleState(linkedStateId, deviceIdEscaped, callback, preventUpdateTime
 }
 
 function toggleActuator(linkedStateId, linkedDirectionId, linkedStopId, linkedStopSetValueId, linkedUpId, linkedUpSetValueId, linkedDownId, linkedDownSetValueId, linkedFavoritePosition, deviceIdEscaped, callback){
-	var state = getStateObject(linkedStateId);
-	var direction = getStateObject(linkedDirectionId);
-	var stop = getStateObject(linkedStopId);
-	var stopSetValue = getStateObject(linkedStopSetValueId);
-	var up = getStateObject(linkedUpId);
-	var upSetValue = getStateObject(linkedUpSetValueId);
-	var down = getStateObject(linkedDownId);
-	var downSetValue = getStateObject(linkedDownSetValueId);
-	var favoritePosition = getStateObject(linkedFavoritePosition);
+	var state = getState(linkedStateId);
+	var direction = getState(linkedDirectionId);
+	var stop = getState(linkedStopId);
+	var stopSetValue = getState(linkedStopSetValueId);
+	var up = getState(linkedUpId);
+	var upSetValue = getState(linkedUpSetValueId);
+	var down = getState(linkedDownId);
+	var downSetValue = getState(linkedDownSetValueId);
+	var favoritePosition = getState(linkedFavoritePosition);
 	var deviceReadonly = false;
 	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
 	if(state && state.type == "level" && deviceReadonly == false){
@@ -2808,7 +2854,7 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 		var linkedPowerSwitchId = getLinkedStateId(device,deviceId,"POWER_SWITCH");
 		toggleState(linkedPowerSwitchId, deviceIdEscaped, callback);
 	} else { //toggle STATE
-		var state = getStateObject(linkedStateId);
+		var state = getState(linkedStateId);
 		var statePlayValue = getDeviceOptionValue(device, "statePlayValue") || "play";
 		var statePauseValue = getDeviceOptionValue(device, "statePauseValue") || "pause";
 		var stateStopValue = getDeviceOptionValue(device, "stateStopValue") || "stop";
@@ -2818,9 +2864,9 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 			var linkedPlayId = getLinkedStateId(device, deviceId, "PLAY");
 			var linkedPauseId = getLinkedStateId(device, deviceId,"PAUSE");
 			var linkedStopId = getLinkedStateId(device, deviceId,"STOP");
-			var statePlay = getStateObject(linkedPlayId);
-			var statePause = getStateObject(linkedPauseId);
-			var stateStop = getStateObject(linkedStopId);
+			var statePlay = getState(linkedPlayId);
+			var statePause = getState(linkedPauseId);
+			var stateStop = getState(linkedStopId);
 			if(state && typeof state.val !== udef && ((typeof state.val == "boolean" && state.val) || state.val == statePlayValue)){ //Play
 				if(statePause && statePause.type) {
 					setState(linkedPauseId, deviceIdEscaped, (useStateValuesForPlayPauseStop ? statePauseValue : true), true);
@@ -2842,7 +2888,7 @@ function toggleMedia(linkedStateId, deviceIdEscaped, callback){
 }
 
 function toggleScene(linkedStateId, deviceIdEscaped, callback){
-	var state = getStateObject(linkedStateId);
+	var state = getState(linkedStateId);
 	var deviceReadonly = false;
 	if(getDeviceOptionValue(getDevice(unescape(deviceIdEscaped)), "readonly") == "true") deviceReadonly = true;
 	if(state && state.readonly == false && deviceReadonly == false){
@@ -3038,6 +3084,22 @@ function checkCondition(value, condition, conditionValue){
 		}
 		break;
 
+		case "EQ":
+		if(value.toString() == conditionValue.toString()){
+			return true;
+		} else {
+			return false;
+		}
+		break;
+
+		case "NE":
+		if(value.toString() == conditionValue.toString()){
+			return false;
+		} else {
+			return true;
+		}
+		break;
+
 		case "gt":
 		if(!isNaN(value) && !isNaN(conditionValue) && parseFloat(value) > parseFloat(conditionValue)){
 			return true;
@@ -3135,6 +3197,18 @@ function getObjectValue(obj, keyPath, defaultValue, defaultIfNull, defaultIfEmpt
 
 function isHTML(testString){
 	return /<(br|basefont|hr|input|source|frame|param|area|meta|!--|col|link|option|base|img|wbr|!DOCTYPE).*?>|<(a|abbr|acronym|address|applet|article|aside|audio|b|bdi|bdo|big|blockquote|body|button|canvas|caption|center|cite|code|colgroup|command|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|html|i|iframe|ins|kbd|keygen|label|legend|li|map|mark|menu|meter|nav|noframes|noscript|object|ol|optgroup|output|p|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|span|strike|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video).*?<\/\2>/i.test(testString);
+}
+
+function calculate(expression){
+    try{
+        var calcFunction = new Function("return " + expression);
+        var calcResult = calcFunction();
+        console.log("Calculation: " + expression + " -->Result: " + calcResult);
+		return calcResult;
+    } catch {
+        console.debug("Calculation without valid result: " + expression);
+		return null;
+    }
 }
 
 function dragElement(dragElementId, dragHandleId, cursor, resize, setMaxHeightElementId, setMaxHeightOffset) { //Makes an element draggable
@@ -3279,35 +3353,35 @@ function convertToAlternativeColorspace(device, linkedHueId, linkedSaturationId,
 	var alternativeColorspace = getDeviceOptionValue(device, "alternativeColorspace") || "";
 	var alternativeColorspaceResult = convertFromAlternativeColorspace(device, linkedAlternativeColorspaceValueId, linkedHueId, linkedSaturationId, linkedColorBrightnessId, linkedCtId, linkedWhiteBrightnessId);
 	var hue = null;
-	var stateHue = getStateObject(linkedHueId);
+	var stateHue = getState(linkedHueId);
 	if(stateHue && typeof stateHue.val != udef) {
 		var hueMin = stateHue.min || 0;
 		var hueMax = stateHue.max || 359;
 		hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 	} else if(alternativeColorspaceResult.hue !== null) hue = alternativeColorspaceResult.hue;
 	var	saturation = null;
-	var stateSaturation = getStateObject(linkedSaturationId);
+	var stateSaturation = getState(linkedSaturationId);
 	if(stateSaturation && typeof stateSaturation.val != udef) {
 		var saturationMin = stateSaturation.min || 0;
 		var saturationMax = stateSaturation.max || 100;
 		saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
 	} else if(alternativeColorspaceResult.saturation !== null) saturation = alternativeColorspaceResult.saturation;
 	var	colorBrightness = null;
-	var stateColorBrightness = getStateObject(linkedColorBrightnessId);
+	var stateColorBrightness = getState(linkedColorBrightnessId);
 	if(stateColorBrightness && typeof stateColorBrightness.val != udef) {
 		var colorBrightnessMin = stateColorBrightness.min || 0;
 		var colorBrightnessMax = stateColorBrightness.max || 100;
 		colorBrightness = ((stateColorBrightness.val - colorBrightnessMin) / (colorBrightnessMax - colorBrightnessMin)) * 100;
 	} else if(alternativeColorspaceResult.colorBrightness !== null) colorBrightness = alternativeColorspaceResult.colorBrightness;
 	var	ct = null;
-	var stateCt = getStateObject(linkedCtId);
+	var stateCt = getState(linkedCtId);
 	if(stateCt && typeof stateCt.val != udef) {
 		var ctMin = stateCt.min || 0;
 		var ctMax = stateCt.max || 100;
 		ct = ((stateCt.val - ctMin) / (ctMax - ctMin)) * 100;
 	} else if(alternativeColorspaceResult.ct !== null) ct = alternativeColorspaceResult.ct;
 	var	whiteBrightness = null;
-	var stateWhiteBrightness = getStateObject(linkedWhiteBrightnessId);
+	var stateWhiteBrightness = getState(linkedWhiteBrightnessId);
 	if(stateWhiteBrightness && typeof stateWhiteBrightness.val != udef) {
 		var whiteBrightnessMin = stateWhiteBrightness.min || 0;
 		var whiteBrightnessMax = stateWhiteBrightness.max || 100;
@@ -3458,31 +3532,31 @@ function convertFromAlternativeColorspace(device, linkedAlternativeColorspaceVal
 		break;
 	}
 	if(result.hue != null){
-		var stateHue = getStateObject(linkedHueId);
+		var stateHue = getState(linkedHueId);
 		var hueMin = stateHue && stateHue.min || 0;
 		var hueMax = stateHue && stateHue.max || 359;
 		result.hue = Math.round((result.hue/359 * (hueMax - hueMin)) + hueMin);
 	}
 	if(result.saturation != null){
-		var stateSaturation = getStateObject(linkedSaturationId);
+		var stateSaturation = getState(linkedSaturationId);
 		var saturationMin = stateSaturation && stateSaturation.min || 0;
 		var saturationMax = stateSaturation && stateSaturation.max || 100;
 		result.saturation = Math.round((result.saturation/100 * (saturationMax - saturationMin)) + saturationMin);
 	}
 	if(result.colorBrightness != null){
-		var stateColorBrightness = getStateObject(linkedColorBrightnessId);
+		var stateColorBrightness = getState(linkedColorBrightnessId);
 		var colorBrightnessMin = stateColorBrightness && stateColorBrightness.min || 0;
 		var colorBrightnessMax = stateColorBrightness && stateColorBrightness.max || 100;
 		result.colorBrightness = Math.round((result.colorBrightness/100 * (colorBrightnessMax - colorBrightnessMin)) + colorBrightnessMin);
 	}
 	if(result.ct != null){
-		var stateCt = getStateObject(linkedCtId);
+		var stateCt = getState(linkedCtId);
 		var ctMin = stateCt && stateCt.min || 0;
 		var ctMax = stateCt && stateCt.max || 100;
 		result.ct = Math.round((result.ct/100 * (ctMax - ctMin)) + ctMin);
 	}
 	if(result.whiteBrightness != null){
-		var stateWhiteBrightness = getStateObject(linkedWhiteBrightnessId);
+		var stateWhiteBrightness = getState(linkedWhiteBrightnessId);
 		var whiteBrightnessMin = stateWhiteBrightness && stateWhiteBrightness.min || 0;
 		var whiteBrightnessMax = stateWhiteBrightness && stateWhiteBrightness.max || 100;
 		result.whiteBrightness = Math.round((result.whiteBrightness/100 * (whiteBrightnessMax - whiteBrightnessMin)) + whiteBrightnessMin);
@@ -4746,7 +4820,6 @@ function renderToolbar(){
 		addDeviceFunction: function(toolbarItem, toolbarIndex, uiElements){ 
 			var linkedViewId = addNamespaceToViewId(toolbarItem.nativeLinkedView);
 			toolbarLinksToOtherViews.push(linkedViewId);
-			var toolbarItemContent = "<li><a data-icon='" + (toolbarItem.nativeIcon ? (toolbarItem.nativeIcon.indexOf('.') == -1 ? toolbarItem.nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItem.commonName;
 			if(toolbarItem.nativeIcon && toolbarItem.nativeIcon.indexOf('.') > -1){ //Custom icon
 				customCSS = ".iQontrolToolbarLink[data-index='" + toolbarIndex + "']:after {";
 				customCSS += "	background:url('" + toolbarItem.nativeIcon + "');";
@@ -4757,7 +4830,7 @@ function renderToolbar(){
 				addCustomCSS(customCSS, "toolbarCustomIcons");
 			}
 			uiElements
-				.addHtml(toolbarItemContent)
+				.addHtml("<li><a data-icon='" + (toolbarItem.nativeIcon ? (toolbarItem.nativeIcon.indexOf('.') == -1 ? toolbarItem.nativeIcon : "grid") : "") + "' data-index='" + toolbarIndex + "' onclick='if(!toolbarContextMenuIgnoreClick){ toolbarContextMenuEnd(); viewHistory = toolbarLinksToOtherViews; viewHistoryPosition = " + toolbarIndex + ";renderView(unescape(\"" + escape(linkedViewId) + "\"));}' class='iQontrolToolbarLink ui-nodisc-icon " + (typeof options.LayoutToolbarIconColor != udef && options.LayoutToolbarIconColor == 'black' ? 'ui-alt-icon' : '') + "' data-theme='b' id='iQontrolToolbarLink_" + toolbarIndex + "'>" + toolbarItem.commonName)
 				.addBadge(toolbarItem, {
 					badgeDeviceState: "BADGE",
 					badgeColorDeviceState: "BADGE_COLOR",
@@ -4941,12 +5014,13 @@ function renderView(viewId, triggeredByReconnection){
 	console.log("renderView " + viewId + ", triggeredByReconnection: " + !!triggeredByReconnection);
 	if(!viewId){ viewId = homeId; console.log("Set viewId to homeId: " + viewId); }
 	if(!viewId){ console.log("No viewId to render!"); return; }
-	if(actualViewId != addNamespaceToViewId(viewId)) triggeredByReconnection = false;
-	actualViewId = addNamespaceToViewId(viewId).split('#')[0];
+	viewId = addNamespaceToViewId(viewId)
+	if(actualViewId != viewId) triggeredByReconnection = false;
+	actualViewId = viewId.split('#')[0];
 	//Mark actual view on toolbar
 	var toolbarIndex = -1;
 	(config[namespace] && config[namespace].toolbar && config[namespace].toolbar.items || []).forEach(function(toolbarItem, toolbarItemIndex){
-		if(addNamespaceToViewId(toolbarItem.nativeLinkedView) == actualViewId) {
+		if(addNamespaceToViewId(toolbarItem.nativeLinkedView) == viewId) {
 			toolbarIndex = toolbarItemIndex;
 		}
 	});
@@ -4955,7 +5029,7 @@ function renderView(viewId, triggeredByReconnection){
 		$("#iQontrolToolbarLink_" + toolbarIndex).addClass("ui-btn-active");
 	}
 	//Show or hide homeButton
-	if(isBackgroundView && actualViewId != homeId){
+	if(isBackgroundView && viewId != homeId){
 		$(".viewHomeButton").show();
 	} else {
 		$(".viewHomeButton").hide();
@@ -5021,23 +5095,15 @@ function renderView(viewId, triggeredByReconnection){
 					uiElements.addHtml(viewContent);
 					return uiElements; 
 				}
+				viewContent = "";
 				var deviceContent = "";
-				//--Get linked States
-				//  While getting the LinkedStateId the correspondig usedObject is also fetched
-				var deviceLinkedStateIds = {}; //##### 
-				if(device.commonRole && iQontrolRoles[device.commonRole] && typeof iQontrolRoles[device.commonRole].states != udef){
-					iQontrolRoles[device.commonRole].states.forEach(function(roleState){
-						var linkedStateId = getLinkedStateId(device, deviceId, roleState);
-						if(linkedStateId) { //Call updateFunction after rendering View
-							viewLinkedStateIdsToFetchAndUpdate.push(linkedStateId);
-						}
-						deviceLinkedStateIds[roleState] = linkedStateId;
-					});
-				}
-				//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["tileActiveStateId"] and fetched
+				var deviceLinkedStateIds = {}; //##### remove this, when all parts are converted to uiElements
+				Object.keys(device.deviceStates || {}).forEach(function(deviceStateName){
+					deviceLinkedStateIds[deviceStateName] = device.deviceStates[deviceStateName].stateId;
+				});
+/*				//--Special: the option tileActiveStateId is transferred to deviceLinkedStateIds["tileActiveStateId"] and fetched
 				var linkedTileActiveStateId = getDeviceOptionValue(device, "tileActiveStateId");
-/*				if(linkedTileActiveStateId) { //Call updateFunction after rendering View
-                    uiElements.addUpdateFunction(linkedStateId, updateFunction);
+				if(linkedTileActiveStateId) { //Call updateFunction after rendering View
 					if(!viewUpdateFunctions[linkedTileActiveStateId]) viewUpdateFunctions[linkedTileActiveStateId] = [];
 					viewLinkedStateIdsToFetchAndUpdate.push(linkedTileActiveStateId);
 				}
@@ -5093,8 +5159,8 @@ function renderView(viewId, triggeredByReconnection){
 							var _linkedGlowInactiveColorId = deviceLinkedStateIds["GLOW_INACTIVE_COLOR"];
 							var _linkedGlowHideId = deviceLinkedStateIds["GLOW_HIDE"];
 							var updateFunction = function(){
-								var stateGlowInactiveColor = getStateObject(_linkedGlowInactiveColorId);
-								var stateGlowHide = getStateObject(_linkedGlowHideId);
+								var stateGlowInactiveColor = getState(_linkedGlowInactiveColorId);
+								var stateGlowHide = getState(_linkedGlowHideId);
 								var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
 								var glow = !(stateGlowHide && stateGlowHide.val || false);
 								if(invertGlowHide) glow = !glow;
@@ -5122,26 +5188,30 @@ function renderView(viewId, triggeredByReconnection){
 							var _linkedHueId = deviceLinkedStateIds["HUE"];
 							var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
 							var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
+							if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
 							var updateFunction = function(){
-								var stateGlowActiveColor = getStateObject(_linkedGlowActiveColorId);
-								var stateGlowHide = getStateObject(_linkedGlowHideId);
+								var stateGlowActiveColor = getState(_linkedGlowActiveColorId);
+								var stateGlowHide = getState(_linkedGlowHideId);
 								var invertGlowHide = (getDeviceOptionValue(_device, "invertGlowHide") == "true");
 								var glow = !(stateGlowHide && stateGlowHide.val || false);
 								if(invertGlowHide) glow = !glow;
-								if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
-								var stateHue = getStateObject(_linkedHueId);
+								var stateHue = getState(_linkedHueId);
 								if(_linkGlowActiveColorToHue && stateHue && stateHue.val !== ""){
-									var hueMin = stateHue.min || 0;
-									var hueMax = stateHue.max || 359;
-									var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-									var	saturation = 100;
-									var stateSaturation = getStateObject(_linkedSaturationId);
-									if(stateSaturation && typeof stateSaturation.val != udef) {
-										var saturationMin = stateSaturation.min || 0;
-										var saturationMax = stateSaturation.max || 100;
-										saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+									if(stateHue.valRaw !== null){
+										var hueMin = stateHue.min || 0;
+										var hueMax = stateHue.max || 359;
+										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+										var	saturation = 100;
+										var stateSaturation = getState(_linkedSaturationId);
+										if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
+											var saturationMin = stateSaturation.min || 0;
+											var saturationMax = stateSaturation.max || 100;
+											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+										}
+										var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
+									} else {
+										colorString = null;
 									}
-									var colorString = "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)";
 								} else if(_linkGlowActiveColorToHue){
 									var colorString = "rgb(255,245,157)";
 								} else {
@@ -5153,77 +5223,35 @@ function renderView(viewId, triggeredByReconnection){
 									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceGlow.active").css('box-shadow', "none");
 								}
 							};
-                            uiElements.addUpdateFunction([_linkedGlowActiveColorId, _linkedGlowHideId, _linkedHueId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE", _linkedSaturationId], updateFunction);
+                            uiElements.addUpdateFunction([_linkedGlowActiveColorId, _linkedGlowHideId, _linkedHueId, _linkedSaturationId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
 						})(); //<--End Closure
 					}
 					//--Badge
-					if(deviceLinkedStateIds["BADGE"]){
-						viewContent += "<div class='iQontrolDeviceBadge' data-iQontrol-Device-ID='" + deviceIdEscaped + "'></div>";
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							var _device = device;
-							var _deviceIdEscaped = deviceIdEscaped;
-							var _linkedBadgeId = deviceLinkedStateIds["BADGE"];
-							var _linkedBadgeColorId = deviceLinkedStateIds["BADGE_COLOR"];
-							var updateFunction = function(){
-								var stateBadge = getStateObject(_linkedBadgeId);
-								var stateBadgeColor = getStateObject(_linkedBadgeColorId);
-								var badgeWithoutUnit = (getDeviceOptionValue(_device, "badgeWithoutUnit") == "true");
-								var showBadgeIfZero = (getDeviceOptionValue(_device, "showBadgeIfZero") == "true");
-								var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
-								var restartActivateDelay = false;
-								if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('background-color-string') != colorString){ //New color
-									console.log("Badge - new color (" + colorString + ") - restartActivateDelay");
-									restartActivateDelay = true;
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").css('background-color', colorString).data('background-color-string', colorString);
-								}
-								if(stateBadge && typeof stateBadge.val !== udef && (showBadgeIfZero || stateBadge.val) && stateBadge.plainText !== ""){ //Active
-									var val = stateBadge.plainText;
-									var unit = stateBadge.unit;
-									if(!isNaN(val)) val = Math.round(val * 10) / 10;
-									if(!badgeWithoutUnit && stateBadge.plainText == stateBadge.val) val = val + unit;
-									if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('val') != val){ //New val
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").html(val).data('val', val);
-									}
-									if(!$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").hasClass('active')){ //Not active until now
-										if(restartActivateDelay || $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout') != "over"){ //ActivateDelay is not over
-											console.log("Badge - new active - restartActivateDelay");
-											restartActivateDelay = true;
-										} else { //ActivateDelay is over
-											console.log("Badge - new active - activateDelayTimeout is over - activate now");
-											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").addClass('active');
-											stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
-										}
-									}
-								} else { //Inactive
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").removeClass('active');
-									stateFillsDeviceCheckForIconToFloat($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceState"));
-									if(!restartActivateDelay){
-										clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout'));
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', null);
-									}
-								}
-								if(restartActivateDelay){
-									clearTimeout($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout'));
-									$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', setTimeout(function(){
-										console.log("Badge - activateDelay-Timeout is over - recall updateFunction");
-										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBadge").data('activate-delay-timeout', 'over');
-										updateFunction();
-									}, 500));
-								}
-							};
-                            uiElements.addUpdateFunction([_linkedBadgeId, _linkedBadgeColorId], updateFunction);
-						})(); //<--End Closure
-					}
+					uiElements
+					.addHtml(viewContent)
+					.addBadge(device, {
+						badgeDeviceState: "BADGE",
+						badgeColorDeviceState: "BADGE_COLOR",
+						class: "iQontrolDeviceBadge"
+					})
+					viewContent = ""; //#####
 					//--Device
 					var linkedTileEnlargedId = deviceLinkedStateIds["tileEnlarged"];
-					var stateEnlarged = getStateObject(linkedTileEnlargedId);
+					var stateEnlarged = getState(linkedTileEnlargedId);
 					var enlarged = stateEnlarged && stateEnlarged.val;
 					if(enlarged == null) enlarged = (getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true");
 					var stateHeightAdaptsContentInactive = (getDeviceOptionValue(device, "stateHeightAdaptsContentInactive") == "true");
 					var stateHeightAdaptsContentActive = (getDeviceOptionValue(device, "stateHeightAdaptsContentActive") == "true");
 					var stateHeightAdaptsContentEnlarged = (getDeviceOptionValue(device, "stateHeightAdaptsContentEnlarged") == "true");
 					viewContent += "<div class='iQontrolDevice" + ((getDeviceOptionValue(device, "transparentIfInactive") == "true") ? " transparentIfInactive" : "") + ((getDeviceOptionValue(device, "transparentIfActive") == "true") ? " transparentIfActive" : "") + ((getDeviceOptionValue(device, "transparentIfEnlarged") == "true") ? " transparentIfEnlarged" : "") + (getDeviceOptionValue(device, "sizeInactive") ? " " + getDeviceOptionValue(device, "sizeInactive") : "") + (getDeviceOptionValue(device, "sizeActive") ? " " + getDeviceOptionValue(device, "sizeActive") : "") + (getDeviceOptionValue(device, "sizeEnlarged") ? " " + getDeviceOptionValue(device, "sizeEnlarged") : "") + (enlarged ? " enlarged": "") + (stateHeightAdaptsContentInactive ? " adaptsHeightIfInactive" : "") + (stateHeightAdaptsContentActive ? " adaptsHeightIfActive" : "") + (stateHeightAdaptsContentEnlarged ? " adaptsHeightIfEnlarged" : "") + ((getDeviceOptionValue(device, "bigIconInactive") == "true") ? " bigIconIfInactive" : "") + ((getDeviceOptionValue(device, "bigIconActive") == "true") ? " bigIconIfActive" : "") + ((getDeviceOptionValue(device, "bigIconEnlarged") != "false") ? " bigIconIfEnlarged" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "'>";
-						//--Link (clickOnTileAction)
+
+					uiElements
+					.addHtml(viewContent);
+					viewContent = ""; //#####
+
+
+
+					//--Link (clickOnTileAction)
 						var clickOnTileAction = getDeviceOptionValue(device, "clickOnTileAction");
 						if(clickOnTileAction == "toggle") { //clickOnTile: toggle
 							deviceContent += "<div class='iQontrolDeviceLink toggle' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='if(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"] && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle && viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick){new Function(viewDeviceContextMenu[\"" + deviceIdEscaped + "\"].toggle.onclick)();}'>";
@@ -5246,7 +5274,7 @@ function renderView(viewId, triggeredByReconnection){
 									deviceContent += "<div class='iQontrolDeviceLink linkedView' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick='viewHistory = viewLinksToOtherViews; viewHistoryPosition = " + (viewLinksToOtherViews.length - 1) + "; renderView(unescape(\"" + escape(device.nativeLinkedView) + "\"));'>";
 								}
 							} else { //No Link to other view present
-								deviceContent += "<div class='iQontrolDeviceLink noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick=''>";
+								deviceContent += "<!-- <div class='iQontrolDeviceLink noLink' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-onclick=''>";
 							}
 						}
 						if(deviceLinkedStateIds["URL"]){
@@ -5256,7 +5284,7 @@ function renderView(viewId, triggeredByReconnection){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedUrlId = deviceLinkedStateIds["URL"];
                                 var updateFunction = function(){
-									var href = getStateObject(_linkedUrlId);
+									var href = getState(_linkedUrlId);
 									if(href && href.val){
 										viewDeviceContextMenu[_deviceIdEscaped].externalLink.href = href.val;
 										viewDeviceContextMenu[_deviceIdEscaped].externalLink.hidden = false
@@ -5311,9 +5339,9 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedBackgroundURLId = deviceLinkedStateIds["BACKGROUND_URL"];
 									var _linkedBackgroundHTMLId = deviceLinkedStateIds["BACKGROUND_HTML"];
 									var updateFunction = function(){
-										var stateBackgroundView = getStateObject(_linkedBackgroundViewId);
-										var stateBackgroundURL = getStateObject(_linkedBackgroundURLId);
-										var stateBackgroundHTML = getStateObject(_linkedBackgroundHTMLId);
+										var stateBackgroundView = getState(_linkedBackgroundViewId);
+										var stateBackgroundURL = getState(_linkedBackgroundURLId);
+										var stateBackgroundHTML = getState(_linkedBackgroundHTMLId);
 										if((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")){ //View or URL
 											if($("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundIframeWrapper").html() == ""){ //create iframe
 												var padding = parseInt(getDeviceOptionValue(_device, "backgroundURLPadding")) || 0;
@@ -5405,7 +5433,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _linkedOverlayInactiveColorId = deviceLinkedStateIds["OVERLAY_INACTIVE_COLOR"];
 									var updateFunction = function(){
-										var stateOverlayInactiveColor = getStateObject(_linkedOverlayInactiveColorId);
+										var stateOverlayInactiveColor = getState(_linkedOverlayInactiveColorId);
 										var colorString = stateOverlayInactiveColor && isValidColorString(stateOverlayInactiveColor.val) && stateOverlayInactiveColor.val || null;
 										if(colorString){
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceBackgroundImage:not(.active)").css('background-color', colorString);
@@ -5427,17 +5455,17 @@ function renderView(viewId, triggeredByReconnection){
 								var _linkedHueId = deviceLinkedStateIds["HUE"];
 								var _linkedSaturationId = deviceLinkedStateIds["SATURATION"];
 								var _linkedAlternativeColorspaceValueId = deviceLinkedStateIds["ALTERNATIVE_COLORSPACE_VALUE"];
+								if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
 								var updateFunction = function(){
-									var stateOverlayActiveColor = getStateObject(_linkedOverlayActiveColorId);
-									if(!_linkedHueId && _linkedAlternativeColorspaceValueId) _linkedHueId = "TEMP:" + _deviceId + ".HUE";
-									var stateHue = getStateObject(_linkedHueId);
-									if(_linkOverlayActiveColorToHue && stateHue && stateHue.val !== ""){
+									var stateOverlayActiveColor = getState(_linkedOverlayActiveColorId);
+									var stateHue = getState(_linkedHueId);
+									if(_linkOverlayActiveColorToHue && stateHue && stateHue.val !== "" && stateHue.valRaw !== null){
 										var hueMin = stateHue.min || 0;
 										var hueMax = stateHue.max || 359;
 										var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
 										var	saturation = 100;
-										var stateSaturation = getStateObject(_linkedSaturationId);
-										if(stateSaturation && typeof stateSaturation.val != udef) {
+										var stateSaturation = getState(_linkedSaturationId);
+										if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.valRaw != null) {
 											var saturationMin = stateSaturation.min || 0;
 											var saturationMax = stateSaturation.max || 100;
 											saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
@@ -5462,6 +5490,39 @@ function renderView(viewId, triggeredByReconnection){
 								if(_linkOverlayActiveColorToHue && _linkedSaturationId) viewUpdateFunctions[].push(updateFunction); */
 							})(); //<--End Closure
 						}
+
+
+
+						//---------- TEST UI ELEMENTS ----------						
+						uiElements.addHtml(deviceContent)
+						.addIconTextCombination(device, {
+							stackId: "testStack",
+							
+							iconClasses: "iQontrolDeviceInfoBIcon",
+							iconDeviceStateId: "BATTERY",
+							iconActiveDeviceStateId: "UNREACH",
+
+							textClasses: "iQontrolDeviceInfoBText",
+							textDeviceStateId: "STATE",
+							textActiveDeviceStateId: "UNREACH"
+
+						})
+						.addIconTextCombination(device, {
+							stackId: "testStack",
+							
+							iconClasses: "iQontrolDeviceInfoBIcon",
+							iconDeviceStateId: "ERROR",
+							iconActiveDeviceStateId: "UNREACH",
+
+							textClasses: "iQontrolDeviceInfoBText",
+							textDeviceStateId: "STATE",
+							textActiveDeviceStateId: "UNREACH"
+
+						});
+						deviceContent = ""; //#####
+
+
+
 						//--Icon with Link to Switch
 						var linkContent = "";
 						var iconContent = "";
@@ -5735,7 +5796,7 @@ function renderView(viewId, triggeredByReconnection){
 								var _linkedErrorId = deviceLinkedStateIds["ERROR"];
 								var updateFunction = function(){
 									var invertError = (getDeviceOptionValue(_device, "invertError") == "true");
-									var stateError = getStateObject(_linkedErrorId);
+									var stateError = getState(_linkedErrorId);
 									if(typeof stateError !== udef && ((!invertError && stateError.val) || (invertError && !stateError.val))) {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceError").addClass("active");
 									} else {
@@ -5761,7 +5822,7 @@ function renderView(viewId, triggeredByReconnection){
 									if(hideUnreachIfInactive) {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceUnreach").addClass("hideUnreachIfInactive");
 									}
-									var stateUnreach = getStateObject(_linkedUnreachId);
+									var stateUnreach = getState(_linkedUnreachId);
 									if(typeof stateUnreach !== udef && ((!invertUnreach && stateUnreach.val) || (invertUnreach && !stateUnreach.val))) {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDeviceUnreach").addClass("active");
 									} else {
@@ -5782,7 +5843,7 @@ function renderView(viewId, triggeredByReconnection){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedBatteryId = deviceLinkedStateIds["BATTERY"];
 								var updateFunction = function(){
-									var stateBattery = getStateObject(_linkedBatteryId);
+									var stateBattery = getState(_linkedBatteryId);
 									if(typeof stateBattery !== udef){
 										var batteryActiveCondition = getDeviceOptionValue(_device, "batteryActiveCondition");
 										var batteryActiveConditionValue = getDeviceOptionValue(_device, "batteryActiveConditionValue");
@@ -5819,7 +5880,7 @@ function renderView(viewId, triggeredByReconnection){
 								var _linkedTileEnlargedId = deviceLinkedStateIds["tileEnlarged"];
 								var _linkedEnlargeTileId = deviceLinkedStateIds["ENLARGE_TILE"];
 								var updateFunction = function(){
-									var stateTileEnlarged = getStateObject(_linkedTileEnlargedId);
+									var stateTileEnlarged = getState(_linkedTileEnlargedId);
 									if(typeof stateTileEnlarged !== udef && stateTileEnlarged.val) {
 										$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").addClass("enlarged");
 										viewDeviceContextMenu[_deviceIdEscaped].enlarge.hidden = true;
@@ -5841,8 +5902,8 @@ function renderView(viewId, triggeredByReconnection){
                                 uiElements.addUpdateFunction(_linkedTileEnlargedId, updateFunction);
 								if(_linkedEnlargeTileId){
                                     var updateFunction = function(){
-                                        var stateTileEnlarged = getStateObject(_linkedTileEnlargedId);
-                                        var stateEnlargeTile = getStateObject(_linkedEnlargeTileId);
+                                        var stateTileEnlarged = getState(_linkedTileEnlargedId);
+                                        var stateEnlargeTile = getState(_linkedEnlargeTileId);
                                         if(typeof stateEnlargeTile !== udef && stateEnlargeTile.type) {
                                             switch(stateEnlargeTile.type){
                                                 case "button":
@@ -5872,13 +5933,13 @@ function renderView(viewId, triggeredByReconnection){
 								viewInfoASliderLength[deviceIdEscaped]++;
 								deviceContent += "<image class='iQontrolDeviceInfoAIcon" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "' src='" + (options.LayoutDefaultSymbols && options.LayoutDefaultSymbols["TEMPERATURE"] && options.LayoutDefaultSymbols["TEMPERATURE"]["temperatureIcon_on"] || "./images/symbols/temperature.png") + "'>";
 								deviceContent += "<div class='iQontrolDeviceInfoAText" + hideIfClasses + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-slider-index='" + sliderIndex + "' style='" + (sliderIndex > 0 ? "opacity: 0;" : "opacity: 1;") + "'></div>";
-								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								(function(){ //Closur (everything declared inside keeps its value as ist is at the time the function is created)
 									var _deviceIdEscaped = deviceIdEscaped;
 									var _device = device;
 									var _linkedTemperatureId = deviceLinkedStateIds["TEMPERATURE"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateTemperature = getStateObject(_linkedTemperatureId);
+										var stateTemperature = getState(_linkedTemperatureId);
 										if(stateTemperature && typeof stateTemperature.val !== udef && stateTemperature.val !== ""){
 											var val = stateTemperature.plainText;
 											var unit = stateTemperature.unit;
@@ -5908,7 +5969,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedBrightnessId = deviceLinkedStateIds["BRIGHTNESS"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateBrightness = getStateObject(_linkedBrightnessId);
+										var stateBrightness = getState(_linkedBrightnessId);
 										if(stateBrightness && typeof stateBrightness.val !== udef && stateBrightness.val !== ""){
 											var val = stateBrightness.plainText;
 											var unit = stateBrightness.unit;
@@ -5938,7 +5999,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedSlatsLevelId = deviceLinkedStateIds["SLATS_LEVEL"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
+										var stateSlatsLevel = getState(_linkedSlatsLevelId);
 										if(stateSlatsLevel && typeof stateSlatsLevel.val !== udef && stateSlatsLevel.val !== ""){
 											var val = stateSlatsLevel.plainText;
 											var unit = stateSlatsLevel.unit;
@@ -5968,7 +6029,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedVoltageId = deviceLinkedStateIds["VOLTAGE"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateVoltage = getStateObject(_linkedVoltageId);
+										var stateVoltage = getState(_linkedVoltageId);
 										if(stateVoltage && typeof stateVoltage.val !== udef && stateVoltage.val !== ""){
 											var val = stateVoltage.plainText;
 											var unit = stateVoltage.unit;
@@ -6005,133 +6066,116 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedHueId = deviceLinkedStateIds["HUE"];
 									var _alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
 									var _sliderIndex = sliderIndex;
-									var _createColouredLightFunction = function(){
-										var _deviceLinkedStateIdsToFetchAndUpdate = [];
-										if(_linkedAlternativeColorspaceValueId) switch(_alternativeColorspace){
-											case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
-											if(_linkedCtId == ""){
-												_linkedCtId = createTempLinkedState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
-											}
+									var _deviceLinkedStateIdsToFetchAndUpdate = [];
+									if(_linkedAlternativeColorspaceValueId) switch(_alternativeColorspace){
+										case "RGBCWWW": case "#RGBCWWW": case "RGBWWCW": case "#RGBWWCW":
+										if(_linkedCtId == ""){
+											_linkedCtId = createTemporaryState(_deviceId + ".CT", "level", "state", _linkedAlternativeColorspaceValueId);
+										}
 
-											case "RGBW": case "#RGBW":
-											if(_linkedWhiteBrightnessId == ""){
-												_linkedWhiteBrightnessId = createTempLinkedState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
-											}
+										case "RGBW": case "#RGBW":
+										if(_linkedWhiteBrightnessId == ""){
+											_linkedWhiteBrightnessId = createTemporaryState(_deviceId + ".WHITE_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+										}
 
-											case "RGB": case "#RGB": case "HHSSBB_TUYA":
-											if(_linkedSaturationId == ""){
-												_linkedSaturationId = createTempLinkedState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
-											}
-											if(_linkedColorBrightnessId == ""){
-												_linkedColorBrightnessId = createTempLinkedState(_deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
-											}
+										case "RGB": case "#RGB": case "HHSSBB_TUYA":
+										if(_linkedSaturationId == ""){
+											_linkedSaturationId = createTemporaryState(_deviceId + ".SATURATION", "level", "state", _linkedAlternativeColorspaceValueId);
+										}
+										if(_linkedColorBrightnessId == ""){
+											_linkedColorBrightnessId = createTemporaryState(_deviceId + ".COLOR_BRIGHTNESS", "level", "state", _linkedAlternativeColorspaceValueId);
+										}
 
-											case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
-											if(_linkedHueId == ""){
-												_linkedHueId = createTempLinkedState(_deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
+										case "RGB_HUEONLY": case "#RGB_HUEONLY": case "HUE_MILIGHT":
+										if(_linkedHueId == ""){
+											_linkedHueId = createTemporaryState(_deviceId + ".HUE", "level", "state", _linkedAlternativeColorspaceValueId);
+										}
+										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedAlternativeColorspaceValueId);
+										break;
+									}
+									uiElements.addStatesToFetchAndUpdate([_linkedCtId, _linkedWhiteBrightnessId, _linkedSaturationId, _linkedColorBrightnessId, _linkedHueId]);
+/*									[_linkedCtId, _linkedWhiteBrightnessId, _linkedSaturationId, _linkedColorBrightnessId, _linkedHueId].forEach(function(linkedId){
+										if(linkedId && linkedId != "" && linkedId != null) updateState(linkedId);
+									}); */
+									if(_linkedHueId){
+										var updateFunction = function(){
+											var stateHue = getState(_linkedHueId);
+											if(stateHue && stateHue.val !== "" && stateHue.valRaw !== null){
+												var hueMin = stateHue.min || 0;
+												var hueMax = stateHue.max || 359;
+												var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
+												var	saturation = 100;
+												var stateSaturation = getState(_linkedSaturationId);
+												if(stateSaturation && typeof stateSaturation.val != udef && stateSaturation.val != null) {
+													var saturationMin = stateSaturation.min || 0;
+													var saturationMax = stateSaturation.max || 100;
+													saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+												}
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
 											}
-											_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedAlternativeColorspaceValueId);
-											break;
-										}
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedCtId);
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedWhiteBrightnessId);
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedSaturationId);
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedColorBrightnessId);
-										_deviceLinkedStateIdsToFetchAndUpdate.push(_linkedHueId);
-										if(_linkedHueId){
-											var updateFunction = function(){
-												var stateHue = getStateObject(_linkedHueId);
-												if(stateHue && stateHue.val !== ""){
-													var hueMin = stateHue.min || 0;
-													var hueMax = stateHue.max || 359;
-													var hue = ((stateHue.val - hueMin) / (hueMax - hueMin)) * 359;
-													var	saturation = 100;
-													var stateSaturation = getStateObject(_linkedSaturationId);
-													if(stateSaturation && typeof stateSaturation.val != udef) {
-														var saturationMin = stateSaturation.min || 0;
-														var saturationMax = stateSaturation.max || 100;
-														saturation = ((stateSaturation.val - saturationMin) / (saturationMax - saturationMin)) * 100;
+										};
+										uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId, _linkedAlternativeColorspaceValueId, "UPDATE_ONCE"], updateFunction);
+									}
+									if(_linkedCtId){
+										var updateFunction = function(){
+											var stateCt = getState(_linkedCtId);
+											if(stateCt  && typeof stateCt.val !== udef && stateCt.valRaw !== null){
+												var ctMin = stateCt.min || 0;
+												var ctMax = stateCt.max || 100;
+												var ct = stateCt.val;
+												var invertCt = false;
+												if(getDeviceOptionValue(_device, "invertCt") == "true") invertCt = !invertCt;
+												var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
+												$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
+											}
+										};
+										uiElements.addUpdateFunction(_linkedCtId, _linkedAlternativeColorspaceValueId, updateFunction);
+									}
+									if(_linkedAlternativeColorspaceValueId){
+										var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
+											if(fetchedStates[_linkedAlternativeColorspaceValueId] && fetchedStates[callingStateId] && typeof fetchedStates[callingStateId].val !== udef && fetchedStates[callingStateId].val !== ""){
+												var ack = fetchedStates[callingStateId].ack;
+												var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
+												var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
+												if(alternativeColorspaceValue) {
+													if((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
+														console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
+													} else {
+														if(typeof fetchedStates[_linkedAlternativeColorspaceValueId].val == "string" && fetchedStates[_linkedAlternativeColorspaceValueId].val == fetchedStates[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
+														setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);
 													}
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextHue").show().css("background-color", "hsl(" + hue + ", 100%," + (100-(saturation/2)) + "%)");
-												}
-											};
-                                            uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId], updateFunction);
-										}
-										if(_linkedCtId){
-											var updateFunction = function(){
-												var stateCt = getStateObject(_linkedCtId);
-												if(stateCt  && typeof stateCt.val !== udef){
-													var ctMin = stateCt.min || 0;
-													var ctMax = stateCt.max || 100;
-													var ct = stateCt.val;
-													var invertCt = false;
-													if(getDeviceOptionValue(_device, "invertCt") == "true") invertCt = !invertCt;
-													var rgb = colorTemperatureToRGB(ct, ctMin, ctMax, invertCt);
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoAIcon").show()
-													$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'][data-slider-index='" + _sliderIndex + "'].iQontrolDeviceInfoATextCt").show().css("background-color", "rgb(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ")");
-												}
-											};
-                                            uiElements.addUpdateFunction(_linkedCtId, updateFunction);
-										}
-										if(_linkedAlternativeColorspaceValueId){
-											var updateFunction = function(callingStateId){ //ConvertToAlternativeColorspace
-												if(fetchedStates[_linkedAlternativeColorspaceValueId] && fetchedStates[callingStateId] && typeof fetchedStates[callingStateId].val !== udef && fetchedStates[callingStateId].val !== ""){
-													var ack = fetchedStates[callingStateId].ack;
-													var alternativeColorspace = getDeviceOptionValue(_device, "alternativeColorspace") || "";
-													var alternativeColorspaceValue = convertToAlternativeColorspace(_device, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId, _linkedAlternativeColorspaceValueId)
-													if(alternativeColorspaceValue) {
-														if((callingStateId == _linkedCtId || callingStateId == _linkedWhiteBrightnessId) && (alternativeColorspace == "RGB" || alternativeColorspace == "#RGB" || alternativeColorspace == "RGB_HUEONLY" || alternativeColorspace == "#RGB_HUEONLY" || alternativeColorspace == "HUE_MILIGHT")){
-															console.log("Not sending state, because a white value was changed, but AlternativeColorspace is without white");
-														} else {
-															if(typeof fetchedStates[_linkedAlternativeColorspaceValueId].val == "string" && fetchedStates[_linkedAlternativeColorspaceValueId].val == fetchedStates[_linkedAlternativeColorspaceValueId].val.toUpperCase()) alternativeColorspaceValue = alternativeColorspaceValue.toUpperCase();
-															setState(_linkedAlternativeColorspaceValueId, _deviceIdEscaped, alternativeColorspaceValue, ack);
-														}
-													}
-												}
-											};
-                                            uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId], updateFunction);
-											var updateFunction = function(){ //ConvertFromAlternativeColorspace
-												if(fetchedStates[_linkedAlternativeColorspaceValueId]){
-													var ack = fetchedStates[_linkedAlternativeColorspaceValueId].ack;
-													var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
-													if(typeof fetchedObjects[_linkedAlternativeColorspaceValueId] == udef) fetchedObjects[_linkedAlternativeColorspaceValueId] = {};
-													fetchedObjects[_linkedAlternativeColorspaceValueId].result = {};
-													//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
-													if(result.hue != null){
-														if(_linkedHueId && _linkedHueId !== "" && (!fetchedStates[_linkedHueId] || (fetchedStates[_linkedHueId] && typeof fetchedStates[_linkedHueId].val != udef && Math.abs(fetchedStates[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
-													}
-													if(result.saturation != null){
-														if(_linkedSaturationId && _linkedSaturationId !== "" && (!fetchedStates[_linkedSaturationId] || (fetchedStates[_linkedSaturationId] && typeof fetchedStates[_linkedSaturationId].val != udef && Math.abs(fetchedStates[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
-													}
-													if(result.colorBrightness != null){
-														if(_linkedColorBrightnessId && _linkedColorBrightnessId !== "" && (!fetchedStates[_linkedColorBrightnessId] || (fetchedStates[_linkedColorBrightnessId] && typeof fetchedStates[_linkedColorBrightnessId].val != udef && Math.abs(fetchedStates[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
-													}
-													if(result.ct != null){
-														if(_linkedCtId && _linkedCtId !== "" && (!fetchedStates[_linkedCtId] || (fetchedStates[_linkedCtId] && typeof fetchedStates[_linkedCtId].val != udef && Math.abs(fetchedStates[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
-													}
-													if(result.whiteBrightness != null){
-														if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId !== "" && (!fetchedStates[_linkedWhiteBrightnessId] || (fetchedStates[_linkedWhiteBrightnessId] && typeof fetchedStates[_linkedWhiteBrightnessId].val != udef && Math.abs(fetchedStates[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
-													}
-												}
-											};
-                                            uiElements.addUpdateFunction(_linkedAlternativeColorspaceValueId, updateFunction);
-										}
-										_deviceLinkedStateIdsToFetchAndUpdate = removeDuplicates(_deviceLinkedStateIdsToFetchAndUpdate);
-										fetchStates(_deviceLinkedStateIdsToFetchAndUpdate, function(){
-											for (var i = 0; i < _deviceLinkedStateIdsToFetchAndUpdate.length; i++){
-												if(typeof fetchedObjects[_deviceLinkedStateIdsToFetchAndUpdate[i]] == udef) {
-													fetchObject(_deviceLinkedStateIdsToFetchAndUpdate[i], function(){
-														updateState(_deviceLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForView");
-													});
-												} else {
-													updateState(_deviceLinkedStateIdsToFetchAndUpdate[i], "ignorePreventUpdateForView");
 												}
 											}
-											_deviceLinkedStateIdsToFetchAndUpdate = [];
-										});
-									};
-									if(_linkedAlternativeColorspaceValueId) fetchObject(_linkedAlternativeColorspaceValueId, _createColouredLightFunction, true); else _createColouredLightFunction();
+										};
+										uiElements.addUpdateFunction([_linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId], updateFunction);
+										var updateFunction = function(){ //ConvertFromAlternativeColorspace
+											if(fetchedStates[_linkedAlternativeColorspaceValueId]){
+												var ack = fetchedStates[_linkedAlternativeColorspaceValueId].ack;
+												var result = convertFromAlternativeColorspace(_device, _linkedAlternativeColorspaceValueId, _linkedHueId, _linkedSaturationId, _linkedColorBrightnessId, _linkedCtId, _linkedWhiteBrightnessId);
+												if(typeof fetchedObjects[_linkedAlternativeColorspaceValueId] == udef) fetchedObjects[_linkedAlternativeColorspaceValueId] = {};
+												fetchedObjects[_linkedAlternativeColorspaceValueId].result = {};
+												//To avoid a converting-loop by rounding-differences the state is only updated, if difference between old an new value is > 1
+												if(result.hue != null){
+													if(_linkedHueId && _linkedHueId !== "" && (!fetchedStates[_linkedHueId] || (fetchedStates[_linkedHueId] && typeof fetchedStates[_linkedHueId].val != udef && Math.abs(fetchedStates[_linkedHueId].val - result.hue) > 1))) setState(_linkedHueId, _deviceIdEscaped, result.hue, ack, null, 100);
+												}
+												if(result.saturation != null){
+													if(_linkedSaturationId && _linkedSaturationId !== "" && (!fetchedStates[_linkedSaturationId] || (fetchedStates[_linkedSaturationId] && typeof fetchedStates[_linkedSaturationId].val != udef && Math.abs(fetchedStates[_linkedSaturationId].val - result.saturation) > 1))) setState(_linkedSaturationId, _deviceIdEscaped, result.saturation, ack, null, 100);
+												}
+												if(result.colorBrightness != null){
+													if(_linkedColorBrightnessId && _linkedColorBrightnessId !== "" && (!fetchedStates[_linkedColorBrightnessId] || (fetchedStates[_linkedColorBrightnessId] && typeof fetchedStates[_linkedColorBrightnessId].val != udef && Math.abs(fetchedStates[_linkedColorBrightnessId].val - result.colorBrightness) > 1))) setState(_linkedColorBrightnessId, _deviceIdEscaped, result.colorBrightness, ack, null, 100);
+												}
+												if(result.ct != null){
+													if(_linkedCtId && _linkedCtId !== "" && (!fetchedStates[_linkedCtId] || (fetchedStates[_linkedCtId] && typeof fetchedStates[_linkedCtId].val != udef && Math.abs(fetchedStates[_linkedCtId].val - result.ct) > 1))) setState(_linkedCtId, _deviceIdEscaped, result.ct, ack, null, 100);
+												}
+												if(result.whiteBrightness != null){
+													if(_linkedWhiteBrightnessId && _linkedWhiteBrightnessId !== "" && (!fetchedStates[_linkedWhiteBrightnessId] || (fetchedStates[_linkedWhiteBrightnessId] && typeof fetchedStates[_linkedWhiteBrightnessId].val != udef && Math.abs(fetchedStates[_linkedWhiteBrightnessId].val - result.whiteBrightness) > 1))) setState(_linkedWhiteBrightnessId, _deviceIdEscaped, result.whiteBrightness, ack, null, 100);
+												}
+											}
+										};
+										uiElements.addUpdateFunction(_linkedAlternativeColorspaceValueId, updateFunction);
+									}
 								})(); //<--End Closure
 							}
 							break;
@@ -6148,7 +6192,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedVolumeId = deviceLinkedStateIds["VOLUME"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateVolume = getStateObject(_linkedVolumeId);
+										var stateVolume = getState(_linkedVolumeId);
 										if(stateVolume && typeof stateVolume.val !== udef && stateVolume.val !== ""){
 											var val = stateVolume.plainText;
 											var unit = stateVolume.unit;
@@ -6174,7 +6218,7 @@ function renderView(viewId, triggeredByReconnection){
 						}
 						if(deviceLinkedStateIds["INFO_A"]) {
 							//Special: INFO_A is an Array: [{"type":"LinkedState", "value":"LinkedStateId", icon:"url"}, ...]
-							var stateInfoA = getStateObject(deviceLinkedStateIds["INFO_A"]);
+							var stateInfoA = getState(deviceLinkedStateIds["INFO_A"]);
 							var infoAArray = tryParseJSON(stateInfoA && stateInfoA.val || "");
 							var infoAArrayValid = false;
 							if(Array.isArray(infoAArray) && typeof infoAArray == 'object') infoAArray.forEach(function(element){
@@ -6195,7 +6239,7 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedElementCaption = (getDeviceOptionValue(device, "infoAShowName") == "true" ? element.name : "");
 										var _sliderIndex = sliderIndex;
 										var updateFunction = function(){
-											var stateElement = getStateObject(_linkedElementId);
+											var stateElement = getState(_linkedElementId);
 											if(stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
 												var val = stateElement.plainText;
 												var unit = stateElement.unit;
@@ -6238,7 +6282,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedHumidityId = deviceLinkedStateIds["HUMIDITY"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateHumidity = getStateObject(_linkedHumidityId);
+										var stateHumidity = getState(_linkedHumidityId);
 										if(stateHumidity && typeof stateHumidity.val !== udef && stateHumidity.val !== ""){
 											var val = stateHumidity.plainText;
 											var unit = stateHumidity.unit;
@@ -6268,7 +6312,7 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedPowerId = deviceLinkedStateIds["POWER"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var statePower = getStateObject(_linkedPowerId);
+										var statePower = getState(_linkedPowerId);
 										if(statePower && typeof statePower.val !== udef && statePower.val !== ""){
 											var val = statePower.plainText;
 											var unit = statePower.unit;
@@ -6302,8 +6346,8 @@ function renderView(viewId, triggeredByReconnection){
 									var _linkedDurationId = deviceLinkedStateIds["DURATION"];
 									var _sliderIndex = sliderIndex;
 									var updateFunction = function(){
-										var stateElapsed = getStateObject(_linkedElapsedId);
-										var stateDuration = getStateObject(_linkedDurationId);
+										var stateElapsed = getState(_linkedElapsedId);
+										var stateDuration = getState(_linkedDurationId);
 										var active = $("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].iQontrolDevice").hasClass("active");
 										if(active && stateElapsed && typeof stateElapsed.val !== udef && stateElapsed.val !== "" && !isNaN(stateElapsed.val)){
 											var divider = (getDeviceOptionValue(_device, "durationIsMilliseconds") == "true" ? 1000 : 1);
@@ -6335,7 +6379,7 @@ function renderView(viewId, triggeredByReconnection){
 						}
 						if(deviceLinkedStateIds["INFO_B"]) {
 							//Special: INFO_B is an Array: [{"type":"LinkedState", "value":"LinkedStateId", icon:"url"}, ...]
-							var stateInfoB = getStateObject(deviceLinkedStateIds["INFO_B"]);
+							var stateInfoB = getState(deviceLinkedStateIds["INFO_B"]);
 							var infoBArray = tryParseJSON(stateInfoB && stateInfoB.val || "");
 							var infoBArrayValid = false;
 							if(Array.isArray(infoBArray) && typeof infoBArray == 'object') infoBArray.forEach(function(element){
@@ -6356,7 +6400,7 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedElementCaption = (getDeviceOptionValue(device, "infoBShowName") == "true" ? element.name : "");
 										var _sliderIndex = sliderIndex;
 										var updateFunction = function(){
-											var stateElement = getStateObject(_linkedElementId);
+											var stateElement = getState(_linkedElementId);
 											if(stateElement && typeof stateElement.val !== udef && stateElement.val !== ""){
 												var val = stateElement.plainText;
 												var unit = stateElement.unit;
@@ -6404,8 +6448,8 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var showState = (getDeviceOptionValue(_device, "showState") == "true") || false;
 											var result;
 											var resultText = "";
@@ -6473,8 +6517,8 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var result;
 											var resultText = "";
 											if(state && typeof state.val !== udef && state.val !== "false" && state.val !== false && state.val !== 0 && state.val !== "" && state.val !== -1) {
@@ -6529,10 +6573,10 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedWindowOpenReportingId = deviceLinkedStateIds["WINDOW_OPEN_REPORTING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var setTemperature = getStateObject(_linkedSetTemperatureId);
-											var controlMode = getStateObject(_linkedControlModeId);
-											var boostMode = getStateObject(_linkedBoostModeId); //Only for HmIP
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var setTemperature = getState(_linkedSetTemperatureId);
+											var controlMode = getState(_linkedControlModeId);
+											var boostMode = getState(_linkedBoostModeId); //Only for HmIP
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var min = setTemperature && setTemperature.min || 0;
 											var max = setTemperature && setTemperature.max || 100;
 											var result = setTemperature && setTemperature.val || "";
@@ -6610,11 +6654,11 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedStateId = deviceLinkedStateIds["STATE"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
+											var state = getState(_linkedStateId);
 											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || _("closed");
 											var stateTiltedValue = getDeviceOptionValue(_device, "stateTiltedValue") || _("tilted");
 											var stateOpenedValue = getDeviceOptionValue(_device, "stateOpenedValue") || _("opened");
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var result;
 											var resultText;
 											if(state && typeof state.plainText == 'number'){		//STATE = number
@@ -6723,13 +6767,13 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedLockOpenId = deviceLinkedStateIds["LOCK_OPEN"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
+											var state = getState(_linkedStateId);
 											var stateClosedValue = getDeviceOptionValue(_device, "stateClosedValue") || "false";
 											var lockStateLockedValue = getDeviceOptionValue(_device, "lockStateLockedValue") || "false";
-											var lockState = getStateObject(_linkedLockStateId);
-											var lockStateUncertain = getStateObject(_linkedLockStateUncertainId);
-											var lockOpen = getStateObject(_linkedLockOpenId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var lockState = getState(_linkedLockStateId);
+											var lockStateUncertain = getState(_linkedLockStateUncertainId);
+											var lockOpen = getState(_linkedLockOpenId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var result;
 											var resultText = "";
 											if(state 
@@ -6817,8 +6861,8 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedDirectionId = deviceLinkedStateIds["DIRECTION"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var level = getStateObject(_linkedLevelId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var level = getState(_linkedLevelId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var min = level.min || 0;
 											var max = level.max || 100;
 											var val = level.val;
@@ -6827,7 +6871,7 @@ function renderView(viewId, triggeredByReconnection){
 											if(invertActuatorLevel){ // 0 = open
 												val = max - (level.val - min);
 											}
-											var direction = getStateObject(_linkedDirectionId);
+											var direction = getState(_linkedDirectionId);
 											var directionOpeningValue = getDeviceOptionValue(_device, "directionOpeningValue") || 1;
 											var directionClosingValue = getDeviceOptionValue(_device, "directionClosingValue") || 2;
 											var directionUncertainValue = getDeviceOptionValue(_device, "directionUncertainValue") || 3;
@@ -6920,9 +6964,9 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedControlModeId = deviceLinkedStateIds["CONTROL_MODE"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var controlMode = getStateObject(_linkedControlModeId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var controlMode = getState(_linkedControlModeId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var controlModeDisarmedValue = getDeviceOptionValue(_device, "controlModeDisarmedValue") || 0;
 											var result;
 											var resultText = "";
@@ -6992,10 +7036,10 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedDischargingId = deviceLinkedStateIds["DISCHARGING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var charging = getStateObject(_linkedChargingId);
-											var discharging = getStateObject(_linkedDischargingId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var charging = getState(_linkedChargingId);
+											var discharging = getState(_linkedDischargingId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var result;
 											var resultText;
 											var tileActiveStandard = false;
@@ -7107,11 +7151,11 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedRingingId = deviceLinkedStateIds["RINGING"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var subject = getStateObject(_linkedSubjectId);
-											var time = getStateObject(_linkedTimeId);
-											var ringing = getStateObject(_linkedRingingId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var subject = getState(_linkedSubjectId);
+											var time = getState(_linkedTimeId);
+											var ringing = getState(_linkedRingingId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var _timeFormat = getTimeFormat((getDeviceOptionValue(_device, "timeFormat", true) != "~" && getDeviceOptionValue(_device, "timeFormat", true)) || (time.custom && time.custom.timeFormat) || "x");
 											var _timeDisplayFormat = getTimeFormat((getDeviceOptionValue(_device, "timeDisplayFormat", true) != "~" && getDeviceOptionValue(_device, "timeDisplayFormat", true)) || (time.custom && time.custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
 											var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
@@ -7267,22 +7311,22 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedCoverUrlId = deviceLinkedStateIds["COVER_URL"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(sourceId){
-											var state = getStateObject(_linkedStateId);
+											var state = getState(_linkedStateId);
 											var statePlayValue = getDeviceOptionValue(_device, "statePlayValue") || "play";
 											var statePauseValue = getDeviceOptionValue(_device, "statePauseValue") || "pause";
 											var stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 											var coverImageReloadDelay = 50 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
 											var coverImageNoReloadOnTitleChange = (getDeviceOptionValue(_device, "coverImageNoReloadOnTitleChange") == "true");
-											var statePowerSwitch = getStateObject(_linkedPowerSwitchId);
-											var artist = getStateObject(_linkedArtistId);
-											var album = getStateObject(_linkedAlbumId);
-											var title = getStateObject(_linkedTitleId);
-											var season = getStateObject(_linkedSeasonId);
-											var episode = getStateObject(_linkedEpisodeId);
-											var playlist = getStateObject(_linkedPlaylistId);
-											var source = getStateObject(_linkedSourceId);
-											var coverUrl = getStateObject(_linkedCoverUrlId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var statePowerSwitch = getState(_linkedPowerSwitchId);
+											var artist = getState(_linkedArtistId);
+											var album = getState(_linkedAlbumId);
+											var title = getState(_linkedTitleId);
+											var season = getState(_linkedSeasonId);
+											var episode = getState(_linkedEpisodeId);
+											var playlist = getState(_linkedPlaylistId);
+											var source = getState(_linkedSourceId);
+											var coverUrl = getState(_linkedCoverUrlId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var result;
 											var resultText;
 											var tileActiveStandard = false;
@@ -7408,10 +7452,10 @@ function renderView(viewId, triggeredByReconnection){
 										var _linkedPowerId = deviceLinkedStateIds["POWER"];
 										var _linkedTileActiveStateId = deviceLinkedStateIds["tileActiveStateId"];
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
-											var level = getStateObject(_linkedLevelId);
-											var power = getStateObject(_linkedPowerId);
-											var tileActiveStateId = getStateObject(_linkedTileActiveStateId);
+											var state = getState(_linkedStateId);
+											var level = getState(_linkedLevelId);
+											var power = getState(_linkedPowerId);
+											var tileActiveStateId = getState(_linkedTileActiveStateId);
 											var showStateAndLevelSeparatelyInTile = getDeviceOptionValue(_device, "showStateAndLevelSeparatelyInTile") || "";
 											var showPowerAsState = (getDeviceOptionValue(_device, "showPowerAsState") == "true");
 											var result;
@@ -7541,14 +7585,13 @@ function renderView(viewId, triggeredByReconnection){
 						} else { //.iQontrolDeviceLink was not an external link and therefore a <div>
 							deviceContent += "</div>";
 						}
-					viewContent += deviceContent + "</div>";
-				viewContent += "</div>";
 
-				uiElements.addHtml(viewContent);
+				uiElements.addHtml(deviceContent)
+				.addHtml("</div></div>");
 				return uiElements; 
 			},
 			afterAddDeviceFunction: function(uiElements){
-				uiElements.addHtml("</div>");
+				uiElements.addHtml("</div>").addStatesToFetchAndUpdate("UPDATE_ONCE");
 				return uiElements; 
 			},
 			beforeUpdateStatesFunction: function(uiElements){
@@ -7613,7 +7656,7 @@ function renderView(viewId, triggeredByReconnection){
 							var _linkedStateId = linkedStateId;
 							var _placeholder = placeholder;
 							var updateFunction = function(stateId, forceReloadOfImage){
-								var state = getStateObject(_linkedStateId);
+								var state = getState(_linkedStateId);
 								var replacement = null;
 								if(state && typeof state.val !== udef) {
 									//Replace by value
@@ -7645,7 +7688,7 @@ function renderView(viewId, triggeredByReconnection){
 							};
 							uiElements.addUpdateFunction(_linkedStateId, updateFunction);
 						})(); //<--End Closure
-						uiElements.addStatesToUpdate(linkedStateId);
+						uiElements.addStatesToFetchAndUpdate(linkedStateId);
 					}
 				});
 				//Find variablebackgroundimage in Divs
@@ -7667,7 +7710,7 @@ function renderView(viewId, triggeredByReconnection){
 							var _linkedStateId = linkedStateId;
 							var _placeholder = placeholder;
 							var updateFunction = function(stateId, forceReloadOfImage){
-								var state = getStateObject(_linkedStateId);
+								var state = getState(_linkedStateId);
 								var replacement = null;
 								if(state && typeof state.val !== udef) {
 									//Replace by value
@@ -7704,7 +7747,7 @@ function renderView(viewId, triggeredByReconnection){
 							};
 							uiElements.addUpdateFunction(_linkedStateId, updateFunction);
 						})(); //<--End Closure
-						uiElements.addStatesToUpdate(linkedStateId);
+						uiElements.addStatesToFetchAndUpdate(linkedStateId);
 					}
 				});
 				//Find variablename in Divs
@@ -7732,7 +7775,7 @@ function renderView(viewId, triggeredByReconnection){
 							var _linkedStateId = linkedStateId;
 							var _placeholder = placeholder;
 							var updateFunction = function(){
-								var state = getStateObject(_linkedStateId);
+								var state = getState(_linkedStateId);
 								var replacement = null;
 								//Replace by value
 								if(state && typeof state.val !== udef) {
@@ -7755,7 +7798,7 @@ function renderView(viewId, triggeredByReconnection){
 							};
 							uiElements.addUpdateFunction(_linkedStateId, updateFunction);
 						})(); //<--End Closure
-						uiElements.addStatesToUpdate(linkedStateId);
+						uiElements.addStatesToFetchAndUpdate(linkedStateId);
 					}
 				});
 				return uiElements;
@@ -7797,7 +7840,7 @@ function renderView(viewId, triggeredByReconnection){
 			})
 		}, 60000);
 		//Call UPDATE_ONCE Functions
-		(updateFunctions["view"]["UPDATE_ONCE"] || []).forEach(function(viewUpdateFunction){
+		(deviceCollections.updateFunctions["view"]["UPDATE_ONCE"] || []).forEach(function(viewUpdateFunction){
 			viewUpdateFunction();
 		});
 		//Enhance iQontrolSubheadingCollapsibles
@@ -8429,12 +8472,12 @@ function viewDeviceContextMenuStart(callingElement){
 }
 
 function viewDeviceContextMenuEnd(dontEndIgnoreStart){
-	console.log("viewDeviceContextMenu end function");
+	//console.log("viewDeviceContextMenu end function");
 	viewDeviceContextMenuIgnoreStart = true;
 	$('.iQontrolDevicePressureIndicator').css('box-shadow', '0px 0px 0px 0px rgba(175,175,175,0.85)');
 	if(viewDeviceContextMenuInterval) clearInterval(viewDeviceContextMenuInterval);
 	if(!dontEndIgnoreStart) setTimeout(function(){
-		console.log("viewDeviceContextMenu end function - end ignoreStart");
+		//console.log("viewDeviceContextMenu end function - end ignoreStart");
 		viewDeviceContextMenuIgnoreStart = false;
 		viewDeviceContextMenuIgnoreClick = false;
 	}, 300);
@@ -8487,7 +8530,7 @@ function renderViewInParentInstance(viewId, closePanel){
 }
 
 //++++++++++ DIALOG ++++++++++
-function renderDialog(deviceIdEscaped){
+function OLDrenderDialog(deviceIdEscaped){
 	console.log("renderDialog " + deviceIdEscaped);
 	if(typeof deviceIdEscaped == udef || deviceIdEscaped == "") return;
 	var deviceId = unescape(deviceIdEscaped);
@@ -8501,9 +8544,9 @@ function renderDialog(deviceIdEscaped){
 		var dialogReadonly = false;
 		if(getDeviceOptionValue(device, "readonly") == "true") dialogReadonly = true;
 		//Render Dialog
+		var dialogBindingFunctions = [];
 		var dialogContent = "";
 		var dialogContentCountAfterHR = 0;
-		var dialogBindingFunctions = [];
 		dialogContent += "<form class='fullWidthSlider'>";
 		dialogContent += "<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"; //jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
 			//--Get linked States & States
@@ -8535,7 +8578,7 @@ function renderDialog(deviceIdEscaped){
 							console.log("Re-Rendered Dialog 20 times - aborting");
 						}
 					}
-					dialogStates[elementState] = getStateObject(dialogLinkedStateIds[elementState]);
+					dialogStates[elementState] = getState(dialogLinkedStateIds[elementState]);
 				}
 				dialogRenderCount = 0;
 				//!--State & Level
@@ -8599,7 +8642,7 @@ function renderDialog(deviceIdEscaped){
 							var _levelFavoritesHideSlider = levelFavoritesHideSlider;
 							var DialogStateSliderReadoutTimer;
 							var updateFunction = function(){
-								var stateSetTemperature = getStateObject(_linkedSetTemperatureId);
+								var stateSetTemperature = getState(_linkedSetTemperatureId);
 								if(stateSetTemperature){
 									$("#DialogStateSlider").val(stateSetTemperature.val);
 									$("#DialogStateSlider").slider('refresh');
@@ -8660,7 +8703,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedStateId = dialogLinkedStateIds["STATE"];
 							var updateFunction = function(){
-								var state = getStateObject(_linkedStateId);
+								var state = getState(_linkedStateId);
 								if(state){
 									if(state.val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
 									$("#DialogStateValue").button('refresh');
@@ -8749,7 +8792,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
 								var updateFunction = function(){
-									var state = getStateObject(_linkedStateId);
+									var state = getState(_linkedStateId);
 									if(state){
 										var index = 0;
 										if(typeof state.val != udef && (state.val.toString().toLowerCase() == "true" || state.val.toString() > 0)) index = 1; else index = 0;
@@ -8762,7 +8805,7 @@ function renderDialog(deviceIdEscaped){
 								var bindingFunction = function(){
 									$('#DialogStateSwitch').on('change', function(e) {
 										var newVal = $("#DialogStateSwitch option:selected").val();
-										var state = getStateObject(_linkedStateId);
+										var state = getState(_linkedStateId);
 										if(typeof state.val == 'number'){
 											if(newVal == true) newVal = 1; else newVal = 0;
 										}
@@ -8826,7 +8869,7 @@ function renderDialog(deviceIdEscaped){
 								var _pincodeSet = (fetchedObjects[_linkedStateId] && typeof fetchedObjects[_linkedStateId].common !== udef && typeof fetchedObjects[_linkedStateId].common.custom !== udef && fetchedObjects[_linkedStateId].common.custom !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace] !== udef && fetchedObjects[_linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== "");
 								var DialogStateSliderReadoutTimer;
 								var updateFunction = function(){
-									var state = getStateObject(_linkedStateId);
+									var state = getState(_linkedStateId);
 									if(state){
 										$("#DialogStateSlider").val(state.val);
 										$("#DialogStateSlider").slider('refresh');
@@ -8876,7 +8919,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
 								var updateFunction = function(){
-									var state = getStateObject(_linkedStateId);
+									var state = getState(_linkedStateId);
 									if(state){
 										if(typeof state.val != udef) {
 											var val = state.val.toString();
@@ -8924,7 +8967,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
 								var updateFunction = function(){
-									var state = getStateObject(_linkedStateId);
+									var state = getState(_linkedStateId);
 									if(state){
 										if($("#DialogStateString").parent('.jqte_source').length == 0){
 											$("#DialogStateString").val(state.val);
@@ -8994,7 +9037,7 @@ function renderDialog(deviceIdEscaped){
 									return newMoment;
 								}
 								var updateFunction = function(_stateId, _onlyUpdateDistance){
-									var time = getStateObject(_linkedTimeId);
+									var time = getState(_linkedTimeId);
 									var startDistanceTimer = false;
 									if(time){
 										var nowMoment = moment(new Date());
@@ -9213,7 +9256,7 @@ function renderDialog(deviceIdEscaped){
 								var _levelFavoritesHideSlider = levelFavoritesHideSlider;
 								var DialogLevelSliderReadoutTimer;
 								var updateFunction = function(){
-									var stateLevel = getStateObject(_linkedLevelId);
+									var stateLevel = getState(_linkedLevelId);
 									if(stateLevel){
 										$("#DialogLevelSlider").val(stateLevel.val);
 										$("#DialogLevelSlider").slider('refresh');
@@ -9280,7 +9323,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
 								var updateFunction = function(){
-									var level = getStateObject(_linkedLevelId);
+									var level = getState(_linkedLevelId);
 									if(level){
 										if(typeof level.val != udef) {
 											var val = level.val.toString();
@@ -9349,7 +9392,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSubjectId = dialogLinkedStateIds["SUBJECT"];
 								var updateFunction = function(){
-									var subject = getStateObject(_linkedSubjectId);
+									var subject = getState(_linkedSubjectId);
 									if(subject){
 										if(typeof subject.val != udef) {
 											var val = subject.val.toString();
@@ -9395,7 +9438,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSubjectId = dialogLinkedStateIds["SUBJECT"];
 								var updateFunction = function(){
-									var subject = getStateObject(_linkedSubjectId);
+									var subject = getState(_linkedSubjectId);
 									if(subject){
 										if($("#DialogSubjectString").parent('.jqte_source').length == 0){
 											$("#DialogSubjectString").val(subject.val);
@@ -9469,7 +9512,7 @@ function renderDialog(deviceIdEscaped){
 								return newMoment;
 							}
 							var updateFunction = function(_stateId, _onlyUpdateDistance){
-								var time = getStateObject(_linkedTimeId);
+								var time = getState(_linkedTimeId);
 								var startDistanceTimer = false;
 								if(time){
 									var nowMoment = moment(new Date());
@@ -9664,7 +9707,7 @@ function renderDialog(deviceIdEscaped){
 							var DialogHueSliderReadoutTimer;
 							var DialogHueSliderReadoutTimer2;
 							var updateFunction = function(){
-								var stateHue = getStateObject(_linkedHueId);
+								var stateHue = getState(_linkedHueId);
 								if(stateHue && typeof stateHue.val !== udef){
 									$("#DialogHueSlider").val(stateHue.val);
 									$("#DialogHueSlider").slider('refresh');
@@ -9719,7 +9762,7 @@ function renderDialog(deviceIdEscaped){
 							var _pincodeSet = (fetchedObjects[_linkedSaturationId] && typeof fetchedObjects[_linkedSaturationId].common !== udef && typeof fetchedObjects[_linkedSaturationId].common.custom !== udef && fetchedObjects[_linkedSaturationId].common.custom !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace] !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSaturationId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSaturationId].common.custom[namespace].pincode !== "");
 							var DialogSaturationSliderReadoutTimer;
 							var updateFunction = function(){
-								var stateSaturation = getStateObject(_linkedSaturationId);
+								var stateSaturation = getState(_linkedSaturationId);
 								if(stateSaturation && typeof stateSaturation.val !== udef){
 									$("#DialogSaturationSlider").val(stateSaturation.val);
 									$("#DialogSaturationSlider").slider('refresh');
@@ -9727,7 +9770,7 @@ function renderDialog(deviceIdEscaped){
 							};
 							if(_linkedSaturationId) dialogUpdateFunctions[_linkedSaturationId].push(updateFunction);
 							var updateHueFunction = function(){
-								var stateHue = getStateObject(_linkedHueId);
+								var stateHue = getState(_linkedHueId);
 								var hueMin = stateHue && stateHue.min || 0;
 								var hueMax = stateHue && stateHue.max || 359;
 								if(stateHue && typeof stateHue.val !== udef){
@@ -9776,7 +9819,7 @@ function renderDialog(deviceIdEscaped){
 							var _pincodeSet = (fetchedObjects[_linkedColorBrightnessId] && typeof fetchedObjects[_linkedColorBrightnessId].common !== udef && typeof fetchedObjects[_linkedColorBrightnessId].common.custom !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedColorBrightnessId].common.custom[namespace].pincode !== "");
 							var DialogColorBrightnessSliderReadoutTimer;
 							var updateFunction = function(){
-								var stateColorBrightness = getStateObject(_linkedColorBrightnessId);
+								var stateColorBrightness = getState(_linkedColorBrightnessId);
 								if(stateColorBrightness && typeof stateColorBrightness.val !== udef){
 									$("#DialogColorBrightnessSlider").val(stateColorBrightness.val);
 									$("#DialogColorBrightnessSlider").slider('refresh');
@@ -9824,7 +9867,7 @@ function renderDialog(deviceIdEscaped){
 							var _pincodeSet = (fetchedObjects[_linkedCtId] && typeof fetchedObjects[_linkedCtId].common !== udef && typeof fetchedObjects[_linkedCtId].common.custom !== udef && fetchedObjects[_linkedCtId].common.custom !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace] !== udef && fetchedObjects[_linkedCtId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedCtId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedCtId].common.custom[namespace].pincode !== "");
 							var DialogCtSliderReadoutTimer;
 							var updateFunction = function(){
-								var stateCt = getStateObject(_linkedCtId);
+								var stateCt = getState(_linkedCtId);
 								if(stateCt && typeof stateCt.val !== udef){
 									$("#DialogCtSlider").val(stateCt.val);
 									$("#DialogCtSlider").slider('refresh');
@@ -9869,7 +9912,7 @@ function renderDialog(deviceIdEscaped){
 							var _pincodeSet = (fetchedObjects[_linkedWhiteBrightnessId] && typeof fetchedObjects[_linkedWhiteBrightnessId].common !== udef && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedWhiteBrightnessId].common.custom[namespace].pincode !== "");
 							var DialogWhiteBrightnessSliderReadoutTimer;
 							var updateFunction = function(){
-								var stateWhiteBrightness = getStateObject(_linkedWhiteBrightnessId);
+								var stateWhiteBrightness = getState(_linkedWhiteBrightnessId);
 								if(stateWhiteBrightness && typeof stateWhiteBrightness.val !== udef){
 									$("#DialogWhiteBrightnessSlider").val(stateWhiteBrightness.val);
 									$("#DialogWhiteBrightnessSlider").slider('refresh');
@@ -9917,7 +9960,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedEffectId = dialogLinkedStateIds["EFFECT"];
 							var updateFunction = function(){
-								var stateEffect = getStateObject(_linkedEffectId);
+								var stateEffect = getState(_linkedEffectId);
 								if(stateEffect){
 									var val = stateEffect.val.toString();
 									$("#DialogEffectValueList").val(val).selectmenu('refresh');
@@ -10013,7 +10056,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 								var updateFunction = function(){
-									var stateControlMode = getStateObject(_linkedControlModeId);
+									var stateControlMode = getState(_linkedControlModeId);
 									if(stateControlMode){
 										var index = 0;
 										if(typeof stateControlMode.val != udef && (stateControlMode.val.toString().toLowerCase() == "true" || stateControlMode.val.toString() > 0)) index = 1; else index = 0;
@@ -10025,7 +10068,7 @@ function renderDialog(deviceIdEscaped){
 								var bindingFunction = function(){
 									$('#DialogThermostatControlModeSwitch').on('change', function(e) {
 										var newVal = $("#DialogThermostatControlModeSwitch option:selected").val();
-										var stateControlMode = getStateObject(_linkedControlModeId);
+										var stateControlMode = getState(_linkedControlModeId);
 										if(typeof stateControlMode.val == 'number'){
 											if(newVal == true) newVal = 1; else newVal = 0;
 										}
@@ -10052,7 +10095,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 								var _valueList = dialogStates["CONTROL_MODE"].valueList;
 								var updateFunction = function(){
-									var stateControlMode = getStateObject(_linkedControlModeId);
+									var stateControlMode = getState(_linkedControlModeId);
 									if(stateControlMode){
 										$("#DialogThermostatControlModeCheckboxradio_" + stateControlMode.val).prop("checked", true);
 										$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
@@ -10135,8 +10178,8 @@ function renderDialog(deviceIdEscaped){
 							var _linkedBoostStateId = dialogLinkedStateIds["BOOST_STATE"];
 							var _valueList = dialogStates["CONTROL_MODE"].valueList;
 							var updateFunction = function(){
-								var stateBoostMode = getStateObject(_linkedBoostModeId);
-								var stateControlMode = getStateObject(_linkedControlModeId);
+								var stateBoostMode = getState(_linkedBoostModeId);
+								var stateControlMode = getState(_linkedControlModeId);
 								if(stateBoostMode && stateBoostMode.val && _valueList && typeof Object.keys(_valueList).find(function(key){ return _valueList[key] === "BOOST-MODE"; }) != udef) {
 									$("#DialogThermostatControlModeCheckboxradio_" + Object.keys(_valueList).find(function(key){ return _valueList[key] === "BOOST-MODE"; })).prop("checked", true);
 									$(".DialogThermostatControlModeCheckboxradio").checkboxradio('refresh');
@@ -10291,11 +10334,11 @@ function renderDialog(deviceIdEscaped){
 								var _linkedParentId = _linkedStateId.substring(0, _linkedStateId.lastIndexOf("."));
 								var updateFunction = function(){
 									if(fetchedStates[_linkedStateId]){
-										state = getStateObject(_linkedStateId);
+										state = getState(_linkedStateId);
 										var partyModeTemperature = state.val;
 										if(partyModeTemperature >= 6.0){ //Party-Mode active
 											$("#DialogThermostatPartyModeText").html("<br>" + _("programmed to") + " " + partyModeTemperature + state.unit);
-											var partyModeStartTimeObject = getStateObject(_linkedParentId + ".PARTY_START_TIME");
+											var partyModeStartTimeObject = getState(_linkedParentId + ".PARTY_START_TIME");
 											if(partyModeStartTimeObject.val) {
 												var partyModeStartTime = getTimeFromHMTimeCode(partyModeStartTimeObject.val);
 												var partyModeStartHour = partyModeStartTime.split(":")[0];
@@ -10303,13 +10346,13 @@ function renderDialog(deviceIdEscaped){
 											} else {
 												dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_TIME");
 											}
-											var partyModeStartDayObject = getStateObject(_linkedParentId + ".PARTY_START_DAY")
+											var partyModeStartDayObject = getState(_linkedParentId + ".PARTY_START_DAY")
 											if(partyModeStartDayObject.val) var partyModeStartDay = partyModeStartDayObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_DAY");
-											var partyModeStartMonthObject = getStateObject(_linkedParentId + ".PARTY_START_MONTH")
+											var partyModeStartMonthObject = getState(_linkedParentId + ".PARTY_START_MONTH")
 											if(partyModeStartMonthObject.val) var partyModeStartMonth = partyModeStartMonthObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_MONTH");
-											var partyModeStartYEARObject = getStateObject(_linkedParentId + ".PARTY_START_YEAR")
+											var partyModeStartYEARObject = getState(_linkedParentId + ".PARTY_START_YEAR")
 											if(partyModeStartYEARObject.val) var partyModeStartYEAR = partyModeStartYEARObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_START_YEAR");
-											var partyModeStopTimeObject = getStateObject(_linkedParentId + ".PARTY_STOP_TIME");
+											var partyModeStopTimeObject = getState(_linkedParentId + ".PARTY_STOP_TIME");
 											if(partyModeStopTimeObject.val) {
 												var partyModeStopTime = getTimeFromHMTimeCode(partyModeStopTimeObject.val);
 												var partyModeStopHour = partyModeStopTime.split(":")[0];
@@ -10317,11 +10360,11 @@ function renderDialog(deviceIdEscaped){
 											} else {
 												dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_TIME");
 											}
-											var partyModeStopDayObject = getStateObject(_linkedParentId + ".PARTY_STOP_DAY")
+											var partyModeStopDayObject = getState(_linkedParentId + ".PARTY_STOP_DAY")
 											if(partyModeStopDayObject.val) var partyModeStopDay = partyModeStopDayObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_DAY");
-											var partyModeStopMonthObject = getStateObject(_linkedParentId + ".PARTY_STOP_MONTH")
+											var partyModeStopMonthObject = getState(_linkedParentId + ".PARTY_STOP_MONTH")
 											if(partyModeStopMonthObject.val) var partyModeStopMonth = partyModeStopMonthObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_MONTH");
-											var partyModeStopYEARObject = getStateObject(_linkedParentId + ".PARTY_STOP_YEAR")
+											var partyModeStopYEARObject = getState(_linkedParentId + ".PARTY_STOP_YEAR")
 											if(partyModeStopYEARObject.val) var partyModeStopYEAR = partyModeStopYEARObject.val; else dialogStateIdsToFetch.push(_linkedParentId + ".PARTY_STOP_YEAR");
 										} else { //Party-Mode inactive
 											$("#DialogThermostatPartyModeText").html("<br>" + _("inactive"));
@@ -10441,7 +10484,7 @@ function renderDialog(deviceIdEscaped){
 							var updateFunction = function(){
 								$("#DialogThermostatValveStatesContentList").html("");
 								_linkedStateIds.forEach(function(_element){
-									var state = getStateObject(_element.value);
+									var state = getState(_element.value);
 									if(state) $("#DialogThermostatValveStatesContentList").append("<li>" + _element.name + ": " + state.val + state.unit || "" + "</li>");
 								});
 							};
@@ -10504,7 +10547,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedStateId = dialogLinkedStateIds["STATE"];
 								var updateFunction = function(){
-									var state = getStateObject(_linkedStateId);
+									var state = getState(_linkedStateId);
 									if(state){
 										if(state.val || dialogStates["LOCK_STATE"].readonly || dialogReadonly){ //Door opened - deactivate Doorlock
 											$("input[name=DialogLockStateCheckboxradio]").attr("disabled", true);
@@ -10523,7 +10566,7 @@ function renderDialog(deviceIdEscaped){
 							var _linkedLockStateId = dialogLinkedStateIds["LOCK_STATE"];
 							var _lockStateLockedValue = getDeviceOptionValue(_device, "lockStateLockedValue") || "false";
 							var updateFunction = function(){
-								var stateLockState = getStateObject(_linkedLockStateId);
+								var stateLockState = getState(_linkedLockStateId);
 								if(stateLockState){
 									if(
 										(stateLockState.plainText == _lockStateLockedValue || stateLockState.plainText == _(_lockStateLockedValue) || stateLockState.plainText == capitalize(_lockStateLockedValue) || stateLockState.plainText == capitalize(_(_lockStateLockedValue)))
@@ -10552,7 +10595,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedLockStateUncertainId = dialogLinkedStateIds["LOCK_STATE_UNCERTAIN"];
 								var updateFunction = function(){
-								var stateLockStateUncertain = getStateObject(_linkedLockStateUncertainId);
+								var stateLockStateUncertain = getState(_linkedLockStateUncertainId);
 									if(stateLockStateUncertain){
 										if(stateLockStateUncertain.val == false || stateLockStateUncertain.val.toString().toLowerCase() == "false" || stateLockStateUncertain.val == 0 || stateLockStateUncertain == "0"){ //State certain
 											$("[data-iQontrol-Device-ID='" + _deviceIdEscaped + "'].DialogLockStateUncertainText").html("");
@@ -10579,7 +10622,7 @@ function renderDialog(deviceIdEscaped){
 							var _linkedFavoritePositionSetValueId = dialogLinkedStateIds["FAVORITE_POSITION_SET_VALUE"];
 							var bindingFunction = function(){
 								$('#DialogStateFavoritePositionButton').on('click', function(e) {
-									var favoritePositionSetValue = getStateObject(_linkedFavoritePositionSetValueId);
+									var favoritePositionSetValue = getState(_linkedFavoritePositionSetValueId);
 									setState(_linkedFavoritePositionId, _deviceIdEscaped, ((favoritePositionSetValue && favoritePositionSetValue.val) || true), true);
 								});
 							};
@@ -10598,7 +10641,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedDownSetValueId = dialogLinkedStateIds["DOWN_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateDownButton').on('click', function(e) {
-										var downSetValue = getStateObject(_linkedDownSetValueId);
+										var downSetValue = getState(_linkedDownSetValueId);
 										setState(_linkedDownId, _deviceIdEscaped, ((downSetValue && typeof downSetValue.val !== udef && downSetValue.val !== "") ? downSetValue.val : true), true);
 									});
 								};
@@ -10614,7 +10657,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedStopSetValueId = dialogLinkedStateIds["STOP_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateStopButton').on('click', function(e) {
-										var stopSetValue = getStateObject(_linkedStopSetValueId);
+										var stopSetValue = getState(_linkedStopSetValueId);
 										setState(_linkedStopId, _deviceIdEscaped, ((stopSetValue && typeof stopSetValue.val !== udef && stopSetValue.val !== "") ? stopSetValue.val : true), true);
 									});
 								};
@@ -10630,7 +10673,7 @@ function renderDialog(deviceIdEscaped){
 								var _linkedUpSetValueId = dialogLinkedStateIds["UP_SET_VALUE"];
 								var bindingFunction = function(){
 									$('#DialogStateUPButton').on('click', function(e) {
-										var upSetValue = getStateObject(_linkedUpSetValueId);
+										var upSetValue = getState(_linkedUpSetValueId);
 										setState(_linkedUpId, _deviceIdEscaped, ((upSetValue && typeof upSetValue.val !== udef && upSetValue.val !== "") ? upSetValue.val : true), true);
 									});
 								};
@@ -10660,7 +10703,7 @@ function renderDialog(deviceIdEscaped){
 								var _pincodeSet = (fetchedObjects[_linkedSlatsLevelId] && typeof fetchedObjects[_linkedSlatsLevelId].common !== udef && typeof fetchedObjects[_linkedSlatsLevelId].common.custom !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSlatsLevelId].common.custom[namespace].pincode !== "");
 								var DialogSlatsLevelSliderReadoutTimer;
 								var updateFunction = function(){
-									var stateSlatsLevel = getStateObject(_linkedSlatsLevelId);
+									var stateSlatsLevel = getState(_linkedSlatsLevelId);
 									if(stateSlatsLevel){
 										$("#DialogSlatsLevelSlider").val(stateSlatsLevel.val);
 										$("#DialogSlatsLevelSlider").slider('refresh');
@@ -10709,7 +10752,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedControlModeId = dialogLinkedStateIds["CONTROL_MODE"];
 							var updateFunction = function(){
-								var stateControlMode = getStateObject(_linkedControlModeId);
+								var stateControlMode = getState(_linkedControlModeId);
 								if(stateControlMode){
 									if(typeof stateControlMode.val != udef) {
 										var val = stateControlMode.val.toString();
@@ -10765,13 +10808,13 @@ function renderDialog(deviceIdEscaped){
 							var updateFunction = function(){
 								var coverImageReloadDelay = 100 + (parseInt(getDeviceOptionValue(_device, "coverImageReloadDelay") || "0") || 0);
 								if(!dialogMediaCoverImageChangeTimeout) dialogMediaCoverImageChangeTimeout = setTimeout(function(){
-									var stateCoverUrl = getStateObject(_linkedCoverUrlId);
-									var stateArtist = getStateObject(_linkedArtistId);
-									var stateAlbum = getStateObject(_linkedAlbumId);
-									var stateTitle = getStateObject(_linkedTitleId);
-									var stateTrack = getStateObject(_linkedTrackId);
-									var stateSeason = getStateObject(_linkedSeasonId);
-									var stateEpisode = getStateObject(_linkedEpisodeId);
+									var stateCoverUrl = getState(_linkedCoverUrlId);
+									var stateArtist = getState(_linkedArtistId);
+									var stateAlbum = getState(_linkedAlbumId);
+									var stateTitle = getState(_linkedTitleId);
+									var stateTrack = getState(_linkedTrackId);
+									var stateSeason = getState(_linkedSeasonId);
+									var stateEpisode = getState(_linkedEpisodeId);
 									if(stateCoverUrl && stateCoverUrl.val && stateCoverUrl.val !== ""){
 										var newSrc = stateCoverUrl.val;
 										var AATTSE = encodeURI((stateArtist && stateArtist.val || "") + (stateAlbum && stateAlbum.val || "") + (stateTitle && stateTitle.val || "") + (stateTrack && stateTrack.val || "") + (stateSeason && stateSeason.val || "") + (stateEpisode && stateEpisode.val || ""));
@@ -10815,7 +10858,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedArtistId = dialogLinkedStateIds["ARTIST"];
 							var updateFunction = function(){
-								var stateArtist = getStateObject(_linkedArtistId);
+								var stateArtist = getState(_linkedArtistId);
 								if(stateArtist){
 									$("#DialogMediaArtist").html("<br>" + stateArtist.plainText);
 									if(stateArtist.plainText == "") $("#DialogMediaArtist").hide(); else $("#DialogMediaArtist").show();
@@ -10833,7 +10876,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedAlbumId = dialogLinkedStateIds["ALBUM"];
 							var updateFunction = function(){
-								var stateAlbum = getStateObject(_linkedAlbumId);
+								var stateAlbum = getState(_linkedAlbumId);
 								if(stateAlbum){
 									$("#DialogMediaAlbum").html("<br>" + stateAlbum.plainText);
 									if(stateAlbum.plainText == "") $("#DialogMediaAlbum").hide(); else $("#DialogMediaAlbum").show();
@@ -10851,7 +10894,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedTitleId = dialogLinkedStateIds["TITLE"];
 							var updateFunction = function(){
-								var stateTitle = getStateObject(_linkedTitleId);
+								var stateTitle = getState(_linkedTitleId);
 								if(stateTitle){
 									$("#DialogMediaTitle").html("<br>" + stateTitle.plainText);
 									if(stateTitle.plainText == "") $("#DialogMediaTitle").hide(); else $("#DialogMediaTitle").show();
@@ -10869,7 +10912,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedTrackId = dialogLinkedStateIds["TITLE"];
 							var updateFunction = function(){
-								var stateTrack = getStateObject(_linkedTrackId);
+								var stateTrack = getState(_linkedTrackId);
 								if(stateTrack){
 									$("#DialogMediaTrack").html("<br>" + _("Track") + "&nbsp;" + stateTrack.plainText);
 									if(stateTrack.plainText == "") $("#DialogMediaTrack").hide(); else $("#DialogMediaTrack").show();
@@ -10887,7 +10930,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedSeasonId = dialogLinkedStateIds["SEASON"];
 							var updateFunction = function(){
-								var stateSeason = getStateObject(_linkedSeasonId);
+								var stateSeason = getState(_linkedSeasonId);
 								if(stateSeason){
 									$("#DialogMediaSeason").html("<br>" + stateSeason.plainText);
 									if(stateSeason.plainText == "") $("#DialogMediaSeason").hide(); else $("#DialogMediaSeason").show();
@@ -10905,7 +10948,7 @@ function renderDialog(deviceIdEscaped){
 							var _deviceIdEscaped = deviceIdEscaped;
 							var _linkedEpisodeId = dialogLinkedStateIds["EPISODE"];
 							var updateFunction = function(){
-								var stateEpisode = getStateObject(_linkedEpisodeId);
+								var stateEpisode = getState(_linkedEpisodeId);
 								if(stateEpisode){
 									$("#DialogMediaEpisode").html("<br>" + stateEpisode.plainText);
 									if(stateEpisode.plainText == "") $("#DialogMediaEpisode").hide(); else $("#DialogMediaEpisode").show();
@@ -10933,8 +10976,8 @@ function renderDialog(deviceIdEscaped){
 								var _pincodeSet = (fetchedObjects[_linkedElapsedLevelId] && typeof fetchedObjects[_linkedElapsedLevelId].common !== udef && typeof fetchedObjects[_linkedElapsedLevelId].common.custom !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedElapsedLevelId].common.custom[namespace].pincode !== "");
 								var DialogElapsedLevelSliderReadoutTimer;
 								var updateFunction = function(){
-									var stateElapsedLevel = getStateObject(_linkedElapsedLevelId);
-									var stateDurationLevel = getStateObject(_linkedDurationLevelId);
+									var stateElapsedLevel = getState(_linkedElapsedLevelId);
+									var stateDurationLevel = getState(_linkedDurationLevelId);
 									var divider = (getDeviceOptionValue(_device, "durationIsMilliseconds") == "true" ? 1000 : 1);
 									var elapsedIsPercentage = (getDeviceOptionValue(_device, "elapsedIsPercentage") == "true");
 									if(stateDurationLevel && stateDurationLevel.val && !isNaN(stateDurationLevel.val)){
@@ -11001,7 +11044,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["PREV"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPrevCheckbox]").attr("disabled", true);
@@ -11029,7 +11072,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["REWIND"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlRewindCheckbox]").attr("disabled", true);
@@ -11063,8 +11106,8 @@ function renderDialog(deviceIdEscaped){
 								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
-									var state = getStateObject(_linkedStateId);
+									var buttonState = getState(_linkedButtonId);
+									var state = getState(_linkedStateId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPlayCheckbox]").attr("disabled", true);
@@ -11108,8 +11151,8 @@ function renderDialog(deviceIdEscaped){
 								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
-									var state = getStateObject(_linkedStateId);
+									var buttonState = getState(_linkedButtonId);
+									var state = getState(_linkedStateId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPauseCheckbox]").attr("disabled", true);
@@ -11153,8 +11196,8 @@ function renderDialog(deviceIdEscaped){
 								var _stateStopValue = getDeviceOptionValue(_device, "stateStopValue") || "stop";
 								var _useStateValuesForPlayPauseStop = getDeviceOptionValue(_device, "useStateValuesForPlayPauseStop") == "true";
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
-									var state = getStateObject(_linkedStateId);
+									var buttonState = getState(_linkedButtonId);
+									var state = getState(_linkedStateId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlStopCheckbox]").attr("disabled", true);
@@ -11192,7 +11235,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["FORWARD"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlForwardCheckbox]").attr("disabled", true);
@@ -11220,7 +11263,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["NEXT"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlNextCheckbox]").attr("disabled", true);
@@ -11254,7 +11297,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["SHUFFLE"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlShuffleCheckbox]").attr("disabled", true);
@@ -11287,7 +11330,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["REPEAT"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									var repeatAllValue = getDeviceOptionValue(_device, "repeatAllValue") || "true";
 									var repeatOneValue = getDeviceOptionValue(_device, "repeatOneValue") || "2";
 									if(buttonState){
@@ -11325,7 +11368,7 @@ function renderDialog(deviceIdEscaped){
 								dialogUpdateFunctions[_linkedButtonId].push(updateFunction);
 								var bindingFunction = function(){
 									$('#DialogMediaControlRepeatCheckbox').on('click', function(e) {
-										var buttonState = getStateObject(_linkedButtonId);
+										var buttonState = getState(_linkedButtonId);
 										var repeatOffValue = getDeviceOptionValue(_device, "repeatOffValue") || "false";
 										var repeatAllValue = getDeviceOptionValue(_device, "repeatAllValue") || "true";
 										var repeatOneValue = getDeviceOptionValue(_device, "repeatOneValue") || "2";
@@ -11362,7 +11405,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["MUTE"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlMuteCheckbox]").attr("disabled", true);
@@ -11394,7 +11437,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["PLAY_EVERYWHERE"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPlayEverywhereCheckbox]").attr("disabled", true);
@@ -11426,7 +11469,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["EJECT"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlEjectCheckbox]").attr("disabled", true);
@@ -11458,7 +11501,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedButtonId = dialogLinkedStateIds["POWER_SWITCH"];
 								var updateFunction = function(){
-									var buttonState = getStateObject(_linkedButtonId);
+									var buttonState = getState(_linkedButtonId);
 									if(buttonState){
 										if(buttonState.readonly || dialogReadonly){
 											$("input[name=DialogMediaControlPowerSwitchCheckbox]").attr("disabled", true);
@@ -11503,7 +11546,7 @@ function renderDialog(deviceIdEscaped){
 								var _pincodeSet = (fetchedObjects[_linkedVolumeLevelId] && typeof fetchedObjects[_linkedVolumeLevelId].common !== udef && typeof fetchedObjects[_linkedVolumeLevelId].common.custom !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedVolumeLevelId].common.custom[namespace].pincode !== "");
 								var DialogVolumeLevelSliderReadoutTimer;
 								var updateFunction = function(){
-									var stateVolumeLevel = getStateObject(_linkedVolumeLevelId);
+									var stateVolumeLevel = getState(_linkedVolumeLevelId);
 									if(stateVolumeLevel){
 										$("#DialogVolumeLevelSlider").val(stateVolumeLevel.val);
 										$("#DialogVolumeLevelSlider").slider('refresh');
@@ -11799,7 +11842,7 @@ function renderDialog(deviceIdEscaped){
 								var createRemoteAdditionalButtonsFunction = function(){
 									$("#DialogRemoteAdditionalButtonsContent").html("");
 									_linkedRemoteAdditionalButtonsIds.forEach(function(_element){
-										var state = getStateObject(_element.value);
+										var state = getState(_element.value);
 										if(state){
 											$("#DialogRemoteAdditionalButtonsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteAdditionalButtonsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='true'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='width:24px; height:24px; margin:-2px 0px -6px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
 										}
@@ -11850,7 +11893,7 @@ function renderDialog(deviceIdEscaped){
 								var createRemoteChannelsFunction = function(){
 									$("#DialogRemoteChannelsContent").html("");
 									_linkedRemoteChannelsIds.forEach(function(_element){
-										var state = getStateObject(_element.value);
+										var state = getState(_element.value);
 										if(state){
 											$("#DialogRemoteChannelsContent").append("<div class='ui-block-b'><a href='' class='DialogRemoteChannelsButton' data-remote-additional-buttons-button='" + _element.name + "' data-remote-additional-buttons-linked-state-id='" + _element.value + "' data-role='button' data-mini='false'>" + (_element.icon ? "<image src='" + _element.icon + "' / style='max-width:94px; height:32px; margin:-6px 0px -11px 0px;'>&nbsp;" : "" ) + (_element.hideName ? "" : _element.name) + "</a></div>");
 										}
@@ -11925,7 +11968,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedRemoteHideRemoteId = dialogLinkedStateIds["REMOTE_HIDE_REMOTE"];
 								var updateFunction = function(){
-									var remoteHideRemote = getStateObject(_linkedRemoteHideRemoteId);
+									var remoteHideRemote = getState(_linkedRemoteHideRemoteId);
 									if(remoteHideRemote){
 										if(typeof remoteHideRemote.val != udef && remoteHideRemote.val.toString() == "true") {
 											$("#DialogRemote").hide(1000);
@@ -11960,7 +12003,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSourceId = dialogLinkedStateIds["SOURCE"];
 								var updateFunction = function(){
-									var source = getStateObject(_linkedSourceId);
+									var source = getState(_linkedSourceId);
 									if(source){
 										if(typeof source.val != udef) {
 											var val = source.val.toString();
@@ -12006,7 +12049,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedSourceId = dialogLinkedStateIds["SOURCE"];
 								var updateFunction = function(){
-									var source = getStateObject(_linkedSourceId);
+									var source = getState(_linkedSourceId);
 									if(source){
 										if($("#DialogSourceString").parent('.jqte_source').length == 0){
 											$("#DialogSourceString").val(source.val);
@@ -12047,7 +12090,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedPlaylistId = dialogLinkedStateIds["PLAYLIST"];
 								var updateFunction = function(){
-									var playlist = getStateObject(_linkedPlaylistId);
+									var playlist = getState(_linkedPlaylistId);
 									if(playlist){
 										if(typeof playlist.val != udef) {
 											var val = playlist.val.toString();
@@ -12093,7 +12136,7 @@ function renderDialog(deviceIdEscaped){
 								var _deviceIdEscaped = deviceIdEscaped;
 								var _linkedPlaylistId = dialogLinkedStateIds["PLAYLIST"];
 								var updateFunction = function(){
-									var playlist = getStateObject(_linkedPlaylistId);
+									var playlist = getState(_linkedPlaylistId);
 									if(playlist){
 										if($("#DialogPlaylistString").parent('.jqte_source').length == 0){
 											$("#DialogPlaylistString").val(playlist.val);
@@ -12170,7 +12213,7 @@ function renderDialog(deviceIdEscaped){
 								}
 								var linkedStateId = _element.value;
 								if(typeof dialogUpdateFunctions[linkedStateId] == udef) dialogUpdateFunctions[linkedStateId] = [];
-								var stateValue = getStateObject(_element.value);
+								var stateValue = getState(_element.value);
 								if(stateValue){
 									if(((_index > 0 && headingIndex > 0) || (_index == 0 && additionalControlsSectionType.indexOf("noCaption") != -1 && additionalControlsSectionType.indexOf("collapsible") != -1))
 										&& !(lastElementWasHalfWidth && _element.halfWidth)
@@ -12224,7 +12267,7 @@ function renderDialog(deviceIdEscaped){
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedStateId = linkedStateId;
 												var updateFunction = function(){
-													var state = getStateObject(_linkedStateId);
+													var state = getState(_linkedStateId);
 													if(state){
 														var index = 0;
 														if(typeof state.val != udef && (state.val.toString().toLowerCase() == "true" || state.val.toString() > 0)) index = 1; else index = 0;
@@ -12236,7 +12279,7 @@ function renderDialog(deviceIdEscaped){
 												var bindingFunction = function(){
 													$("#DialogAdditionalControlsSwitch_" + _index).on('change', function(e) {
 														var newVal = $("#DialogAdditionalControlsSwitch_" + _index + " option:selected").val();
-														var state = getStateObject(_linkedStateId);
+														var state = getState(_linkedStateId);
 														if(typeof state.val == 'number'){
 															if(newVal == true) newVal = 1; else newVal = 0;
 														}
@@ -12284,7 +12327,7 @@ function renderDialog(deviceIdEscaped){
 												var _pincodeSet = stateValue.custom && stateValue.custom.pincode || false;
 												var DialogAdditionalControlsSliderReadoutTimer;
 												var updateFunction = function(){
-													var state = getStateObject(_linkedStateId);
+													var state = getState(_linkedStateId);
 													if(state){
 														$("#DialogAdditionalControlsSlider_" + _index).val(state.val);
 														$("#DialogAdditionalControlsSlider_" + _index).slider('refresh');
@@ -12328,7 +12371,7 @@ function renderDialog(deviceIdEscaped){
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedStateId = linkedStateId;
 												var updateFunction = function(){
-													var state = getStateObject(_linkedStateId);
+													var state = getState(_linkedStateId);
 													if(state){
 														if(typeof state.val != udef) {
 															var val = state.val.toString();
@@ -12376,7 +12419,7 @@ function renderDialog(deviceIdEscaped){
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedStateId = linkedStateId;
 												var updateFunction = function(){
-													var state = getStateObject(_linkedStateId);
+													var state = getState(_linkedStateId);
 													if(state){
 														if($("#DialogAdditionalControlsString_" + _index).parent('.jqte_source').length == 0){
 															$("#DialogAdditionalControlsString_" + _index).val(state.val);
@@ -12406,7 +12449,7 @@ function renderDialog(deviceIdEscaped){
 												var _deviceIdEscaped = deviceIdEscaped;
 												var _linkedTimeId = linkedStateId;
 												var updateFunction = function(_stateId, _onlyUpdateDistance){
-													var time = getStateObject(_linkedTimeId);
+													var time = getState(_linkedTimeId);
 													var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
 													var _timeDisplayFormat = getTimeFormat((time.custom && time.custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
 													var _timeDisplayDontShowDistance = (time.custom && time.custom.timeDisplayDontShowDistance ? true : false);
@@ -12607,7 +12650,7 @@ function renderDialog(deviceIdEscaped){
 												dialogUpdateFunctions[_linkedTimeId].push(updateFunction);
 												var bindingFunction = function(){
 													$("#DialogAdditionalControlsTimeString_" + _index).on('change', function(e) {
-														var time = getStateObject(_linkedTimeId);
+														var time = getState(_linkedTimeId);
 														var _timeFormat = getTimeFormat((time.custom && time.custom.timeFormat) || "x");
 														var timeMoment = $("#DialogAdditionalControlsTimeString_" + _index).data('moment');
 														setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
@@ -12660,7 +12703,7 @@ function renderDialog(deviceIdEscaped){
 										var _linkedStateId = linkedStateId;
 										var _placeholder = placeholder;
 										var updateFunction = function(){
-											var state = getStateObject(_linkedStateId);
+											var state = getState(_linkedStateId);
 											var replacement = null;
 											//Replace by value
 											if(state && typeof state.val !== udef) {
@@ -12857,7 +12900,7 @@ function renderDialog(deviceIdEscaped){
 						var updateFunction = function(){
 							$("#DialogAdditionalInfosContentList").html("");
 							_linkedStateIds.forEach(function(_element){
-								var state = getStateObject(_element.value);
+								var state = getState(_element.value);
 								var resultText = "";
 								if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
 									result = state.val;
@@ -12912,7 +12955,7 @@ function renderDialog(deviceIdEscaped){
 					var _linkedStateId = linkedStateId;
 					var _placeholder = placeholder;
 					var updateFunction = function(){
-						var state = getStateObject(_linkedStateId);
+						var state = getState(_linkedStateId);
 						var replacement = null;
 							//Replace by value
 						if(state && typeof state.val !== udef) {
@@ -13146,7 +13189,7 @@ function popupShowPersistentMessages(id){
 	if(isBackgroundView) return;
 	if(typeof id == udef || id == "null") id = null;
 	var persistentMessagesPendingId = namespace + ".Popup.PERSISTENT_MESSAGES_PENDING" 
-	var statePersistentMessagesPending = getStateObject(persistentMessagesPendingId);
+	var statePersistentMessagesPending = getState(persistentMessagesPendingId);
 	var persistentMessagesPending = statePersistentMessagesPending && statePersistentMessagesPending.val || [];
 	if(!Array.isArray(persistentMessagesPending)) persistentMessagesPending = [];
 	persistentMessagesPending.forEach(function(message){
@@ -13281,7 +13324,7 @@ function toastShowNext(){
 
 function toastRemovePersistentMessagePending(toast){
 	var persistentMessagesPendingId = namespace + ".Popup.PERSISTENT_MESSAGES_PENDING"
-	var statePendingPersistentPopups = getStateObject(persistentMessagesPendingId);
+	var statePendingPersistentPopups = getState(persistentMessagesPendingId);
 	var pendingPersistentPopups = statePendingPersistentPopups && statePendingPersistentPopups.val || [];
 	if(!Array.isArray(pendingPersistentPopups)) pendingPersistentPopups = [];
 	pendingPersistentPopups = pendingPersistentPopups.filter(function(item){
@@ -13321,10 +13364,10 @@ function initPanels(){
 				var _linkedBackgroundHTMLId = panelLinkedStateIds["BACKGROUND_HTML"];
 				var _linkedPanelHideId = panelLinkedStateIds["PANEL_HIDE"];
 				var updateFunction = function(){
-					var stateBackgroundView = getStateObject(_linkedBackgroundViewId);
-					var stateBackgroundURL = getStateObject(_linkedBackgroundURLId);
-					var stateBackgroundHTML = getStateObject(_linkedBackgroundHTMLId);
-					var statePanelHide = getStateObject(_linkedPanelHideId);
+					var stateBackgroundView = getState(_linkedBackgroundViewId);
+					var stateBackgroundURL = getState(_linkedBackgroundURLId);
+					var stateBackgroundHTML = getState(_linkedBackgroundHTMLId);
+					var statePanelHide = getState(_linkedPanelHideId);
 					var panelHide = (statePanelHide && statePanelHide.val !== udef && statePanelHide.val) || false;
 					if(panels[_panelIndex].HideInvert) panelHide = !panelHide;
 					if(((stateBackgroundView && typeof stateBackgroundView.val !== udef && stateBackgroundView.val !== "") || (stateBackgroundURL && typeof stateBackgroundURL.val !== udef && stateBackgroundURL.val !== "")) && !panelHide){
@@ -14018,7 +14061,7 @@ $(document).ready(function(){
 									fetchObject(_stateId, function(){
 										var updateFunction = function(){
 											if(fetchedObjects[_stateId] && !(_noSubscribe && _updateFunctionExecuted)){
-												var value = getStateObject(_stateId);
+												var value = getState(_stateId);
 												value.id = _stateId;
 												_eventSource.postMessage({command: "getState", stateId: _eventDataStateId, value: value}, "*");
 												_updateFunctionExecuted = true;
@@ -14168,7 +14211,7 @@ $(document).ready(function(){
 				case "getPreviewConfig":
 				if(typeof event.data.value != udef){
 					console.log("postMessage received: getPreviewConfig " + JSON.stringify(event.data.value));
-					config[namespace] = convertConfigV3(event.data.value); // #####
+					config[namespace] = event.data.value;
 					createOptionsAndPanelObjectsFromConfig();
 					if(event.data.getPreviewConfigCallbackId){
 						let callback = getPreviewConfigCallbacks[event.data.getPreviewConfigCallbackId];
@@ -14265,69 +14308,16 @@ $(document).ready(function(){
 	});
 });
 
+
 //++++++++++ V3 DEVELOPMENT ++++++++++
 
-// #####################################################################################################
-
-function convertConfigV3(config){ // ##### must be integrated into convertConfigV3-function in admin 
-	config.toolbar = convertToolbarV3(config.toolbar);
-	config.views && config.views.forEach(function(view, viewIndex){
-		config.views[viewIndex] = convertViewV3(view);
-	});
-	return config;
-}
-
-function convertToolbarV3(toolbar){ // ##### must be integrated into convertConfigV3-function in admin 
-	let newToolbar = {};
-	newToolbar.items = [];
-	toolbar.forEach(function(item, itemIndex){
-		newToolbar.items.push(convertToolbarItemV3(item));
-	});
-	return newToolbar;
-}
-
-function convertToolbarItemV3(item){ // ##### must be integrated into convertConfigV3-function in admin 
-	var newItem = {};
-	newItem.commonName = item.commonName;
-	newItem.nativeLinkedView = item.nativeLinkedView;
-	newItem.nativeIcon = item.nativeIcon;
-	newItem.options = item.options;
-	newItem.states = item.states;
-	return newItem;
-}
-
-function convertViewV3(view){ // ##### must be integrated into convertConfigV3-function in admin 
-	let newView = {};
-	newView.commonName = view.commonName;
-	newView.nativeBackgroundImage = view.nativeBackgroundImage;
-	newView.nativeHideName = view.nativeHideName;
-	newView.devices = [];
-	view.devices && view.devices.forEach(function(device, deviceIndex){
-		newView.devices[deviceIndex] = convertDeviceV3(device);
-	});
-	return newView;
-}
-
-function convertDeviceV3(device){ // ##### must be integrated into convertConfigV3-function in admin 
-	let newDevice = {};
-	newDevice.commonName = device.commonName;
-	newDevice.commonRole = device.commonRole;
-	newDevice.nativeBackgroundImage = device.nativeBackgroundImage;
-	newDevice.nativeBackgroundImageActive = device.nativeBackgroundImageActive;
-	newDevice.nativeHeading = device.nativeHeading;
-	newDevice.nativeHeadingOptions = device.nativeHeadingOptions;
-	newDevice.nativeLinkedView = device.nativeLinkedView;
-	newDevice.nativeNewLine = device.nativeNewLine;
-	newDevice.nativeHide = device.nativeHide;
-	newDevice.options = device.options;
-	newDevice.states = device.states;
-	return newDevice;
-} 
-
-//#####################################################################################################
-
-var updateFunctions = {};
-var unbindingFunctions = {};
+//---------- DeviceCollection ----------
+var deviceCollections = {
+	updateFunctions: {},
+	bindingFunctions: {},
+	unbindingFunctions: {},
+	uiElementStacks: {},
+};
 
 /** Adds a collection of devices to a given HTML-Element and handles the registration and deletion of update- and binding-functions
  * @param {string} collectionId 
@@ -14340,6 +14330,8 @@ var unbindingFunctions = {};
  * @param {function(uiElements): UIElements} addDeviceCollectionOptions.afterAddDeviceFunction - has to return (modified) uiElements
  * @param {function(uiElements): UIElements} addDeviceCollectionOptions.beforeUpdateStatesFunction - has to return (modified) uiElements
  * @param {[UIElements]} addDeviceCollectionOptions.initialUiElements
+ * @param {boolean} addDeviceCollectionOptions.replaceContent
+ * @param {boolean} addDeviceCollectionOptions.singleDevice - then deviceIdPrefix has to be the complete id, deviceList can be a single device or an array of devices with length == 1
  */
 function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix, deviceList, addDeviceCollectionOptions){
 	if(typeof addDeviceCollectionOptions != "object") addDeviceCollectionOptions = {};
@@ -14351,42 +14343,56 @@ function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix,
 		if(typeof addDeviceCollectionOptions.initialUiElements.updateFunctions == "array") uiElements.updateFunctions = addDeviceCollectionOptions.initialUiElements.updateFunctions;
 		if(typeof addDeviceCollectionOptions.initialUiElements.bindingFunction == "array") uiElements.bindingFunction = addDeviceCollectionOptions.initialUiElements.bindingFunction;
 		if(typeof addDeviceCollectionOptions.initialUiElements.unbindingFunction == "array") uiElements.unbindingFunction = addDeviceCollectionOptions.initialUiElements.unbindingFunction;
-		if(typeof addDeviceCollectionOptions.initialUiElements.statesToUpdate == "array") uiElements.statesToUpdate = addDeviceCollectionOptions.initialUiElements.statesToUpdate;
+		if(typeof addDeviceCollectionOptions.initialUiElements.statesToFetchAndUpdate == "array") uiElements.statesToFetchAndUpdate = addDeviceCollectionOptions.initialUiElements.statesToFetchAndUpdate;
 		uiElements = new UIElements(uiElements);
 	} else {
 		uiElements = new UIElements();
 	}
 	unbindDeviceCollection(collectionId);
 	var $appendHtmlToSelector = $(appendHtmlToSelector);
-	var statesToUpdate = [];
 	if(typeof addDeviceCollectionOptions.beforeAddDeviceFunction == "function"){
 		result = addDeviceCollectionOptions.beforeAddDeviceFunction(uiElements);
 		if(result instanceof UIElements) uiElements = result;
 	}
+	var statesToUpdate = [];
+	if(addDeviceCollectionOptions.singleDevice && !Array.isArray(deviceList)) deviceList = [deviceList];
 	deviceList.forEach(function(device, deviceIndex){
-		var deviceId = deviceIdPrefix + ".devices." + deviceIndex; 
-		extendDevice(device, deviceId);
-		Object.keys(device.deviceStates).forEach(function(deviceState){
-			uiElements.updateFunctions[device.deviceStates[deviceState].stateId] = [];
-			uiElements.bindingFunctions[device.deviceStates[deviceState].stateId] = [];
-			if(!uiElements.statesToUpdate[device.deviceStates[deviceState].stateId]) uiElements.statesToUpdate.push(device.deviceStates[deviceState].stateId);
-		})
-		if(typeof addDeviceCollectionOptions.addDeviceFunction == "function"){
-			result = addDeviceCollectionOptions.addDeviceFunction(device, deviceIndex, uiElements);
-			if(result instanceof UIElements) uiElements = result;
+		if(typeof device == "object"){
+			if(addDeviceCollectionOptions.singleDevice){
+				var deviceId = deviceIdPrefix;
+			} else {
+				var deviceId = deviceIdPrefix + ".devices." + deviceIndex;
+			}
+			extendDevice(device, deviceId);
+			device.deviceStates && Object.keys(device.deviceStates).forEach(function(deviceStateName){
+				if(device.deviceStates[deviceStateName].stateId && !statesToUpdate[device.deviceStates[deviceStateName].stateId]) statesToUpdate.push(device.deviceStates[deviceStateName].stateId);
+			});
+			if(typeof addDeviceCollectionOptions.addDeviceFunction == "function"){
+				result = addDeviceCollectionOptions.addDeviceFunction(device, deviceIndex, uiElements);
+				if(result instanceof UIElements) uiElements = result;
+			}
 		}
 	});
 	if(typeof addDeviceCollectionOptions.afterAddDeviceFunction == "function"){
 		result = addDeviceCollectionOptions.afterAddDeviceFunction(uiElements);
 		if(result instanceof UIElements) uiElements = result;
 	}
+	if(uiElements.uiElementStacks.open) uiElements.closeElementStackContainer();
 	if(uiElements.html) if(addDeviceCollectionOptions.replaceContent) $appendHtmlToSelector.html(uiElements.html); else $appendHtmlToSelector.append(uiElements.html);
 	if(typeof addDeviceCollectionOptions.beforeUpdateStatesFunction == "function"){
 		result = addDeviceCollectionOptions.beforeUpdateStatesFunction(uiElements);
 		if(result instanceof UIElements) uiElements = result;
 	}
-	bindDeviceCollection(collectionId, (Array.isArray(uiElements.updateFunctions) && uiElements.updateFunctions || null), (Array.isArray(uiElements.bindingFunctions) && uiElements.bindingFunctions || null), (Array.isArray(uiElements.unbindingFunctions) && uiElements.unbindingFunctions || null));
-	Array.isArray(uiElements.statesToUpdate) && uiElements.statesToUpdate.forEach(function(stateToUpdate){ updateState(stateToUpdate, collectionId); });
+	bindDeviceCollection(collectionId, uiElements);
+	Array.isArray(uiElements.statesToFetchAndUpdate) && uiElements.statesToFetchAndUpdate.forEach(function(stateToFetchAndUpdate){ 
+		if(stateToFetchAndUpdate){
+			fetchAndSubscribeStates(stateToFetchAndUpdate); 
+			if(!statesToUpdate[stateToFetchAndUpdate]) statesToUpdate.push(stateToFetchAndUpdate);
+		}
+	});
+	statesToUpdate.forEach(function(stateToUpdate){
+		updateState(stateToUpdate);
+	});
 }
 
 /** Adds the update- and binding-functions of a collection
@@ -14394,27 +14400,44 @@ function addDeviceCollection(collectionId, appendHtmlToSelector, deviceIdPrefix,
  * @param {function[]} collectionUpdateFunctions 
  * @param {function[]} collectionBindingFunctions 
  */
-function bindDeviceCollection(collectionId, collectionUpdateFunctions, collectionBindingFunctions, collectionUnbindingFunctions){
-	updateFunctions[collectionId] = collectionUpdateFunctions;
-	(collectionBindingFunctions || []).forEach(function(collectionBindingFunction){
+function bindDeviceCollection(collectionId, uiElements){
+	deviceCollections.updateFunctions[collectionId] = Array.isArray(uiElements.updateFunctions) && uiElements.updateFunctions || null;
+	(Array.isArray(uiElements.bindingFunctions) && uiElements.bindingFunctions || []).forEach(function(collectionBindingFunction){
 		if(typeof collectionBindingFunction == "function") collectionBindingFunction();
 	});
-	unbindingFunctions[collectionId] = collectionUnbindingFunctions;
+	deviceCollections.unbindingFunctions[collectionId] = Array.isArray(uiElements.unbindingFunctions) && uiElements.unbindingFunctions || null;
+	deviceCollections.uiElementStacks[collectionId] = uiElements.uiElementStacks;
+	startUiElementStacksTimer(collectionId);
 }
 
 /** Deletes the update- and binding-functions of a collection
  * @param {string} collectionId 
 */
 function unbindDeviceCollection(collectionId){
-	delete updateFunctions[collectionId];
-	(unbindingFunctions[collectionId] || []).forEach(function(collectionUnbindingFunction){
+	delete deviceCollections.updateFunctions[collectionId];
+	(deviceCollections.unbindingFunctions[collectionId] || []).forEach(function(collectionUnbindingFunction){
 		if(typeof collectionUnbindingFunction == "function") collectionUnbindingFunction();
 	});
-	delete unbindingFunctions[collectionId];
+	delete deviceCollections.unbindingFunctions[collectionId];
+	if(deviceCollections.uiElementStacks[collectionId] && deviceCollections.uiElementStacks[collectionId].interval) clearInterval(deviceCollections.uiElementStacks[collectionId].interval);
 }
 
-//#####################################################################################################
+function startUiElementStacksTimer(collectionId, interval){
+	if(!deviceCollections.uiElementStacks[collectionId]) deviceCollections.uiElementStacks.collectionId = {};
+	if(deviceCollections.uiElementStacks[collectionId].interval) clearInterval(deviceCollections.uiElementStacks[collectionId].interval);
+	deviceCollections.uiElementStacks[collectionId].interval = setInterval(function(){
+		for(const stackId in (deviceCollections.uiElementStacks[collectionId].stacks || {})){
+			var stack = deviceCollections.uiElementStacks[collectionId].stacks[stackId];
+			if(stack.count > 1){ 
+				if(stack.index < stack.count - 1) stack.index++; else stack.index = 0;
+				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"]:not([data-ui-element-stack-index="${stack.index}"])`).css('opacity', 0);
+				$(`div.uiElementStack.container[data-ui-element-stack-id="${stackId}"][data-ui-element-stack-index="${stack.index}"]`).css('opacity', 1);
+			}
+		}
+	}, interval || 5000);
+}
 
+//---------- Helpers for DeviceCollection ----------
 /** Extends devices with deviceId, deviceIdEscaped and deviceStates.
  * DeviceStates are generated out of the state-array by calling getDeviceStateId(), which in turn calls fetchAndSubscribeOrCreateState().
  * There are some specials like empty Widgets STATE or tileEnlarge that are taken into account.
@@ -14457,12 +14480,17 @@ function extendDevice(device, deviceId){ // #####
 				device.states.push({state: 'tileEnlarged', commonRole: 'linkedState', value: 'VIRTUAL:boolean,switch,' + ((getDeviceOptionValue(device, "tileEnlargeStartEnlarged") == "true") ? "true" : "false")});
 			}
 		}
-		device.deviceStates[state].stateId = getDeviceStateId(device, state); //While getting the device state the corresponding objects are also fetched or created
+		device.deviceStates[state].stateId = getStateIdFromDeviceState(device, state); //While getting the device state the corresponding objects are also fetched or created
 	});
 	return device;
 }
 
-/** Gets the stateId of a deviceState and calls fetchAndSubscribeState() or createTemporaryState() or createVirtualState().
+function getStateFromDeviceState(device, state){
+	var stateId = getStateIdFromDeviceState(device, state);
+	return getState(stateId);
+}
+
+/** Gets the stateId of a deviceState and calls fetchAndSubscribeState() or createTemporaryState() or createVirtualState() if necessary.
  * Returns null if state is not found in device.
  * Returns 'CONST:deviceId.state' if the found deviceState's role is 'const'.
  * Returns 'CALC:deviceId.state' if the found deviceState's role ist 'calc'.
@@ -14473,8 +14501,9 @@ function extendDevice(device, deviceId){ // #####
  * @param {string} state
  * @returns {string|null} stateId or null, if state is not found
 */
-function getDeviceStateId(device, state){
-	var deviceStateId = device.deviceId + "." + state;
+function getStateIdFromDeviceState(device, state){
+	if(device.deviceStates && device.deviceStates[state] && typeof device.deviceStates[state].stateId != udef) return device.deviceStates[state].stateId; //Was already extended
+	var deviceStateId = device.deviceId + ".deviceStates." + state;
 	var deviceStateIndex = device.states.findIndex(function(element){ return (element.state == state);})
 	var deviceStateObject = device.states[deviceStateIndex] || {state: state};
 	deviceStateObject.value = (typeof deviceStateObject.value != udef ? deviceStateObject.value : '');
@@ -14485,7 +14514,20 @@ function getDeviceStateId(device, state){
 		stateId = deviceStateObject.commonRole.toUpperCase() + ":" + deviceStateId; //CONST: or CALC: + deviceStateId
 		var variables = (deviceStateObject.value.match(/{([^}]+)}/g) || []).map(function(match){ return match.slice(1, -1); }); //check for {variables}
 		variables.forEach(function(variable){
-			if(!fetchedStates[variable] && !statesToFetchAndSubscribe[variable]) statesToFetchAndSubscribe.push(variable);
+			var variableParts = variable.split('|');
+			var _linkedStateId = variableParts[0];
+			if(_linkedStateId){
+				if(_linkedStateId.substr(0, 1) == "[" && _linkedStateId.substr(-1) == "]") _linkedStateId = _linkedStateId.substring(1, _linkedStateId.length - 1);
+				var updateFunction = new Function("updateState('" + stateId + "');");
+				var _stateId = (function(){ return stateId.toString(); })(); 
+				if(!fetchedStates[_linkedStateId] && !statesToFetchAndSubscribe[_linkedStateId]) statesToFetchAndSubscribe.push(_linkedStateId);
+				if(!deviceCollections.updateFunctions["stateVariables"]) deviceCollections.updateFunctions["stateVariables"] = [];
+				if(!deviceCollections.updateFunctions["stateVariables"][_linkedStateId]) deviceCollections.updateFunctions["stateVariables"][_linkedStateId] = [];
+				if(!deviceCollections.updateFunctions["stateVariables"][_linkedStateId].filter(function(f){ return f.toString() == updateFunction.toString(); }).length){
+					console.log("Create stateVariable updateFunction for " + _linkedStateId + " to update " + stateId)
+					deviceCollections.updateFunctions["stateVariables"][_linkedStateId].push(updateFunction);
+				}
+			}
 		});
 		createTemporaryState(stateId, 'string', 'state', false, deviceStateObject.value);
 	} else if(deviceStateObject.commonRole == 'array'){ //deviceState is array
@@ -14507,17 +14549,17 @@ function getDeviceStateId(device, state){
 	} else { //deviceState is linkedState (including when the value is 'VIRTUAL:<type>,<role>,<value>'
 		if(deviceStateObject.value.substring(0, 8) == 'VIRTUAL:'){ //VIRTUAL state
 			stateId = "VIRTUAL:" + deviceStateId;
-			var config = (stateId.substring(8) || "").split(',');
+			var config = (deviceStateObject.value.substring(8) || "").split(',');
 			var type = config[0] || "boolean";
 			var role = config[1] || "state";
 			var value = config[2] || null;
 			createTemporaryState(stateId, type, role, false, value);
 		} else { //normal linkedState to fetch
 			stateId = deviceStateObject.value;
-			if(!fetchedStates[stateId] && !statesToFetchAndSubscribe[stateId]) statesToFetchAndSubscribe.push(stateId);
+			if(stateId && !fetchedStates[stateId] && !statesToFetchAndSubscribe[stateId]) statesToFetchAndSubscribe.push(stateId);
 		}
 	}
-	fetchAndSubscribeStates(statesToFetchAndSubscribe);
+	if(statesToFetchAndSubscribe.length) fetchAndSubscribeStates(statesToFetchAndSubscribe);
 	return stateId;
 }
 
@@ -14531,17 +14573,21 @@ function getDeviceStateId(device, state){
  * @returns {string} - temporaryStateId (for 'CONST:', 'ARRAY:', 'CALC:' or 'VIRTUAL:' it is the same as stateId, for all others (normal linkedStates) it is "TEMP:" + stateId)
  */
 function createTemporaryState(stateId, type, role, tempValuesStoredInObjectId, value){
-	if(tempValuesStoredInObjectId && typeof fetchedObjects[tempValuesStoredInObjectId] == udef) return null;
+	//if(tempValuesStoredInObjectId && typeof fetchedObjects[tempValuesStoredInObjectId] == udef) return null;
 	var stateIdParts = stateId.split(':');
 	var stateIdRole = stateIdParts.length > 1 && stateIdParts[0] || null; // 'CONST', 'ARRAY', 'CALC', 'VIRTUAL' or null
 	if(typeof fetchedStates[stateId] == udef) fetchedStates[stateId] = {};
 	if(typeof fetchedStates[stateId].val == udef) fetchedStates[stateId].val = "";
+	var temporaryStateId = (stateIdRole ? stateId : "TEMP:" + stateId); // 'CONST:', 'ARRAY:', 'CALC:', 'VIRTUAL:' or 'TEMP:'
 	if(typeof fetchedStates[stateId] != udef && typeof fetchedStates[stateId].val != udef && fetchedStates[stateId].val == "") { //stateId is empty
-		var temporaryStateId = (stateIdRole ? stateId : "TEMP:" + stateId); //
 		fetchedStates[stateId].val = temporaryStateId;
 		var tempType = (typeof type != udef && type) || "string";
 		var tempRole = (typeof role != udef && role) || "state";
-		var tempValue = (typeof value !== udef && value) || (fetchedObjects[tempValuesStoredInObjectId] && typeof fetchedObjects[tempValuesStoredInObjectId].native != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
+		if(tempValuesStoredInObjectId && typeof fetchedObjects[tempValuesStoredInObjectId] == udef){ //object tempValuesStoredInObjectId is not yet fetched
+			var tempValue = (typeof value !== udef && value) || null;
+		} else {
+			var tempValue = (typeof value !== udef && value) || (fetchedObjects[tempValuesStoredInObjectId] && typeof fetchedObjects[tempValuesStoredInObjectId].native != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues != udef && typeof fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId] != udef && fetchedObjects[tempValuesStoredInObjectId].native.iQontrolTempValues[stateId]) || (tempType == "level" ? 0 : (tempType == "boolean" ? false : ""));
+		}
 		var tempObject = {
 			"type": "state",
 			"common": {
@@ -14570,61 +14616,53 @@ function createTemporaryState(stateId, type, role, tempValuesStoredInObjectId, v
 			"user": "system.user.admin"
 		};
 		fetchedStates[temporaryStateId] = tempState;
-		return temporaryStateId;
 	}
+	return temporaryStateId;
 }
 
 /** Fetchs the given stateId(s) with corresponding objects from server and subscribes them, so that changes are transmitted to fetchedStates. Afterwards it calles updateState.
  * @param {string|string[]} stateIds 
  * @param {function} [callback] 
  */
-function fetchAndSubscribeStates(stateIds, callback){
+function fetchAndSubscribeStates(stateIds, ignorePreventUpdate, callback){
 	var _stateIds = [];
 	if(Array.isArray(stateIds)) _stateIds = Object.assign([], stateIds); else _stateIds.push(stateIds);
 	for(i = _stateIds.length -1; i >= 0; i--){
-		if(!_stateIds[i] || fetchedStates[_stateIds[i]]) _stateIds.splice(i, 1);
-		if(_stateIds[i] && !fetchedObjects[_stateIds[i]]) fetchObject(_stateIds[i]);
+		if(!_stateIds[i]){
+			_stateIds.splice(i, 1);
+		} else {
+			if(fetchedStates[_stateIds[i]]){ 
+				_stateIds.splice(i, 1);
+				//if(fetchedObjects[_stateIds[i]]) updateState(_stateIds[i], ignorePreventUpdate); //Is completely fetched (state and object) -> call updateState
+			}
+			if(!fetchedObjects[_stateIds[i]]) fetchObject(_stateIds[i]);
+		}
 	}
 	if(_stateIds.length > 0){
 		console.debug("[Socket] & subscribe & getStates " + _stateIds);
 		socket.emit('subscribe', _stateIds);
 		socket.emit('getStates', _stateIds, function (err, _states) {
 			if(_states){
-				fetchedStates = Object.assign(_states, fetchedStates);
+				Object.assign(fetchedStates, _states);
 				Object.keys(_states).forEach(function(_stateId){
-					if(fetchedObjects[_stateId]) updateState(_stateId); //Same but vice versa is in fetchObject()
+					if(fetchedObjects[_stateId]) updateState(_stateId, ignorePreventUpdate); //Same but vice versa is in fetchObject()
 				});
 			}
-			if(callback) callback(err);
+			if(typeof callback == "function") callback(err);
 		});
 	} else {
-		if(callback) callback();
+		if(typeof callback == "function") callback();
 	}
 }
 
-
-//#####################################################################################################
-function newRenderDialog(deviceIdEscaped){ //realy escaped?? why not simply device as object??
-	var dialogId = ""; //???
-	var devices = {}; //???
-	addDeviceCollection('dialog', '#DialogContent', dialogId, devices, {
-		replaceContent: true,
-		beforeAddDeviceFunction: function(uiElements){ return uiElements; },
-		addDeviceFunction: function(device, deviceIndex, uiElements){ return uiElements; },
-		afterAddDeviceFunction: function(uiElements){ return uiElements; },
-		beforeUpdateStatesFunction: function(uiElements){ return uiElements; }
-	});
-}
-//#####################################################################################################
-
-
+//---------- UIElements ----------
 /**
  * @typedef {object} UIElements
  * @property {string} html
  * @property {function[]} updateFunctions
  * @property {function[]} bindingFunctions
  * @property {function[]} unbindingFunctions
- * @property {string[]} statesToUpdate
+ * @property {string[]} statesToFetchAndUpdate 
  */
 /** Class of UI-Elements to add to deviceCollections 
  * @class
@@ -14636,14 +14674,17 @@ function UIElements(initialUiElements) {
 	this.updateFunctions = initialUiElements.updateFunctions || [];
 	this.bindingFunctions = initialUiElements.bindingFunctions || [];
 	this.unbindingFunctions = initialUiElements.unbindingFunctions || [];
-	this.statesToUpdate = initialUiElements.statesToUpdate || [];
+	this.statesToFetchAndUpdate = initialUiElements.statesToFetchAndUpdate || [];
+	this.uiElementIndex = initialUiElements.statesToFetchAndUpdate || 0;
+	this.uiElementStacks = initialUiElements.uiElementStacks || {};
 
 	/** Adds given HTML-Code to uiElements
 	 * @param {*} html 
 	 * @returns {UIElements} 
 	 */
-	this.addHtml = function(html){
+	this.addHtml = function(html, htmlOptions){
 		this.html += html;
+		if(typeof htmlOptions == "object" && htmlOptions.increaseUiElementIndex) this.uiElementIndex++;
 		return this;
 	}
 
@@ -14652,8 +14693,10 @@ function UIElements(initialUiElements) {
 		if(typeof stateIds == "string") stateIds = [stateIds];
 		var that = this;
 		Array.isArray(stateIds) && stateIds.forEach(function(stateId){
-			if(!that.updateFunctions[stateId]) that.updateFunctions[stateId] = [];
-			that.updateFunctions[stateId].push(updateFunction);	
+			if(stateId && stateId != "" && stateId != null){
+				if(!that.updateFunctions[stateId]) that.updateFunctions[stateId] = [];
+				that.updateFunctions[stateId].push(updateFunction);
+			}
 		});
 		return this;
 	}
@@ -14670,36 +14713,66 @@ function UIElements(initialUiElements) {
 		return this;
 	}
 
-	this.addStatesToUpdate = function(stateIds){
+	this.addStatesToFetchAndUpdate = function(stateIds){
 		if(typeof stateIds == "string") stateIds = [stateIds];
 		var that = this;
 		Array.isArray(stateIds) && stateIds.forEach(function(stateId){
-			that.statesToUpdate.push(stateId);
+			if(stateId && stateId != "" && stateId != null){
+				that.statesToFetchAndUpdate.push(stateId);
+			}
 		});
 		return this;
 	}
 
+	//---------- ElementStack ----------
+	this.newElementStackContainer = function(device, uiElementOptions){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		if(!this.uiElementStacks.stacks) this.uiElementStacks.stacks = {};
+		if(uiElementOptions.stackId){
+			var deviceStackId = device.deviceIdEscaped + "#" + uiElementOptions.stackId;
+			if(!this.uiElementStacks.stacks[deviceStackId]) this.uiElementStacks.stacks[deviceStackId] = {count: 0, index: 0};
+			this.uiElementStacks.stacks[deviceStackId].count = this.uiElementStacks.stacks[deviceStackId].count || 0;
+			if(this.uiElementStacks.open) this.closeElementStackContainer();
+			this.addHtml(`<div
+				class="uiElementStack container"
+				data-ui-element-stack-id="${deviceStackId}"
+				data-ui-element-stack-index="${this.uiElementStacks.stacks[deviceStackId].count}"
+				style="${(this.uiElementStacks.stacks[deviceStackId].count > 0 ? 'opacity: 0;' : 'opacity: 1;')}"
+			>`);
+			this.uiElementStacks.stacks[deviceStackId].count++;
+			this.uiElementStacks.open = true;
+		}
+		return this;
+	}
+	this.closeElementStackContainer = function(){
+		if(this.uiElementStacks.open){
+			this.addHtml(`</div>`);
+			this.uiElementStacks.open = false;
+		}
+		return this;
+	}
+
+	//---------- Badge ----------
 	/** Adds a Badge to uiElements
 	 * @param {object} device 
-	 * @param {object} badgeOptions 
-	 * @param {string} badgeOptions.badgeDeviceStateId
-	 * @param {string} badgeOptions.badgeColorDeviceStateId 
-	 * @param {string} badgeOptions.class
+	 * @param {object} uiElementOptions 
+	 * @param {string} uiElementOptions.badgeDeviceStateId
+	 * @param {string} uiElementOptions.badgeColorDeviceStateId 
+	 * @param {string} uiElementOptions.class
 	 * @returns {UIElements}  
 	 */
-	this.addBadge = function(device, badgeOptions){
-		if(typeof badgeOptions != "object") badgeOptions = {};
-		var badgeDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE";
-		var badgeColorDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE_COLOR";
-		var badgeColorDeviceStateId = badgeOptions.badgeDeviceStateId || "BADGE_COLOR";
-		var badgeClass = badgeOptions.class || "iQontrolDeviceBadge";
+	this.addBadge = function(device, uiElementOptions){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		var badgeDeviceStateId = uiElementOptions.badgeDeviceStateId || "BADGE";
+		var badgeColorDeviceStateId = uiElementOptions.badgeColorDeviceStateId || "BADGE_COLOR";
+		var badgeClass = uiElementOptions.class || "iQontrolDeviceBadge";
 		var deviceStateBadge = getObjectValue(device, "deviceStates." + badgeDeviceStateId + ".stateId");
 		var deviceStateBadgeColor = getObjectValue(device, "deviceStates." + badgeColorDeviceStateId + ".stateId");
 		if(!deviceStateBadge) return this;
 		this.addHtml("<div class='" + badgeClass + "' data-iQontrol-Device-ID='" + device.deviceIdEscaped +"'></div>");
 		var updateFunction = function(){
-			var stateBadge = getStateObject(deviceStateBadge);
-			var stateBadgeColor = getStateObject(deviceStateBadgeColor);
+			var stateBadge = getState(deviceStateBadge);
+			var stateBadgeColor = getState(deviceStateBadgeColor);
 			var badgeWithoutUnit = (getDeviceOptionValue(device, "badgeWithoutUnit") == "true");
 			var showBadgeIfZero = (getDeviceOptionValue(device, "showBadgeIfZero") == "true");
 			var colorString = stateBadgeColor && isValidColorString(stateBadgeColor.val) && stateBadgeColor.val || "rgba(255,0,0,0.8)";
@@ -14747,4 +14820,1180 @@ function UIElements(initialUiElements) {
 		this.addUpdateFunction([deviceStateBadge, deviceStateBadgeColor], updateFunction);
 		return this;
 	};
+
+
+	//---------- iconTextCombination ----------
+	/** Adds a 
+	 * @param {object} device 
+	 * @param {object} uiElementOptions 
+	 *
+	 * @param {string} uiElementOptions.stackId
+	 *
+	 * @param {string} uiElementOptions.iconClasses
+	 * @param {string} uiElementOptions.iconDeviceStateId
+	 * @param {string} uiElementOptions.iconActiveDeviceStateId
+	 * @param {string} uiElementOptions.iconActiveCondition
+	 * @param {string} uiElementOptions.iconActiveConditionValue
+	 *
+	 * @param {string} uiElementOptions.textClasses
+	 * @param {string} uiElementOptions.textDeviceStateId
+	 * @param {string} uiElementOptions.textLevelDeviceStateId
+	 * @param {string} uiElementOptions.textShowStateAndLevelDividedBy
+	 * @param {function} uiElementOptions.textProcessingFunction
+	 * @param {object} uiElementOptions.textProcessingOptions
+	 * @param {string} uiElementOptions.textActiveDeviceStateId
+	 * @param {string} uiElementOptions.textActiveCondition
+	 * @param {string} uiElementOptions.textActiveConditionValue
+
+	 * @returns {UIElements}  
+	 */
+	this.addIconTextCombination = function(device, uiElementOptions){
+		if(typeof uiElementOptions != "object") uiElementOptions = {};
+		this.newElementStackContainer(device, uiElementOptions);
+		var _uiElementIndex = this.uiElementIndex; //#####
+		//--Icon
+		if(uiElementOptions.iconDeviceStateId){
+			var iconStateId = getStateIdFromDeviceState(device, uiElementOptions.iconDeviceStateId);
+			var iconActiveStateId = getStateIdFromDeviceState(device, uiElementOptions.iconActiveDeviceStateId);
+			this.addHtml(`<img 	
+				class="uiElement icon ${uiElementOptions.iconClasses || ""}"'
+				data-device-id="${device.deviceIdEscaped}"
+				data-ui-element-index="${_uiElementIndex}"
+				style="display: none;" 
+			>`);
+			var updateFunction = function(stateId, forceReloadOfImage){
+				var $iconElement = $(`img.uiElement.icon[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var iconState = getState(iconStateId);
+				var iconActiveState = getState(iconActiveStateId);
+				var iconActive = (iconActiveState ? checkCondition(iconActiveState.val, uiElementOptions.iconActiveCondition || "eqt", uiElementOptions.iconActiveConditionValue) : true);
+				var src = iconState && iconState.val || "";
+				if(forceReloadOfImage) src = src.replace(/(?<=\?|&)forcedReload=([^&]+)/, "forcedReload=irgendwasAnderes" + Math.floor(new Date().getTime() / 100));
+				if(src != $iconElement.attr('src')){
+					if(($iconElement.attr('src') || "").substring(0, 5).toLowerCase() !== "data:") $iconElement.fadeTo(0,0);
+					setTimeout(function(){
+						$iconElement.off('load').on('load', function(){
+							if($iconElement.hasClass('active')) $iconElement.fadeTo(0,1); else $iconElement.css('opacity', '');
+						}).attr('src', src);
+					}, 250);					
+				}
+				if(iconActive) $iconElement.addClass('active').css('opacity', ''); else $iconElement.removeClass('active');
+			}
+			this.addUpdateFunction([iconStateId, iconActiveStateId], updateFunction)
+		}
+		//--Text
+		if(uiElementOptions.textDeviceStateId){
+			var textStateId = getStateIdFromDeviceState(device, uiElementOptions.textDeviceStateId);
+			var textLevelStateId = getStateIdFromDeviceState(device, uiElementOptions.textLevelDeviceStateId);
+			var textActiveStateId = getStateIdFromDeviceState(device, uiElementOptions.textActiveDeviceStateId);
+			this.addHtml(`<div 	
+				class="uiElement text ${uiElementOptions.textClasses || ""}"'
+				data-device-id="${device.deviceIdEscaped}"
+				data-ui-element-index="${_uiElementIndex}"
+			></div>`);
+			var updateFunction = function(stateId){
+				var $textElement = $(`div.uiElement.text[data-device-id="${device.deviceIdEscaped}"][data-ui-element-index="${_uiElementIndex}"]`);
+				var textState = getState(textStateId);
+				var textLevelState = getState(textLevelStateId);
+				var textActiveState = getState(textActiveStateId);
+				var textResult = processStateText(textState, textLevelState, uiElementOptions.textProcessingOptions, uiElementOptions.textProcessingFunction);
+				var textActive = (textActiveState ? checkCondition(textActiveState.val, uiElementOptions.textActiveCondition || "eqt", uiElementOptions.textActiveConditionValue) : true);
+				$textElement.html(textResult);
+				if(textActive) $textElement.addClass('active'); else $textElement.removeClass('active');
+			}
+			this.addUpdateFunction([textStateId, textActiveStateId], updateFunction)
+		}
+		this.closeElementStackContainer();
+		this.uiElementIndex++;
+		return this;
+	}
+} //End UIElements
+
+function processStateText(state, level, processStateOptions, processFunction){ 
+	if(typeof processStateOptions != "object") processStateOptions = {};
+	try{
+		return (typeof processFunction == "function" ? processFunction(state || null, level || null, processStateOptions) : defaultProcessStateTextFunction(state || null, level || null, processStateOptions));
+	} catch{
+		console.log("ERROR processing processFunction, fail back to defaultProcessStateTextFunction")
+		return defaultProcessStateTextFunction(state || null, level || null, processStateOptions);
+	}
 }
+
+function defaultProcessStateTextFunction(state, level, processStateOptions){
+	
+	var result;
+	var resultText;
+	if(!level || typeof level == udef || typeof level.val == udef){
+		if(state && typeof state.plainText == 'number'){							//STATE = number (= level); LEVEL = nothing
+			result = state.val;
+			resultText = result + state.unit;
+		} else if(state){ 															//STATE = bool or text; LEVEL = nothing
+			result = state.val;
+			resultText = state.plainText;
+		}
+	} else if(level && level.type == 'valueList'){
+		if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = value-list
+			if(state.val) {
+				result = level.val;
+				resultText = level.plainText;
+			} else {
+				result = state.val;
+				resultText = state.plainText;
+			}
+		} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = value-list
+			result = level.val;
+			resultText = level.plainText;
+		}
+	} else {
+		if(state && typeof state.val !== udef && typeof state.val !== 'string'){ 	//STATE = bool (or level - but that makes no sense); LEVEL = level
+			result = state.val * level.val;
+			resultText = result + level.unit;
+		} else if(level) {															//STATE = undefined (or string - but that makes no sense); LEVEL = level
+			result = level.val;
+			resultText = result + level.unit;
+		}
+	}
+	if(processStateOptions.showStateAndLevelSeparatelyInTile && processStateOptions.showStateAndLevelSeparatelyInTile.indexOf('devidedBy') != -1){
+		resultText = "";
+		if(state && typeof state != udef && state.val != udef){
+			var val = state.plainText;
+			var unit = state.unit;
+			if(state.plainText == state.val) val = val + unit;
+			if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+				var type = getDeviceOptionValue(_device, "stateCaption");
+				if(!type) switch(state.type){
+					case "switch": type = "Switch"; break;
+					case "button": type = "Button"; break;
+					case "level": type = "Level"; break;
+					case "valueList": type = "Selection"; break;
+					case "string": type = "Text"; break;
+					case "time": type = "Time"; break;
+					default: type = "State"; break;
+				}
+				resultText += _(type) + ":&nbsp;";
+			}
+			resultText += val;
+		}
+		if(level && typeof level != udef && level.val != udef){
+			var val = level.plainText;
+			var unit = level.unit;
+			if(level.plainText == level.val) val = val + unit;
+			if(resultText != ""){
+				if(showStateAndLevelSeparatelyInTile.indexOf('devidedByComma') != -1) resultText += ", ";
+				else if(showStateAndLevelSeparatelyInTile.indexOf('devidedBySemicolon') != -1) resultText += "; ";
+				else if(showStateAndLevelSeparatelyInTile.indexOf('devidedByHyphen') != -1) resultText += "&nbsp;- ";
+			}
+			if(showStateAndLevelSeparatelyInTile.indexOf('preceedCaptions') != -1){
+				var type = getDeviceOptionValue(_device, "levelCaption");
+				if(!type) switch(level.type){
+					case "switch": type = "Switch"; break;
+					case "button": type = "Button"; break;
+					case "level": type = "Level"; break;
+					case "valueList": type = "Selection"; break;
+					case "string": type = "Text"; break;
+					case "time": type = "Time"; break;
+					default: type = "State"; break;
+				}
+				resultText += _(type) + ":&nbsp;";
+			}
+			resultText += val;
+		}
+	}
+	return resultText;
+} 
+
+//#####################################################################################################
+function renderDialog(deviceIdEscaped, openDialog){ //xxxx openDialog implementieren (open beforeUpdate)
+	console.log("renderDialog " + deviceIdEscaped);
+	if(typeof deviceIdEscaped == udef || deviceIdEscaped == "") return;
+	var deviceId = unescape(deviceIdEscaped);
+	$("#DialogContent").html("");
+	fetchConfig(getNamespace(deviceId), function(){
+		var device = getDevice(deviceId);
+		actualDialogId = deviceId;
+//		dialogUpdateFunctions = {};
+//		dialogStateIdsToFetch = [];
+//		dialogLinkedStateIdsToUpdate = [];
+//		var dialogBindingFunctions = [];
+		var dialogReadonly = getDeviceOptionValue(device, "readonly") == "true";
+		var dialogContentCountAfterHR = 0;
+		addDeviceCollection('dialog', '#DialogContent', deviceId, device, {
+			singleDevice: true,
+			replaceContent: true,
+			beforeAddDeviceFunction: function(uiElements){ 
+				var dialogContent = "";
+				dialogContent += "<form class='fullWidthSlider'>";
+				dialogContent += "<button id='DialogAutofocusElement' onclick='event.stopPropagation(); event.preventDefault();' style='position:absolute; top:0px; left:-100000px; opacity:0; width:0px !important; height:0px !important;'></button>"; //jQuery fix for autofocus on first input when clicking on popup (the element is actively positioned to mouse cursor height)
+				uiElements.addHtml(dialogContent);
+				return uiElements; 
+			},
+			addDeviceFunction: function(device, deviceIndex, uiElements){ 
+				var dialogContent = "";
+				var dialogLinkedStateIds = {}; //##### remove this, when all parts are converted to uiElements
+				var dialogStates = {};
+				Object.keys(device.deviceStates || {}).forEach(function(deviceStateName){
+					dialogLinkedStateIds[deviceStateName] = device.deviceStates[deviceStateName].stateId;
+					dialogStates[deviceStateName] = getState(dialogLinkedStateIds[deviceStateName]);
+				});
+				//##### reRenderDialog bis 20x wenn stateIds fehlen wurde entfernt - war nötig, wenn dialog über URL-Parameter oder configPreview aufgerufen wurde - testen, ob es jetzt auch ohne geht
+				//!--State & Level
+				if(!(getDeviceOptionValue(device, "hideStateAndLevelInDialog") == "true")) switch(device.commonRole){
+					case "iQontrolButton":
+					if(dialogLinkedStateIds["STATE"]){
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Button";
+						var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
+						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _device = device;
+							var _linkedStateId = dialogLinkedStateIds["STATE"];
+							var _linkedSetValueId = dialogLinkedStateIds["SET_VALUE"] || "";
+							var _linkedOffSetValueId = dialogLinkedStateIds["OFF_SET_VALUE"] || "";
+							var _returnToOffSetValueAfter = getDeviceOptionValue(_device, "returnToOffSetValueAfter") || "100";
+							var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+							var bindingFunction = function(){
+								$('#DialogStateButton').on('click', function(e) {
+									startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceIdEscaped);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+								});
+							};
+							var unbindingFunction = function(){
+								$('#DialogStateButton').off('click');
+							}
+							uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
+					case "iQontrolThermostat": case "iQontrolHomematicThermostat": case "iQontrolHomematicIpThermostat":
+					if(dialogStates["SET_TEMPERATURE"]){
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Goal-Temperature";
+						var min = dialogStates["SET_TEMPERATURE"].min || 6;
+						var max = dialogStates["SET_TEMPERATURE"].max || 30;
+						var step = "0.5";
+						if(fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]] && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common !== udef && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== udef &&  fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom !== null && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== udef && fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace] !== null && typeof fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== udef && fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step !== "") step = fetchedObjects[dialogLinkedStateIds["SET_TEMPERATURE"]].common.custom[namespace].step.toString();
+						var unit = dialogStates["SET_TEMPERATURE"].unit || "";
+						if(unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
+						dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["SET_TEMPERATURE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+						var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
+						var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
+						if(levelFavorites.length > 0 && levelFavorites[0] != "") {
+							dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
+								for(index in levelFavorites){
+									let val = levelFavorites[index];
+									dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+									dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
+								}
+							dialogContent += "</fieldset>";
+						}
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _linkedSetTemperatureId = dialogLinkedStateIds["SET_TEMPERATURE"];
+							var _confirm = (fetchedObjects[_linkedSetTemperatureId] && typeof fetchedObjects[_linkedSetTemperatureId].common !== udef && typeof fetchedObjects[_linkedSetTemperatureId].common.custom !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].confirm == true);
+							var _pincodeSet = (fetchedObjects[_linkedSetTemperatureId] && typeof fetchedObjects[_linkedSetTemperatureId].common !== udef && typeof fetchedObjects[_linkedSetTemperatureId].common.custom !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedSetTemperatureId].common.custom[namespace].pincode !== "");
+							var _levelFavorites = levelFavorites;
+							var _levelFavoritesHideSlider = levelFavoritesHideSlider;
+							var DialogStateSliderReadoutTimer;
+							var updateFunction = function(){
+								var stateSetTemperature = getState(_linkedSetTemperatureId);
+								if(stateSetTemperature){
+									$("#DialogStateSlider").val(stateSetTemperature.val);
+									$("#DialogStateSlider").slider('refresh');
+									dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
+								}
+								if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
+									if(_levelFavoritesHideSlider && _levelFavorites.indexOf(stateSetTemperature.val.toString()) > -1) $('#DialogStateSlider').parents('div.ui-slider').hide();
+									$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+									$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf(stateSetTemperature.val.toString())).prop("checked", true);
+									$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+								}
+							};
+							uiElements.addUpdateFunction(_linkedSetTemperatureId, updateFunction);
+							var bindingFunction = function(){
+								$('#DialogStateSlider').slider({
+									start: function(event, ui){
+										clearInterval(DialogStateSliderReadoutTimer);
+										if(!_confirm && !_pincodeSet){
+											DialogStateSliderReadoutTimer = setInterval(function(){
+												setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
+												dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
+											}, 5000);
+										}
+									},
+									stop: function(event, ui) {
+										clearInterval(DialogStateSliderReadoutTimer);
+										if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
+											$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+											$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf($("#DialogStateSlider").val())).prop("checked", true);
+											$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+										}
+										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("#DialogStateSlider").val() * 1);
+										dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
+									}
+								});
+								if(levelFavorites.length > 0 && levelFavorites[0] != "") {
+									$("input[name='DialogLevelFavoritesCheckboxradio']").on('click', function(e) {
+										clearInterval(DialogStateSliderReadoutTimer);
+										$("#DialogStateSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+										$("#DialogStateSlider").slider('refresh');
+										setState(_linkedSetTemperatureId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+										dialogUpdateTimestamp(fetchedStates[_linkedSetTemperatureId]);
+									});	
+								}
+							};
+							var unbindingFunction = function(){
+								$('#DialogStateSlider').slider('destroy');
+								$("input[name='DialogLevelFavoritesCheckboxradio']").off('click');
+							}
+							uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
+					case "iQontrolDoorWithLock":
+					if(dialogStates["STATE"]){
+						dialogContentCountAfterHR++;
+						var type = getDeviceOptionValue(device, "stateCaption") || "Door";
+						dialogContent += "<label for='DialogStateValue'><image src='./images/symbols/door.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<input type='button' class='iQontrolDialogValue DialogStateValue' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='true' name='DialogStateValue' id='DialogStateValue' value='' />";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _linkedStateId = dialogLinkedStateIds["STATE"];
+							var updateFunction = function(){
+								var state = getState(_linkedStateId);
+								if(state){
+									if(state.val) $("#DialogStateValue").val(_("opened")); else $("#DialogStateValue").val(_("closed"));
+									$("#DialogStateValue").button('refresh');
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+								}
+							};
+							uiElements.addUpdateFunction(_linkedStateId, updateFunction);
+							var bindingFunction = function(){
+								$('.DialogStateValueList').on('change', function(e) {
+									setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateValueList option:selected").val());
+								});
+							};
+							var unbindingFunction = function(){
+								$('.DialogStateValueList').off('change');
+							}
+							uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
+					case "iQontrolScene":
+					var type = getDeviceOptionValue(device, "stateCaption") || "Scene";
+					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
+						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _device = device;
+							var _linkedStateId = dialogLinkedStateIds["STATE"];
+							var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+							var bindingFunction = function(){
+								$('#DialogStateButton').on('click', function(e) {
+									toggleScene(_linkedStateId, _deviceIdEscaped);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+								});
+							};
+							var unbindingFunction = function(){
+								$('#DialogStateButton').off('click');
+							}
+							uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
+					case "iQontrolProgram":
+					var type = getDeviceOptionValue(device, "stateCaption") || "Program";
+					if(dialogStates["STATE"] && !dialogStates["STATE"].readonly && !dialogReadonly){
+						dialogContentCountAfterHR++;
+						dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+						dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _("execute") + "</a>";
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _deviceIdEscaped = deviceIdEscaped;
+							var _device = device;
+							var _linkedStateId = dialogLinkedStateIds["STATE"];
+							var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+							var bindingFunction = function(){
+								$('#DialogStateButton').on('click', function(e) {
+									startProgram(_linkedStateId, _deviceIdEscaped);
+									dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+								});
+							};
+							var unbindingFunction = function(){
+								$('#DialogStateButton').off('click');
+							}
+							uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+						})(); //<--End Closure
+					}
+					break;
+
+					case "iQontrolMedia":
+					//DoNothing
+					break;
+
+					default:
+					//----Default State
+					if(dialogStates["STATE"]){
+						switch(dialogStates["STATE"].type){
+							case "switch":
+							dialogContentCountAfterHR++;
+							var type = "Switch";
+							if(device.commonRole == "iQontrolMotion") type = "Motion";
+							if(device.commonRole == "iQontrolAlarm") type = "Alarm";
+							if(device.commonRole == "iQontrolDateAndTime") type = "Status";
+							if(device.commonRole == "iQontrolWidget") type = "Enlarge";
+							type = getDeviceOptionValue(device, "stateCaption") || type;
+							dialogContent += "<label for='DialogStateSwitch' ><image src='./images/symbols/switch.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<select data-role='flipswitch' data-mini='false' class='iQontrolDialogSwitch' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateSwitch' id='DialogStateSwitch'>";
+								dialogContent += "<option value='false'>0</option>";
+								dialogContent += "<option value='true'>I</option>";
+							dialogContent += "</select>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var updateFunction = function(){
+									var state = getState(_linkedStateId);
+									if(state){
+										var index = 0;
+										if(typeof state.val != udef && (state.val.toString().toLowerCase() == "true" || state.val.toString() > 0)) index = 1; else index = 0;
+										$("#DialogStateSwitch")[0].selectedIndex = index;
+										$("#DialogStateSwitch").flipswitch('refresh');
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedStateId, updateFunction);
+								var bindingFunction = function(){
+									$('#DialogStateSwitch').on('change', function(e) {
+										var newVal = $("#DialogStateSwitch option:selected").val();
+										var state = getState(_linkedStateId);
+										if(typeof state.val == 'number'){
+											if(newVal == true) newVal = 1; else newVal = 0;
+										}
+										setState(_linkedStateId, _deviceIdEscaped, newVal);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									});
+								};
+								var unbindingFunction = function(){
+									$('#DialogStateSwitch').off('change');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "button":
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "stateCaption") || "Button";
+							if(dialogLinkedStateIds["STATE"]){
+								var buttonCaption = getDeviceOptionValue(device, "buttonCaption") || "push";
+								dialogContent += "<label for='DialogStateButton' ><image src='./images/symbols/program.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton" + ((dialogStates["STATE"].readonly || dialogReadonly) ? " ui-state-disabled'" : "") + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateButton' id='DialogStateButton'>" + _(buttonCaption) + "</a>";
+								(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+									var _deviceIdEscaped = deviceIdEscaped;
+									var _device = device;
+									var _linkedStateId = dialogLinkedStateIds["STATE"];
+									var _linkedSetValueId = dialogLinkedStateIds["SET_VALUE"] || "";
+									var _linkedOffSetValueId = dialogLinkedStateIds["OFF_SET_VALUE"] || "";
+									var _returnToOffSetValueAfter = getDeviceOptionValue(_device, "returnToOffSetValueAfter") || "100";
+									var _closeDialogAfterExecution = getDeviceOptionValue(_device, "closeDialogAfterExecution") || "false";
+									var bindingFunction = function(){
+										$('#DialogStateButton').on('click', function(e) {
+											startButton(_linkedStateId, _linkedSetValueId, _linkedOffSetValueId, _returnToOffSetValueAfter, _deviceIdEscaped);
+											dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+											if(_closeDialogAfterExecution == "true") $('#Dialog').popup('close');
+										});
+									};
+									var unbindingFunction = function(){
+										$('#DialogStateButton').off('click');
+									}
+									uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+								})(); //<--End Closure
+							}
+							break;
+
+							case "level":
+							dialogContentCountAfterHR++;
+							var min = dialogStates["STATE"].min || 0;
+							var max = dialogStates["STATE"].max || 100;
+							var step = dialogStates["STATE"].step || 1;
+							var type = "Level";
+							var sliderSendRate = 500;
+							if(device.commonRole == "iQontrolLight") {
+								type = "Dimmer";
+							}
+							if(device.commonRole == "iQontrolBlind") {
+								type = "Height";
+								sliderSendRate = 5000;
+							}
+							type = getDeviceOptionValue(device, "stateCaption") || type;
+							dialogContent += "<label for='DialogStateSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogStateSlider' id='DialogStateSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var _sliderSendRate = sliderSendRate;
+								var _confirm = (fetchedObjects[_linkedStateId] && typeof fetchedObjects[_linkedStateId].common !== udef && typeof fetchedObjects[_linkedStateId].common.custom !== udef && fetchedObjects[_linkedStateId].common.custom !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace] !== udef && fetchedObjects[_linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedStateId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedStateId] && typeof fetchedObjects[_linkedStateId].common !== udef && typeof fetchedObjects[_linkedStateId].common.custom !== udef && fetchedObjects[_linkedStateId].common.custom !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace] !== udef && fetchedObjects[_linkedStateId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedStateId].common.custom[namespace].pincode !== "");
+								var DialogStateSliderReadoutTimer;
+								var updateFunction = function(){
+									var state = getState(_linkedStateId);
+									if(state){
+										$("#DialogStateSlider").val(state.val);
+										$("#DialogStateSlider").slider('refresh');
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedStateId, updateFunction);
+								var bindingFunction = function(){
+									$('#DialogStateSlider').slider({
+										start: function(event, ui){
+											clearInterval(DialogStateSliderReadoutTimer);
+											if(!_confirm && !_pincodeSet){
+												DialogStateSliderReadoutTimer = setInterval(function(){
+													setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateSlider").val());
+													dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+												}, _sliderSendRate);
+											}
+										},
+										stop: function(event, ui) {
+											clearInterval(DialogStateSliderReadoutTimer);
+											setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateSlider").val());
+											dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+										}
+									});
+								};
+								var unbindingFunction = function(){
+									$('#DialogStateSlider').slider('destroy');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "valueList":
+							dialogContentCountAfterHR++;
+							var type = "Selection";
+							if(device.commonRole == "iQontrolMotion") type = "Motion";
+							if(device.commonRole == "iQontrolAlarm") type = "Alarm";
+							type = getDeviceOptionValue(device, "stateCaption") || type;
+							dialogContent += "<label for='DialogStateValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogStateValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateValueList' id='DialogStateValueList' data-native-menu='false'>";
+							for(val in dialogStates["STATE"].valueList){
+								if(dialogStates["STATE"].targetValues && dialogStates["STATE"].custom.showOnlyTargetValues && !dialogStates["STATE"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+								dialogContent += "<option value='" + val + "'>" + _(dialogStates["STATE"].valueList[val]) + "</option>";
+							}
+							if(dialogStates["STATE"].custom.statesAddInput) {
+								dialogContent += "<option value='[INPUT]'>" + (dialogStates["STATE"].custom.statesAddInputCaption || _("Enter other value...")) + "</option>";
+							}
+							dialogContent += "</select>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var updateFunction = function(){
+									var state = getState(_linkedStateId);
+									if(state){
+										if(typeof state.val != udef) {
+											var val = state.val.toString();
+											$("#DialogStateValueList").val(val).selectmenu('refresh');
+											if($("#DialogStateValueList").val() !== val){ //val is not in option-list
+												if(state.valueList && typeof state.valueList[val] !== udef){
+													$("#DialogStateValueList").prev("span").html(state.valueList[val]);
+												} else {
+													$("#DialogStateValueList").prev("span").html(val + "&nbsp;");
+												}
+											}
+										}
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedStateId, updateFunction);
+								var bindingFunction = function(){
+									$('.DialogStateValueList').on('change', function(e) {
+										var val = $("#DialogStateValueList option:selected").val();
+										if(val == "[INPUT]") {
+											val = prompt((dialogStates["STATE"].custom.statesAddInputCaption || _("Enter other value...")));
+											if(val == null) {
+												updateState(_linkedStateId);
+												return;
+											}
+											$("#DialogStateValueList").prev("span").html(val + "&nbsp;");
+										}
+										setState(_linkedStateId, _deviceIdEscaped, val);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									});
+								};
+								var unbindingFunction = function(){
+									$('.DialogStateValueList').off('change');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "string":
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "stateCaption") || "Text";
+							dialogContent += "<label for='DialogStateString' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<textarea class='iQontrolDialogString State' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateString' id='DialogStateString'></textarea>";
+							if(!dialogStates["STATE"].readonly && !dialogReadonly) {
+								dialogContent += "<a data-role='button' data-mini='false' class='iQontrolDialogButton' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogStateStringSubmit' id='DialogStateStringSubmit'>" + _("Submit") + "</a>";
+							}
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedStateId = dialogLinkedStateIds["STATE"];
+								var updateFunction = function(){
+									var state = getState(_linkedStateId);
+									if(state){
+										if($("#DialogStateString").parent('.jqte_source').length == 0){
+											$("#DialogStateString").val(state.val);
+											$("#DialogStateString").textinput('refresh');
+										} else {
+											$("#DialogStateString").jqteVal(state.val);
+										}
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedStateId, updateFunction);
+								var bindingFunction = function(){
+									$('#DialogStateStringSubmit').on('click', function(e) {
+										setState(_linkedStateId, _deviceIdEscaped, $("#DialogStateString").val(), true);
+										dialogUpdateTimestamp(fetchedStates[_linkedStateId]);
+									});
+								};
+								var unbindingFunction = function(){
+									$('#DialogStateStringSubmit').off('click');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "time":
+							dialogContentCountAfterHR++;
+							var timeFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeFormat) || "x");
+							var timeDisplayFormat = getTimeFormat((dialogStates["STATE"].custom && dialogStates["STATE"].custom.timeDisplayFormat) || "dddd, DD.MM.YYYY HH:mm:ss");
+							var isPeriod = (timeFormat.type == "period")
+							var type = getDeviceOptionValue(device, "stateCaption") || (isPeriod ? "Duration" : "Time");
+							dialogContent += "<label for='DialogStateTimeString' ><image src='./images/symbols/time.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<input class='iQontrolDialogTime' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["STATE"].readonly || dialogReadonly).toString() + "' name='DialogStateTimeString' id='DialogStateTimeString' readonly/>";
+							dialogContent += "<div class='iQontrolDialogTimeDistance small' data-iQontrol-Device-ID='" + deviceIdEscaped + "' id='DialogStateTimeDistance'></div>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _device = device;
+								var _linkedTimeId = dialogLinkedStateIds["STATE"];
+								var _timeFormat = timeFormat;
+								var _timeDisplayFormat = timeDisplayFormat;
+								var _periodDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToDurationDisplayFormatTokens));
+								var _anypickerTimeDisplayFormat = getTimeFormat(replaceTokens(_timeDisplayFormat.string, momentToAnypickerDisplayFormatTokens), "AnyPickerMode");
+								var _anypickerTimePickerFormat = getTimeFormat(replaceTokens(_anypickerTimeDisplayFormat.string, anypickerDisplayFormatToAnypickerPickerFormatTokens), "AnyPickerMode");
+								if(_timeFormat.type == "date") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[hHaAms]/g, "");
+								if(_timeFormat.type == "time") _anypickerTimePickerFormat.string = _anypickerTimePickerFormat.string.replace(/[yMd]/g, "");
+								var _anypickerModifyDateOutput = function(oldMoment, newMoment){
+									var nowMoment = moment();
+									if(_timeFormat.type == "date"){
+										newMoment.hour(0).minute(0).second(0).millisecond(0);
+									} else if(_timeFormat.type == "time"){
+										newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+									} else if(_timeFormat.type == "datetime" && _anypickerTimeDisplayFormat.flags.indexOf("to") == -1){
+										if(_anypickerTimeDisplayFormat.type == "date"){
+											if(_anypickerTimeDisplayFormat.flags.indexOf("tn") > -1){
+												newMoment.hour(nowMoment.hour()).minute(nowMoment.minute()).second(nowMoment.second()).millisecond(0);
+											} else {
+												newMoment.hour(0).minute(0).second(0).millisecond(0);
+											}
+										} else if(_anypickerTimeDisplayFormat.type == "time"){
+											if(_anypickerTimePickerFormat.flags.indexOf("tb") > -1) {
+												newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+											} else if(_anypickerTimePickerFormat.flags.indexOf("tn") > -1) {
+												newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											} else if(oldMoment.toDate().getTime() > 86400000) {
+												newMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+											} else {
+												newMoment.year(1970).month(0).date(1); //Unix: 01.01.1970 = timestamp 0
+											}										
+										}
+									}
+									return newMoment;
+								}
+								var updateFunction = function(_stateId, _onlyUpdateDistance){
+									var time = getState(_linkedTimeId);
+									var startDistanceTimer = false;
+									if(time){
+										var nowMoment = moment(new Date());
+										if(!(time && typeof time.val != udef)) time = {val: 0};
+										if(_timeFormat.type == "period"){
+											var timeMoment = moment.duration(time.val, _timeFormat.string);
+										} else {
+											var timeMoment = moment(time.val, _timeFormat.string);
+										}
+										if(!timeMoment.isValid()) timeMoment = moment(0);
+										if(_timeFormat.type == "time" && timeMoment.format("DD.MM.YYYY") == nowMoment.format("DD.MM.YYYY")){
+											timeMoment.year(1970).month(0).date(1);
+										}									
+										if(!_onlyUpdateDistance){
+											if(typeof $("#DialogStateTimeString").data('anypicker') == udef){ //Init AnyPicker
+												if(_timeFormat.type != "period"){
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").AnyPicker({ 
+														mode: "datetime",
+														rowsNavigation: "scroller",
+														showComponentLabel: true,
+														theme: "iOS", // "Default", "iOS", "Android", "Windows"
+														lang: systemLang,
+														onInit: function(){ 
+															$("#DialogStateTimeString").data('anypicker', this); 
+														},
+														dateTimeFormat: _anypickerTimePickerFormat.string,
+														inputDateTimeFormat: _anypickerTimeDisplayFormat.string,
+														selectedDate: timeMoment.toDate(),
+														formatOutput: function (selectedValues){
+															var newMoment = _anypickerModifyDateOutput($("#DialogStateTimeString").data('moment'), moment(selectedValues.date));
+															$("#DialogStateTimeString").data('moment', newMoment);
+															return this.formatOutputDates(newMoment.toDate());
+														},
+														onSetOutput: function(label, selectedValues){ 
+															$("#DialogStateTimeString").trigger('change'); 
+														},
+														nowButton: {
+															markup: "<a id='ap-button-now' class='ap-button'>Now</a>",
+															markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>now</span>",
+															type: "Button",
+															action: function(){ 
+																var newMoment = _anypickerModifyDateOutput($("#DialogStateTimeString").data('moment'), moment());
+																$("#DialogStateTimeString").data('moment', newMoment);
+																$("#DialogStateTimeString").data('anypicker').setSelectedDate(newMoment.toDate());
+																$("#DialogStateTimeString").data('anypicker').showOrHidePicker();
+																$("#DialogStateTimeString").trigger('change'); 
+															}
+														},
+														viewSections: {
+															header: [],
+															contentTop: [],
+															contentBottom: [],
+															footer: ["cancelButton", "nowButton", "setButton"]
+														}
+													});
+													startDistanceTimer = true;
+												} else { //period
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+													var anypickerDataSourceArray = [[],[],[],[]];
+													for(var i = 0; i < 365; i++){ anypickerDataSourceArray[0].push({ label: i.toString(), val: i.toString() }) };
+													for(var i = 0; i < 24; i++){ anypickerDataSourceArray[1].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													for(var i = 0; i < 60; i++){ anypickerDataSourceArray[2].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													for(var i = 0; i < 60; i++){ anypickerDataSourceArray[3].push({ label: ("00" + i).slice(-2), val: ("00" + i).slice(-2) }) };
+													$("#DialogStateTimeString").AnyPicker({ 
+														mode: "select",
+														rowsNavigation: "scroller",
+														showComponentLabel: true,
+														theme: "iOS", // "Default", "iOS", "Android", "Windows"
+														lang: systemLang,
+														onInit: function(){ 
+															$("#DialogStateTimeString").data('anypicker', this); 
+														},
+														components: [
+															{ component: 0,	name: "days", label: _("Days"),	width: "40%", textAlign: "left" }, 
+															{ component: 1, name: "hours", label: _("Hours"), width: "20%", textAlign: "right" },
+															{ component: 2, name: "minutes", label: _("Minutes"), width: "20%", textAlign: "center" },
+															{ component: 3, name: "seconds", label: _("Seconds"), width: "20%", textAlign: "left" }
+														],
+														dataSource: [
+															{ compontent: 0, data: anypickerDataSourceArray[0] },
+															{ compontent: 1, data: anypickerDataSourceArray[1] },
+															{ compontent: 1, data: anypickerDataSourceArray[2] },
+															{ compontent: 1, data: anypickerDataSourceArray[3] }
+														],
+														parseInput: function(elementValue){
+															var elementMoment = $("#DialogStateTimeString").data('moment');
+															return [Math.floor(elementMoment.asDays()).toString(), ("00" + elementMoment.hours()).slice(-2), ("00" + elementMoment.minutes()).slice(-2), ("00" + elementMoment.seconds()).slice(-2)];
+														},
+														formatOutput: function (selectedValues){
+															var newMoment = moment.duration({
+																days: selectedValues.values[0].val || 0,
+																hours: selectedValues.values[1].val || 0,
+																minutes: selectedValues.values[2].val || 0,
+																seconds: selectedValues.values[3].val || 0
+															});
+															$("#DialogStateTimeString").data('moment', newMoment);
+															return newMoment.format(_periodDisplayFormat.string);
+														},
+														onSetOutput: function(label, selectedValues){ 
+															$("#DialogStateTimeString").trigger('change'); 
+														},
+														zeroButton: {
+															markup: "<a id='ap-button-zero' class='ap-button'>&gt;0&lt;</a>",
+															markupContentWindows: "<span class='ap-button-icon ap-icon-now'></span><span class='ap-button-text'>&gt;0&lt;</span>",
+															type: "Button",
+															action: function(){ 
+																var newMoment = moment.duration(0);
+																$("#DialogStateTimeString").data('moment', newMoment);
+																$("#DialogStateTimeString").val(newMoment.format(_periodDisplayFormat.string));
+																$("#DialogStateTimeString").data('anypicker').showOrHidePicker();
+																$("#DialogStateTimeString").trigger('change'); 
+															}
+														},
+														viewSections: {
+															header: [],
+															contentTop: [],
+															contentBottom: [],
+															footer: ["cancelButton", "zeroButton", "setButton"]
+														}
+													});
+												}
+											} else { //Only update time (AnyPicker is already initialized)
+												if(_timeFormat.type != "period"){
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").data('anypicker').setSelectedDate(timeMoment.toDate());
+												} else { //period
+													$("#DialogStateTimeString").data('moment', timeMoment);
+													$("#DialogStateTimeString").val(timeMoment.format(_periodDisplayFormat.string));
+												}
+											}
+										}									
+										//Distance
+										var distanceText = "";
+										var distanceSeconds = 0;
+										if(_timeFormat.type != "period"){
+											if(time.val != 0){
+												var timeDistanceMoment = $("#DialogStateTimeString").data('moment');
+												if(_anypickerTimeDisplayFormat.type == "time" && timeDistanceMoment.toDate().getTime() <= 86400000){
+													timeDistanceMoment.year(nowMoment.year()).month(nowMoment.month()).date(nowMoment.date()).add(1, 'd');
+												}
+												var distanceMoment = moment.duration(timeDistanceMoment.diff(nowMoment));
+												distanceSeconds = distanceMoment.asSeconds();
+												if(distanceSeconds >= 86400 || distanceSeconds < 0){
+													distanceText += distanceMoment.locale(systemLang).humanize(true);
+												} else {
+													distanceText += distanceMoment.locale(systemLang).humanize(true);
+													distanceText += ": " + distanceMoment.format("HH:mm:ss");
+												}
+											}
+										} else {
+											distanceSeconds = timeMoment.asSeconds();
+										}
+										if(distanceText) $("#DialogStateTimeDistance").html("(" + distanceText + ")"); else $("#DialogStateTimeDistance").html("");
+										if(_onlyUpdateDistance || startDistanceTimer){ 
+											//Special: Call itsself periodicyally to update distance
+											if(dialogIdsToUpdateEverySecond.indexOf(_linkedTimeId) == -1) dialogIdsToUpdateEverySecond.push(_linkedTimeId);
+										}
+										dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedTimeId, updateFunction);
+								var bindingFunction = function(){
+									$('#DialogStateTimeString').on('change', function(e) {
+										var timeMoment = $("#DialogStateTimeString").data('moment');
+										setState(_linkedTimeId, _deviceIdEscaped, timeMoment.format(_timeFormat.string), true);
+										dialogUpdateTimestamp(fetchedStates[_linkedTimeId]);
+									});
+								};
+								var unbindingFunction = function(){
+									$('#DialogStateTimeString').off('change');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+						}
+					}
+					//----Default Level
+					if(dialogStates["LEVEL"]){
+						switch(dialogStates["LEVEL"].type){
+							case "level":
+							dialogContentCountAfterHR++;
+							var min = dialogStates["LEVEL"].min || 0;
+							var max = dialogStates["LEVEL"].max || 100;
+							var step = dialogStates["LEVEL"].step || 1;
+							var unit = dialogStates["LEVEL"].unit || "";
+							if(unit != "" && unit != "°C" && unit != "%") unit = "&nbsp;" + unit;
+							var type = "Level";
+							var sliderSendRate = 500;
+							if(device.commonRole == "iQontrolLight") {
+								type = "Dimmer";
+							}
+							if(device.commonRole == "iQontrolBlind") {
+								type = "Height";
+								sliderSendRate = 5000;
+							}
+							type = getDeviceOptionValue(device, "levelCaption") || type;
+							dialogContent += "<label for='DialogLevelSlider' ><image src='./images/symbols/slider.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<input type='number' data-type='range' class='iQontrolDialogSlider' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' data-highlight='true' data-popup-enabled='true' data-show-value='true' name='DialogLevelSlider' id='DialogLevelSlider' min='" + min + "' max='" + max + "' step='" + step + "'/>";
+							var levelFavorites = (getDeviceOptionValue(device, "levelFavorites") || "").split(";");
+							var levelFavoritesHideSlider = (getDeviceOptionValue(device, "levelFavoritesHideSlider") == "true");
+							if(levelFavorites.length > 0 && levelFavorites[0] != "") {
+								dialogContent += "<fieldset data-role='controlgroup' data-type='horizontal' style='text-align: center; padding-bottom: 15px;'>"
+									for(index in levelFavorites){
+										let val = levelFavorites[index];
+										dialogContent += "<input type='radio' class='iQontrolDialogCheckboxradio DialogLevelFavoritesCheckboxradio' " + "' data-iQontrol-Device-ID='" + deviceIdEscaped + "' name='DialogLevelFavoritesCheckboxradio' id='DialogLevelFavoritesCheckboxradio_" + index + "' value='" + val + "' data-mini='true'/>";
+										dialogContent += "<label for='DialogLevelFavoritesCheckboxradio_" + index + "'>" + val + unit + "</label>";
+									}
+								dialogContent += "</fieldset>";
+							}
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
+								var _sliderSendRate = sliderSendRate;
+								var _confirm = (fetchedObjects[_linkedLevelId] && typeof fetchedObjects[_linkedLevelId].common !== udef && typeof fetchedObjects[_linkedLevelId].common.custom !== udef && fetchedObjects[_linkedLevelId].common.custom !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace].confirm !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace].confirm == true);
+								var _pincodeSet = (fetchedObjects[_linkedLevelId] && typeof fetchedObjects[_linkedLevelId].common !== udef && typeof fetchedObjects[_linkedLevelId].common.custom !== udef && fetchedObjects[_linkedLevelId].common.custom !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace] !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace] !== null && typeof fetchedObjects[_linkedLevelId].common.custom[namespace].pincode !== udef && fetchedObjects[_linkedLevelId].common.custom[namespace].pincode !== "");
+								var _levelFavorites = levelFavorites;
+								var _levelFavoritesHideSlider = levelFavoritesHideSlider;
+								var DialogLevelSliderReadoutTimer;
+								var updateFunction = function(){
+									var stateLevel = getState(_linkedLevelId);
+									if(stateLevel){
+										$("#DialogLevelSlider").val(stateLevel.val);
+										$("#DialogLevelSlider").slider('refresh');
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+									}
+									if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
+										if(_levelFavoritesHideSlider && _levelFavorites.indexOf(stateLevel.val.toString()) > -1) $('#DialogStateSlider').parents('div.ui-slider').hide();
+										$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+										$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf(stateLevel.val.toString())).prop("checked", true);
+										$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+									}
+								};
+								uiElements.addUpdateFunction(_linkedLevelId, updateFunction);
+								var bindingFunction = function(){
+									$('#DialogLevelSlider').slider({
+										start: function(event, ui){
+											clearInterval(DialogLevelSliderReadoutTimer);
+											if(!_confirm && !_pincodeSet) {
+												DialogLevelSliderReadoutTimer = setInterval(function(){
+													setState(_linkedLevelId, _deviceIdEscaped, $("#DialogLevelSlider").val());
+													dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+												}, _sliderSendRate);
+											}
+										},
+										stop: function(event, ui) {
+											clearInterval(DialogLevelSliderReadoutTimer);
+											if(_levelFavorites.length > 0 && levelFavorites[0] != "") {
+												$(".DialogLevelFavoritesCheckboxradio").removeProp("checked");
+												$("#DialogLevelFavoritesCheckboxradio_" + _levelFavorites.indexOf($("#DialogLevelSlider").val())).prop("checked", true);
+												$(".DialogLevelFavoritesCheckboxradio").checkboxradio('refresh');
+											}
+											setState(_linkedLevelId, _deviceIdEscaped, $("#DialogLevelSlider").val());
+											dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+										}
+									});
+									if(levelFavorites.length > 0 && levelFavorites[0] != "") {
+										$("input[name='DialogLevelFavoritesCheckboxradio']").on('change', function(e) {
+											clearInterval(DialogLevelSliderReadoutTimer);
+											$("#DialogLevelSlider").val($("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+											$("#DialogLevelSlider").slider('refresh');
+											setState(_linkedLevelId, _deviceIdEscaped, $("input[name='DialogLevelFavoritesCheckboxradio']:checked").val() * 1);
+											dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+										});	
+									}
+								};
+								var unbindingFunction = function(){
+									$('#DialogLevelSlider').slider('destroy');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+
+							case "valueList":
+							dialogContentCountAfterHR++;
+							var type = getDeviceOptionValue(device, "levelCaption") || "Selection";
+							dialogContent += "<label for='DialogLevelValueList' ><image src='./images/symbols/variable.png' / style='width:16px; height:16px;'>&nbsp;" + _(type) + ":</label>";
+							dialogContent += "<select  class='iQontrolDialogValueList DialogLevelValueList' data-iQontrol-Device-ID='" + deviceIdEscaped + "' data-disabled='" + (dialogStates["LEVEL"].readonly || dialogReadonly).toString() + "' name='DialogLevelValueList' id='DialogLevelValueList' data-native-menu='false'>";
+							for(val in dialogStates["LEVEL"].valueList){
+								if(dialogStates["LEVEL"].targetValues && dialogStates["LEVEL"].custom.showOnlyTargetValues && !dialogStates["LEVEL"].targetValues.hasOwnProperty(val)) continue; //Show only targetValues
+								dialogContent += "<option value='" + val + "'>" + _(dialogStates["LEVEL"].valueList[val]) + "</option>";
+							}
+							if(dialogStates["LEVEL"].custom.statesAddInput) {
+								dialogContent += "<option value='[INPUT]'>" + (dialogStates["LEVEL"].custom.statesAddInputCaption || _("Enter other value...")) + "</option>";
+							}
+							dialogContent += "</select>";
+							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+								var _deviceIdEscaped = deviceIdEscaped;
+								var _linkedLevelId = dialogLinkedStateIds["LEVEL"];
+								var updateFunction = function(){
+									var level = getState(_linkedLevelId);
+									if(level){
+										if(typeof level.val != udef) {
+											var val = level.val.toString();
+											$("#DialogLevelValueList").val(val).selectmenu('refresh');
+											if($("#DialogLevelValueList").val() !== val){ //val is not in option-list
+												if(level.valueList && typeof level.valueList[val] !== udef){
+													$("#DialogLevelValueList").prev("span").html(level.valueList[val]);
+												} else {
+													$("#DialogLevelValueList").prev("span").html(val + "&nbsp;");
+												}
+											}
+										}
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+									}
+								};
+								uiElements.addUpdateFunction(_linkedLevelId, updateFunction);
+								var bindingFunction = function(){
+									$('.DialogLevelValueList').on('change', function(e) {
+										var val = $("#DialogLevelValueList option:selected").val();
+										if(val == "[INPUT]") {
+											val = prompt((dialogStates["LEVEL"].custom.statesAddInputCaption || _("Enter other value...")));
+											if(val == null) {
+												updateState(_linkedLevelId);
+												return;
+											}
+											$("#DialogLevelValueList").prev("span").html(val + "&nbsp;");
+										}
+										setState(_linkedLevelId, _deviceIdEscaped, val);
+										dialogUpdateTimestamp(fetchedStates[_linkedLevelId]);
+									});
+								};
+								var unbindingFunction = function(){
+									$('.DialogLevelValueList').off('change');
+								}
+								uiElements.addBindingFunction(bindingFunction).addUnbindingFunction(unbindingFunction);
+							})(); //<--End Closure
+							break;
+						}
+					}
+				}
+
+				uiElements.addHtml(dialogContent);
+				return uiElements; 
+			},
+			afterAddDeviceFunction: function(uiElements){ 
+				uiElements.addHtml("</form>")
+				return uiElements; 
+			},
+			beforeUpdateStatesFunction: function(uiElements){ 
+				//--Name
+				var name = encodeURI(device.commonName.split('|')[0]);
+				var variablename = encodeURI(device.commonName.split('|').slice(1).join('|'));
+				$("#DialogHeaderTitle").html((name != "" ? decodeURI(name) + ":" : ""));
+				var a = variablename.indexOf('%7B'), b = variablename.lastIndexOf('%7D'); //#############
+				if(a > -1 && a < b) {
+					var variable = variablename.substring(a + 3, b).split('%7C'); //Text between { and }, split by |
+					var linkedStateId = variable[0];
+					var noUnit = false;
+					if(linkedStateId.substr(0, 3) == "%5B" && linkedStateId.substr(-3) == "%5D"){ // [ and ] are escaped by %5B and %5D
+						linkedStateId = linkedStateId.substring(3, linkedStateId.length - 3);
+						noUnit = true;
+					}
+					linkedStateId = decodeURI(linkedStateId);
+					var placeholder = null;
+					if(variable.length > 1) placeholder = variable[1];
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _variablename = variablename;
+						var _noUnit = noUnit;
+						var _a = a;
+						var _b = b;
+						var _linkedStateId = linkedStateId;
+						var _placeholder = placeholder;
+						var updateFunction = function(){
+							var state = getState(_linkedStateId);
+							var replacement = null;
+								//Replace by value
+							if(state && typeof state.val !== udef) {
+								if(typeof state.plainText == 'number' && !_noUnit){				//STATE = number
+									replacement = state.val + state.unit;
+								} else {														//STATE = bool or text
+									replacement = state.plainText;
+								}
+							} else if(_placeholder) {
+								//Replace by placeholder
+								replacement = _placeholder;
+							}
+							if(replacement != null){
+								var newName = decodeURI(_variablename.substring(_variablename.indexOf('?') + 1, _a) + replacement + _variablename.substring(_b + 3)) + ":";
+								if($("#DialogHeaderTitle").html() != newName){
+									console.log("Set new Name: " + newName);
+									$("#DialogHeaderTitle").html(newName);
+								}
+							}
+						};
+						if(!dialogUpdateFunctions[_linkedStateId]) dialogUpdateFunctions[_linkedStateId] = [];
+						dialogUpdateFunctions[_linkedStateId].push(updateFunction);
+					})(); //<--End Closure
+					dialogStateIdsToFetch.push(linkedStateId);
+					dialogLinkedStateIdsToUpdate.push(linkedStateId);
+				}
+				//Enhance Dialog
+				$("#Dialog").enhanceWithin();
+				// CollapsibleAnimated initialisieren
+				collapsibleAnimatedInit();		
+				// Make iFrame resizable
+				dragElement('DialogPopupIframeWrapper', 'DialogPopupIframeHandle', true, true);
+				//Fit slider popup size to text-length
+				$('.iQontrolDialogSlider').on('change', function(){
+					if($(this).val() < 9999) {
+						$(this).prev('div.ui-slider-popup').removeClass('longText').removeClass('extraLongText');
+					} else if($(this).val() < 99999) {
+						$(this).prev('div.ui-slider-popup').addClass('longText').removeClass('extraLongText');
+					} else {
+						$(this).prev('div.ui-slider-popup').removeClass('longText').addClass('extraLongText');
+					}
+				});
+				//Enhance Textareas with jqte
+				enhanceTextareasWithJqte('.iQontrolDialogString');
+				//Show or hide Timestamp
+				var showTimestamp = null;
+				var dialogShowTimestamp = getDeviceOptionValue(device, "showTimestamp") || ""; //possible values: "" = auto, "yes", "no", "always", "never"
+				switch(dialogShowTimestamp){
+					case "yes":
+					$('.iQontrolDialogTimestampSwitch.hide').show();
+					case "always":
+					showTimestamp = true;
+					break;
+
+					case "no":
+					$('.iQontrolDialogTimestampSwitch.show').show();
+					case "never":
+					showTimestamp = false;
+					break;
+
+					default:
+					switch(device.commonRole){
+						case "iQontrolView": case "iQontrolWindow": case "iQontrolDoor": case "iQontrolGarageDoor": case "iQontrolFire": case "iQontrolFlood": case "iQontrolTemperature": case "iQontrolHumidity": case "iQontrolPressure": case "iQontrolBrightness": case "iQontrolMotion":
+						showTimestamp = true;
+						$('.iQontrolDialogTimestampSwitch.hide').show();
+						break;
+
+						default:
+						showTimestamp = false;
+						$('.iQontrolDialogTimestampSwitch.show').show();
+					}
+				}
+				if(showTimestamp){
+					$('#DialogTimestamp').show();
+				}
+				$('.iQontrolDialogTimestampSwitch.show').on('click', function(){
+					$('#DialogTimestamp').show();
+					$('.iQontrolDialogTimestampSwitch.show').hide();
+					$('.iQontrolDialogTimestampSwitch.hide').show();
+				});
+				$('.iQontrolDialogTimestampSwitch.hide').on('click', function(){
+					$('#DialogTimestamp').hide();
+					$('.iQontrolDialogTimestampSwitch.show').show();
+					$('.iQontrolDialogTimestampSwitch.hide').hide();
+				});
+				//Reposition to window
+				setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 250);
+				setTimeout(function(){ $("#Dialog").popup("reposition", {positionTo: 'window'}); }, 350);
+				//Start dialogIdsToUpdateEverySecondInterval
+				if(dialogIdsToUpdateEverySecondInterval) clearInterval(dialogIdsToUpdateEverySecondInterval);
+				dialogIdsToUpdateEverySecondInterval = setInterval(function(){
+					dialogIdsToUpdateEverySecond.forEach(function(id){  //###############
+						if(typeof dialogUpdateFunctions[id] != udef) dialogUpdateFunctions[id].forEach(function(dialogUpdateFunction){
+							dialogUpdateFunction(id, "updateEverySecond");
+						});
+					});
+				}, 1000);
+
+				//##### if(openDialog) xxx
+				return uiElements; 
+			}
+		}); //end of addDeviceCollection
+
+	});
+}
+
+
+

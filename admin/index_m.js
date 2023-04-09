@@ -877,7 +877,7 @@ var channelDetectorMatchTable = {
 var iQontrolRoles = {
 	"iQontrolView": {
 		name: "Link to other view",
-		states: ["INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
 				icon_on: {name: "Icon", type: "icon", typicalIconEquivalents: ["blank", "link_plain_internal", "link_chain"], default: ""}
@@ -897,7 +897,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolSwitch": {
 		name: "Switch",
-		states: ["STATE", "POWER", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "POWER", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/switch_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -916,7 +916,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolButton": {
 		name: "Button",
-		states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "SET_VALUE", "OFF_SET_VALUE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/button.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -938,7 +938,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolLight": {
 		name: "Light",
-		states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "LEVEL", "HUE", "SATURATION", "COLOR_BRIGHTNESS", "CT", "WHITE_BRIGHTNESS", "ALTERNATIVE_COLORSPACE_VALUE", "POWER", "EFFECT", "EFFECT_NEXT", "EFFECT_SPEED_UP", "EFFECT_SPEED_DOWN", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/light_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -956,7 +956,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolFan": {
 		name: "Fan",
-		states: ["STATE", "LEVEL", "POWER", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "LEVEL", "POWER", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/fan_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -970,7 +970,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolThermostat": {
 		name: "Thermostat",
-		states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["SET_TEMPERATURE","TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -994,7 +994,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolHomematicThermostat": {
 		name: "Homematic-Thermostat",
-		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1017,7 +1017,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolHomematicIpThermostat": {
 		name: "HomematicIP-Thermostat",
-		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["SET_TEMPERATURE", "TEMPERATURE", "HUMIDITY", "CONTROL_MODE", "BOOST_STATE", "PARTY_TEMPERATURE", "WINDOW_OPEN_REPORTING", "VALVE_STATES", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/radiator.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1040,7 +1040,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolTemperature": {
 		name: "Temperature-Sensor",
-		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/temperature.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1061,7 +1061,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolHumidity": {
 		name: "Humidity-Sensor",
-		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/humidity.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1082,7 +1082,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolPressure": {
 		name: "Pressure-Sensor",
-		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "TEMPERATURE", "HUMIDITY", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/pressure.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1103,7 +1103,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolBrightness": {
 		name: "Brightness-Sensor",
-		states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/brightness_light.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1124,7 +1124,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolMotion": {
 		name: "Motion-Sensor",
-		states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "BRIGHTNESS", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/motion_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1146,7 +1146,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolDoor": {
 		name: "Door",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/door_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1167,7 +1167,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolGarageDoor": {
 		name: "Garage Door",
-		states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "TOGGLE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/garagedoor_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1186,7 +1186,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolDoorWithLock": {
 		name: "Door with lock",
-		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "LOCK_STATE", "LOCK_STATE_UNCERTAIN", "LOCK_OPEN", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/door_locked.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1213,7 +1213,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolWindow": {
 		name: "Window",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/window_closed.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1239,7 +1239,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolBlind": {
 		name: "Blind",
-		states: ["LEVEL", "DIRECTION", "STOP", "STOP_SET_VALUE", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["LEVEL", "DIRECTION", "STOP", "STOP_SET_VALUE", "UP", "UP_SET_VALUE", "DOWN", "DOWN_SET_VALUE", "FAVORITE_POSITION", "FAVORITE_POSITION_SET_VALUE", "SLATS_LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/blind_middle.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1266,7 +1266,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolFire": {
 		name: "Fire-Sensor",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/fire_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1287,7 +1287,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolFlood": {
 		name: "Flood-Sensor",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/flood_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1308,7 +1308,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolAlarm": {
 		name: "Alarm",
-		states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "CONTROL_MODE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/alarm_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1332,7 +1332,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolBattery": {
 		name: "Battery",
-		states: ["STATE", "CHARGING", "DISCHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "CHARGING", "DISCHARGING", "POWER", "VOLTAGE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/battery_full.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1359,7 +1359,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolDateAndTime":	{
 		name: "Date and Time",
-		states: ["STATE", "SUBJECT", "TIME", "RINGING", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "SUBJECT", "TIME", "RINGING", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/time_alarmclock_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1386,7 +1386,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolValue": {
 		name: "Value",
-		states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "LEVEL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/value_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1404,7 +1404,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolProgram": {
 		name: "Program",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/play_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1424,7 +1424,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolScene": {
 		name: "Scene",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/play.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1445,7 +1445,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolMedia": {
 		name: "Media-Player / Remote Control",
-		states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "COVER_URL", "ARTIST", "ALBUM", "TRACK_NUMBER", "TITLE", "EPISODE", "SEASON", "PREV", "REWIND", "PLAY", "PAUSE", "STOP", "FORWARD", "NEXT", "SHUFFLE", "REPEAT", "MUTE", "DURATION", "ELAPSED", "VOLUME", "SOURCE", "PLAYLIST", "PLAY_EVERYWHERE", "EJECT", "POWER_SWITCH", "REMOTE_NUMBER", "REMOTE_VOLUME_UP", "REMOTE_VOLUME_DOWN", "REMOTE_CH_UP", "REMOTE_CH_DOWN", "REMOTE_PAD_DIRECTION", "REMOTE_PAD_BACK", "REMOTE_PAD_HOME", "REMOTE_PAD_MENU", "REMOTE_COLOR", "REMOTE_CHANNELS", "REMOTE_ADDITIONAL_BUTTONS", "REMOTE_HIDE_REMOTE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/media_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1489,7 +1489,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolPopup": {
 		name: "Popup",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/popup.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1510,7 +1510,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolExternalLink":	{
 		name: "External Link",
-		states: ["STATE", "URL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "URL", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/link.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1531,7 +1531,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolWidget": {
 		name: "Widget",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/widget_on.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1571,7 +1571,7 @@ var iQontrolRoles = {
 	},
 	"iQontrolInfoText": {
 		name: "Info-Text",
-		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "ENLARGE_TILE", "BADGE", "BADGE_COLOR", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
+		states: ["STATE", "INFO_A", "INFO_B", "BATTERY", "UNREACH", "ERROR", "BADGE", "BADGE_COLOR", "ENLARGE_TILE", "BACKGROUND_VIEW", "BACKGROUND_URL", "BACKGROUND_HTML", "OVERLAY_INACTIVE_COLOR", "OVERLAY_ACTIVE_COLOR", "GLOW_INACTIVE_COLOR", "GLOW_ACTIVE_COLOR", "GLOW_HIDE", "URL", "HTML", "ADDITIONAL_CONTROLS", "ADDITIONAL_INFO"],
 		icon: "/images/icons/info_bubble_off.png",
 		deviceSpecificOptions: {
 			SECTION_ICONS: {options: {
@@ -1771,8 +1771,769 @@ var iQontrolRolesStandardOptions = {
 	SECTION_DEVICESPECIFIC: {name: "Device Specific Options", type: "section"}
 };
 
-//Extend iQontrolRoles with iQontrolRolesStandardOptions
+var iQontrolRolesStandardDeviceStates = {
+	STATE: {
+		groupName: "Main",
+		description: "Defines usualy the main function of device",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	LEVEL: {
+		groupName: "Main",
+		description: "Main function for devices with levels like dimmers",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	TOGGLE: {
+		groupName: "Main",
+		description: "Toggle button for example of a garage door (STATE is used to display the open/close-state)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	CONTROL_MODE: {
+		groupName: "Main",
+		description: "The mode of alarm-systems, thermostats etc.",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	POWER: {
+		groupName: "Main",
+		description: "Powerconsumption to be displayed",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	VOLTAGE: {
+		groupName: "Main",
+		description: "Voltage to be displayed",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BRIGHTNESS: {
+		groupName: "Main",
+		description: "Brightness of a light or motion sensor to be displayed",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SET_VALUE: {
+		groupName: "Main",
+		description: "The value that will be sent when pressing button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	OFF_SET_VALUE: {
+		groupName: "Main",
+		description: "The value that will be sent when leaving button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ENLARGE_TILE: {
+		groupName: "Enlarge Tile",
+		description: "To enlarge the tile programmatically",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	HUE: {
+		groupName: "Color-Mixing",
+		description: "The hue-value of a rgb-lamp",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	LOCK_STATE: {
+		groupName: "Door-Lock",
+		description: "Controls the state of a door-lock (STATE is used to display the open/close-state)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	LOCK_STATE_UNCERTAIN: {
+		groupName: "Door-Lock",
+		description: "If true, the LOCK-STATE will be displayed in italic letters",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	LOCK_OPEN: {
+		groupName: "Door-Lock",
+		description: "Used to open a door completely",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	DIRECTION: {
+		groupName: "Blinds",
+		description: "The actual direction (needs to be configured under options)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	STOP: {
+		groupName: "Blinds",
+		description: "Button to stop the blinds",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	STOP_SET_VALUE: {
+		groupName: "Blinds",
+		description: "Value that will be sent, if the stop button is pressed",
+		commonType: "string",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	UP: {
+		groupName: "Blinds",
+		description: "Button to let the blinds go up (as alternative, if LEVEL does not work)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	UP_SET_VALUE: {
+		groupName: "Blinds",
+		description: "Value that will be sent, if the up button is pressed",
+		commonType: "string",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	DOWN: {
+		groupName: "Blinds",
+		description: "Button to let the blinds go down (as alternative, if LEVEL does not work)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	DOWN_SET_VALUE: {
+		groupName: "Blinds",
+		description: "Value that will be sent, if the down button is pressed",
+		commonType: "string",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	FAVORITE_POSITION: {
+		groupName: "Blinds",
+		description: "Button to let the blinds go to a favorite position (may be the same as LEVEL with corresponding SET_VALUE)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	FAVORITE_POSITION_SET_VALUE: {
+		groupName: "Blinds",
+		description: "Value that will be sent, if the Favorite-Position button is pressed",
+		commonType: "string",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SLATS_LEVEL: {
+		groupName: "Blinds",
+		description: "Position of slats if available",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	CHARGING: {
+		groupName: "Battery",
+		description: "If true, a charging overlay will be shown (use STATE to set the percentage)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	DISCHARGING: {
+		groupName: "Battery",
+		description: "If true, a discharging overlay will be shown (use STATE to set the percentage)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SATURATION: {
+		groupName: "Color-Mixing",
+		description: "The color saturation of a rgb-lamp",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	COLOR_BRIGHTNESS: {
+		groupName: "Color-Mixing",
+		description: "The color brightness of a rgb-w-lamp",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	CT: {
+		groupName: "Color-Mixing",
+		description: "The color temperature of a ww-cw-lamp",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	WHITE_BRIGHTNESS: {
+		groupName: "Color-Mixing",
+		description: "The white brightness of a rgb-w-lamp",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ALTERNATIVE_COLORSPACE_VALUE: {
+		groupName: "Color-Mixing",
+		description: "For lamps that don\'t use the states above (needs to be configured under options!)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	TIME: {
+		groupName: "Date and Time",
+		description: "Time or duration (can be configured in options) - use STATE to show active/inactive state.",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SUBJECT: {
+		groupName: "Date and Time",
+		description: "Subject of the timer that will be displayed",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	RINGING: {
+		groupName: "Date and Time",
+		description: "If true a ringing-overlay will be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	COVER_URL: {
+		groupName: "Media Control",
+		description: "URL of cover-image",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ARTIST: {
+		groupName: "Media Control",
+		description: "Artist to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ALBUM: {
+		groupName: "Media Control",
+		description: "Album title to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	TRACK_NUMBER: {
+		groupName: "Media Control",
+		description: "Acktual track number to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	TITLE: {
+		groupName: "Media Control",
+		description: "Actual title to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	EPISODE: {
+		groupName: "Media Control",
+		description: "Actual Episode to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SEASON: {
+		groupName: "Media Control",
+		description: "Season to be shown",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PREV: {
+		groupName: "Media Control",
+		description: "Button to go to last title",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	NEXT: {
+		groupName: "Media Control",
+		description: "Button to go to next title",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REWIND: {
+		groupName: "Media Control",
+		description: "Button to go fast backward",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	FORWARD: {
+		groupName: "Media Control",
+		description: "Button to go fast forward",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PLAY: {
+		groupName: "Media Control",
+		description: "Button to start (configure options to work together with STATE)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PAUSE: {
+		groupName: "Media Control",
+		description: "Button to pause (configure options to work together with STATE)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	STOP: {
+		groupName: "Media Control",
+		description: "Button to stop (configure options to work together with STATE)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SHUFFLE: {
+		groupName: "Media Control",
+		description: "Control of shuffle",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REPEAT: {
+		groupName: "Media Control",
+		description: "Control of repeat-status (needs to be configured under options)",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	MUTE: {
+		groupName: "Media Control",
+		description: "Button to mute",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	DURATION: {
+		groupName: "Media Control",
+		description: "Duration of actual title",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ELAPSED: {
+		groupName: "Media Control",
+		description: "Elapsed time of actual title - used together with DURATION",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	VOLUME: {
+		groupName: "Media Control",
+		description: "Volume of media",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SOURCE: {
+		groupName: "Media Control",
+		description: "Source of media",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PLAYLIST: {
+		groupName: "Media Control",
+		description: "Actual playlist",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PLAY_EVERYWHERE: {
+		groupName: "Media Control",
+		description: "Button to activate multi-room mode",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	EJECT: {
+		groupName: "Media Control",
+		description: "Button to eject media",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	POWER_SWITCH: {
+		groupName: "Media Control",
+		description: "To power on or off",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_NUMBER: {
+		groupName: "Remote Control",
+		description: "Shows a num-pad (0-9) a returns the corresponding number, if a number is clicked",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_VOLUME_UP: {
+		groupName: "Remote Control",
+		description: "Volume up button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_VOLUME_DOWN: {
+		groupName: "Remote Control",
+		description: "Volume down button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_CH_UP: {
+		groupName: "Remote Control",
+		description: "Channel up button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_CH_DOWN: {
+		groupName: "Remote Control",
+		description: "Channel down button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_PAD_DIRECTION: {
+		groupName: "Remote Control",
+		description: "Shows a trackpad and returns left, right, up, down or ok",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_PAD_BACK: {
+		groupName: "Remote Control",
+		description: "Back button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_PAD_HOME: {
+		groupName: "Remote Control",
+		description: "Home button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_PAD_MENU: {
+		groupName: "Remote Control",
+		description: "Menu button",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_COLOR: {
+		groupName: "Remote Control",
+		description: "Shows four buttons and returns red, green, yellow or blut",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_CHANNELS: {
+		groupName: "Remote Control",
+		description: "An array of channel-buttons",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+				name: {colheader: "Name", description: "", commonType: "string"}, 
+				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
+				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
+				heading: {colheader: "Heading", description: "", commonType: "string"},
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	REMOTE_ADDITIONAL_BUTTONS: {
+		groupName: "Remote Control",
+		description: "An array of additional buttons",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+				name: {colheader: "Name", description: "", commonType: "string"}, 
+				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
+				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
+				heading: {colheader: "Heading", description: "", commonType: "string"},
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	REMOTE_ADDITIONAL_BUTTONS: {
+		groupName: "Remote Control",
+		description: "",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	REMOTE_HIDE_REMOTE: {
+		groupName: "Remote Control",
+		description: "If true the remote section will be hidden",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	SET_TEMPERATURE: {
+		groupName: "Climate",
+		description: "To set the temperature of a thermostat",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	TEMPERATURE: {
+		groupName: "Climate",
+		description: "Actual temperature",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	HUMIDITY: {
+		groupName: "Climate",
+		description: "Actual humidity",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	WINDOW_OPEN_REPORTING: {
+		groupName: "Climate",
+		description: "If true, the thermostat will show a opened window",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	VALVE_STATES: {
+		groupName: "Climate",
+		description: "A list of valves to be displayed",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+				name: {colheader: "Name", description: "", commonType: "string"}, 
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	BOOST_STATE: {
+		groupName: "Climate",
+		description: "Boolean or the remaining time of boost-mode",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	PARTY_TEMPERATURE: {
+		groupName: "Climate",
+		description: "Party-Mode for homematic thermostats",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BADGE: {
+		groupName: "Badge",
+		description: "Value that will be displayed as a badge",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BADGE_COLOR: {
+		groupName: "Badge",
+		description: "Color of badge",
+		commonType: "color",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	INFO_A: {
+		groupName: "Info",
+		description: "An array of additional states to be shown in small in the tile",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	INFO_B: {
+		groupName: "Info",
+		description: "An array of additional states to be shown in small in the tile",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	BATTERY: {
+		groupName: "Indicators",
+		description: "Show empty battery icon",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	UNREACH: {
+		groupName: "Indicators",
+		description: "Show device is unreachable icon",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ERROR: {
+		groupName: "Indicators",
+		description: "Show error icon",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BACKGROUND_VIEW: {
+		groupName: "Tile-Background",
+		description: "Define anoher view as tile background",
+		commonType: "view",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BACKGROUND_URL: {
+		groupName: "Tile-Background",
+		description: "Website or widget as tile background",
+		commonType: "url",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	BACKGROUND_HTML: {
+		groupName: "Tile-Background",
+		description: "HTML-Code to be tile background",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	OVERLAY_INACTIVE_COLOR: {
+		groupName: "Tile-Overlay",
+		description: "Color-Overlay of an inactive tile",
+		commonType: "color",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	OVERLAY_ACTIVE_COLOR: {
+		groupName: "Tile-Overlay",
+		description: "Color-Overlay of an active tile",
+		commonType: "color",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	GLOW_INACTIVE_COLOR: {
+		groupName: "Glow",
+		description: "Color of glow around an inactive tile",
+		commonType: "color",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	GLOW_ACTIVE_COLOR: {
+		groupName: "Glow",
+		description: "Color of glow around an active tile",
+		commonType: "color",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	GLOW_HIDE: {
+		groupName: "Glow",
+		description: "If true, the glow is hidden",
+		commonType: "string",
+		commonRole: "linkedState",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	URL: {
+		groupName: "Dialog",
+		description: "Website or widget to be displayed in dialog",
+		commonType: "url",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	HTML: {
+		groupName: "Dialog",
+		description: "HTML-Code to be displayed in dialog",
+		commonType: "string",
+		commonRole: "const",
+		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+	},
+	ADDITIONAL_CONTROLS: {
+		groupName: "Dialog",
+		description: "Additional controls that can be placed on dialog",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+				name: {colheader: "Name", description: "", commonType: "string"}, 
+				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
+				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
+				heading: {colheader: "Heading", description: "", commonType: "string"},
+				role: {colheader: "Role", description: "", commonType: "select", selectOptions:"/Depending on Datapoint Settings;readonly/Readonly;button/Button (if pressed, it sends its name to the datapoint)"}
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	},
+	ADDITIONAL_INFO: {
+		groupName: "Dialog",
+		description: "Additional values to be displayed on dialog",
+		commonType: "array",
+		commonRole: "const",
+		defaultArrayKeys: {
+			elementOptions: {
+				name: {colheader: "Name", description: "", commonType: "string"}, 
+			},
+			elementStates: {
+				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
+			},
+		}
+	}
+}
+
+//Extend iQontrolRoles with iQontrolRolesStandardOptions and iQontrolRolesStandardDeviceStates
 for(iQontrolRole in iQontrolRoles){
+	//iQontrolRolesStandardOptions
 	var optionsObject = JSON.parse(JSON.stringify(iQontrolRolesStandardOptions));
 	for(deviceSpecificOptionSection in iQontrolRoles[iQontrolRole].deviceSpecificOptions){
 		if (iQontrolRoles[iQontrolRole].deviceSpecificOptions[deviceSpecificOptionSection] == "delete"){
@@ -1805,7 +2566,21 @@ for(iQontrolRole in iQontrolRoles){
 			iQontrolRoles[iQontrolRole].optionsDisplaySequence.push(option);
 		};
 	};
-	iQontrolRoles[iQontrolRole].options = JSON.parse(JSON.stringify(optionsObjectFlat));	
+	iQontrolRoles[iQontrolRole].options = JSON.parse(JSON.stringify(optionsObjectFlat));
+	//iQontrolRolesStandardDeviceStates
+	if(!iQontrolRoles[iQontrolRole].deviceStates) iQontrolRoles[iQontrolRole].deviceStates = {};
+	iQontrolRoles[iQontrolRole].deviceStatesDisplaySequence = [];
+	(iQontrolRoles[iQontrolRole].states || []).forEach(function(state){ //######## only before conversion during development, later array .states -> object .deviceStates
+		var deviceState = {
+			groupName: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].groupName || "Additional States",
+			description: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].description || "",
+			commonType: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].commonType || "string",
+			defaultArrayKeys: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].defaultArrayKeys || [],
+			userDefined: false
+		}
+		iQontrolRoles[iQontrolRole].deviceStatesDisplaySequence.push(state);
+		iQontrolRoles[iQontrolRole].deviceStates[state] = deviceState;
+	});
 }
 
 //Declarations
@@ -2224,11 +2999,13 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	options = options || "";
 	options = options.split(";");
 	var comboboxContent = "";
+	var optgroup = false;
 	options.forEach(function(option){
 		if (option.substring(0,1) == "[" && option.substr(-1) == "]"){ //Optgroup
+			optgroup = escape(option.substring(1, option.length - 1));
 			var caption = _(option.substring(1, option.length - 1));
-			comboboxContent += "	<li class='divider' style='padding: 14px 4px 30px 4px; color:grey;' tabindex='-1'>";
-			comboboxContent += "		" + caption + "&nbsp;";
+			comboboxContent += "	<li class='divider collapsed' style='padding: 14px 4px 30px 4px; color:grey;' tabindex='-1' data-optgroup='" + optgroup + "'>";
+			comboboxContent += "		<i class='material-icons optgroupHandle'>keyboard_arrow_right</i>" + caption + "&nbsp;";
 			comboboxContent += "	</li>";
 		} else { //Normal option
 			var optionParts = option.split("/");
@@ -2246,7 +3023,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 				icon = option.split("/")[0].replace(/\\/g, "/").substring(1) || "";
 				if (icon != "") icon = previewLink + icon;
 			}
-			comboboxContent += "	<li data-value='" + value + "'>";
+			comboboxContent += "	<li class='item' data-value='" + value + "' data-optgroup='" + optgroup + "' style='display:none;'>";
 			comboboxContent += "		<a href='#!'>";
 			if (icon != ""){
 				comboboxContent += "		<img src='" + icon + "' style='display: block; margin-bottom: 5px; min-width: 40px; max-width: 40px; max-height: 40px; width: auto; height: auto;' onerror='this.onerror=null; this.src=\"" + previewLink + "/./images/icons/various.png" + "\";'>";
@@ -2296,13 +3073,14 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 	$('.comboboxDropdownTrigger').dropdown({
 		alignment: 'right',
 		constrainWidth: false,
-		onOpenStart: function(event){
-			var target = $(event).data('target');
+		onOpenStart: function(element){
+			var target = $(element).data('target');
 			$("ul[id='" + target + "']").html($("ul[id='" + target.substring(0, target.lastIndexOf('_')) + "_0']").html()); //Copy comboboxContent from first targetInput
 		},
-		onItemClick: function(event){
-			enhanceTextInputToComboboxEntryToInput($(event).data('value'));
-		}
+		onItemClick: function(element){
+			enhanceTextInputToComboboxEntryToInput($(element).data('value'), element, this);
+		},
+		closeOnClick: false
 	});
 }
 function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
@@ -2317,13 +3095,39 @@ function enhanceTextInputToComboboxScrollDropdownTo(dropdownlist, value){
 		_$dropdownlist .find("li").each(function(){
 			$(this).removeClass('grey lighten-3');
 			if ($(this).data('value') == encodeURIComponent((value || "").replace(/\//g, "\\"))){
+				if($(this).css('display') == "none"){
+					var optgroup = $(this).data('optgroup');
+					$(this).prevAll('li.divider[data-optgroup="' + optgroup + '"]').trigger('click');
+				}
 				$(this).addClass('grey lighten-3');
-				_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + $(this).position().top);
+				var position = $(this).position().top;
+				setTimeout(function(){_$dropdownlist.scrollTop(_$dropdownlist.scrollTop() + position);}, 250);
+				
 			}
 		});
 	}, 400);
 }
-function enhanceTextInputToComboboxEntryToInput(value){
+function enhanceTextInputToComboboxEntryToInput(value, element, that){
+	if($(element).hasClass('divider')){
+		$element = $(element);
+		var collapsed = $element.hasClass("collapsed"); 
+		var optgroup = $element.data("optgroup");
+		if(!optgroup) return;
+		$subitems = $element.parents('ul').find('li.item[data-optgroup="' + optgroup + '"]'); 
+		if(collapsed){
+			$element.removeClass('collapsed')
+			$element.find('i.material-icons.optgroupHandle').html('keyboard_arrow_down')
+			$subitems.show(); 
+		} else {
+			$element.addClass('collapsed')
+			$element.find('i.material-icons.optgroupHandle').html('keyboard_arrow_right')
+			$subitems.hide();
+		}
+		$(that.el).dropdown('recalculateDimensions');
+		return;
+	} else {
+		$(that.el).dropdown('close');
+	}
 	var onSelect = $enhanceTextInputToComboboxActualTarget.data('combobox-onselect');
 	if (decodeURIComponent(value).substring(0, 10) == "[VARIABLE]"){
 		var variable = "";
@@ -2687,11 +3491,80 @@ async function checkDirExistance(path){
 	if (result == null) return true; else return false;
 }
 
+
+//---------- Conversion V3 ---------- #####################################
+function convertConfigV3(config, quiet){  
+	if(!config.configVersion || config.configVersion < 3){
+		if(!quiet && confirm(_("You have an outdated Version of your config. It will be converted automatically to the new version. It is recommended to save a backup of the current settings, as it is not possible to switch back to an old version with the converted settings.\n\nCreate Backup now?"))){
+			alert("####### not yet implemented!")
+		}
+		config.toolbar = convertToolbarV3(config.toolbar);
+		config.views && config.views.forEach(function(view, viewIndex){
+			config.views[viewIndex] = convertViewV3(view);
+		});
+		config.configVersion = "3";	//! Has also to be set in SAVE-Function !
+	}
+	return config;
+}
+
+function convertToolbarV3(toolbar){  //toolbar -> toolbar.items
+	let newToolbar = {};
+	newToolbar.items = [];
+	if (Array.isArray(toolbar)){
+		toolbar.forEach(function(item, itemIndex){
+			newToolbar.items.push(convertToolbarItemV3(item));
+		});
+	} else {
+		newToolbar.items = toolbar.items || [];
+	}
+	return newToolbar;
+}
+
+function convertToolbarItemV3(item){ //no conversion so far
+	var newItem = {};
+	newItem.commonName = item.commonName;
+	newItem.nativeLinkedView = item.nativeLinkedView;
+	newItem.nativeIcon = item.nativeIcon;
+	newItem.options = item.options;
+	newItem.states = item.states;
+	return newItem;
+}
+
+function convertViewV3(view){ //No conversion so far but in .devices
+	let newView = {};
+	newView.commonName = view.commonName;
+	newView.nativeBackgroundImage = view.nativeBackgroundImage;
+	newView.nativeHideName = view.nativeHideName;
+	newView.devices = [];
+	view.devices && view.devices.forEach(function(device, deviceIndex){
+		newView.devices[deviceIndex] = convertDeviceV3(device);
+	});
+	return newView;
+}
+
+function convertDeviceV3(device){  //No conversion so far
+	let newDevice = {};
+	newDevice.commonName = device.commonName;
+	newDevice.commonRole = device.commonRole;
+	newDevice.nativeBackgroundImage = device.nativeBackgroundImage;
+	newDevice.nativeBackgroundImageActive = device.nativeBackgroundImageActive;
+	newDevice.nativeHeading = device.nativeHeading;
+	newDevice.nativeHeadingOptions = device.nativeHeadingOptions;
+	newDevice.nativeLinkedView = device.nativeLinkedView;
+	newDevice.nativeNewLine = device.nativeNewLine;
+	newDevice.nativeHide = device.nativeHide;
+	newDevice.options = device.options;
+	newDevice.states = device.states;
+	return newDevice;
+} 
+//##################################
+
+
+//++++++++++ LOAD ++++++++++
 /************** LOAD ********************************************************
 *** This will be called by the admin adapter when the settings page loads ***
 ****************************************************************************/
 async function load(settings, onChange) {
-//++++++++++ START ++++++++++
 	//Loading begins
 	var loading = true;
 
@@ -2827,7 +3700,8 @@ async function load(settings, onChange) {
 	initInputClear();
 
 	//Select elements with id=key and class=value and insert value
-	if (!settings) return;
+	settings = convertConfigV3(settings);
+	if(!settings) return;
 	$('.value').each(function () {
 		var $key = $(this);
 		var id = $key.attr('id');
@@ -2844,10 +3718,10 @@ async function load(settings, onChange) {
 		}
 	});
 
-	//Get Subsettings
+	//Get Subsettings ##### create new demo settings
 	//!!! If more subsettings are added - remember to add them to initDialog, saveFromDialogAndPreview, save-function and to backup/restore-section as well!!!
 	if (!settings.views && !settings.toolbar && confirm(_("No configuration found. Should a demo-config be loaded? (Otherwise you will get an empty configuration)."))){
-		toolbar = settings.toolbar || settings.demotoolbar || [];
+		toolbar = settings.toolbar || settings.demotoolbar || {items: []};
 		views = settings.views || settings.demoviews || [];
 		lists = settings.lists || settings.demolists || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || settings.demooptionsLayoutDefaultIcons || {};
@@ -2856,7 +3730,7 @@ async function load(settings, onChange) {
 		alert(_("Don't forget to save the configuration now, otherwise it will be lost."));
 		newConfig = true;
 	} else {
-		toolbar = settings.toolbar || [];
+		toolbar = settings.toolbar || {items: []};
 		views = settings.views || [];
 		lists = settings.lists || [];
 		optionsLayoutDefaultIcons = settings.optionsLayoutDefaultIcons || {};
@@ -2909,6 +3783,9 @@ async function load(settings, onChange) {
 	//Set initial values of further variables
 	var images = [];
 	var imagesDirs = [];
+	var comboboxOptionsInbuiltWidgetsString = "";
+	var comboboxOptionsUserWidgetsString = "";
+	// var comboboxOptionsImages = "";  ####### add to fillComboboxOptionsStrings()
 	var devicesSelectedView = -1;
 
 	//Update all Colorpickers
@@ -3015,6 +3892,8 @@ async function load(settings, onChange) {
 				if (M) M.updateTextFields();
 				
 				//Add warning to native config save button
+				//$('.adapter-config-save').hide();
+				//$('.adapter-config-load').hide();
 				$('.adapter-config-save').on('click', function(){ 
 					alert(_("Warning: This does not save the complete configuration of iQontrol. Please use the functions under Options - Backup/Restore for backups!")); 
 				});
@@ -3705,6 +4584,7 @@ async function load(settings, onChange) {
 		}
 	}
 
+	//---------- Device Edit ----------
 	//Enhance dialogDeviceEditCommonRole-Selectbox with functions
 	$('#dialogDeviceEditCommonRole').on('change', function(){
 		var viewIndex =   $('#dialogDeviceEditViewIndex').val();
@@ -3721,27 +4601,23 @@ async function load(settings, onChange) {
 		});
 		dialogDeviceEditStatesTable = [];
 		if (dialogDeviceEditCommonRole){ //build states table
-			iQontrolRoles[dialogDeviceEditCommonRole].states.forEach(function(entry){ //push all corresponding states for the selected role into the table
-				var commonRole  = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).commonRole || "";
-				var value = (dialogDeviceEditStates.find(function(element){ return element.state == entry;}) || {}).value || "";
-				if (commonRole == ""){
-					if (entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
-						commonRole = "array";
-						var valueObj = tryParseJSON(value);
-						if (Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
-							var valueArray = [];
-							for(name in valueObj){
-								valueArray.push({'name':name, 'commonRole':'linkedState', 'value':valueObj[name]});
-							}
-							value = JSON.stringify(valueArray);
-						}
-					} else if (entry == "SET_VALUE"  || entry == "OFF_SET_VALUE"  ||  entry == "UP_SET_VALUE" ||  entry == "STOP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "URL" || entry == "HTML" || entry == "BACKGROUND_VIEW" || entry == "BACKGROUND_URL" || entry == "BACKGROUND_HTML" || entry == "BADGE_COLOR" || entry == "OVERLAY_INACTIVE_COLOR" || entry == "OVERLAY_ACTIVE_COLOR" || entry == "GLOW_INACTIVE_COLOR"|| entry == "GLOW_ACTIVE_COLOR"){
-						commonRole = "const";
-					} else {
-						commonRole = "linkedState";
-					}
-				}
-				dialogDeviceEditStatesTable.push({'state':entry, 'commonRole':commonRole, 'value':value});
+			//Get defaultDeviceStates for role and then add userDefined deviceStates
+			var stateList = iQontrolRoles[dialogDeviceEditCommonRole].deviceStatesDisplaySequence;
+			dialogDeviceEditStates.forEach(function(deviceState){
+				if(stateList.indexOf(deviceState.state) == -1 && deviceState.state.value && deviceState.state != "") stateList.push(deviceState.state);
+			});
+			stateList.forEach(function(stateName){ //push all corresponding states for the selected role into the table 
+				var state = dialogDeviceEditStates.find(function(element){ return element.state == stateName;}) || {};
+				var tableRow = {
+					'state': 			stateName,
+					'groupName': 		state.groupName || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].groupName  || _("Additional States"),
+					'description': 		state.description || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].description  || "", 
+					'commonType': 		state.commonType || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].commonType || "string",
+					'commonRole': 		state.commonRole || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].commonRole || "linkedState",
+					'arrayKeys': 		state.arrayKeys || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].defaultArrayKeys || {elementOptions: {}, elementStates: {}},
+					'value':			state.value || ""
+				};
+				dialogDeviceEditStatesTable.push(tableRow);
 			});
 		}
 		//Fill Table
@@ -3769,79 +4645,38 @@ async function load(settings, onChange) {
 		var $div = $('#tableDialogDeviceEditStates');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
+		var lastGroupName = "";
 		//Make State Readonly and add id for selectId-Dialog
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'state') {
 				$(this).prop('readonly', true);
-				if ($(this).val() == "ALTERNATIVE_COLORSPACE_VALUE") $(this).after('<span style="font-size:x-small;">' + _("The colorspace has to be defined in the devicespecific options below") + '</span>');
-				if ($(this).val() == "BACKGROUND_URL") $(this).after('<span style="font-size:x-small;">' + _("Also used to display and configure widgets") + '</span>');
-				if ($(this).val() == "VALVE_STATES") $(this).after('<span style="font-size:x-small;">Array: [{name: "Valve1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "INFO_A") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
-				if ($(this).val() == "INFO_B") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", icon: "url"}, ...]</span>');
-				if ($(this).val() == "ADDITIONAL_CONTROLS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1", role: "SLIDER"}, ...]</span>');
-				if ($(this).val() == "ADDITIONAL_INFO") $(this).after('<span style="font-size:x-small;">Array: [{name: "Name1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "REMOTE_CHANNELS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
-				if ($(this).val() == "REMOTE_ADDITIONAL_BUTTONS") $(this).after('<span style="font-size:x-small;">Array: [{name: "Button1", commonRole: "LinkedState", value: "ID1"}, ...]</span>');
+				var description = $(this).parents('tr').find('input[data-name="description"]').val() || "&nbsp;";
+				$(this).after('<span style="font-size:x-small;">' + _(description) + '</span>');
+				var groupName = $(this).parents('tr').find('input[data-name="groupName"]').val();
+				if(groupName && groupName != "" && groupName != lastGroupName){
+					var colCount = $(this).parents('tr').find('td').length;
+					$(this).parents('tr').before('<tr class="newGroup"><td colspan="' + colCount + '"><span class="groupHeading">' + groupName + ':</span></td></tr>');
+					lastGroupName = groupName;
+				}
 			}
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
 				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') $(this).prop('readonly', true);
 			}
 		});
-		//Add widgets and websites to Selectbox for URL and BACKGROUND_URL  AND  Add views to Selectbox for BACKGROUND_VIEW
-		//1.Discover Widgets
-		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
-			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWidgets.length > 0){
-			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
-		}
-		var websitenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				var websitenamesInThisDir = [];
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-				if (websitenamesInThisDir.length > 0){
-					websitenames.push("[" + imagesDir.dirnameBS + ":]");
-					websitenames.push(websitenamesInThisDir.join(";"));
-				}
-			}
-		});
-		if (websitenames.length > 0){
-			websitenames.unshift(";[" + _("User Widgets") + ":]");
-		}
-		//2.Discover Views
+		//Collect Views
 		var viewIds = [""];
-		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
-		//3.Add both
-		$lines.find('input[data-name]').each(function () {
+		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });	
+		//Type
+		$lines.find('select[data-name]').each(function () {
 			var name = $(this).data('name');
-			if (name === 'value') {
+			if (name === 'commonType') {
 				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].state == 'URL' || dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_URL'){
-					enhanceTextInputToCombobox("#" + this.id, "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDeviceEditStatesWidgetSelected);
-				} else if (dialogDeviceEditStatesTable[stateIndex].state == 'BACKGROUND_VIEW') {
-					enhanceTextInputToCombobox("#" + this.id, "/;" + viewIds.join(";"), false, function(value){
-						if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
-							if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
-								$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
-							}
-						}
-					});
-				}
+				$(this).on('input change', function(){
+					$(this).parents('tr').find('select[data-name="commonRole"]').trigger('change');
+				});
 			}
 		});
 		//Role
@@ -3849,59 +4684,143 @@ async function load(settings, onChange) {
 			var name = $(this).data('name');
 			if (name === 'commonRole') {
 				var stateIndex = $(this).data('index');
-				if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array' || dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedStateArray') {
-					$(this).find('option[value="linkedState"]').remove();
-					$(this).find('option[value="const"]').remove();
-					$(this).prop('disabled', true);
-				} else {
-					$(this).find('option[value="array"]').remove();
-					$(this).find('option[value="linkedStateArray"]').remove();
-					$(this).on('input change', function(){
-						tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
-						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-							//Show or hide selectboxes
-							var _stateIndex = stateIndex;
-							if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
-								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','');
-							} else {
-								$("#tableDialogDeviceEditStatesValue_" + _stateIndex).next("a").prop('style','display: none !important;');
-							}
-							if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //COLOR - init ColorPicker
-								var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
-								if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){
-									var oldVal = $targetInput.val();
-									if (!$targetInput.data('materialize-color-picker-initialized')){
-										$targetInput.colorpicker().on('changeColor', function(event){
-											if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
-										});
-										if (oldVal == "") $targetInput.val("");
-										$targetInput.on('change', function(){
-											if ($(this).val() == "") {
-												$(this).css('border-right', '0px solid black');
-											} else {
-												$(this).trigger('changeColor');
+				$(this).on('input change', function(){
+					tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						//Show or hide selectboxes and colorpickers
+						var _stateIndex = stateIndex;
+						var $targetInput = $('#tableDialogDeviceEditStatesValue_' + _stateIndex);
+						if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){//const
+							if (dialogDeviceEditStatesTable[stateIndex].commonType == "color"){ //const + COLOR - init ColorPicker
+								//Hide selectbox handle
+								$targetInput.next("a").prop('style','display: none !important;');
+								//Init colorpicker
+								var oldVal = $targetInput.val();
+								if (!$targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker().on('changeColor', function(event){
+										if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+									});
+									if (oldVal == "") $targetInput.val("");
+									$targetInput.on('change', function(){
+										if ($(this).val() == "") {
+											$(this).css('border-right', '0px solid black');
+										} else {
+											$(this).trigger('changeColor');
+										}
+									});
+									$targetInput.on('blur', function(){
+										dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
+										console.log("Saved color-picker value " + $(this).val());
+									});
+									$targetInput.data('materialize-color-picker-initialized', true);
+								}
+								if (isValidColorString(oldVal)){
+									$targetInput.trigger('change');
+								}
+							} else { //const, but no color
+								//Destroy colorpicker
+								if ($targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker('destroy');
+									$targetInput.data('materialize-color-picker-initialized', false);
+								}
+								$targetInput.css('border-right', '0px solid black');
+								if (dialogDeviceEditStatesTable[stateIndex].commonType == "url"){ //const + URL - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a").prop('style','');
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/" + _("(None)") + comboboxOptionsInbuiltWidgetsString + comboboxOptionsUserWidgetsString, true, dialogDeviceEditStatesWidgetSelected);
+								} else if (dialogDeviceEditStatesTable[stateIndex].commonType == "view"){ //const + VIEW - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a").prop('style','');
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/;" + viewIds.join(";"), false, function(value){
+										if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
+											if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
+												$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
 											}
+										}
+									});	
+								} else if (dialogDeviceEditStatesTable[stateIndex].commonType == "icon"){ //const + ICON - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a").prop('style','');
+									//Create Icon List
+									var iconsString = "[" + _("Default Icon") + ":]";
+						/* ######	iconsString += ";/" + _("(Default)") + "/" + (previewLink + "/" + ((optionsLayoutDefaultIcons[dialogDeviceEditCommonRole] && optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry]) || (optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole] && optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole][entry]) || "")).replace(/\//g, "\\");
+									var typicalIcons = [];
+									for (iconPreset in iconPresets){
+										for (typicalIconEquivalent in iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents){
+											for (icon in iconPresets[iconPreset].iconEquivalents[iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents[typicalIconEquivalent]]) {
+												typicalIcons.push(iconPresets[iconPreset].iconEquivalents[iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents[typicalIconEquivalent]][icon]);
+											};
+										};
+									};
+									if (typicalIcons.length) {
+										iconsString += ";[" + _("Typical Icons") + ":]";
+										typicalIcons.forEach(function(typicalIcon, index){
+											if (typicalIcon != "") iconsString += ";" + typicalIcon.replace(/\//g, "\\") + "/" + typicalIcon.replace(/\//g, "\\");
+										});						
+										
+									} */
+									//Blank Icon
+									iconsString += ";[" + _("No Icon") + ":]";
+									iconsString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
+									//Progress-Bars
+									var progressbars = "";
+									progressbars += ";[" + _("Progress-Bars") + ":]";
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (previewLink + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
+									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
+									iconsString += progressbars;
+									//Inbuilt Icons
+									iconsString += ";[" + _("Inbuilt Icons") + ":]";
+									inbuiltIcons.forEach(function(inbuiltIcon){
+										if (inbuiltIcon != "") {
+											iconsString += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
+										}
+									});
+									//User Icons
+									var imagenames = [];
+									imagesDirs.forEach(function(imagesDir){
+										if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+											imagenames.push("[" + imagesDir.dirnameBS + ":]");
+											imagesDir.files.forEach(function(file){
+												imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+											});
+										}
+									});
+									if (imagenames.length > 0){
+										iconsString += ";[" + _("User Icons") + ":]";
+										imagenames.forEach(function(option){
+											iconsString += ";" + option;
 										});
-										$targetInput.on('blur', function(){
-											dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
-											console.log("Saved color-picker value " + $(this).val());
-										});
-										$targetInput.data('materialize-color-picker-initialized', true);
 									}
-									if (isValidColorString(oldVal)){
-										$targetInput.trigger('change');
-									}
-								} else {
-									if ($targetInput.data('materialize-color-picker-initialized')){
-										$targetInput.colorpicker('destroy');
-										$targetInput.data('materialize-color-picker-initialized', false);
-									}
-									$targetInput.css('border-right', '0px solid black');
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/" + iconsString, true);
+								} else { //const + STRING
+									//Hide selectbox handle
+									$targetInput.next("a").prop('style','display: none !important;');
 								}
 							}
-						})(); //<--End Closure
-					}).trigger('change');
-				}
+						} else { //LinkedState or Calculation
+							//Hide selectbox handle
+							$targetInput.next("a").prop('style','display: none !important;');
+							//Destroy colorpicker
+							if ($targetInput.data('materialize-color-picker-initialized')){
+								$targetInput.colorpicker('destroy');
+								$targetInput.data('materialize-color-picker-initialized', false);
+							}
+							$targetInput.css('border-right', '0px solid black');
+						}
+						if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') $targetInput.prop('readonly', true); else $targetInput.prop('readonly', false);
+					})(); //<--End Closure
+				}).trigger('change');
 			}
 			$(this).select();
 		});
@@ -3913,48 +4832,37 @@ async function load(settings, onChange) {
 				$(this).on('click', function () {
 					var stateIndex = $(this).data('index');
 					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
-					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const') { //const
-						if ((dialogDeviceEditStatesTable[stateIndex].state == "URL" || dialogDeviceEditStatesTable[stateIndex].state == "BACKGROUND_URL")
-						&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const - WIDGET - open Widget dialog				
-							(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'
+					&& dialogDeviceEditStatesTable[stateIndex].commonType == 'url'
+					&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const + URL + WIDGET - open Widget dialog				
+						(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+							var _stateValue = stateValue;
+							getWidgetSettings(_stateValue,  true, dialogDeviceEditOptions, false, function(result){
+								var _stateIndex = stateIndex;
 								var _stateValue = stateValue;
-								getWidgetSettings(_stateValue,  true, dialogDeviceEditOptions, false, function(result){
-									var _stateIndex = stateIndex;
-									var _stateValue = stateValue;
-									if (result.url) {
-										$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(result.url).trigger('change');
-									}
-									for(option in result.options){
-										if (iQontrolRoles["iQontrolWidget"].options[option]){
-											var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
-											if (optionsIndex != -1) {
-												dialogDeviceEditOptions[optionsIndex].value = result.options[option];
-											} else {
-												var entry = {option: option, value: result.options[option]};
-												dialogDeviceEditOptions.push(entry);
-											}
+								if (result.url) {
+									$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(result.url).trigger('change');
+								}
+								for(option in result.options){
+									if (iQontrolRoles["iQontrolWidget"].options[option]){
+										var optionsIndex = dialogDeviceEditOptions.findIndex(function(element){ return (element.option == option); });
+										if (optionsIndex != -1) {
+											dialogDeviceEditOptions[optionsIndex].value = result.options[option];
+										} else {
+											var entry = {option: option, value: result.options[option]};
+											dialogDeviceEditOptions.push(entry);
 										}
-									};
-									dialogDeviceEditOptionsBuildOptionsContent();
-								});
-							})(); //<--End Closure
-						} else if (dialogDeviceEditStatesTable[stateIndex].state == "BADGE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "OVERLAY_ACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_INACTIVE_COLOR" || dialogDeviceEditStatesTable[stateIndex].state == "GLOW_ACTIVE_COLOR"){ //const - COLOR - open Colorpicker
-							var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
-							if ($targetInput.data('materialize-color-picker-initialized')){
-								$targetInput.colorpicker('show');
-							}
-						} else { //const TEXT - open editText dialog
-							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
-								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
-								$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
-							}, function(){ //init dialog function 
-								$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
-								$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
-								$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
-								$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
+									}
+								};
+								dialogDeviceEditOptionsBuildOptionsContent();
 							});
+						})(); //<--End Closure
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const' && dialogDeviceEditStatesTable[stateIndex].commonType == 'color'){ //const + COLOR - open Colorpicker
+						var $targetInput = $('#tableDialogDeviceEditStatesValue_' + stateIndex);
+						if ($targetInput.data('materialize-color-picker-initialized')){
+							$targetInput.colorpicker('show');
 						}
-					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'array') { //array - open editArray dialog
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
 							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
@@ -3962,7 +4870,7 @@ async function load(settings, onChange) {
 							$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
 							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
 							var _deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-							var showAdditionalCols = "";
+							var showAdditionalCols = ""; //########### switch to defaultArrayKeys
 							if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
 							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
 							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
@@ -3976,7 +4884,7 @@ async function load(settings, onChange) {
 							dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
 							values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 						});
-					} else { //linkedState - open selectID dialog
+					} else if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState'){ //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
 						initSelectId(function (sid) {
 							sid.selectId('show', $('#tableDialogDeviceEditStatesValue_' + stateIndex).val(), {type: 'state'}, function (newId) {
@@ -3984,6 +4892,16 @@ async function load(settings, onChange) {
 									$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
 								}
 							});
+						});
+					} else { //string - open editText dialog
+						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+						}, function(){ //init dialog function 
+							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
+							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
+							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						});
 					}
 				});
@@ -4050,6 +4968,7 @@ async function load(settings, onChange) {
 		});
 	}
 
+	//---------- Device Edit - Array ----------
 	//Enhance TableDialogDeviceEditStateArrayReady
 	function ontableDialogDeviceEditStateArrayReady(){
 		var $div = $('#tableDialogDeviceEditStateArray');
@@ -4211,13 +5130,14 @@ async function load(settings, onChange) {
 		}
 	}
 
+	//---------- Device Edit - Options ----------
 	//Build options content
 	function dialogDeviceEditOptionsBuildOptionsContent(){
 		if (dialogDeviceEditCommonRole){
 			var dialogDeviceEditOptionsComboboxes = [];
 			var dialogDeviceEditOptionsContent = "<ul class='collapsible' id='dialogDeviceEditOptionsContentCollapsible'>";
 			var dialogDeviceEditOptionsContentCollapsibleOpen = false;
-			for (entry in iQontrolRoles[dialogDeviceEditCommonRole].options){ //push all corresponding options for the selected role into the table
+			(iQontrolRoles[dialogDeviceEditCommonRole].optionsDisplaySequence || []).forEach(function(entry){ //push all corresponding options for the selected role into the table
 				var name = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].name;
 				var type = iQontrolRoles[dialogDeviceEditCommonRole].options[entry].type;
 				var value = (dialogDeviceEditOptions.find(function(element){ return element.option == entry;}) || {}).value || iQontrolRoles[dialogDeviceEditCommonRole].options[entry].default || "";
@@ -4410,7 +5330,7 @@ async function load(settings, onChange) {
 					dialogDeviceEditOptionsContent += "</div></div>";
 					break;
 				}
-			}
+			});
 			if (dialogDeviceEditOptionsContent == ""){
 				$('#dialogDeviceEditOptionsContent').html("<br><p>"+ _("This role has no options.") + "</p>");
 			} else {
@@ -4494,6 +5414,7 @@ async function load(settings, onChange) {
 		}
 	});
 
+	//---------- Autocreate ----------
 	//Enhance DeviceAutocreate with functions
 	var dialogDeviceAutocreateResult;
 	$('#devicesAutocreateButton').on('click', function () {
@@ -4930,6 +5851,7 @@ async function load(settings, onChange) {
 		return result;
 	}
 
+	//---------- Device Copy ----------
 	//Enhance DeviceCopyFrom with functions
 	$('#devicesCopyFromButton').on('click', function(event, sourceView, sourceDevice){
 		initDialog('dialogDeviceCopyFrom', function(){ //save dialog
@@ -5085,6 +6007,7 @@ async function load(settings, onChange) {
 		enhanceTextInputToCombobox('.dialogDeviceCopyFromReplaceDatapoints.searchValue', usedDatapointIds.join(";"), false);
 	}
 
+	//---------- Widget ----------
 	//Enhance AutocreateWidget with functions
 	var dialogDevicesAutocreateWidgetOptions;
 	var dialogDevicesAutocreateWidgetUrlParameters = "";
@@ -5662,6 +6585,7 @@ async function load(settings, onChange) {
 		});
 	}
 
+	//---------- Export / Import ----------
 	//Export and Import devices
 	$('#devicesExport').on('click', function(){
 		initDialog('dialogDevicesExport', function(){ //save dialog
@@ -5717,7 +6641,7 @@ async function load(settings, onChange) {
 		views.forEach(function(element){ viewIds.push(element.commonName); });
 		$('*[data-name="nativeLinkedView"]').data("options", viewIds.join(";"));
 		//Fill Table
-		values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
+		values2table('tableToolbar', toolbar.items || [], onChange, onTableToolbarReady);
 
 		//Add views to Selectbox for panel BACKGROUND_VIEW
 		var viewIds = [""];
@@ -5853,13 +6777,13 @@ async function load(settings, onChange) {
 					initDialog('dialogToolbarEdit', function(){ //save dialog
 						var _toolbarIndex = $('#dialogToolbarEditToolbarIndex').val();
 						$('.colorpicker-element').trigger('blur');
-						toolbar[_toolbarIndex].states = dialogToolbarEditStatesTable;
-						toolbar[_toolbarIndex].options = [{option: "badgeWithoutUnit", type: "checkbox", value: $("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked')}];
+						toolbar.items[_toolbarIndex].states = dialogToolbarEditStatesTable;
+						toolbar.items[_toolbarIndex].options = [{option: "badgeWithoutUnit", type: "checkbox", value: $("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked')}];
 						onTableToolbarReady();
 					}, function(){ //init dialog function
-						$('#dialogToolbarEditCommonName').html(toolbar[_toolbarIndex].commonName || "");
+						$('#dialogToolbarEditCommonName').html(toolbar.items[_toolbarIndex].commonName || "");
 						$('#dialogToolbarEditToolbarIndex').val(_toolbarIndex);
-						dialogToolbarEditStates = toolbar[_toolbarIndex].states || [];
+						dialogToolbarEditStates = toolbar.items[_toolbarIndex].states || [];
 						dialogToolbarEditStatesTable = [];
 						//build states table
 						["BADGE", "BADGE_COLOR"].forEach(function(entry){ //push all corresponding states for the selected role into the table
@@ -5878,7 +6802,7 @@ async function load(settings, onChange) {
 						values2table('tableDialogToolbarEditStates', dialogToolbarEditStatesTable, onChange, ontableDialogToolbarEditStatesReady);
 						$('#dialogToolbarEdit .btn-preview').data('preview-render-view', "iqontrol." + instance + ".Views." + views[0].commonName);
 						//Options
-						$("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked', ((toolbar[_toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false);
+						$("#dialogToolbarEditOption_BadgeWithoutUnit").prop('checked', ((toolbar.items[_toolbarIndex].options || []).find(function(element){ return element.option == 'badgeWithoutUnit';}) || {}).value || false);
 					});
 				});
 			}
@@ -5900,11 +6824,11 @@ async function load(settings, onChange) {
 				});
 				var tableResorted = [];
 				for(var i = 0; i < sequence.length; i++){
-					tableResorted.push(toolbar[sequence[i]]);
+					tableResorted.push(toolbar.items[sequence[i]]);
 				}
-				toolbar = tableResorted;
+				toolbar.items = tableResorted;
 				onChange();
-				values2table('tableToolbar', toolbar, onChange, onTableToolbarReady);
+				values2table('tableToolbar', toolbar.items, onChange, onTableToolbarReady);
 				$("#tableToolbar tbody").sortable('enable');
 				console.log("resorted.");
 			},
@@ -6139,9 +7063,47 @@ async function load(settings, onChange) {
 				$('.hideOnLoad').show();
 				$('.showOnLoad').hide();
 				if (typeof callback == 'function') callback();
+				fillComboboxOptionsStrings();
 			}
 		}
 		readDir(path, socketCallback);
+	}
+
+	//fill comboboxOptionsStringsm  ######### add images
+	function fillComboboxOptionsStrings(){
+		//1. Inbuild Widgets
+		comboboxOptionsInbuiltWidgetsString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget && typeof widget.filename != udef) {
+				comboboxOptionsInbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			comboboxOptionsInbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + comboboxOptionsInbuiltWidgetsString;
+		}
+		//2. Userwidgets
+		var userWidgets = []; 
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+					}
+				});
+				if (websitenamesInThisDir.length > 0){
+					userWidgets.push("[" + imagesDir.dirnameBS + ":]");
+					userWidgets.push(websitenamesInThisDir.join(";"));
+				}
+			}
+		});
+		if (userWidgets.length > 0){
+			userWidgets.unshift(";[" + _("User Widgets") + ":]");
+		}
+		comboboxOptionsUserWidgetsString = userWidgets.join(";");
 	}
 
 	//Add Images to Selectbox for SelectedDir
@@ -7889,7 +8851,7 @@ async function load(settings, onChange) {
 		});
 	});
 
-	//ChangeDeviceOptionsIcons
+	//ChangeDeviceOptionsIcons #######
 	$('.optionsChangeDeviceOptionsIcons').on('change', function(){
 		var result = optionsChangeDeviceOptionsIcons($('#optionsChangeDeviceOptionsIconsSource').val(), $('#optionsChangeDeviceOptionsIconsDestination').val(), $('#optionsChangeDeviceOptionsIconsFilterRoles').val(), $('#optionsChangeDeviceOptionsIconsFilterDevices').val(), "countOnly");
 		$('#optionsChangeDeviceOptionsIconsExecuteCount').html("&nbsp;(" + result.changeCount + " " + _("matches") + ")");
@@ -8517,7 +9479,7 @@ async function load(settings, onChange) {
 		}
 	});
 
-	//Export Everything (but userfiles)
+	//Export Everything (but userfiles) ###### still ok ?? 
 	$('#optionsBackupRestoreExportEverything').on('click', function(){
 		var toDo = function(){
 			var obj = {};
@@ -9024,6 +9986,7 @@ async function load(settings, onChange) {
 	});
 }
 
+//++++++++++ SAVE ++++++++++
 /************** SAVE *****************************************************************
 *** This will be called by the admin adapter when the user presses the save button ***
 *************************************************************************************/
@@ -9068,6 +10031,7 @@ async function save(callback) {
 	//Set version
 	version = ++version || 0;
 	obj.version = version;
+	obj.configVersion = 3;
 	
 	//Set passphrase
 	passphrase = $('#optionsPassphrase').val();

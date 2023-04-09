@@ -1,29 +1,93 @@
-//Notes and snippets
-
-
-
 //#####################################################################################
-//ToDo
+//Notes and snippets
+//#####################################################################################
+
+
+
+//++++++++++ ToDo ++++++++++
 /*
 * Popup: Options-Section with transparency, background-color; ack-flag setzen https://forum.iobroker.net/post/971356
 * selectId: Icon search or list or colorize
+* ack-behaviour set ack|do not wait for ack|wait ___ seconds for ack (0 = forever) then assume its OK|not OK|...
+*/
+
+//++++++++++ V3-Definition ++++++++++
+/*
+
+* configVersion: "v3"
+				if (commonRole == ""){
+					if (entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
+						commonRole = "array";
+						var valueObj = tryParseJSON(value);
+						if (Array.isArray(valueObj) == false) { //For backward-compatibility -> transfer old object-style to new array-style
+							var valueArray = [];
+							for(name in valueObj){
+								valueArray.push({'name':name, 'commonRole':'linkedState', 'value':valueObj[name]});
+							}
+							value = JSON.stringify(valueArray);
+						}
+					} else if (entry == "SET_VALUE"  || entry == "OFF_SET_VALUE"  ||  entry == "UP_SET_VALUE" ||  entry == "STOP_SET_VALUE"  || entry == "DOWN_SET_VALUE"  || entry == "FAVORITE_POSITION_SET_VALUE"  || entry == "URL" || entry == "HTML" || entry == "BACKGROUND_VIEW" || entry == "BACKGROUND_URL" || entry == "BACKGROUND_HTML" || entry == "BADGE_COLOR" || entry == "OVERLAY_INACTIVE_COLOR" || entry == "OVERLAY_ACTIVE_COLOR" || entry == "GLOW_INACTIVE_COLOR"|| entry == "GLOW_ACTIVE_COLOR"){
+						commonRole = "const";
+					} else {
+						commonRole = "linkedState";
+					}
+				}
+
+
+* before Conversion: Ask to create backup. On imporint old version, do conversion.
+
+* Makro??? Elements mit Array??: Add INFO_A, Add INFO_B??? StateAdaptsHeight: Text ist im iconText des DeviceIcons
+
+* <Role>.states -> <Role>.deviceStateDefinitions
+
+* <Role>.deviceStateDefinitions.states => <device>.deviceStates: [{
+		commonName: "", 
+		commonType: "string|color|url|view", 
+		commonRole: "linkedState|calc|const", 
+		defaultValue: "", 
+		description: "", 
+		groupName: "",
+		editable: false
+	}, ...]
+
+* <Role>.deviceStateDefinitions.tileUiElementStacks => <device>.tileUiElementStacks
+ & <Role>.deviceStateDefinitions.aboveTileUiElementStacks => <device>.aboveTileUiElementStacks
+ & <Role>.deviceStateDefinitions.behindTileUiElementStacks => <device>.behindTileUiElementStacks: [{
+	name: "INFO_A",
+	positionClass:  "Default Tile Definition.INFO_A",
+	uiElements: [{uiElement: "iconText", uiElementOptions: {}}, ...]
+}]
+
+* <Role>.deviceStateDefinitions.dialogUiElementStacks: 
+
+* tilePositionClasses = [{
+		groupname: "Default Tile Definition",
+		editable: false,
+		positionClasses: [{    
+			name: "Device Name", 
+			normal:{position: "absolute|float", nextLine: true,
+					horizontalAnchor: "left|right|center", horizontalValue: "10px", widthMode: "fixed|tileWidthMinus|grow", widthValue: "10px" maxWidthValue: "",
+					verticalAnchor:"top|bottom", verticalValue: "10px", heightMode:"fixed|tileHeightMinus|grow", heightValue: "10px", maxHeightValue: ""}, 
+			enlarged: {wie bei normal}
+		}, ...]
+	}, ...]
+
+* pressureIndicator wird neues device???
+
+* fix coded im view: pressureIndicator, Glow, backgroundColor/overlayColor
+
+* uiElements: Badge, iconText, iFrame, mediaControl, media..., input (abhängig vom STATE z.B. valueList,...), sound
+* uiElements options: stackId, stackIndex, 
+	states je nach uiElement mit stateProcessingFunction 
+	activeDeviceStateName, activeCondition, activeValue
+
 
 */
 
 
 
-
-
 //#####################################################################################
-// Rechenaufgaben
-const rechenaufgabe = "(25 * 12) + 8**3";
-const funktion = new Function(`return ${rechenaufgabe}`);
-const ergebnis = funktion();
-console.log(ergebnis); // gibt 2108 aus
-
-
-//#####################################################################################
-// Variables
+//++++++++++ Variables ++++++++++
 $myDiv = $("<div id='myDiv'>Loading...|Variable 1: {javascript.0.Test.Teststring|1 not found}, Variable 2: {javascript.0.Test.Testnumber|2 not found} , Variable [2b]: {[javascript.0.Test.Testnumber]|2b not found}</div>");
 $myDiv2 = $("<div id='myDiv2'>Loading...|Variable 3: {javascript.0.Test.Teststring2|3 not found}, Variable 4: {javascript.0.Test.Testnumber2|4 not found} , Variable [4b]: {[javascript.0.Test.Testnumber2]|4b not found}</div>");
 $('body').append($myDiv);
@@ -101,7 +165,7 @@ updateState("javascript.0.Test.Teststring");
 
 
 //#####################################################################################
-//Speed-Test for array duplicates
+//++++++++++ Speed-Test for array duplicates ++++++++++
 function test1(count){
 	let begin = new Date();
 	let array = [];

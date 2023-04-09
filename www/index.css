@@ -1325,6 +1325,30 @@ html.noscroll body {
 	opacity: 1 !important;
 }
 
+/* ++++++++++ V3 DEVELOPMENT +++++++++ */
+.uiElementStack.container{
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.uiElement.icon{
+	opacity: 0;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.uiElement.icon.active{
+	opacity: 0.99;
+}
+.uiElement.text{
+	opacity: 0;
+	-webkit-transition: all 1s;
+	   -moz-transition: all 1s;
+			transition: all 1s;
+}
+.uiElement.text.active{
+	opacity: 0.99;
+}
 
 /* ++++++++++ Dialog ++++++++++ */ 
 #Dialog {
