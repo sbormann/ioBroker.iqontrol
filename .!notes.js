@@ -2,6 +2,11 @@
 //Notes and snippets
 //#####################################################################################
 
+const { endianness } = require("os");
+
+
+
+
 
 
 //++++++++++ ToDo ++++++++++
@@ -14,7 +19,7 @@
 //++++++++++ V3-Definition ++++++++++
 /*
 
-* configVersion: "v3"
+* configVersion: 3
 				if (commonRole == ""){
 					if (entry == "VALVE_STATES" || entry == "INFO_A" || entry == "INFO_B"  || entry == "ADDITIONAL_CONTROLS" || entry == "ADDITIONAL_INFO" || entry == "REMOTE_CHANNELS" || entry == "REMOTE_ADDITIONAL_BUTTONS"){
 						commonRole = "array";
@@ -33,6 +38,7 @@
 					}
 				}
 
+* VALVE_STATES -> ADD INFO
 
 * before Conversion: Ask to create backup. On imporint old version, do conversion.
 
@@ -79,10 +85,52 @@
 * uiElements: Badge, iconText, iFrame, mediaControl, media..., input (abhängig vom STATE z.B. valueList,...), sound
 * uiElements options: stackId, stackIndex, 
 	states je nach uiElement mit stateProcessingFunction 
-	activeDeviceStateName, activeCondition, activeValue
-
+	activeDeviceStateName, activeCondition, activeValue	
 
 */
+
+
+
+
+
+
+
+
+		//1.Discover Widgets
+		var inbuiltWidgetsString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget && typeof widget.filename != udef) {
+				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
+		}
+		var websitenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+					}
+				});
+				if (websitenamesInThisDir.length > 0){
+					websitenames.push("[" + imagesDir.dirnameBS + ":]");
+					websitenames.push(websitenamesInThisDir.join(";"));
+				}
+			}
+		});
+		if (websitenames.length > 0){
+			websitenames.unshift(";[" + _("User Widgets") + ":]");
+		}
+		//2.Discover Views
+		var viewIds = [""];
+		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });
+
 
 
 

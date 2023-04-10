@@ -2989,14 +2989,110 @@ function checkSymbolicLinks(sourceViewIndex, sourceDeviceIndex){
 	return destinations;
 }
 
-//Combobox
+//Colorpickers
+function initColorpickers(onChange){
+	$('.MaterializeColorPicker').each(function(){
+		if (!$(this).data('materialize-color-picker-initialized')){
+			var noColorSet = $(this).val() == "";
+			$(this).colorpicker().on('changeColor', function(event){
+				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+			});
+			$(this).colorpicker().on('hidePicker', function(event){
+				$(this).trigger('change');
+			});
+			$(this).on('change', function(event, noOnChange){
+				if ($(this).val() == "") {
+					$(this).css('border-right', '0px solid black');
+				} else {
+					$(this).trigger('changeColor', noOnChange);
+				}
+				if (!noOnChange) onChange();
+			});
+			$(this).data('materialize-color-picker-initialized', true);
+			if(noColorSet) $(this).val("");
+		}
+		$(this).trigger('change', 'noOnChange');
+	});
+}
+
+//Objects
+function getCommonName(object){
+	var name = false;
+	if (object && typeof object.common != udef && typeof object.common.name != udef){
+		if (typeof object.common.name == "object" && typeof object.common.name[systemLang] != udef){
+			name = object.common.name[systemLang];
+		} else if (typeof object.common.name == "object" && typeof object.common.name["en"] != udef){
+			name = object.common.name["en"];
+		} else if (typeof object.common.name == "string") {
+			name = object.common.name;
+		}
+	}
+	return name;
+}
+
+//Enumerations
+var enumerations = {};
+function getEnumerations(callback) {
+	enumerations = {};
+	for(id in iobrokerObjects){
+		if (id.indexOf("enum") == 0) {
+			enumerations[id] = iobrokerObjects[id];
+		}
+	}
+	callback && callback();
+}
+function getEnumerationName(enumeration){
+	var name = _(enumeration);
+	if (enumerations[enumeration] && typeof enumerations[enumeration].common != udef && typeof enumerations[enumeration].common.name != udef){
+		if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name[systemLang] != udef){
+			name = enumerations[enumeration].common.name[systemLang];
+		} else if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name["en"] != udef){
+			name = _(enumerations[enumeration].common.name["en"]);
+		} else if (typeof enumerations[enumeration].common.name == "string") {
+			name = _(enumerations[enumeration].common.name);
+		}
+	}
+	return name;
+}
+
+//History-Instances
+var historyInstances = [];
+function getHistoryInstances(callback){
+	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+		var _callback = callback;
+		var _toDo = function(){
+			historyInstances = [];
+			for(id in iobrokerObjects){ 
+				if (id.indexOf('system.adapter.') == 0 && !isNaN(id.substr(id.lastIndexOf('.') + 1)) && iobrokerObjects[id] && iobrokerObjects[id].common && iobrokerObjects[id].common.type === 'storage'){
+					historyInstances.push(id.substring('system.adapter.'.length));
+				}
+			}
+			_callback && _callback(historyInstances);		
+		}
+		if (iobrokerObjectsReady) {
+			_toDo();
+		} else {
+			iobrokerObjectsReadyFunctions.push(_toDo);
+		}
+	})(); //<--End Closure
+}
+
+//fixedEncodeURIComponents (encodes !, ', (, ), and *)	
+function fixedEncodeURIComponent(str) {
+	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
+		return '%' + c.charCodeAt(0).toString(16);
+	});
+}
+
+//---------- Combobox ----------
 var $enhanceTextInputToComboboxActualTarget;
 function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSelect){
 	//targetInput - string - selector for text-input-field to enhance
-	//options - string - "value1/caption1/icon1;value2/caption2/icon2;[optgroup-caption];value3/caption3/icon3;..."
+	//options - string - "value1/caption1/icon1;value2/caption2/icon2;[optgroup-caption];value3/caption3/icon3;..." or array of strings
 	//iconsFromOption - boolean - if true, the values will be used to generate links to icons (\ will be replaced by / an link will be preceded), if no icon is given in options
 	//onSelect - function - function that will be called with the argument (value), if a value is selected
 	options = options || "";
+	if(Array.isArray(options)) options = options.filter(function(option){ return option != null && option != ""; }).join(";");
 	options = options.split(";");
 	var comboboxContent = "";
 	var optgroup = false;
@@ -3023,7 +3119,7 @@ function enhanceTextInputToCombobox(targetInput, options, iconsFromOption, onSel
 				icon = option.split("/")[0].replace(/\\/g, "/").substring(1) || "";
 				if (icon != "") icon = previewLink + icon;
 			}
-			comboboxContent += "	<li class='item' data-value='" + value + "' data-optgroup='" + optgroup + "' style='display:none;'>";
+			comboboxContent += "	<li class='item' data-value='" + value + "' data-optgroup='" + optgroup + (optgroup ? "' style='display:none;'" : "") + ">";
 			comboboxContent += "		<a href='#!'>";
 			if (icon != ""){
 				comboboxContent += "		<img src='" + icon + "' style='display: block; margin-bottom: 5px; min-width: 40px; max-width: 40px; max-height: 40px; width: auto; height: auto;' onerror='this.onerror=null; this.src=\"" + previewLink + "/./images/icons/various.png" + "\";'>";
@@ -3147,102 +3243,7 @@ function enhanceTextInputToComboboxEntryToInput(value, element, that){
 	}
 }
 
-//Colorpickers
-function initColorpickers(onChange){
-	$('.MaterializeColorPicker').each(function(){
-		if (!$(this).data('materialize-color-picker-initialized')){
-			var noColorSet = $(this).val() == "";
-			$(this).colorpicker().on('changeColor', function(event){
-				if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
-			});
-			$(this).colorpicker().on('hidePicker', function(event){
-				$(this).trigger('change');
-			});
-			$(this).on('change', function(event, noOnChange){
-				if ($(this).val() == "") {
-					$(this).css('border-right', '0px solid black');
-				} else {
-					$(this).trigger('changeColor', noOnChange);
-				}
-				if (!noOnChange) onChange();
-			});
-			$(this).data('materialize-color-picker-initialized', true);
-			if(noColorSet) $(this).val("");
-		}
-		$(this).trigger('change', 'noOnChange');
-	});
-}
-
-//Objects
-function getCommonName(object){
-	var name = false;
-	if (object && typeof object.common != udef && typeof object.common.name != udef){
-		if (typeof object.common.name == "object" && typeof object.common.name[systemLang] != udef){
-			name = object.common.name[systemLang];
-		} else if (typeof object.common.name == "object" && typeof object.common.name["en"] != udef){
-			name = object.common.name["en"];
-		} else if (typeof object.common.name == "string") {
-			name = object.common.name;
-		}
-	}
-	return name;
-}
-
-//Enumerations
-var enumerations = {};
-function getEnumerations(callback) {
-	enumerations = {};
-	for(id in iobrokerObjects){
-		if (id.indexOf("enum") == 0) {
-			enumerations[id] = iobrokerObjects[id];
-		}
-	}
-	callback && callback();
-}
-function getEnumerationName(enumeration){
-	var name = _(enumeration);
-	if (enumerations[enumeration] && typeof enumerations[enumeration].common != udef && typeof enumerations[enumeration].common.name != udef){
-		if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name[systemLang] != udef){
-			name = enumerations[enumeration].common.name[systemLang];
-		} else if (typeof enumerations[enumeration].common.name == "object" && typeof enumerations[enumeration].common.name["en"] != udef){
-			name = _(enumerations[enumeration].common.name["en"]);
-		} else if (typeof enumerations[enumeration].common.name == "string") {
-			name = _(enumerations[enumeration].common.name);
-		}
-	}
-	return name;
-}
-
-//History-Instances
-var historyInstances = [];
-function getHistoryInstances(callback){
-	(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
-		var _callback = callback;
-		var _toDo = function(){
-			historyInstances = [];
-			for(id in iobrokerObjects){ 
-				if (id.indexOf('system.adapter.') == 0 && !isNaN(id.substr(id.lastIndexOf('.') + 1)) && iobrokerObjects[id] && iobrokerObjects[id].common && iobrokerObjects[id].common.type === 'storage'){
-					historyInstances.push(id.substring('system.adapter.'.length));
-				}
-			}
-			_callback && _callback(historyInstances);		
-		}
-		if (iobrokerObjectsReady) {
-			_toDo();
-		} else {
-			iobrokerObjectsReadyFunctions.push(_toDo);
-		}
-	})(); //<--End Closure
-}
-
-//fixedEncodeURIComponents (encodes !, ', (, ), and *)	
-function fixedEncodeURIComponent(str) {
-	return encodeURIComponent(str).replace(/[!'()*]/g, function(c) {
-		return '%' + c.charCodeAt(0).toString(16);
-	});
-}
-
-//File-Operations
+//---------- File operations ----------
 function uploadFile(file, path, callback) {
 	if (typeof path == 'function') {
 		callback = path;
@@ -3492,7 +3493,7 @@ async function checkDirExistance(path){
 }
 
 
-//---------- Conversion V3 ---------- #####################################
+//---------- Conversion V3 ---------- 
 function convertConfigV3(config, quiet){  
 	if(!config.configVersion || config.configVersion < 3){
 		if(!quiet && confirm(_("You have an outdated Version of your config. It will be converted automatically to the new version. It is recommended to save a backup of the current settings, as it is not possible to switch back to an old version with the converted settings.\n\nCreate Backup now?"))){
@@ -3557,13 +3558,11 @@ function convertDeviceV3(device){  //No conversion so far
 	newDevice.states = device.states;
 	return newDevice;
 } 
-//##################################
-
 
 //++++++++++ LOAD ++++++++++
-/************** LOAD ********************************************************
-*** This will be called by the admin adapter when the settings page loads ***
-****************************************************************************/
+/************** LOAD ****************************************************************
+*** This will be called by the admin adapter when the settings page loads         ***
+*************************************************************************************/
 async function load(settings, onChange) {
 	//Loading begins
 	var loading = true;
@@ -3781,12 +3780,231 @@ async function load(settings, onChange) {
 	});
   
 	//Set initial values of further variables
-	var images = [];
+	var devicesSelectedView = -1;var images = [];
 	var imagesDirs = [];
-	var comboboxOptionsInbuiltWidgetsString = "";
-	var comboboxOptionsUserWidgetsString = "";
-	// var comboboxOptionsImages = "";  ####### add to fillComboboxOptionsStrings()
-	var devicesSelectedView = -1;
+	var comboboxStrings = {
+		inbuiltWidgets: "",
+		inbuiltWallpapers: "",
+		inbuiltIcons: "",
+		inbuiltSymbols: "",
+		jqueryIcons: "",
+		inbuiltFonts: "",
+		blankIcon: "",
+		progressbars: "",
+		userFiles: "",
+		userWidgets: "",
+		userIcons: "",
+		userSymbols: "",
+		userImages: "",
+		userFonts: ""
+	}
+	
+	//Fill fixed comboboxStrings
+	function fillFixedComboboxStrings(){ //This is called in after the previewLink is generated
+		//--Inbuilt Widgets
+		var comboboxString = "";
+		inbuiltWidgets.forEach(function(widget){
+			if (widget && typeof widget.filename != udef) {
+				comboboxString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltWidgets.length > 0){
+			comboboxString = "[" + _("Inbuilt Widgets") + ":]" + comboboxString;
+		}	
+		comboboxStrings.inbuiltWidgets = comboboxString;
+		//--Inbuilt Wallpapers
+		var comboboxString = "";
+		inbuiltWallpapers.forEach(function(wallpaper){
+			if (wallpaper != "") {
+				comboboxString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltWallpapers.length > 0){
+			comboboxString = "[" + _("Inbuilt Wallpapers") + ":]" + comboboxString;
+		}
+		comboboxStrings.inbuiltWallpapers = comboboxString;
+		//--Progress-Bars
+		comboboxString = "[" + _("Progress-Bars") + ":]";
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (previewLink + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
+		comboboxString += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
+		comboboxStrings.progressbars = comboboxString;
+		//--Inbuilt Fonts
+		comboboxString = ";[Sans-Serif:]";
+		comboboxString += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
+		comboboxString += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
+		comboboxString += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
+		comboboxString += ";[Serif:]";
+		comboboxString += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
+		comboboxString += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
+		comboboxString += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
+		comboboxString += ";[Fantasy:]";
+		comboboxString += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
+		comboboxString += ";[Cursive:]";
+		comboboxString += ";\"Comic Sans\", \"Comic Sans MS\", \"Chalkboard\", \"ChalkboardSE-Regular\", cursive, sans-serif/Comic Sans/.\\fonts\\font_comic.png";
+		comboboxString += ";[Monospace:]";
+		comboboxString += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
+		comboboxStrings.inbuiltFonts = comboboxString;
+		//--Blank Icon
+		comboboxString = "[" + _("No Icon") + ":]";
+		comboboxString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
+		comboboxStrings.blankIcon = comboboxString;
+		//--Inbuilt Icons
+		comboboxString = "";
+		var lastDir = null;
+		inbuiltIcons.forEach(function(inbuiltIcon){
+			if (inbuiltIcon != "") {
+				var dir =  inbuiltIcon.substring('./images/icons'.length, inbuiltIcon.lastIndexOf("/"));
+				if(dir != lastDir){
+					comboboxString += ";[" + _("Inbuilt Icons") + (dir.length ? " " : "") + dir.replace(/\//g, "\\") + ":]";
+					lastDir = dir;
+				}
+				comboboxString += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
+			}
+		});
+		comboboxStrings.inbuiltIcons = comboboxString;				
+		//--Inbuilt Symbols
+		comboboxString = "";
+		inbuiltSymbols.forEach(function(inbuiltSymbol){
+			if (inbuiltSymbol != "") {
+				comboboxString += ";" + ("./images/symbols/" + inbuiltSymbol).replace(/\//g, "\\") + "/" + inbuiltSymbol.replace(/\//g, "\\");
+			}
+		});
+		if (inbuiltSymbols.length > 0){
+			comboboxString = "[" + _("Inbuilt Symbols") + ":]" + comboboxString;
+		}
+		comboboxStrings.inbuiltSymbols = comboboxString;
+		//--jQueryIcons
+		comboboxString = "";
+		jqueryIcons.forEach(function(symbol){
+			if (symbol != "") {
+				comboboxString += ";" + symbol + "/" + symbol + "/" + (previewLink + "/jquery/images/icons-svg/" + symbol + "-black.svg").replace(/\//g, "\\");
+			}
+		});
+		if (jqueryIcons.length > 0){
+			comboboxString = "[" + _("Standard Symbols") + ":]" + comboboxString;
+		}
+		comboboxStrings.jqueryIcons = comboboxString;
+	}
+	
+	//fill variable comboboxOptionsStrings
+	function fillVariableComboboxStrings(){ //this is called from the getImages-Function
+		//--Userwidgets
+		var userWidgets = []; 
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				var websitenamesInThisDir = [];
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
+						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+					}
+				});
+				if (websitenamesInThisDir.length > 0){
+					userWidgets.push("[" + _("User Widgets") + ": " + imagesDir.dirnameBS + ":]");
+					userWidgets.push(websitenamesInThisDir.join(";"));
+				}
+			}
+		});
+		comboboxStrings.userWidgets = userWidgets.join(";");
+		//--userFiles
+		var imagenames = [];
+		var dirimagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.files && imagesDir.files.length > 0){
+				imagenames.push("[" + _("User Icons") + " " + imagesDir.dirnameBS + ":]");
+				imagesDir.files.forEach(function(file){
+					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+				});
+			}
+		});
+		comboboxStrings.userFiles = imagenames.join(";");
+		//--userImages
+		imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.files && imagesDir.files.length > 0){
+				dirimagenames = [];
+				imagesDir.files.forEach(function(file){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
+						dirimagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
+				});
+				if(dirimagenames.length) {
+					imagenames.push("[" + _("User Images") + " " + imagesDir.dirnameBS + ":]");
+					imagenames = imagenames.concat(dirimagenames);
+				}
+			}
+		});
+		comboboxStrings.userImages = imagenames.join(";");	
+		//--userIcons
+		imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				dirimagenames = [];
+				imagesDir.files.forEach(function(file){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
+						dirimagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
+				});
+				if(dirimagenames.length) {
+					imagenames.push("[" + _("User Icons") + " " + imagesDir.dirnameBS + ":]");
+					imagenames = imagenames.concat(dirimagenames);
+				}
+			}
+		});
+		comboboxStrings.userIcons = imagenames.join(";");	
+		//--userSymbols
+		imagenames = [];
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				dirimagenames = [];
+				imagesDir.files.forEach(function(file){
+					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
+						dirimagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
+					}
+				});
+				if(dirimagenames.length) {
+					imagenames.push("[" + _("User Symbols") + ": " + imagesDir.dirnameBS + ":]");
+					imagenames = imagenames.concat(dirimagenames);
+				}
+			}
+		});
+		comboboxStrings.userSymbols = imagenames.join(";");
+		//-userFonts
+		var userfonts = [];
+		var comboboxString = "";
+		imagesDirs.forEach(function(imagesDir){
+			if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
+				imagesDir.files.forEach(function(file){
+					var filename = file.filename || "";
+					if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
+						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
+						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_font.png";
+						userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
+					}
+				});
+			}
+		});
+		if (userfonts.length > 0){
+			comboboxString += "[" + _("User Fonts") + ":]";
+			userfonts.forEach(function(userfont){
+				comboboxString += ";" + userfont;
+			});
+		}
+		comboboxStrings.userFonts = comboboxString;
+	}
 
 	//Update all Colorpickers
 	$('.MaterializeColorPicker').trigger('change', 'noOnChange');
@@ -3849,11 +4067,15 @@ async function load(settings, onChange) {
 				var forceWebSockets = result[bestInstance].native.forceWebSockets;
 			}
 			console.log("Got Link: " + previewLink);
+
 			//Add and enhance preview buttons
 			$('.m .dialog-config-buttons .btn-save').before('<a class="btn btn-preview" style="margin: 0 -10px 0 10px;"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>');
 			$('.m .dialog-config-buttons .btn-preview').on('click', function(){ saveFromDialogAndPreview(false, true, true)});
 			$('img.mainLink').on('click', function(){ saveFromDialogAndPreview(false, true, true)}).css('cursor', 'pointer');
 			$('a.mainLink').attr('href', previewLink + "/index.html?namespace=" + adapter + "." + instance + (passphrase ? "&passphrase=" + passphrase : ""));
+
+			//fillFixedComboboxStrings
+			fillFixedComboboxStrings();
 
 			//Add Roles to dialogDeviceEditCommonRole-Selectbox
 			$('#dialogDeviceEditCommonRole').empty().append("<option disabled selected value>" + _("Select Role") + "</option>");
@@ -4051,28 +4273,7 @@ async function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
-		var inbuiltWallpapersString = "";
-		inbuiltWallpapers.forEach(function(wallpaper){
-			if (wallpaper != "") {
-				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWallpapers.length > 0){
-			inbuiltWallpapersString = ";[" + _("Inbuilt Wallpapers") + ":]" + inbuiltWallpapersString;
-		}
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
-			imagesDir.files.forEach(function(file){ //image/, image/, image/, image/, image/, image/svg+xml
-				if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
-					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-				}
-			});
-		});
-		if (imagenames.length > 0){
-			imagenames.unshift(";[" + _("User Images") + ":]");
-		}
-		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', "/" + _("(None)") + inbuiltWallpapersString + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableViews input[data-name="nativeBackgroundImage"]', ["/" + _("(None)"), comboboxStrings.inbuiltWallpapers, comboboxStrings.userImages], true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
@@ -4378,44 +4579,7 @@ async function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Add Images to Combobox for BackgroundImage
-		var inbuiltWallpapersString = "";
-		inbuiltWallpapers.forEach(function(wallpaper){
-			if (wallpaper != "") {
-				inbuiltWallpapersString += ";" + ("./images/wallpaper/" + wallpaper).replace(/\//g, "\\") + "/" + wallpaper.replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWallpapers.length > 0){
-			inbuiltWallpapersString = ";[" + _("Inbuilt Wallpapers") + ":]" + inbuiltWallpapersString;
-		}
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.files && imagesDir.files.length > 0) imagenames.push("[" + imagesDir.dirnameBS + ":]");
-			imagesDir.files.forEach(function(file){
-				if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
-					imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-				}
-			});
-		});
-		if (imagenames.length > 0){
-			imagenames.unshift(";[" + _("Images") + ":]");
-		}
-		//--Progress-Bars
-		var progressbars = "";
-		progressbars += ";[" + _("Progress-Bars") + ":]";
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (previewLink + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
-		progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
-		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', "/" + _("(None)") + progressbars + inbuiltWallpapersString + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeBackgroundImage"], #tableDevices input[data-name="nativeBackgroundImageActive"]', ["/" + _("(None)"), comboboxStrings.progressbars, comboboxStrings.inbuiltWallpapers, comboboxStrings.userImages], true);
 		//Add options to combobox for headingOptions
 		enhanceTextInputToCombobox('#tableDevices input[data-name="nativeHeadingOptions"]', '/' + _("Normal") + ';CO/' + _("Collapsible section, opened at start") + ';CC/' + _("Collapsible section, closed at start") + ';COC/' + _("Collapsible section, opened at start, closes when others open") + ';CCC/' + _("Collapsible section, closed at start, closes when others open"), false);
 		$('#tableDevices input[data-name="nativeHeadingOptions"] .comboboxDropdownTriggerArrow').css('opacity', 0);
@@ -4667,7 +4831,7 @@ async function load(settings, onChange) {
 			}
 		});
 		//Collect Views
-		var viewIds = [""];
+		var viewIds = ["/"];
 		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });	
 		//Type
 		$lines.find('select[data-name]').each(function () {
@@ -4727,11 +4891,11 @@ async function load(settings, onChange) {
 								if (dialogDeviceEditStatesTable[stateIndex].commonType == "url"){ //const + URL - init Combobox
 									//Show selectbox handle
 									$targetInput.next("a").prop('style','');
-									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/" + _("(None)") + comboboxOptionsInbuiltWidgetsString + comboboxOptionsUserWidgetsString, true, dialogDeviceEditStatesWidgetSelected);
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, ["/" + _("(None)"), comboboxStrings.inbuiltWidgets, comboboxStrings.userWidgets], true, dialogDeviceEditStatesWidgetSelected);
 								} else if (dialogDeviceEditStatesTable[stateIndex].commonType == "view"){ //const + VIEW - init Combobox
 									//Show selectbox handle
 									$targetInput.next("a").prop('style','');
-									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/;" + viewIds.join(";"), false, function(value){
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, viewIds, false, function(value){
 										if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
 											if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
 												$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
@@ -4759,50 +4923,7 @@ async function load(settings, onChange) {
 										});						
 										
 									} */
-									//Blank Icon
-									iconsString += ";[" + _("No Icon") + ":]";
-									iconsString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
-									//Progress-Bars
-									var progressbars = "";
-									progressbars += ";[" + _("Progress-Bars") + ":]";
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (previewLink + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
-									progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
-									iconsString += progressbars;
-									//Inbuilt Icons
-									iconsString += ";[" + _("Inbuilt Icons") + ":]";
-									inbuiltIcons.forEach(function(inbuiltIcon){
-										if (inbuiltIcon != "") {
-											iconsString += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-										}
-									});
-									//User Icons
-									var imagenames = [];
-									imagesDirs.forEach(function(imagesDir){
-										if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-											imagenames.push("[" + imagesDir.dirnameBS + ":]");
-											imagesDir.files.forEach(function(file){
-												imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-											});
-										}
-									});
-									if (imagenames.length > 0){
-										iconsString += ";[" + _("User Icons") + ":]";
-										imagenames.forEach(function(option){
-											iconsString += ";" + option;
-										});
-									}
-									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, "/" + iconsString, true);
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, ["/", comboboxStrings.blankIcon, comboboxStrings.progressbars, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
 								} else { //const + STRING
 									//Hide selectbox handle
 									$targetInput.next("a").prop('style','display: none !important;');
@@ -5025,28 +5146,7 @@ async function load(settings, onChange) {
 		});
 		//Add images to Selectbox for Icons (Symbols)
 		if (showAdditionalCols.indexOf('icon') != -1) {
-			var inbuiltSymbolsString = "";
-			inbuiltSymbols.forEach(function(symbol){
-				if (symbol != "") {
-					inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
-				}
-			});
-			if (inbuiltSymbols.length > 0){
-				inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
-			}
-			var imagenames = [];
-			imagesDirs.forEach(function(imagesDir){
-				if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-					imagenames.push("[" + imagesDir.dirnameBS + ":]");
-					imagesDir.files.forEach(function(file){
-						 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-					});
-				}
-			});
-			if (imagenames.length > 0){
-				imagenames.unshift(";[" + _("User Symbols") + ":]");
-			}
-			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', "/" + _("(Default)") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\") + inbuiltSymbolsString + imagenames.join(";"), true);
+			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', ["/" + _("(Default)") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\"), comboboxStrings.inbuiltSymbols, comboboxStrings.userSymbols], true);
 		}
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
@@ -5265,48 +5365,13 @@ async function load(settings, onChange) {
 						}
 					}
 					//Blank Icon
-					options += ";[" + _("No Icon") + ":]";
-					options += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
+					options += ";" + comboboxStrings.blankIcon;
 					//Progress-Bars
-					var progressbars = "";
-					progressbars += ";[" + _("Progress-Bars") + ":]";
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22red%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_square_red.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22green%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_square_green.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22blue%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_square_blue.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22yellow%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_square_yellow.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22orange%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_square_orange.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-5%20-5%20110%20110%22%3E%3Crect%20y%3D%2240%22%20width%3D%22100%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22grey%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3Crect%20y%3D%2240%22%20width%3D%22%7B%7D%22%20height%3D%2220%22%20rx%3D%228%22%20ry%3D%228%22%20fill%3D%22purple%22%20stroke-width%3D%220%22%20%3E%3C%2Frect%3E%3C%2Fsvg%3E/" + _("Rectangle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_square_purple.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]data%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("inactive") + "/" + (previewLink + "/images/icons/progressbar_circle_inactive.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22red%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("red") + "/" + (previewLink + "/images/icons/progressbar_circle_red.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22green%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("green") + "/" + (previewLink + "/images/icons/progressbar_circle_green.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22blue%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("blue") + "/" + (previewLink + "/images/icons/progressbar_circle_blue.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22yellow%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("yellow") + "/" + (previewLink + "/images/icons/progressbar_circle_yellow.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22orange%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("orange") + "/" + (previewLink + "/images/icons/progressbar_circle_orange.png").replace(/\//g, "\\");
-					progressbars += ";[VARIABLE]%7Cdata%3Aimage%2Fsvg%2Bxml%3Bcharset%3DUTF-8%2C%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22-2%20-2%2040%2040%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22grey%22%20stroke-width%3D%224%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22purple%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-dasharray%3D%22%7B%7D%2C%20100%22%20transform%3D%22rotate(-90%2018%2018)%22%20d%3D%22M18%202.0845%20a%2015.9155%2015.9155%200%200%201%200%2031.831%20a%2015.9155%2015.9155%200%200%201%200%20-31.831%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E/" + _("Circle") + " " + _("purple") + "/" + (previewLink + "/images/icons/progressbar_circle_purple.png").replace(/\//g, "\\");
-					options += progressbars;
+					options += ";" + comboboxStrings.progressbars;
 					//Inbuilt Icons
-					options += ";[" + _("Inbuilt Icons") + ":]";
-					inbuiltIcons.forEach(function(inbuiltIcon){
-						if (inbuiltIcon != "") {
-							options += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-						}
-					});
+					options += ";" + comboboxStrings.inbuiltIcons;
 					//User Icons
-					var imagenames = [];
-					imagesDirs.forEach(function(imagesDir){
-						if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-							imagenames.push("[" + imagesDir.dirnameBS + ":]");
-							imagesDir.files.forEach(function(file){
-								 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-							});
-						}
-					});
-					if (imagenames.length > 0){
-						options += ";[" + _("User Icons") + ":]";
-						imagenames.forEach(function(option){
-							options += ";" + option;
-						});
-					}
+					options += ";" + comboboxStrings.userIcons;
 					//Icons Combobox
 					dialogDeviceEditOptionsComboboxes.push({id: 'dialogDeviceEditOption_' + entry, options: options});
 					dialogDeviceEditOptionsContent += "<div class='row'><div class='input-field col s12 m12 l12'>";
@@ -6032,37 +6097,7 @@ async function load(settings, onChange) {
 		}, function(){ //init dialog function 
 			//Add widgets and websites to Selectbox
 			$('#dialogDevicesAutocreateWidgetSource').val("");
-			var inbuiltWidgetsString = "";
-			inbuiltWidgets.forEach(function(widget){
-				if (widget && typeof widget.filename != udef) {
-					inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-				}
-			});
-			if (inbuiltWidgets.length > 0){
-				inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
-			}
-			var websitenames = [];
-			imagesDirs.forEach(function(imagesDir){
-				if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-					var websitenamesInThisDir = [];
-					imagesDir.files.forEach(function(file){
-						var filename = file.filename || "";
-						if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-							var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-							if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
-							websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-						}
-					});
-					if (websitenamesInThisDir.length > 0){
-						websitenames.push("[" + imagesDir.dirnameBS + ":]");
-						websitenames.push(websitenamesInThisDir.join(";"));
-					}
-				}
-			});
-			if (websitenames.length > 0){
-				websitenames.unshift(";[" + _("User Widgets") + ":]");
-			}
-			enhanceTextInputToCombobox("#dialogDevicesAutocreateWidgetSource", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true, dialogDevicesAutocreateWidgetWidgetSelected);
+			enhanceTextInputToCombobox("#dialogDevicesAutocreateWidgetSource", ["/" + _("(None)"), comboboxStrings.inbuiltWidgets, comboboxStrings.userWidgets], true, dialogDevicesAutocreateWidgetWidgetSelected);
 			//Further settings
 			$('#dialogDevicesAutocreateWidgetName').val("");
 			$('#dialogDevicesAutocreateWidgetDescription').html("");
@@ -6735,37 +6770,7 @@ async function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		//Add Images to Selectbox for BackgroundImage
-		var jqueryIconsString = "";
-		jqueryIcons.forEach(function(symbol){
-			if (symbol != "") {
-				jqueryIconsString += ";" + symbol + "/" + symbol + "/" + (previewLink + "/jquery/images/icons-svg/" + symbol + "-black.svg").replace(/\//g, "\\");
-			}
-		});
-		if (jqueryIcons.length > 0){
-			jqueryIconsString = ";[" + _("Standard Symbols") + ":]" + jqueryIconsString;
-		}
-		var inbuiltSymbolsString = "";
-		inbuiltSymbols.forEach(function(symbol){
-			if (symbol != "") {
-				inbuiltSymbolsString += ";" + ("./images/symbols/" + symbol).replace(/\//g, "\\") + "/" + symbol.replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltSymbols.length > 0){
-			inbuiltSymbolsString = ";[" + _("Inbuilt Symbols") + ":]" + inbuiltSymbolsString;
-		}
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagenames.push("[" + imagesDir.dirnameBS + ":]");
-				imagesDir.files.forEach(function(file){
-					 imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-				});
-			}
-		});
-		if (imagenames.length > 0){
-			imagenames.unshift(";[" + _("User Symbols") + ":]");
-		}
-		enhanceTextInputToCombobox('#tableToolbar input[data-name="nativeIcon"]', "/" + _("(None)") + jqueryIconsString + inbuiltSymbolsString + imagenames.join(";"), true);
+		enhanceTextInputToCombobox('#tableToolbar input[data-name="nativeIcon"]', ["/" + _("(None)"), comboboxStrings.jqueryIcons, comboboxStrings.inbuiltSymbols, comboboxStrings.userSymbols], true);
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
@@ -7063,50 +7068,13 @@ async function load(settings, onChange) {
 				$('.hideOnLoad').show();
 				$('.showOnLoad').hide();
 				if (typeof callback == 'function') callback();
-				fillComboboxOptionsStrings();
+				fillVariableComboboxStrings();
 			}
 		}
 		readDir(path, socketCallback);
 	}
 
-	//fill comboboxOptionsStringsm  ######### add images
-	function fillComboboxOptionsStrings(){
-		//1. Inbuild Widgets
-		comboboxOptionsInbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
-			if (widget && typeof widget.filename != udef) {
-				comboboxOptionsInbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWidgets.length > 0){
-			comboboxOptionsInbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + comboboxOptionsInbuiltWidgetsString;
-		}
-		//2. Userwidgets
-		var userWidgets = []; 
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				var websitenamesInThisDir = [];
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-				if (websitenamesInThisDir.length > 0){
-					userWidgets.push("[" + imagesDir.dirnameBS + ":]");
-					userWidgets.push(websitenamesInThisDir.join(";"));
-				}
-			}
-		});
-		if (userWidgets.length > 0){
-			userWidgets.unshift(";[" + _("User Widgets") + ":]");
-		}
-		comboboxOptionsUserWidgetsString = userWidgets.join(";");
-	}
-
-	//Add Images to Selectbox for SelectedDir
+		//Add Images to Selectbox for SelectedDir
 	function imagesSelectedDirFillSelectbox(){
 		var imagesDirsSorted = [];
 		imagesDirs.forEach(function(element){ imagesDirsSorted.push(element.dirname); });
@@ -8613,36 +8581,8 @@ async function load(settings, onChange) {
 		//Default Icon
 		var optionsString = "[" + _("Default Icon") + ":]";
 		optionsString += ";/" + _("Default Icon") + "/" + (previewLink + "/images/icons/various.png").replace(/\//g, "\\");
-		//Blank Icon
-		optionsString += ";[" + _("No Icon") + ":]";
-		optionsString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
-		//Inbuilt Icons
-		optionsString += ";[" + _("Inbuilt Icons") + ":]";
-		inbuiltIcons.forEach(function(inbuiltIcon){
-			if (inbuiltIcon != "") {
-				optionsString += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-			}
-		});
-		//User Icons
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagenames.push("[" + imagesDir.dirnameBS + ":]");
-				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
-						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-					}
-				});
-			}
-		});
-		if (imagenames.length > 0){
-			optionsString += ";[" + _("User Icons") + ":]";
-			imagenames.forEach(function(option){
-				optionsString += ";" + option;
-			});
-		}
-		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsSource', optionsString, true);
-		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsDestination', optionsString, true);
+		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsSource', [optionsString, comboboxStrings.blankIcon, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
+		enhanceTextInputToCombobox('#optionsChangeDeviceOptionsIconsDestination', [optionsString, comboboxStrings.blankIcon, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
 		
 		//Fill Combobox for ChangeDeviceOptionsFilterRoles with roles
 		$('.optionsChangeDeviceOptionsRoles').html("");
@@ -8697,109 +8637,21 @@ async function load(settings, onChange) {
 		//Default Icon
 		var optionsString = "[" + _("Default Icon") + ":]";
 		optionsString += ";/" + _("Default Icon") + "/" + (previewLink + "/images/icons/various.png").replace(/\//g, "\\");
-		//Blank Icon
-		optionsString += ";[" + _("No Icon") + ":]";
-		optionsString += ";" + ("./images/icons/blank.png").replace(/\//g, "\\") + "/" + _("No Icon") + "/" + (previewLink + "/images/icons/checkboard.png").replace(/\//g, "\\");
-		//Inbuilt Icons
-		optionsString += ";[" + _("Inbuilt Icons") + ":]";
-		inbuiltIcons.forEach(function(inbuiltIcon){
-			if (inbuiltIcon != "") {
-				optionsString += ";" + inbuiltIcon.replace(/\//g, "\\") + "/" + inbuiltIcon.replace(/\//g, "\\");
-			}
-		});
-		//User Icons
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/usericons") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagenames.push("[" + imagesDir.dirnameBS + ":]");
-				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
-						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-					}
-				});
-			}
-		});
-		if (imagenames.length > 0){
-			optionsString += ";[" + _("User Icons") + ":]";
-			imagenames.forEach(function(option){
-				optionsString += ";" + option;
-			});
-		}
-		enhanceTextInputToCombobox('.optionsLayoutDefaultIcons', optionsString, true);
+		enhanceTextInputToCombobox('.optionsLayoutDefaultIcons', [optionsString, comboboxStrings.blankIcon, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
 		optionsLayoutDefaultIconsSetValues();
 
 		//Fill Comboboxes for DefaultSymbols with icons
 		//Default Symbol
 		var optionsString = "[" + _("Default Symbol") + ":]";
 		optionsString += ";/" + _("Default Symbol") + "/" + (previewLink + "/images/icons/various.png").replace(/\//g, "\\");
-		//Inbuilt Symbols
-		optionsString += ";[" + _("Inbuilt Symbols") + ":]";
-		inbuiltSymbols.forEach(function(inbuiltSymbol){
-			if (inbuiltSymbol != "") {
-				optionsString += ";" + ("./images/symbols/" + inbuiltSymbol).replace(/\//g, "\\") + "/" + inbuiltSymbol.replace(/\//g, "\\");
-			}
-		});
-		//User Symbols
-		var imagenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/usersymbols") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagenames.push("[" + imagesDir.dirnameBS + ":]");
-				imagesDir.files.forEach(function(file){
-					if (file.filenameBS.toLowerCase().endsWith(".png") || file.filenameBS.toLowerCase().endsWith(".jpeg") || file.filenameBS.toLowerCase().endsWith(".jpg") || file.filenameBS.toLowerCase().endsWith(".gif") || file.filenameBS.toLowerCase().endsWith(".svg") || file.filenameBS.toLowerCase().endsWith(".svg+xml")){
-						imagenames.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS);
-					}
-				});
-			}
-		});
-		if (imagenames.length > 0){
-			optionsString += ";[" + _("User Symbols") + ":]";
-			imagenames.forEach(function(option){
-				optionsString += ";" + option;
-			});
-		}
-		enhanceTextInputToCombobox('.optionsLayoutDefaultSymbols', optionsString, true);
+		enhanceTextInputToCombobox('.optionsLayoutDefaultSymbols', [optionsString, comboboxStrings.blankIcon, comboboxStrings.inbuiltSymbols, comboboxStrings.userSymbols], true);
 		optionsLayoutDefaultSymbolsSetValues();
 				
 		//Fill Combobox for fontFamily with fonts
 		//Default Font
 		var optionsString = "[" + _("Default Font") + ":]";
 		optionsString += ";/" + _("Default Font") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\");
-		//Inbuilt Fonts
-		optionsString += ";[Sans-Serif:]";
-		optionsString += ";Frutiger, \"Frutiger Linotype\", Univers, Calibri, \"Gill Sans\", \"Gill Sans MT\", \"Myriad Pro\", Myriad, \"DejaVu Sans Condensed\", \"Liberation Sans\", \"Nimbus Sans L\", Tahoma, Geneva, \"Helvetica Neue\", Helvetica, Arial, sans-serif/Helvetica, Arial/.\\fonts\\font_arial.png";
-		optionsString += ";Corbel, \"Lucida Grande\", \"Lucida Sans Unicode\", \"Lucida Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Liberation Sans\", Verdana, \"Verdana Ref\", sans-serif/Verdana/.\\fonts\\font_verdana.png";
-		optionsString += ";\"Segoe UI\", Candara, \"Bitstream Vera Sans\", \"DejaVu Sans\", \"Bitstream Vera Sans\", \"Trebuchet MS\", Verdana, \"Verdana Ref\", sans-serif/Trebuchet/.\\fonts\\font_trebuchet.png";
-		optionsString += ";[Serif:]";
-		optionsString += ";Cambria, \"Hoefler Text\", Utopia, \"Liberation Serif\", \"Nimbus Roman No9 L Regular\", Times, \"Times New Roman\", serif/Times New Roman/.\\fonts\\font_times.png";
-		optionsString += ";Constantia, \"Lucida Bright\", Lucidabright, \"Lucida Serif\", Lucida, \"DejaVu Serif\", \"Bitstream Vera Serif\", \"Liberation Serif\", Georgia, serif/Georgia/.\\fonts\\font_georgia.png";
-		optionsString += ";\"Palatino Linotype\", Palatino, Palladio, \"URW Palladio L\", \"Book Antiqua\", Baskerville, \"Bookman Old Style\", \"Bitstream Charter\", \"Nimbus Roman No9 L\", Garamond, \"Apple Garamond\", \"ITC Garamond Narrow\", \"New Century Schoolbook\", \"Century Schoolbook\", \"Century Schoolbook L\", Georgia, serif/Garamond/.\\fonts\\font_garamond.png";
-		optionsString += ";[Fantasy:]";
-		optionsString += ";Impact, Haettenschweiler, \"Franklin Gothic Bold\", Charcoal, \"Helvetica Inserat\", \"Bitstream Vera Sans Bold\", \"Arial Black\", fantasy, sans-serif/Impact/.\\fonts\\font_impact.png";
-		optionsString += ";[Cursive:]";
-		optionsString += ";\"Comic Sans\", \"Comic Sans MS\", \"Chalkboard\", \"ChalkboardSE-Regular\", cursive, sans-serif/Comic Sans/.\\fonts\\font_comic.png";
-		optionsString += ";[Monospace:]";
-		optionsString += ";Consolas, \"Andale Mono WT\", \"Andale Mono\", \"Lucida Console\", \"Lucida Sans Typewriter\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Liberation Mono\", \"Nimbus Mono L\", Monaco, \"Courier New\", Courier, monospace/Courier/.\\fonts\\font_courier.png";
-		//User Fonts
-		var userfonts = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userfonts") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".otf") || filename.endsWith(".ttf") || filename.endsWith(".woff") || filename.endsWith(".woff2") || filename.endsWith(".eot")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_font.png";
-						userfonts.push(file.filenameBS + "@" + ".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-			}
-		});
-		if (userfonts.length > 0){
-			optionsString += ";[" + _("User Fonts") + ":]";
-			userfonts.forEach(function(userfont){
-				optionsString += ";" + userfont;
-			});
-		}
-		enhanceTextInputToCombobox('.optionsFontFamily', optionsString, false, onChange);
+		enhanceTextInputToCombobox('.optionsFontFamily', [optionsString, comboboxStrings.inbuiltFonts, comboboxStrings.userFonts], false, onChange);
 		
 		//Fill Selectbox for Export Selected Views
 		$('#optionsBackupRestoreExportViewsSelectedSelection').empty().append("<option disabled selected value>" + _("Select view") + "</option>");
