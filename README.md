@@ -1829,6 +1829,7 @@ This device has some special predefined size- and display-settings to show a tex
   ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+* (sbormann) You can now adjust the background color and transparency of popup.
 * (sbormann) Added TOC to readme.
 
 ### 2.2.0 (2023-03-23)

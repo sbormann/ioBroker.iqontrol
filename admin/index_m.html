@@ -67,6 +67,7 @@
 		.float-left { float: left !important; margin-left: 9px !important; }
 		@keyframes marked { from {background-color: yellow;} to {background-color: unset;} }
 		tr.marked td { animation: marked 5s linear; }
+		span.small{ font-size:xx-small; }
 	</style>
 </head>
 
@@ -180,7 +181,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Views ++++++++++ -->
-			<div id="tabViews"    class="col s12 page">
+			<div id="tabViews" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="views.png"  class="headingIcon">
@@ -226,7 +227,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Devices ++++++++++ -->
-			<div id="tabDevices"    class="col s12 page">
+			<div id="tabDevices" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="devices.png"  class="headingIcon">
@@ -324,7 +325,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Toolbar ++++++++++ -->
-			<div id="tabToolbar"    class="col s12 page">
+			<div id="tabToolbar" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="toolbar.png"  class="headingIcon">
@@ -499,7 +500,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Images ++++++++++ -->
-			<div id="tabImages"    class="col s12 page">
+			<div id="tabImages" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="images.png"  class="headingIcon">
@@ -585,7 +586,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Lists ++++++++++ -->
-			<div id="tabLists"    class="col s12 page">
+			<div id="tabLists" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="lists.png"  class="headingIcon">
@@ -646,7 +647,7 @@
 			</div>
 
 			<!-- ++++++++++ TAB: Options ++++++++++ -->
-			<div id="tabOptions"    class="col s12 page">
+			<div id="tabOptions" class="col s12 page">
 				<div class="row">
 					<div class="col s12">
 						<img src="options.png"  class="headingIcon">
@@ -2023,6 +2024,27 @@
 							</div>
 						</div>
 					</li>
+					<!-- ---------- Options: Popup ---------- -->
+					<li>
+						<div class="collapsible-header">
+							<i class="material-icons">expand_more</i><h6 class="translate">Popup:</h6>
+						</div>
+						<div class="collapsible-body">
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Popup:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutPopupBackgroundColor" placeholder="rgba(255,255,255,0.95)" />
+									<label for="optionsLayoutPopupBackgroundColor" class="translate">Popup Background Color:</label>
+									<span class="helper-text"></span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
+						</div>
+					</li>
 					<!-- ---------- Options: Dark Mode ---------- -->
 					<li>
 						<div class="collapsible-header">
@@ -2570,6 +2592,19 @@
 									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col s12">
+									<p class="translate sub-title">Popup:</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s12 m6 l4">
+									<input class="value MaterializeColorPicker validate validateOnlyError" type="text" id="optionsLayoutColorModeDarkPopupOverlayColor" placeholder="rgba(0,0,0,0.4)" />
+									<label for="optionsLayoutColorModeDarkPopupOverlayColor" class="translate">Popup Overlay Color:</label>
+									<span class="helper-text translate">Ensure to use transparency!</span>
+									<a class="inputClear waves-effect waves-light btn-small btn-floating" data-default=""><i class="material-icons">clear</i></a>
+								</div>
+							</div>
 						</div>
 					</li>
 					<!-- ---------- Options: Passphrase Protection ---------- -->
@@ -2943,65 +2978,113 @@
                     </div>
                 </div>
 				<div class="row">
-					<div class="col s12">
-						<h6 class="sub-title">
-							<a class="btn-floating btn-small waves-effect waves-light" href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#description-of-roles-and-associated-states" target="_blank"><i class="material-icons">live_help</i></a>
-							<span class="translate">Select Role</span>:
-						</h6>
+					<div class="col s12 tabcontainer">
+					  <ul class="tabs">
+						<li class="tab"><a href="#tabDialogDeviceEditRole" class="translate active">Role</a></li>
+						<li class="tab"><a href="#tabDialogDeviceEditStates" class="translate">States</a></li>
+						<li class="tab"><a href="#tabDialogDeviceEditOptions" class="translate">Options</a></li>
+						<li class="tab"><a href="#tabDialogDeviceEditTile" class="translate">Tile</a></li>
+						<li class="tab"><a href="#tabDialogDeviceEditDialog" class="translate">Dialog</a></li>
+					  </ul>
 					</div>
-				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<select class="value icons" name='dialogDeviceEditCommonRole' id='dialogDeviceEditCommonRole'></select>
-						<label for='dialogDeviceEditCommonRole' class="translate"></label>
-						<span class="translate">Role</span>
+					<div id="tabDialogDeviceEditRole" class="col s12">
+						<div class="row">
+							<div class="col s12">
+								<img src="devices.png"  class="headingIcon">
+								<h6 class="translate sub-title heading">Role</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<h6 class="sub-title">
+									<a class="btn-floating btn-small waves-effect waves-light" href="https://github.com/sbormann/ioBroker.iqontrol/blob/master/README.md#description-of-roles-and-associated-states" target="_blank"><i class="material-icons">live_help</i></a>
+									<span class="translate">Select Role</span>:
+								</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<select class="value icons" name='dialogDeviceEditCommonRole' id='dialogDeviceEditCommonRole'></select>
+								<label for='dialogDeviceEditCommonRole' class="translate"></label>
+								<span class="translate">Role</span>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<h6 class="translate sub-title">Set Corresponding States</h6>
+					<div id="tabDialogDeviceEditStates" class="col s12">
+						<div class="row">
+							<div class="col s12">
+								<img src="devices.png"  class="headingIcon">
+								<h6 class="translate sub-title heading">States</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<h6 class="translate sub-title">Set Corresponding States</h6>
+							</div>
+						</div>
+						<div class="col s12 scrollableTable wide" id="tableDialogDeviceEditStates">
+							<div class="col s12 m12 l12">
+								<table class="table-values highlight" style="width: 90%;">
+									<thead>
+										<tr>
+											<th data-name="state" class="translate">State</th>
+											<th data-name="description" class="hideCol" style="display:none;" data-tdstyle="display:none;">Description</th>
+											<th data-name="groupName" class="hideCol" style="display:none;" data-tdstyle="display:none;">Group Name</th>
+											<th data-name="arrayKeys" class="hideCol" style="display:none;" data-tdstyle="display:none;">Default Array Keys</th>
+											<th data-name="userDefined" data-type="checkbox" class="hideCol" style="display:none;" data-tdstyle="display:none;">userDefined</th>
+											<th data-name="commonType" data-type="select" data-options="string/String;icon/Icon;color/Color;url/URL;view/View;array/Array" class="translate">Type</th>
+											<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calculation" class="translate">Role</th>
+											<th data-name="value" class="translate">Value</th>
+											<th data-buttons="edit openCustom" style="width:100px;"></th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="col s12 scrollableTable wide" id="tableDialogDeviceEditStates">
-					<div class="col s12 m12 l12">
-						<table class="table-values highlight" style="width: 90%;">
-							<thead>
-								<tr>
-									<th data-name="state" class="translate">State</th>
-									<th data-name="description" class="hideCol" style="display:none;" data-tdstyle="display:none;">Description</th>
-									<th data-name="groupName" class="hideCol" style="display:none;" data-tdstyle="display:none;">Group Name</th>
-									<th data-name="arrayKeys" class="hideCol" style="display:none;" data-tdstyle="display:none;">Default Array Keys</th>
-									<th data-name="userDefined" data-type="checkbox" class="hideCol" style="display:none;" data-tdstyle="display:none;">userDefined</th>
-									<th data-name="commonType" data-type="select" data-options="string/String;icon/Icon;color/Color;url/URL;view/View;array/Array" class="translate">Type</th>
-									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calculation" class="translate">Role</th>
-									<th data-name="value" class="translate">Value</th>
-									<th data-buttons="edit openCustom" style="width:100px;"></th>
-								</tr>
-							</thead>
-						</table>
+					<div id="tabDialogDeviceEditOptions" class="col s12">
+						<div class="row">
+							<div class="col s12">
+								<img src="devices.png"  class="headingIcon">
+								<h6 class="translate sub-title heading">Options</h6>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleOpenAll"><i class="material-icons">format_line_spacing</i></a>
+								<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleCloseAll"><i class="material-icons">drag_handle</i></a>
+							</div>
+						</div>
+						<div id="dialogDeviceEditOptionsContent">
+						</div>
+						<div class="row">
+							<p><br></p>
+								<a class="waves-effect waves-light btn" id="dialogDeviceEditOptionsExport"><i class="material-icons left">file_download</i><span class="translate">Export Options</span></a> 
+								<a class="waves-effect waves-light btn" id="dialogDeviceEditOptionsImport"><i class="material-icons left">file_upload</i><span class="translate">Import Options</span></a> 
+						</div>
+						<div class="row">
+							<p><br></p>
+							<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).<br>
+							<span class="translate">Note on the data points BACKGROUND_VIEW/URL/HTML: Only one of the three data points can be used at a time. In descending order, first BACKGROUND_VIEW, then BACKGROUND_URL and finally BACKGROUND_HTML is checked for validity and the first valid entry is displayed.</span>
+						</div>
 					</div>
-				</div>
-				<br><br>
-				<div class="row">
-					<div class="divider"></div>
-					<div class="col s12">
-						<h6 class="translate sub-title">Options:</h6>
-						<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleOpenAll"><i class="material-icons">format_line_spacing</i></a>
-						<a class="btn-floating btn-small" id="dialogDeviceEditOptionsContentCollapsibleCloseAll"><i class="material-icons">drag_handle</i></a>
+					<div id="tabDialogDeviceEditTile" class="col s12">
+						<div class="row">
+							<div class="col s12">
+								<img src="devices.png"  class="headingIcon">
+								<h6 class="translate sub-title heading">Tile</h6>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div id="dialogDeviceEditOptionsContent">
-				</div>
-				<div class="row">
-					<p><br></p>
-						<a class="waves-effect waves-light btn" id="dialogDeviceEditOptionsExport"><i class="material-icons left">file_download</i><span class="translate">Export Options</span></a> 
-						<a class="waves-effect waves-light btn" id="dialogDeviceEditOptionsImport"><i class="material-icons left">file_upload</i><span class="translate">Import Options</span></a> 
-				</div>
-				<div class="row">
-					<p><br></p>
-					<span class="translate">You can use variables in image-filenames</span> (<a href="https://github.com/sbormann/ioBroker.iqontrol#icons-and-background-images" target="_blank"><span class="translate">see here</span> <i class="material-icons tiny">live_help</i></a>).<br>
-					<span class="translate">Note on the data points BACKGROUND_VIEW/URL/HTML: Only one of the three data points can be used at a time. In descending order, first BACKGROUND_VIEW, then BACKGROUND_URL and finally BACKGROUND_HTML is checked for validity and the first valid entry is displayed.</span>
-				</div>
+					<div id="tabDialogDeviceEditDialog" class="col s12">
+						<div class="row">
+							<div class="col s12">
+								<img src="devices.png"  class="headingIcon">
+								<h6 class="translate sub-title heading">Dialog</h6>
+							</div>
+						</div>
+					</div>
+				  </div>
             </div>
             <div class="modal-footer">
                 <a class="modal-action waves-effect waves-green btn btn-preview float-left"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>
@@ -3020,7 +3103,7 @@
 						<h6 class="title"><span class="translate">Edit Constant:</span> <span id="dialogDeviceEditStateConstantName"></span></h6>
 					</div>
                     <div class="input-field col s12">
-						<textarea id="dialogDeviceEditStateConstantTextarea" class="materialize-textarea" style="min-height: 85% !important; max-height: 85% !important; overflow-y: scroll; margin: 0px;"></textarea>
+						<textarea id="dialogDeviceEditStateConstantTextarea" class="materialize-textarea" style="min-height: 85% !important; max-height: 85% !important; overflow-y: scroll; margin: 0px; border: 2px solid rgba(128, 128, 128, 0.5);"></textarea>
 						<label for="dialogDeviceEditStateConstantTextarea"></label>						
                     </div>
                 </div>
@@ -3072,7 +3155,6 @@
 							<thead>
 								<tr>
 									<!-- will be added programatically -->
-									<th data-buttons="edit openCustom delete drag_handle" style="width:50px;"></th>
 								</tr>
 							</thead>
 						</table>
@@ -3351,7 +3433,7 @@
         <div id="dialogSelectId" class="modal modal-fixed-footer" style="z-index:20000 !important;">
             <div class="modal-content">
                 <div class="row">
-                    <div class="col s12 title"></div>
+                    <div class="col s12 title" style="max-height: 50px; overflow-x: hidden;"></div>
                 </div>
                 <div class="row">
                     <div class="col s12 dialog-content" style="max-height: 80%;">

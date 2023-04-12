@@ -1591,6 +1591,9 @@ html.noscroll body {
 
 
 /* ++++++++++ Popup ++++++++++ */ 
+#popup{
+	background: rgba(255, 255, 255, 0.95);
+}
 .ui-popup-screen {
 	-webkit-user-select: none !important;
 	   -moz-user-select: none !important; 

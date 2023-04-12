@@ -2265,10 +2265,10 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"}, 
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	REMOTE_ADDITIONAL_BUTTONS: {
@@ -2281,10 +2281,10 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"}, 
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	REMOTE_HIDE_REMOTE: {
@@ -2328,10 +2328,10 @@ var iQontrolRolesStandardDeviceStates = {
 		commonType: "array",
 		commonRole: "const",
 		defaultArrayCols: [
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	BOOST_STATE: {
@@ -2368,10 +2368,10 @@ var iQontrolRolesStandardDeviceStates = {
 		commonType: "array",
 		commonRole: "const",
 		defaultArrayCols: [
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	INFO_B: {
@@ -2380,10 +2380,10 @@ var iQontrolRolesStandardDeviceStates = {
 		commonType: "array",
 		commonRole: "const",
 		defaultArrayCols: [
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	BATTERY: {
@@ -2483,14 +2483,14 @@ var iQontrolRolesStandardDeviceStates = {
 		commonType: "array",
 		commonRole: "const",
 		defaultArrayCols: [
-			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
+			{col: "name", colheader: "Name", description: "The name ob the element", commonType: "option"}, 
 			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"},
 			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	},
 	ADDITIONAL_INFO: {
@@ -2502,10 +2502,10 @@ var iQontrolRolesStandardDeviceStates = {
 			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
 			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"},
 			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
-			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
-			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
-			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon", defaultValue: "const"},
+			{col: "icon", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRoleFrom: "icon#commonRole", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state", defaultValue: "linkedState"},
+			{col: "state", colheader: "State " + _("Value"), description: "", commonType: "string", commonRoleFrom: "state#commonRole"}
 		]
 	}
 }
@@ -3596,26 +3596,28 @@ function convertDeviceV3(device){  //No conversion so far
 									break;
 
 									case "icon":
-										newCol = "icon#value"
+										newCol = "icon"
 										newColsElement.col = newCol;
 										newColsElement.colheader = "Icon " + _("Value");
 										newColsElement.commonType = "icon";
+										newColsElement.commonRoleFrom = "icon#commonRole";
 										newColsElement.typicalIconEquivalents = []; //######
 									break;
 
 									case "icon#commonRole":
 										newColsElement.colheader = "Icon " + _("Role");
 										newColsElement.commonType = "commonRole";
-										newColsElement.for = "icon#value";
+										newColsElement.for = "icon";
 										newColsElement.defaultValue = "const";
 										newColsElement.typicalIconEquivalents = []; //######
 									break;
 
 									case "value":
-										newCol = "state#value"
+										newCol = "state"
 										newColsElement.col = newCol;
 										newColsElement.colheader = "State " + _("Value");
 										newColsElement.commonType = "string";
+										newColsElement.commonRoleFrom = "state#commonRole";
 									break;
 
 									case "commonRole":
@@ -3623,7 +3625,7 @@ function convertDeviceV3(device){  //No conversion so far
 										newColsElement.col = newCol;
 										newColsElement.colheader = "State " + _("Role");
 										newColsElement.commonType = "commonRole";
-										newColsElement.for = "state#value";
+										newColsElement.for = "state";
 									break;
 
 									case "halfWidth":
@@ -4950,7 +4952,7 @@ async function load(settings, onChange) {
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
 		var lastGroupName = "";
-		//Make State Readonly and add id for selectId-Dialog
+		//Make State Readonly, add id for selectId-Dialog and convert arrays to string
 		$lines.find('input[data-name]').each(function () {
 			var name = $(this).data('name');
 			if (name === 'state') {
@@ -4966,8 +4968,19 @@ async function load(settings, onChange) {
 			}
 			if (name === 'value') {
 				var stateIndex = $(this).data('index');
+				if(typeof dialogDeviceEditStatesTable[stateIndex].value == 'object'){
+					$(this).addClass('object');
+					$(this).val(JSON.stringify(dialogDeviceEditStatesTable[stateIndex].value));
+				}
 				$(this).prop('id', 'tableDialogDeviceEditStatesValue_' + stateIndex);
-				$(this).on('input change', function(){tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);});
+				$(this).on('input change', function(){
+					if($(this).hasClass('object')){
+						var _stateIndex = $(this).data('index');
+						var valObj = tryParseJSON($(this).val());
+						if(valObj) dialogDeviceEditStatesTable[stateIndex].value = valObj;
+					}
+					tableDialogDeviceEditStatesEnhanceEditCustom(stateIndex);
+				});
 			}
 		});
 		//Collect Views
@@ -5124,11 +5137,12 @@ async function load(settings, onChange) {
 						if ($targetInput.data('materialize-color-picker-initialized')){
 							$targetInput.colorpicker('show');
 						}
-					} else if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //array - open editArray dialog
+					} else if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const' && dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //const + array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
-							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
+							var stateIndex = $('#dialogDeviceEditStateArrayIndex').val();
 							var newVal = {cols: $('#tableDialogDeviceEditStateArray').data('cols'), values: dialogDeviceEditStateArrayTable};
-							dialogDeviceEditStatesTable[stateIndex].value = newVal;
+							//dialogDeviceEditStatesTable[stateIndex].value = newVal;
+							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(newVal)).trigger('change');
 						}, function(){ //init dialog function 
 							$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
 							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
@@ -5156,7 +5170,7 @@ async function load(settings, onChange) {
 						}, function(){ //init dialog function 
 							$('#dialogDeviceEditStateConstantName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
 							$('#dialogDeviceEditStateConstantIndex').val(stateIndex);
-							$('#dialogDeviceEditStateConstantTextarea').val((dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n'));
+							$('#dialogDeviceEditStateConstantTextarea').val(($('#tableDialogDeviceEditStatesValue_' + stateIndex).val() || "").replace(/\\n/g, '\n'));
 							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						});
 					}
