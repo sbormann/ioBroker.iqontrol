@@ -1777,757 +1777,736 @@ var iQontrolRolesStandardDeviceStates = {
 		description: "Defines usualy the main function of device",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	LEVEL: {
 		groupName: "Main",
 		description: "Main function for devices with levels like dimmers",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	TOGGLE: {
 		groupName: "Main",
 		description: "Toggle button for example of a garage door (STATE is used to display the open/close-state)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	CONTROL_MODE: {
 		groupName: "Main",
 		description: "The mode of alarm-systems, thermostats etc.",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	POWER: {
 		groupName: "Main",
 		description: "Powerconsumption to be displayed",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	VOLTAGE: {
 		groupName: "Main",
 		description: "Voltage to be displayed",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BRIGHTNESS: {
 		groupName: "Main",
 		description: "Brightness of a light or motion sensor to be displayed",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SET_VALUE: {
 		groupName: "Main",
 		description: "The value that will be sent when pressing button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	OFF_SET_VALUE: {
 		groupName: "Main",
 		description: "The value that will be sent when leaving button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ENLARGE_TILE: {
 		groupName: "Enlarge Tile",
 		description: "To enlarge the tile programmatically",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	HUE: {
 		groupName: "Color-Mixing",
 		description: "The hue-value of a rgb-lamp",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	LOCK_STATE: {
 		groupName: "Door-Lock",
 		description: "Controls the state of a door-lock (STATE is used to display the open/close-state)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	LOCK_STATE_UNCERTAIN: {
 		groupName: "Door-Lock",
 		description: "If true, the LOCK-STATE will be displayed in italic letters",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	LOCK_OPEN: {
 		groupName: "Door-Lock",
 		description: "Used to open a door completely",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	DIRECTION: {
 		groupName: "Blinds",
 		description: "The actual direction (needs to be configured under options)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	STOP: {
 		groupName: "Blinds",
 		description: "Button to stop the blinds",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	STOP_SET_VALUE: {
 		groupName: "Blinds",
 		description: "Value that will be sent, if the stop button is pressed",
 		commonType: "string",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	UP: {
 		groupName: "Blinds",
 		description: "Button to let the blinds go up (as alternative, if LEVEL does not work)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	UP_SET_VALUE: {
 		groupName: "Blinds",
 		description: "Value that will be sent, if the up button is pressed",
 		commonType: "string",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	DOWN: {
 		groupName: "Blinds",
 		description: "Button to let the blinds go down (as alternative, if LEVEL does not work)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	DOWN_SET_VALUE: {
 		groupName: "Blinds",
 		description: "Value that will be sent, if the down button is pressed",
 		commonType: "string",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	FAVORITE_POSITION: {
 		groupName: "Blinds",
 		description: "Button to let the blinds go to a favorite position (may be the same as LEVEL with corresponding SET_VALUE)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	FAVORITE_POSITION_SET_VALUE: {
 		groupName: "Blinds",
 		description: "Value that will be sent, if the Favorite-Position button is pressed",
 		commonType: "string",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SLATS_LEVEL: {
 		groupName: "Blinds",
 		description: "Position of slats if available",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	CHARGING: {
 		groupName: "Battery",
 		description: "If true, a charging overlay will be shown (use STATE to set the percentage)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	DISCHARGING: {
 		groupName: "Battery",
 		description: "If true, a discharging overlay will be shown (use STATE to set the percentage)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SATURATION: {
 		groupName: "Color-Mixing",
 		description: "The color saturation of a rgb-lamp",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	COLOR_BRIGHTNESS: {
 		groupName: "Color-Mixing",
 		description: "The color brightness of a rgb-w-lamp",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	CT: {
 		groupName: "Color-Mixing",
 		description: "The color temperature of a ww-cw-lamp",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	WHITE_BRIGHTNESS: {
 		groupName: "Color-Mixing",
 		description: "The white brightness of a rgb-w-lamp",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ALTERNATIVE_COLORSPACE_VALUE: {
 		groupName: "Color-Mixing",
 		description: "For lamps that don\'t use the states above (needs to be configured under options!)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	TIME: {
 		groupName: "Date and Time",
 		description: "Time or duration (can be configured in options) - use STATE to show active/inactive state.",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SUBJECT: {
 		groupName: "Date and Time",
 		description: "Subject of the timer that will be displayed",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	RINGING: {
 		groupName: "Date and Time",
 		description: "If true a ringing-overlay will be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	COVER_URL: {
 		groupName: "Media Control",
 		description: "URL of cover-image",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ARTIST: {
 		groupName: "Media Control",
 		description: "Artist to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ALBUM: {
 		groupName: "Media Control",
 		description: "Album title to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	TRACK_NUMBER: {
 		groupName: "Media Control",
 		description: "Acktual track number to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	TITLE: {
 		groupName: "Media Control",
 		description: "Actual title to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	EPISODE: {
 		groupName: "Media Control",
 		description: "Actual Episode to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SEASON: {
 		groupName: "Media Control",
 		description: "Season to be shown",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PREV: {
 		groupName: "Media Control",
 		description: "Button to go to last title",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	NEXT: {
 		groupName: "Media Control",
 		description: "Button to go to next title",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REWIND: {
 		groupName: "Media Control",
 		description: "Button to go fast backward",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	FORWARD: {
 		groupName: "Media Control",
 		description: "Button to go fast forward",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PLAY: {
 		groupName: "Media Control",
 		description: "Button to start (configure options to work together with STATE)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PAUSE: {
 		groupName: "Media Control",
 		description: "Button to pause (configure options to work together with STATE)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	STOP: {
 		groupName: "Media Control",
 		description: "Button to stop (configure options to work together with STATE)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SHUFFLE: {
 		groupName: "Media Control",
 		description: "Control of shuffle",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REPEAT: {
 		groupName: "Media Control",
 		description: "Control of repeat-status (needs to be configured under options)",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	MUTE: {
 		groupName: "Media Control",
 		description: "Button to mute",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	DURATION: {
 		groupName: "Media Control",
 		description: "Duration of actual title",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ELAPSED: {
 		groupName: "Media Control",
 		description: "Elapsed time of actual title - used together with DURATION",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	VOLUME: {
 		groupName: "Media Control",
 		description: "Volume of media",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SOURCE: {
 		groupName: "Media Control",
 		description: "Source of media",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PLAYLIST: {
 		groupName: "Media Control",
 		description: "Actual playlist",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PLAY_EVERYWHERE: {
 		groupName: "Media Control",
 		description: "Button to activate multi-room mode",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	EJECT: {
 		groupName: "Media Control",
 		description: "Button to eject media",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	POWER_SWITCH: {
 		groupName: "Media Control",
 		description: "To power on or off",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_NUMBER: {
 		groupName: "Remote Control",
 		description: "Shows a num-pad (0-9) a returns the corresponding number, if a number is clicked",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_VOLUME_UP: {
 		groupName: "Remote Control",
 		description: "Volume up button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_VOLUME_DOWN: {
 		groupName: "Remote Control",
 		description: "Volume down button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_CH_UP: {
 		groupName: "Remote Control",
 		description: "Channel up button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_CH_DOWN: {
 		groupName: "Remote Control",
 		description: "Channel down button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_PAD_DIRECTION: {
 		groupName: "Remote Control",
 		description: "Shows a trackpad and returns left, right, up, down or ok",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_PAD_BACK: {
 		groupName: "Remote Control",
 		description: "Back button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_PAD_HOME: {
 		groupName: "Remote Control",
 		description: "Home button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_PAD_MENU: {
 		groupName: "Remote Control",
 		description: "Menu button",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_COLOR: {
 		groupName: "Remote Control",
 		description: "Shows four buttons and returns red, green, yellow or blut",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	REMOTE_CHANNELS: {
 		groupName: "Remote Control",
 		description: "An array of channel-buttons",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-				name: {colheader: "Name", description: "", commonType: "string"}, 
-				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
-				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
-				heading: {colheader: "Heading", description: "", commonType: "string"},
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
+			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"}, 
+			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
+			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	REMOTE_ADDITIONAL_BUTTONS: {
 		groupName: "Remote Control",
 		description: "An array of additional buttons",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-				name: {colheader: "Name", description: "", commonType: "string"}, 
-				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
-				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
-				heading: {colheader: "Heading", description: "", commonType: "string"},
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
-	},
-	REMOTE_ADDITIONAL_BUTTONS: {
-		groupName: "Remote Control",
-		description: "",
-		commonType: "string",
-		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: [
+			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
+			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"}, 
+			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
+			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	REMOTE_HIDE_REMOTE: {
 		groupName: "Remote Control",
 		description: "If true the remote section will be hidden",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	SET_TEMPERATURE: {
 		groupName: "Climate",
 		description: "To set the temperature of a thermostat",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	TEMPERATURE: {
 		groupName: "Climate",
 		description: "Actual temperature",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	HUMIDITY: {
 		groupName: "Climate",
 		description: "Actual humidity",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	WINDOW_OPEN_REPORTING: {
 		groupName: "Climate",
 		description: "If true, the thermostat will show a opened window",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	VALVE_STATES: {
 		groupName: "Climate",
 		description: "A list of valves to be displayed",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-				name: {colheader: "Name", description: "", commonType: "string"}, 
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	BOOST_STATE: {
 		groupName: "Climate",
 		description: "Boolean or the remaining time of boost-mode",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	PARTY_TEMPERATURE: {
 		groupName: "Climate",
 		description: "Party-Mode for homematic thermostats",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BADGE: {
 		groupName: "Badge",
 		description: "Value that will be displayed as a badge",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BADGE_COLOR: {
 		groupName: "Badge",
 		description: "Color of badge",
 		commonType: "color",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	INFO_A: {
 		groupName: "Info",
 		description: "An array of additional states to be shown in small in the tile",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	INFO_B: {
 		groupName: "Info",
 		description: "An array of additional states to be shown in small in the tile",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	BATTERY: {
 		groupName: "Indicators",
 		description: "Show empty battery icon",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	UNREACH: {
 		groupName: "Indicators",
 		description: "Show device is unreachable icon",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ERROR: {
 		groupName: "Indicators",
 		description: "Show error icon",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BACKGROUND_VIEW: {
 		groupName: "Tile-Background",
 		description: "Define anoher view as tile background",
 		commonType: "view",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BACKGROUND_URL: {
 		groupName: "Tile-Background",
 		description: "Website or widget as tile background",
 		commonType: "url",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	BACKGROUND_HTML: {
 		groupName: "Tile-Background",
 		description: "HTML-Code to be tile background",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	OVERLAY_INACTIVE_COLOR: {
 		groupName: "Tile-Overlay",
 		description: "Color-Overlay of an inactive tile",
 		commonType: "color",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	OVERLAY_ACTIVE_COLOR: {
 		groupName: "Tile-Overlay",
 		description: "Color-Overlay of an active tile",
 		commonType: "color",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	GLOW_INACTIVE_COLOR: {
 		groupName: "Glow",
 		description: "Color of glow around an inactive tile",
 		commonType: "color",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	GLOW_ACTIVE_COLOR: {
 		groupName: "Glow",
 		description: "Color of glow around an active tile",
 		commonType: "color",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	GLOW_HIDE: {
 		groupName: "Glow",
 		description: "If true, the glow is hidden",
 		commonType: "string",
 		commonRole: "linkedState",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	URL: {
 		groupName: "Dialog",
 		description: "Website or widget to be displayed in dialog",
 		commonType: "url",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	HTML: {
 		groupName: "Dialog",
 		description: "HTML-Code to be displayed in dialog",
 		commonType: "string",
 		commonRole: "const",
-		defaultArrayKeys: {elementOptions:{}, elementStates:{}}
+		defaultArrayCols: []
 	},
 	ADDITIONAL_CONTROLS: {
 		groupName: "Dialog",
 		description: "Additional controls that can be placed on dialog",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-				name: {colheader: "Name", description: "", commonType: "string"}, 
-				hideName: {colheader: "Hide Name", description: "", commonType: "checkbox"}, 
-				caption: {colheader: "Caption (only for Buttons)", description: "", commonType: "string"},
-				heading: {colheader: "Heading", description: "", commonType: "string"},
-				role: {colheader: "Role", description: "", commonType: "select", selectOptions:"/Depending on Datapoint Settings;readonly/Readonly;button/Button (if pressed, it sends its name to the datapoint)"}
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
+			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"},
+			{col: "caption", colheader: "Caption (only for Buttons)", description: "", commonType: "option"},
+			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	},
 	ADDITIONAL_INFO: {
 		groupName: "Dialog",
 		description: "Additional values to be displayed on dialog",
 		commonType: "array",
 		commonRole: "const",
-		defaultArrayKeys: {
-			elementOptions: {
-				name: {colheader: "Name", description: "", commonType: "string"}, 
-			},
-			elementStates: {
-				icon: {colheader: "Icon", description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
-				state: {colheader: "State", description: "", commonType: "string", commonRole: "linkedState"},
-			},
-		}
+		defaultArrayCols: [
+			{col: "name", colheader: "Name", description: "", commonType: "option"}, 
+			{col: "hideName", colheader: "Hide Name", description: "", commonType: "checkbox"},
+			{col: "heading", colheader: "Heading", description: "", commonType: "option"},
+			{col: "icon#commonRole", colheader: "Icon " + _("Role"), description: "", commonType: "commonRole", for: "icon#value", defaultValue: "const"},
+			{col: "icon#value", colheader: "Icon" + _("Value"), description: "", commonType: "icon", commonRole: "const", typicalIconEquivalents: []},
+			{col: "state#commonRole", colheader: "State " + _("Role"), description: "", commonType: "commonRole", for: "state#value", defaultValue: "linkedState"},
+			{col: "state#value", colheader: "State " + _("Value"), description: "", commonType: "string"}
+		]
 	}
 }
 
@@ -2575,7 +2554,7 @@ for(iQontrolRole in iQontrolRoles){
 			groupName: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].groupName || "Additional States",
 			description: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].description || "",
 			commonType: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].commonType || "string",
-			defaultArrayKeys: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].defaultArrayKeys || [],
+			defaultArrayCols: iQontrolRolesStandardDeviceStates[state] && iQontrolRolesStandardDeviceStates[state].defaultArrayCols || [],
 			userDefined: false
 		}
 		iQontrolRoles[iQontrolRole].deviceStatesDisplaySequence.push(state);
@@ -2794,6 +2773,7 @@ function initSelectId(callback) {
 //Helper-Functions
 function tryParseJSON(jsonString){ //Returns parsed object or false, if jsonString is not valid
     try {
+		if(typeof jsonString == "object") jsonString = JSON.stringify(jsonString);
         var o = JSON.parse(jsonString);
         // Handle non-exception-throwing cases:
         // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
@@ -2861,7 +2841,6 @@ function scrollTo(target, speed, delay){
 		}, delay);
 	})(); //<--End Closure
 }
-
 
 function removeDuplicates(array, ignoreEverythingAfterThisString) { //Removes duplicates from an array
     var seen = [];
@@ -3494,8 +3473,9 @@ async function checkDirExistance(path){
 
 
 //---------- Conversion V3 ---------- 
-function convertConfigV3(config, quiet){  
-	if(!config.configVersion || config.configVersion < 3){
+function convertConfigV3(config, quiet, force){  
+	force = true; quiet = true; //#####################
+	if(force || !config.configVersion || config.configVersion < 3){
 		if(!quiet && confirm(_("You have an outdated Version of your config. It will be converted automatically to the new version. It is recommended to save a backup of the current settings, as it is not possible to switch back to an old version with the converted settings.\n\nCreate Backup now?"))){
 			alert("####### not yet implemented!")
 		}
@@ -3556,6 +3536,136 @@ function convertDeviceV3(device){  //No conversion so far
 	newDevice.nativeHide = device.nativeHide;
 	newDevice.options = device.options;
 	newDevice.states = device.states;
+	newDevice.states.forEach(function(state, stateIndex){
+		if(state.commonRole && state.commonRole == "array" && state.value){ //Array
+			/* 	state.value = 
+				[{"name":"ASDF","hideName":false,"caption":"","heading":"","commonRole":"linkedState","icon":"./images/symbols/media_pad_carat_u.png","role":"","value":"system.adapter.admin.0.uptime","halfWidth":false}, ...]
+				->conversion->
+				{
+					cols: [{col: "name", colheader: "Name", description: "", commonType: "option"},
+						...
+						{col: "state", colheader: "State", description: "", commonType: "string", commonRole: "linkedState"}],
+
+					values: [{name: "ASDF", ..., state: "system.adapter.admin.0.uptime"}, ...]
+				}
+			*/
+			var arrayOld = tryParseJSON(state.value);
+			var arrayNew = {cols: [], values: []};
+			if(Array.isArray(arrayOld) && arrayOld[0] && typeof arrayOld[0] == "object" && arrayOld[0].cols && Array.isArray(arrayOld[0].cols) && arrayOld[0].values && Array.isArray(arrayOld[0].values)){ //no conversion necessary
+				arrayNew = arrayOld;
+			} else { //conversion to V3 Array
+				arrayOld && arrayOld.forEach(function(oldRow){
+					var newValuesRow = {};
+					if(typeof oldRow == "object" && !Array.isArray(oldRow)){
+						if(oldRow.icon){
+							oldRow["icon#commonRole"] = "const";
+						}
+						for(oldCol in oldRow){ // oldCol = name, hiddenName, caption, heading, icon, value and ##### halfWidth #####
+							var oldColValue = oldRow[oldCol];
+							if(oldColValue && oldColValue != ""){
+								var newCol = oldCol;
+								var newColsElement = {
+									col: oldCol,
+									colheader: oldCol,
+									description: "",
+									commonType: "option",
+									defaultValue: ""
+								};
+								switch(oldCol){
+									case "name":
+										newColsElement.colheader = "Name";
+									break;
+
+									case "hideName":
+										newColsElement.colheader = "Hide Name";
+										newColsElement.commonType = "checkbox";
+									break;
+
+									case "caption":
+										newColsElement.colheader = "Caption (only for Buttons)";
+									break;
+
+									case "heading":
+										newColsElement.colheader = "Heading";
+									break;
+
+									case "role":
+										newCol = "method";
+										newColsElement.col = newCol;
+										newColsElement.colheader = "Method";
+									break;
+
+									case "icon":
+										newCol = "icon#value"
+										newColsElement.col = newCol;
+										newColsElement.colheader = "Icon " + _("Value");
+										newColsElement.commonType = "icon";
+										newColsElement.typicalIconEquivalents = []; //######
+									break;
+
+									case "icon#commonRole":
+										newColsElement.colheader = "Icon " + _("Role");
+										newColsElement.commonType = "commonRole";
+										newColsElement.for = "icon#value";
+										newColsElement.defaultValue = "const";
+										newColsElement.typicalIconEquivalents = []; //######
+									break;
+
+									case "value":
+										newCol = "state#value"
+										newColsElement.col = newCol;
+										newColsElement.colheader = "State " + _("Value");
+										newColsElement.commonType = "string";
+									break;
+
+									case "commonRole":
+										newCol = "state#commonRole"
+										newColsElement.col = newCol;
+										newColsElement.colheader = "State " + _("Role");
+										newColsElement.commonType = "commonRole";
+										newColsElement.for = "state#value";
+									break;
+
+									case "halfWidth":
+										//##########
+										newCol = null;
+									break;
+								}
+								if(newCol && !arrayNew.cols.find(function(element){return element.col && element.col == newCol})){ //col isn't yet listed
+									arrayNew.cols.push(newColsElement);
+								}
+								if(newCol) newValuesRow[newCol] = oldColValue || "";						
+							}
+						}
+						arrayNew.values.push(newValuesRow);
+					}
+				});
+			}	
+			//Re-Check with defaultArrayCols
+			if(iQontrolRolesStandardDeviceStates[state.state] && iQontrolRolesStandardDeviceStates[state.state].defaultArrayCols){
+				defaultArrayCols = iQontrolRolesStandardDeviceStates[state.state].defaultArrayCols;
+				//find missing cols
+				defaultArrayCols.forEach(function(defaultArrayCol){
+					if(!arrayNew.cols.find(function(element){ return element.col == defaultArrayCol.col; })){
+						arrayNew.cols.push(defaultArrayCol);
+					}
+				});
+				//sort
+				arrayNew.cols.sort(function(a, b) {
+				  	return defaultArrayCols.findIndex(function(element){ return element.col == a.col; }) - defaultArrayCols.findIndex(function(element){ return element.col == b.col; })
+				});
+				//add extra cols at the end
+				var extraCols = [];
+				arrayNew.cols.forEach(function(newCol){
+					if(!defaultArrayCols.find(function(element){ return element.col == newCol.col; })) extraCols.push(newCol);
+				})
+				arrayNew.cols = arrayNew.cols.concat(extraCols);
+			}
+			state.value = arrayNew;
+			state.commonType = "array";
+			state.commonRole = "const";
+		} 
+	});
 	return newDevice;
 } 
 
@@ -3666,6 +3776,36 @@ async function load(settings, onChange) {
 
 	//Init Colorpickers
 	initColorpickers(onChange);
+
+	//Enable insert variable in dialogDeviceEditStateConstant
+	$('#dialogDeviceEditStateConstantSelectId').on('click', function(){
+		$('#dialogSelectId').data('selectidfor', 'dialogDeviceEditStateConstantVariable');
+		initSelectId(function (sid) {
+			sid.selectId('show', $('#dialogDeviceEditStateConstantVariable').val(), {type: 'state'}, function (newId) {
+				if (newId) {
+					$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+				}
+			});
+		});
+	});
+	$('#dialogDeviceEditStateConstantVariable, #dialogDeviceEditStateConstantNoUnit').on('change', function(){
+		if($('#dialogDeviceEditStateConstantNoUnit').prop('checked')){
+			$('#dialogDeviceEditStateConstantVariableSpanBefore').html('{[');
+			$('#dialogDeviceEditStateConstantVariableSpanAfter').html(']}');
+		} else {
+			$('#dialogDeviceEditStateConstantVariableSpanBefore').html('{');
+			$('#dialogDeviceEditStateConstantVariableSpanAfter').html('}');
+		}
+	}).trigger('change');
+	$('#dialogDeviceEditStateConstantInsert').on('click', function(){
+		$textarea = $('#dialogDeviceEditStateConstantTextarea');
+		var cursorPosition = $textarea.get(0).selectionStart;
+		let stringActual = $textarea.val();
+		var stringToInsert = $('#dialogDeviceEditStateConstantVariable').val();
+		if($('#dialogDeviceEditStateConstantNoUnit').prop('checked')) stringToInsert = "[" + stringToInsert + "]";
+		stringToInsert = "{" + stringToInsert + "}";
+		$textarea.val(stringActual.slice(0, cursorPosition) + stringToInsert + stringActual.slice(cursorPosition));
+	});
 
 	//Init CodeMirror
 	dialogCodeEditorCodeMirror = CodeMirror.fromTextArea($("#dialogCodeEditorCode")[0], {
@@ -4778,7 +4918,7 @@ async function load(settings, onChange) {
 					'description': 		state.description || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].description  || "", 
 					'commonType': 		state.commonType || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].commonType || "string",
 					'commonRole': 		state.commonRole || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].commonRole || "linkedState",
-					'arrayKeys': 		state.arrayKeys || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].defaultArrayKeys || {elementOptions: {}, elementStates: {}},
+					'arrayKeys': 		state.arrayKeys || iQontrolRoles[dialogDeviceEditCommonRole].deviceStates && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName] && iQontrolRoles[dialogDeviceEditCommonRole].deviceStates[stateName].defaultArrayCols || {elementOptions: {}, elementStates: {}},
 					'value':			state.value || ""
 				};
 				dialogDeviceEditStatesTable.push(tableRow);
@@ -4857,7 +4997,7 @@ async function load(settings, onChange) {
 						if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'){//const
 							if (dialogDeviceEditStatesTable[stateIndex].commonType == "color"){ //const + COLOR - init ColorPicker
 								//Hide selectbox handle
-								$targetInput.next("a").prop('style','display: none !important;');
+								$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
 								//Init colorpicker
 								var oldVal = $targetInput.val();
 								if (!$targetInput.data('materialize-color-picker-initialized')){
@@ -4890,11 +5030,11 @@ async function load(settings, onChange) {
 								$targetInput.css('border-right', '0px solid black');
 								if (dialogDeviceEditStatesTable[stateIndex].commonType == "url"){ //const + URL - init Combobox
 									//Show selectbox handle
-									$targetInput.next("a").prop('style','');
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','');
 									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, ["/" + _("(None)"), comboboxStrings.inbuiltWidgets, comboboxStrings.userWidgets], true, dialogDeviceEditStatesWidgetSelected);
 								} else if (dialogDeviceEditStatesTable[stateIndex].commonType == "view"){ //const + VIEW - init Combobox
 									//Show selectbox handle
-									$targetInput.next("a").prop('style','');
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','');
 									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, viewIds, false, function(value){
 										if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
 											if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
@@ -4904,7 +5044,7 @@ async function load(settings, onChange) {
 									});	
 								} else if (dialogDeviceEditStatesTable[stateIndex].commonType == "icon"){ //const + ICON - init Combobox
 									//Show selectbox handle
-									$targetInput.next("a").prop('style','');
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','');
 									//Create Icon List
 									var iconsString = "[" + _("Default Icon") + ":]";
 						/* ######	iconsString += ";/" + _("(Default)") + "/" + (previewLink + "/" + ((optionsLayoutDefaultIcons[dialogDeviceEditCommonRole] && optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry]) || (optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole] && optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole][entry]) || "")).replace(/\//g, "\\");
@@ -4926,12 +5066,12 @@ async function load(settings, onChange) {
 									enhanceTextInputToCombobox('#tableDialogDeviceEditStatesValue_' + _stateIndex, ["/", comboboxStrings.blankIcon, comboboxStrings.progressbars, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
 								} else { //const + STRING
 									//Hide selectbox handle
-									$targetInput.next("a").prop('style','display: none !important;');
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
 								}
 							}
 						} else { //LinkedState or Calculation
 							//Hide selectbox handle
-							$targetInput.next("a").prop('style','display: none !important;');
+							$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
 							//Destroy colorpicker
 							if ($targetInput.data('materialize-color-picker-initialized')){
 								$targetInput.colorpicker('destroy');
@@ -4952,7 +5092,8 @@ async function load(settings, onChange) {
 			if (command === 'edit') {
 				$(this).on('click', function () {
 					var stateIndex = $(this).data('index');
-					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
+					var stateValue = (dialogDeviceEditStatesTable[stateIndex].value || "");
+					if(typeof stateValue == "string") stateValue = stateValue.replace(/\\n/g, '\n');
 					if (dialogDeviceEditStatesTable[stateIndex].commonRole == 'const'
 					&& dialogDeviceEditStatesTable[stateIndex].commonType == 'url'
 					&& (stateValue.indexOf("./images/widgets/") == 0 || stateValue.indexOf("./../iqontrol.meta/userimages/userwidgets/") == 0)){ //const + URL + WIDGET - open Widget dialog				
@@ -4986,24 +5127,18 @@ async function load(settings, onChange) {
 					} else if (dialogDeviceEditStatesTable[stateIndex].commonType == 'array') { //array - open editArray dialog
 						initDialog('dialogDeviceEditStateArray', function(){ //save dialog
 							var stateIndex =   $('#dialogDeviceEditStateArrayIndex').val();
-							$('#tableDialogDeviceEditStatesValue_' + stateIndex).val(JSON.stringify(dialogDeviceEditStateArrayTable)).trigger('change');
+							var newVal = {cols: $('#tableDialogDeviceEditStateArray').data('cols'), values: dialogDeviceEditStateArrayTable};
+							dialogDeviceEditStatesTable[stateIndex].value = newVal;
 						}, function(){ //init dialog function 
 							$('#dialogDeviceEditStateArrayName').html(dialogDeviceEditStatesTable[stateIndex].state || "");
 							var _viewIndex =   $('#dialogDeviceEditViewIndex').val();
 							var _deviceIndex = $('#dialogDeviceEditDeviceIndex').val();
-							var showAdditionalCols = ""; //########### switch to defaultArrayKeys
-							if (dialogDeviceEditStatesTable[stateIndex].state == "VALVE_STATES") showAdditionalCols = "";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_A") showAdditionalCols = "icon";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "INFO_B") showAdditionalCols = "icon";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_CONTROLS") showAdditionalCols = "icon role caption heading halfWidth";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "ADDITIONAL_INFO") showAdditionalCols = "";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_CHANNELS") showAdditionalCols = "hideName icon";
-							if (dialogDeviceEditStatesTable[stateIndex].state == "REMOTE_ADDITIONAL_BUTTONS") showAdditionalCols = "hideName icon";
-							if (dialogDeviceEditStatesTable[stateIndex].state.indexOf("INFO_") == 0) $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', false); else $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName + ".devices." + _deviceIndex);
 							$('#dialogDeviceEditStateArrayIndex').val(stateIndex);
-							$('#dialogDeviceEditStateArrayShowAdditionalCols').val(showAdditionalCols);
-							dialogDeviceEditStateArrayTable = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || [];
-							values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
+							dialogDeviceEditStateArrayValue = tryParseJSON(dialogDeviceEditStatesTable[stateIndex].value) || {cols: [], values: []};
+							$('#tableDialogDeviceEditStateArray').data('cols', dialogDeviceEditStateArrayValue.cols || []);
+							dialogDeviceEditStateArrayTable = dialogDeviceEditStateArrayValue.values || [];
+							if (dialogDeviceEditStatesTable[stateIndex].state.indexOf("INFO_") == 0) $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', false); else $('#dialogDeviceEditStateArray .btn-preview').data('preview-open-dialog', "iqontrol." + instance + ".Views." + views[_viewIndex].commonName + ".devices." + _deviceIndex); //########
+							dialogDeviceEditStateArrayCreateCols();
 						});
 					} else if(dialogDeviceEditStatesTable[stateIndex].commonRole == 'linkedState'){ //linkedState - open selectID dialog
 						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStatesValue_' + stateIndex);
@@ -5095,59 +5230,138 @@ async function load(settings, onChange) {
 		var $div = $('#tableDialogDeviceEditStateArray');
 		var $table = $div.find('.table-values');
 		var $lines = $table.find('.table-lines');
-		var showAdditionalCols = $('#dialogDeviceEditStateArrayShowAdditionalCols').val();
-		//Hide Heading / Type / Icon / Role
-		$table.find('th[data-name]').each(function () {
-			$(this).show(0);
-			var name = $(this).data('name');
-			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
-				$(this).hide(0);
-			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
-				$(this).hide(0);
-			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
-				$(this).hide(0);
-			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
-				$(this).hide(0);
-			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
-				$(this).hide(0);
-			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
-				$(this).hide(0);
-			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
-				$(this).hide(0);
-			}
-		});
-		if (showAdditionalCols.indexOf('heading') == -1) $('.dialogDeviceEditStateArrayInfoHeading').hide(); else $('.dialogDeviceEditStateArrayInfoHeading').show();
-		$lines.find('.values-input[data-name]').each(function () {
-			var name = $(this).data('name');
-			if (name === 'commonRole' && showAdditionalCols.indexOf('commonRole') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'icon' && showAdditionalCols.indexOf('icon') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'role' && showAdditionalCols.indexOf('role') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'caption' && showAdditionalCols.indexOf('caption') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'heading' && showAdditionalCols.indexOf('heading') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'hideName' && showAdditionalCols.indexOf('hideName') == -1) {
-				$(this).parents('td').hide(0);
-			} else if (name === 'halfWidth' && showAdditionalCols.indexOf('halfWidth') == -1) {
-				$(this).parents('td').hide(0);
-			}
-		});
 		//Add id for selectId-Dialog
-		$lines.find('input[data-name]').each(function () {
+		$lines.find('input[data-name]').each(function() {
 			var name = $(this).data('name');
-			if (name === 'value') {
-				var arrayIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + arrayIndex);
-				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);});
+			var arrayIndex = $(this).data('index');
+			var nameEscaped = escape(name).replace(/\%/g, '_'); // `%` is not allowed in jquery-selectors...
+			var $th = $table.find('thead tr th').filter(function(){ return $(this).data('name') == name; }); //[data-selector] won't work for attributes setted by .data('','')
+			var commonType = $th.data('commonType');
+			if (commonType == 'string' || commonType == 'icon' || commonType == 'color' || commonType == 'view' || commonType == 'url') {
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayValue_' + nameEscaped + '_' + arrayIndex);		
+				$(this).css('width', 'calc(100% - 75px)')
+				.after('<a data-name="' + nameEscaped + '" data-index="' + arrayIndex + '" data-command="openCustom" class="values-buttons btn-floating btn-small waves-effect waves-light"><i class="material-icons">build</i></a>')
+				.after('<a data-name="' + nameEscaped + '" data-index="' + arrayIndex + '" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light"><i class="material-icons">edit</i></a>');
+				$(this).on('input change', function(){tableDialogDeviceEditStateArrayEnhanceEditCustom(nameEscaped, arrayIndex);});
 			}
 		});
-		//Add images to Selectbox for Icons (Symbols)
-		if (showAdditionalCols.indexOf('icon') != -1) {
-			enhanceTextInputToCombobox('#tableDialogDeviceEditStateArray input[data-name="icon"]', ["/" + _("(Default)") + "/" + (previewLink + "/images/icons/blank.png").replace(/\//g, "\\"), comboboxStrings.inbuiltSymbols, comboboxStrings.userSymbols], true);
-		}
+		//Collect Views
+		var viewIds = ["/"];
+		views.forEach(function(element){ viewIds.push(adapter + "." + instance + ".Views." + element.commonName + "/" + element.commonName); });	
+		//Show or hide selecboxes and colorpickers
+		$lines.find('select[data-name]').each(function() {
+			var name = $(this).data('name');
+			var arrayIndex = $(this).data('index');
+			var nameEscaped = escape(name).replace(/\%/g, '_'); // `%` is not allowed in jquery-selectors...
+			var $th = $table.find('thead tr th').filter(function(){ return $(this).data('name') == name; }); //[data-selector] won't work for attributes setted by .data('','')
+			var commonType = $th.data('commonType');
+			var commonRole = $(this).val();
+			var that = this;
+			if(commonType == "commonRole"){
+				$(this).on('change', function(){
+					(function(){ //Closure--> (everything declared inside keeps its value as ist is at the time the function is created)
+						var _that = that;
+						var dataFor = $th.data('for');
+						var $targetInput = dataFor && dataFor != "" && $(_that).parents('tr').find('input').filter(function(){ return $(this).data('name') == dataFor; }); //[data-selector] won't work for attributes setted by .data('','');
+						var targetArrayIndex = $targetInput.data('index'); 
+						var targetNameEscaped = escape($targetInput.data('name')).replace(/\%/g, '_'); // `%` is not allowed in jquery-selectors...; 
+						var $argetTh = $table.find('thead tr th').filter(function(){ return $(this).data('name') == dataFor; }); //[data-selector] won't work for attributes setted by .data('','')
+						var targetCommonType = $argetTh.data('commonType');
+						if ($(_that).val() == 'const'){//const
+							if (targetCommonType == "color"){ //const + COLOR - init ColorPicker
+								//Hide selectbox handle
+								$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
+								//Init colorpicker
+								var oldVal = $targetInput.val();
+								if (!$targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker().on('changeColor', function(event){
+										if (event.color) $(this).css('border-right', '10px solid rgba(' + event.color.toRGB().r + ', ' + event.color.toRGB().g + ', ' + event.color.toRGB().b + ', ' + event.color.toRGB().a + ')');
+									});
+									if (oldVal == "") $targetInput.val("");
+									$targetInput.on('change', function(){
+										if ($(this).val() == "") {
+											$(this).css('border-right', '0px solid black');
+										} else {
+											$(this).trigger('changeColor');
+										}
+									});
+									$targetInput.on('blur', function(){
+										dialogDeviceEditStatesTable[$targetInput.data('index')].value = $(this).val();
+										console.log("Saved color-picker value " + $(this).val());
+									});
+									$targetInput.data('materialize-color-picker-initialized', true);
+								}
+								if (isValidColorString(oldVal)){
+									$targetInput.trigger('change');
+								}
+							} else { //const, but no color
+								//Destroy colorpicker
+								if ($targetInput.data('materialize-color-picker-initialized')){
+									$targetInput.colorpicker('destroy');
+									$targetInput.data('materialize-color-picker-initialized', false);
+								}
+								$targetInput.css('border-right', '0px solid black');
+								if (targetCommonType== "url"){ //const + URL - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a.comboboxDropdownTrigger ").prop('style','');
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStateArrayValue_' + targetNameEscaped + '_' + targetArrayIndex, ["/" + _("(None)"), comboboxStrings.inbuiltWidgets, comboboxStrings.userWidgets], true, dialogDeviceEditStatesWidgetSelected);
+								} else if (targetCommonType == "view"){ //const + VIEW - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a.comboboxDropdownTrigger ").prop('style','');
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStateArrayValue_' + targetNameEscaped + '_' + targetArrayIndex, viewIds, false, function(value){
+										if (value && value != "" && !$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked')){
+											if (confirm(_("Its recommended to allow postMessage-Communication for BACKGROUND_VIEW/URL/HTML. Enable this option now?"))){
+												$(".dialogDeviceEditOption[data-option='backgroundURLAllowPostMessage']").prop('checked', true).trigger('change');
+											}
+										}
+									});	
+								} else if (targetCommonType == "icon"){ //const + ICON - init Combobox
+									//Show selectbox handle
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','');
+									//Create Icon List
+									var iconsString = "[" + _("Default Icon") + ":]";
+						/* ######	iconsString += ";/" + _("(Default)") + "/" + (previewLink + "/" + ((optionsLayoutDefaultIcons[dialogDeviceEditCommonRole] && optionsLayoutDefaultIcons[dialogDeviceEditCommonRole][entry]) || (optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole] && optionsLayoutDefaultIconsStandard[dialogDeviceEditCommonRole][entry]) || "")).replace(/\//g, "\\");
+									var typicalIcons = [];
+									for (iconPreset in iconPresets){
+										for (typicalIconEquivalent in iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents){
+											for (icon in iconPresets[iconPreset].iconEquivalents[iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents[typicalIconEquivalent]]) {
+												typicalIcons.push(iconPresets[iconPreset].iconEquivalents[iQontrolRoles[dialogDeviceEditCommonRole].iconsString[entry].typicalIconEquivalents[typicalIconEquivalent]][icon]);
+											};
+										};
+									};
+									if (typicalIcons.length) {
+										iconsString += ";[" + _("Typical Icons") + ":]";
+										typicalIcons.forEach(function(typicalIcon, index){
+											if (typicalIcon != "") iconsString += ";" + typicalIcon.replace(/\//g, "\\") + "/" + typicalIcon.replace(/\//g, "\\");
+										});						
+										
+									} */
+									enhanceTextInputToCombobox('#tableDialogDeviceEditStateArrayValue_' + targetNameEscaped + '_' + targetArrayIndex, ["/", comboboxStrings.blankIcon, comboboxStrings.progressbars, comboboxStrings.inbuiltIcons, comboboxStrings.userIcons], true);
+								} else { //const + STRING
+									//Hide selectbox handle
+									$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
+								}
+							}
+						} else { //LinkedState or Calculation
+							//Hide selectbox handle
+							$targetInput.next("a.comboboxDropdownTrigger").prop('style','display: none !important;');
+							//Destroy colorpicker
+							if ($targetInput.data('materialize-color-picker-initialized')){
+								$targetInput.colorpicker('destroy');
+								$targetInput.data('materialize-color-picker-initialized', false);
+							}
+							$targetInput.css('border-right', '0px solid black');
+						}
+						if($targetInput.parents('div.combobox').length){
+							$targetInput.parents('div.combobox').css('width', 'calc(100% - 75px)').css('float', 'left');
+						} else {
+							$targetInput.css('width', 'calc(100% - 75px)');
+						}
+					})(); //<--End Closure
+				}).trigger('change');
+				$(this).select();
+			}
+		});
 		//Button-Functions
 		$lines.find('a[data-command]').each(function () {
 			var command = $(this).data('command');
@@ -5155,29 +5369,56 @@ async function load(settings, onChange) {
 			if (command === 'edit') {
 				$(this).on('click', function(){
 					var _arrayIndex = $(this).data('index');
-					$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _arrayIndex);
-					initSelectId(function (sid) {
-						sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
-							if (newId) {
-								$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
-							}
+					var _nameEscaped = $(this).data('name');
+					var $targetInput = $('#tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex);
+					var name = $targetInput.data('name');
+					var $targetTh = $table.find('thead tr th').filter(function(){ return $(this).data('name') == name; });
+					var commonType = $targetTh.data('commonType');
+					var $targetcommonRoleTh = $table.find('thead tr th').filter(function(){ return $(this).data('for') == name; });
+					var targetCommonRoleName = $targetcommonRoleTh.data('name');
+					var $targetCommonRole = $(this).parents('tr').find('select').filter(function(){ return $(this).data('name') == targetCommonRoleName; });
+					var commonRole = $targetCommonRole.val();
+					if(commonRole == "linkedState"){ //linkedState
+						$('#dialogSelectId').data('selectidfor', 'tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex);
+						initSelectId(function (sid) {
+							sid.selectId('show', $('#tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex).val(), {type: 'state'}, function (newId) {
+								if (newId) {
+									$('#' + $('#dialogSelectId').data('selectidfor')).val(newId).trigger('change');
+								}
+							});
+						});	
+					} else if(commonRole == 'const' && commonType == 'color') { //const + color
+						if ($targetInput.data('materialize-color-picker-initialized')){
+							$targetInput.colorpicker('show');
+						}
+					} else { //const or calc  $('#tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex).val()
+						initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
+							var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
+							$('#tableDialogDeviceEditStateArrayValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
+						}, function(){ //init dialog function 
+							$('#dialogDeviceEditStateConstantName').html($targetTh.html() || "");
+							$('#dialogDeviceEditStateConstantIndex').val(_nameEscaped + '_' + _arrayIndex);
+							$('#dialogDeviceEditStateConstantTextarea').val(($('#tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex).val() || "").replace(/\\n/g, '\n'));
+							$('#dialogDeviceEditStateConstantTextarea').trigger('autoresize');
 						});
-					});
+					}
 				});
 			}
 			//OpenCustom
 			if (command === 'openCustom') {
 				var arrayIndex = $(this).data('index');
-				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex);
+				var nameEscaped = $(this).data('name');
+				$(this).prop('id', 'tableDialogDeviceEditStateArrayOpenCustom_' + nameEscaped + '_' + arrayIndex);
 				$(this).on('click', function (e) {
 					var _arrayIndex = $(this).data('index');
-					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _arrayIndex).val();
+					var _nameEscaped = $(this).data('name');
+					var _stateId = $('#tableDialogDeviceEditStateArrayValue_' + _nameEscaped + '_' + _arrayIndex).val();
 					if (_stateId != ""){
 						var url = window.location.origin + "/#tab-objects/customs/" + _stateId;
 						window.open(url);
 					}
 				});
-				tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex);
+				tableDialogDeviceEditStateArrayEnhanceEditCustom(nameEscaped, arrayIndex);
 			}
 			//Drag-Icon
 			if (command === 'drag_handle') {
@@ -5209,18 +5450,18 @@ async function load(settings, onChange) {
 			handle: "a[data-command='drag_handle']"
 		});
 	}
-	function tableDialogDeviceEditStateArrayEnhanceEditCustom(arrayIndex){
+	function tableDialogDeviceEditStateArrayEnhanceEditCustom(nameEscaped, arrayIndex){
 		var toDo = function(){
-			var stateId = $('#tableDialogDeviceEditStateArrayValue_' + arrayIndex).val();
+			var stateId = $('#tableDialogDeviceEditStateArrayValue_' + nameEscaped + '_' + arrayIndex).val();
 			var stateObject = iobrokerObjects[stateId];
 			if (typeof stateObject != udef) {
 				if (typeof stateObject != udef && typeof stateObject.common.custom != udef && stateObject.common.custom != null && typeof stateObject.common.custom[adapter + "." + instance] != udef && stateObject.common.custom[adapter + "." + instance] != null){
-					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + nameEscaped + '_' + arrayIndex).removeClass('disabled').find('i').removeClass('grey lighten-2').addClass('indigo').html('build');
 				} else {
-					$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
+					$('#tableDialogDeviceEditStateArrayOpenCustom_' + nameEscaped + '_' + arrayIndex).removeClass('disabled').find('i').removeClass('indigo lighten-2').addClass('grey').html('build');
 				}
 			} else {
-				$('#tableDialogDeviceEditStateArrayOpenCustom_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
+				$('#tableDialogDeviceEditStateArrayOpenCustom_' + nameEscaped + '_' + arrayIndex).addClass('disabled').find('i').removeClass('indigo').addClass('grey lighten-2').html('build');
 			}			
 		}
 		if (iobrokerObjectsReady) {
@@ -5228,6 +5469,31 @@ async function load(settings, onChange) {
 		} else {
 			iobrokerObjectsReadyFunctions.push(toDo);
 		}
+	}
+	function dialogDeviceEditStateArrayCreateCols(){
+		var cols = $('#tableDialogDeviceEditStateArray').data('cols');
+		$theadrow = $('#tableDialogDeviceEditStateArray table thead tr');
+		$theadrow.html("");
+		(cols || []).forEach(function(col, colIndex){
+			var $th = $('<th class="translate">' + (col.colheader || col.col || colIndex) + (col.description && col.description != '' ? '<br><span class="small">' + col.description + '</span>' : '') + '</th>').data('name', col.col || colIndex).data('default', col.defaultValue || "").data('commonType', col.commonType || 'string').css('min-width','175px');
+			if(col.for && col.for != "") $th.data('for', col.for);
+			switch(col.commonType || "string"){
+				case "commonRole":
+					$th.data('type', 'select').data('options', 'linkedState/State;const/Constant;calc/Calculation');
+				break;
+
+				case "checkbox":
+					$th.data('type', 'checkbox').css('min-width', '');
+				break;
+					
+				case "icon":
+					$th.data('typical-icon-equivalents', col.typicalIconEquivalents || []);
+				break;
+			}
+			$theadrow.append($th);
+		});
+		$theadrow.append('<th data-buttons="delete drag_handle" style="width:50px;"></th>');
+		values2table('tableDialogDeviceEditStateArray', dialogDeviceEditStateArrayTable, onChange, ontableDialogDeviceEditStateArrayReady);
 	}
 
 	//---------- Device Edit - Options ----------
@@ -6690,37 +6956,7 @@ async function load(settings, onChange) {
 		});
 
 		//Add widgets and websites to Selectbox for panel BACKGROUND_URL
-		var inbuiltWidgetsString = "";
-		inbuiltWidgets.forEach(function(widget){
-			if (widget && typeof widget.filename != udef) {
-				inbuiltWidgetsString += ";" + ("./images/widgets/" + widget.filename).replace(/\//g, "\\") + "/" + (widget.name || widget.filename).replace(/\//g, "\\") + "/" + (previewLink + ("/images/widgets/" + widget.icon || "/images/icons/file_html.png")).replace(/\//g, "\\");
-			}
-		});
-		if (inbuiltWidgets.length > 0){
-			inbuiltWidgetsString = ";[" + _("Inbuilt Widgets") + ":]" + inbuiltWidgetsString;
-		}
-		var websitenames = [];
-		imagesDirs.forEach(function(imagesDir){
-			if (imagesDir.dirname.indexOf("/userwidgets") == 0 && imagesDir.files && imagesDir.files.length > 0){
-				var websitenamesInThisDir = [];
-				imagesDir.files.forEach(function(file){
-					var filename = file.filename || "";
-					if (filename.endsWith(".shtml") || filename.endsWith(".ehtml") || filename.endsWith(".shtm") || filename.endsWith(".htm") || filename.endsWith(".html")){
-						var iconIndex = images.findIndex(function(element){ return (element.filename == file.filename.substring(0, file.filename.length - 5) + ".png"); });
-						if (iconIndex > -1) var icon = previewLink + "/.." + userfilesImagePath + images[iconIndex].filename; else var icon = previewLink + "/images/icons/file_html.png";
-						websitenamesInThisDir.push(".\\.." + userfilesImagePathBS + file.filenameBS + "/" + file.filenameBS + "/" + icon.replace(/\//g, "\\"));
-					}
-				});
-				if (websitenamesInThisDir.length > 0){
-					websitenames.push("[" + imagesDir.dirnameBS + ":]");
-					websitenames.push(websitenamesInThisDir.join(";"));
-				}
-			}
-		});
-		if (websitenames.length > 0){
-			websitenames.unshift(";[" + _("User Widgets") + ":]");
-		}
-		enhanceTextInputToCombobox("#panelBackgroundURLValue", "/" + _("(None)") + inbuiltWidgetsString + websitenames.join(";"), true);
+		enhanceTextInputToCombobox("#panelBackgroundURLValue", ["/" + _("(None)"), comboboxStrings.inbuiltWidgets, comboboxStrings.userWidgets], true);
 
 		//Enhande panel commonRole with functions
 		$('select.panelStates.commonRole').off('input change').on('input change', function(){
@@ -6751,7 +6987,7 @@ async function load(settings, onChange) {
 						}
 					});
 				});
-			} else if ($commonRole.val() == 'const'){ //const
+			} else if ($commonRole.val() == 'const' || $commonRole.val() == 'calc'){ //const or calc
 				initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 					$('#' + $('#dialogDeviceEditStateConstantIndex').val()).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');
 				}, function(){ //init dialog function 
@@ -6917,13 +7153,13 @@ async function load(settings, onChange) {
 				$(this).on('click', function () {
 					var stateIndex = $(this).data('index');
 					var stateValue = (dialogToolbarEditStatesTable[stateIndex].value || "").replace(/\\n/g, '\n');
-					if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const') { //const
-						if (dialogToolbarEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //const - COLOR - open Colorpicker
+					if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const' || dialogToolbarEditStatesTable[stateIndex].commonRole == 'calc') { //const or calc
+						if (dialogToolbarEditStatesTable[stateIndex].commonRole == 'const' && dialogToolbarEditStatesTable[stateIndex].state == "BADGE_COLOR"){ //const - COLOR - open Colorpicker
 							var $targetInput = $('#tableDialogToolbarEditStatesValue_' + stateIndex);
 							if ($targetInput.data('materialize-color-picker-initialized')){
 								$targetInput.colorpicker('show');
 							}
-						} else { //const TEXT - open editText dialog
+						} else { //const or calc - TEXT - open editText dialog
 							initDialog('dialogDeviceEditStateConstant', function(){ //save dialog
 								var stateIndex = $('#dialogDeviceEditStateConstantIndex').val();
 								$('#tableDialogToolbarEditStatesValue_' + stateIndex).val($('#dialogDeviceEditStateConstantTextarea').val().replace(/\n/g, '\\n')).trigger('change');

@@ -390,7 +390,7 @@
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
-									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;array/Array" class="translate">Type</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calclation" class="translate">Type</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit" style="width:45px;"></th>
 								</tr>
@@ -398,25 +398,25 @@
 							<tbody class="table-lines">
 								<tr data-state="BACKGROUND_VIEW">
 									<td>BACKGROUND_VIEW</td>
-									<td><select class="value panelStates commonRole" data-id="panelBackgroundView" id="panelBackgroundViewCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundView" id="panelBackgroundViewCommonRole" style="width: 100%"><option value="linkedState" class="translate">Linked State</option><option value="const" class="translate" selected>Constant</option><option value="calc" class="translate" selected>Calculation</option></select></td>
 									<td><input class="value panelStates val" data-id="panelBackgroundView"  id="panelBackgroundViewValue" style="width: 100%" type="text" data-name="value"></td>
 									<td><a data-id="panelBackgroundView" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">edit</i></a></td>
 								</tr>
 								<tr data-state="BACKGROUND_URL">
 									<td>BACKGROUND_URL</td>
-									<td><select class="value panelStates commonRole" data-id="panelBackgroundURL" id="panelBackgroundURLCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundURL" id="panelBackgroundURLCommonRole" style="width: 100%"><option value="linkedState" class="translate">Linked State</option><option value="const" class="translate" selected>Constant</option><option value="calc" class="translate" selected>Calculation</option></select></td>
 									<td><input class="value panelStates val" data-id="panelBackgroundURL" id="panelBackgroundURLValue" style="width: 100%" type="text" data-name="value"></td>
 									<td><a data-id="panelBackgroundURL" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">edit</i></a></td>
 								</tr>
 								<tr data-state="BACKGROUND_HTML">
 									<td>BACKGROUND_HTML</td>
-									<td><select class="value panelStates commonRole" data-id="panelBackgroundHTML" id="panelBackgroundHTMLCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><select class="value panelStates commonRole" data-id="panelBackgroundHTML" id="panelBackgroundHTMLCommonRole" style="width: 100%"><option value="linkedState" class="translate">Linked State</option><option value="const" class="translate" selected>Constant</option><option value="calc" class="translate" selected>Calculation</option></select></td>
 									<td><input class="value panelStates val" data-id="panelBackgroundHTML"  id="panelBackgroundHTMLValue" style="width: 100%" type="text" data-name="value"></td>
 									<td><a data-id="panelBackgroundHTML" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">edit</i></a></td>
 								</tr>
 								<tr data-state="PANEL_HIDE">
 									<td>PANEL_HIDE</td>
-									<td><select class="value panelStates commonRole" data-id="panelHide" id="panelHideCommonRole" style="width: 100%"><option value="linkedState">Linked State</option><option value="const" selected>Constant</option></select></td>
+									<td><select class="value panelStates commonRole" data-id="panelHide" id="panelHideCommonRole" style="width: 100%"><option value="linkedState" class="translate">Linked State</option><option value="const" class="translate" selected>Constant</option><option value="calc" class="translate" selected>Calculation</option></select></td>
 									<td><input class="value panelStates val" data-id="panelHide"  id="panelHideValue" style="width: 100%" type="text" data-name="value"></td>
 									<td><a data-id="panelHide" data-command="edit" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">edit</i></a></td>
 								</tr>
@@ -3015,7 +3015,7 @@
         <div id="dialogDeviceEditStateConstant" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditStateConstantIndex" />
-                <div class="row" style="height: 100%; overflow: hidden; margin: 0px;">
+                <div class="row" style="height: 80%; overflow: hidden; margin: 0px;">
                     <div class="col s12">
 						<h6 class="title"><span class="translate">Edit Constant:</span> <span id="dialogDeviceEditStateConstantName"></span></h6>
 					</div>
@@ -3024,6 +3024,23 @@
 						<label for="dialogDeviceEditStateConstantTextarea"></label>						
                     </div>
                 </div>
+				<div class="row">
+					<div class="col s11">
+						<h6>Insert variable:</h6>
+						<p>
+							You can insert values of datapoints by writing {datapoint.id}. To insert the value without unit write {[datapoint.id]}.<br>
+							If the role is calculation, you can enter any valid javascript-expression to be calculated (don't forget so use variables without units for mathematical expressions).
+						</p>
+						<p>
+							<span id="dialogDeviceEditStateConstantVariableSpanBefore"></span>
+							<input id="dialogDeviceEditStateConstantVariable" class="" style="width: 60%" type="text">
+							<span id="dialogDeviceEditStateConstantVariableSpanAfter"></span>
+							<a id="dialogDeviceEditStateConstantSelectId" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">edit</i></a>
+							<input class="value" type="checkbox" id="dialogDeviceEditStateConstantNoUnit" /><label for="dialogViewsAutocreateCreateMasterView" class="translate">No Unit</label><span class="helper-text"></span>
+							<a id="dialogDeviceEditStateConstantInsert" class="values-buttons btn-floating btn-small waves-effect waves-light panelStates"><i class="material-icons">library_books</i></a>
+						</p>		
+					</div>
+				</div>
             </div>
             <div class="modal-footer">
 				<a class="modal-action waves-effect waves-green btn btn-preview float-left"><img src="iqontrol.png" style="height:26px; margin: 5px -10px 5px -10px;"></a>
@@ -3037,7 +3054,6 @@
         <div id="dialogDeviceEditStateArray" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <input type="hidden" id="dialogDeviceEditStateArrayIndex" />
-                <input type="hidden" id="dialogDeviceEditStateArrayShowAdditionalCols" />
                 <div class="row">
                     <div class="col s12">
                         <h6 class="title"><span class="translate">Edit Array:</span> <span id="dialogDeviceEditStateArrayName"></span></h6>
@@ -3055,15 +3071,7 @@
 						<table class="table-values highlight" style="width: 90%;">
 							<thead>
 								<tr>
-									<th data-name="name" class="translate">Name</th>
-									<th data-name="hideName" data-type="checkbox" class="translate">Hide Name</th>
-									<th data-name="caption" class="translate">Caption (only for Buttons)</th>
-									<th data-name="heading" class="translate">Heading</th>
-									<th data-name="commonRole" data-type="select" data-options="linkedState;const" class="translate">Type</th>
-									<th data-name="icon" class="translate">Icon</th>
-									<th data-name="role" data-type="select" data-options="/Depending on Datapoint Settings;readonly/Readonly;button/Button (if pressed, it sends its name to the datapoint)" class="translate">Role</th>
-									<th data-name="value" class="translate">Value</th>
-									<th data-name="halfWidth" data-type="checkbox">&frac12;&harr;</th>
+									<!-- will be added programatically -->
 									<th data-buttons="edit openCustom delete drag_handle" style="width:50px;"></th>
 								</tr>
 							</thead>
@@ -3307,7 +3315,7 @@
 							<thead>
 								<tr>
 									<th data-name="state" class="translate">State</th>
-									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant" class="translate">Type</th>
+									<th data-name="commonRole" data-type="select" data-options="linkedState/State;const/Constant;calc/Calculation" class="translate">Type</th>
 									<th data-name="value" class="translate">Value</th>
 									<th data-buttons="edit" style="width:45px;"></th>
 								</tr>
